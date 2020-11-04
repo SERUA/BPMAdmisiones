@@ -12,81 +12,16 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_6VHQghfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_6VHQgRfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_6VHQgxfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8niBfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8niRfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nihfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
+          <operations xmi:type="expression:Operation" xmi:id="_pXlX8B00Eeuje5neNWqknA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_pXlX8R00Eeuje5neNWqknA" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_pXlX8h00Eeuje5neNWqknA" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nixfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.descripcion" content="lstcatEstadoCivilInput?.descripcion" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8njBfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_pXlX8x00Eeuje5neNWqknA" name="lstCatEstadoCivilInput" content="def catEstadoCivilList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatEstadoCivilInput.each{&#xD;&#xA;&#x9;//Add CatEstadoCivil instance&#xD;&#xA;&#x9;catEstadoCivilList.add({ currentCatEstadoCivilInput ->&#xD;&#xA;&#x9;&#x9;def catEstadoCivilVar = lstCatEstadoCivil.find { it.persistenceId.toString() == currentCatEstadoCivilInput.persistenceId_string} ?: new com.anahuac.catalogos.CatEstadoCivil()&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.descripcion = currentCatEstadoCivilInput.descripcion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaCreacion = currentCatEstadoCivilInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEliminado = currentCatEstadoCivilInput.isEliminado&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.usuarioBanner = currentCatEstadoCivilInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaImportacion = currentCatEstadoCivilInput.fechaImportacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.clave = currentCatEstadoCivilInput.clave&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEnabled = currentCatEstadoCivilInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catEstadoCivilVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catEstadoCivilList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_pXlX9B00Eeuje5neNWqknA" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_pXlX9R00Eeuje5neNWqknA" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8njRfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setDescripcion">
-              <inputTypes>java.lang.String</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8njhfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8njxfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nkBfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nkRfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.fechaCreacion" content="lstcatEstadoCivilInput?.fechaCreacion" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8nkhfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8nkxfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setFechaCreacion">
-              <inputTypes>java.time.LocalDateTime</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8nlBfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8nlRfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nlhfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nlxfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.isEliminado" content="lstcatEstadoCivilInput?.isEliminado" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8nmBfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8nmRfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setIsEliminado">
-              <inputTypes>java.lang.Boolean</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8nmhfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8nmxfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nnBfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nnRfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.usuarioBanner" content="lstcatEstadoCivilInput?.usuarioBanner" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8nnhfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8nnxfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setUsuarioBanner">
-              <inputTypes>java.lang.String</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8noBfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8noRfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nohfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8noxfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.fechaImportacion" content="lstcatEstadoCivilInput?.fechaImportacion" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8npBfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8npRfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setFechaImportacion">
-              <inputTypes>java.time.LocalDateTime</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8nphfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8npxfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nqBfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nqRfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.clave" content="lstcatEstadoCivilInput?.clave" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8nqhfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8nqxfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setClave">
-              <inputTypes>java.lang.String</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_EQ8nrBfZEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_EQ8nrRfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" content="lstCatEstadoCivil" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_EQ8nrhfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_EQ8nrxfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput.isEnabled" content="lstcatEstadoCivilInput?.isEnabled" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_EQ8nsBfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_EQ8nsRfZEeuoSd8nCjYXgw" type="JAVA_METHOD" expression="setIsEnabled">
-              <inputTypes>java.lang.Boolean</inputTypes>
+            <operator xmi:type="expression:Operator" xmi:id="_pXlX9h00Eeuje5neNWqknA" type="ASSIGNMENT" expression="addAll">
+              <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_6VHQhBfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -95,25 +30,26 @@
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_6VHQiBfYEeuoSd8nCjYXgw" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_6VHQhxfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_6VHQihfYEeuoSd8nCjYXgw">
-            <targetForm xmi:type="expression:Expression" xmi:id="_6VHQixfYEeuoSd8nCjYXgw" name="pageAccionesEstadoCivil" content="3ff20a57-e915-4a74-a610-c53da9097590" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_6VHQixfYEeuoSd8nCjYXgw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <contract xmi:type="process:Contract" xmi:id="_6VHQiRfYEeuoSd8nCjYXgw">
-            <inputs xmi:type="process:ContractInput" xmi:id="_EQ8ngBfZEeuoSd8nCjYXgw" name="lstcatEstadoCivilInput" type="COMPLEX" dataReference="lstCatEstadoCivil" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8ngRfZEeuoSd8nCjYXgw" name="descripcion" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8nghfZEeuoSd8nCjYXgw" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8ngxfZEeuoSd8nCjYXgw" name="isEliminado" type="BOOLEAN" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8nhBfZEeuoSd8nCjYXgw" name="usuarioBanner" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8nhRfZEeuoSd8nCjYXgw" name="fechaImportacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8nhhfZEeuoSd8nCjYXgw" name="clave" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_EQ8nhxfZEeuoSd8nCjYXgw" name="isEnabled" type="BOOLEAN" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_pXkw4B00Eeuje5neNWqknA" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true" dataReference="lstCatEstadoCivil" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw4R00Eeuje5neNWqknA" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw4h00Eeuje5neNWqknA" name="descripcion" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw4x00Eeuje5neNWqknA" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw5B00Eeuje5neNWqknA" name="isEliminado" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw5R00Eeuje5neNWqknA" name="usuarioBanner" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw5h00Eeuje5neNWqknA" name="fechaImportacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw5x00Eeuje5neNWqknA" name="clave" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_pXkw6B00Eeuje5neNWqknA" name="isEnabled" type="BOOLEAN" createMode="false"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_6VHQjBfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <data xmi:type="process:BusinessObjectData" xmi:id="_DDLM0BfZEeuoSd8nCjYXgw" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_p2xZUBfZEeuoSd8nCjYXgw" name="initLstCatEstadoCivil()" content="def catEstadoCivilList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatEstadoCivilInput.each{&#xD;&#xA;&#x9;//Add a new composed CatEstadoCivil instance&#xD;&#xA;&#x9;catEstadoCivilList.add({ currentCatEstadoCivilInput ->&#xD;&#xA;&#x9;&#x9;def catEstadoCivilVar = new com.anahuac.catalogos.CatEstadoCivil()&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.descripcion = currentCatEstadoCivilInput.descripcion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaCreacion = currentCatEstadoCivilInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEliminado = currentCatEstadoCivilInput.isEliminado&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.usuarioBanner = currentCatEstadoCivilInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaImportacion = currentCatEstadoCivilInput.fechaImportacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.clave = currentCatEstadoCivilInput.clave&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEnabled = currentCatEstadoCivilInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catEstadoCivilVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catEstadoCivilList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_p2xZURfZEeuoSd8nCjYXgw" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true"/>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_lEyGAB00Eeuje5neNWqknA" name="lstCatEstadoCivil" multiple="true" dataType="_MlD1NBJCEeunGIjL610y7g" className="com.anahuac.catalogos.CatEstadoCivil">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_nC3jUB00Eeuje5neNWqknA" name="initLstCatEstadoCivil()" content="def catEstadoCivilList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatEstadoCivilInput.each{&#xD;&#xA;&#x9;//Add a new composed CatEstadoCivil instance&#xD;&#xA;&#x9;catEstadoCivilList.add({ currentCatEstadoCivilInput ->&#xD;&#xA;&#x9;&#x9;def catEstadoCivilVar = new com.anahuac.catalogos.CatEstadoCivil()&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.descripcion = currentCatEstadoCivilInput.descripcion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaCreacion = currentCatEstadoCivilInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEliminado = currentCatEstadoCivilInput.isEliminado&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.usuarioBanner = currentCatEstadoCivilInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.fechaImportacion = currentCatEstadoCivilInput.fechaImportacion&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.clave = currentCatEstadoCivilInput.clave&#xD;&#xA;&#x9;&#x9;catEstadoCivilVar.isEnabled = currentCatEstadoCivilInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catEstadoCivilVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catEstadoCivilList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_nC3jUR00Eeuje5neNWqknA" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true"/>
         </defaultValue>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_MlD1FBJCEeunGIjL610y7g">
@@ -132,14 +68,14 @@
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_MlD1GxJCEeunGIjL610y7g" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
       <contract xmi:type="process:Contract" xmi:id="_MlD1HBJCEeunGIjL610y7g">
-        <inputs xmi:type="process:ContractInput" xmi:id="_p2wyQBfZEeuoSd8nCjYXgw" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true" dataReference="lstCatEstadoCivil">
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyQRfZEeuoSd8nCjYXgw" name="descripcion"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyQhfZEeuoSd8nCjYXgw" name="fechaCreacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyQxfZEeuoSd8nCjYXgw" name="isEliminado" type="BOOLEAN"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyRBfZEeuoSd8nCjYXgw" name="usuarioBanner"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyRRfZEeuoSd8nCjYXgw" name="fechaImportacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyRhfZEeuoSd8nCjYXgw" name="clave"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_p2wyRxfZEeuoSd8nCjYXgw" name="isEnabled" type="BOOLEAN"/>
+        <inputs xmi:type="process:ContractInput" xmi:id="_nC28QB00Eeuje5neNWqknA" name="lstCatEstadoCivilInput" type="COMPLEX" multiple="true" dataReference="lstCatEstadoCivil">
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28QR00Eeuje5neNWqknA" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28Qh00Eeuje5neNWqknA" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28Qx00Eeuje5neNWqknA" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28RB00Eeuje5neNWqknA" name="usuarioBanner"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28RR00Eeuje5neNWqknA" name="fechaImportacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28Rh00Eeuje5neNWqknA" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_nC28Rx00Eeuje5neNWqknA" name="isEnabled" type="BOOLEAN"/>
         </inputs>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_MlD1HRJCEeunGIjL610y7g">

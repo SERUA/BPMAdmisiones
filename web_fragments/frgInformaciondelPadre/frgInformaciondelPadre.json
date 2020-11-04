@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformaciondelPadre",
   "name" : "frgInformaciondelPadre",
-  "lastUpdate" : 1603922752257,
+  "lastUpdate" : 1604442860428,
   "rows" : [
     [
       {
@@ -46,8 +46,8 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
-          "md" : 6,
-          "lg" : 6
+          "md" : 12,
+          "lg" : 12
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -61,6 +61,46 @@
           "disabled" : {
             "type" : "constant",
             "value" : false
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Desconozco los datos porque no convivo con el."
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
+          }
+        },
+        "reference" : "a5957add-4910-4ab5-b5ac-780b2096dbfd",
+        "hasValidationError" : false,
+        "id" : "pbCheckbox"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
           },
           "required" : {
             "type" : "constant",
@@ -137,8 +177,8 @@
             "value" : ""
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -214,8 +254,8 @@
             "value" : ""
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -277,8 +317,8 @@
             "value" : false
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.isTutor || formInput.padreInput.desconozcoDatosPadres"
           },
           "required" : {
             "type" : "constant",
@@ -1709,10 +1749,9 @@
     "isvivo" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var mostrar = true;\r",
         "for (var x = 0; x < $data.catVive.length; x++) {\r",
-        "    if ($data.formInput.padreInput.vive === undefined) {\r",
+        "    if ($data.formInput.padreInput.vive === undefined || $data.formInput.padreInput.vive === null) {\r",
         "        $data.egresoanahuac = true;\r",
         "        $data.padretrabaja = true;\r",
         "        $data.vive = false;\r",

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgNewTestRequest",
   "name" : "frgNewTestRequest",
-  "lastUpdate" : 1603922752291,
+  "lastUpdate" : 1604451444476,
   "rows" : [
     [
       {
@@ -619,7 +619,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.catPaisExamen"
+                              "value" : "formInput.catSolicitudDeAdmisionInput.catEstadoExamen"
                             }
                           },
                           "reference" : "7dd86934-b3a9-4323-baca-c955fb34a43c",
@@ -642,8 +642,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "lugarexamen !== \"En un estado\""
+                              "type" : "constant",
+                              "value" : true
                             },
                             "required" : {
                               "type" : "constant",
@@ -702,6 +702,68 @@
                           "reference" : "4cdd5b09-61db-4c11-bbb1-0ecfcd0378e9",
                           "hasValidationError" : false,
                           "id" : "pbInput"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "lugarexamen !== \"En un estado\""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Ciudad"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "availableValues" : {
+                              "type" : "expression",
+                              "value" : "getCiudadesEstado"
+                            },
+                            "displayedKey" : {
+                              "type" : "constant"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen"
+                            }
+                          },
+                          "reference" : "ecff9557-3156-4526-a42c-6dcffcdc2d79",
+                          "hasValidationError" : false,
+                          "id" : "pbAutocomplete"
                         }
                       ],
                       [
@@ -925,7 +987,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.catEstadoExamen"
+                              "value" : "formInput.catSolicitudDeAdmisionInput.catPaisExamen"
                             }
                           },
                           "reference" : "69075cb1-1650-4278-b294-78e848c384e9",
@@ -988,7 +1050,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen"
+                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamenPais"
                             },
                             "type" : {
                               "type" : "constant",
@@ -1222,6 +1284,20 @@
         ""
       ],
       "exposed" : true
+    },
+    "jsonCiudades" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "getCiudadesEstado" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.jsonCiudades[$data.formInput.catSolicitudDeAdmisionInput.catEstadoExamen.descripcion];"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgRegistroDelAspirante",
   "name" : "frgRegistroDelAspirante",
-  "lastUpdate" : 1603922752292,
+  "lastUpdate" : 1604449945237,
   "rows" : [
     [
       {
@@ -491,6 +491,73 @@
           },
           "disabled" : {
             "type" : "constant",
+            "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿A cual de las universidades de la red Anahuac deseas ingresar?"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : "Seleciona una opción"
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catCampus"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.catSolicitudDeAdmisionInput.catCampus"
+          }
+        },
+        "reference" : "f9bbfbc8-328f-487a-98fd-85ae118c811f",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 6,
+          "lg" : 9
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
             "value" : false
           },
           "required" : {
@@ -537,16 +604,14 @@
         "reference" : "e6128f84-06f3-43c7-b3f4-ac35d32a386e",
         "hasValidationError" : false,
         "id" : "pbSelect"
-      }
-    ],
-    [
+      },
       {
         "type" : "component",
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
           "md" : 6,
-          "lg" : 9
+          "lg" : 3
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -555,15 +620,23 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : true
-          },
-          "disabled" : {
-            "type" : "constant",
             "value" : false
           },
           "required" : {
             "type" : "constant",
             "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "readOnly" : {
+            "type" : "constant",
+            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -571,7 +644,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Sexo:"
+            "value" : "Lugar examen"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -581,30 +654,31 @@
             "type" : "constant",
             "value" : 4
           },
-          "inline" : {
-            "type" : "constant",
-            "value" : true
+          "placeholder" : {
+            "type" : "interpolation"
           },
-          "availableValues" : {
-            "type" : "expression",
-            "value" : "catSexo"
-          },
-          "displayedKey" : {
-            "type" : "constant",
-            "value" : "descripcion"
-          },
-          "returnedKey" : {
-            "type" : "constant",
-            "value" : "persistenceId"
-          },
-          "selectedValue" : {
+          "value" : {
             "type" : "variable",
-            "value" : "formInput.solicitudDeAdmisionInput.idCatSexo"
+            "value" : "formInput.catSolicitudDeAdmisionInput.catLugarExamen.descripcion"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
           }
         },
-        "reference" : "aca43739-6ba1-4b0f-be8f-b4b968ce0bff",
+        "reference" : "05b7d788-98ef-4796-a59a-d8e50f86cbb3",
         "hasValidationError" : false,
-        "id" : "pbRadioButtons"
+        "id" : "pbInput"
       }
     ],
     [
@@ -623,7 +697,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "campusList" : {
             "type" : "variable",
@@ -764,7 +838,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "disabled" : {
             "type" : "constant",
@@ -832,7 +906,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -928,7 +1002,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -1063,7 +1137,7 @@
                 },
                 "returnedKey" : {
                   "type" : "constant",
-                  "value" : "persistenceId"
+                  "value" : ""
                 },
                 "value" : {
                   "type" : "variable",
@@ -1234,7 +1308,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -1732,14 +1806,20 @@
     "lugarexamen" : {
       "type" : "expression",
       "value" : [
+        "",
         "var opcion=\"\";",
         "for(var x=0;x<$data.CatLugarExamen.length;x++){",
-        "    if($data.CatLugarExamen[x].persistenceId===$data.formInput.solicitudDeAdmisionInput.idCatLugarExamen){",
+        "    if($data.CatLugarExamen[x].persistenceId===$data.formInput.catSolicitudDeAdmisionInput.catLugarExamen.persistenceId){",
         "        opcion=$data.CatLugarExamen[x].descripcion;",
+        "        $data.lugardelexamen = opcion;",
         "    }",
         "}",
         "",
-        "return opcion;"
+        "return opcion;",
+        "",
+        "//En el mismo campus en donde realizaré mi licenciatura",
+        "//En un estado",
+        "//En el extranjero (solo si vives fuera de México)"
       ],
       "exposed" : false
     },

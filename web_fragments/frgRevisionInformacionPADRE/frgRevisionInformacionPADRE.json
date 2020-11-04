@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgRevisionInformacionPADRE",
   "name" : "frgRevisionInformacionPADRE",
-  "lastUpdate" : 1603922752302,
+  "lastUpdate" : 1604445223735,
   "rows" : [
     [
       {
@@ -38,6 +38,46 @@
         "reference" : "6151326d-bc53-4413-9cd7-9ea94df40680",
         "hasValidationError" : false,
         "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Desconozco los datos porque no convivo con el."
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
+          }
+        },
+        "reference" : "47d43d90-de01-4cb5-b625-b56ab02191b8",
+        "hasValidationError" : false,
+        "id" : "pbCheckbox"
       }
     ],
     [
@@ -95,7 +135,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.nombre"
           },
           "type" : {
             "type" : "constant",
@@ -155,7 +195,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "¿El padre del alumno vive?"
+            "value" : "Apellidos:"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -170,7 +210,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.apellidos"
           },
           "type" : {
             "type" : "constant",
@@ -187,7 +227,7 @@
             "value" : 1
           }
         },
-        "reference" : "0d627fcb-24c7-4b34-bc14-b2cffdbf4ad1",
+        "reference" : "b37a8131-c173-4c1f-b65b-77bfb4aafcf8",
         "hasValidationError" : false,
         "id" : "pbInput"
       },
@@ -208,21 +248,13 @@
             "type" : "constant",
             "value" : false
           },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -230,7 +262,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "¿Egresó de la universidad Anáhuac?"
+            "value" : "¿El padre del alumno vive?"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -241,30 +273,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catVive"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.padreInput.vive"
           }
         },
-        "reference" : "f433c4b0-7c24-4154-b6a8-6f0a112c5261",
+        "reference" : "2d8e324b-6ec4-4270-ab00-cb39ac247460",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       }
     ],
     [
@@ -282,83 +312,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Parentesco:"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "49cb9d67-702b-483c-89b1-b8f04dd5c1b9",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      },
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 4,
-          "lg" : 4
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -397,7 +352,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.correoElectronico"
           },
           "type" : {
             "type" : "constant",
@@ -432,24 +387,81 @@
             "value" : ""
           },
           "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "disabled" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "required" : {
             "type" : "constant",
             "value" : false
           },
-          "minLength" : {
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿Egresó de la universidad Anáhuac?"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catEgresoAnahuac"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.catEgresoAnahuac"
+          }
+        },
+        "reference" : "838ac8be-5ef1-49a9-9e93-72eac240d7fc",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
             "type" : "constant",
             "value" : ""
           },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
           },
-          "readOnly" : {
+          "disabled" : {
             "type" : "constant",
             "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
           },
           "labelHidden" : {
             "type" : "constant",
@@ -468,30 +480,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catPadreTrabaja"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.padreInput.catTrabaja"
           }
         },
-        "reference" : "fac5c2fa-7705-4750-a91c-3d64d21537c3",
+        "reference" : "e79c1ae9-61e0-4f44-9e70-dd5eec20f3f8",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       }
     ],
     [
@@ -509,8 +519,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "padretrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -549,7 +559,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.empresaTrabaja"
           },
           "type" : {
             "type" : "constant",
@@ -584,8 +594,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "padretrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -624,7 +634,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.giroEmpresa"
           },
           "type" : {
             "type" : "constant",
@@ -659,8 +669,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "padretrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -699,7 +709,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.puesto"
           },
           "type" : {
             "type" : "constant",
@@ -736,8 +746,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "text" : {
             "type" : "interpolation",
@@ -772,8 +782,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "disabled" : {
             "type" : "constant",
@@ -785,11 +795,11 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Mis padre tiene la misma dirección"
+            "value" : "Mi padre tiene la misma dirección que yo"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.viveContigo"
           }
         },
         "reference" : "d95bd7a5-c2ca-470e-bf17-267a37a72b39",
@@ -812,8 +822,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -852,7 +862,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.calle"
           },
           "type" : {
             "type" : "constant",
@@ -887,8 +897,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -927,7 +937,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.numeroExterior"
           },
           "type" : {
             "type" : "constant",
@@ -962,8 +972,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -1002,7 +1012,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.colonia"
           },
           "type" : {
             "type" : "constant",
@@ -1039,8 +1049,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -1079,7 +1089,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.codigoPostal"
           },
           "type" : {
             "type" : "constant",
@@ -1114,8 +1124,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -1154,7 +1164,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.ciudad"
           },
           "type" : {
             "type" : "constant",
@@ -1189,24 +1199,16 @@
             "value" : ""
           },
           "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "disabled" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1225,30 +1227,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catPais"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.padreInput.catPais"
           }
         },
-        "reference" : "fca86b9d-650f-4aac-8228-62baa08f26cf",
+        "reference" : "3244b0af-7375-4294-9cc7-9b85a3ece6a1",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       }
     ],
     [
@@ -1258,7 +1258,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 4
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -1266,24 +1266,16 @@
             "value" : ""
           },
           "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "disabled" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1302,30 +1294,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catEstado"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.padreInput.catEstado"
           }
         },
-        "reference" : "4846206f-2b4f-4f93-bd6f-95f66180e250",
+        "reference" : "a09087b8-9523-4e60-93b8-5cc10c69c017",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       },
       {
         "type" : "component",
@@ -1333,7 +1323,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 4
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -1341,8 +1331,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isvivo"
           },
           "required" : {
             "type" : "constant",
@@ -1381,7 +1371,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.padreInput.telefono"
           },
           "type" : {
             "type" : "constant",
@@ -1413,6 +1403,95 @@
         ""
       ],
       "exposed" : true
+    },
+    "catVive" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEgresoAnahuac" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPadreTrabaja" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPais" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEstado" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "padretrabaja" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catPadreTrabaja.length; x++) {\r",
+        "    if ($data.formInput.padreInput.catTrabaja === undefined) {\r",
+        "        mostrar = true;\r",
+        "        $data.trabaja = false;\r",
+        "    } else {\r",
+        "        if ($data.catPadreTrabaja[x].persistenceId === $data.formInput.padreInput.catTrabaja.persistenceId) {\r",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\") {\r",
+        "                mostrar = false;\r",
+        "                $data.trabaja = true;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "                $data.trabaja = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "isvivo" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catVive.length; x++) {\r",
+        "    if ($data.formInput.padreInput.vive === undefined || $data.formInput.padreInput.vive === null) {\r",
+        "        $data.egresoanahuac = true;\r",
+        "        $data.padretrabaja = true;\r",
+        "        $data.vive = false;\r",
+        "        mostrar = true;\r",
+        "    } else {\r",
+        "        if ($data.catVive[x].persistenceId === $data.formInput.padreInput.vive.persistenceId) {\r",
+        "            if ($data.catVive[x].descripcion === \"Si\") {\r",
+        "                mostrar = false;\r",
+        "                $data.vive = true;\r",
+        "            } else {\r",
+        "                $data.egresoanahuac = true;\r",
+        "                $data.padretrabaja = true;\r",
+        "                $data.vive = false;\r",
+        "                mostrar = true;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

@@ -15,11 +15,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     } else if ($scope.properties.action === 'Start process') {
          debugger;
         if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.datosVeridicos){
-            alert("De aceptar que los datos ingresados son veridicos");
+            swal("Aviso!", "Debe aceptar que los datos ingresados son veridicos!", "warning");
         }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad){
-            alert("De aceptar el aviso de privacidad");
+            swal("Aviso!", "Debe aceptar el aviso de privacidad!", "warning");
         }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.confirmarAutorDatos){
-            alert("De aceptar que confirma que es el auto de los datos de este formulario");
+            swal("Aviso!", "Debe aceptar que confirma que es el auto de los datos de este formulario!", "warning");
         }else{
             startProcess();
         }
@@ -173,7 +173,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     id = getUrlParam('id');
     if (id) {
       var params = getUserParam();
-	    params.assign = $scope.properties.assign;
+        params.assign = $scope.properties.assign;
       doRequest('POST', '../API/bpm/userTask/' + getUrlParam('id') + '/execution', params).then(function() {
         localStorageService.delete($window.location.href);
       });

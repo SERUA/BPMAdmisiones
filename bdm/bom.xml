@@ -1,110 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <businessObjectModel xmlns="http://documentation.bonitasoft.com/bdm-xml-schema/1.0" modelVersion="1.0" productVersion="7.11.2">
     <businessObjects>
-        <businessObject qualifiedName="com.anahuac.model.ContactoEmergencias">
-            <fields>
-                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCasoDeEmergencia" fetchType="LAZY" name="catCasoDeEmergencia" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="telefonoCelular" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="parentesco" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentesco" nullable="true" collection="false"/>
-                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
-            </fields>
-            <uniqueConstraints/>
-            <queries/>
-            <indexes/>
-        </businessObject>
-        <businessObject qualifiedName="com.anahuac.model.PadresTutor">
-            <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatTitulo" fetchType="LAZY" name="catTitulo" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentezco" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="apellidos" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEscolaridad" fetchType="LAZY" name="catEscolaridad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEgresadoUniversidadAnahuac" fetchType="LAZY" name="catEgresoAnahuac" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusEgreso" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPadreTrabaja" fetchType="LAZY" name="catTrabaja" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="empresaTrabaja" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="giroEmpresa" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="puesto" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="isTutor" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.Catvive" fetchType="LAZY" name="vive" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="numeroExterior" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="numeroInterior" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="codigoPostal" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="viveContigo" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="otroParentesco" nullable="true" collection="false"/>
-                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
-            </fields>
-            <uniqueConstraints/>
-            <queries/>
-            <indexes/>
-        </businessObject>
-        <businessObject qualifiedName="com.anahuac.model.SolicitudDeAdmision">
-            <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLugarExamen" fetchType="LAZY" name="catLugarExamen" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampus" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLicenciatura" fetchType="LAZY" name="catLicenciatura" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="LAZY" name="catPeriodo" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="primerNombre" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="segundoNombre" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="apellidoPaterno" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="apellidoMaterno" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatSexo" fetchType="LAZY" name="catSexo" nullable="true" collection="false"/>
-                <field type="LOCALDATETIME" length="255" name="fechaNacimiento" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstadoCivil" fetchType="LAZY" name="catEstadoCivil" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatNacionalidad" fetchType="LAZY" name="catNacionalidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPresentasteEnOtroCampus" fetchType="LAZY" name="catPresentasteEnOtroCampus" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusPresentadoSolicitud" nullable="true" collection="true"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatReligion" fetchType="LAZY" name="catReligion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="usuarioFacebook" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="usiarioTwitter" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="usuarioInstagram" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="telefonoCelular" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="foto" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="actaNacimiento" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="codigoPostal" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="calle2" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="numExterior" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="numInterior" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="otroTelefonoContacto" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="promedioGeneral" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="comprobanteCalificaciones" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPaisExamen" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstadoExamen" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudadExamen" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="avisoPrivacidad" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="datosVeridicos" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="aceptoAvisoPrivacidad" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="confirmarAutorDatos" nullable="true" collection="false"/>
-                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatBachilleratos" fetchType="LAZY" name="catBachilleratos" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="paisBachillerato" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="estadoBachillerato" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudadBachillerato" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="bachillerato" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudadExamenPais" nullable="true" collection="false"/>
-            </fields>
-            <uniqueConstraints/>
-            <queries/>
-            <indexes/>
-        </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatActualmenteTrabajas">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -1124,6 +1020,111 @@
                     <queryParameters/>
                 </query>
             </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.ContactoEmergencias">
+            <fields>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCasoDeEmergencia" fetchType="LAZY" name="catCasoDeEmergencia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefonoCelular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="parentesco" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentesco" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.PadresTutor">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatTitulo" fetchType="LAZY" name="catTitulo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentezco" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellidos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEscolaridad" fetchType="LAZY" name="catEscolaridad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEgresadoUniversidadAnahuac" fetchType="LAZY" name="catEgresoAnahuac" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusEgreso" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPadreTrabaja" fetchType="LAZY" name="catTrabaja" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="empresaTrabaja" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="giroEmpresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="puesto" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isTutor" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.Catvive" fetchType="LAZY" name="vive" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numeroExterior" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numeroInterior" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigoPostal" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="viveContigo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="otroParentesco" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="desconozcoDatosPadres" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.SolicitudDeAdmision">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLugarExamen" fetchType="LAZY" name="catLugarExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLicenciatura" fetchType="LAZY" name="catLicenciatura" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="LAZY" name="catPeriodo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="primerNombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="segundoNombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellidoPaterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellidoMaterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatSexo" fetchType="LAZY" name="catSexo" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaNacimiento" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstadoCivil" fetchType="LAZY" name="catEstadoCivil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatNacionalidad" fetchType="LAZY" name="catNacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPresentasteEnOtroCampus" fetchType="LAZY" name="catPresentasteEnOtroCampus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusPresentadoSolicitud" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatReligion" fetchType="LAZY" name="catReligion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioFacebook" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usiarioTwitter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioInstagram" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefonoCelular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="foto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="actaNacimiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigoPostal" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="calle2" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numExterior" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numInterior" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="otroTelefonoContacto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="promedioGeneral" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="comprobanteCalificaciones" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPaisExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstadoExamen" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudadExamen" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="avisoPrivacidad" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="datosVeridicos" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="aceptoAvisoPrivacidad" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="confirmarAutorDatos" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatBachilleratos" fetchType="LAZY" name="catBachilleratos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="paisBachillerato" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estadoBachillerato" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudadBachillerato" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="bachillerato" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudadExamenPais" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
             <indexes/>
         </businessObject>
     </businessObjects>

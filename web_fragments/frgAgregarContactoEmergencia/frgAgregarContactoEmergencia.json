@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgAgregarContactoEmergencia",
   "name" : "frgAgregarContactoEmergencia",
-  "lastUpdate" : 1603922752243,
+  "lastUpdate" : 1604431107505,
   "rows" : [
     [
       {
@@ -158,6 +158,110 @@
         "reference" : "99aaa8f4-7c47-44d6-b9be-3095723bc01b",
         "hasValidationError" : false,
         "id" : "pbRadioButtons"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "showalertpadre === \"true\""
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<b>En la información de padre selecciono la opción no vive, no puede seleccionarlo como contacto de emergencia."
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "9c4da17b-6e15-4084-8ca4-f67e796183b1",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "showalertmadre === \"true\""
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<b>En la información de madre selecciono la opción no vive, no puede seleccionarlo como contacto de emergencia."
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "50614bbc-b18c-4fd8-a11e-9636b62392a2",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -619,11 +723,11 @@
     "datosPadre" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
+        "debugger\r",
         "var mostrar = true;\r",
         "var otro = true;\r",
         "for (var x = 0; x < $data.catCasoDeEmergencia.length; x++) {\r",
-        "  if($data.casoEmergenciaJSON.catCasoDeEmergencia === null){\r",
+        "  if($data.casoEmergenciaJSON.catCasoDeEmergencia !== null){\r",
         "    if ($data.catCasoDeEmergencia[x].persistenceId === $data.casoEmergenciaJSON.catCasoDeEmergencia.persistenceId) {\r",
         "        if ($data.catCasoDeEmergencia[x].descripcion === \"Padre\") {\r",
         "            if ($data.padrevive) {\r",
@@ -634,7 +738,7 @@
         "                $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                for (var j = 0; j < $data.catParentesco.length; j++) {\r",
         "                    if ($data.catParentesco[j].descripcion === $data.casoEmergenciaJSON.parentesco) {\r",
-        "                        //$data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
+        "                        $data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
         "                        $data.casoEmergenciaJSON.catParentesco = $data.catParentesco[j];\r",
         "                    }\r",
         "                }\r",
@@ -647,7 +751,8 @@
         "                  \"parentesco\": \"\",\r",
         "                  \"catParentesco\": null\r",
         "                }\r",
-        "                alert(\"En la informacion de padre selecciono la opcion no vive, no puede seleccionarlo como contacto de emergencia\");\r",
+        "                $data.showalertpadre = \"false\";\r",
+        "                $data.showalertmadre = \"true\";\r",
         "            }\r",
         "\r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Madre\") {\r",
@@ -659,7 +764,7 @@
         "                $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                for (var j = 0; j < $data.catParentesco.length; j++) {\r",
         "                    if ($data.catParentesco[j].descripcion === $data.casoEmergenciaJSON.parentesco) {\r",
-        "                        //$data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
+        "                        $data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
         "                        $data.casoEmergenciaJSON.catParentesco = $data.catParentesco[j];\r",
         "                    }\r",
         "                }\r",
@@ -672,29 +777,23 @@
         "                  \"parentesco\": \"\",\r",
         "                  \"catParentesco\": null\r",
         "                }\r",
-        "                alert(\"En la informacion de madre selecciono la opcion no vive, no puede seleccionarla como contacto de emergencia\");\r",
         "            }\r",
-        "\r",
-        "\r",
+        "            $data.showalertmadre = \"false\";\r",
+        "            $data.showalertpadre = \"true\";\r",
         "\r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Tutor\") {\r",
+        "            $data.showalertpadre = \"true\";\r",
+        "            $data.showalertmadre = \"true\";\r",
         "            $data.casoEmergenciaJSON.nombre = $data.formInput.tutorInput[0].nombre + \" \" + $data.formInput.tutorInput[0].apellidos;\r",
         "            $data.casoEmergenciaJSON.telefono = $data.formInput.tutorInput[0].telefono;\r",
-        "            $data.casoEmergenciaJSON.idCatParentesco = $data.formInput.tutorInput[0].idCatParentesco;\r",
-        "            otro = false;\r",
-        "            for (var j = 0; j < $data.catParentesco.length; j++) {\r",
-        "                if ($data.catParentesco[j].persistenceId === $data.casoEmergenciaJSON.catParentesco.persistenceId) {\r",
-        "                    $data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
-        "                }\r",
-        "                //$data.casoEmergenciaJSON.parentesco = $data.formInput.solicitudDeAdmisionInput.tutor[0].parentesco;\r",
+        "            $data.casoEmergenciaJSON.catParentesco = $data.formInput.tutorInput[0].catParentezco;\r",
+        "            //otro = false;\r",
+        "            if($data.formInput.tutorInput[0].otroParentesco !== \"\"){\r",
+        "                $data.casoEmergenciaJSON.parentesco = $data.formInput.tutorInput[0].otroParentesco;\r",
+        "            }else{\r",
+        "                $data.casoEmergenciaJSON.parentesco = $data.formInput.tutorInput[0].catParentezco.descripcion;\r",
         "            }\r",
-        "            /*if(!otro){\r",
-        "                for(var j=0;j<$data.catParentesco.length;j++){\r",
-        "                if($data.catParentesco[j].persistenceId===$data.casoEmergenciaJSON.idCatParentesco){\r",
-        "                    $data.casoEmergenciaJSON.parentesco = $data.catParentesco[j].descripcion;\r",
-        "                }\r",
-        "            }\r",
-        "            }*/\r",
+        "            \r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Otro\") {\r",
         "            $data.contactoJson = {\r",
         "              \"nombre\": \"\",\r",
@@ -704,6 +803,8 @@
         "              \"parentesco\": \"\",\r",
         "              \"catParentesco\": null\r",
         "            }\r",
+        "            $data.showalertmadre = \"true\";\r",
+        "            $data.showalertpadre = \"true\";\r",
         "        }\r",
         "    }\r",
         "  }\r",
@@ -718,14 +819,16 @@
       "value" : [
         "var mostrar = true;\r",
         "for (var x = 0; x < $data.catCasoDeEmergencia.length; x++) {\r",
-        "    if ($data.casoEmergenciaJSON.catCasoDeEmergencia === undefined) {\r",
+        "    if ($data.casoEmergenciaJSON.catCasoDeEmergencia === null) {\r",
         "        mostrar = true;\r",
+        "        $data.addParentesco = true;\r",
         "    } else {\r",
-        "        if ($data.catCasoDeEmergencia[x].persistenceId === $data.casoEmergenciaJSON.catContactoDeEmergencia.persistenceId) {\r",
+        "        if ($data.catCasoDeEmergencia[x].persistenceId === $data.casoEmergenciaJSON.catCasoDeEmergencia.persistenceId) {\r",
         "            if ($data.catCasoDeEmergencia[x].descripcion === \"Otro\") {\r",
         "                mostrar = false;\r",
         "            } else {\r",
         "                mostrar = true;\r",
+        "                $data.addParentesco = true;\r",
         "            }\r",
         "        }\r",
         "    }\r",
@@ -749,6 +852,20 @@
         ""
       ],
       "exposed" : true
+    },
+    "showalertpadre" : {
+      "type" : "constant",
+      "value" : [
+        "true"
+      ],
+      "exposed" : false
+    },
+    "showalertmadre" : {
+      "type" : "constant",
+      "value" : [
+        "true"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
