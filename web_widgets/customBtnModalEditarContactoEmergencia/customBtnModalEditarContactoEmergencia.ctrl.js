@@ -19,8 +19,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
       closeModal($scope.properties.closeOnSuccess);
       openModal($scope.properties.modalId);
     } else if ($scope.properties.action === 'Close modal') {
-        debugger;
-              
         if ($scope.properties.contactoJson.nombre != $scope.properties.jsonModificarContacto.nombre) {
             $scope.properties.contactoJson.nombre = $scope.properties.jsonModificarContacto.nombre
         }
@@ -30,40 +28,67 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         if ($scope.properties.contactoJson.telefonoCelular !== $scope.properties.jsonModificarContacto.telefonoCelular) {
             $scope.properties.contactoJson.telefonoCelular = $scope.properties.jsonModificarContacto.telefonoCelular
         }
-        if ($scope.properties.contactoJson.idCatParentesco !== $scope.properties.jsonModificarContacto.idCatParentesco) {
-            $scope.properties.contactoJson.idCatParentesco = $scope.properties.jsonModificarContacto.idCatParentesco
+        if ($scope.properties.contactoJson.catParentesco !== $scope.properties.jsonModificarContacto.catParentesco) {
+            $scope.properties.contactoJson.catParentesco = $scope.properties.jsonModificarContacto.catParentesco
         }
         if ($scope.properties.contactoJson.parentesco !== $scope.properties.jsonModificarContacto.parentesco) {
             $scope.properties.contactoJson.parentesco = $scope.properties.jsonModificarContacto.parentesco
         }
-        if ($scope.properties.contactoJson.idCatContactoDeEmergencia !== $scope.properties.jsonModificarContacto.idCatContactoDeEmergencia) {
-            $scope.properties.contactoJson.idCatContactoDeEmergencia = $scope.properties.jsonModificarContacto.idCatContactoDeEmergencia
+        if ($scope.properties.contactoJson.catCasoDeEmergencia !== $scope.properties.jsonModificarContacto.catCasoDeEmergencia) {
+            $scope.properties.contactoJson.catCasoDeEmergencia = $scope.properties.jsonModificarContacto.catCasoDeEmergencia
         }
-            if($scope.properties.contactoJson.idCatContactoDeEmergencia === 0){
-            alert("Debe seleccionar un parentesco en su contacto de emergencia");
-        }else if($scope.properties.contactoJson.nombre === ""){
-            alert("Debe agregar el nombre del contacto de emergencia");
-        }else if($scope.properties.contactoJson.telefono === ""){
-            alert("Debe agregar un telefono al contacto de emergencia");
-        }else if($scope.properties.contactoJson.telefonoCelular === ""){
-            alert("Debe agregar un telefono celular al contacto de emergencia");
-        }else if($scope.properties.contactoJson.idCatParentesco === 0){
-            alert("Debe seleccionar el parentesco que tiene con usted el contacto de emergencia");
-        }else if($scope.properties.contactoJson.parentesco === "" || $scope.properties.contactoJson.parentesco === undefined){
-            alert("Debe agregar el parentesco del contactoo de emergencia");
-        }else{
-            $scope.properties.contactoJson = {
-              "nombre": "",
-              "telefono": "",
-              "catCasoDeEmergencia": null,
-              "telefonoCelular": "",
-              "parentesco": "",
-              "catParentesco": null
+        
+        if ($scope.properties.contactoJson.catCasoDeEmergencia === null) {
+                swal("Contacto de emergencia!", "Debe seleccionar quien será la persona a contactar en caso de emergencia!", "warning");
+            } else if ($scope.properties.contactoJson.nombre === "") {
+                swal("Nombre!", "Debe agregar el nombre del contacto de emergencia!", "warning");
+            } else if ($scope.properties.contactoJson.telefono === "") {
+                swal("Teléfono!", "Debe agregar el teléfono del contacto de emergencia!", "warning");
+            } else if ($scope.properties.contactoJson.telefonoCelular === "") {
+                swal("Teléfono celular!", "Debe agregar el teléfono celular del contacto de emergencia!", "warning");
+            } else if ($scope.properties.contactoJson.catCasoDeEmergencia.descripcion === "Otro") {
+                if ($scope.properties.contactoJson.catParentesco === null) {
+                    swal("Parentesco!", "Debe agregar el parentesco del contacto de emergencia!", "warning");
+                } else if ($scope.properties.contactoJson.catParentesco.descripcion === "Otro") {
+                    if ($scope.properties.contactoJson.parentesco === "" || $scope.properties.contactoJson.parentesco === undefined) {
+                        swal("Parentesco!", "Debe agregar el parentesco del contacto de emergencia!", "warning");
+                    } else {
+                        //$scope.properties.contactoEmergencia.push($scope.properties.contactoJson);
+                        $scope.properties.contactoJson = {
+                            "nombre": "",
+                            "telefono": "",
+                            "catCasoDeEmergencia": null,
+                            "telefonoCelular": "",
+                            "parentesco": "",
+                            "catParentesco": null
+                        }
+                        closeModal(true);
+                    }
+                } else {
+                    $scope.properties.contactoJson.parentesco = $scope.properties.contactoJson.catParentesco.descripcion;
+                    //$scope.properties.contactoEmergencia.push($scope.properties.contactoJson);
+                    $scope.properties.contactoJson = {
+                        "nombre": "",
+                        "telefono": "",
+                        "catCasoDeEmergencia": null,
+                        "telefonoCelular": "",
+                        "parentesco": "",
+                        "catParentesco": null
+                    }
+                    closeModal(true);
+                }
+            } else {
+                //$scope.properties.contactoEmergencia.push($scope.properties.contactoJson);
+                $scope.properties.contactoJson = {
+                    "nombre": "",
+                    "telefono": "",
+                    "catCasoDeEmergencia": null,
+                    "telefonoCelular": "",
+                    "parentesco": "",
+                    "catParentesco": null
+                }
+                closeModal(true);
             }
-            closeModal(true);
-        }
-        
-        
     } else if ($scope.properties.url) {
       doRequest($scope.properties.action, $scope.properties.url);
     }
@@ -207,7 +232,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     id = getUrlParam('id');
     if (id) {
       var params = getUserParam();
-	    params.assign = $scope.properties.assign;
+        params.assign = $scope.properties.assign;
       doRequest('POST', '../API/bpm/userTask/' + getUrlParam('id') + '/execution', params).then(function() {
         localStorageService.delete($window.location.href);
       });

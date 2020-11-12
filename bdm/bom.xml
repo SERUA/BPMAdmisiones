@@ -1,6 +1,58 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <businessObjectModel xmlns="http://documentation.bonitasoft.com/bdm-xml-schema/1.0" modelVersion="1.0" productVersion="7.11.2">
     <businessObjects>
+        <businessObject qualifiedName="com.anahuac.bitacora.CatBitacoraComentarios">
+            <fields>
+                <field type="STRING" length="255" name="comentario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="modulo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatBitacoraComentarios" content="SELECT c &#13;&#10;FROM CatBitacoraComentarios c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.bitacora.CatBitacoraComentarios">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.bitacora.CatBitacoraGeneral">
+            <fields>
+                <field type="STRING" length="255" name="eventos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaModificacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="modulo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatBitacoraGeneral" content="SELECT c &#13;&#10;FROM CatBitacoraGeneral c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.bitacora.CatBitacoraGeneral">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.bitacora.CatBitacoraMetodoPago">
+            <fields>
+                <field type="STRING" length="255" name="noTransaccion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="eventos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioAspirante" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="monto" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaMovimiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="medioPago" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="observaciones" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatBitacoraMetodoPago" content="SELECT c &#13;&#10;FROM CatBitacoraMetodoPago c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.bitacora.CatBitacoraMetodoPago">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatActualmenteTrabajas">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -40,11 +92,11 @@
                 <field type="STRING" length="255" name="pais" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="estado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="convenio" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="tipoconvenio" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="descuento" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="documento" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioBanner" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEnabled" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="perteneceRed" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -56,12 +108,16 @@
         </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatCampus">
             <fields>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuarioBanner" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fechaImplementacion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="urlAvisoPrivacidad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlDatosVeridicos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlAutorDatos" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEnabled" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
@@ -85,6 +141,29 @@
             <uniqueConstraints/>
             <queries>
                 <query name="getCatCasoDeEmergencia" content="SELECT c &#13;&#10;FROM CatCasoDeEmergencia c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatCasoDeEmergencia">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatCiudad">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="EAGER" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="region" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatCiudad" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais LIKE '%México%'&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
+                </query>
+                <query name="getCatCiudadExtranjero" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais NOT LIKE '%México%'&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatCiudad">
                     <queryParameters/>
                 </query>
             </queries>
@@ -166,6 +245,44 @@
             <queries>
                 <query name="getCatDefectos" content="SELECT c &#13;&#10;FROM CatDefectos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatDefectos">
                     <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatDescuentos">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatBachilleratos" fetchType="EAGER" name="catBachilleratos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campana" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="convenioDescuento" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="inicioVigencia" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="finVigencia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="descuento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="bachillerato" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getDescuentosCampana" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE c.tipo = 'Campaña'&#13;&#10;AND CURRENT_TIMESTAMP BETWEEN c.inicioVigencia AND c.finVigencia&#13;&#10;AND c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatDescuentos">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="getDescuentosCiudadBachillerato" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE CURRENT_TIMESTAMP BETWEEN c.inicioVigencia AND c.finVigencia&#13;&#10;AND c.campus = :campus&#13;&#10;AND (c.bachillerato = :bachillerato OR c.ciudad = :ciudad)&#13;&#10;ORDER BY c.descuento DESC" returnType="com.anahuac.catalogos.CatDescuentos">
+                    <queryParameters>
+                        <queryParameter name="ciudad" className="java.lang.String"/>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                        <queryParameter name="bachillerato" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="getCatDescuentos" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE c.isEliminado =false&#13;&#10;AND c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatDescuentos">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
                 </query>
             </queries>
             <indexes/>
@@ -362,14 +479,22 @@
                 <field type="BOOLEAN" length="255" name="matematicas" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="inscripcionenero" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="inscripcionagosto" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="periododisponible" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="EAGER" name="periododisponible" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="EAGER" name="tipocentroestudios" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="tipocentroestudios" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
                 <query name="getCatGestionEscolar" content="SELECT c &#13;&#10;FROM CatGestionEscolar c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatGestionEscolar">
                     <queryParameters/>
+                </query>
+                <query name="getCatGestionEscolarByCampus" content="SELECT c &#13;&#10;FROM CatGestionEscolar c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatGestionEscolar">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
                 </query>
             </queries>
             <indexes/>
@@ -404,6 +529,17 @@
                     <queryParameters/>
                 </query>
             </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatImageNotificacion">
+            <fields>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="texto" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="titulo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatInformacionDeLaCarrera">
@@ -556,6 +692,43 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatNotificaciones">
+            <fields>
+                <field type="STRING" length="255" name="tipoCorreo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombreImagenHeader" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="anguloImagenHeader" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombreImagenFooter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="anguloImagenFooter" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="asunto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="contenido" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="titulo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="bloqueAspirante" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="comentarioLeon" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceFacebook" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceTwitter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceContacto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceInstagram" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="textoFooter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceFooter" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lstCorreoCopia" nullable="true" collection="true"/>
+                <field type="STRING" length="255" name="lstVariableNotificacion" nullable="true" collection="true"/>
+                <field type="BOOLEAN" length="255" name="informacionLic" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="enlaceBanner" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatNotificaciones" content="SELECT c &#13;&#10;FROM CatNotificaciones c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="caseId" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatPadreTrabaja">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -570,6 +743,35 @@
             <queries>
                 <query name="getCatPadreTrabaja" content="SELECT c &#13;&#10;FROM CatPadreTrabaja c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPadreTrabaja">
                     <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+            <fields>
+                <field type="STRING" length="255" name="montoAspiranteLocal" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="montoAspitanteForaneo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="montoAspiranteLocalDolares" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="montoAspiranteForaneoDolares" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="instruccionesDePago" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="deshabilitarPagoDeExamenDeAdmision" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="textoDescriptivoPagoDeshabilitado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatPagoDeExamenDeAdmision" content="SELECT c &#13;&#10;FROM CatPagoDeExamenDeAdmision c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+                    <queryParameters/>
+                </query>
+                <query name="getPagobyCampus" content="SELECT c &#13;&#10;FROM CatPagoDeExamenDeAdmision  c &#13;&#10;WHERE c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
                 </query>
             </queries>
             <indexes/>
@@ -692,24 +894,6 @@
             </queries>
             <indexes/>
         </businessObject>
-        <businessObject qualifiedName="com.anahuac.catalogos.CatPreparatoria">
-            <fields>
-                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
-                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="usuarioBanner" nullable="true" collection="false"/>
-                <field type="LOCALDATETIME" length="255" name="fechaImportacion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
-                <field type="BOOLEAN" length="255" name="isEnabled" nullable="true" collection="false"/>
-            </fields>
-            <uniqueConstraints/>
-            <queries>
-                <query name="getCatPreparatoria" content="SELECT c &#13;&#10;FROM CatPreparatoria c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPreparatoria">
-                    <queryParameters/>
-                </query>
-            </queries>
-            <indexes/>
-        </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatPresentasteEnOtroCampus">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -771,6 +955,24 @@
             <uniqueConstraints/>
             <queries>
                 <query name="getCatProblemasSaludAtencion" content="SELECT c &#13;&#10;FROM CatProblemasSaludAtencion c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatProblemasSaludAtencion">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatPropedeutico">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="EAGER" name="catPeriodo" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaEjecucion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatPropedeutico" content="SELECT c&#13;&#10;FROM CatPropedeutico   c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPropedeutico">
                     <queryParameters/>
                 </query>
             </queries>
@@ -1026,11 +1228,32 @@
             <fields>
                 <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCasoDeEmergencia" fetchType="LAZY" name="catCasoDeEmergencia" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCasoDeEmergencia" fetchType="EAGER" name="catCasoDeEmergencia" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="telefonoCelular" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="parentesco" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentesco" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="EAGER" name="catParentesco" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.DetalleSolicitud">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatDescuentos" fetchType="EAGER" name="catDescuentos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idBanner" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPagoDeExamenDeAdmision" fetchType="LAZY" name="catPagoDeExamenDeAdmision" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isCurpValidado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="promedioCoincide" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="revisado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipoAlumno" nullable="true" collection="false"/>
+                <field type="FLOAT" length="255" name="descuento" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesDescuento" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesCambio" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesRechazo" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesListaRoja" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ordenPago" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="caseId" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -1038,25 +1261,25 @@
         </businessObject>
         <businessObject qualifiedName="com.anahuac.model.PadresTutor">
             <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatTitulo" fetchType="LAZY" name="catTitulo" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="LAZY" name="catParentezco" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatTitulo" fetchType="EAGER" name="catTitulo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatParentesco" fetchType="EAGER" name="catParentezco" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="apellidos" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEscolaridad" fetchType="LAZY" name="catEscolaridad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEgresadoUniversidadAnahuac" fetchType="LAZY" name="catEgresoAnahuac" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusEgreso" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPadreTrabaja" fetchType="LAZY" name="catTrabaja" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEscolaridad" fetchType="EAGER" name="catEscolaridad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEgresadoUniversidadAnahuac" fetchType="EAGER" name="catEgresoAnahuac" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="EAGER" name="catCampusEgreso" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPadreTrabaja" fetchType="EAGER" name="catTrabaja" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="empresaTrabaja" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="giroEmpresa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="puesto" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isTutor" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.Catvive" fetchType="LAZY" name="vive" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.Catvive" fetchType="EAGER" name="vive" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="EAGER" name="catPais" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="numeroExterior" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="numeroInterior" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="EAGER" name="catEstado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
@@ -1070,24 +1293,40 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.ProcesoCaso">
+            <fields>
+                <field type="STRING" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="proceso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCaseId" content="SELECT p &#13;&#10;FROM ProcesoCaso p &#13;&#10;WHERE p.campus = :campus&#13;&#10;AND p.proceso = :proceso&#13;&#10;ORDER BY p.persistenceId DESC" returnType="com.anahuac.model.ProcesoCaso">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                        <queryParameter name="proceso" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.model.SolicitudDeAdmision">
             <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLugarExamen" fetchType="LAZY" name="catLugarExamen" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampus" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLicenciatura" fetchType="LAZY" name="catLicenciatura" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="LAZY" name="catPeriodo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLugarExamen" fetchType="EAGER" name="catLugarExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="EAGER" name="catCampus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPeriodo" fetchType="EAGER" name="catPeriodo" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="primerNombre" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="segundoNombre" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="apellidoPaterno" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="apellidoMaterno" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="correoElectronico" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatSexo" fetchType="LAZY" name="catSexo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatSexo" fetchType="EAGER" name="catSexo" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fechaNacimiento" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstadoCivil" fetchType="LAZY" name="catEstadoCivil" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatNacionalidad" fetchType="LAZY" name="catNacionalidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPresentasteEnOtroCampus" fetchType="LAZY" name="catPresentasteEnOtroCampus" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="LAZY" name="catCampusPresentadoSolicitud" nullable="true" collection="true"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatReligion" fetchType="LAZY" name="catReligion" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstadoCivil" fetchType="EAGER" name="catEstadoCivil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatNacionalidad" fetchType="EAGER" name="catNacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPresentasteEnOtroCampus" fetchType="EAGER" name="catPresentasteEnOtroCampus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCampus" fetchType="EAGER" name="catCampusPresentadoSolicitud" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatReligion" fetchType="EAGER" name="catReligion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuarioFacebook" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usiarioTwitter" nullable="true" collection="false"/>
@@ -1097,8 +1336,8 @@
                 <field type="STRING" length="255" name="actaNacimiento" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="codigoPostal" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPais" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="EAGER" name="catPais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="EAGER" name="catEstado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="calle2" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="numExterior" nullable="true" collection="false"/>
@@ -1108,20 +1347,23 @@
                 <field type="STRING" length="255" name="otroTelefonoContacto" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="promedioGeneral" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="comprobanteCalificaciones" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="catPaisExamen" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="catEstadoExamen" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudadExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="EAGER" name="catPaisExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="EAGER" name="catEstadoExamen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCiudad" fetchType="EAGER" name="ciudadExamen" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="avisoPrivacidad" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="datosVeridicos" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="aceptoAvisoPrivacidad" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="confirmarAutorDatos" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatBachilleratos" fetchType="LAZY" name="catBachilleratos" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatBachilleratos" fetchType="EAGER" name="catBachilleratos" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="paisBachillerato" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="estadoBachillerato" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ciudadBachillerato" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="bachillerato" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="ciudadExamenPais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatCiudad" fetchType="EAGER" name="ciudadExamenPais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatGestionEscolar" fetchType="EAGER" name="catGestionEscolar" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPropedeutico" fetchType="EAGER" name="catPropedeutico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatusSolicitud" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>

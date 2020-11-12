@@ -5,7 +5,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
   var vm = this;
    
   this.action = function action() {
-       debugger;
     if ($scope.properties.action === 'Remove from collection') {
       removeFromCollection();
       closeModal($scope.properties.closeOnSuccess);
@@ -13,7 +12,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
       addToCollection();
       closeModal($scope.properties.closeOnSuccess);
     } else if ($scope.properties.action === 'Start process') {
-         debugger;
+        console.log("inicar proceso")
         if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.datosVeridicos){
             swal("Aviso!", "Debe aceptar que los datos ingresados son veridicos!", "warning");
         }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad){

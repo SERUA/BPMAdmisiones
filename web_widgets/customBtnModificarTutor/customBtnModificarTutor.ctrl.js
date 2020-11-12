@@ -5,7 +5,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
-        debugger;
         $scope.agregootro = false;
         $scope.faltaotro = false;
         if ($scope.properties.action === 'Remove from collection') {
@@ -22,7 +21,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             openModal($scope.properties.modalId);
         } else if ($scope.properties.action === 'Close modal') {
             $scope.properties.tutor.isTutor = true;
-            debugger;
             if ($scope.properties.tutor.catTitulo != $scope.properties.jsonModificarTutor.catTitulo) {
                 $scope.properties.tutor.catTitulo = $scope.properties.jsonModificarTutor.catTitulo
             }
@@ -202,6 +200,15 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 }
                             }
             }
+            if ($scope.properties.tutor.giroEmpresa != $scope.properties.jsonModificarTutor.giroEmpresa) {
+                $scope.properties.tutor.giroEmpresa = $scope.properties.jsonModificarTutor.giroEmpresa
+            }
+            if ($scope.properties.tutor.numeroInterior != $scope.properties.jsonModificarTutor.numeroInterior) {
+                $scope.properties.tutor.numeroInterior = $scope.properties.jsonModificarTutor.numeroInterior
+            }
+            if ($scope.properties.tutor.viveContigo != $scope.properties.jsonModificarTutor.viveContigo) {
+                $scope.properties.tutor.viveContigo = $scope.properties.jsonModificarTutor.viveContigo
+            }
             if ($scope.properties.tutor.otroParentesco != $scope.properties.jsonModificarTutor.otroParentesco) {
                 $scope.properties.tutor.otroParentesco = $scope.properties.jsonModificarTutor.otroParentesco
             }
@@ -259,7 +266,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.tutor.codigoPostal !== $scope.properties.jsonModificarTutor.codigoPostal) {
                 $scope.properties.tutor.codigoPostal = $scope.properties.jsonModificarTutor.codigoPostal
             }
-            //closeModal(true);
             if ($scope.properties.tutor.catTitulo === null) {
                 swal("Título!", "Debe seleccionar el título para identificar al tutor!", "warning");
                 $scope.faltaotro = true;

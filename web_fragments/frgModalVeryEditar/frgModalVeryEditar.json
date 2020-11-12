@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgModalVeryEditar",
   "name" : "frgModalVeryEditar",
-  "lastUpdate" : 1604356958814,
+  "lastUpdate" : 1604710149644,
   "rows" : [
     [
       {
@@ -267,7 +267,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 6,
-          "lg" : 3
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -342,7 +342,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 6,
-          "lg" : 3
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -417,7 +417,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 6,
-          "lg" : 3
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -492,7 +492,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 6,
-          "lg" : 3
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -744,7 +744,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "datosJson.catUniversidad"
+                        "value" : "datosJson.catCampusEgreso"
                       }
                     },
                     "reference" : "fadaa682-d4a6-4190-b555-fa20d7751a39",
@@ -1997,21 +1997,21 @@
     "tutortrabaja" : {
       "type" : "expression",
       "value" : [
-        "var mostrar = true;\r",
-        "for (var x = 0; x < $data.catPadreTrabaja.length; x++) {\r",
-        "    if ($data.datosJson.catTrabaja === undefined) {\r",
-        "        mostrar = true;\r",
-        "    } else {\r",
-        "        if ($data.catPadreTrabaja[x].persistenceId === $data.datosJson.catTrabaja.persistenceId) {\r",
-        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\") {\r",
-        "                mostrar = false;\r",
-        "            } else {\r",
-        "                mostrar = true;\r",
-        "            }\r",
-        "        }\r",
-        "    }\r",
-        "}\r",
-        "\r",
+        "var mostrar = true;",
+        "for (var x = 0; x < $data.catPadreTrabaja.length; x++) {",
+        "    if ($data.datosJson.catTrabaja === undefined) {",
+        "        mostrar = true;",
+        "    } else {",
+        "        if ($data.catPadreTrabaja[x].persistenceId === $data.datosJson.catTrabaja.persistenceId) {",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\") {",
+        "                mostrar = false;",
+        "            } else {",
+        "                mostrar = true;",
+        "            }",
+        "        }",
+        "    }",
+        "}",
+        "",
         "return mostrar;"
       ],
       "exposed" : false
@@ -2031,8 +2031,6 @@
         "                mostrar = true;\r",
         "            }\r",
         "        }\r",
-        "\r",
-        "\r",
         "    }\r",
         "}\r",
         "\r",
@@ -2043,25 +2041,22 @@
     "mostrarotroparentesco" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var mostrar = true;\r",
-        "for(var x=0;x<$data.catParentesco.length;x++){\r",
-        "    if($data.datosJson.catParentezco === undefined){\r",
-        "            mostrar = true;\r",
-        "            $data.otroparentesco = false;\r",
-        "    }else{\r",
-        "        if($data.catParentesco[x].persistenceId===$data.datosJson.catParentezco.persistenceId){\r",
-        "        if($data.catParentesco[x].descripcion===\"Otro\"){\r",
-        "            mostrar = false;\r",
-        "            $data.otroparentesco = true;\r",
-        "        }else{\r",
-        "            mostrar = true;\r",
-        "            $data.otroparentesco = false;\r",
+        "for (var x = 0; x < $data.catParentesco.length; x++) {\r",
+        "    if ($data.datosJson.catParentezco === undefined) {\r",
+        "        mostrar = true;\r",
+        "        $data.otroparentesco = false;\r",
+        "    } else {\r",
+        "        if ($data.catParentesco[x].persistenceId === $data.datosJson.catParentezco.persistenceId) {\r",
+        "            if ($data.catParentesco[x].descripcion === \"Otro\") {\r",
+        "                mostrar = false;\r",
+        "                $data.otroparentesco = true;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "                $data.otroparentesco = false;\r",
+        "            }\r",
         "        }\r",
-        "        \r",
         "    }\r",
-        "    }\r",
-        "    \r",
         "}\r",
         "\r",
         "return mostrar;"

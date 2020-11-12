@@ -1,0 +1,12 @@
+<!--div class="text-{{ properties.alignment }}">
+  <a ng-class="properties.buttonStyle !== 'none' ? 'btn btn-' + properties.buttonStyle : ''" ng-href="{{ctrl.getHref()}}" target="{{ctrl.getTarget()}}" ng-bind-html="properties.text | uiTranslate"></a>
+</div-->
+
+
+<div class="checkbox text-{{ properties.alignment }}">
+    <label>
+        <input type="checkbox" name="{{ctrl.name}}" ng-model="properties.value" ng-required="properties.required" ng-disabled="properties.disabled">{{properties.label}}&nbsp;
+        <a class="no-padding" ng-class="properties.buttonStyle !== 'none' ? 'btn btn-' + properties.buttonStyle : ''" ng-href="{{ctrl.getHref()}}" target="{{ctrl.getTarget()}}">{{properties.text}}</a>
+    </label>
+    <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
+</div>

@@ -17,7 +17,6 @@ function PbTableCtrl($scope, modalService) {
     }
 
     this.showdatos = function(row) {
-        debugger;
         $scope.properties.datomodificar = angular.copy(row);
         $scope.properties.ver = true;
         $scope.properties.datosEditar = row;
@@ -25,7 +24,6 @@ function PbTableCtrl($scope, modalService) {
     }
 
     this.editdatos = function(row) {
-        debugger;
         $scope.properties.datomodificar = angular.copy(row);
         console.log($scope.properties.datomodificar);
         $scope.properties.ocultar = true;
@@ -36,7 +34,6 @@ function PbTableCtrl($scope, modalService) {
 
 
     $scope.deleteData = function(row, index) {
-        debugger;
         if ($scope.properties.eliminar[index].catParentezco.descripcion === "Padre") {
             $scope.properties.formInput.padreInput.catTitulo = null;
             $scope.properties.formInput.padreInput.nombre = "";

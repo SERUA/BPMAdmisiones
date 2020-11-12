@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgAgregarContactoEmergencia",
   "name" : "frgAgregarContactoEmergencia",
-  "lastUpdate" : 1604431107505,
+  "lastUpdate" : 1604596145452,
   "rows" : [
     [
       {
@@ -723,7 +723,6 @@
     "datosPadre" : {
       "type" : "expression",
       "value" : [
-        "debugger\r",
         "var mostrar = true;\r",
         "var otro = true;\r",
         "for (var x = 0; x < $data.catCasoDeEmergencia.length; x++) {\r",
@@ -733,7 +732,6 @@
         "            if ($data.padrevive) {\r",
         "                $data.casoEmergenciaJSON.nombre = $data.formInput.padreInput.nombre + \" \" + $data.formInput.padreInput.apellidos;\r",
         "                $data.casoEmergenciaJSON.telefono = $data.formInput.padreInput.telefono;\r",
-        "\r",
         "                otro = false;\r",
         "                $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                for (var j = 0; j < $data.catParentesco.length; j++) {\r",
@@ -754,12 +752,10 @@
         "                $data.showalertpadre = \"false\";\r",
         "                $data.showalertmadre = \"true\";\r",
         "            }\r",
-        "\r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Madre\") {\r",
         "            if ($data.madrevive) {\r",
         "                $data.casoEmergenciaJSON.nombre = $data.formInput.madreInput.nombre + \" \" + $data.formInput.madreInput.apellidos;\r",
         "                $data.casoEmergenciaJSON.telefono = $data.formInput.madreInput.telefono;\r",
-        "                //$data.casoEmergenciaJSON.idCatParentesco = $data.formInput.solicitudDeAdmisionInput.madre.idCatParentesco;\r",
         "                otro = false;\r",
         "                $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                for (var j = 0; j < $data.catParentesco.length; j++) {\r",
@@ -787,13 +783,11 @@
         "            $data.casoEmergenciaJSON.nombre = $data.formInput.tutorInput[0].nombre + \" \" + $data.formInput.tutorInput[0].apellidos;\r",
         "            $data.casoEmergenciaJSON.telefono = $data.formInput.tutorInput[0].telefono;\r",
         "            $data.casoEmergenciaJSON.catParentesco = $data.formInput.tutorInput[0].catParentezco;\r",
-        "            //otro = false;\r",
         "            if($data.formInput.tutorInput[0].otroParentesco !== \"\"){\r",
         "                $data.casoEmergenciaJSON.parentesco = $data.formInput.tutorInput[0].otroParentesco;\r",
         "            }else{\r",
         "                $data.casoEmergenciaJSON.parentesco = $data.formInput.tutorInput[0].catParentezco.descripcion;\r",
         "            }\r",
-        "            \r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Otro\") {\r",
         "            $data.contactoJson = {\r",
         "              \"nombre\": \"\",\r",

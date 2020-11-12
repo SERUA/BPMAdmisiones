@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frmNuevaSolicitudDeAdmision",
   "name" : "frmNuevaSolicitudDeAdmision",
-  "lastUpdate" : 1604451435752,
+  "lastUpdate" : 1605141863075,
   "rows" : [
     [
       {
@@ -11,12 +11,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : ""
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "constant",
@@ -43,12 +43,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -63,17 +63,22 @@
           "campusList" : "campusListTemp",
           "radioOptionsTestPlace" : "radioOptionsTestPlace",
           "testOptionsRadio" : "testOptionsRadio",
-          "imgSrc" : "\"assets/img/logo.png?format=text\"",
+          "imgSrc" : "\"assets/img/Logo Instituto Juan Pablo II.png?format=text\"",
           "catPais" : "catPais",
           "catCampus" : "catCampus",
           "campusSelected" : "campusSelected",
-          "catLicenciatura" : "catLicenciatura",
+          "catLicenciatura" : "catGestionEscolar",
           "catPeriodo" : "catPeriodo",
           "CatLugarExamen" : "CatLugarExamen",
           "catEstado" : "catEstados",
           "campusreturn" : "",
           "lugardelexamen" : "lugarexamen",
-          "jsonCiudades" : "ciudades"
+          "jsonCiudades" : "ciudades",
+          "campusAsset" : "campusAsset",
+          "catPropedeutico" : "catPropedeutico",
+          "getCiudades" : "getCiudades",
+          "getCiudadesExtranjero" : "getCiudadesExtranjero",
+          "catGestionEscolar" : "catGestionEscolar"
         }
       }
     ],
@@ -84,12 +89,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -139,7 +144,9 @@
                 "imgSrc" : "\"assets/img/logo.png?format=text\"",
                 "campusSelected" : "campusSelected",
                 "catEstado" : "catEstados",
-                "catPais" : "catPais"
+                "catPais" : "catPais",
+                "catGestionEscolar" : "catGestionEscolar",
+                "catPropedeutico" : "catPropedeutico"
               }
             }
           ]
@@ -153,12 +160,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -828,14 +835,15 @@
                                         },
                                         "action" : {
                                           "type" : "constant",
-                                          "value" : "Submit task"
+                                          "value" : "GET"
                                         },
                                         "assign" : {
                                           "type" : "constant",
                                           "value" : false
                                         },
                                         "url" : {
-                                          "type" : "interpolation"
+                                          "type" : "interpolation",
+                                          "value" : "{{urlValidarCurp}}"
                                         },
                                         "responseStatusCode" : {
                                           "type" : "variable",
@@ -846,7 +854,7 @@
                                         },
                                         "dataFromSuccess" : {
                                           "type" : "variable",
-                                          "value" : ""
+                                          "value" : "objResponseCurp"
                                         },
                                         "closeOnSuccess" : {
                                           "type" : "constant",
@@ -854,7 +862,7 @@
                                         },
                                         "dataFromError" : {
                                           "type" : "variable",
-                                          "value" : ""
+                                          "value" : "objResponseCurpError"
                                         },
                                         "targetUrlOnSuccess" : {
                                           "type" : "interpolation"
@@ -864,7 +872,7 @@
                                         },
                                         "modalId" : {
                                           "type" : "constant",
-                                          "value" : ""
+                                          "value" : "modalValidacionCurp"
                                         },
                                         "collectionPosition" : {
                                           "type" : "constant",
@@ -877,9 +885,9 @@
                                           "type" : "variable"
                                         }
                                       },
-                                      "reference" : "52d00bf0-1ab7-40fa-9649-5eedad009ca1",
+                                      "reference" : "7a0ab927-8c49-4aab-8df5-998900acd1af",
                                       "hasValidationError" : false,
-                                      "id" : "pbButton"
+                                      "id" : "customButtonActionModal"
                                     }
                                   ],
                                   [
@@ -1218,6 +1226,73 @@
                                 "hasValidationError" : false,
                                 "id" : "pbContainer",
                                 "rows" : [
+                                  [
+                                    {
+                                      "type" : "component",
+                                      "dimension" : {
+                                        "xs" : 12,
+                                        "sm" : 12,
+                                        "md" : 12,
+                                        "lg" : 12
+                                      },
+                                      "propertyValues" : {
+                                        "cssClasses" : {
+                                          "type" : "constant",
+                                          "value" : ""
+                                        },
+                                        "hidden" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "disabled" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "required" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "labelHidden" : {
+                                          "type" : "constant",
+                                          "value" : false
+                                        },
+                                        "label" : {
+                                          "type" : "interpolation",
+                                          "value" : "Estado civil: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                        },
+                                        "labelPosition" : {
+                                          "type" : "constant",
+                                          "value" : "top"
+                                        },
+                                        "labelWidth" : {
+                                          "type" : "constant",
+                                          "value" : 4
+                                        },
+                                        "placeholder" : {
+                                          "type" : "interpolation",
+                                          "value" : "Selecciona una opción"
+                                        },
+                                        "availableValues" : {
+                                          "type" : "expression",
+                                          "value" : "catEstadoCivil"
+                                        },
+                                        "displayedKey" : {
+                                          "type" : "constant",
+                                          "value" : "descripcion"
+                                        },
+                                        "returnedKey" : {
+                                          "type" : "constant"
+                                        },
+                                        "value" : {
+                                          "type" : "variable",
+                                          "value" : "formInput.catSolicitudDeAdmisionInput.catEstadoCivil"
+                                        }
+                                      },
+                                      "reference" : "a9cea513-b7d8-4b15-ac80-e0dd4f8fd0e8",
+                                      "hasValidationError" : false,
+                                      "id" : "pbSelect"
+                                    }
+                                  ],
                                   [
                                     {
                                       "type" : "component",
@@ -2675,12 +2750,10 @@
                                     "value" : false
                                   },
                                   "minLength" : {
-                                    "type" : "constant",
-                                    "value" : ""
+                                    "type" : "constant"
                                   },
                                   "maxLength" : {
-                                    "type" : "constant",
-                                    "value" : ""
+                                    "type" : "constant"
                                   },
                                   "readOnly" : {
                                     "type" : "constant",
@@ -2711,7 +2784,7 @@
                                   },
                                   "type" : {
                                     "type" : "constant",
-                                    "value" : "text"
+                                    "value" : "number"
                                   },
                                   "min" : {
                                     "type" : "constant"
@@ -3040,7 +3113,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "descuento"
+                                    "value" : "tieneDescuento"
                                   }
                                 },
                                 "reference" : "6d9383af-c563-4dd8-9387-39ca82a53be0",
@@ -3062,7 +3135,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!descuento"
+                                    "value" : "!tieneDescuento"
                                   },
                                   "repeatedCollection" : {
                                     "type" : "variable",
@@ -3346,12 +3419,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -4771,7 +4844,8 @@
                   "ver" : "mostrarCamposActivos",
                   "catParentesco" : "catParentesco",
                   "catCasoDeEmergencia" : "catCasoDeEmergencia",
-                  "casoEmergenciaJSON" : "jsonModificarContacto"
+                  "casoEmergenciaJSON" : "jsonModificarContacto",
+                  "formInput" : "formInput"
                 }
               }
             ],
@@ -5028,12 +5102,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -5387,12 +5461,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 12,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "expression",
@@ -5444,12 +5518,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 10,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "col-lg-offset-1"
+            "value" : "col-lg-offset-2"
           },
           "hidden" : {
             "type" : "constant",
@@ -5536,6 +5610,42 @@
                       "action" : {
                         "type" : "constant",
                         "value" : "Anterior"
+                      },
+                      "formInput" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "lugarexamen" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "presentadoSolicitud" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "datosPadres" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "fotopasaporte" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "actanacimiento" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "kardex" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "datosPreparatoria" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "modalid" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "522af547-795c-4f22-a62a-bd0727f896df",
@@ -5656,6 +5766,18 @@
                       "datosPreparatoria" : {
                         "type" : "variable",
                         "value" : "datosPreparatoria"
+                      },
+                      "modalid" : {
+                        "type" : "variable",
+                        "value" : "modalConfirmacion"
+                      },
+                      "tieneDescuento" : {
+                        "type" : "variable",
+                        "value" : "tieneDescuento"
+                      },
+                      "descuento" : {
+                        "type" : "variable",
+                        "value" : "descuento"
                       }
                     },
                     "reference" : "cb2f1bef-f37b-4ae0-a1ea-055edafcdda1",
@@ -5667,6 +5789,1106 @@
             }
           ]
         ]
+      }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modalConfirmacion"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "2a088205-4533-426e-bcb2-7b2a1b8b5c18",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "57a604d8-e79e-40c7-9d05-0fe1ca4a86b8",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "4d16dbca-20b7-43d1-8e56-2c35f41939f3",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Confirmación"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 3"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "d945f5c4-ec0c-41fc-92c7-30a82ce82428",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<p><b>Antes de continuar, asegurate de que llenaste estos campos correctamente.</p>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "aa31dcdf-2b7e-4b03-b20d-be7b0906f9ec",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Licenciatura que deseas estudiar: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "catGestionEscolar"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "nombre"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInput.catSolicitudDeAdmisionInput.catGestionEscolar"
+                        }
+                      },
+                      "reference" : "56e316b5-b1dd-44cf-a052-ccbb3625192d",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "!formInput.catSolicitudDeAdmisionInput.catGestionEscolar.propedeutico"
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Propedéutico <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "catPropedeutico"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInput.catSolicitudDeAdmisionInput.catPropedeutico"
+                        }
+                      },
+                      "reference" : "3657cea7-fa54-4aa4-be42-1b8ac88051b7",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "¿A cual de las universidades de la red Anahuac deseas ingresar? <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "catCampus"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInput.catSolicitudDeAdmisionInput.catCampus"
+                        }
+                      },
+                      "reference" : "50e5436c-5766-480a-888d-4b17ceb4fec6",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Lugar donde realizarás tu examen <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "inline" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "CatLugarExamen"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "selectedValue" : {
+                          "type" : "variable",
+                          "value" : "formInput.catSolicitudDeAdmisionInput.catLugarExamen"
+                        }
+                      },
+                      "reference" : "ddfaefdc-fd90-4ab6-8b16-11f652224290",
+                      "hasValidationError" : false,
+                      "id" : "pbRadioButtons"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "aaa37aa4-25a0-43c2-a5a6-5ad69ebb5c63",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [ ]
+                      ]
+                    },
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "6f612d6a-6ef5-455a-9e53-33437ab97c0f",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "disabled" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Estado"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Selecciona una opción"
+                              },
+                              "availableValues" : {
+                                "type" : "expression",
+                                "value" : "catEstados"
+                              },
+                              "displayedKey" : {
+                                "type" : "constant",
+                                "value" : "descripcion"
+                              },
+                              "returnedKey" : {
+                                "type" : "constant"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "formInput.catSolicitudDeAdmisionInput.catEstadoExamen"
+                              }
+                            },
+                            "reference" : "cb8f4582-c22d-4eed-8dd2-7840c5195f17",
+                            "hasValidationError" : false,
+                            "id" : "pbSelect"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "lugarexamen !== \"En un estado\""
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Ciudad"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen.descripcion"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "6b3945f4-7951-4cca-8329-f9dfd73bdf08",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ]
+                      ]
+                    },
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "739332e0-eed4-4b04-bdd8-7e43d6a2324b",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "disabled" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "País:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation",
+                                "value" : "Selecciona una opción"
+                              },
+                              "availableValues" : {
+                                "type" : "expression",
+                                "value" : "catPais"
+                              },
+                              "displayedKey" : {
+                                "type" : "constant",
+                                "value" : "descripcion"
+                              },
+                              "returnedKey" : {
+                                "type" : "constant"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "formInput.catSolicitudDeAdmisionInput.catPaisExamen"
+                              }
+                            },
+                            "reference" : "71e1691d-295e-4bf7-a773-452fd97fa9ee",
+                            "hasValidationError" : false,
+                            "id" : "pbSelect"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "lugarexamen !== \"En el extranjero (solo si vives fuera de México)\""
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Ciudad"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamenPais.descripcion"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "6a2a4f71-ee2b-4248-9ca5-c1e7c372488a",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Periodo:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "catPeriodo"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInput.catSolicitudDeAdmisionInput.catPeriodo"
+                        }
+                      },
+                      "reference" : "1f14f8b8-c0d3-476b-af0d-75323be001c6",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<hr>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "e6c46294-000c-4138-8bc8-f099de689f6e",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 6,
+                  "lg" : 6
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "disabled" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Cancelar"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  },
+                  "buttonStyle" : {
+                    "type" : "constant",
+                    "value" : "info"
+                  },
+                  "action" : {
+                    "type" : "constant",
+                    "value" : "Close modal"
+                  },
+                  "assign" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "url" : {
+                    "type" : "interpolation"
+                  },
+                  "responseStatusCode" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "dataToSend" : {
+                    "type" : "constant"
+                  },
+                  "dataFromSuccess" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "closeOnSuccess" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "dataFromError" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "targetUrlOnSuccess" : {
+                    "type" : "interpolation"
+                  },
+                  "collectionToModify" : {
+                    "type" : "variable"
+                  },
+                  "modalId" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "collectionPosition" : {
+                    "type" : "constant",
+                    "value" : "Last"
+                  },
+                  "valueToAdd" : {
+                    "type" : "constant"
+                  },
+                  "removeItem" : {
+                    "type" : "variable"
+                  }
+                },
+                "reference" : "1abd3dcb-dfc0-4ba4-b7e3-104016024ca7",
+                "hasValidationError" : false,
+                "id" : "pbButton"
+              },
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 6,
+                  "lg" : 6
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "disabled" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Continuar"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "right"
+                  },
+                  "buttonStyle" : {
+                    "type" : "constant",
+                    "value" : "primary"
+                  },
+                  "wizardLength" : {
+                    "type" : "variable",
+                    "value" : "wizardContent.length"
+                  },
+                  "selectedIndex" : {
+                    "type" : "variable",
+                    "value" : "selectedIndex"
+                  },
+                  "action" : {
+                    "type" : "constant",
+                    "value" : "Siguiente"
+                  },
+                  "formInput" : {
+                    "type" : "variable",
+                    "value" : "formInput"
+                  },
+                  "lugarexamen" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "presentadoSolicitud" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "datosPadres" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "fotopasaporte" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "actanacimiento" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "kardex" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "datosPreparatoria" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "modalid" : {
+                    "type" : "variable",
+                    "value" : "modalConfirmacion"
+                  }
+                },
+                "reference" : "33782234-a6d8-4dc6-a03f-689daa8b3866",
+                "hasValidationError" : false,
+                "id" : "customBtnWizardModal"
+              }
+            ]
+          ]
+        }
       }
     ],
     [
@@ -6226,21 +7448,894 @@
         "hasValidationError" : false,
         "id" : "customWidgetChat"
       }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modalValidacionCurp"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "9dd8a094-5d53-46c7-b611-90aaa44706ac",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "6644e9eb-4cee-4d7d-b5e3-c4b3ca4c6c59",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "f3c5c59d-1ff4-4484-9b08-aea6711a53a9",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Respuesta"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "c7feca7f-ae6d-4c4b-8e00-17a17f742754",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "objResponseCurp == undefined"
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "ddd19d19-1f2a-4209-a1ca-4331f1346c56",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Curp"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.curp"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "8ae9a6eb-5128-4e96-ada4-3fd1dadc44fc",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 4,
+                        "lg" : 4
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Nombre"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.name"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "52098854-3698-4e24-83ad-ac5300ddfed4",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 4,
+                        "lg" : 4
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Primer apellido"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.fatherName"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "cdf25927-4165-47d7-b3ec-daf0b4221f27",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 4,
+                        "lg" : 4
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Segundo apellido"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.motherName"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "0b6e65e9-75f3-4880-b236-b0daab621765",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Genero"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.gender == \"1\" ? \"Masculino\" : \"Femenino\""
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "cd370683-f2ff-4c20-8e9a-6a4724bfed56",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Fecha de nacimiento"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.birthday"
+                        },
+                        "dateFormat" : {
+                          "type" : "constant",
+                          "value" : "MM/dd/yyyy"
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Enter a date (mm/dd/yyyy)"
+                        },
+                        "showToday" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "todayLabel" : {
+                          "type" : "interpolation",
+                          "value" : "Today"
+                        }
+                      },
+                      "reference" : "12c9afe6-0bc0-442b-949d-3aab611db9c8",
+                      "hasValidationError" : false,
+                      "id" : "pbDatePicker"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Estado"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "objResponseCurp.birthState"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "b5775fc3-1778-4577-b070-27ec65748b51",
+                      "hasValidationError" : false,
+                      "id" : "pbInput"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "objResponseCurpError == undefined"
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "609f1129-b37d-4853-a057-0b96dee072bf",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<pre>{{objResponseCurpError.error}}</pre>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "cbb656e7-a463-4344-b251-43db5950de83",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "637e8ffc-4dc3-4b16-a8b1-9d2b49a5d7a2",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Aceptar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "94153cf6-8ea7-4ada-bbc5-423b0b174b4d",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
     ]
   ],
   "assets" : [
     {
-      "id" : "480c7a73-7096-4ba7-96ec-563cc062adfa",
+      "id" : "1a7db529-cb5e-4dfb-9fd5-002b1c68785e",
       "name" : "pdf.png",
       "type" : "img",
-      "order" : 4,
+      "order" : 15,
       "external" : false
     },
     {
-      "id" : "0cff87b2-d4ec-46e5-aa4b-faf1f712e521",
-      "name" : "localization.json",
-      "type" : "json",
-      "order" : 0,
+      "id" : "9171bc3d-fb8a-499a-864e-7b9658190dcd",
+      "name" : "LogoAnahuacPuebla.png",
+      "type" : "img",
+      "order" : 12,
+      "external" : false
+    },
+    {
+      "id" : "6925654a-5842-445c-a528-8c8834d3d7b4",
+      "name" : "LogoAnahuacQueretaro.png",
+      "type" : "img",
+      "order" : 9,
       "external" : false
     },
     {
@@ -6251,6 +8346,20 @@
       "external" : false
     },
     {
+      "id" : "577325fe-9534-4211-aa43-c41fcbd923f4",
+      "name" : "LogoAnahuacMexicoSur.png",
+      "type" : "img",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "c0990971-68c0-4aac-a7d8-118bed54c548",
+      "name" : "LogoAnahuacVeracruzXalapa.png",
+      "type" : "img",
+      "order" : 8,
+      "external" : false
+    },
+    {
       "id" : "a0da2952-1e9e-42ef-88a3-14609ce7ef08",
       "name" : "anahuac_custom_styles.css",
       "type" : "css",
@@ -6258,10 +8367,59 @@
       "external" : false
     },
     {
+      "id" : "b5d5a34b-0bfd-48c2-ab05-8b8035d52bea",
+      "name" : "LogoAnahuacCancun.png",
+      "type" : "img",
+      "order" : 14,
+      "external" : false
+    },
+    {
+      "id" : "12b2deed-1380-47e2-a466-d01c1bb669c0",
+      "name" : "LogoAnahuacMerida.png",
+      "type" : "img",
+      "order" : 5,
+      "external" : false
+    },
+    {
       "id" : "3835cf73-0401-4e35-b777-5157d1dfa274",
       "name" : "jquery.min.js",
       "type" : "js",
       "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "8afb9056-8bba-4734-8663-929e3c0f91a1",
+      "name" : "LogoAnahuacMexicoNorte.png",
+      "type" : "img",
+      "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "abd8075d-5843-4456-8510-f811c038b929",
+      "name" : "LogoAnahuacVeracruzCoroba-Orizaba.png",
+      "type" : "img",
+      "order" : 11,
+      "external" : false
+    },
+    {
+      "id" : "0cff87b2-d4ec-46e5-aa4b-faf1f712e521",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "2f358279-4f86-402a-978a-b8c409e43827",
+      "name" : "LogoAnahuacOaxaca.png",
+      "type" : "img",
+      "order" : 13,
+      "external" : false
+    },
+    {
+      "id" : "d017ea6c-2458-42af-902d-7d797e10018a",
+      "name" : "LogoInstitutoJuanPabloII.png",
+      "type" : "img",
+      "order" : 10,
       "external" : false
     },
     {
@@ -6496,81 +8654,6 @@
         "  \"actaNacimientoDocumentInput\" : [ ],\r",
         "  \"constanciaDocumentInput\" : [ ],\r",
         "  \"contactoEmergenciaInput\" : [ ],\r",
-        "  \"catSolicitudDeAdmisionInput\" : {\r",
-        "    \"catLugarExamen\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catCampus\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catLicenciatura\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catPeriodo\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"primerNombre\" : \"\",\r",
-        "    \"segundoNombre\" : \"\",\r",
-        "    \"apellidoPaterno\" : \"\",\r",
-        "    \"apellidoMaterno\" : \"\",\r",
-        "    \"correoElectronico\" : \"\",\r",
-        "    \"catSexo\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catNacionalidad\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catPresentasteEnOtroCampus\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catCampusPresentadoSolicitud\" : [ ],\r",
-        "    \"catReligion\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"curp\" : \"\",\r",
-        "    \"usuarioFacebook\" : \"\",\r",
-        "    \"usiarioTwitter\" : \"\",\r",
-        "    \"usuarioInstagram\" : \"\",\r",
-        "    \"telefonoCelular\" : \"\",\r",
-        "    \"foto\" : \"\",\r",
-        "    \"actaNacimiento\" : \"\",\r",
-        "    \"calle\" : \"\",\r",
-        "    \"codigoPostal\" : \"\",\r",
-        "    \"catPais\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catEstado\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"ciudad\" : \"\",\r",
-        "    \"calle2\" : \"\",\r",
-        "    \"numExterior\" : \"\",\r",
-        "    \"numInterior\" : \"\",\r",
-        "    \"colonia\" : \"\",\r",
-        "    \"telefono\" : \"\",\r",
-        "    \"otroTelefonoContacto\" : \"\",\r",
-        "    \"promedioGeneral\" : \"\",\r",
-        "    \"comprobanteCalificaciones\" : \"\",\r",
-        "    \"catPaisExamen\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"catEstadoExamen\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"ciudadExamen\" : \"\",\r",
-        "    \"avisoPrivacidad\" : false,\r",
-        "    \"datosVeridicos\" : false,\r",
-        "    \"aceptoAvisoPrivacidad\" : false,\r",
-        "    \"confirmarAutorDatos\" : false,\r",
-        "    \"catBachilleratos\" : {\r",
-        "      \"persistenceId_string\" : \"\"\r",
-        "    },\r",
-        "    \"paisBachillerato\" : \"\",\r",
-        "    \"estadoBachillerato\" : \"\",\r",
-        "    \"ciudadBachillerato\" : \"\",\r",
-        "    \"bachillerato\" : \"\",\r",
-        "    \"ciudadExamenPais\" : \"\"\r",
-        "  },\r",
         "  \"descuentoDocumentInput\" : [ ],\r",
         "  \"tutorInput\" : [ ],\r",
         "  \"padreInput\" : {\r",
@@ -6656,6 +8739,83 @@
         "    \"codigoPostal\" : \"\",\r",
         "    \"viveContigo\" : false,\r",
         "    \"desconozcoDatosPadres\" : false\r",
+        "  },\r",
+        "  \"catSolicitudDeAdmisionInput\" : {\r",
+        "    \"catLugarExamen\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catCampus\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catPeriodo\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"primerNombre\" : \"\",\r",
+        "    \"segundoNombre\" : \"\",\r",
+        "    \"apellidoPaterno\" : \"\",\r",
+        "    \"apellidoMaterno\" : \"\",\r",
+        "    \"correoElectronico\" : \"\",\r",
+        "    \"catSexo\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catEstadoCivil\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catNacionalidad\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catPresentasteEnOtroCampus\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catCampusPresentadoSolicitud\" : [ ],\r",
+        "    \"catReligion\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"curp\" : \"\",\r",
+        "    \"usuarioFacebook\" : \"\",\r",
+        "    \"usiarioTwitter\" : \"\",\r",
+        "    \"usuarioInstagram\" : \"\",\r",
+        "    \"telefonoCelular\" : \"\",\r",
+        "    \"foto\" : \"\",\r",
+        "    \"actaNacimiento\" : \"\",\r",
+        "    \"calle\" : \"\",\r",
+        "    \"codigoPostal\" : \"\",\r",
+        "    \"catPais\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catEstado\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"ciudad\" : \"\",\r",
+        "    \"calle2\" : \"\",\r",
+        "    \"numExterior\" : \"\",\r",
+        "    \"numInterior\" : \"\",\r",
+        "    \"colonia\" : \"\",\r",
+        "    \"telefono\" : \"\",\r",
+        "    \"otroTelefonoContacto\" : \"\",\r",
+        "    \"promedioGeneral\" : \"\",\r",
+        "    \"comprobanteCalificaciones\" : \"\",\r",
+        "    \"catPaisExamen\" : null,\r",
+        "    \"catEstadoExamen\" : null,\r",
+        "    \"ciudadExamen\" : null,\r",
+        "    \"avisoPrivacidad\" : false,\r",
+        "    \"datosVeridicos\" : false,\r",
+        "    \"aceptoAvisoPrivacidad\" : false,\r",
+        "    \"confirmarAutorDatos\" : false,\r",
+        "    \"catBachilleratos\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"paisBachillerato\" : \"\",\r",
+        "    \"estadoBachillerato\" : \"\",\r",
+        "    \"ciudadBachillerato\" : \"\",\r",
+        "    \"bachillerato\" : \"\",\r",
+        "    \"ciudadExamenPais\" : null,\r",
+        "    \"catGestionEscolar\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    },\r",
+        "    \"catPropedeutico\" : {\r",
+        "      \"persistenceId_string\" : \"\"\r",
+        "    }\r",
         "  }\r",
         "}"
       ],
@@ -7283,10 +9443,16 @@
     },
     "isImagenDescuento" : {
       "type" : "constant",
+      "value" : [
+        "true"
+      ],
       "exposed" : false
     },
     "isPDFDescuento" : {
       "type" : "constant",
+      "value" : [
+        "true"
+      ],
       "exposed" : false
     },
     "descuento" : {
@@ -9872,6 +12038,97 @@
         "  ]\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "modalConfirmacion" : {
+      "type" : "constant",
+      "value" : [
+        "modalConfirmacion"
+      ],
+      "exposed" : false
+    },
+    "campusAsset" : {
+      "type" : "json",
+      "value" : [
+        "[{\r",
+        "\t\"nombre\":\"Universidad Anáhuac Querétaro\",\r",
+        "\t\"asset\":\"assets/img/LogoAnahuacQueretaro.png?format=text\"\r",
+        "},\r",
+        "{\r",
+        "\t\"nombre\":\"Universidad Anáhuac México Campus Norte\",\r",
+        "\t\"asset\":\"assets/img/LogoAnahuacMexicoNorte.png?format=text\"\r",
+        "},\r",
+        "{\r",
+        "\t\"nombre\":\"Universidad Anáhuac México Campus Sur\",\r",
+        "\t\"asset\":\"assets/img/LogoAnahuacMexicoSur.png?format=text\"\r",
+        "},\r",
+        "{\r",
+        "\t\"nombre\":\"Anáhuac Mayab\",\r",
+        "\t\"asset\":\"assets/img/LogoAnahuacMerida.png?format=text\"\r",
+        "},\r",
+        "{\r",
+        "\t\"nombre\":\"Universidad Anáhuac Xalapa\",\r",
+        "\t\"asset\":\"assets/img/LogoAnahuacVeracruzXalapa.png?format=text\"\r",
+        "}]"
+      ],
+      "exposed" : false
+    },
+    "tieneDescuento" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "getCiudades" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudad&p=0&c=1000"
+      ],
+      "exposed" : false
+    },
+    "getCiudadesExtranjero" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadExtranjero&p=0&c=1000"
+      ],
+      "exposed" : false
+    },
+    "catGestionEscolar" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatGestionEscolar?q=getCatGestionEscolar&p=0&c=1000"
+      ],
+      "exposed" : false
+    },
+    "catPropedeutico" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPropedeutico?q=getCatPropedeutico&p=0&c=1000"
+      ],
+      "exposed" : false
+    },
+    "urlValidarCurp" : {
+      "type" : "expression",
+      "value" : [
+        "return \"https://us-west4-arsus-production.cloudfunctions.net/curp?curp=\"+$data.formInput.catSolicitudDeAdmisionInput.curp+\"&apiKey=gOy9xTdZZ5YJthx3yhRuHAvrp7V2\";",
+        "//return \"https://us-west4-arsus-production.cloudfunctions.net/curp?curp=5555&apiKey=gOy9xTdZZ5YJthx3yhRuHAvrp7V2\";"
+      ],
+      "exposed" : false
+    },
+    "objResponseCurp" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "objResponseCurpError" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "comentarioCambios" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

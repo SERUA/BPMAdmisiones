@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgNewTestRequest",
   "name" : "frgNewTestRequest",
-  "lastUpdate" : 1604451444476,
+  "lastUpdate" : 1604974774857,
   "rows" : [
     [
       {
@@ -79,7 +79,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "col-lg-offset-1"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -114,7 +114,7 @@
                       },
                       "campusList" : {
                         "type" : "variable",
-                        "value" : "catCampus"
+                        "value" : "setAssetCampus"
                       },
                       "src" : {
                         "type" : "variable",
@@ -178,11 +178,11 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "catLicenciatura"
+                        "value" : "catGestionEscolar"
                       },
                       "displayedKey" : {
                         "type" : "constant",
-                        "value" : "descripcion"
+                        "value" : "nombre"
                       },
                       "returnedKey" : {
                         "type" : "constant",
@@ -190,7 +190,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "formInput.catSolicitudDeAdmisionInput.catLicenciatura"
+                        "value" : "formInput.catSolicitudDeAdmisionInput.catGestionEscolar"
                       }
                     },
                     "reference" : "53b5564c-7584-4516-8a03-906e37bd8ba3",
@@ -215,8 +215,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "setPeriodo"
                       },
                       "required" : {
                         "type" : "constant",
@@ -260,6 +260,73 @@
                       }
                     },
                     "reference" : "20725779-3fb9-42b8-89b0-4dd9a2125568",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!formInput.catSolicitudDeAdmisionInput.catGestionEscolar.propedeutico"
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Propedéutico <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Selecciona una opción"
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "catPropedeutico"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "formInput.catSolicitudDeAdmisionInput.catPropedeutico"
+                      }
+                    },
+                    "reference" : "95537442-8d6a-4a35-a295-b150c6a5a0f2",
                     "hasValidationError" : false,
                     "id" : "pbSelect"
                   }
@@ -574,8 +641,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "lugarexamen !== \"En un estado\""
+                              "type" : "constant",
+                              "value" : true
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -642,147 +709,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "minLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Ciudad"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "placeholder" : {
-                              "type" : "interpolation"
-                            },
-                            "value" : {
-                              "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "text"
-                            },
-                            "min" : {
-                              "type" : "constant"
-                            },
-                            "max" : {
-                              "type" : "constant"
-                            },
-                            "step" : {
-                              "type" : "constant",
-                              "value" : 1
-                            }
-                          },
-                          "reference" : "4cdd5b09-61db-4c11-bbb1-0ecfcd0378e9",
-                          "hasValidationError" : false,
-                          "id" : "pbInput"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
                               "type" : "expression",
                               "value" : "lugarexamen !== \"En un estado\""
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Ciudad"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "placeholder" : {
-                              "type" : "interpolation"
-                            },
-                            "availableValues" : {
-                              "type" : "expression",
-                              "value" : "getCiudadesEstado"
-                            },
-                            "displayedKey" : {
-                              "type" : "constant"
-                            },
-                            "value" : {
-                              "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen"
-                            }
-                          },
-                          "reference" : "ecff9557-3156-4526-a42c-6dcffcdc2d79",
-                          "hasValidationError" : false,
-                          "id" : "pbAutocomplete"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : true
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -813,20 +741,22 @@
                               "value" : "Selecciona una opción"
                             },
                             "availableValues" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "getCiudades"
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamen"
                             }
                           },
-                          "reference" : "cbd70ffd-78bb-4a25-9391-f652fa8a3bed",
+                          "reference" : "99de870a-cf42-483f-88ab-f478324455a0",
                           "hasValidationError" : false,
                           "id" : "pbSelect"
                         }
@@ -942,8 +872,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "lugarexamen !== \"En el extranjero (solo si vives fuera de México)\""
+                              "type" : "constant",
+                              "value" : true
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -1013,83 +943,6 @@
                               "type" : "expression",
                               "value" : "lugarexamen !== \"En el extranjero (solo si vives fuera de México)\""
                             },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "minLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Ciudad"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "placeholder" : {
-                              "type" : "interpolation"
-                            },
-                            "value" : {
-                              "type" : "variable",
-                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamenPais"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "text"
-                            },
-                            "min" : {
-                              "type" : "constant"
-                            },
-                            "max" : {
-                              "type" : "constant"
-                            },
-                            "step" : {
-                              "type" : "constant",
-                              "value" : 1
-                            }
-                          },
-                          "reference" : "20840c16-4bc1-4b6a-ad51-8502cc8dcb4b",
-                          "hasValidationError" : false,
-                          "id" : "pbInput"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
                             "disabled" : {
                               "type" : "constant",
                               "value" : false
@@ -1119,20 +972,22 @@
                               "value" : "Selecciona una opción"
                             },
                             "availableValues" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "getCiudadesExtranjero"
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "formInput.catSolicitudDeAdmisionInput.ciudadExamenPais"
                             }
                           },
-                          "reference" : "6ef7022b-532a-413a-84a6-ba9781d9f4e4",
+                          "reference" : "ff47650d-c5e3-4275-a3a2-24fe331cd170",
                           "hasValidationError" : false,
                           "id" : "pbSelect"
                         }
@@ -1206,13 +1061,6 @@
       ],
       "exposed" : true
     },
-    "catLicenciatura" : {
-      "type" : "constant",
-      "value" : [
-        ""
-      ],
-      "exposed" : true
-    },
     "catPeriodo" : {
       "type" : "constant",
       "value" : [
@@ -1230,7 +1078,6 @@
     "lugarexamen" : {
       "type" : "expression",
       "value" : [
-        "",
         "var opcion=\"\";",
         "for(var x=0;x<$data.CatLugarExamen.length;x++){",
         "    if($data.CatLugarExamen[x].persistenceId===$data.formInput.catSolicitudDeAdmisionInput.catLugarExamen.persistenceId){",
@@ -1239,11 +1086,7 @@
         "    }",
         "}",
         "",
-        "return opcion;",
-        "",
-        "//En el mismo campus en donde realizaré mi licenciatura",
-        "//En un estado",
-        "//En el extranjero (solo si vives fuera de México)"
+        "return opcion;"
       ],
       "exposed" : false
     },
@@ -1257,7 +1100,6 @@
     "campusseleccionado" : {
       "type" : "expression",
       "value" : [
-        "\r",
         "var campus = \"\";\r",
         "for(var x=0;x<$data.catCampus.length;x++){\r",
         "    if($data.catCampus[x].persistenceId===$data.campusSelected){\r",
@@ -1296,6 +1138,86 @@
       "type" : "expression",
       "value" : [
         "return $data.jsonCiudades[$data.formInput.catSolicitudDeAdmisionInput.catEstadoExamen.descripcion];"
+      ],
+      "exposed" : false
+    },
+    "campusAsset" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "setAssetCampus" : {
+      "type" : "expression",
+      "value" : [
+        "var lstCampus = angular.copy($data.catCampus);",
+        "for(var x=0;x<lstCampus.length;x++){",
+        "    for(var y=0;y<$data.campusAsset.length;y++){",
+        "        if(lstCampus[x].descripcion === $data.campusAsset[y].nombre){",
+        "            lstCampus[x][\"asset\"] = $data.campusAsset[y].asset;",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return lstCampus"
+      ],
+      "exposed" : false
+    },
+    "catPropedeutico" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "getCiudades" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "getCiudadesExtranjero" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "setPeriodo" : {
+      "type" : "expression",
+      "value" : [
+        "var deshabilitar = false;",
+        "if($data.formInput.catSolicitudDeAdmisionInput.catPropedeutico !== null){",
+        "    if($data.formInput.catSolicitudDeAdmisionInput.catPropedeutico.persistenceId_string !== \"\"){",
+        "        $data.formInput.catSolicitudDeAdmisionInput.catPeriodo = $data.formInput.catSolicitudDeAdmisionInput.catPropedeutico.catPeriodo;",
+        "        deshabilitar = true;",
+        "    }else{",
+        "        deshabilitar = false;",
+        "    }",
+        "}else{",
+        "    deshabilitar = false;",
+        "}",
+        "",
+        "",
+        "return deshabilitar;"
+      ],
+      "exposed" : false
+    },
+    "catGestionEscolar" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "propedeuticonull" : {
+      "type" : "expression",
+      "value" : [
+        "if(!$data.formInput.catSolicitudDeAdmisionInput.catGestionEscolar.propedeutico){",
+        "    $data.formInput.catSolicitudDeAdmisionInput.catPropedeutico = null;",
+        "}"
       ],
       "exposed" : false
     }

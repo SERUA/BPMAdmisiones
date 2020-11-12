@@ -22,7 +22,6 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
   };
 
   this.forceSubmit = function(event) {
-      debugger;
       $scope.procesar = false;
      //$scope.properties.urlretorno = window.btoa(event.target.files[0]);
      if(event.target.files[0].type === "image/jpeg"){
