@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformaciondelPadre",
   "name" : "frgInformaciondelPadre",
-  "lastUpdate" : 1603922752257,
+  "lastUpdate" : 1605500482584,
   "rows" : [
     [
       {
@@ -24,7 +24,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "INFORMACIÓN DEL PADRE"
+            "value" : "<label class=\"color-orange\">Información del Padre</label>"
           },
           "level" : {
             "type" : "constant",
@@ -46,6 +46,46 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "isPadretutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Desconozco los datos porque no convivo con el."
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.desconozcoDatosPadres"
+          }
+        },
+        "reference" : "a5957add-4910-4ab5-b5ac-780b2096dbfd",
+        "hasValidationError" : false,
+        "id" : "pbCheckbox"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -59,8 +99,8 @@
             "value" : false
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres || isPadretutor"
           },
           "required" : {
             "type" : "constant",
@@ -111,7 +151,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -134,11 +174,11 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -178,9 +218,9 @@
             "value" : 1
           }
         },
-        "reference" : "60f7023c-05fb-4b10-ac20-7bb903cd8049",
+        "reference" : "32c5cf9d-d9d2-4383-a9b4-ea5f73ec33fe",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMay"
       }
     ],
     [
@@ -188,7 +228,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -211,11 +251,11 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.desconozcoDatosPadres || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -255,15 +295,15 @@
             "value" : 1
           }
         },
-        "reference" : "5a9996e4-d897-4ee5-b6ac-432431de9f93",
+        "reference" : "efe258d3-9730-494f-8c80-801e1c6c771b",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMay"
       },
       {
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -277,8 +317,8 @@
             "value" : false
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.isTutor || formInput.padreInput.desconozcoDatosPadres || isPadretutor"
           },
           "required" : {
             "type" : "constant",
@@ -328,10 +368,10 @@
     ],
     [
       {
-        "type" : "component",
+        "type" : "container",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -341,63 +381,306 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "disabled" : {
             "type" : "constant",
             "value" : false
           },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "¿Egresó de la universidad Anáhuac?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation",
-            "value" : "Selecciona una opción"
-          },
-          "availableValues" : {
-            "type" : "expression",
-            "value" : "catEgresoAnahuac"
-          },
-          "displayedKey" : {
-            "type" : "constant",
-            "value" : "descripcion"
-          },
-          "returnedKey" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "value" : {
+          "repeatedCollection" : {
             "type" : "variable",
-            "value" : "formInput.padreInput.catEgresoAnahuac"
+            "value" : ""
           }
         },
-        "reference" : "4e1747ce-bfc1-4825-8cee-84df8aad666b",
+        "reference" : "5cd334f2-462d-4450-89ff-6164e0ae8e01",
         "hasValidationError" : false,
-        "id" : "pbSelect"
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvivo"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿Egresó de la universidad Anáhuac?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catEgresoAnahuac"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.catEgresoAnahuac"
+                }
+              },
+              "reference" : "4e1747ce-bfc1-4825-8cee-84df8aad666b",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "egresoanahuac"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿De cuál campus egresó? <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catCampus"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.catCampusEgreso"
+                }
+              },
+              "reference" : "bf29f783-2c41-42ef-8400-e7b545fdea5c",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvivo"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Correo electrónico:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.correoElectronico"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "email"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "e759c5bd-8036-4775-9bef-79a14b9ec37d",
+              "hasValidationError" : false,
+              "id" : "pbInput"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvivo"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Escolaridad del padre:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catEscolaridad"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.catEscolaridad"
+                }
+              },
+              "reference" : "afd4ce78-a35c-478d-bcad-3c2bba41f056",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ]
+        ]
       },
       {
-        "type" : "component",
+        "type" : "container",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -407,495 +690,318 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "disabled" : {
             "type" : "constant",
             "value" : false
           },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "¿Tú padre trabaja?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation",
-            "value" : "Selecciona una opción"
-          },
-          "availableValues" : {
-            "type" : "expression",
-            "value" : "catPadreTrabaja"
-          },
-          "displayedKey" : {
-            "type" : "constant",
-            "value" : "descripcion"
-          },
-          "returnedKey" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "value" : {
+          "repeatedCollection" : {
             "type" : "variable",
-            "value" : "formInput.padreInput.catTrabaja"
+            "value" : ""
           }
         },
-        "reference" : "b5da9685-15e8-4f3c-9421-a903cef9ace9",
+        "reference" : "e812d2be-5fed-462c-8d5d-ff22242aa1cf",
         "hasValidationError" : false,
-        "id" : "pbSelect"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "egresoanahuac"
-          },
-          "disabled" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "¿De cuál campus egresó? <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation",
-            "value" : "Selecciona una opción"
-          },
-          "availableValues" : {
-            "type" : "expression",
-            "value" : "catCampus"
-          },
-          "displayedKey" : {
-            "type" : "constant",
-            "value" : "descripcion"
-          },
-          "returnedKey" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.catCampusEgreso"
-          }
-        },
-        "reference" : "bf29f783-2c41-42ef-8400-e7b545fdea5c",
-        "hasValidationError" : false,
-        "id" : "pbSelect"
-      },
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "padretrabaja"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Empresa en la que trabaja:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.empresaTrabaja"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "47160b1f-8e49-4415-ab33-1b20710bee36",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Correo electrónico:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.correoElectronico"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "email"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "e759c5bd-8036-4775-9bef-79a14b9ec37d",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      },
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "padretrabaja"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Giro de la empresa"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.giroEmpresa"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "95e25395-4b76-4bc0-867c-709ffecdedbc",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "disabled" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Escolaridad del padre:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation",
-            "value" : "Selecciona una opción"
-          },
-          "availableValues" : {
-            "type" : "expression",
-            "value" : "catEscolaridad"
-          },
-          "displayedKey" : {
-            "type" : "constant",
-            "value" : "descripcion"
-          },
-          "returnedKey" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.catEscolaridad"
-          }
-        },
-        "reference" : "afd4ce78-a35c-478d-bcad-3c2bba41f056",
-        "hasValidationError" : false,
-        "id" : "pbSelect"
-      },
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "padretrabaja"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Puesto:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.puesto"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "3d80e6ca-b809-4768-ab64-28259266b01d",
-        "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvivo"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿Tú padre trabaja?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catPadreTrabaja"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.catTrabaja"
+                }
+              },
+              "reference" : "b5da9685-15e8-4f3c-9421-a903cef9ace9",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "padretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Empresa en la que trabaja:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.empresaTrabaja"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "7ecf3fc8-8881-4d16-8fef-b7d716cdf96e",
+              "hasValidationError" : false,
+              "id" : "customInputMinMay"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "padretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Giro de la empresa"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.giroEmpresa"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "0f6ec727-00f7-42d1-a12d-1bbeefe14fa5",
+              "hasValidationError" : false,
+              "id" : "customInputMinMay"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "padretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isPadretutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Puesto:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formInput.padreInput.puesto"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "8dcb7927-96c8-4385-8a5d-e5eb5024eaac",
+              "hasValidationError" : false,
+              "id" : "customInputMinMay"
+            }
+          ]
+        ]
       }
     ],
     [
@@ -953,8 +1059,8 @@
             "value" : "isvivo"
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "isPadretutor"
           },
           "required" : {
             "type" : "constant",
@@ -979,7 +1085,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -993,8 +1099,8 @@
             "value" : "isvivo"
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "required" : {
             "type" : "constant",
@@ -1045,7 +1151,84 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 5
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Código postal:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.codigoPostal"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "c3f0d3b0-8cbf-498f-b0c8-c5e81b93c521",
+        "hasValidationError" : false,
+        "id" : "customInputNumerico"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -1059,8 +1242,8 @@
             "value" : "isvivo"
           },
           "disabled" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "required" : {
             "type" : "constant",
@@ -1106,9 +1289,7 @@
         "reference" : "d1cd155f-9b52-437c-b0cf-e2af1c18620b",
         "hasValidationError" : false,
         "id" : "pbSelect"
-      }
-    ],
-    [
+      },
       {
         "type" : "component",
         "dimension" : {
@@ -1139,8 +1320,237 @@
             "value" : ""
           },
           "readOnly" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo  || isPadretutor"
+          },
+          "labelHidden" : {
             "type" : "constant",
             "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Ciudad  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.ciudad"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "6f72768b-7641-4024-a817-3d0c74a868e7",
+        "hasValidationError" : false,
+        "id" : "pbInput"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Delegación/Municipio"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.delegacionMunicipio"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "3f92a73c-6cc2-479e-85eb-a9cd29b5e70a",
+        "hasValidationError" : false,
+        "id" : "pbInput"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 1
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Colonia:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.padreInput.colonia"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "311346fc-88f9-42cf-b547-0424ba6e80e8",
+        "hasValidationError" : false,
+        "id" : "customInputMinMay"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvivo"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1188,7 +1598,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -1211,88 +1621,11 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "C.P.  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.codigoPostal"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
             "value" : 1
-          }
-        },
-        "reference" : "690bd879-e084-4150-a4bd-7f27af2ff2d1",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 3,
-          "lg" : 4
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1335,14 +1668,16 @@
         "reference" : "1866e1c8-7b62-4544-b74e-4d9829393276",
         "hasValidationError" : false,
         "id" : "pbInput"
-      },
+      }
+    ],
+    [
       {
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
-          "md" : 3,
-          "lg" : 4
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -1366,8 +1701,8 @@
             "value" : ""
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1415,84 +1750,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 4
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Delegación/Municipio/Ciudad  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.ciudad"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
-          }
-        },
-        "reference" : "3f92a73c-6cc2-479e-85eb-a9cd29b5e70a",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -1515,86 +1773,11 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Colonia:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "placeholder" : {
-            "type" : "interpolation"
-          },
-          "value" : {
-            "type" : "variable",
-            "value" : "formInput.padreInput.colonia"
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
             "value" : 1
-          }
-        },
-        "reference" : "1e56d09c-dbaa-4c07-aeb8-431da7eae0d9",
-        "hasValidationError" : false,
-        "id" : "pbInput"
-      },
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 6,
-          "lg" : 6
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "isvivo"
-          },
-          "required" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "formInput.padreInput.viveContigo || isPadretutor"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1634,9 +1817,9 @@
             "value" : 1
           }
         },
-        "reference" : "f799fc5a-596e-49f2-ab0f-25b2aca0c750",
+        "reference" : "a8927168-99bb-4def-93e7-8602867b4727",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputNumerico"
       }
     ]
   ],
@@ -1709,17 +1892,16 @@
     "isvivo" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var mostrar = true;\r",
         "for (var x = 0; x < $data.catVive.length; x++) {\r",
-        "    if ($data.formInput.padreInput.vive === undefined) {\r",
+        "    if ($data.formInput.padreInput.vive === undefined || $data.formInput.padreInput.vive === null) {\r",
         "        $data.egresoanahuac = true;\r",
         "        $data.padretrabaja = true;\r",
         "        $data.vive = false;\r",
         "        mostrar = true;\r",
         "    } else {\r",
         "        if ($data.catVive[x].persistenceId === $data.formInput.padreInput.vive.persistenceId) {\r",
-        "            if ($data.catVive[x].descripcion === \"Si\") {\r",
+        "            if ($data.catVive[x].descripcion === \"Si\" || $data.catVive[x].descripcion === \"SI\") {\r",
         "                mostrar = false;\r",
         "                $data.vive = true;\r",
         "            } else {\r",
@@ -1746,7 +1928,7 @@
         "        $data.anahuac = false;\r",
         "    } else {\r",
         "        if ($data.catEgresoAnahuac[x].persistenceId === $data.formInput.padreInput.catEgresoAnahuac.persistenceId) {\r",
-        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\") {\r",
+        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\" || $data.catEgresoAnahuac[x].descripcion === \"SI\") {\r",
         "                mostrar = false;\r",
         "                $data.anahuac = true;\r",
         "            } else {\r",
@@ -1771,7 +1953,7 @@
         "        $data.trabaja = false;\r",
         "    } else {\r",
         "        if ($data.catPadreTrabaja[x].persistenceId === $data.formInput.padreInput.catTrabaja.persistenceId) {\r",
-        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\") {\r",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\" || $data.catPadreTrabaja[x].descripcion === \"SI\") {\r",
         "                mostrar = false;\r",
         "                $data.trabaja = true;\r",
         "            } else {\r",
@@ -1801,6 +1983,13 @@
       "exposed" : true
     },
     "anahuac" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isPadretutor" : {
       "type" : "constant",
       "value" : [
         ""

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesCampus",
   "name" : "pageAccionesCampus",
-  "lastUpdate" : 1605054631789,
+  "lastUpdate" : 1605478439793,
   "rows" : [
     [
       {
@@ -51,7 +51,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{ task.displayName }}"
+                  "value" : "Catalogo de Campus"
                 },
                 "level" : {
                   "type" : "constant",
@@ -660,7 +660,7 @@
                                   "value" : "Item"
                                 },
                                 "valueToAdd" : {
-                                  "type" : "expression"
+                                  "type" : "constant"
                                 },
                                 "collectionToModify" : {
                                   "type" : "variable",
@@ -726,91 +726,42 @@
                           "lg" : 12
                         },
                         "propertyValues" : {
-                          "removeItem" : {
-                            "type" : "variable"
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
                           },
                           "hidden" : {
                             "type" : "constant",
                             "value" : false
                           },
-                          "cssClasses" : {
-                            "type" : "constant",
-                            "value" : ""
-                          },
-                          "buttonStyle" : {
-                            "type" : "constant",
-                            "value" : "primary"
-                          },
-                          "label" : {
-                            "type" : "interpolation",
-                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Add CatCampus"
-                          },
-                          "dataToSend" : {
-                            "type" : "expression"
-                          },
-                          "labelHidden" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "targetUrlOnSuccess" : {
-                            "type" : "interpolation"
-                          },
-                          "collectionPosition" : {
-                            "type" : "constant"
-                          },
-                          "valueToAdd" : {
-                            "type" : "expression",
-                            "value" : "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : userData.user_name,  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":getFecha, \"fechaCreacion\":getFecha }"
-                          },
-                          "collectionToModify" : {
-                            "type" : "variable",
-                            "value" : "formInput.lstCatCampusInput"
-                          },
-                          "action" : {
-                            "type" : "constant",
-                            "value" : "Add to collection"
-                          },
                           "disabled" : {
                             "type" : "constant",
                             "value" : false
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar otro Campus"
                           },
                           "alignment" : {
                             "type" : "constant",
                             "value" : "left"
                           },
-                          "dimension" : {
+                          "buttonStyle" : {
                             "type" : "constant",
-                            "value" : 12
+                            "value" : "primary"
                           },
-                          "assign" : {
-                            "type" : "constant",
-                            "value" : false
+                          "strJson" : {
+                            "type" : "expression",
+                            "value" : "str2"
                           },
-                          "url" : {
-                            "type" : "interpolation"
-                          },
-                          "responseStatusCode" : {
-                            "type" : "variable"
-                          },
-                          "dataFromSuccess" : {
-                            "type" : "variable"
-                          },
-                          "closeOnSuccess" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "dataFromError" : {
-                            "type" : "variable"
-                          },
-                          "modalId" : {
-                            "type" : "constant",
-                            "value" : ""
+                          "dataReset" : {
+                            "type" : "variable",
+                            "value" : "formInput.lstCatCampusInput"
                           }
                         },
-                        "reference" : "c9c66d9c-53b1-4829-8f0f-5a93c10b69d8",
+                        "reference" : "02522c32-fd59-40bc-8b95-96372474c773",
                         "hasValidationError" : false,
-                        "id" : "pbButton",
-                        "description" : ""
+                        "id" : "customBtnCollection"
                       }
                     ],
                     [
@@ -828,8 +779,8 @@
                             "value" : ""
                           },
                           "hidden" : {
-                            "type" : "constant",
-                            "value" : false
+                            "type" : "expression",
+                            "value" : "taskId == undefined"
                           },
                           "disabled" : {
                             "type" : "expression",
@@ -891,6 +842,102 @@
                         "reference" : "381f4bce-2f48-4979-a2a8-0b151a213cb2",
                         "hasValidationError" : false,
                         "id" : "customBtnGuardarCampus"
+                      }
+                    ],
+                    [
+                      {
+                        "type" : "component",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "hidden" : {
+                            "type" : "expression",
+                            "value" : "taskId != undefined"
+                          },
+                          "disabled" : {
+                            "type" : "expression",
+                            "value" : "!otrasVariables.Validado"
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "Guardar"
+                          },
+                          "alignment" : {
+                            "type" : "constant",
+                            "value" : "center"
+                          },
+                          "buttonStyle" : {
+                            "type" : "constant",
+                            "value" : "success"
+                          },
+                          "action" : {
+                            "type" : "constant",
+                            "value" : "POST"
+                          },
+                          "assign" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "url" : {
+                            "type" : "interpolation",
+                            "value" : "{{processUrl}}"
+                          },
+                          "responseStatusCode" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "dataToSend" : {
+                            "type" : "expression",
+                            "value" : "formOutput"
+                          },
+                          "dataFromSuccess" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "closeOnSuccess" : {
+                            "type" : "constant",
+                            "value" : true
+                          },
+                          "dataFromError" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "targetUrlOnSuccess" : {
+                            "type" : "interpolation"
+                          },
+                          "collectionToModify" : {
+                            "type" : "variable"
+                          },
+                          "modalId" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "collectionPosition" : {
+                            "type" : "constant",
+                            "value" : "Last"
+                          },
+                          "valueToAdd" : {
+                            "type" : "constant"
+                          },
+                          "removeItem" : {
+                            "type" : "variable"
+                          },
+                          "formInput" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "8dd27b92-21d8-4621-85f6-0799f1a6ca53",
+                        "hasValidationError" : false,
+                        "id" : "customBtnGenericInstancia"
                       }
                     ],
                     [
@@ -1001,7 +1048,7 @@
           },
           "seleccion" : {
             "type" : "constant",
-            "value" : true
+            "value" : false
           },
           "modalName" : {
             "type" : "constant",
@@ -1010,6 +1057,22 @@
           "dataReset" : {
             "type" : "variable",
             "value" : "formInput.lstCatCampusInput"
+          },
+          "dataToadd" : {
+            "type" : "constant",
+            "value" : "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : userData.user_name,  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":getFecha, \"fechaCreacion\":getFecha }"
+          },
+          "collectionToModify" : {
+            "type" : "variable",
+            "value" : "formInput.lstCatCampusInput"
+          },
+          "valueToAdd" : {
+            "type" : "constant",
+            "value" : "{  \"persistenceId_string\" : \"\", \"clave\" : \"\", \"descripcion\" : \"\", \"usuarioBanner\" : \"\", \"id\":\"\", \"urlAvisoPrivacidad\":\"\", \"urlDatosVeridicos\":\"\", \"urlAutorDatos\":\"\", \"isEliminado\" : false, \"isEnabled\": true }"
+          },
+          "strJson" : {
+            "type" : "expression",
+            "value" : "str2"
           }
         },
         "reference" : "53ac2f4d-69c2-4318-9a62-81baf6390b07",
@@ -1175,17 +1238,17 @@
       "external" : false
     },
     {
-      "id" : "4c1424f4-444a-42e1-9947-1c447b299bfc",
-      "name" : "style.css",
-      "type" : "css",
-      "order" : 0,
-      "external" : false
-    },
-    {
       "id" : "194a0d67-3fb0-4eee-813d-750ac77437e8",
       "name" : "jquery.min.js",
       "type" : "js",
       "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "4c1424f4-444a-42e1-9947-1c447b299bfc",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
       "external" : false
     }
   ],
@@ -1218,8 +1281,13 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {",
+        "",
+        "if($data.taskId === undefined){",
+        "    return {lstCatCampusInput: $data.formInput.lstCatCampusInput}",
+        "}else {",
+        "    return {",
         "\tlstCatCampusInput: $data.objContrato",
+        "    }",
         "}"
       ],
       "exposed" : false
@@ -1297,6 +1365,8 @@
         "        }else if(element.descripcion.trim()===\"\"){",
         "            validado = false;",
         "        }else if(element.fechaCreacion.trim()===\"\" || element.fechaCreacion.trim().length <19){",
+        "            element.fechaCreacion = $data.getFecha;",
+        "            element.fechaImplementacion = $data.getFecha;",
         "            validado = false;",
         "        } else if(element.urlAvisoPrivacidad.trim() === \"\"){",
         "            validado = false;",
@@ -1306,6 +1376,8 @@
         "            validado = false;",
         "        }else if(element.id.trim() === \"\"){",
         "            validado = false;",
+        "        }else if(element.usuarioBanner.trim()===\"\"){",
+        "            element.usuarioBanner = $data.userData.user_name;",
         "        }",
         "    });  ",
         "}else{",
@@ -1336,10 +1408,55 @@
         "return isoLocal;"
       ],
       "exposed" : false
+    },
+    "str" : {
+      "type" : "expression",
+      "value" : [
+        "return {   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : userData.user_name,  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":getFecha, \"fechaCreacion\":getFecha }"
+      ],
+      "exposed" : false
+    },
+    "str2" : {
+      "type" : "constant",
+      "value" : [
+        "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : \"\",  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":\"\", \"fechaCreacion\":\" \"}"
+      ],
+      "exposed" : false
+    },
+    "processUrl" : {
+      "type" : "expression",
+      "value" : [
+        "let ipBonita = window.location.protocol + \"//\" + window.location.host + \"/bonita\";    \r",
+        "return ipBonita + \"/API/bpm/process/\" + $data.processId + \"/instantiation\";"
+      ],
+      "exposed" : false
+    },
+    "processId" : {
+      "type" : "expression",
+      "value" : [
+        "let value = \"\";\r",
+        "value = $data.processList[0].id;\r",
+        "return value;"
+      ],
+      "exposed" : false
+    },
+    "processList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?p=0&c=1000&o=displayName%20ASC&f=activationState%3dENABLED&f=name=CatCampus"
+      ],
+      "exposed" : false
+    },
+    "humanTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/humanTask?p=0&c=100&f=processId={{processid}}"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "ac08eaa4-8244-4a70-80d3-9a684b28c6ec",
-  "type" : "form",
+  "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgRevisionInformacionTutor",
   "name" : "frgRevisionInformacionTutor",
-  "lastUpdate" : 1603922752307,
+  "lastUpdate" : 1605500482640,
   "rows" : [
     [
       {
@@ -24,7 +24,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "INFORMACIÓN DEL TUTOR"
+            "value" : "<label class=\"color-orange\">Información del Tutor</label>"
           },
           "level" : {
             "type" : "constant",
@@ -38,6 +38,65 @@
         "reference" : "a6ae72b1-5d1c-4ec0-afa4-978d2435960c",
         "hasValidationError" : false,
         "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Modificar"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "primary"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Submit task"
+          },
+          "variableDestino" : {
+            "type" : "variable",
+            "value" : "selectedIndex"
+          },
+          "variableAcopiar" : {
+            "type" : "variable",
+            "value" : "3"
+          },
+          "OpenModal" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "modalId" : {
+            "type" : "constant"
+          }
+        },
+        "reference" : "34db1c47-db29-4c5e-aca2-641705e77ded",
+        "hasValidationError" : false,
+        "id" : "customButtonSetValor"
       }
     ],
     [
@@ -95,7 +154,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].nombre"
           },
           "type" : {
             "type" : "constant",
@@ -155,7 +214,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "¿Egresó de la universidad  Anáhuac?"
+            "value" : "Apellidos"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -170,7 +229,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].apellidos"
           },
           "type" : {
             "type" : "constant",
@@ -187,7 +246,7 @@
             "value" : 1
           }
         },
-        "reference" : "32c7668b-5f80-4565-bdf1-6446a8f189b8",
+        "reference" : "0a4faecd-d03f-40d8-886c-5a1b9b830115",
         "hasValidationError" : false,
         "id" : "pbInput"
       },
@@ -205,24 +264,16 @@
             "value" : ""
           },
           "hidden" : {
+            "type" : "expression",
+            "value" : "!mostrarotroparentesco"
+          },
+          "disabled" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -230,7 +281,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Escolaridad del tutor:"
+            "value" : "Parentesco:"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -241,33 +292,29 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catParentesco"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.tutorInput[0].catParentezco"
           }
         },
-        "reference" : "575dea7a-4ea2-43d5-bf19-6385c6118a90",
+        "reference" : "ce00fa11-6e64-436e-aa38-42fee84bed29",
         "hasValidationError" : false,
-        "id" : "pbInput"
-      }
-    ],
-    [
+        "id" : "pbSelect"
+      },
       {
         "type" : "component",
         "dimension" : {
@@ -282,8 +329,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "mostrarotroparentesco"
           },
           "required" : {
             "type" : "constant",
@@ -322,7 +369,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].otroParentesco"
           },
           "type" : {
             "type" : "constant",
@@ -342,6 +389,73 @@
         "reference" : "ee098949-52da-41c5-859b-fd730071d90e",
         "hasValidationError" : false,
         "id" : "pbInput"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿Egresó de la universidad  Anáhuac?"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "CatEgresadoUniversidadAnahuac"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.tutorInput[0].catEgresoAnahuac"
+          }
+        },
+        "reference" : "968b514c-0ddf-44e8-b150-239ecb43e0d0",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
       },
       {
         "type" : "component",
@@ -397,7 +511,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].correoElectronico"
           },
           "type" : {
             "type" : "constant",
@@ -435,21 +549,13 @@
             "type" : "constant",
             "value" : false
           },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -457,7 +563,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "¿Trabaja?"
+            "value" : "Escolaridad del tutor:"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -468,30 +574,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catEscolaridad"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.tutorInput[0].catEscolaridad"
           }
         },
-        "reference" : "7b9718cb-f89e-448b-9f8e-6c3a397c230e",
+        "reference" : "3e236344-7b71-4f25-8a45-d88364ea0e9e",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       }
     ],
     [
@@ -511,6 +615,71 @@
           "hidden" : {
             "type" : "constant",
             "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿Trabaja?"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catPadreTrabaja"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.tutorInput[0].catTrabaja"
+          }
+        },
+        "reference" : "8083e016-b858-42a6-af77-d23502c9fe39",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "tutortrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -549,7 +718,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].empresaTrabaja"
           },
           "type" : {
             "type" : "constant",
@@ -584,8 +753,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "tutortrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -624,7 +793,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].giroEmpresa"
           },
           "type" : {
             "type" : "constant",
@@ -659,8 +828,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "tutortrabaja"
           },
           "required" : {
             "type" : "constant",
@@ -699,7 +868,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].puesto"
           },
           "type" : {
             "type" : "constant",
@@ -741,7 +910,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "DOMICILIO PERMANENTE DEL TUTOR"
+            "value" : "<label class=\"color-orange\">Domicilio Permanente del tutor</label>"
           },
           "level" : {
             "type" : "constant",
@@ -812,7 +981,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].calle"
           },
           "type" : {
             "type" : "constant",
@@ -887,7 +1056,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].numeroExterior"
           },
           "type" : {
             "type" : "constant",
@@ -962,7 +1131,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].colonia"
           },
           "type" : {
             "type" : "constant",
@@ -1039,7 +1208,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].codigoPostal"
           },
           "type" : {
             "type" : "constant",
@@ -1114,7 +1283,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].ciudad"
           },
           "type" : {
             "type" : "constant",
@@ -1152,21 +1321,13 @@
             "type" : "constant",
             "value" : false
           },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1185,30 +1346,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catPais"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.tutorInput[0].catPais"
           }
         },
-        "reference" : "2b6ea203-2245-4542-9f64-b2f2c50c2029",
+        "reference" : "c0836b23-5087-4ed9-9e69-10caa6f5e0bb",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       }
     ],
     [
@@ -1229,21 +1388,13 @@
             "type" : "constant",
             "value" : false
           },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
           "required" : {
             "type" : "constant",
             "value" : false
-          },
-          "minLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "maxLength" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "readOnly" : {
-            "type" : "constant",
-            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -1262,30 +1413,28 @@
             "value" : 4
           },
           "placeholder" : {
-            "type" : "interpolation"
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catEstado"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
-          },
-          "type" : {
-            "type" : "constant",
-            "value" : "text"
-          },
-          "min" : {
-            "type" : "constant"
-          },
-          "max" : {
-            "type" : "constant"
-          },
-          "step" : {
-            "type" : "constant",
-            "value" : 1
+            "value" : "formInput.tutorInput[0].catEstado"
           }
         },
-        "reference" : "8a994b9c-205b-4706-84ae-7337df5a804c",
+        "reference" : "9d37d087-f831-4491-af4b-a74816b98d6c",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "pbSelect"
       },
       {
         "type" : "component",
@@ -1341,7 +1490,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "formInput.tutorInput[0].telefono"
           },
           "type" : {
             "type" : "constant",
@@ -1368,6 +1517,106 @@
   "inactiveAssets" : [ ],
   "variables" : {
     "formInput" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "CatEgresadoUniversidadAnahuac" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPadreTrabaja" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEscolaridad" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPais" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEstado" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "mostrarotroparentesco" : {
+      "type" : "expression",
+      "value" : [
+        "\r",
+        "var mostrar = true;\r",
+        "for(var x=0;x<$data.catParentesco.length;x++){\r",
+        "    if($data.formInput.tutorInput[0].catParentezco === undefined){\r",
+        "            mostrar = true;\r",
+        "            $data.otroparentesco = false;\r",
+        "    }else{\r",
+        "        if($data.catParentesco[x].persistenceId===$data.formInput.tutorInput[0].catParentezco.persistenceId){\r",
+        "        if($data.catParentesco[x].descripcion===\"Otro\"){\r",
+        "            mostrar = false;\r",
+        "            $data.otroparentesco = true;\r",
+        "        }else{\r",
+        "            mostrar = true;\r",
+        "            $data.otroparentesco = false;\r",
+        "        }\r",
+        "        \r",
+        "    }\r",
+        "    }\r",
+        "    \r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "catParentesco" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "tutortrabaja" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;\r",
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catPadreTrabaja.length; x++) {\r",
+        "    if ($data.formInput.tutorInput[0].catTrabaja === undefined) {\r",
+        "        mostrar = true;\r",
+        "    } else {\r",
+        "        if ($data.catPadreTrabaja[x].persistenceId === $data.formInput.tutorInput[0].catTrabaja.persistenceId) {\r",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\") {\r",
+        "                mostrar = false;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "selectedIndex" : {
       "type" : "constant",
       "value" : [
         ""

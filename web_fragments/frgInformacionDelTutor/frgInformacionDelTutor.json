@@ -2,11 +2,11 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformacionDelTutor",
   "name" : "frgInformacionDelTutor",
-  "lastUpdate" : 1603922752263,
+  "lastUpdate" : 1605500482590,
   "rows" : [
     [
       {
-        "type" : "component",
+        "type" : "container",
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
@@ -22,238 +22,284 @@
             "type" : "constant",
             "value" : false
           },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "INFORMACIÓN DEL TUTOR"
-          },
-          "level" : {
-            "type" : "constant",
-            "value" : "Level 4"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "center"
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
-        "reference" : "a7a9773a-53b8-4f96-a4fc-166f2dcd8c18",
+        "reference" : "f53b0d80-2aaa-4e3c-b16e-fdb608529d2e",
         "hasValidationError" : false,
-        "id" : "pbTitle"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "En caso de contratar el servicio de educación garantizada, se tomará como tutor a la persona registrada en este apartado para hacer efectivo el beneficio en caso de ser requerido."
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "d99ea269-1dd1-4c96-bf1a-2d3107eae4e2",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "headers" : {
-            "type" : "constant",
-            "value" : [
-              "Nombre",
-              "Apellidos"
-            ]
-          },
-          "content" : {
-            "type" : "expression",
-            "value" : "listatutores"
-          },
-          "columnsKey" : {
-            "type" : "constant",
-            "value" : [
-              "nombre",
-              "apellidos"
-            ]
-          },
-          "selectedRow" : {
-            "type" : "variable",
-            "value" : ""
-          },
-          "striped" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "condensed" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "bordered" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "modalid" : {
-            "type" : "expression",
-            "value" : "modalVeryEditar"
-          },
-          "datosEditar" : {
-            "type" : "variable",
-            "value" : "datosTutor"
-          },
-          "ver" : {
-            "type" : "variable",
-            "value" : "lectura"
-          }
-        },
-        "reference" : "cfd580e1-a482-428a-b4d4-63da10a3c912",
-        "hasValidationError" : false,
-        "id" : "customCustomTableTutorActions"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "expression",
-            "value" : "listatutores.length === 3"
-          },
-          "disabled" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Agregar tutor"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "center"
-          },
-          "buttonStyle" : {
-            "type" : "constant",
-            "value" : "primary"
-          },
-          "action" : {
-            "type" : "constant",
-            "value" : "Open modal"
-          },
-          "assign" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "url" : {
-            "type" : "interpolation"
-          },
-          "responseStatusCode" : {
-            "type" : "variable",
-            "value" : ""
-          },
-          "dataToSend" : {
-            "type" : "constant"
-          },
-          "dataFromSuccess" : {
-            "type" : "variable",
-            "value" : ""
-          },
-          "closeOnSuccess" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "dataFromError" : {
-            "type" : "variable",
-            "value" : ""
-          },
-          "targetUrlOnSuccess" : {
-            "type" : "interpolation"
-          },
-          "collectionToModify" : {
-            "type" : "variable"
-          },
-          "modalId" : {
-            "type" : "expression",
-            "value" : "addTutorModalId"
-          },
-          "collectionPosition" : {
-            "type" : "constant",
-            "value" : "Last"
-          },
-          "valueToAdd" : {
-            "type" : "constant"
-          },
-          "removeItem" : {
-            "type" : "variable"
-          }
-        },
-        "reference" : "0603ee6c-f2d8-4424-a6be-371226b7fa62",
-        "hasValidationError" : false,
-        "id" : "pbButton"
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<label class=\"color-orange\">Información del Tutor</label>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 4"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "a7a9773a-53b8-4f96-a4fc-166f2dcd8c18",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "En caso de contratar el servicio de educación garantizada, se tomará como tutor a la persona registrada en este apartado para hacer efectivo el beneficio en caso de ser requerido."
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "d99ea269-1dd1-4c96-bf1a-2d3107eae4e2",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "headers" : {
+                  "type" : "constant",
+                  "value" : [
+                    "Nombre",
+                    "Apellidos"
+                  ]
+                },
+                "content" : {
+                  "type" : "expression",
+                  "value" : "listatutores"
+                },
+                "columnsKey" : {
+                  "type" : "constant",
+                  "value" : [
+                    "nombre",
+                    "apellidos"
+                  ]
+                },
+                "selectedRow" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "striped" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "condensed" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "bordered" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "modalid" : {
+                  "type" : "expression",
+                  "value" : "modalVeryEditar"
+                },
+                "datosEditar" : {
+                  "type" : "variable",
+                  "value" : "datosTutor"
+                },
+                "ver" : {
+                  "type" : "variable",
+                  "value" : "lectura"
+                },
+                "datomodificar" : {
+                  "type" : "variable",
+                  "value" : "jsonmodificar"
+                },
+                "ocultar" : {
+                  "type" : "variable",
+                  "value" : "verbtn"
+                },
+                "eliminar" : {
+                  "type" : "expression",
+                  "value" : "listatutores"
+                },
+                "formInput" : {
+                  "type" : "variable",
+                  "value" : "formInput"
+                }
+              },
+              "reference" : "cfd580e1-a482-428a-b4d4-63da10a3c912",
+              "hasValidationError" : false,
+              "id" : "customCustomTableTutorActions"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "listatutores.length === 3"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Agregar tutor"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Open modal"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "expression",
+                  "value" : "addTutorModalId"
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "0603ee6c-f2d8-4424-a6be-371226b7fa62",
+              "hasValidationError" : false,
+              "id" : "pbButton"
+            }
+          ]
+        ]
       }
     ]
   ],
@@ -296,6 +342,34 @@
       "exposed" : true
     },
     "lectura" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "jsonmodificar" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "verbtn" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "eliminarDato" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "formInput" : {
       "type" : "constant",
       "value" : [
         ""

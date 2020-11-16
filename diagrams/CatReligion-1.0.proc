@@ -3,79 +3,81 @@
   <process:MainProcess xmi:id="_L5eF4BI4EeunGIjL610y7g" name="CatReligion" author="EMUI" bonitaVersion="7.11.2" bonitaModelVersion="7.11.1-001" configId="ACED000574001D43617452656C6967696F6E372E31312E312D303031372E31312E327370">
     <elements xmi:type="process:Pool" xmi:id="_L5eF4RI4EeunGIjL610y7g" name="CatReligion">
       <elements xmi:type="process:Lane" xmi:id="_L5eF4hI4EeunGIjL610y7g" name="Administrador" actor="_L5eF-xI4EeunGIjL610y7g">
-        <elements xmi:type="process:StartEvent" xmi:id="_L5eF4xI4EeunGIjL610y7g" name="Inicio1" outgoing="_hf4KYBfaEeuoSd8nCjYXgw">
+        <elements xmi:type="process:StartEvent" xmi:id="_L5eF4xI4EeunGIjL610y7g" name="Inicio1" outgoing="_baw6IBr3Eeu2BsnY9IUACQ">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_L5eF5BI4EeunGIjL610y7g" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_L5eF5RI4EeunGIjL610y7g" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_L5eF5hI4EeunGIjL610y7g" name="" content="" returnTypeFixed="true"/>
         </elements>
-        <elements xmi:type="process:Task" xmi:id="_goLtYBfaEeuoSd8nCjYXgw" name="ACCIONES" outgoing="_j1aeYBfaEeuoSd8nCjYXgw" incoming="_hf4KYBfaEeuoSd8nCjYXgw _j1aeYBfaEeuoSd8nCjYXgw" overrideActorsOfTheLane="false">
-          <dynamicLabel xmi:type="expression:Expression" xmi:id="_goMUcRfaEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <dynamicDescription xmi:type="expression:Expression" xmi:id="_goMUcBfaEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <stepSummary xmi:type="expression:Expression" xmi:id="_goMUchfaEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <operations xmi:type="expression:Operation" xmi:id="_q7JyCRfaEeuoSd8nCjYXgw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_q7JyChfaEeuoSd8nCjYXgw" name="lstCatReligion" content="lstCatReligion" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_q7JyCxfaEeuoSd8nCjYXgw" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion"/>
+        <elements xmi:type="process:Task" xmi:id="_an0aQBr3Eeu2BsnY9IUACQ" name="ACCIONES" outgoing="_bxvPsBr3Eeu2BsnY9IUACQ" incoming="_baw6IBr3Eeu2BsnY9IUACQ _bxvPsBr3Eeu2BsnY9IUACQ" overrideActorsOfTheLane="false">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_an0aQhr3Eeu2BsnY9IUACQ" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_an0aQRr3Eeu2BsnY9IUACQ" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_an0aQxr3Eeu2BsnY9IUACQ" name="" content="" returnTypeFixed="true"/>
+          <operations xmi:type="expression:Operation" xmi:id="_esNjECf4Eeuw7OapBUU_vQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_esNjESf4Eeuw7OapBUU_vQ" name="lstCatReligion" content="lstCatReligion" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_esNjEif4Eeuw7OapBUU_vQ" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_q7JyDBfaEeuoSd8nCjYXgw" name="lstCatReligionInput" content="def catReligionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatReligionInput.each{&#xD;&#xA;&#x9;//Add CatReligion instance&#xD;&#xA;&#x9;catReligionList.add({ currentCatReligionInput ->&#xD;&#xA;&#x9;&#x9;def catReligionVar = lstCatReligion.find { it.persistenceId.toString() == currentCatReligionInput.persistenceId_string} ?: new com.anahuac.catalogos.CatReligion()&#xD;&#xA;&#x9;&#x9;catReligionVar.descripcion = currentCatReligionInput.descripcion&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaCreacion = currentCatReligionInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catReligionVar.isEliminado = currentCatReligionInput.isEliminado&#xD;&#xA;&#x9;&#x9;catReligionVar.usuarioBanner = currentCatReligionInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaImplementacion = currentCatReligionInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catReligionVar.clave = currentCatReligionInput.clave&#xD;&#xA;&#x9;&#x9;catReligionVar.isEnabled = currentCatReligionInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catReligionVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catReligionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_q7JyDRfaEeuoSd8nCjYXgw" name="lstCatReligionInput" type="COMPLEX" multiple="true"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_q7JyDhfaEeuoSd8nCjYXgw" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_esNjEyf4Eeuw7OapBUU_vQ" name="lstCatReligionInput" content="def catReligionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatReligionInput.each{&#xD;&#xA;&#x9;//Add CatReligion instance&#xD;&#xA;&#x9;catReligionList.add({ currentCatReligionInput ->&#xD;&#xA;&#x9;&#x9;def catReligionVar = lstCatReligion.find { it.persistenceId.toString() == currentCatReligionInput.persistenceId_string} ?: new com.anahuac.catalogos.CatReligion()&#xD;&#xA;&#x9;&#x9;catReligionVar.descripcion = currentCatReligionInput.descripcion&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaCreacion = currentCatReligionInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catReligionVar.isEliminado = currentCatReligionInput.isEliminado&#xD;&#xA;&#x9;&#x9;catReligionVar.usuarioBanner = currentCatReligionInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaImplementacion = currentCatReligionInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catReligionVar.clave = currentCatReligionInput.clave&#xD;&#xA;&#x9;&#x9;catReligionVar.isEnabled = currentCatReligionInput.isEnabled&#xD;&#xA;&#x9;&#x9;catReligionVar.orden = currentCatReligionInput.orden&#xD;&#xA;&#x9;&#x9;return catReligionVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catReligionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_esNjFCf4Eeuw7OapBUU_vQ" name="lstCatReligionInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_esNjFSf4Eeuw7OapBUU_vQ" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_q7JyDxfaEeuoSd8nCjYXgw" type="ASSIGNMENT" expression="addAll">
+            <operator xmi:type="expression:Operator" xmi:id="_esNjFif4Eeuw7OapBUU_vQ" type="ASSIGNMENT" expression="addAll">
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
-          <loopCondition xmi:type="expression:Expression" xmi:id="_goMUcxfaEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
-          <loopMaximum xmi:type="expression:Expression" xmi:id="_goMUdBfaEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
-          <cardinalityExpression xmi:type="expression:Expression" xmi:id="_goMUdRfaEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
-          <iteratorExpression xmi:type="expression:Expression" xmi:id="_goMUdxfaEeuoSd8nCjYXgw" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
-          <completionCondition xmi:type="expression:Expression" xmi:id="_goMUdhfaEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
-          <formMapping xmi:type="process:FormMapping" xmi:id="_goMUeRfaEeuoSd8nCjYXgw">
-            <targetForm xmi:type="expression:Expression" xmi:id="_goMUehfaEeuoSd8nCjYXgw" name="pageAccionesReligion" content="497a8f4a-01aa-4053-ae06-52e651c5d592" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+          <loopCondition xmi:type="expression:Expression" xmi:id="_an0aRBr3Eeu2BsnY9IUACQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+          <loopMaximum xmi:type="expression:Expression" xmi:id="_an0aRRr3Eeu2BsnY9IUACQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+          <cardinalityExpression xmi:type="expression:Expression" xmi:id="_an0aRhr3Eeu2BsnY9IUACQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+          <iteratorExpression xmi:type="expression:Expression" xmi:id="_an0aSBr3Eeu2BsnY9IUACQ" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
+          <completionCondition xmi:type="expression:Expression" xmi:id="_an0aRxr3Eeu2BsnY9IUACQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+          <formMapping xmi:type="process:FormMapping" xmi:id="_an0aShr3Eeu2BsnY9IUACQ">
+            <targetForm xmi:type="expression:Expression" xmi:id="_nxuMQCYaEeuw0PPI3O2yNw" name="pageAccionesReligion" content="8005ea3c-e73f-4182-a309-7cdf1d2ac992" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
-          <contract xmi:type="process:Contract" xmi:id="_goMUeBfaEeuoSd8nCjYXgw">
-            <inputs xmi:type="process:ContractInput" xmi:id="_q7JyABfaEeuoSd8nCjYXgw" name="lstCatReligionInput" type="COMPLEX" multiple="true" dataReference="lstCatReligion" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyARfaEeuoSd8nCjYXgw" name="persistenceId_string" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyAhfaEeuoSd8nCjYXgw" name="descripcion" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyAxfaEeuoSd8nCjYXgw" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyBBfaEeuoSd8nCjYXgw" name="isEliminado" type="BOOLEAN" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyBRfaEeuoSd8nCjYXgw" name="usuarioBanner" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyBhfaEeuoSd8nCjYXgw" name="fechaImplementacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyBxfaEeuoSd8nCjYXgw" name="clave" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_q7JyCBfaEeuoSd8nCjYXgw" name="isEnabled" type="BOOLEAN" createMode="false"/>
+          <contract xmi:type="process:Contract" xmi:id="_an0aSRr3Eeu2BsnY9IUACQ">
+            <inputs xmi:type="process:ContractInput" xmi:id="_esM8ACf4Eeuw7OapBUU_vQ" name="lstCatReligionInput" type="COMPLEX" multiple="true" dataReference="lstCatReligion" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8ASf4Eeuw7OapBUU_vQ" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8Aif4Eeuw7OapBUU_vQ" name="descripcion" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8Ayf4Eeuw7OapBUU_vQ" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8BCf4Eeuw7OapBUU_vQ" name="isEliminado" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8BSf4Eeuw7OapBUU_vQ" name="usuarioBanner" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8Bif4Eeuw7OapBUU_vQ" name="fechaImplementacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8Byf4Eeuw7OapBUU_vQ" name="clave" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8CCf4Eeuw7OapBUU_vQ" name="isEnabled" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_esM8CSf4Eeuw7OapBUU_vQ" name="orden" type="INTEGER" createMode="false"/>
             </inputs>
           </contract>
-          <expectedDuration xmi:type="expression:Expression" xmi:id="_goMUexfaEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
+          <expectedDuration xmi:type="expression:Expression" xmi:id="_an0aTBr3Eeu2BsnY9IUACQ" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <data xmi:type="process:BusinessObjectData" xmi:id="_o_YB0BfaEeuoSd8nCjYXgw" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_9CMlABfcEeuoSd8nCjYXgw" name="initLstCatReligion()" content="def catReligionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatReligionInput.each{&#xD;&#xA;&#x9;//Add a new composed CatReligion instance&#xD;&#xA;&#x9;catReligionList.add({ currentCatReligionInput ->&#xD;&#xA;&#x9;&#x9;def catReligionVar = new com.anahuac.catalogos.CatReligion()&#xD;&#xA;&#x9;&#x9;catReligionVar.descripcion = currentCatReligionInput.descripcion&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaCreacion = currentCatReligionInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catReligionVar.isEliminado = currentCatReligionInput.isEliminado&#xD;&#xA;&#x9;&#x9;catReligionVar.usuarioBanner = currentCatReligionInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaImplementacion = currentCatReligionInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catReligionVar.clave = currentCatReligionInput.clave&#xD;&#xA;&#x9;&#x9;catReligionVar.isEnabled = currentCatReligionInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catReligionVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catReligionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_9CMlARfcEeuoSd8nCjYXgw" name="lstCatReligionInput" type="COMPLEX" multiple="true"/>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_GANLECfyEeuw7OapBUU_vQ" name="lstCatReligion" multiple="true" dataType="_L5eGFBI4EeunGIjL610y7g" className="com.anahuac.catalogos.CatReligion">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_Mh4vaSfyEeuw7OapBUU_vQ" name="initLstCatReligion()" content="def catReligionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatReligionInput.each{&#xD;&#xA;&#x9;//Add a new composed CatReligion instance&#xD;&#xA;&#x9;catReligionList.add({ currentCatReligionInput ->&#xD;&#xA;&#x9;&#x9;def catReligionVar = new com.anahuac.catalogos.CatReligion()&#xD;&#xA;&#x9;&#x9;catReligionVar.descripcion = currentCatReligionInput.descripcion&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaCreacion = currentCatReligionInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catReligionVar.isEliminado = currentCatReligionInput.isEliminado&#xD;&#xA;&#x9;&#x9;catReligionVar.usuarioBanner = currentCatReligionInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catReligionVar.fechaImplementacion = currentCatReligionInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catReligionVar.clave = currentCatReligionInput.clave&#xD;&#xA;&#x9;&#x9;catReligionVar.isEnabled = currentCatReligionInput.isEnabled&#xD;&#xA;&#x9;&#x9;catReligionVar.orden = currentCatReligionInput.orden&#xD;&#xA;&#x9;&#x9;return catReligionVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catReligionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_Mh4vaifyEeuw7OapBUU_vQ" name="lstCatReligionInput" type="COMPLEX" multiple="true"/>
         </defaultValue>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_L5eF9BI4EeunGIjL610y7g">
-        <targetForm xmi:type="expression:Expression" xmi:id="_0y1QgBfUEeuoSd8nCjYXgw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+        <targetForm xmi:type="expression:Expression" xmi:id="_LSVs8CTaEeuPJqzr8QanUQ" name="instanciacionCatReligion" content="400c89bf-8c0f-4a3b-b4a9-160bb397e458" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_L5eF9hI4EeunGIjL610y7g">
         <targetForm xmi:type="expression:Expression" xmi:id="_L5eF9xI4EeunGIjL610y7g" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </overviewFormMapping>
-      <connections xmi:type="process:SequenceFlow" xmi:id="_hf4KYBfaEeuoSd8nCjYXgw" target="_goLtYBfaEeuoSd8nCjYXgw" source="_L5eF4xI4EeunGIjL610y7g">
-        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_hf4KYRfaEeuoSd8nCjYXgw"/>
-        <condition xmi:type="expression:Expression" xmi:id="_hf4KYhfaEeuoSd8nCjYXgw" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_baw6IBr3Eeu2BsnY9IUACQ" target="_an0aQBr3Eeu2BsnY9IUACQ" source="_L5eF4xI4EeunGIjL610y7g">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_baw6IRr3Eeu2BsnY9IUACQ"/>
+        <condition xmi:type="expression:Expression" xmi:id="_baw6Ihr3Eeu2BsnY9IUACQ" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
-      <connections xmi:type="process:SequenceFlow" xmi:id="_j1aeYBfaEeuoSd8nCjYXgw" target="_goLtYBfaEeuoSd8nCjYXgw" source="_goLtYBfaEeuoSd8nCjYXgw">
-        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_j1aeYRfaEeuoSd8nCjYXgw"/>
-        <condition xmi:type="expression:Expression" xmi:id="_j1aeYhfaEeuoSd8nCjYXgw" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_bxvPsBr3Eeu2BsnY9IUACQ" target="_an0aQBr3Eeu2BsnY9IUACQ" source="_an0aQBr3Eeu2BsnY9IUACQ">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_bxvPsRr3Eeu2BsnY9IUACQ"/>
+        <condition xmi:type="expression:Expression" xmi:id="_bxvPshr3Eeu2BsnY9IUACQ" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_L5eF-xI4EeunGIjL610y7g" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
       <contract xmi:type="process:Contract" xmi:id="_L5eF_BI4EeunGIjL610y7g">
-        <inputs xmi:type="process:ContractInput" xmi:id="_9CL98BfcEeuoSd8nCjYXgw" name="lstCatReligionInput" type="COMPLEX" multiple="true" dataReference="lstCatReligion">
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL98RfcEeuoSd8nCjYXgw" name="descripcion"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL98hfcEeuoSd8nCjYXgw" name="fechaCreacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL98xfcEeuoSd8nCjYXgw" name="isEliminado" type="BOOLEAN"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL99BfcEeuoSd8nCjYXgw" name="usuarioBanner"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL99RfcEeuoSd8nCjYXgw" name="fechaImplementacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL99hfcEeuoSd8nCjYXgw" name="clave"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_9CL99xfcEeuoSd8nCjYXgw" name="isEnabled" type="BOOLEAN"/>
+        <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vYCfyEeuw7OapBUU_vQ" name="lstCatReligionInput" type="COMPLEX" multiple="true" dataReference="lstCatReligion">
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vYSfyEeuw7OapBUU_vQ" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vYifyEeuw7OapBUU_vQ" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vYyfyEeuw7OapBUU_vQ" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vZCfyEeuw7OapBUU_vQ" name="usuarioBanner"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vZSfyEeuw7OapBUU_vQ" name="fechaImplementacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vZifyEeuw7OapBUU_vQ" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vZyfyEeuw7OapBUU_vQ" name="isEnabled" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Mh4vaCfyEeuw7OapBUU_vQ" name="orden" type="INTEGER"/>
         </inputs>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_L5eF_RI4EeunGIjL610y7g">
@@ -120,11 +122,11 @@
               <children xmi:type="notation:DecorationNode" xmi:id="_L5eGIBI4EeunGIjL610y7g" type="5024">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_L5eGIRI4EeunGIjL610y7g" y="5"/>
               </children>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L5eGIhI4EeunGIjL610y7g" x="60" y="68"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L5eGIhI4EeunGIjL610y7g" x="60" y="58"/>
             </children>
-            <children xmi:type="notation:Shape" xmi:id="_goNikBfaEeuoSd8nCjYXgw" type="3005" element="_goLtYBfaEeuoSd8nCjYXgw" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
-              <children xmi:type="notation:DecorationNode" xmi:id="_goNikhfaEeuoSd8nCjYXgw" type="5005"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_goNikRfaEeuoSd8nCjYXgw" x="157" y="58"/>
+            <children xmi:type="notation:Shape" xmi:id="_an0aTRr3Eeu2BsnY9IUACQ" type="3005" element="_an0aQBr3Eeu2BsnY9IUACQ" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
+              <children xmi:type="notation:DecorationNode" xmi:id="_an0aTxr3Eeu2BsnY9IUACQ" type="5005"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_an0aThr3Eeu2BsnY9IUACQ" x="156" y="58"/>
             </children>
           </children>
           <styles xmi:type="notation:DescriptionStyle" xmi:id="_L5eGIxI4EeunGIjL610y7g"/>
@@ -141,22 +143,22 @@
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_L5eGLBI4EeunGIjL610y7g" width="1320" height="250"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_L5eGLRI4EeunGIjL610y7g"/>
-    <edges xmi:type="notation:Connector" xmi:id="_hf4xcBfaEeuoSd8nCjYXgw" type="4001" element="_hf4KYBfaEeuoSd8nCjYXgw" source="_L5eGHxI4EeunGIjL610y7g" target="_goNikBfaEeuoSd8nCjYXgw" roundedBendpointsRadius="10" routing="Rectilinear">
-      <children xmi:type="notation:DecorationNode" xmi:id="_hf5YgBfaEeuoSd8nCjYXgw" type="6001">
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_hf5YgRfaEeuoSd8nCjYXgw" y="-10"/>
+    <edges xmi:type="notation:Connector" xmi:id="_bayIQBr3Eeu2BsnY9IUACQ" type="4001" element="_baw6IBr3Eeu2BsnY9IUACQ" source="_L5eGHxI4EeunGIjL610y7g" target="_an0aTRr3Eeu2BsnY9IUACQ" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_bayIQxr3Eeu2BsnY9IUACQ" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_bayIRBr3Eeu2BsnY9IUACQ" y="-10"/>
       </children>
-      <styles xmi:type="notation:FontStyle" xmi:id="_hf4xcRfaEeuoSd8nCjYXgw" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_hf4xchfaEeuoSd8nCjYXgw" points="[-1, -14, -145, -4]$[67, -14, -77, -4]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_hf70wBfaEeuoSd8nCjYXgw" id="(1.0,0.9333333333333333)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_hf70wRfaEeuoSd8nCjYXgw" id="(0.77,0.56)"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_bayIQRr3Eeu2BsnY9IUACQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_bayIQhr3Eeu2BsnY9IUACQ" points="[-1, -15, -127, 13]$[132, -38, 6, -10]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ba0kgBr3Eeu2BsnY9IUACQ" id="(1.0,0.9333333333333333)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_ba0kgRr3Eeu2BsnY9IUACQ" id="(0.6,0.2)"/>
     </edges>
-    <edges xmi:type="notation:Connector" xmi:id="_j1bFcBfaEeuoSd8nCjYXgw" type="4001" element="_j1aeYBfaEeuoSd8nCjYXgw" source="_goNikBfaEeuoSd8nCjYXgw" target="_goNikBfaEeuoSd8nCjYXgw" roundedBendpointsRadius="10" routing="Rectilinear">
-      <children xmi:type="notation:DecorationNode" xmi:id="_j1bsgBfaEeuoSd8nCjYXgw" type="6001">
-        <layoutConstraint xmi:type="notation:Location" xmi:id="_j1bsgRfaEeuoSd8nCjYXgw" y="-10"/>
+    <edges xmi:type="notation:Connector" xmi:id="_bxvPsxr3Eeu2BsnY9IUACQ" type="4001" element="_bxvPsBr3Eeu2BsnY9IUACQ" source="_an0aTRr3Eeu2BsnY9IUACQ" target="_an0aTRr3Eeu2BsnY9IUACQ" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_bxvPthr3Eeu2BsnY9IUACQ" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_bxvPtxr3Eeu2BsnY9IUACQ" y="-10"/>
       </children>
-      <styles xmi:type="notation:FontStyle" xmi:id="_j1bFcRfaEeuoSd8nCjYXgw" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_j1bFchfaEeuoSd8nCjYXgw" points="[0, -10, 50, 1]$[62, -10, 112, 1]$[62, 76, 112, 87]$[-44, 76, 6, 87]$[-44, 14, 6, 25]"/>
-      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_j1eIwBfaEeuoSd8nCjYXgw" id="(1.0,0.72)"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_bxvPtBr3Eeu2BsnY9IUACQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_bxvPtRr3Eeu2BsnY9IUACQ" points="[0, -9, 50, 1]$[62, -9, 112, 1]$[62, 77, 112, 87]$[-51, 77, -1, 87]$[-51, 15, -1, 25]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_bx1WUBr3Eeu2BsnY9IUACQ" id="(1.0,0.7)"/>
     </edges>
   </notation:Diagram>
 </xmi:XMI>

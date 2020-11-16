@@ -1,13 +1,15 @@
+
+        <label ng-if="!properties.labelHidden"
+            ng-class="{ 'control-label--required': properties.required }"
+            class="control-label " ng-bind-html="properties.label | uiTranslate">
+        </label>
+        <span ng-click="cambioCheck()" ng-class="properties.variableCheck===false? 'glyphicon glyphicon-eye-close' : 'glyphicon glyphicon-eye-open'" aria-hidden="true"></span>
+
 <div ng-class="{
     'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,
     'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden
     }">
     <div class="form-group">
-        <label
-            ng-if="!properties.labelHidden"
-            ng-class="{ 'control-label--required': properties.required }"
-            class="control-label col-xs-{{ !properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 12 }}" ng-bind-html="properties.label | uiTranslate">
-        </label>
         <div class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
             <input
                 type="{{properties.type}}"

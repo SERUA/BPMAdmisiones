@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatBachillerato",
   "name" : "CatBachillerato",
-  "lastUpdate" : 1605132605925,
+  "lastUpdate" : 1605481711217,
   "rows" : [
     [
       {
@@ -2502,7 +2502,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "formInput.lstCatPreparatoriaInput[0].perteneceRed"
+                          "value" : "formInput.lstCatBachilleratosInput[0].perteneceRed"
                         }
                       },
                       "reference" : "fc801984-f4b4-4c43-b37b-7c5768cc94bb",
@@ -2632,7 +2632,7 @@
                               "xs" : 12,
                               "sm" : 12,
                               "md" : 6,
-                              "lg" : 6
+                              "lg" : 4
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -2673,12 +2673,12 @@
                             "id" : "customBtnValues"
                           },
                           {
-                            "type" : "component",
+                            "type" : "container",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
                               "md" : 6,
-                              "lg" : 6
+                              "lg" : 4
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -2689,66 +2689,192 @@
                                 "type" : "constant",
                                 "value" : false
                               },
-                              "disabled" : {
-                                "type" : "expression",
-                                "value" : "!otrasVariables.Validado"
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Guardar"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "left"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "success"
-                              },
-                              "contenido" : {
+                              "repeatedCollection" : {
                                 "type" : "variable",
-                                "value" : "lstCatBachillerato"
-                              },
-                              "userId" : {
-                                "type" : "variable",
-                                "value" : "userData.user_id"
-                              },
-                              "taskId" : {
-                                "type" : "variable",
-                                "value" : "objTaskInformation[0].id"
-                              },
-                              "dataToSend" : {
-                                "type" : "variable",
-                                "value" : "formOutput"
-                              },
-                              "urlConsulta" : {
-                                "type" : "interpolation",
-                                "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=getCatBachilleratos&p=0&c=9999"
-                              },
-                              "objTaskInformation" : {
-                                "type" : "variable",
-                                "value" : "objTaskInformation"
-                              },
-                              "urlTaskInformation" : {
-                                "type" : "interpolation",
-                                "value" : "/bonita/API/bpm/task?p=0&c=10&f=caseId={{objCaseInformation[0].id}}&f=isFailed%3dfalse"
-                              },
-                              "nuevosValores" : {
-                                "type" : "variable",
-                                "value" : "formInput.lstCatBachilleratosInput"
-                              },
-                              "isModificacion" : {
-                                "type" : "variable",
-                                "value" : "otrasVariables.isModificacion"
-                              },
-                              "index" : {
-                                "type" : "variable",
-                                "value" : "otrasVariables.index"
+                                "value" : ""
                               }
                             },
-                            "reference" : "3a5981f4-5fa2-4807-ba48-8fd465a1728f",
+                            "reference" : "dd8fb510-9b40-4d8f-9c51-36355c579ce6",
                             "hasValidationError" : false,
-                            "id" : "customBtnGuardarPreparatoria"
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "taskId == undefined"
+                                    },
+                                    "disabled" : {
+                                      "type" : "expression",
+                                      "value" : "!otrasVariables.Validado"
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Guardar"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "success"
+                                    },
+                                    "contenido" : {
+                                      "type" : "variable",
+                                      "value" : "lstCatBachillerato"
+                                    },
+                                    "userId" : {
+                                      "type" : "variable",
+                                      "value" : "userData.user_id"
+                                    },
+                                    "taskId" : {
+                                      "type" : "variable",
+                                      "value" : "objTaskInformation[0].id"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "variable",
+                                      "value" : "formOutput"
+                                    },
+                                    "urlConsulta" : {
+                                      "type" : "interpolation",
+                                      "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=getCatBachilleratos&p=0&c=9999"
+                                    },
+                                    "objTaskInformation" : {
+                                      "type" : "variable",
+                                      "value" : "objTaskInformation"
+                                    },
+                                    "urlTaskInformation" : {
+                                      "type" : "interpolation",
+                                      "value" : "/bonita/API/bpm/task?p=0&c=10&f=caseId={{objCaseInformation[0].id}}&f=isFailed%3dfalse"
+                                    },
+                                    "nuevosValores" : {
+                                      "type" : "variable",
+                                      "value" : "formInput.lstCatBachilleratosInput"
+                                    },
+                                    "isModificacion" : {
+                                      "type" : "variable",
+                                      "value" : "otrasVariables.isModificacion"
+                                    },
+                                    "index" : {
+                                      "type" : "variable",
+                                      "value" : "otrasVariables.index"
+                                    }
+                                  },
+                                  "reference" : "3a5981f4-5fa2-4807-ba48-8fd465a1728f",
+                                  "hasValidationError" : false,
+                                  "id" : "customBtnGuardarPreparatoria"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "taskId  != undefined"
+                                    },
+                                    "disabled" : {
+                                      "type" : "expression",
+                                      "value" : "!otrasVariables.Validado"
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Guardar"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "left"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "success"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "POST"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "{{processUrl}}"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "expression",
+                                      "value" : "formOutput"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    },
+                                    "formInput" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    }
+                                  },
+                                  "reference" : "49e24e23-09e4-45e4-add5-a4f665f5fccd",
+                                  "hasValidationError" : false,
+                                  "id" : "customBtnGenericInstancia"
+                                }
+                              ]
+                            ]
                           }
                         ]
                       ]
@@ -2930,8 +3056,12 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {",
-        "    \"lstCatBachilleratosInput\":$data.objContrato",
+        "if($data.taskId === undefined){",
+        "    return {lstCatBachilleratosInput: $data.formInput.lstCatBachilleratosInput}",
+        "}else {",
+        "    return {",
+        "\tlstCatBachilleratosInput: $data.objContrato",
+        "    }",
         "}"
       ],
       "exposed" : false
@@ -2949,7 +3079,8 @@
         "        \"isEliminado\":false,",
         "        \"isEnabled\":true,",
         "        \"perteneceRed\":false,",
-        "        \"persistenceId_string\":\"\"",
+        "        \"persistenceId_string\":\"\",",
+        "        \"fechaImportacion\":\"\"",
         "    }]",
         "}"
       ],
@@ -3091,6 +3222,30 @@
         "}",
         "",
         "$data.otrasVariables.Validado = validado;"
+      ],
+      "exposed" : false
+    },
+    "processId" : {
+      "type" : "expression",
+      "value" : [
+        "let value = \"\";\r",
+        "value = $data.processList[0].id;\r",
+        "return value;"
+      ],
+      "exposed" : false
+    },
+    "processList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?p=0&c=1000&o=displayName%20ASC&f=activationState%3dENABLED&f=name=CatBachilleratos"
+      ],
+      "exposed" : false
+    },
+    "processUrl" : {
+      "type" : "expression",
+      "value" : [
+        "let ipBonita = window.location.protocol + \"//\" + window.location.host + \"/bonita\";    \r",
+        "return ipBonita + \"/API/bpm/process/\" + $data.processId + \"/instantiation\";"
       ],
       "exposed" : false
     }

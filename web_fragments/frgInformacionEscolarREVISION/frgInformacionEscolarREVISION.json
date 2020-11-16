@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformacionEscolarREVISION",
   "name" : "frgInformacionEscolarREVISION",
-  "lastUpdate" : 1603922752267,
+  "lastUpdate" : 1605500482593,
   "rows" : [
     [
       {
@@ -24,7 +24,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "DOMICILIO PERMAMENTE"
+            "value" : "<label class=\"color-orange\">Domicilio Permanente</label>"
           },
           "level" : {
             "type" : "constant",
@@ -38,6 +38,65 @@
         "reference" : "d6bee1b5-1b2e-44f0-8480-193e0fd94937",
         "hasValidationError" : false,
         "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Modificar"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "primary"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Submit task"
+          },
+          "variableDestino" : {
+            "type" : "variable",
+            "value" : "selectedIndex"
+          },
+          "variableAcopiar" : {
+            "type" : "variable",
+            "value" : "2"
+          },
+          "OpenModal" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "modalId" : {
+            "type" : "constant"
+          }
+        },
+        "reference" : "9c64c282-4f12-4281-83d4-2bd1cf05d12b",
+        "hasValidationError" : false,
+        "id" : "customButtonSetValor"
       }
     ],
     [
@@ -681,7 +740,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : "formInput.catSolicitudDeAdmisionInput.telefonoCelular"
+            "value" : "formInput.catSolicitudDeAdmisionInput.otroTelefonoContacto"
           },
           "type" : {
             "type" : "constant",
@@ -723,7 +782,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "INFORMACIÓN DE LA PREPARATORIA O BACHILLERATO"
+            "value" : "<label class=\"color-orange\">Información de la preparatoria o bachillerato</label>"
           },
           "level" : {
             "type" : "constant",
@@ -791,7 +850,7 @@
           },
           "displayedKey" : {
             "type" : "constant",
-            "value" : "descripcion"
+            "value" : "nombre"
           },
           "returnedKey" : {
             "type" : "constant",
@@ -799,7 +858,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : "formInput.catSolicitudDeAdmisionInput.catLicenciatura"
+            "value" : "formInput.catSolicitudDeAdmisionInput.catGestionEscolar"
           }
         },
         "reference" : "8c60ada7-1d9e-4005-a65f-450d4d51675c",
@@ -1019,8 +1078,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "mostrarcampus"
           },
           "disabled" : {
             "type" : "constant",
@@ -1130,9 +1189,7 @@
         "reference" : "506563e6-f322-4a4a-ae7f-e90cf7e78041",
         "hasValidationError" : false,
         "id" : "pbSelect"
-      }
-    ],
-    [
+      },
       {
         "type" : "component",
         "dimension" : {
@@ -1147,8 +1204,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "otroBachillerato"
           },
           "required" : {
             "type" : "constant",
@@ -1357,16 +1414,14 @@
         "reference" : "b52b7c96-1460-4f28-ae59-0662dc394889",
         "hasValidationError" : false,
         "id" : "pbInput"
-      }
-    ],
-    [
+      },
       {
         "type" : "component",
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 9
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -1414,7 +1469,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : "formInput.catSolicitudDeAdmisionInput.ciudadPreparatoria"
+            "value" : "datosPreparatoria.ciudadBachillerato"
           },
           "type" : {
             "type" : "constant",
@@ -1441,7 +1496,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 3
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -1558,7 +1613,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Kardex oficial o carta de promedio:"
+                  "value" : "<label class=\"color-orange\">Kardex oficial o carta de promedio:</label>"
                 },
                 "level" : {
                   "type" : "constant",
@@ -1589,15 +1644,16 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "isPDFKardex === \"true\""
                 },
                 "srcType" : {
                   "type" : "constant",
                   "value" : "URL"
                 },
                 "url" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "urlKardex"
                 },
                 "assetName" : {
                   "type" : "constant"
@@ -1626,8 +1682,98 @@
                   "value" : ""
                 },
                 "hidden" : {
+                  "type" : "expression",
+                  "value" : "isImageKardex === \"true\""
+                },
+                "disabled" : {
                   "type" : "constant",
                   "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "<img style=\"width: 160px!important;\" src=\"assets/img/pdf.png?format=text\">"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Open modal"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : "pdf-kardex"
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "0a2d320e-ff52-41df-b500-544ae993d3cf",
+              "hasValidationError" : false,
+              "id" : "pbButton"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -1765,6 +1911,48 @@
       "exposed" : true
     },
     "datosPreparatoria" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "mostrarcampus" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "otroBachillerato" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isPDFKardex" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "urlKardex" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isImageKardex" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "selectedIndex" : {
       "type" : "constant",
       "value" : [
         ""

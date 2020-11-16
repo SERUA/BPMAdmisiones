@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesEgresadoUniversidadAnahuac",
   "name" : "pageAccionesEgresadoUniversidadAnahuac",
-  "lastUpdate" : 1604973816476,
+  "lastUpdate" : 1605478514000,
   "rows" : [
     [
       {
@@ -31,7 +31,7 @@
                 },
                 "level" : {
                   "type" : "constant",
-                  "value" : "Level 1"
+                  "value" : "Level 2"
                 },
                 "cssClasses" : {
                   "type" : "constant",
@@ -39,7 +39,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{ task.displayName }}"
+                  "value" : "Catalogo de Egresados de universidad  Anahuac"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -471,7 +471,7 @@
                                   "value" : "Item"
                                 },
                                 "valueToAdd" : {
-                                  "type" : "expression"
+                                  "type" : "constant"
                                 },
                                 "collectionToModify" : {
                                   "type" : "variable",
@@ -537,91 +537,42 @@
                           "lg" : 12
                         },
                         "propertyValues" : {
-                          "removeItem" : {
-                            "type" : "variable"
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
                           },
                           "hidden" : {
                             "type" : "expression",
                             "value" : "otrasVariables.isModificacion"
                           },
-                          "cssClasses" : {
-                            "type" : "constant",
-                            "value" : ""
-                          },
-                          "buttonStyle" : {
-                            "type" : "constant",
-                            "value" : "primary"
-                          },
-                          "label" : {
-                            "type" : "interpolation",
-                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Add CatEgresadoUniversidadAnahuac"
-                          },
-                          "dataToSend" : {
-                            "type" : "expression"
-                          },
-                          "labelHidden" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "targetUrlOnSuccess" : {
-                            "type" : "interpolation"
-                          },
-                          "collectionPosition" : {
-                            "type" : "constant"
-                          },
-                          "valueToAdd" : {
-                            "type" : "expression",
-                            "value" : "{  \"persistenceId_string\" : \"\",  \"descripcion\" : \"\",  \"clave\" : \"\",  \"usuarioCreacion\" : userData.user_name,  \"isEliminado\" : false, \"fechaCreacion\":getFecha}"
-                          },
-                          "collectionToModify" : {
-                            "type" : "variable",
-                            "value" : "formInput.lstCatEgresadoUniversidadAnahuacInput"
-                          },
-                          "action" : {
-                            "type" : "constant",
-                            "value" : "Add to collection"
-                          },
                           "disabled" : {
                             "type" : "constant",
                             "value" : false
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar Egresado de Universidad Anahuac"
                           },
                           "alignment" : {
                             "type" : "constant",
                             "value" : "left"
                           },
-                          "dimension" : {
+                          "buttonStyle" : {
                             "type" : "constant",
-                            "value" : 12
+                            "value" : "primary"
                           },
-                          "assign" : {
-                            "type" : "constant",
-                            "value" : false
+                          "strJson" : {
+                            "type" : "expression",
+                            "value" : "str"
                           },
-                          "url" : {
-                            "type" : "interpolation"
-                          },
-                          "responseStatusCode" : {
-                            "type" : "variable"
-                          },
-                          "dataFromSuccess" : {
-                            "type" : "variable"
-                          },
-                          "closeOnSuccess" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "dataFromError" : {
-                            "type" : "variable"
-                          },
-                          "modalId" : {
-                            "type" : "constant",
-                            "value" : ""
+                          "dataReset" : {
+                            "type" : "variable",
+                            "value" : "formInput.lstCatEgresadoUniversidadAnahuacInput"
                           }
                         },
-                        "reference" : "c73af72d-2283-4efe-882e-3c6d5dd5a230",
+                        "reference" : "9dbd5e63-469b-4cc9-ba8c-a4cf9a03df46",
                         "hasValidationError" : false,
-                        "id" : "pbButton",
-                        "description" : ""
+                        "id" : "customBtnCollection"
                       }
                     ],
                     [
@@ -639,8 +590,8 @@
                             "value" : ""
                           },
                           "hidden" : {
-                            "type" : "constant",
-                            "value" : false
+                            "type" : "expression",
+                            "value" : "taskId == undefined"
                           },
                           "disabled" : {
                             "type" : "expression",
@@ -702,6 +653,102 @@
                         "reference" : "f787618c-c045-4c68-9739-c481913303c9",
                         "hasValidationError" : false,
                         "id" : "customBtnGuardar"
+                      }
+                    ],
+                    [
+                      {
+                        "type" : "component",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "hidden" : {
+                            "type" : "expression",
+                            "value" : "task != undefined"
+                          },
+                          "disabled" : {
+                            "type" : "expression",
+                            "value" : "!otrasVariables.Validado"
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "Guardar"
+                          },
+                          "alignment" : {
+                            "type" : "constant",
+                            "value" : "center"
+                          },
+                          "buttonStyle" : {
+                            "type" : "constant",
+                            "value" : "default"
+                          },
+                          "action" : {
+                            "type" : "constant",
+                            "value" : "POST"
+                          },
+                          "assign" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "url" : {
+                            "type" : "interpolation",
+                            "value" : "{{processUrl}}"
+                          },
+                          "responseStatusCode" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "dataToSend" : {
+                            "type" : "expression",
+                            "value" : "formOutput"
+                          },
+                          "dataFromSuccess" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "closeOnSuccess" : {
+                            "type" : "constant",
+                            "value" : true
+                          },
+                          "dataFromError" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "targetUrlOnSuccess" : {
+                            "type" : "interpolation"
+                          },
+                          "collectionToModify" : {
+                            "type" : "variable"
+                          },
+                          "modalId" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "collectionPosition" : {
+                            "type" : "constant",
+                            "value" : "Last"
+                          },
+                          "valueToAdd" : {
+                            "type" : "constant"
+                          },
+                          "removeItem" : {
+                            "type" : "variable"
+                          },
+                          "formInput" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "3a7117f0-5a37-4c84-8b74-c3f1508cb0e2",
+                        "hasValidationError" : false,
+                        "id" : "customBtnGenericInstancia"
                       }
                     ],
                     [
@@ -813,6 +860,10 @@
           "dataReset" : {
             "type" : "variable",
             "value" : "formInput.lstCatEgresadoUniversidadAnahuacInput"
+          },
+          "strJson" : {
+            "type" : "expression",
+            "value" : "str"
           }
         },
         "reference" : "4e3253cd-146b-4bf1-a21c-faa59eeb59c5",
@@ -992,17 +1043,17 @@
   ],
   "assets" : [
     {
-      "id" : "f6aa0baf-c542-46fc-b27b-5a509ea4410f",
-      "name" : "jquery.min.js",
-      "type" : "js",
-      "order" : 1,
-      "external" : false
-    },
-    {
       "id" : "0d3e3558-8f96-4d29-b9d3-65b59b831177",
       "name" : "bootstrap.min.js",
       "type" : "js",
       "order" : 2,
+      "external" : false
+    },
+    {
+      "id" : "f6aa0baf-c542-46fc-b27b-5a509ea4410f",
+      "name" : "jquery.min.js",
+      "type" : "js",
+      "order" : 1,
       "external" : false
     },
     {
@@ -1047,8 +1098,13 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {",
+        "",
+        "if($data.taskId === undefined){",
+        "    return {lstCatEgresadoUniversidadAnahuacInput: $data.formInput.lstCatEgresadoUniversidadAnahuacInput}",
+        "}else {",
+        "    return {",
         "\tlstCatEgresadoUniversidadAnahuacInput: $data.objContrato",
+        "    }",
         "}"
       ],
       "exposed" : false
@@ -1128,10 +1184,11 @@
         "            validado = false;",
         "        }else if(element.descripcion.trim()===\"\"){",
         "            validado = false;",
-        "        }else if(element.fechaCreacion.trim()===\"\" || element.fechaCreacion.trim().length <19){",
+        "        }else if(element.fechaCreacion.trim()===\"\"){",
         "            validado = false;",
-        "        } else if(element.usuarioCreacion.trim()===\"\"){",
-        "            validado = false;",
+        "            element.fechaCreacion = $data.getFecha;",
+        "        }else if(element.usuarioCreacion.trim()===\"\"){",
+        "            element.usuarioCreacion = $data.userData.user_name;",
         "        }",
         "    });  ",
         "}else{",
@@ -1155,10 +1212,48 @@
         "return isoLocal;"
       ],
       "exposed" : false
+    },
+    "str" : {
+      "type" : "constant",
+      "value" : [
+        "{  \"persistenceId_string\" : \"\",  \"descripcion\" : \"\",  \"clave\" : \"\",  \"usuarioCreacion\" : \"\",  \"isEliminado\" : false, \"fechaCreacion\":\"\"}"
+      ],
+      "exposed" : false
+    },
+    "processId" : {
+      "type" : "expression",
+      "value" : [
+        "let value = \"\";\r",
+        " value = $data.processList[0].id;\r",
+        "return value;"
+      ],
+      "exposed" : false
+    },
+    "processUrl" : {
+      "type" : "expression",
+      "value" : [
+        "let ipBonita = window.location.protocol + \"//\" + window.location.host + \"/bonita\";    \r",
+        "return ipBonita + \"/API/bpm/process/\" + $data.processId + \"/instantiation\";"
+      ],
+      "exposed" : false
+    },
+    "processList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?p=0&c=1000&o=displayName%20ASC&f=activationState%3dENABLED&f=name=CatEgresadoUniversidadAnahuac"
+      ],
+      "exposed" : false
+    },
+    "humanTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/humanTask?p=0&c=100&f=processId={{processid}}"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "09115584-13ed-4f81-94ba-c1b6a3821894",
-  "type" : "form",
+  "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

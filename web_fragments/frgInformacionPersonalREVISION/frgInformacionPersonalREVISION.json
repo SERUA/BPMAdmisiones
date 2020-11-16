@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformacionPersonalREVISION",
   "name" : "frgInformacionPersonalREVISION",
-  "lastUpdate" : 1603922752274,
+  "lastUpdate" : 1605500482602,
   "rows" : [
     [
       {
@@ -24,11 +24,11 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "Información personal"
+            "value" : "<label class=\"color-orange\">Información personal</label>"
           },
           "level" : {
             "type" : "constant",
-            "value" : "Level 4"
+            "value" : "Level 3"
           },
           "alignment" : {
             "type" : "constant",
@@ -38,6 +38,65 @@
         "reference" : "74e9d894-b730-4333-8346-4225c75c171c",
         "hasValidationError" : false,
         "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Modificar"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "primary"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Submit task"
+          },
+          "variableDestino" : {
+            "type" : "variable",
+            "value" : "selectedIndex"
+          },
+          "variableAcopiar" : {
+            "type" : "variable",
+            "value" : "1"
+          },
+          "OpenModal" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "modalId" : {
+            "type" : "constant"
+          }
+        },
+        "reference" : "e13a7c5e-1a4e-476e-befe-44ced04e2502",
+        "hasValidationError" : false,
+        "id" : "customButtonSetValor"
       }
     ],
     [
@@ -150,10 +209,11 @@
                       },
                       "srcType" : {
                         "type" : "constant",
-                        "value" : "Asset"
+                        "value" : "URL"
                       },
                       "url" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "urlretorno"
                       },
                       "assetName" : {
                         "type" : "expression",
@@ -184,7 +244,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -337,15 +397,16 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "isPDF === \"true\""
                       },
                       "srcType" : {
                         "type" : "constant",
                         "value" : "URL"
                       },
                       "url" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "urlActa"
                       },
                       "assetName" : {
                         "type" : "constant"
@@ -374,8 +435,98 @@
                         "value" : ""
                       },
                       "hidden" : {
+                        "type" : "expression",
+                        "value" : "isImagen === \"true\""
+                      },
+                      "disabled" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "<img style=\"width: 160px!important;\" src=\"assets/img/pdf.png?format=text\">"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "info"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Open modal"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "constant"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable"
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : "pdf-acta"
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "Last"
+                      },
+                      "valueToAdd" : {
+                        "type" : "constant"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      }
+                    },
+                    "reference" : "9a3badce-c69b-4542-8ebf-f573920056c6",
+                    "hasValidationError" : false,
+                    "id" : "pbButton"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -1115,8 +1266,8 @@
             "value" : ""
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "mostrarCURP"
           },
           "required" : {
             "type" : "constant",
@@ -1190,8 +1341,83 @@
             "value" : ""
           },
           "hidden" : {
+            "type" : "expression",
+            "value" : "showId"
+          },
+          "required" : {
             "type" : "constant",
             "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "readOnly" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "ID:"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "formInput.catSolicitudDeAdmisionInput.curp"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "b977ee5b-eb3b-4861-a220-7c96ccdd1f30",
+        "hasValidationError" : false,
+        "id" : "pbInput"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
           },
           "required" : {
             "type" : "constant",
@@ -1285,6 +1511,86 @@
       "exposed" : true
     },
     "catEstadoCivil" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "urlretorno" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isPDF" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "urlActa" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isImagen" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "mostrarCURP" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catNacionalidad.length; x++) {\r",
+        "    if ($data.formInput.catSolicitudDeAdmisionInput.catNacionalidad === undefined || $data.formInput.catSolicitudDeAdmisionInput.catNacionalidad === null) {\r",
+        "        mostrar = true;\r",
+        "    } else {\r",
+        "        if ($data.catNacionalidad[x].persistenceId === $data.formInput.catSolicitudDeAdmisionInput.catNacionalidad.persistenceId) {\r",
+        "            if ($data.catNacionalidad[x].descripcion === \"Mexicana\") {\r",
+        "                mostrar = false;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "showId" : {
+      "type" : "expression",
+      "value" : [
+        "\r",
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catNacionalidad.length; x++) {\r",
+        "    if ($data.formInput.catSolicitudDeAdmisionInput.catNacionalidad === undefined || $data.formInput.catSolicitudDeAdmisionInput.catNacionalidad === null) {\r",
+        "        mostrar = true;\r",
+        "    } else {\r",
+        "        if ($data.catNacionalidad[x].persistenceId === $data.formInput.catSolicitudDeAdmisionInput.catNacionalidad.persistenceId) {\r",
+        "            if ($data.catNacionalidad[x].descripcion !== \"Mexicana\") {\r",
+        "                mostrar = false;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "selectedIndex" : {
       "type" : "constant",
       "value" : [
         ""

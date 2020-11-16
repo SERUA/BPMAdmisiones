@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesEstados",
   "name" : "pageAccionesEstados",
-  "lastUpdate" : 1604973442729,
+  "lastUpdate" : 1605478577898,
   "rows" : [
     [
       {
@@ -31,7 +31,7 @@
                 },
                 "level" : {
                   "type" : "constant",
-                  "value" : "Level 1"
+                  "value" : "Level 2"
                 },
                 "cssClasses" : {
                   "type" : "constant",
@@ -39,7 +39,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{ task.displayName }}"
+                  "value" : "Catalogo de Estados"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -423,7 +423,7 @@
                                   "value" : "Item"
                                 },
                                 "valueToAdd" : {
-                                  "type" : "expression"
+                                  "type" : "constant"
                                 },
                                 "collectionToModify" : {
                                   "type" : "variable",
@@ -489,91 +489,42 @@
                           "lg" : 12
                         },
                         "propertyValues" : {
-                          "removeItem" : {
-                            "type" : "variable"
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
                           },
                           "hidden" : {
                             "type" : "expression",
                             "value" : "otrasVariables.isModificacion"
                           },
-                          "cssClasses" : {
-                            "type" : "constant",
-                            "value" : ""
-                          },
-                          "buttonStyle" : {
-                            "type" : "constant",
-                            "value" : "primary"
-                          },
-                          "label" : {
-                            "type" : "interpolation",
-                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Add CatEstados"
-                          },
-                          "dataToSend" : {
-                            "type" : "expression"
-                          },
-                          "labelHidden" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "targetUrlOnSuccess" : {
-                            "type" : "interpolation"
-                          },
-                          "collectionPosition" : {
-                            "type" : "constant"
-                          },
-                          "valueToAdd" : {
-                            "type" : "expression",
-                            "value" : "{  \"persistenceId_string\" : \"\",  \"clave\" : \"\",  \"descripcion\" : \"\",  \"fechaCreacion\":getFecha, \"usuarioCreacion\" : userData.user_name,  \"isEliminado\" : false}"
-                          },
-                          "collectionToModify" : {
-                            "type" : "variable",
-                            "value" : "formInput.lstCatEstadosInput"
-                          },
-                          "action" : {
-                            "type" : "constant",
-                            "value" : "Add to collection"
-                          },
                           "disabled" : {
                             "type" : "constant",
                             "value" : false
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar Estados"
                           },
                           "alignment" : {
                             "type" : "constant",
                             "value" : "left"
                           },
-                          "dimension" : {
+                          "buttonStyle" : {
                             "type" : "constant",
-                            "value" : 12
+                            "value" : "primary"
                           },
-                          "assign" : {
-                            "type" : "constant",
-                            "value" : false
+                          "strJson" : {
+                            "type" : "expression",
+                            "value" : "str"
                           },
-                          "url" : {
-                            "type" : "interpolation"
-                          },
-                          "responseStatusCode" : {
-                            "type" : "variable"
-                          },
-                          "dataFromSuccess" : {
-                            "type" : "variable"
-                          },
-                          "closeOnSuccess" : {
-                            "type" : "constant",
-                            "value" : false
-                          },
-                          "dataFromError" : {
-                            "type" : "variable"
-                          },
-                          "modalId" : {
-                            "type" : "constant",
-                            "value" : ""
+                          "dataReset" : {
+                            "type" : "variable",
+                            "value" : "formInput.lstCatEstadosInput"
                           }
                         },
-                        "reference" : "80c02d80-0417-4eb1-a480-8599ab28dee9",
+                        "reference" : "8dbdca73-a716-4e69-98a9-bcfa302cb72a",
                         "hasValidationError" : false,
-                        "id" : "pbButton",
-                        "description" : ""
+                        "id" : "customBtnCollection"
                       }
                     ],
                     [
@@ -591,8 +542,8 @@
                             "value" : ""
                           },
                           "hidden" : {
-                            "type" : "constant",
-                            "value" : false
+                            "type" : "expression",
+                            "value" : "taskId == undefined"
                           },
                           "disabled" : {
                             "type" : "expression",
@@ -654,6 +605,102 @@
                         "reference" : "e47a890d-70d9-4e66-89f5-a8323ca52fc2",
                         "hasValidationError" : false,
                         "id" : "customBtnGuardar"
+                      }
+                    ],
+                    [
+                      {
+                        "type" : "component",
+                        "dimension" : {
+                          "xs" : 12,
+                          "sm" : 12,
+                          "md" : 12,
+                          "lg" : 12
+                        },
+                        "propertyValues" : {
+                          "cssClasses" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "hidden" : {
+                            "type" : "expression",
+                            "value" : "taskId != undefined"
+                          },
+                          "disabled" : {
+                            "type" : "expression",
+                            "value" : "!otrasVariables.Validado"
+                          },
+                          "label" : {
+                            "type" : "interpolation",
+                            "value" : "Guardar"
+                          },
+                          "alignment" : {
+                            "type" : "constant",
+                            "value" : "center"
+                          },
+                          "buttonStyle" : {
+                            "type" : "constant",
+                            "value" : "success"
+                          },
+                          "action" : {
+                            "type" : "constant",
+                            "value" : "POST"
+                          },
+                          "assign" : {
+                            "type" : "constant",
+                            "value" : false
+                          },
+                          "url" : {
+                            "type" : "interpolation",
+                            "value" : "{{processUrl}}"
+                          },
+                          "responseStatusCode" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "dataToSend" : {
+                            "type" : "expression",
+                            "value" : "formOutput"
+                          },
+                          "dataFromSuccess" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "closeOnSuccess" : {
+                            "type" : "constant",
+                            "value" : true
+                          },
+                          "dataFromError" : {
+                            "type" : "variable",
+                            "value" : ""
+                          },
+                          "targetUrlOnSuccess" : {
+                            "type" : "interpolation"
+                          },
+                          "collectionToModify" : {
+                            "type" : "variable"
+                          },
+                          "modalId" : {
+                            "type" : "constant",
+                            "value" : ""
+                          },
+                          "collectionPosition" : {
+                            "type" : "constant",
+                            "value" : "Last"
+                          },
+                          "valueToAdd" : {
+                            "type" : "constant"
+                          },
+                          "removeItem" : {
+                            "type" : "variable"
+                          },
+                          "formInput" : {
+                            "type" : "variable",
+                            "value" : ""
+                          }
+                        },
+                        "reference" : "2563e205-7920-4cc8-a149-a4cd81df5732",
+                        "hasValidationError" : false,
+                        "id" : "customBtnGenericInstancia"
                       }
                     ],
                     [
@@ -816,7 +863,7 @@
           },
           "seleccion" : {
             "type" : "constant",
-            "value" : true
+            "value" : false
           },
           "modalName" : {
             "type" : "constant",
@@ -825,6 +872,10 @@
           "dataReset" : {
             "type" : "variable",
             "value" : "formInput.lstCatEstadosInput"
+          },
+          "strJson" : {
+            "type" : "expression",
+            "value" : "str"
           }
         },
         "reference" : "3f58848d-af86-49fc-8986-0350964d70a8",
@@ -1004,6 +1055,13 @@
   ],
   "assets" : [
     {
+      "id" : "49818c87-6c90-43a0-bf33-ac09b2a61dac",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
       "id" : "62509d86-f89f-4a6d-8c7e-749928c10957",
       "name" : "bootstrap.min.js",
       "type" : "js",
@@ -1022,13 +1080,6 @@
       "name" : "jquery.min.js",
       "type" : "js",
       "order" : 1,
-      "external" : false
-    },
-    {
-      "id" : "49818c87-6c90-43a0-bf33-ac09b2a61dac",
-      "name" : "localization.json",
-      "type" : "json",
-      "order" : 0,
       "external" : false
     }
   ],
@@ -1059,8 +1110,12 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {",
+        "if($data.taskId === undefined){",
+        "    return {lstCatEstadosInput: $data.formInput.lstCatEstadosInput}",
+        "}else {",
+        "    return {",
         "\tlstCatEstadosInput: $data.objContrato",
+        "    }",
         "}"
       ],
       "exposed" : false
@@ -1145,8 +1200,10 @@
         "            validado = false;",
         "        }else if(element.fechaCreacion.trim()===\"\" || element.fechaCreacion.trim().length <19){",
         "            validado = false;",
+        "            element.fechaCreacion = $data.getFecha;",
         "        } else if(element.usuarioCreacion.trim()===\"\"){",
         "            validado = false;",
+        "            element.usuarioCreacion = $data.userData.user_name;",
         "        }",
         "    });  ",
         "}else{",
@@ -1170,10 +1227,41 @@
         "return isoLocal;"
       ],
       "exposed" : false
+    },
+    "str" : {
+      "type" : "constant",
+      "value" : [
+        "{  \"persistenceId_string\" : \"\",  \"clave\" : \"\",  \"descripcion\" : \"\",  \"fechaCreacion\":\"\", \"usuarioCreacion\" : \"\",  \"isEliminado\" : false}"
+      ],
+      "exposed" : false
+    },
+    "processId" : {
+      "type" : "expression",
+      "value" : [
+        "let value = \"\";\r",
+        "value = $data.processList[0].id;\r",
+        "return value;"
+      ],
+      "exposed" : false
+    },
+    "processUrl" : {
+      "type" : "expression",
+      "value" : [
+        "let ipBonita = window.location.protocol + \"//\" + window.location.host + \"/bonita\";    \r",
+        "return ipBonita + \"/API/bpm/process/\" + $data.processId + \"/instantiation\";"
+      ],
+      "exposed" : false
+    },
+    "processList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?p=0&c=1000&o=displayName%20ASC&f=activationState%3dENABLED&f=name=CatEstados"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
   "uuid" : "becee43b-bcfa-4dc3-9b89-6f46b452c9d2",
-  "type" : "form",
+  "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

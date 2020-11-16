@@ -18,6 +18,7 @@ function PbButtonCtrl($scope, $http,  modalService) {
                //console.log($scope.properties.contenido)
                 $scope.properties.nuevosValores = [];
             }else{
+                $scope.properties.contenido[$scope.properties.index].orden = $scope.properties.nuevosValores[0].orden;
                 $scope.properties.contenido[$scope.properties.index].clave = $scope.properties.nuevosValores[0].clave;
                 $scope.properties.contenido[$scope.properties.index].descripcion = $scope.properties.nuevosValores[0].descripcion;
                 $scope.properties.contenido[$scope.properties.index].pais = $scope.properties.nuevosValores[0].pais;

@@ -8,8 +8,10 @@ import org.bonitasoft.web.extension.rest.RestApiResponse
 import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
+import com.anahuac.rest.api.DAO.ArchivosDAO
+import com.anahuac.rest.api.DAO.ConectaDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
+import com.anahuac.rest.api.DAO.MailGunDAO
 import com.anahuac.rest.api.DAO.TestDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
@@ -48,6 +50,9 @@ class Index implements RestApiController {
 		TestDAO dao =  new TestDAO();
 		ListadoDAO lDao = new ListadoDAO();
 		UsuariosDAO uDAO = new UsuariosDAO();
+		ArchivosDAO aDAO = new ArchivosDAO();
+		MailGunDAO  mgDAO = new MailGunDAO();
+		ConectaDAO cDAO = new ConectaDAO();
 		
 		//MAPEO DE SERVICIOS==================================================
 		try {
@@ -63,6 +68,21 @@ class Index implements RestApiController {
 					break;
 				case "RegistrarUsuario":
 					result =  uDAO.postRegistrarUsuario(parameterP, parameterC, jsonData, context);
+					break;
+				case "encode":
+					result =  aDAO.base64Encode(parameterP, parameterC, jsonData, context);
+					break;
+				case "decode":
+					result =  aDAO.base64Decode(parameterP, parameterC, jsonData, context);
+					break;
+				case "recuparaPassword":
+					result =  uDAO.postRecuperarPassword(parameterP, parameterC, jsonData, context);
+					break;
+				case "sendEmail":
+					result = mgDAO.sendEmail(parameterP, parameterC, jsonData, context);
+					break;
+				case "ejecutarEsperarPago":
+					result = cDAO.ejecutarEsperarPago(parameterP, parameterC, jsonData, context);
 					break;
 				default:
 					result = notFound(url);
