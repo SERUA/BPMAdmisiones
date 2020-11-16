@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_AEeGkBMkEeurjcAwXjlxVw" name="CatBachilleratos" author="pc" bonitaVersion="7.11.2" bonitaModelVersion="7.11.1-001" configId="ACED000574002243617442616368696C6C657261746F73372E31312E312D303031372E31312E327370">
     <elements xmi:type="process:Pool" xmi:id="_AEetoBMkEeurjcAwXjlxVw" name="CatBachilleratos">
-      <elements xmi:type="process:Lane" xmi:id="_AEetoRMkEeurjcAwXjlxVw" name="Employee lane" actor="_AEetuhMkEeurjcAwXjlxVw">
+      <elements xmi:type="process:Lane" xmi:id="_AEetoRMkEeurjcAwXjlxVw" name="Administrador" actor="_AEetuhMkEeurjcAwXjlxVw">
         <elements xmi:type="process:StartEvent" xmi:id="_AEetohMkEeurjcAwXjlxVw" name="Start1" outgoing="_BMsRMCLuEeu8IcpgNV1P9w">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_AEetoxMkEeurjcAwXjlxVw" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_AEetpBMkEeurjcAwXjlxVw" name="" content="" returnTypeFixed="true"/>
@@ -12,15 +12,15 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_-mWhECLtEeu8IcpgNV1P9w" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_-mV6ACLtEeu8IcpgNV1P9w" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_-mWhESLtEeu8IcpgNV1P9w" name="" content="" returnTypeFixed="true"/>
-          <operations xmi:type="expression:Operation" xmi:id="_DNo_0CLvEeu8IcpgNV1P9w">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_DNo_0SLvEeu8IcpgNV1P9w" name="lstCatBachilleratos" content="lstCatBachilleratos" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_DNo_0iLvEeu8IcpgNV1P9w" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos"/>
+          <operations xmi:type="expression:Operation" xmi:id="_2HiRnSeWEeuj9Mn6TlEnsw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_2HiRnieWEeuj9Mn6TlEnsw" name="lstCatBachilleratos" content="lstCatBachilleratos" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2HiRnyeWEeuj9Mn6TlEnsw" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_DNo_0yLvEeu8IcpgNV1P9w" name="lstCatBachilleratosInput" content="def catBachilleratosList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatBachilleratosInput.each{&#xD;&#xA;&#x9;//Add CatBachilleratos instance&#xD;&#xA;&#x9;catBachilleratosList.add({ currentCatBachilleratosInput ->&#xD;&#xA;&#x9;&#x9;def catBachilleratosVar = lstCatBachilleratos.find { it.persistenceId.toString() == currentCatBachilleratosInput.persistenceId_string} ?: new com.anahuac.catalogos.CatBachilleratos()&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.clave = currentCatBachilleratosInput.clave&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.descripcion = currentCatBachilleratosInput.descripcion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.pais = currentCatBachilleratosInput.pais&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.estado = currentCatBachilleratosInput.estado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.ciudad = currentCatBachilleratosInput.ciudad&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEliminado = currentCatBachilleratosInput.isEliminado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaCreacion = currentCatBachilleratosInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.usuarioBanner = currentCatBachilleratosInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEnabled = currentCatBachilleratosInput.isEnabled&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.perteneceRed = currentCatBachilleratosInput.perteneceRed&#xD;&#xA;&#x9;&#x9;return catBachilleratosVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catBachilleratosList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_DNo_1CLvEeu8IcpgNV1P9w" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_DNo_1SLvEeu8IcpgNV1P9w" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_2HiRoCeWEeuj9Mn6TlEnsw" name="lstCatBachilleratosInput" content="def catBachilleratosList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatBachilleratosInput.each{&#xD;&#xA;&#x9;//Add CatBachilleratos instance&#xD;&#xA;&#x9;catBachilleratosList.add({ currentCatBachilleratosInput ->&#xD;&#xA;&#x9;&#x9;def catBachilleratosVar = lstCatBachilleratos.find { it.persistenceId.toString() == currentCatBachilleratosInput.persistenceId_string} ?: new com.anahuac.catalogos.CatBachilleratos()&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.clave = currentCatBachilleratosInput.clave&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.descripcion = currentCatBachilleratosInput.descripcion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.pais = currentCatBachilleratosInput.pais&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.estado = currentCatBachilleratosInput.estado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.ciudad = currentCatBachilleratosInput.ciudad&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEliminado = currentCatBachilleratosInput.isEliminado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaCreacion = currentCatBachilleratosInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.usuarioBanner = currentCatBachilleratosInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEnabled = currentCatBachilleratosInput.isEnabled&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.perteneceRed = currentCatBachilleratosInput.perteneceRed&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaImportacion = currentCatBachilleratosInput.fechaImportacion&#xD;&#xA;&#x9;&#x9;return catBachilleratosVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catBachilleratosList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_2HiRoSeWEeuj9Mn6TlEnsw" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2HiRoieWEeuj9Mn6TlEnsw" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_DNo_1iLvEeu8IcpgNV1P9w" type="ASSIGNMENT" expression="addAll">
+            <operator xmi:type="expression:Operator" xmi:id="_2HiRoyeWEeuj9Mn6TlEnsw" type="ASSIGNMENT" expression="addAll">
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
@@ -30,33 +30,34 @@
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_-mXIICLtEeu8IcpgNV1P9w" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_-mWhFSLtEeu8IcpgNV1P9w" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_-mXIIiLtEeu8IcpgNV1P9w">
-            <targetForm xmi:type="expression:Expression" xmi:id="_VLp6ACLuEeu8IcpgNV1P9w" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_Vb5h0CeWEeuj9Mn6TlEnsw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <contract xmi:type="process:Contract" xmi:id="_-mXIISLtEeu8IcpgNV1P9w">
-            <inputs xmi:type="process:ContractInput" xmi:id="_DNoYwCLvEeu8IcpgNV1P9w" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true" dataReference="lstCatBachilleratos" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYwSLvEeu8IcpgNV1P9w" name="persistenceId_string" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYwiLvEeu8IcpgNV1P9w" name="clave" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYwyLvEeu8IcpgNV1P9w" name="descripcion" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYxCLvEeu8IcpgNV1P9w" name="pais" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYxSLvEeu8IcpgNV1P9w" name="estado" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYxiLvEeu8IcpgNV1P9w" name="ciudad" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYxyLvEeu8IcpgNV1P9w" name="isEliminado" type="BOOLEAN" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYyCLvEeu8IcpgNV1P9w" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYySLvEeu8IcpgNV1P9w" name="usuarioBanner" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYyiLvEeu8IcpgNV1P9w" name="isEnabled" type="BOOLEAN" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_DNoYyyLvEeu8IcpgNV1P9w" name="perteneceRed" type="BOOLEAN" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_2HiRkCeWEeuj9Mn6TlEnsw" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true" dataReference="lstCatBachilleratos" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRkSeWEeuj9Mn6TlEnsw" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRkieWEeuj9Mn6TlEnsw" name="clave" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRkyeWEeuj9Mn6TlEnsw" name="descripcion" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRlCeWEeuj9Mn6TlEnsw" name="pais" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRlSeWEeuj9Mn6TlEnsw" name="estado" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRlieWEeuj9Mn6TlEnsw" name="ciudad" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRlyeWEeuj9Mn6TlEnsw" name="isEliminado" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRmCeWEeuj9Mn6TlEnsw" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRmSeWEeuj9Mn6TlEnsw" name="usuarioBanner" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRmieWEeuj9Mn6TlEnsw" name="isEnabled" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRmyeWEeuj9Mn6TlEnsw" name="perteneceRed" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_2HiRnCeWEeuj9Mn6TlEnsw" name="fechaImportacion" type="LOCALDATETIME" createMode="false"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_-mXvMCLtEeu8IcpgNV1P9w" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <data xmi:type="process:BusinessObjectData" xmi:id="_9dhbUCLuEeu8IcpgNV1P9w" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_AAhjmyLvEeu8IcpgNV1P9w" name="initLstCatBachilleratos()" content="def catBachilleratosList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatBachilleratosInput.each{&#xD;&#xA;&#x9;//Add a new composed CatBachilleratos instance&#xD;&#xA;&#x9;catBachilleratosList.add({ currentCatBachilleratosInput ->&#xD;&#xA;&#x9;&#x9;def catBachilleratosVar = new com.anahuac.catalogos.CatBachilleratos()&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.clave = currentCatBachilleratosInput.clave&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.descripcion = currentCatBachilleratosInput.descripcion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.pais = currentCatBachilleratosInput.pais&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.estado = currentCatBachilleratosInput.estado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.ciudad = currentCatBachilleratosInput.ciudad&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEliminado = currentCatBachilleratosInput.isEliminado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaCreacion = currentCatBachilleratosInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.usuarioBanner = currentCatBachilleratosInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEnabled = currentCatBachilleratosInput.isEnabled&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.perteneceRed = currentCatBachilleratosInput.perteneceRed&#xD;&#xA;&#x9;&#x9;return catBachilleratosVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catBachilleratosList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_AAhjnCLvEeu8IcpgNV1P9w" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true"/>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_z9pM4CeWEeuj9Mn6TlEnsw" name="lstCatBachilleratos" multiple="true" dataType="_AEet0xMkEeurjcAwXjlxVw" className="com.anahuac.catalogos.CatBachilleratos">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_1F1kDCeWEeuj9Mn6TlEnsw" name="initLstCatBachilleratos()" content="def catBachilleratosList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatBachilleratosInput.each{&#xD;&#xA;&#x9;//Add a new composed CatBachilleratos instance&#xD;&#xA;&#x9;catBachilleratosList.add({ currentCatBachilleratosInput ->&#xD;&#xA;&#x9;&#x9;def catBachilleratosVar = new com.anahuac.catalogos.CatBachilleratos()&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.clave = currentCatBachilleratosInput.clave&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.descripcion = currentCatBachilleratosInput.descripcion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.pais = currentCatBachilleratosInput.pais&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.estado = currentCatBachilleratosInput.estado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.ciudad = currentCatBachilleratosInput.ciudad&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEliminado = currentCatBachilleratosInput.isEliminado&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaCreacion = currentCatBachilleratosInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.usuarioBanner = currentCatBachilleratosInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.isEnabled = currentCatBachilleratosInput.isEnabled&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.perteneceRed = currentCatBachilleratosInput.perteneceRed&#xD;&#xA;&#x9;&#x9;catBachilleratosVar.fechaImportacion = currentCatBachilleratosInput.fechaImportacion&#xD;&#xA;&#x9;&#x9;return catBachilleratosVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catBachilleratosList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_1F1kDSeWEeuj9Mn6TlEnsw" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true"/>
         </defaultValue>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_AEetsxMkEeurjcAwXjlxVw">
-        <targetForm xmi:type="expression:Expression" xmi:id="_VLp6ASLuEeu8IcpgNV1P9w" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+        <targetForm xmi:type="expression:Expression" xmi:id="_Vb5h0SeWEeuj9Mn6TlEnsw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_AEettRMkEeurjcAwXjlxVw">
         <targetForm xmi:type="expression:Expression" xmi:id="_AEetthMkEeurjcAwXjlxVw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
@@ -71,17 +72,18 @@
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_AEetuhMkEeurjcAwXjlxVw" documentation="This is an example of actor that is mapped to any ACME users" name="Employee actor" initiator="true"/>
       <contract xmi:type="process:Contract" xmi:id="_AEetuxMkEeurjcAwXjlxVw">
-        <inputs xmi:type="process:ContractInput" xmi:id="_AAhjkCLvEeu8IcpgNV1P9w" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true" dataReference="lstCatBachilleratos">
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjkSLvEeu8IcpgNV1P9w" name="clave"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjkiLvEeu8IcpgNV1P9w" name="descripcion"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjkyLvEeu8IcpgNV1P9w" name="pais"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjlCLvEeu8IcpgNV1P9w" name="estado"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjlSLvEeu8IcpgNV1P9w" name="ciudad"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjliLvEeu8IcpgNV1P9w" name="isEliminado" type="BOOLEAN"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjlyLvEeu8IcpgNV1P9w" name="fechaCreacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjmCLvEeu8IcpgNV1P9w" name="usuarioBanner"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjmSLvEeu8IcpgNV1P9w" name="isEnabled" type="BOOLEAN"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_AAhjmiLvEeu8IcpgNV1P9w" name="perteneceRed" type="BOOLEAN"/>
+        <inputs xmi:type="process:ContractInput" xmi:id="_1F1kACeWEeuj9Mn6TlEnsw" name="lstCatBachilleratosInput" type="COMPLEX" multiple="true" dataReference="lstCatBachilleratos">
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kASeWEeuj9Mn6TlEnsw" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kAieWEeuj9Mn6TlEnsw" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kAyeWEeuj9Mn6TlEnsw" name="pais"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kBCeWEeuj9Mn6TlEnsw" name="estado"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kBSeWEeuj9Mn6TlEnsw" name="ciudad"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kBieWEeuj9Mn6TlEnsw" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kByeWEeuj9Mn6TlEnsw" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kCCeWEeuj9Mn6TlEnsw" name="usuarioBanner"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kCSeWEeuj9Mn6TlEnsw" name="isEnabled" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kCieWEeuj9Mn6TlEnsw" name="perteneceRed" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_1F1kCyeWEeuj9Mn6TlEnsw" name="fechaImportacion" type="LOCALDATETIME"/>
         </inputs>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_AEetvBMkEeurjcAwXjlxVw">

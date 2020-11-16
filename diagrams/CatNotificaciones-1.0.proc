@@ -72,13 +72,25 @@
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_WsSA4CT_Eeujzb5R59l9yg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_WsSA4ST_Eeujzb5R59l9yg" name="lstCatNotificacionesFirma" content="lstCatNotificacionesFirma" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WsSA4iT_Eeujzb5R59l9yg" name="lstCatNotificacionesFirma" multiple="true" dataType="_wckGoyB9EeutYKHMa0KIkQ" className="com.anahuac.catalogos.CatNotificacionesFirma"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_WsSA4yT_Eeujzb5R59l9yg" name="lstCatNotificacionesFirmaInput" content="def catNotificacionesFirmaList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatNotificacionesFirmaInput.each{&#xD;&#xA;&#x9;//Add CatNotificacionesFirma instance&#xD;&#xA;&#x9;catNotificacionesFirmaList.add({ currentCatNotificacionesFirmaInput ->&#xD;&#xA;&#x9;&#x9;def catNotificacionesFirmaVar = lstCatNotificacionesFirma.find { it.persistenceId.toString() == currentCatNotificacionesFirmaInput.persistenceId_string} ?: new com.anahuac.catalogos.CatNotificacionesFirma()&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.nombreCompleto = currentCatNotificacionesFirmaInput.nombreCompleto&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.titulo = currentCatNotificacionesFirmaInput.titulo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.grupo = currentCatNotificacionesFirmaInput.grupo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.cargo = currentCatNotificacionesFirmaInput.cargo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.telefono = currentCatNotificacionesFirmaInput.telefono&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.correo = currentCatNotificacionesFirmaInput.correo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showTitulo = currentCatNotificacionesFirmaInput.showTitulo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showGrupo = currentCatNotificacionesFirmaInput.showGrupo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showCargo = currentCatNotificacionesFirmaInput.showCargo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showTelefono = currentCatNotificacionesFirmaInput.showTelefono&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showCorreo = currentCatNotificacionesFirmaInput.showCorreo&#xD;&#xA;&#x9;&#x9;return catNotificacionesFirmaVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catNotificacionesFirmaList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_WsSA5CT_Eeujzb5R59l9yg" name="lstCatNotificacionesFirmaInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WsSA5ST_Eeujzb5R59l9yg" name="lstCatNotificacionesFirma" multiple="true" dataType="_wckGoyB9EeutYKHMa0KIkQ" className="com.anahuac.catalogos.CatNotificacionesFirma"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_WsSA5iT_Eeujzb5R59l9yg" type="ASSIGNMENT" expression="addAll">
+              <inputTypes>java.util.Collection</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_wckGeiB9EeutYKHMa0KIkQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_wckGeyB9EeutYKHMa0KIkQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_wckGfCB9EeutYKHMa0KIkQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_wckGfSB9EeutYKHMa0KIkQ" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_wckGfiB9EeutYKHMa0KIkQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_wckGfyB9EeutYKHMa0KIkQ">
-            <targetForm xmi:type="expression:Expression" xmi:id="_HjAEMCO4Eeuus_kbSTzppw" name="newForm35" content="c6fa8701-70fc-4c31-855a-9a83f122c158" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_HjAEMCO4Eeuus_kbSTzppw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <contract xmi:type="process:Contract" xmi:id="_wckGgSB9EeutYKHMa0KIkQ">
             <inputs xmi:type="process:ContractInput" xmi:id="_K_lUICLZEeuFGp2BUVc6QA" name="lstCatImageNotificacionInput" type="COMPLEX" multiple="true" dataReference="lstCatImageNotificacion" createMode="false">
@@ -119,6 +131,20 @@
               <inputs xmi:type="process:ContractInput" xmi:id="_GSOY6CO4Eeuus_kbSTzppw" name="informacionLic" type="BOOLEAN" createMode="false"/>
               <inputs xmi:type="process:ContractInput" xmi:id="_GSOY6SO4Eeuus_kbSTzppw" name="enlaceBanner" createMode="false"/>
             </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_WsA7ICT_Eeujzb5R59l9yg" name="lstCatNotificacionesFirmaInput" type="COMPLEX" multiple="true" dataReference="lstCatNotificacionesFirma" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiMCT_Eeujzb5R59l9yg" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiMST_Eeujzb5R59l9yg" name="nombreCompleto" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiMiT_Eeujzb5R59l9yg" name="titulo" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiMyT_Eeujzb5R59l9yg" name="grupo" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiNCT_Eeujzb5R59l9yg" name="cargo" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiNST_Eeujzb5R59l9yg" name="telefono" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiNiT_Eeujzb5R59l9yg" name="correo" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiNyT_Eeujzb5R59l9yg" name="showTitulo" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiOCT_Eeujzb5R59l9yg" name="showGrupo" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiOST_Eeujzb5R59l9yg" name="showCargo" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiOiT_Eeujzb5R59l9yg" name="showTelefono" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_WsBiOyT_Eeujzb5R59l9yg" name="showCorreo" type="BOOLEAN" createMode="false"/>
+            </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_wckGgiB9EeutYKHMa0KIkQ" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
@@ -141,8 +167,13 @@
           <referencedElements xmi:type="expression:Expression" xmi:id="_8zDvsSO3Eeuus_kbSTzppw" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
         </defaultValue>
       </data>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_2ZHs4CSNEeu1qvHIlC9c9Q" name="lstCatNotificacionesFirma" multiple="true" dataType="_wckGoyB9EeutYKHMa0KIkQ" className="com.anahuac.catalogos.CatNotificacionesFirma">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_D3_FwCSOEeu1qvHIlC9c9Q" name="initLstCatNotificacionesFirma()" content="def catNotificacionesFirmaList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatNotificacionesFirmaInput.each{&#xD;&#xA;&#x9;//Add a new composed CatNotificacionesFirma instance&#xD;&#xA;&#x9;catNotificacionesFirmaList.add({ currentCatNotificacionesFirmaInput ->&#xD;&#xA;&#x9;&#x9;def catNotificacionesFirmaVar = new com.anahuac.catalogos.CatNotificacionesFirma()&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.nombreCompleto = currentCatNotificacionesFirmaInput.nombreCompleto&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.titulo = currentCatNotificacionesFirmaInput.titulo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.grupo = currentCatNotificacionesFirmaInput.grupo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.cargo = currentCatNotificacionesFirmaInput.cargo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.telefono = currentCatNotificacionesFirmaInput.telefono&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.correo = currentCatNotificacionesFirmaInput.correo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showTitulo = currentCatNotificacionesFirmaInput.showTitulo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showGrupo = currentCatNotificacionesFirmaInput.showGrupo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showCargo = currentCatNotificacionesFirmaInput.showCargo&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showTelefono = currentCatNotificacionesFirmaInput.showTelefono&#xD;&#xA;&#x9;&#x9;catNotificacionesFirmaVar.showCorreo = currentCatNotificacionesFirmaInput.showCorreo&#xD;&#xA;&#x9;&#x9;return catNotificacionesFirmaVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catNotificacionesFirmaList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_D3_FwSSOEeu1qvHIlC9c9Q" name="lstCatNotificacionesFirmaInput" type="COMPLEX" multiple="true"/>
+        </defaultValue>
+      </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_wckGgyB9EeutYKHMa0KIkQ">
-        <targetForm xmi:type="expression:Expression" xmi:id="_Ili0YCO6Eeuus_kbSTzppw" name="newForm36" content="ba15b1a6-6eba-4613-84a4-4cd81b95f9df" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+        <targetForm xmi:type="expression:Expression" xmi:id="_Ili0YCO6Eeuus_kbSTzppw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_wckGhSB9EeutYKHMa0KIkQ">
         <targetForm xmi:type="expression:Expression" xmi:id="_wckGhiB9EeutYKHMa0KIkQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
@@ -194,6 +225,19 @@
           <inputs xmi:type="process:ContractInput" xmi:id="_1INj9SO3Eeuus_kbSTzppw" name="lstVariableNotificacion" multiple="true"/>
           <inputs xmi:type="process:ContractInput" xmi:id="_1INj9iO3Eeuus_kbSTzppw" name="informacionLic" type="BOOLEAN"/>
           <inputs xmi:type="process:ContractInput" xmi:id="_1INj9yO3Eeuus_kbSTzppw" name="enlaceBanner"/>
+        </inputs>
+        <inputs xmi:type="process:ContractInput" xmi:id="_D3-esCSOEeu1qvHIlC9c9Q" name="lstCatNotificacionesFirmaInput" type="COMPLEX" multiple="true" dataReference="lstCatNotificacionesFirma">
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-esSSOEeu1qvHIlC9c9Q" name="nombreCompleto"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-esiSOEeu1qvHIlC9c9Q" name="titulo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-esySOEeu1qvHIlC9c9Q" name="grupo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-etCSOEeu1qvHIlC9c9Q" name="cargo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-etSSOEeu1qvHIlC9c9Q" name="telefono"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-etiSOEeu1qvHIlC9c9Q" name="correo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-etySOEeu1qvHIlC9c9Q" name="showTitulo" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-euCSOEeu1qvHIlC9c9Q" name="showGrupo" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-euSSOEeu1qvHIlC9c9Q" name="showCargo" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-euiSOEeu1qvHIlC9c9Q" name="showTelefono" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_D3-euySOEeu1qvHIlC9c9Q" name="showCorreo" type="BOOLEAN"/>
         </inputs>
       </contract>
       <documents xmi:type="process:Document" xmi:id="_fzvNoCLbEeuFGp2BUVc6QA" name="imageHeader" documentType="CONTRACT" multiple="true" contractInput="_mycFICLbEeuFGp2BUVc6QA">
