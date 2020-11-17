@@ -23,8 +23,7 @@ function PbTableCtrl($scope, $http, modalService) {
    $scope.modificarData = function(row, index) {
             closeModal();
             openModal("modalInputs");
-            $scope.properties.selectedToModificate = [{"persistenceId_string" : "",  "clave" : "",  "descripcion" : "",  "usuarioCreacion" : "","pais" : "","estado" : "",  "isEliminado" : false, "orden": 0}];
-            $scope.properties.selectedToModificate[0].orden = $scope.properties.contenido[index].orden;
+            $scope.properties.selectedToModificate = [{"persistenceId_string" : "",  "clave" : "",  "descripcion" : "",  "usuarioCreacion" : "","pais" : "","estado" : "",  "isEliminado" : false}];
             $scope.properties.selectedToModificate[0].clave = $scope.properties.contenido[index].clave;
             $scope.properties.selectedToModificate[0].descripcion = $scope.properties.contenido[index].descripcion;
             $scope.properties.selectedToModificate[0].fechaCreacion = $scope.properties.contenido[index].fechaCreacion;

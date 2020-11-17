@@ -112,9 +112,9 @@ class ArchivosDAO {
 			
 			contentStream.close();
  
-			document.save("C:/Users/SOA Software Factory/Documents/pdf/pdfBoxHelloWorld.pdf");
+			document.save("C:/Users/pc/Documents/Itson/pdfBoxHelloWorld.pdf");
 			document.close();
-			Path pdfPath = Paths.get("C:/Users/SOA Software Factory/Documents/pdf/pdfBoxHelloWorld.pdf");
+			Path pdfPath = Paths.get("C:/Users/pc/Documents/Itson/pdfBoxHelloWorld.pdf");
 			byte[] pdf = Files.readAllBytes(pdfPath);
 			
 			

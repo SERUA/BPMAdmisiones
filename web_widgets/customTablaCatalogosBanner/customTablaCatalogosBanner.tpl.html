@@ -1,0 +1,34 @@
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th ng-repeat="header in properties.headers">
+                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
+                     <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                </th>
+            </tr>
+        </thead>
+        <tbody ng-if="ctrl.isArray(properties.contenido) && ctrl.isArray(properties.columnsKey)">
+            <tr ng-repeat="row in properties.contenido track by $index" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
+                    {{ $eval(column, row) | uiTranslate }}
+                </td>
+                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey">
+                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                </td>
+                 <td >
+                    <div class="material-switch pull-left" id="divRow{{row.persistenceId_string}}" ng-click="sendDataEnabled(row, $index)" >
+                        <input id="someSwitchOptionSuccess" name="someSwitchOption001" disabled type="checkbox" ng-model="row.isEnabled"/>
+                        <label for="someSwitchOptionSuccess" class="label-success"></label>
+                    </div>
+                </td>
+                <td>
+                    <button class="btnEditar" ng-click="modificarData(row, $index)" type="button"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></button> 
+                </td>
+                <td>
+                    <button class="btnEliminar" ng-click="deleteData(row, $index)" type="button"><span class="glyphicon glyphicon-trash" aria-hidden="true"></span></button> 
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
