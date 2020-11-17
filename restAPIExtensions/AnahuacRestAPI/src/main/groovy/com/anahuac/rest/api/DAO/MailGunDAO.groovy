@@ -119,9 +119,9 @@ class MailGunDAO {
 	
 	
 	public static JsonNode sendSimpleMessage(EstructuraMailGun estructura) throws UnirestException {
-				HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + "sandbox2f8a5c78d89445e5b9c3ed3f2336e9bc.mailgun.org" + "/messages")
-					.basicAuth("api", "b708a5b09a780d4f1c9fa8cb68d0be71-ba042922-54cc74dc")
-					.field("from", "Mailgun Sandbox <postmaster@sandbox2f8a5c78d89445e5b9c3ed3f2336e9bc.mailgun.org>")
+				HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + "" + "/messages")
+					.basicAuth("api", "")
+					.field("from", "")
 					.field("to", estructura.to)
 					//.field("cc", estructura.cc)
 					.field("subject", estructura.subject)
