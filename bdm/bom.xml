@@ -14,6 +14,11 @@
                 <query name="getCatBitacoraComentarios" content="SELECT c &#13;&#10;FROM CatBitacoraComentarios c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.bitacora.CatBitacoraComentarios">
                     <queryParameters/>
                 </query>
+                <query name="getCatBitacoraComentariosByUser" content="SELECT c &#13;&#10;FROM CatBitacoraComentarios c &#13;&#10;WHERE c.usuario = :usuario&#13;&#10;AND c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.bitacora.CatBitacoraComentarios">
+                    <queryParameters>
+                        <queryParameter name="usuario" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
             </queries>
             <indexes/>
         </businessObject>

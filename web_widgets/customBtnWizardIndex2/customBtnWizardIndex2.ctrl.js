@@ -1,5 +1,4 @@
 function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
-    debugger;
     $scope.action = function(){
         if($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0){
             $scope.properties.selectedIndex --; 

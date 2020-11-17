@@ -36,24 +36,24 @@ class MailGunDAO {
 		try {
 			def jsonSlurper = new JsonSlurper()
 			def object = jsonSlurper.parseText(jsonData)
-			def correocopia = ""
+			/*def correocopia = ""
 			assert object instanceof Map
 			if(object.lstCopia != null) {
 				assert object.lstCopia instanceof List
 			}
 			
 			String casoString = String.valueOf(object.idcaso)
-			procesoid = Long.valueOf(casoString)
+			procesoid = Long.valueOf(casoString)*/
 		
 			EstructuraMailGun estructura = new EstructuraMailGun()
 			estructura.setTo(object.to)
-			for(def row: object.lstCopia) {
+			/*for(def row: object.lstCopia) {
 				if(correocopia == "") {
 					correocopia = row
 				}else {
 					correocopia = correocopia + ";" + row
 				}
-			}
+			}*/
 			//estructura.setCc(correocopia);
 			estructura.setSubject(object.subject)
 			estructura.setBody(object.body)
@@ -119,12 +119,11 @@ class MailGunDAO {
 	
 	
 	public static JsonNode sendSimpleMessage(EstructuraMailGun estructura) throws UnirestException {
-		
-				HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + "sandboxa6ae16ddb8e54e749fce1385482a52f7.mailgun.org" + "/messages")
-					.basicAuth("api", "764b802d513debee679bb363ed321754-ba042922-c99a759e")
-					.field("from", "Mailgun Sandbox <postmaster@sandboxa6ae16ddb8e54e749fce1385482a52f7.mailgun.org>")
+				HttpResponse<JsonNode> request = Unirest.post("https://api.mailgun.net/v3/" + "sandbox2f8a5c78d89445e5b9c3ed3f2336e9bc.mailgun.org" + "/messages")
+					.basicAuth("api", "b708a5b09a780d4f1c9fa8cb68d0be71-ba042922-54cc74dc")
+					.field("from", "Mailgun Sandbox <postmaster@sandbox2f8a5c78d89445e5b9c3ed3f2336e9bc.mailgun.org>")
 					.field("to", estructura.to)
-					.field("cc", estructura.cc)
+					//.field("cc", estructura.cc)
 					.field("subject", estructura.subject)
 					.field("html", estructura.body)
 					.asJson()
