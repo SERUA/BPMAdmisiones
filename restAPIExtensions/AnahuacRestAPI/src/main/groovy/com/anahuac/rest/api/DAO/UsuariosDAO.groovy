@@ -176,7 +176,7 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result getHabilitarUsaurio( String correo, RestAPIContext context) {
+	public Result getHabilitarUsaurio(Integer parameterP,Integer parameterC, String correo, RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
@@ -184,10 +184,10 @@ class UsuariosDAO {
 		try {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			apiClient.login("alvarado.eduardo@correo.com", "bpm")
-			
+			LOGGER.error "================Paso 1=================";
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(correo);
-			
+			LOGGER.error "=================Paso 2================";
 			
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);
