@@ -7,6 +7,9 @@ class EstructuraMailGun {
 	private String subject;
 	private String body;
 	private Long caseid;
+	private String sandBox;
+	private String apiKey;
+	
 	public String getTo() {
 		return to;
 	}
@@ -37,7 +40,23 @@ class EstructuraMailGun {
 	public void setCaseid(Long caseid) {
 		this.caseid = caseid;
 	}
-
-
+	public String getSandBox() {
+		return sandBox;
+	}
+	public void setSandBox(String sandBox) {
+		this.sandBox = sandBox;
+	}
+	public String getApiKey() {
+		return apiKey;
+	}
+	public void setApiKey(String apiKey) {
+		this.apiKey = apiKey;
+	}
+	
+	@Override
+	public String toString() {
+		return "EstructuraMailGun [to=" + to + ", cc=" + cc + ", subject=" + subject + ", body=" + body + ", caseid="
+				+ caseid + ", sandBox=" + sandBox + ", apiKey=" + apiKey + "]";
+	}
 	
 }

@@ -107,6 +107,12 @@ class SolicitudAdmisionCustom {
 	private String processVersion;
 	@XmlElement
 	private String taskName;
+	@XmlElement
+	private CatGestionEscolar objCatGestionEscolar;
+	@XmlElement
+	private String fotografiaB64;
+	@XmlElement
+	private String updateDate;
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -413,6 +419,24 @@ class SolicitudAdmisionCustom {
 	public void setTaskName(String taskName) {
 		this.taskName = taskName;
 	}
+	public CatGestionEscolar getObjCatGestionEscolar() {
+		return objCatGestionEscolar;
+	}
+	public void setObjCatGestionEscolar(CatGestionEscolar objCatGestionEscolar) {
+		this.objCatGestionEscolar = objCatGestionEscolar;
+	}
+	public String getFotografiaB64() {
+		return fotografiaB64;
+	}
+	public void setFotografiaB64(String fotografiaB64) {
+		this.fotografiaB64 = fotografiaB64;
+	}
+	public String getUpdateDate() {
+		return updateDate;
+	}
+	public void setUpdateDate(String updateDate) {
+		this.updateDate = updateDate;
+	}
 	@Override
 	public String toString() {
 		return "SolicitudAdmisionCustom [persistenceId=" + persistenceId + ", persistenceVersion=" + persistenceVersion
@@ -434,7 +458,9 @@ class SolicitudAdmisionCustom {
 				+ avisoPrivacidad + ", datosVeridicos=" + datosVeridicos + ", aceptoAvisoPrivacidad="
 				+ aceptoAvisoPrivacidad + ", confirmarAutorDatos=" + confirmarAutorDatos + ", caseId=" + caseId
 				+ ", taskId=" + taskId + ", catBachilleratos=" + catBachilleratos + ", processName=" + processName
-				+ ", processVersion=" + processVersion + ", taskName=" + taskName + "]";
+				+ ", processVersion=" + processVersion + ", taskName=" + taskName + ", objCatGestionEscolar="
+				+ objCatGestionEscolar + ", fotografiaB64=" + fotografiaB64 + ", updateDate=" + updateDate + "]";
 	}
+
 	
 }

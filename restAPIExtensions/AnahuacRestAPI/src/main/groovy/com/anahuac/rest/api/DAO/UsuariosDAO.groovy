@@ -41,6 +41,12 @@ class UsuariosDAO {
 		Result resultado = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		
+		Integer start = 0;
+		Integer end = 99999;
 		
 		Usuarios objUsuario= new Usuarios();
 		
@@ -50,9 +56,9 @@ class UsuariosDAO {
 			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			// Datos de la cuenta del Usuario
-			UserCreator creator = new UserCreator(object.nombreusaurio,object.password);
+			UserCreator creator = new UserCreator(object.nombreusuario,object.password);
 			creator.setFirstName(object.nombre).setLastName(object.apellido);
-			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusaurio);
+			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
 			apiClient.login("acuna.karol@correo.com", "bpm")
@@ -64,7 +70,12 @@ class UsuariosDAO {
 			
 			apiClient.login(user.getUserName(), object.password)
 			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()
-			UserMembership membership = identityAPI2.addUserMembership(user.getId(), 23, 2)
+			
+			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(false);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
 			
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
@@ -89,7 +100,6 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			def result = null;
 			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			apiClient.login("acuna.karol@correo.com", "bpm");
@@ -111,12 +121,11 @@ class UsuariosDAO {
 			object.password = randomString;
 			
 			MailGunDAO dao = new MailGunDAO();
-			result = dao.sendEmailRecuperacion(object.nombreusuario,object.password);
+			dao.sendEmailRecuperacion(parameterP, parameterC, object, context);
 			
 			lstResultado.add(user);
-			lstResultado.add(object);
+			lstResultado.add(user_update);
 			lstResultado.add(randomString);
-			lstResultado.add(result);
 			
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
@@ -129,6 +138,76 @@ class UsuariosDAO {
 		}
 		return resultado;
 	}
+	
+	public Result postHabilitarUsaurio(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		
+		
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login("alvarado.eduardo@correo.com", "bpm")
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(object.nombreusuario);
+			
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(true);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+		
+			lstResultado.add(user_update);
+					
+			lstResultado.add(object.nombreusuario);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			LOGGER.error "ERROR=================================";
+			LOGGER.error e.getMessage();
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public Result getHabilitarUsaurio( String correo, RestAPIContext context) {
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		try {
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login("alvarado.eduardo@correo.com", "bpm")
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(correo);
+			
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(true);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+		
+			lstResultado.add(user_update);
+					
+			lstResultado.add(correo);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			LOGGER.error "ERROR=================================";
+			LOGGER.error e.getMessage();
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
 	
 	
 	private static String generateRandomString(int length, String seedChars) {

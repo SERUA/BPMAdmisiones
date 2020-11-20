@@ -8,10 +8,12 @@ import org.bonitasoft.web.extension.rest.RestApiResponse
 import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import com.anahuac.rest.api.DAO.ArchivosDAO
-import com.anahuac.rest.api.DAO.ConectaDAO
+
+import com.anahuac.rest.api.DAO.CatalogoBachilleratoDAO
+import com.anahuac.rest.api.DAO.ConektaDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.MailGunDAO
+import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.TestDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
@@ -40,7 +42,7 @@ class Index implements RestApiController {
 		if (url == null) {
 			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
-		
+				
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);
 		Integer parameterC = Integer.valueOf(c);
@@ -49,45 +51,91 @@ class Index implements RestApiController {
 		//VARIABLES DAO=======================================================
 		TestDAO dao =  new TestDAO();
 		ListadoDAO lDao = new ListadoDAO();
+		ConektaDAO cDao = new ConektaDAO();
 		UsuariosDAO uDAO = new UsuariosDAO();
-		ArchivosDAO aDAO = new ArchivosDAO();
-		MailGunDAO  mgDAO = new MailGunDAO();
-		ConectaDAO cDAO = new ConectaDAO();
-		
+		NotificacionDAO nDAO = new NotificacionDAO();
+		MailGunDAO mgDAO = new MailGunDAO();
+		CatalogoBachilleratoDAO bDao = new CatalogoBachilleratoDAO()
 		//MAPEO DE SERVICIOS==================================================
 		try {
 			switch(url) {
 				case "test":
 					result = dao.testFuction(parameterP, parameterC, jsonData);
 					break;
-				case "getSolicitudTramite":
-					result = lDao.getSolicitudTramite(parameterP, parameterC, jsonData, context);
+				case "getNuevasSolicitudes":
+					result = lDao.getNuevasSolicitudes(parameterP, parameterC, jsonData, context);
 					break;
-				case "prueba":
-				 	result =  uDAO.getTest(parameterP, parameterC, jsonData, context);
+				case "getAspirantesProceso":
+					result = lDao.getAspirantesProceso(parameterP, parameterC, jsonData, context);
+					break;
+				case "getDocumentoTest":
+					result = lDao.getDocumentoTest(parameterP, parameterC, jsonData, context);
+					break;
+				case "pagoOxxoCash":
+					LOGGER.error "pago oxxo"
+					result = cDao.pagoOxxoCash(parameterP, parameterC, jsonData, context);
+					break;
+		  		case "pagoTarjeta":
+					LOGGER.error "pago tarjeta"
+					result = cDao.pagoTarjeta(parameterP, parameterC, jsonData, context);
+					break;
+		  		case "pagoSPEI":
+					LOGGER.error "pago spei"
+					result = cDao.pagoSPEI(parameterP, parameterC, jsonData, context);
 					break;
 				case "RegistrarUsuario":
 					result =  uDAO.postRegistrarUsuario(parameterP, parameterC, jsonData, context);
 					break;
-				case "encode":
+				case "getOrderPaymentMethod":
+					result = cDao.getOrderPaymentMethod(parameterP, parameterC, jsonData, context);
+					break;
+				case "getOrderDetails":
+					result =  cDao.getOrderDetails(parameterP, parameterC, jsonData, context);
+					break;
+				case "getConektaPublicKey":
+					result = cDao.getConektaPublicKey(parameterP, parameterC, jsonData, context);
+					break;
+				case "ejecutarEsperarPago":
+					result = cDao.ejecutarEsperarPago(parameterP, parameterC, jsonData, context);
+					break;
+				/*case "encode":
 					result =  aDAO.base64Encode(parameterP, parameterC, jsonData, context);
 					break;
 				case "decode":
 					result =  aDAO.base64Decode(parameterP, parameterC, jsonData, context);
-					break;
+					break;*/
 				case "recuparaPassword":
 					result =  uDAO.postRecuperarPassword(parameterP, parameterC, jsonData, context);
 					break;
 				case "sendEmail":
 					result = mgDAO.sendEmail(parameterP, parameterC, jsonData, context);
 					break;
-				case "ejecutarEsperarPago":
-					result = cDAO.ejecutarEsperarPago(parameterP, parameterC, jsonData, context);
+				case "generateHtml":
+					result = nDAO.generateHtml(parameterP, parameterC, jsonData, context);
+					break;
+				case "getTestUpdate":
+					result = nDAO.getDocumentoTest(parameterP, parameterC, jsonData, context);
+					break;
+					case "insertLicenciatura":
+					result = nDAO.insertLicenciatura(parameterP, parameterC, jsonData, context)
+					break;
+					case "simpleSelect":
+					result = nDAO.simpleSelect(parameterP, parameterC, jsonData, context)
+					break;
+					case "insertBachillerato":
+					result = bDao.insert(parameterP, parameterC, jsonData, context)
+					break;
+					case "updateBachillerato":
+					result = bDao.update(parameterP, parameterC, jsonData, context)
+					break;
+					case "getBachillerato":
+					result = bDao.get(parameterP, parameterC, jsonData, context)
 					break;
 				default:
 					result = notFound(url);
 					break;
 			}
+
 		} catch (Exception e) {
 			e.printStackTrace()
 		}
@@ -98,7 +146,7 @@ class Index implements RestApiController {
 	public Result notFound(String url) {
 		Result resultado = new Result();
 		resultado.setSuccess(false);
-		resultado.setError("No se reconose el servicio: "+url);
+		resultado.setError("No se reconoce el servicio: "+url);
 		return resultado
 	}
 

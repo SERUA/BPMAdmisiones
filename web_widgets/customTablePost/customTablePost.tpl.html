@@ -11,13 +11,16 @@
         <tbody>
             <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
-                   {{row.segundoNombre}} {{row.primerNombre}} {{row.apellidoPaterno}} {{row.apellidoMaterno}}<br>
+                    <img ng-src="{{row.fotografiaB64}}" style="width: 64px;">
+                </td>
+                <td>
+                   {{row.primerNombre}} {{row.segundoNombre}} {{row.apellidoPaterno}} {{row.apellidoMaterno}}<br>
                    {{row.correoElectronico}}<br>
                    {{row.curp}}
                 </td>
                 <td>
                     {{row.catCampus.descripcion}}<br>
-                    {{row.catEstado.descripcion}}<br>
+                    {{row.objCatGestionEscolar.descripcion}}<br>
                     {{row.catPeriodo.descripcion}}
                 </td>
                 <td>

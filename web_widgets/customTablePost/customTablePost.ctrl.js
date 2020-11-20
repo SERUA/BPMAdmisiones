@@ -36,7 +36,7 @@ function PbTableCtrl($scope, $http, $window) {
     }
 
     $scope.asignarTarea=function(rowData) {
-        var req = {
+        /*var req = {
             method: "PUT",
             url: "/bonita/API/bpm/humanTask/"+rowData.taskId,
             data: angular.copy({"assigned_id":""})
@@ -49,7 +49,7 @@ function PbTableCtrl($scope, $http, $window) {
             .error(function(data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
-            .finally(function() {});
+            .finally(function() {});*/
     }
 
     function redireccionarTarea(rowData) {
@@ -77,5 +77,13 @@ function PbTableCtrl($scope, $http, $window) {
     $(function() {
         doRequest("POST", $scope.properties.urlPost);
     })
+    
+    
+    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+        if (newValue !== undefined) {
+            doRequest("POST", $scope.properties.urlPost);
+        }
+        console.log($scope.properties.dataToSend);
+    });
 
 }

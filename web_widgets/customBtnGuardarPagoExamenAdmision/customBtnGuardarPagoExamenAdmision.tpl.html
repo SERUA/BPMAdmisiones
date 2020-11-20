@@ -1,0 +1,29 @@
+<link rel="stylesheet" href="bower_components/sweetalert/dist/sweetalert.css"> 
+<script src="bower_components/angular-sweetalert/SweetAlert.min.js"></script> 
+<script src="bower_components/sweetalert/dist/sweetalert.min.js"></script> 
+<div class="text-{{ properties.alignment }}">
+    <button
+        ng-class="'btn btn-' + properties.buttonStyle"
+        ng-click="sendData()"
+        type="button"
+        ng-disabled="properties.disabled || ctrl.busy" ng-bind-html="properties.label | uiTranslate">
+    </button>
+</div>
+<!-- Modal Validacion-->
+<div id="modalValidacion" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+        <!-- Modal content -->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" style="text-align: center;">Falto capturar informacion en:</h4>
+            </div>
+            <div class="modal-body">
+                <h4 style="text-align: center;">{{validacion}}</h4>
+            </div>
+            <div class="modal-footer">
+                <button type="button" data-dismiss="modal" class="btn btn-success">Continuar</button>
+            </div>
+        </div>
+    </div>
+</div>

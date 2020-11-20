@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesCampus",
   "name" : "pageAccionesCampus",
-  "lastUpdate" : 1605632265695,
+  "lastUpdate" : 1605830644595,
   "rows" : [
     [
       {
@@ -479,6 +479,24 @@
                                 "required" : {
                                   "type" : "constant",
                                   "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
                                 }
                               },
                               "reference" : "1b470de2-8bce-4582-94c2-f844b36e1d67",
@@ -607,12 +625,113 @@
                                 "required" : {
                                   "type" : "constant",
                                   "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
                                 }
                               },
                               "reference" : "01bdc892-a02d-4a2b-8745-4c0587da8029",
                               "hasValidationError" : false,
                               "id" : "pbInput",
                               "description" : ""
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Cargar logo"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "placeholder" : {
+                                  "type" : "interpolation"
+                                },
+                                "url" : {
+                                  "type" : "constant",
+                                  "value" : "../API/formFileUpload"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "imgLogo"
+                                },
+                                "errorContent" : {
+                                  "type" : "variable",
+                                  "value" : ""
+                                },
+                                "permitido" : {
+                                  "type" : "variable",
+                                  "value" : "otrasVariables.permitido"
+                                },
+                                "HeightMaximo" : {
+                                  "type" : "constant",
+                                  "value" : 500
+                                },
+                                "WidthMaximo" : {
+                                  "type" : "constant",
+                                  "value" : 1500
+                                },
+                                "RevisarMargen" : {
+                                  "type" : "constant",
+                                  "value" : "otrasVariables.revisarMargen"
+                                },
+                                "revisarMargen" : {
+                                  "type" : "expression",
+                                  "value" : "otrasVariables.revisarMargen"
+                                },
+                                "revisar" : {
+                                  "type" : "variable",
+                                  "value" : "otrasVariables.revisarMargen"
+                                }
+                              },
+                              "reference" : "b8f77254-13ae-4666-b681-81b003bdf102",
+                              "hasValidationError" : false,
+                              "id" : "customUplLogos"
                             }
                           ],
                           [
@@ -631,7 +750,7 @@
                                 },
                                 "hidden" : {
                                   "type" : "constant",
-                                  "value" : false
+                                  "value" : true
                                 },
                                 "cssClasses" : {
                                   "type" : "constant",
@@ -732,7 +851,7 @@
                           },
                           "hidden" : {
                             "type" : "constant",
-                            "value" : false
+                            "value" : true
                           },
                           "disabled" : {
                             "type" : "constant",
@@ -876,7 +995,7 @@
                           },
                           "buttonStyle" : {
                             "type" : "constant",
-                            "value" : "success"
+                            "value" : "primary"
                           },
                           "action" : {
                             "type" : "constant",
@@ -1258,7 +1377,8 @@
       "type" : "json",
       "value" : [
         "{\r",
-        "  \"lstCatCampusInput\" : [ ]\r",
+        "  \"lstCatCampusInput\" : [ ],\r",
+        "  \"imgLogoDocumentInput\":[ ]\r",
         "}"
       ],
       "exposed" : false
@@ -1281,12 +1401,15 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "",
         "if($data.taskId === undefined){",
-        "    return {lstCatCampusInput: $data.formInput.lstCatCampusInput}",
+        "    return {lstCatCampusInput: $data.formInput.lstCatCampusInput, ",
+        "    imgLogoDocumentInput: $data.formInput.imgLogoDocumentInput",
+        "        ",
+        "    }",
         "}else {",
         "    return {",
-        "\tlstCatCampusInput: $data.objContrato",
+        "\tlstCatCampusInput: $data.objContrato,",
+        "\timgLogoDocumentInput: $data.formInput.imgLogoDocumentInput",
         "    }",
         "}"
       ],
@@ -1328,7 +1451,9 @@
         "{",
         "    \"isModificacion\": false,",
         "    \"index\":0,",
-        "    \"Validado\":false",
+        "    \"Validado\":false,",
+        "    \"revisarMargen\":false,",
+        "    \"permitido\":false",
         "}"
       ],
       "exposed" : false
@@ -1357,6 +1482,7 @@
     "validar" : {
       "type" : "expression",
       "value" : [
+        "",
         "var validado = true;",
         "if( $data.formInput.lstCatCampusInput.length >=1){",
         "    $data.formInput.lstCatCampusInput.forEach(element =>{",
@@ -1379,11 +1505,30 @@
         "        }else if(element.usuarioBanner.trim()===\"\"){",
         "            element.usuarioBanner = $data.userData.user_name;",
         "        }",
+        "        else if($data.otrasVariables.permitido === true){",
+        "            element.nombreDocumento = $data.imgLogo.filename;",
+        "            if($data.taskId === undefined && $data.formInput.imgLogoDocumentInput.length === 0){",
+        "                $data.formInput.imgLogoDocumentInput.push($data.imgLogo)",
+        "            } else if($data.taskId !== undefined &&$data.formInput.imgLogoDocumentInput.length === $data.context.imgLogo_ref.length){",
+        "                $data.imgLogo.descripcion = $data.imgLogo.tempPath;",
+        "                $data.formInput.imgLogoDocumentInput.push($data.imgLogo); ",
+        "            }",
+        "        }else{",
+        "            if($data.taskId === undefined && $data.formInput.imgLogoDocumentInput.length>0){",
+        "                $data.formInput.imgLogoDocumentInput.pop();",
+        "            }",
+        "            else if($data.taskId !== undefined &&$data.formInput.imgLogoDocumentInput > $data.context.imgLogo_ref.length){",
+        "                $data.formInput.imgLogoDocumentInput.pop();",
+        "            }",
+        "            validado = false;",
+        "        }",
         "    });  ",
         "}else{",
         "    validado = false;",
         "    $data.otrasVariables.isModificacion = false;",
         "}",
+        " ",
+        "",
         "",
         "$data.otrasVariables.Validado = validado;"
       ],
@@ -1409,17 +1554,10 @@
       ],
       "exposed" : false
     },
-    "str" : {
-      "type" : "expression",
-      "value" : [
-        "return {   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : userData.user_name,  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":getFecha, \"fechaCreacion\":getFecha }"
-      ],
-      "exposed" : false
-    },
     "str2" : {
       "type" : "constant",
       "value" : [
-        "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : \"\",  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":\"\", \"fechaCreacion\":\" \"}"
+        "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : \"\",  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":\"\", \"fechaCreacion\":\"\", \"nombreDocumento\": \" \"}"
       ],
       "exposed" : false
     },
@@ -1451,6 +1589,35 @@
       "type" : "url",
       "value" : [
         "../API/bpm/humanTask?p=0&c=100&f=processId={{processid}}"
+      ],
+      "exposed" : false
+    },
+    "imgLogo" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"contentType\":\"\",",
+        "    \"filename\":\"\",",
+        "    \"tempPath\":\"\",",
+        "    \"descripcion\":\"\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "conectar_imagen_y_campus" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.taskId !== undefined){",
+        "var lstImg = [];",
+        "if(lstImg.length === 0 &&  $data.formInput.imgLogoDocumentInput.length === 0){",
+        "    $data.context.imgLogo_ref.forEach (element =>{",
+        "       //lstImg.push({\"contentType\":element.contentMimeType,\"filename\":element.fileName,\"tempPath\":element.url}) ",
+        "       lstImg.push(element);",
+        "    });",
+        "    $data.formInput.imgLogoDocumentInput = lstImg",
+        "}",
+        "",
+        "}"
       ],
       "exposed" : false
     }

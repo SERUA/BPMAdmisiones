@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesPais",
   "name" : "pageAccionesPais",
-  "lastUpdate" : 1605478635915,
+  "lastUpdate" : 1605738794585,
   "rows" : [
     [
       {
@@ -254,6 +254,83 @@
                             {
                               "type" : "component",
                               "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : 1
+                                },
+                                "readOnly" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "labelHidden" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Orden"
+                                },
+                                "labelPosition" : {
+                                  "type" : "constant",
+                                  "value" : "top"
+                                },
+                                "labelWidth" : {
+                                  "type" : "constant",
+                                  "value" : 4
+                                },
+                                "placeholder" : {
+                                  "type" : "interpolation"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "$item.orden"
+                                },
+                                "type" : {
+                                  "type" : "constant",
+                                  "value" : "text"
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
+                                }
+                              },
+                              "reference" : "31df0211-aa1a-408a-a837-ea2cd4b1bea5",
+                              "hasValidationError" : false,
+                              "id" : "customInputNumerico"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
                                 "md" : 12,
                                 "sm" : 12,
                                 "xs" : 12,
@@ -430,7 +507,7 @@
                                 },
                                 "hidden" : {
                                   "type" : "constant",
-                                  "value" : false
+                                  "value" : true
                                 },
                                 "cssClasses" : {
                                   "type" : "constant",
@@ -530,8 +607,8 @@
                             "value" : ""
                           },
                           "hidden" : {
-                            "type" : "expression",
-                            "value" : "otrasVariables.isModificacion"
+                            "type" : "constant",
+                            "value" : true
                           },
                           "disabled" : {
                             "type" : "constant",
@@ -615,7 +692,7 @@
                           },
                           "urlConsulta" : {
                             "type" : "interpolation",
-                            "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999"
+                            "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999&f=caseId={{objCaseInformation[0].id}}"
                           },
                           "objTaskInformation" : {
                             "type" : "variable",
@@ -911,6 +988,7 @@
                 "headers" : {
                   "type" : "constant",
                   "value" : [
+                    "Orden",
                     "Clave",
                     "Descripción",
                     "Fecha creación",
@@ -921,6 +999,7 @@
                 "columnsKey" : {
                   "type" : "constant",
                   "value" : [
+                    "orden",
                     "clave",
                     "descripcion",
                     "fechaCreacion",
@@ -961,7 +1040,7 @@
                 },
                 "urlConsulta" : {
                   "type" : "interpolation",
-                  "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999"
+                  "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999&f=caseId={{objCaseInformation[0].id}}"
                 },
                 "objTaskInformation" : {
                   "type" : "variable",
@@ -984,9 +1063,9 @@
                   "value" : "otrasVariables.index"
                 }
               },
-              "reference" : "6df1a81d-2aa2-4d34-bbf8-8cb645888a2c",
+              "reference" : "c70309a3-1608-4329-9bc5-d5400d7135b9",
               "hasValidationError" : false,
-              "id" : "customTablaCatalogos"
+              "id" : "customTablaCatalogosPais"
             }
           ]
         ]
@@ -1071,7 +1150,7 @@
     "lstCatPais" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999&f=caseId={{objCaseInformation[0].id}}"
       ],
       "exposed" : false
     },
@@ -1174,7 +1253,9 @@
         "var validado = true;",
         "if( $data.formInput.lstCatPaisInput.length >=1){",
         "    $data.formInput.lstCatPaisInput.forEach(element =>{",
-        "        if(element.clave.trim()===\"\"){",
+        "         if(element.orden === 0){",
+        "            validado = false;",
+        "        }if(element.clave.trim()===\"\"){",
         "            validado = false;",
         "        }else if(element.descripcion.trim()===\"\"){",
         "            validado = false;",
@@ -1211,7 +1292,7 @@
     "str" : {
       "type" : "constant",
       "value" : [
-        "{  \"persistenceId_string\" : \"\",  \"clave\" : \"\",  \"descripcion\" : \"\", \"fechaCreacion\":\"\", \"usuarioCreacion\" : \"\",  \"isEliminado\" : false}"
+        "{  \"persistenceId_string\" : \"\",  \"clave\" : \"\",  \"descripcion\" : \"\", \"fechaCreacion\":\"\", \"usuarioCreacion\" : \"\",  \"isEliminado\" : false, \"orden\":0}"
       ],
       "exposed" : false
     },

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatBachillerato",
   "name" : "CatBachillerato",
-  "lastUpdate" : 1605564127387,
+  "lastUpdate" : 1605742817951,
   "rows" : [
     [
       {
@@ -65,7 +65,7 @@
                       "xs" : 12,
                       "sm" : 12,
                       "md" : 2,
-                      "lg" : 6
+                      "lg" : 3
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1130,7 +1130,7 @@
                       },
                       "urlConsulta" : {
                         "type" : "interpolation",
-                        "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatBachileratos?q=getCatBachilleratos&p=0&c=9999API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=getCatBachilleratos&p=0&c=9999"
+                        "value" : "/bonita/API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=getCatBachilleratos&p=0&c=9999"
                       },
                       "objTaskInformation" : {
                         "type" : "variable",
@@ -3029,7 +3029,7 @@
     "lstCatEstados" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatEstados?q=getCatEstados&p=0&c=10"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatEstados?q=getCatEstados&p=0&c=10&f=caseId={{objCaseInformationEstado[0].id}}"
       ],
       "exposed" : false
     },
@@ -3089,7 +3089,7 @@
     "lstCatPais" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPais?q=getCatPais&p=0&c=9999&f=caseId={{objCaseInformationPais[0].id}}"
       ],
       "exposed" : false
     },
@@ -3167,6 +3167,7 @@
         "    $data.formInput.lstCatBachilleratosInput[0].fechaCreacion= $data.getFecha;",
         "    $data.formInput.lstCatBachilleratosInput[0].fechaImportacion = $data.getFecha;",
         "    $data.formInput.lstCatBachilleratosInput[0].usuarioBanner = $data.userData.user_name;",
+        "",
         "}"
       ],
       "exposed" : false
@@ -3174,7 +3175,7 @@
     "lstCatCiudad" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudad&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudad&p=0&c=9999&f=caseId={{objCaseInformationCiudad[0].id}}"
       ],
       "exposed" : false
     },
@@ -3246,6 +3247,27 @@
       "value" : [
         "let ipBonita = window.location.protocol + \"//\" + window.location.host + \"/bonita\";    \r",
         "return ipBonita + \"/API/bpm/process/\" + $data.processId + \"/instantiation\";"
+      ],
+      "exposed" : false
+    },
+    "objCaseInformationPais" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name=CatPais&n=activeFlowNodes&n=failedFlowNodes&o=id+DESC&p=0&s="
+      ],
+      "exposed" : false
+    },
+    "objCaseInformationEstado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name=CatEstados&n=activeFlowNodes&n=failedFlowNodes&o=id+DESC&p=0&s="
+      ],
+      "exposed" : false
+    },
+    "objCaseInformationCiudad" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name=CatCiudad&n=activeFlowNodes&n=failedFlowNodes&o=id+DESC&p=0&s="
       ],
       "exposed" : false
     }

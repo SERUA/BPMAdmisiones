@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesCasoDeEmergencia",
   "name" : "pageAccionesCasoDeEmergencia",
-  "lastUpdate" : 1605571515403,
+  "lastUpdate" : 1605649951997,
   "rows" : [
     [
       {
@@ -52,7 +52,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "{{ task.displayName }}"
+                  "value" : "Catalogo de Caso de Emergencia"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -227,11 +227,11 @@
                           },
                           "text" : {
                             "type" : "interpolation",
-                            "value" : "Lst Cat Caso De Emergencia"
+                            "value" : "{{!otrasVariables.isModificacion?\"Agregar\":\"Modificar\"}} Caso de Emergencia"
                           },
                           "alignment" : {
                             "type" : "constant",
-                            "value" : "left"
+                            "value" : "center"
                           },
                           "dimension" : {
                             "type" : "constant",
@@ -437,7 +437,7 @@
                                 },
                                 "hidden" : {
                                   "type" : "constant",
-                                  "value" : false
+                                  "value" : true
                                 },
                                 "cssClasses" : {
                                   "type" : "constant",
@@ -597,8 +597,8 @@
                             "value" : ""
                           },
                           "hidden" : {
-                            "type" : "expression",
-                            "value" : "otrasVariables.isModificacion"
+                            "type" : "constant",
+                            "value" : true
                           },
                           "disabled" : {
                             "type" : "constant",
@@ -1055,17 +1055,17 @@
       "external" : false
     },
     {
-      "id" : "225ac59d-f3b5-4f5e-9ec6-1aceb6f0d0f2",
-      "name" : "bootstrap.min.js",
-      "type" : "js",
-      "order" : 2,
-      "external" : false
-    },
-    {
       "id" : "5f8eecaf-d618-4392-90f8-2f9a1be1ac34",
       "name" : "style.css",
       "type" : "css",
       "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "225ac59d-f3b5-4f5e-9ec6-1aceb6f0d0f2",
+      "name" : "bootstrap.min.js",
+      "type" : "js",
+      "order" : 2,
       "external" : false
     },
     {
@@ -1263,6 +1263,6 @@
   },
   "hasValidationError" : false,
   "uuid" : "2c23004f-1146-4e60-8ef1-4a9a45e3ffe8",
-  "type" : "form",
+  "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

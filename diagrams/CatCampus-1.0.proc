@@ -12,15 +12,24 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_ZUXzcRfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_ZUXzcBfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_ZUXzchfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <operations xmi:type="expression:Operation" xmi:id="_y08zsB7IEeuE88m-k65S0g">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_y08zsR7IEeuE88m-k65S0g" name="lstCatCampus" content="lstCatCampus" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_y08zsh7IEeuE88m-k65S0g" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus"/>
+          <operations xmi:type="expression:Operation" xmi:id="_jbqrESqFEeuQYLFFSvyAVg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_jbqrEiqFEeuQYLFFSvyAVg" name="imgLogo" content="imgLogo" type="DOCUMENT_REF_TYPE" returnType="java.util.List">
+              <referencedElements xmi:type="process:Document" xmi:id="_jbqrEyqFEeuQYLFFSvyAVg" name="imgLogo" multiple="true"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_y08zsx7IEeuE88m-k65S0g" name="lstCatCampusInput" content="def catCampusList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatCampusInput.each{&#xD;&#xA;&#x9;//Add CatCampus instance&#xD;&#xA;&#x9;catCampusList.add({ currentCatCampusInput ->&#xD;&#xA;&#x9;&#x9;def catCampusVar = lstCatCampus.find { it.persistenceId.toString() == currentCatCampusInput.persistenceId_string} ?: new com.anahuac.catalogos.CatCampus()&#xD;&#xA;&#x9;&#x9;catCampusVar.id = currentCatCampusInput.id&#xD;&#xA;&#x9;&#x9;catCampusVar.descripcion = currentCatCampusInput.descripcion&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatCampusInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catCampusVar.isEliminado = currentCatCampusInput.isEliminado&#xD;&#xA;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatCampusInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatCampusInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catCampusVar.clave = currentCatCampusInput.clave&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatCampusInput.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatCampusInput.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatCampusInput.urlAutorDatos&#xD;&#xA;&#x9;&#x9;catCampusVar.isEnabled = currentCatCampusInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catCampusVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catCampusList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_y08ztB7IEeuE88m-k65S0g" name="lstCatCampusInput" type="COMPLEX" multiple="true"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_y08ztR7IEeuE88m-k65S0g" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_jbqrFCqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" content="imgLogoDocumentInput" type="TYPE_CONTRACT_INPUT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_jbqrFSqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" type="FILE" multiple="true" createMode="false"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_y08zth7IEeuE88m-k65S0g" type="ASSIGNMENT" expression="addAll">
+            <operator xmi:type="expression:Operator" xmi:id="_jbqrFiqFEeuQYLFFSvyAVg" type="DOCUMENT_LIST_SET"/>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_exmqgCqXEeuQYLFFSvyAVg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_exmqgSqXEeuQYLFFSvyAVg" name="lstCatCampus" content="lstCatCampus" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_exmqgiqXEeuQYLFFSvyAVg" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_exmqgyqXEeuQYLFFSvyAVg" name="lstCatCampusInput" content="def catCampusList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatCampusInput.each{&#xD;&#xA;&#x9;//Add CatCampus instance&#xD;&#xA;&#x9;catCampusList.add({ currentCatCampusInput ->&#xD;&#xA;&#x9;&#x9;def catCampusVar = lstCatCampus.find { it.persistenceId.toString() == currentCatCampusInput.persistenceId_string} ?: new com.anahuac.catalogos.CatCampus()&#xD;&#xA;&#x9;&#x9;catCampusVar.id = currentCatCampusInput.id&#xD;&#xA;&#x9;&#x9;catCampusVar.descripcion = currentCatCampusInput.descripcion&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatCampusInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catCampusVar.isEliminado = currentCatCampusInput.isEliminado&#xD;&#xA;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatCampusInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatCampusInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catCampusVar.clave = currentCatCampusInput.clave&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatCampusInput.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatCampusInput.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatCampusInput.urlAutorDatos&#xD;&#xA;&#x9;&#x9;catCampusVar.isEnabled = currentCatCampusInput.isEnabled&#xD;&#xA;&#x9;&#x9;catCampusVar.nombreDocumento = currentCatCampusInput.nombreDocumento&#xD;&#xA;&#x9;&#x9;return catCampusVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catCampusList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_exmqhCqXEeuQYLFFSvyAVg" name="lstCatCampusInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_exmqhSqXEeuQYLFFSvyAVg" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_exmqhiqXEeuQYLFFSvyAVg" type="ASSIGNMENT" expression="addAll">
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
@@ -30,34 +39,36 @@
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_ZUYagRfYEeuoSd8nCjYXgw" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_ZUYagBfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_ZUYagxfYEeuoSd8nCjYXgw">
-            <targetForm xmi:type="expression:Expression" xmi:id="_aYNvoBiUEeu38ZF-48EFNQ" name="newForm8" content="a8d8b93f-af29-47c5-8179-18eba661159f" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_-OsC0CqfEeuQYLFFSvyAVg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <contract xmi:type="process:Contract" xmi:id="_ZUYaghfYEeuoSd8nCjYXgw">
-            <inputs xmi:type="process:ContractInput" xmi:id="_y037MB7IEeuE88m-k65S0g" name="lstCatCampusInput" type="COMPLEX" multiple="true" dataReference="lstCatCampus" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037MR7IEeuE88m-k65S0g" name="persistenceId_string" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Mh7IEeuE88m-k65S0g" name="id" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Mx7IEeuE88m-k65S0g" name="descripcion" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037NB7IEeuE88m-k65S0g" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037NR7IEeuE88m-k65S0g" name="isEliminado" type="BOOLEAN" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Nh7IEeuE88m-k65S0g" name="usuarioBanner" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Nx7IEeuE88m-k65S0g" name="fechaImplementacion" type="LOCALDATETIME" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037OB7IEeuE88m-k65S0g" name="clave" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037OR7IEeuE88m-k65S0g" name="urlAvisoPrivacidad" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Oh7IEeuE88m-k65S0g" name="urlDatosVeridicos" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037Ox7IEeuE88m-k65S0g" name="urlAutorDatos" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_y037PB7IEeuE88m-k65S0g" name="isEnabled" type="BOOLEAN" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_jbqrECqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" type="FILE" multiple="true" dataReference="imgLogo" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_exk1UCqXEeuQYLFFSvyAVg" name="lstCatCampusInput" type="COMPLEX" multiple="true" dataReference="lstCatCampus" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1USqXEeuQYLFFSvyAVg" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1UiqXEeuQYLFFSvyAVg" name="id" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1UyqXEeuQYLFFSvyAVg" name="descripcion" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1VCqXEeuQYLFFSvyAVg" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1VSqXEeuQYLFFSvyAVg" name="isEliminado" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1ViqXEeuQYLFFSvyAVg" name="usuarioBanner" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1VyqXEeuQYLFFSvyAVg" name="fechaImplementacion" type="LOCALDATETIME" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1WCqXEeuQYLFFSvyAVg" name="clave" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1WSqXEeuQYLFFSvyAVg" name="urlAvisoPrivacidad" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1WiqXEeuQYLFFSvyAVg" name="urlDatosVeridicos" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1WyqXEeuQYLFFSvyAVg" name="urlAutorDatos" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1XCqXEeuQYLFFSvyAVg" name="isEnabled" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_exk1XSqXEeuQYLFFSvyAVg" name="nombreDocumento" createMode="false"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_ZUYahRfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
       <data xmi:type="process:BusinessObjectData" xmi:id="_sm9AYB7IEeuE88m-k65S0g" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_u-KvbB7IEeuE88m-k65S0g" name="initLstCatCampus()" content="def catCampusList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatCampusInput.each{&#xD;&#xA;&#x9;//Add a new composed CatCampus instance&#xD;&#xA;&#x9;catCampusList.add({ currentCatCampusInput ->&#xD;&#xA;&#x9;&#x9;def catCampusVar = new com.anahuac.catalogos.CatCampus()&#xD;&#xA;&#x9;&#x9;catCampusVar.id = currentCatCampusInput.id&#xD;&#xA;&#x9;&#x9;catCampusVar.descripcion = currentCatCampusInput.descripcion&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatCampusInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catCampusVar.isEliminado = currentCatCampusInput.isEliminado&#xD;&#xA;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatCampusInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatCampusInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catCampusVar.clave = currentCatCampusInput.clave&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatCampusInput.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatCampusInput.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatCampusInput.urlAutorDatos&#xD;&#xA;&#x9;&#x9;catCampusVar.isEnabled = currentCatCampusInput.isEnabled&#xD;&#xA;&#x9;&#x9;return catCampusVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catCampusList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_u-KvbR7IEeuE88m-k65S0g" name="lstCatCampusInput" type="COMPLEX" multiple="true"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_bjlPUCqXEeuQYLFFSvyAVg" name="initLstCatCampus()" content="def catCampusList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatCampusInput.each{&#xD;&#xA;&#x9;//Add a new composed CatCampus instance&#xD;&#xA;&#x9;catCampusList.add({ currentCatCampusInput ->&#xD;&#xA;&#x9;&#x9;def catCampusVar = new com.anahuac.catalogos.CatCampus()&#xD;&#xA;&#x9;&#x9;catCampusVar.id = currentCatCampusInput.id&#xD;&#xA;&#x9;&#x9;catCampusVar.descripcion = currentCatCampusInput.descripcion&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatCampusInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catCampusVar.isEliminado = currentCatCampusInput.isEliminado&#xD;&#xA;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatCampusInput.usuarioBanner&#xD;&#xA;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatCampusInput.fechaImplementacion&#xD;&#xA;&#x9;&#x9;catCampusVar.clave = currentCatCampusInput.clave&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatCampusInput.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatCampusInput.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatCampusInput.urlAutorDatos&#xD;&#xA;&#x9;&#x9;catCampusVar.isEnabled = currentCatCampusInput.isEnabled&#xD;&#xA;&#x9;&#x9;catCampusVar.nombreDocumento = currentCatCampusInput.nombreDocumento&#xD;&#xA;&#x9;&#x9;return catCampusVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catCampusList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_bjlPUSqXEeuQYLFFSvyAVg" name="lstCatCampusInput" type="COMPLEX" multiple="true"/>
         </defaultValue>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_0DQytBIfEeunGIjL610y7g">
-        <targetForm xmi:type="expression:Expression" xmi:id="_XmdEQB7XEeuE88m-k65S0g" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+        <targetForm xmi:type="expression:Expression" xmi:id="_B9ZksCqqEeuQYLFFSvyAVg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_0DQythIfEeunGIjL610y7g">
         <targetForm xmi:type="expression:Expression" xmi:id="_0DQytxIfEeunGIjL610y7g" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
@@ -72,20 +83,27 @@
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_0DQyuxIfEeunGIjL610y7g" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
       <contract xmi:type="process:Contract" xmi:id="_0DQyvBIfEeunGIjL610y7g">
-        <inputs xmi:type="process:ContractInput" xmi:id="_u-KvYB7IEeuE88m-k65S0g" name="lstCatCampusInput" type="COMPLEX" multiple="true" dataReference="lstCatCampus">
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvYR7IEeuE88m-k65S0g" name="id"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvYh7IEeuE88m-k65S0g" name="descripcion"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvYx7IEeuE88m-k65S0g" name="fechaCreacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvZB7IEeuE88m-k65S0g" name="isEliminado" type="BOOLEAN"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvZR7IEeuE88m-k65S0g" name="usuarioBanner"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvZh7IEeuE88m-k65S0g" name="fechaImplementacion" type="LOCALDATETIME"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvZx7IEeuE88m-k65S0g" name="clave"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvaB7IEeuE88m-k65S0g" name="urlAvisoPrivacidad"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-KvaR7IEeuE88m-k65S0g" name="urlDatosVeridicos"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-Kvah7IEeuE88m-k65S0g" name="urlAutorDatos"/>
-          <inputs xmi:type="process:ContractInput" xmi:id="_u-Kvax7IEeuE88m-k65S0g" name="isEnabled" type="BOOLEAN"/>
+        <inputs xmi:type="process:ContractInput" xmi:id="_gQ1t0CqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" type="FILE" multiple="true" dataReference="imgLogo"/>
+        <inputs xmi:type="process:ContractInput" xmi:id="_bjkoQCqXEeuQYLFFSvyAVg" name="lstCatCampusInput" type="COMPLEX" multiple="true" dataReference="lstCatCampus">
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoQSqXEeuQYLFFSvyAVg" name="id"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoQiqXEeuQYLFFSvyAVg" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoQyqXEeuQYLFFSvyAVg" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoRCqXEeuQYLFFSvyAVg" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoRSqXEeuQYLFFSvyAVg" name="usuarioBanner"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoRiqXEeuQYLFFSvyAVg" name="fechaImplementacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoRyqXEeuQYLFFSvyAVg" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoSCqXEeuQYLFFSvyAVg" name="urlAvisoPrivacidad"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoSSqXEeuQYLFFSvyAVg" name="urlDatosVeridicos"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoSiqXEeuQYLFFSvyAVg" name="urlAutorDatos"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoSyqXEeuQYLFFSvyAVg" name="isEnabled" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_bjkoTCqXEeuQYLFFSvyAVg" name="nombreDocumento"/>
         </inputs>
       </contract>
+      <documents xmi:type="process:Document" xmi:id="_bwZogCqFEeuQYLFFSvyAVg" name="imgLogo" documentType="CONTRACT" multiple="true" contractInput="_gQ1t0CqFEeuQYLFFSvyAVg">
+        <mimeType xmi:type="expression:Expression" xmi:id="_bwZogSqFEeuQYLFFSvyAVg" name="" content="" returnTypeFixed="true"/>
+        <url xmi:type="expression:Expression" xmi:id="_bwZogiqFEeuQYLFFSvyAVg" name="" content="" returnTypeFixed="true"/>
+        <initialMultipleContent xmi:type="expression:Expression" xmi:id="_bwZogyqFEeuQYLFFSvyAVg" name="" content="" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List" returnTypeFixed="true"/>
+      </documents>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_0DQyvRIfEeunGIjL610y7g">
         <name xmi:type="expression:Expression" xmi:id="_0DQyvhIfEeunGIjL610y7g" content="" returnTypeFixed="true"/>
         <value xmi:type="expression:Expression" xmi:id="_0DQyvxIfEeunGIjL610y7g" content="" returnTypeFixed="true"/>

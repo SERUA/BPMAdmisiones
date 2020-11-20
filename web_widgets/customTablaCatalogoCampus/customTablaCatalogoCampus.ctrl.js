@@ -58,22 +58,9 @@ function PbTableCtrl($scope, $http, modalService) {
         }
     }
 
-    $scope.sendData = function(row, index) {
-
-        if ($scope.loading == false) {
-            $("#loading").modal("show");
-            console.log(index)
-            $scope.loading = true;
-            $scope.properties.contenido[index].isEnabled = !$scope.properties.contenido[index].isEnabled
-            console.log(row);
-            $scope.asignarTarea()
-        } else {
-            console.log("click doble");
-        }
-    }
     
     $scope.sendDataEnabled = function(row, index) {
-
+        debugger;
         if ($scope.loading === false) {
             $("#loading").modal("show");
             $scope.loading = true;

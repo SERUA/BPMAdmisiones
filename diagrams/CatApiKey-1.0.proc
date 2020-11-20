@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
+  <process:MainProcess xmi:id="_X0HHUCaOEeuzn-zr68FNzA" name="CatApiKey" author="EMUI" bonitaVersion="7.11.2" bonitaModelVersion="7.11.1-001" configId="ACED000574001B4361744170694B6579372E31312E312D303031372E31312E327370">
+    <elements xmi:type="process:Pool" xmi:id="_X0HHUSaOEeuzn-zr68FNzA" name="CatApiKey">
+      <elements xmi:type="process:Lane" xmi:id="_X0HHUiaOEeuzn-zr68FNzA" name="ADMINISTRADOR" actor="_X0HHayaOEeuzn-zr68FNzA">
+        <elements xmi:type="process:StartEvent" xmi:id="_X0HHUyaOEeuzn-zr68FNzA" name="Inicio1" outgoing="_X0HHaCaOEeuzn-zr68FNzA">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_X0HHVCaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_X0HHVSaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_X0HHViaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+        </elements>
+        <elements xmi:type="process:Task" xmi:id="_X0HHVyaOEeuzn-zr68FNzA" name="ACCIONES" outgoing="_uN9eMCaOEeuzn-zr68FNzA" incoming="_X0HHaCaOEeuzn-zr68FNzA _uN9eMCaOEeuzn-zr68FNzA" overrideActorsOfTheLane="false">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_X0HHWCaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_X0HHWSaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_X0HHWiaOEeuzn-zr68FNzA" name="" content="" returnTypeFixed="true"/>
+          <operations xmi:type="expression:Operation" xmi:id="_2peWiSbREeuLdb_4vMqUPg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_2peWiibREeuLdb_4vMqUPg" name="lstCatApiKey" content="lstCatApiKey" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2peWiybREeuLdb_4vMqUPg" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_2peWjCbREeuLdb_4vMqUPg" name="lstCatApiKeyInput" content="def catApiKeyList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;     .each{&#xD;&#xA;&#x9;//Add CatApiKey instance&#xD;&#xA;&#x9;catApiKeyList.add({ currentCatApiKeyInput ->&#xD;&#xA;&#x9;&#x9;def catApiKeyVar = lstCatApiKey.find { it.persistenceId.toString() == currentCatApiKeyInput.persistenceId_string} ?: new com.anahuac.catalogos.CatApiKey()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.campus = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated CatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def catCampusVar = catCampusDAO.findByPersistenceId(currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!catCampusVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatCampus` with the persistence id &quot; + currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catCampusVar}()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conekta = currentCatApiKeyInput.conekta&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgun = currentCatApiKeyInput.mailgun&#xD;&#xA;&#x9;&#x9;catApiKeyVar.crispChat = currentCatApiKeyInput.crispChat&#xD;&#xA;&#x9;&#x9;catApiKeyVar.isEliminado = currentCatApiKeyInput.isEliminado&#xD;&#xA;&#x9;&#x9;return catApiKeyVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catApiKeyList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_2peWjibREeuLdb_4vMqUPg" name="catCampusDAO" content="catCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatCampusDAO" returnTypeFixed="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2peWjybREeuLdb_4vMqUPg" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_2peWkCbREeuLdb_4vMqUPg" type="ASSIGNMENT" expression="addAll">
+              <inputTypes>java.util.Collection</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_gOo-cynVEeuCJMe7EIL5YQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_gOo-dCnVEeuCJMe7EIL5YQ" name="lstCatApiKey" content="lstCatApiKey" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_gOo-dSnVEeuCJMe7EIL5YQ" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_gOo-dinVEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" content="def catApiKeyList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;     .each{&#xD;&#xA;&#x9;//Add CatApiKey instance&#xD;&#xA;&#x9;catApiKeyList.add({ currentCatApiKeyInput ->&#xD;&#xA;&#x9;&#x9;def catApiKeyVar = lstCatApiKey.find { it.persistenceId.toString() == currentCatApiKeyInput.persistenceId_string} ?: new com.anahuac.catalogos.CatApiKey()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.campus = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated CatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def catCampusVar = catCampusDAO.findByPersistenceId(currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!catCampusVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatCampus` with the persistence id &quot; + currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.id = currentCatApiKeyInput.campus?.id&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.descripcion = currentCatApiKeyInput.campus?.descripcion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatApiKeyInput.campus?.fechaCreacion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.isEliminado = currentCatApiKeyInput.campus?.isEliminado&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatApiKeyInput.campus?.usuarioBanner&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatApiKeyInput.campus?.fechaImplementacion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.clave = currentCatApiKeyInput.campus?.clave&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatApiKeyInput.campus?.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatApiKeyInput.campus?.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatApiKeyInput.campus?.urlAutorDatos&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.isEnabled = currentCatApiKeyInput.campus?.isEnabled&#xD;&#xA;&#x9;&#x9;&#x9;return catCampusVar}()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conekta = currentCatApiKeyInput.conekta&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgun = currentCatApiKeyInput.mailgun&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunDominio = currentCatApiKeyInput.mailgunDominio&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunCorreo = currentCatApiKeyInput.mailgunCorreo&#xD;&#xA;&#x9;&#x9;catApiKeyVar.crispChat = currentCatApiKeyInput.crispChat&#xD;&#xA;&#x9;&#x9;catApiKeyVar.isEliminado = currentCatApiKeyInput.isEliminado&#xD;&#xA;&#x9;&#x9;return catApiKeyVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catApiKeyList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_gOo-eCnVEeuCJMe7EIL5YQ" name="catCampusDAO" content="catCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatCampusDAO" returnTypeFixed="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_gOo-eSnVEeuCJMe7EIL5YQ" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_gOo-einVEeuCJMe7EIL5YQ" type="ASSIGNMENT" expression="addAll">
+              <inputTypes>java.util.Collection</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_L7-twCnmEeuCJMe7EIL5YQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_L7-twSnmEeuCJMe7EIL5YQ" name="lstCatApiKey" content="lstCatApiKey" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_L7-twinmEeuCJMe7EIL5YQ" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_L7-twynmEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" content="def catApiKeyList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatApiKeyInput.each{&#xD;&#xA;&#x9;//Add CatApiKey instance&#xD;&#xA;&#x9;catApiKeyList.add({ currentCatApiKeyInput ->&#xD;&#xA;&#x9;&#x9;def catApiKeyVar = lstCatApiKey.find { it.persistenceId.toString() == currentCatApiKeyInput.persistenceId_string} ?: new com.anahuac.catalogos.CatApiKey()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.campus = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated CatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def catCampusVar = catCampusDAO.findByPersistenceId(currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!catCampusVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatCampus` with the persistence id &quot; + currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.id = currentCatApiKeyInput.campus?.id&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.descripcion = currentCatApiKeyInput.campus?.descripcion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.fechaCreacion = currentCatApiKeyInput.campus?.fechaCreacion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.isEliminado = currentCatApiKeyInput.campus?.isEliminado&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.usuarioBanner = currentCatApiKeyInput.campus?.usuarioBanner&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.fechaImplementacion = currentCatApiKeyInput.campus?.fechaImplementacion&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.clave = currentCatApiKeyInput.campus?.clave&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlAvisoPrivacidad = currentCatApiKeyInput.campus?.urlAvisoPrivacidad&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlDatosVeridicos = currentCatApiKeyInput.campus?.urlDatosVeridicos&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.urlAutorDatos = currentCatApiKeyInput.campus?.urlAutorDatos&#xD;&#xA;&#x9;&#x9;&#x9;catCampusVar.isEnabled = currentCatApiKeyInput.campus?.isEnabled&#xD;&#xA;&#x9;&#x9;&#x9;return catCampusVar}()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conekta = currentCatApiKeyInput.conekta&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgun = currentCatApiKeyInput.mailgun&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunDominio = currentCatApiKeyInput.mailgunDominio&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunCorreo = currentCatApiKeyInput.mailgunCorreo&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conektaPublicKey = currentCatApiKeyInput.conektaPublicKey&#xD;&#xA;&#x9;&#x9;catApiKeyVar.crispChat = currentCatApiKeyInput.crispChat&#xD;&#xA;&#x9;&#x9;catApiKeyVar.isEliminado = currentCatApiKeyInput.isEliminado&#xD;&#xA;&#x9;&#x9;return catApiKeyVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catApiKeyList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_L7-txCnmEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" type="COMPLEX" multiple="true"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_L7-txSnmEeuCJMe7EIL5YQ" name="catCampusDAO" content="catCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatCampusDAO" returnTypeFixed="true"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_L7-txinmEeuCJMe7EIL5YQ" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_L7-txynmEeuCJMe7EIL5YQ" type="ASSIGNMENT" expression="addAll">
+              <inputTypes>java.util.Collection</inputTypes>
+            </operator>
+          </operations>
+          <loopCondition xmi:type="expression:Expression" xmi:id="_X0HHWyaOEeuzn-zr68FNzA" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+          <loopMaximum xmi:type="expression:Expression" xmi:id="_X0HHXCaOEeuzn-zr68FNzA" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+          <cardinalityExpression xmi:type="expression:Expression" xmi:id="_X0HHXSaOEeuzn-zr68FNzA" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+          <iteratorExpression xmi:type="expression:Expression" xmi:id="_X0HHXiaOEeuzn-zr68FNzA" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
+          <completionCondition xmi:type="expression:Expression" xmi:id="_X0HHXyaOEeuzn-zr68FNzA" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+          <formMapping xmi:type="process:FormMapping" xmi:id="_X0HHYCaOEeuzn-zr68FNzA">
+            <targetForm xmi:type="expression:Expression" xmi:id="_Dl8M8CbSEeuLdb_4vMqUPg" name="PageAccionesCatApiKey" content="0d3ce545-ff19-4268-be54-1db6f25235f2" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+          </formMapping>
+          <contract xmi:type="process:Contract" xmi:id="_X0HHYiaOEeuzn-zr68FNzA">
+            <inputs xmi:type="process:ContractInput" xmi:id="_L7-GsCnmEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" type="COMPLEX" multiple="true" dataReference="lstCatApiKey" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GsSnmEeuCJMe7EIL5YQ" name="persistenceId_string" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GsinmEeuCJMe7EIL5YQ" name="campus" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GsynmEeuCJMe7EIL5YQ" name="persistenceId_string" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GtCnmEeuCJMe7EIL5YQ" name="id" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GtSnmEeuCJMe7EIL5YQ" name="descripcion" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GtinmEeuCJMe7EIL5YQ" name="fechaCreacion" type="LOCALDATETIME" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GtynmEeuCJMe7EIL5YQ" name="isEliminado" type="BOOLEAN" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GuCnmEeuCJMe7EIL5YQ" name="usuarioBanner" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GuSnmEeuCJMe7EIL5YQ" name="fechaImplementacion" type="LOCALDATETIME" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GuinmEeuCJMe7EIL5YQ" name="clave" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GuynmEeuCJMe7EIL5YQ" name="urlAvisoPrivacidad" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GvCnmEeuCJMe7EIL5YQ" name="urlDatosVeridicos" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GvSnmEeuCJMe7EIL5YQ" name="urlAutorDatos" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_L7-GvinmEeuCJMe7EIL5YQ" name="isEnabled" type="BOOLEAN" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GvynmEeuCJMe7EIL5YQ" name="conekta" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GwCnmEeuCJMe7EIL5YQ" name="mailgun" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GwSnmEeuCJMe7EIL5YQ" name="mailgunDominio" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GwinmEeuCJMe7EIL5YQ" name="mailgunCorreo" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GwynmEeuCJMe7EIL5YQ" name="conektaPublicKey" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GxCnmEeuCJMe7EIL5YQ" name="crispChat" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_L7-GxSnmEeuCJMe7EIL5YQ" name="isEliminado" type="BOOLEAN" createMode="false"/>
+            </inputs>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_L7-GxinmEeuCJMe7EIL5YQ" expression="lstCatApiKeyInput?.campus.flatten().every{!it || it.persistenceId_string}" errorMessage="CatCampus must reference an existing instance with a persistenceId for CatApiKey" name="aggregation_lstCatApiKeyInput_campus">
+              <inputNames>lstCatApiKeyInput</inputNames>
+            </constraints>
+          </contract>
+          <expectedDuration xmi:type="expression:Expression" xmi:id="_X0HHYyaOEeuzn-zr68FNzA" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
+        </elements>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_vZ1WcCbFEeuLdb_4vMqUPg" name="lstCatApiKey" multiple="true" dataType="_X0HHhCaOEeuzn-zr68FNzA" className="com.anahuac.catalogos.CatApiKey">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_JreDuynmEeuCJMe7EIL5YQ" name="initLstCatApiKey()" content="def catApiKeyList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatApiKeyInput.each{&#xD;&#xA;&#x9;//Add a new composed CatApiKey instance&#xD;&#xA;&#x9;catApiKeyList.add({ currentCatApiKeyInput ->&#xD;&#xA;&#x9;&#x9;def catApiKeyVar = new com.anahuac.catalogos.CatApiKey()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.campus = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated CatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def catCampusVar = catCampusDAO.findByPersistenceId(currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!catCampusVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatCampus` with the persistence id &quot; + currentCatApiKeyInput.campus?.persistenceId_string?.trim() ? currentCatApiKeyInput.campus.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catCampusVar}()&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conekta = currentCatApiKeyInput.conekta&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgun = currentCatApiKeyInput.mailgun&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunDominio = currentCatApiKeyInput.mailgunDominio&#xD;&#xA;&#x9;&#x9;catApiKeyVar.mailgunCorreo = currentCatApiKeyInput.mailgunCorreo&#xD;&#xA;&#x9;&#x9;catApiKeyVar.conektaPublicKey = currentCatApiKeyInput.conektaPublicKey&#xD;&#xA;&#x9;&#x9;catApiKeyVar.crispChat = currentCatApiKeyInput.crispChat&#xD;&#xA;&#x9;&#x9;catApiKeyVar.isEliminado = currentCatApiKeyInput.isEliminado&#xD;&#xA;&#x9;&#x9;return catApiKeyVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catApiKeyList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_JreDvCnmEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_JreDvSnmEeuCJMe7EIL5YQ" name="catCampusDAO" content="catCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatCampusDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_X0HHZCaOEeuzn-zr68FNzA">
+        <targetForm xmi:type="expression:Expression" xmi:id="_VQVRUCrTEeuIZ5jQVpiF2w" name="formualarioapikey" content="6636ddb1-debf-48a7-a754-2f36dadfd690" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_X0HHZiaOEeuzn-zr68FNzA">
+        <targetForm xmi:type="expression:Expression" xmi:id="_X0HHZyaOEeuzn-zr68FNzA" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_X0HHaCaOEeuzn-zr68FNzA" target="_X0HHVyaOEeuzn-zr68FNzA" source="_X0HHUyaOEeuzn-zr68FNzA">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_X0HHaSaOEeuzn-zr68FNzA"/>
+        <condition xmi:type="expression:Expression" xmi:id="_X0HHaiaOEeuzn-zr68FNzA" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_uN9eMCaOEeuzn-zr68FNzA" target="_X0HHVyaOEeuzn-zr68FNzA" source="_X0HHVyaOEeuzn-zr68FNzA">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_uN-sUCaOEeuzn-zr68FNzA"/>
+        <condition xmi:type="expression:Expression" xmi:id="_uN-sUSaOEeuzn-zr68FNzA" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <actors xmi:type="process:Actor" xmi:id="_X0HHayaOEeuzn-zr68FNzA" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
+      <contract xmi:type="process:Contract" xmi:id="_X0HHbCaOEeuzn-zr68FNzA">
+        <inputs xmi:type="process:ContractInput" xmi:id="_JreDsCnmEeuCJMe7EIL5YQ" name="lstCatApiKeyInput" type="COMPLEX" multiple="true" dataReference="lstCatApiKey">
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDsSnmEeuCJMe7EIL5YQ" name="campus" type="COMPLEX">
+            <inputs xmi:type="process:ContractInput" xmi:id="_JreDsinmEeuCJMe7EIL5YQ" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDsynmEeuCJMe7EIL5YQ" name="conekta"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDtCnmEeuCJMe7EIL5YQ" name="mailgun"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDtSnmEeuCJMe7EIL5YQ" name="mailgunDominio"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDtinmEeuCJMe7EIL5YQ" name="mailgunCorreo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDtynmEeuCJMe7EIL5YQ" name="conektaPublicKey"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDuCnmEeuCJMe7EIL5YQ" name="crispChat"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_JreDuSnmEeuCJMe7EIL5YQ" name="isEliminado" type="BOOLEAN"/>
+        </inputs>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_JreDuinmEeuCJMe7EIL5YQ" expression="lstCatApiKeyInput?.campus.flatten().every{!it || it.persistenceId_string}" errorMessage="CatCampus must reference an existing instance with a persistenceId for CatApiKey" name="aggregation_lstCatApiKeyInput_campus">
+          <inputNames>lstCatApiKeyInput</inputNames>
+        </constraints>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_X0HHbSaOEeuzn-zr68FNzA">
+        <name xmi:type="expression:Expression" xmi:id="_X0HHbiaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_X0HHbyaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_X0HHcCaOEeuzn-zr68FNzA">
+        <name xmi:type="expression:Expression" xmi:id="_X0HHcSaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_X0HHciaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_X0HHcyaOEeuzn-zr68FNzA">
+        <name xmi:type="expression:Expression" xmi:id="_X0HHdCaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_X0HHdSaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_X0HHdiaOEeuzn-zr68FNzA">
+        <name xmi:type="expression:Expression" xmi:id="_X0HHdyaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_X0HHeCaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_X0HHeSaOEeuzn-zr68FNzA">
+        <name xmi:type="expression:Expression" xmi:id="_X0HHeiaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_X0HHeyaOEeuzn-zr68FNzA" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
+    <datatypes xmi:type="process:BooleanType" xmi:id="_X0HHfCaOEeuzn-zr68FNzA" name="Boolean"/>
+    <datatypes xmi:type="process:DateType" xmi:id="_X0HHfSaOEeuzn-zr68FNzA" name="Date"/>
+    <datatypes xmi:type="process:IntegerType" xmi:id="_X0HHfiaOEeuzn-zr68FNzA" name="Integer"/>
+    <datatypes xmi:type="process:LongType" xmi:id="_X0HHfyaOEeuzn-zr68FNzA" name="Long"/>
+    <datatypes xmi:type="process:DoubleType" xmi:id="_X0HHgCaOEeuzn-zr68FNzA" name="Double"/>
+    <datatypes xmi:type="process:StringType" xmi:id="_X0HHgSaOEeuzn-zr68FNzA" name="Text"/>
+    <datatypes xmi:type="process:JavaType" xmi:id="_X0HHgiaOEeuzn-zr68FNzA" name="Java_object"/>
+    <datatypes xmi:type="process:XMLType" xmi:id="_X0HHgyaOEeuzn-zr68FNzA" name="XML"/>
+    <datatypes xmi:type="process:BusinessObjectType" xmi:id="_X0HHhCaOEeuzn-zr68FNzA" name="Business_Object"/>
+  </process:MainProcess>
+  <notation:Diagram xmi:id="_X0HHhSaOEeuzn-zr68FNzA" type="Process" element="_X0HHUCaOEeuzn-zr68FNzA" name="MiDiagrama2" measurementUnit="Pixel">
+    <children xmi:type="notation:Node" xmi:id="_X0HHhiaOEeuzn-zr68FNzA" type="2007" element="_X0HHUSaOEeuzn-zr68FNzA">
+      <children xmi:type="notation:DecorationNode" xmi:id="_X0HHhyaOEeuzn-zr68FNzA" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_X0HHiCaOEeuzn-zr68FNzA" type="7001">
+        <children xmi:type="notation:Node" xmi:id="_X0HHiSaOEeuzn-zr68FNzA" type="3007" element="_X0HHUiaOEeuzn-zr68FNzA">
+          <children xmi:type="notation:DecorationNode" xmi:id="_X0HHiiaOEeuzn-zr68FNzA" type="5007"/>
+          <children xmi:type="notation:DecorationNode" xmi:id="_X0HHiyaOEeuzn-zr68FNzA" type="7002">
+            <children xmi:type="notation:Shape" xmi:id="_X0HHjCaOEeuzn-zr68FNzA" type="3005" element="_X0HHVyaOEeuzn-zr68FNzA" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
+              <children xmi:type="notation:DecorationNode" xmi:id="_X0HHjSaOEeuzn-zr68FNzA" type="5005"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X0HHjiaOEeuzn-zr68FNzA" x="137" y="48"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_X0HHjyaOEeuzn-zr68FNzA" type="3002" element="_X0HHUyaOEeuzn-zr68FNzA" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_X0HHkCaOEeuzn-zr68FNzA" type="5024">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_X0HHkSaOEeuzn-zr68FNzA" y="5"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X0HHkiaOEeuzn-zr68FNzA" x="60" y="68"/>
+            </children>
+          </children>
+          <styles xmi:type="notation:DescriptionStyle" xmi:id="_X0HHkyaOEeuzn-zr68FNzA"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_X0HHlCaOEeuzn-zr68FNzA" fontName="Segoe UI"/>
+          <styles xmi:type="notation:LineStyle" xmi:id="_X0HHlSaOEeuzn-zr68FNzA"/>
+          <styles xmi:type="notation:FillStyle" xmi:id="_X0HuYCaOEeuzn-zr68FNzA"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X0HuYSaOEeuzn-zr68FNzA"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_X0HuYiaOEeuzn-zr68FNzA"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_X0HuYyaOEeuzn-zr68FNzA" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_X0HuZCaOEeuzn-zr68FNzA"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_X0HuZSaOEeuzn-zr68FNzA"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_X0HuZiaOEeuzn-zr68FNzA" width="1320" height="250"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_X0HuZyaOEeuzn-zr68FNzA"/>
+    <edges xmi:type="notation:Connector" xmi:id="_X0HuaCaOEeuzn-zr68FNzA" type="4001" element="_X0HHaCaOEeuzn-zr68FNzA" source="_X0HHjyaOEeuzn-zr68FNzA" target="_X0HHjCaOEeuzn-zr68FNzA" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_X0HuaSaOEeuzn-zr68FNzA" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_X0HuaiaOEeuzn-zr68FNzA" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_X0HuayaOEeuzn-zr68FNzA" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_X0HubCaOEeuzn-zr68FNzA" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_uOEL4CaOEeuzn-zr68FNzA" type="4001" element="_uN9eMCaOEeuzn-zr68FNzA" source="_X0HHjCaOEeuzn-zr68FNzA" target="_X0HHjCaOEeuzn-zr68FNzA" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_uOFaACaOEeuzn-zr68FNzA" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_uOFaASaOEeuzn-zr68FNzA" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_uOEL4SaOEeuzn-zr68FNzA" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_uOEL4iaOEeuzn-zr68FNzA" points="[0, -8, 56, -16]$[62, -8, 118, -16]$[62, 82, 118, 74]$[-47, 82, 9, 74]$[-47, 20, 9, 12]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_uON84CaOEeuzn-zr68FNzA" id="(1.0,0.6)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_uON84SaOEeuzn-zr68FNzA" id="(0.44,0.76)"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>
