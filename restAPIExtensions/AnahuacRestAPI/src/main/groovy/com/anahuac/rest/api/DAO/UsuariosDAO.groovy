@@ -39,6 +39,7 @@ class UsuariosDAO {
 	
 	public Result postRegistrarUsuario(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
 		Result resultado = new Result();
+		Result resultadoN = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
 		Long userLogged = 0L;
@@ -61,12 +62,11 @@ class UsuariosDAO {
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
-			apiClient.login("acuna.karol@correo.com", "bpm")
+			apiClient.login("Administrador", "bpm")
 			//Registro del usuario
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.createUser(creator);
 			
-			lstResultado.add(object);
 			
 			apiClient.login(user.getUserName(), object.password)
 			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()
@@ -77,9 +77,34 @@ class UsuariosDAO {
 			update_user.setEnabled(false);
 			final User user_update= identityAPI.updateUser(user.getId(), update_user);
 			
+			
+			def str = jsonSlurper.parseText('{"campus": "CAMPUS-PUEBLA","correo":"'+object.nombreusuario+'", "codigo": "registrar","isEnviar":false}');
+			
+			NotificacionDAO nDAO = new NotificacionDAO();
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			
+			
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			plantilla = plantilla.replace("[href-confirmar]", prop.getProperty("HOST")+ "/bonita/API/extension/AnahuacRestGet?url=habilitarUsuario&correo="+str.correo+"&p=0&c=10" );
+			
+			MailGunDAO dao = new MailGunDAO();
+			dao.sendEmailPlantilla(str.correo,"Completar Registro",plantilla.replace("\\", ""),"","CAMPUS-PUEBLA", context);
+			
+			lstResultado.add(plantilla.replace("\\", ""))
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
+			resultado.setData(lstResultado);
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			LOGGER.error "ERROR=================================";
@@ -92,7 +117,7 @@ class UsuariosDAO {
 	
 	public Result postRecuperarPassword(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
 		
-		
+		Result resultadoN = new Result();
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
@@ -102,7 +127,7 @@ class UsuariosDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login("acuna.karol@correo.com", "bpm");
+			apiClient.login("Administrador", "bpm");
 			
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
@@ -119,14 +144,19 @@ class UsuariosDAO {
 			update_user.setPassword(randomString);
 			final User user_update= identityAPI.updateUser(user.getId(), update_user);
 			object.password = randomString;
+			def str = jsonSlurper.parseText('{"campus": "CAMPUS-PUEBLA","correo":"'+object.nombreusuario+'", "codigo": "recuperar","isEnviar":false}');
 			
+			
+			NotificacionDAO nDAO = new NotificacionDAO();
+			 
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"recuperar\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			plantilla = plantilla.replace("[password]", object.password );
 			MailGunDAO dao = new MailGunDAO();
-			dao.sendEmailRecuperacion(parameterP, parameterC, object, context);
+			dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"","", context);
 			
-			lstResultado.add(user);
-			lstResultado.add(user_update);
-			lstResultado.add(randomString);
 			
+			lstResultado.add(plantilla);
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -150,8 +180,8 @@ class UsuariosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login("alvarado.eduardo@correo.com", "bpm")
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login("Administrador", "bpm")
 			
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
@@ -176,27 +206,23 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result getHabilitarUsaurio( String correo, RestAPIContext context) {
+	public Result getHabilitarUsaurio(Integer parameterP,Integer parameterC, String correo, RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
 		try {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login("alvarado.eduardo@correo.com", "bpm")
-			
+			apiClient.login("Administrador", "bpm")
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(correo);
-			
 			
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);
 			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-		
-			lstResultado.add(user_update);
-					
-			lstResultado.add(correo);
-			resultado.setData(lstResultado);
+			
+			NotificacionDAO nDAO = new NotificacionDAO();
+			resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);

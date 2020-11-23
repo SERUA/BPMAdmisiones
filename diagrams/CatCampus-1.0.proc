@@ -12,15 +12,6 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_ZUXzcRfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_ZUXzcBfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_ZUXzchfYEeuoSd8nCjYXgw" name="" content="" returnTypeFixed="true"/>
-          <operations xmi:type="expression:Operation" xmi:id="_jbqrESqFEeuQYLFFSvyAVg">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_jbqrEiqFEeuQYLFFSvyAVg" name="imgLogo" content="imgLogo" type="DOCUMENT_REF_TYPE" returnType="java.util.List">
-              <referencedElements xmi:type="process:Document" xmi:id="_jbqrEyqFEeuQYLFFSvyAVg" name="imgLogo" multiple="true"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_jbqrFCqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" content="imgLogoDocumentInput" type="TYPE_CONTRACT_INPUT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_jbqrFSqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" type="FILE" multiple="true" createMode="false"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_jbqrFiqFEeuQYLFFSvyAVg" type="DOCUMENT_LIST_SET"/>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_exmqgCqXEeuQYLFFSvyAVg">
             <leftOperand xmi:type="expression:Expression" xmi:id="_exmqgSqXEeuQYLFFSvyAVg" name="lstCatCampus" content="lstCatCampus" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_exmqgiqXEeuQYLFFSvyAVg" name="lstCatCampus" multiple="true" dataType="_0DQy1BIfEeunGIjL610y7g" className="com.anahuac.catalogos.CatCampus"/>
@@ -33,16 +24,24 @@
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_7kOOQSwsEeu4xMYKcx-R3g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_7kOOQiwsEeu4xMYKcx-R3g" name="imgLogo" content="imgLogo" type="DOCUMENT_REF_TYPE" returnType="java.util.List">
+              <referencedElements xmi:type="process:Document" xmi:id="_7kOOQywsEeu4xMYKcx-R3g" name="imgLogo" multiple="true"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_7kOORCwsEeu4xMYKcx-R3g" name="imgLogoDocumentInput" content="imgLogoDocumentInput" type="TYPE_CONTRACT_INPUT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_7kOORSwsEeu4xMYKcx-R3g" name="imgLogoDocumentInput" type="FILE" multiple="true" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_7kOORiwsEeu4xMYKcx-R3g" type="DOCUMENT_LIST_SET"/>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_ZUXzcxfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_ZUXzdBfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_ZUXzdRfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_ZUYagRfYEeuoSd8nCjYXgw" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_ZUYagBfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_ZUYagxfYEeuoSd8nCjYXgw">
-            <targetForm xmi:type="expression:Expression" xmi:id="_-OsC0CqfEeuQYLFFSvyAVg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_aKS5gCxKEeu4xMYKcx-R3g" name="newForm18" content="e40cd03d-f271-40aa-855b-2f8fa7182e7c" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <contract xmi:type="process:Contract" xmi:id="_ZUYaghfYEeuoSd8nCjYXgw">
-            <inputs xmi:type="process:ContractInput" xmi:id="_jbqrECqFEeuQYLFFSvyAVg" name="imgLogoDocumentInput" type="FILE" multiple="true" dataReference="imgLogo" createMode="false"/>
             <inputs xmi:type="process:ContractInput" xmi:id="_exk1UCqXEeuQYLFFSvyAVg" name="lstCatCampusInput" type="COMPLEX" multiple="true" dataReference="lstCatCampus" createMode="false">
               <inputs xmi:type="process:ContractInput" xmi:id="_exk1USqXEeuQYLFFSvyAVg" name="persistenceId_string" createMode="false"/>
               <inputs xmi:type="process:ContractInput" xmi:id="_exk1UiqXEeuQYLFFSvyAVg" name="id" createMode="false"/>
@@ -58,6 +57,7 @@
               <inputs xmi:type="process:ContractInput" xmi:id="_exk1XCqXEeuQYLFFSvyAVg" name="isEnabled" type="BOOLEAN" createMode="false"/>
               <inputs xmi:type="process:ContractInput" xmi:id="_exk1XSqXEeuQYLFFSvyAVg" name="nombreDocumento" createMode="false"/>
             </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_7kOOQCwsEeu4xMYKcx-R3g" name="imgLogoDocumentInput" type="FILE" multiple="true" dataReference="imgLogo" createMode="false"/>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_ZUYahRfYEeuoSd8nCjYXgw" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
@@ -68,7 +68,7 @@
         </defaultValue>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_0DQytBIfEeunGIjL610y7g">
-        <targetForm xmi:type="expression:Expression" xmi:id="_B9ZksCqqEeuQYLFFSvyAVg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+        <targetForm xmi:type="expression:Expression" xmi:id="_uDs6oCxPEeu4xMYKcx-R3g" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_0DQythIfEeunGIjL610y7g">
         <targetForm xmi:type="expression:Expression" xmi:id="_0DQytxIfEeunGIjL610y7g" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>

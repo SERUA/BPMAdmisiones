@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "pageAccionesCampus",
   "name" : "pageAccionesCampus",
-  "lastUpdate" : 1605830644595,
+  "lastUpdate" : 1606006291899,
   "rows" : [
     [
       {
@@ -90,7 +90,7 @@
           },
           "size" : {
             "type" : "constant",
-            "value" : ""
+            "value" : "lg"
           },
           "animation" : {
             "type" : "constant",
@@ -561,6 +561,24 @@
                                 "required" : {
                                   "type" : "constant",
                                   "value" : false
+                                },
+                                "minLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "maxLength" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "min" : {
+                                  "type" : "constant"
+                                },
+                                "max" : {
+                                  "type" : "constant"
+                                },
+                                "step" : {
+                                  "type" : "constant",
+                                  "value" : 1
                                 }
                               },
                               "reference" : "bbc37b77-d81b-4329-9305-0a8101c9d9ad",
@@ -666,8 +684,48 @@
                                   "value" : ""
                                 },
                                 "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "!otrasVariables.isModificacion"
+                                },
+                                "disabled" : {
                                   "type" : "constant",
                                   "value" : false
+                                },
+                                "required" : {
+                                  "type" : "constant",
+                                  "value" : false
+                                },
+                                "label" : {
+                                  "type" : "interpolation",
+                                  "value" : "Desea mantener la Imagen"
+                                },
+                                "value" : {
+                                  "type" : "variable",
+                                  "value" : "otrasVariables.deseaMantener"
+                                }
+                              },
+                              "reference" : "492afd0f-bd30-4752-8d2c-78723759063f",
+                              "hasValidationError" : false,
+                              "id" : "pbCheckbox"
+                            }
+                          ],
+                          [
+                            {
+                              "type" : "component",
+                              "dimension" : {
+                                "xs" : 12,
+                                "sm" : 12,
+                                "md" : 12,
+                                "lg" : 12
+                              },
+                              "propertyValues" : {
+                                "cssClasses" : {
+                                  "type" : "constant",
+                                  "value" : ""
+                                },
+                                "hidden" : {
+                                  "type" : "expression",
+                                  "value" : "otrasVariables.deseaMantener"
                                 },
                                 "required" : {
                                   "type" : "constant",
@@ -738,10 +796,10 @@
                             {
                               "type" : "component",
                               "dimension" : {
-                                "md" : 12,
+                                "md" : 6,
                                 "sm" : 12,
                                 "xs" : 12,
-                                "lg" : 12
+                                "lg" : 6
                               },
                               "propertyValues" : {
                                 "removeItem" : {
@@ -1177,26 +1235,22 @@
             "type" : "variable",
             "value" : "formInput.lstCatCampusInput"
           },
-          "dataToadd" : {
-            "type" : "constant",
-            "value" : "{   \"persistenceId_string\" : \"\", \"id\" : \"\",  \"descripcion\" : \"\",  \"isEliminado\" : false,  \"usuarioBanner\" : userData.user_name,  \"clave\" : \"\",  \"urlAvisoPrivacidad\" : \"\",  \"urlDatosVeridicos\" : \"\",  \"urlAutorDatos\" : \"\",  \"isEnabled\" : true, \"fechaImplementacion\":getFecha, \"fechaCreacion\":getFecha }"
-          },
-          "collectionToModify" : {
-            "type" : "variable",
-            "value" : "formInput.lstCatCampusInput"
-          },
-          "valueToAdd" : {
-            "type" : "constant",
-            "value" : "{  \"persistenceId_string\" : \"\", \"clave\" : \"\", \"descripcion\" : \"\", \"usuarioBanner\" : \"\", \"id\":\"\", \"urlAvisoPrivacidad\":\"\", \"urlDatosVeridicos\":\"\", \"urlAutorDatos\":\"\", \"isEliminado\" : false, \"isEnabled\": true }"
-          },
           "strJson" : {
             "type" : "expression",
             "value" : "str2"
+          },
+          "dataReset2" : {
+            "type" : "variable",
+            "value" : "imgLogo"
+          },
+          "permitido" : {
+            "type" : "variable",
+            "value" : "otrasVariables.permitido"
           }
         },
-        "reference" : "53ac2f4d-69c2-4318-9a62-81baf6390b07",
+        "reference" : "98ee123d-6a9c-4064-abe4-5f6a188b2fd8",
         "hasValidationError" : false,
-        "id" : "customBtnValuesWithModal"
+        "id" : "customBtnValuesWithModalCampus"
       }
     ],
     [
@@ -1297,6 +1351,10 @@
           "index" : {
             "type" : "variable",
             "value" : "otrasVariables.index"
+          },
+          "lstArchivos" : {
+            "type" : "variable",
+            "value" : "formInput.imgLogoDocumentInput"
           }
         },
         "reference" : "430d5b6e-72c9-404b-ba8a-b088ecf3cdda",
@@ -1403,7 +1461,7 @@
       "value" : [
         "if($data.taskId === undefined){",
         "    return {lstCatCampusInput: $data.formInput.lstCatCampusInput, ",
-        "    imgLogoDocumentInput: $data.formInput.imgLogoDocumentInput",
+        "    imgLogoDocumentInput:  $data.formInput.imgLogoDocumentInput",
         "        ",
         "    }",
         "}else {",
@@ -1453,7 +1511,8 @@
         "    \"index\":0,",
         "    \"Validado\":false,",
         "    \"revisarMargen\":false,",
-        "    \"permitido\":false",
+        "    \"permitido\":false,",
+        "    \"deseaMantener\":false",
         "}"
       ],
       "exposed" : false
@@ -1486,6 +1545,12 @@
         "var validado = true;",
         "if( $data.formInput.lstCatCampusInput.length >=1){",
         "    $data.formInput.lstCatCampusInput.forEach(element =>{",
+        "        debugger;",
+        "        if($data.otrasVariables.deseaMantener ){",
+        "            $data.otrasVariables.permitido = true;",
+        "        }else if($data.otrasVariables.isModificacion && $data.imgLogo.filename.trim() === \"\" ){",
+        "            $data.otrasVariables.permitido = false;",
+        "        }",
         "        if(element.clave.trim()===\"\"){",
         "            validado = false;",
         "        }else if(element.descripcion.trim()===\"\"){",
@@ -1506,18 +1571,23 @@
         "            element.usuarioBanner = $data.userData.user_name;",
         "        }",
         "        else if($data.otrasVariables.permitido === true){",
-        "            element.nombreDocumento = $data.imgLogo.filename;",
+        "             element.nombreDocumento = $data.imgLogo.filename;",
         "            if($data.taskId === undefined && $data.formInput.imgLogoDocumentInput.length === 0){",
         "                $data.formInput.imgLogoDocumentInput.push($data.imgLogo)",
         "            } else if($data.taskId !== undefined &&$data.formInput.imgLogoDocumentInput.length === $data.context.imgLogo_ref.length){",
-        "                $data.imgLogo.descripcion = $data.imgLogo.tempPath;",
-        "                $data.formInput.imgLogoDocumentInput.push($data.imgLogo); ",
+        "                if(!$data.otrasVariables.isModificacion){",
+        "                    $data.imgLogo.descripcion = $data.imgLogo.tempPath;",
+        "                    $data.formInput.imgLogoDocumentInput.push($data.imgLogo); ",
+        "                }else if(!$data.otrasVariables.deseaMantener&&$data.otrasVariables.isModificacion){",
+        "                    $data.imgLogo.descripcion = $data.imgLogo.tempPath;",
+        "                    $data.formInput.imgLogoDocumentInput[$data.otrasVariables.index] = ($data.imgLogo); ",
+        "                }",
         "            }",
         "        }else{",
         "            if($data.taskId === undefined && $data.formInput.imgLogoDocumentInput.length>0){",
         "                $data.formInput.imgLogoDocumentInput.pop();",
         "            }",
-        "            else if($data.taskId !== undefined &&$data.formInput.imgLogoDocumentInput > $data.context.imgLogo_ref.length){",
+        "            else if($data.taskId !== undefined &&$data.formInput.imgLogoDocumentInput.length > $data.context.imgLogo_ref.length){",
         "                $data.formInput.imgLogoDocumentInput.pop();",
         "            }",
         "            validado = false;",
@@ -1607,16 +1677,17 @@
     "conectar_imagen_y_campus" : {
       "type" : "expression",
       "value" : [
+        "",
         "if($data.taskId !== undefined){",
         "var lstImg = [];",
-        "if(lstImg.length === 0 &&  $data.formInput.imgLogoDocumentInput.length === 0){",
+        "if(lstImg.length === 0 &&  $data.formInput.imgLogoDocumentInput.length === 0 && $data.otrasVariables.index ===0){",
         "    $data.context.imgLogo_ref.forEach (element =>{",
-        "       //lstImg.push({\"contentType\":element.contentMimeType,\"filename\":element.fileName,\"tempPath\":element.url}) ",
-        "       lstImg.push(element);",
+        "       lstImg.push({\"contentType\":element.contentMimeType,\"filename\":element.fileName,\"tempPath\":null,\"id\":element.id+\"\"}) ",
+        "       //lstImg.push(element);",
         "    });",
         "    $data.formInput.imgLogoDocumentInput = lstImg",
         "}",
-        "",
+        "console.log($data.context)",
         "}"
       ],
       "exposed" : false

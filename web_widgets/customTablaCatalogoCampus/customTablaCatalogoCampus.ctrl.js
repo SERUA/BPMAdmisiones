@@ -46,12 +46,13 @@ function PbTableCtrl($scope, $http, modalService) {
     }
   
     $scope.deleteData = function(row, index) {
-
+        debugger;
         if ($scope.loading == false) {
             $("#loading").modal("show");
             $scope.loading = true;
+            $scope.properties.index = index;
             $scope.properties.contenido[index].isEliminado = true;
-            console.log(row);
+            $scope.properties.lstArchivos.splice(index,index);
             $scope.asignarTarea()
         } else {
             console.log("click doble");
@@ -60,7 +61,6 @@ function PbTableCtrl($scope, $http, modalService) {
 
     
     $scope.sendDataEnabled = function(row, index) {
-        debugger;
         if ($scope.loading === false) {
             $("#loading").modal("show");
             $scope.loading = true;
@@ -159,6 +159,7 @@ function PbTableCtrl($scope, $http, modalService) {
             .success(function(data, status) {
                 $scope.properties.objTaskInformation = data;
                 $scope.loading = false;
+                $scope.properties.index = 0;
                 $("#loading").modal("hide");
             })
             .error(function(data, status) {

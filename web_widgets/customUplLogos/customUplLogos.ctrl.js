@@ -16,8 +16,8 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
   };
 
   this.submitForm = function() {
-    $scope.properties.revisar = false;
-    $scope.properties.permitido = false;
+      $scope.properties.revisar = false;
+      $scope.properties.permitido = false;
     var form = $element.find('form');
     form.triggerHandler('submit');
     form[0].submit();
@@ -91,6 +91,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
       return;
     }
     $scope.properties.value = response;
+    $scope.CheckDimension();
     console.log($scope.properties.value);
   }
   
@@ -125,12 +126,13 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                         document.getElementById("width").innerHTML=width;
                         document.getElementById("height").innerHTML=height;
                         $scope.properties.permitido = false;
-                        alert("Height and Width must not exceed 200px.");
+                        alert("Height NO PUEDE EXCEDER "+$scope.properties.HeightMaximo+" Y EL WIDTH NO PUEDE EXCEDER");
                         return false;
                     }
+
                     $scope.properties.permitido = true;
-                    $scope.properties.RevisarMargen = false;
-                    alert("Uploaded image has valid Height and Width.");
+                    $scope.properties.revisar = false;
+                    alert("LA IMAGEN TIENE HEIGHT Y WIDTH DENTRO DEL MARGEN.");
                     return true;
                 };
  
@@ -140,7 +142,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
             return false;
         }
     } else {
-        alert("Please select a valid Image file.");
+        alert("POR FAVOR SELECCIONE UNA IMAGEN VALIDA.");
         return false;
     }
   }

@@ -63,7 +63,12 @@ class IndexGet implements RestApiController {
 		}
 		// Send the result as a JSON representation
 		// You may use buildPagedResponse if your result is multiple
-		return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+		if(result.isSuccess()){
+			responseBuilder.withMediaType("text/html; charset=utf-8")
+			return buildResponse(responseBuilder, HttpServletResponse.SC_OK, (result.getData().size()>0)?result.getData().get(0):new JsonBuilder(result).toString())
+		}else {
+			return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+		}
 	}
 
 	/**
