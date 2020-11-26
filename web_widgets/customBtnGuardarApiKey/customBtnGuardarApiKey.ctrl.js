@@ -38,9 +38,27 @@ function PbButtonCtrl($scope, $http) {
                         $("#modalValidacion").modal("show");
                          //SweetAlert.swal("Falto capturar informacion en:", this.validacion);
                     }
+                    if(!$scope.properties.nuevosValores[0].conektaPublicKey){
+                        
+                        this.validacion = "ConektaPublicKey";
+                        $("#modalValidacion").modal("show");
+                         //SweetAlert.swal("Falto capturar informacion en:", this.validacion);
+                    }
                     if(!$scope.properties.nuevosValores[0].mailgun){
                         
                         this.validacion = "Mailgun";
+                        $("#modalValidacion").modal("show");
+                        //SweetAlert.swal("Falto capturar informacion en:", this.validacion);
+                    }
+                    if(!$scope.properties.nuevosValores[0].mailgunDominio){
+                        
+                        this.validacion = "MailgunDominio";
+                        $("#modalValidacion").modal("show");
+                        //SweetAlert.swal("Falto capturar informacion en:", this.validacion);
+                    }
+                    if(!$scope.properties.nuevosValores[0].mailgunCorreo){
+                        
+                        this.validacion = "MailgunCorreo";
                         $("#modalValidacion").modal("show");
                         //SweetAlert.swal("Falto capturar informacion en:", this.validacion);
                     }

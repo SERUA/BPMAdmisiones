@@ -213,17 +213,9 @@ class UsuariosDAO {
 		List<String> lstResultado = new ArrayList<String>();
 		try {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-<<<<<<< HEAD
 			apiClient.login("Administrador", "bpm")
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(correo);
-=======
-			apiClient.login("alvarado.eduardo@correo.com", "bpm")
-			LOGGER.error "================Paso 1=================";
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.getUserByUserName(correo);
-			LOGGER.error "=================Paso 2================";
->>>>>>> dac4a5a09a64de6f42d6151f0753b574ef1cb11a
 			
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);

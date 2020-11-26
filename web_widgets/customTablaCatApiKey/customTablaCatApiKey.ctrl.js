@@ -29,6 +29,9 @@ function PbTableCtrl($scope, $http, modalService) {
  			$scope.properties.selectedToModificate[0].mailgun = $scope.properties.contenido[index].mailgun;
  			$scope.properties.selectedToModificate[0].crispChat = $scope.properties.contenido[index].crispChat;
  			$scope.properties.selectedToModificate[0].isEliminado = $scope.properties.contenido[index].isEliminado;
+ 			$scope.properties.selectedToModificate[0].mailgunCorreo = $scope.properties.contenido[index].mailgunCorreo;
+ 			$scope.properties.selectedToModificate[0].mailgunDominio = $scope.properties.contenido[index].mailgunDominio;
+ 			$scope.properties.selectedToModificate[0].conektaPublicKey = $scope.properties.contenido[index].conektaPublicKey;
  
             $scope.properties.isModificacion = true;
             $scope.properties.index = index;
@@ -49,8 +52,6 @@ function PbTableCtrl($scope, $http, modalService) {
             $("#loading").modal("show");
             $scope.loading = true;
             $scope.properties.contenido[index].isEliminado = true;
-            $scope.properties.objContrato = $scope.properties.contenido;
-            console.log($scope.properties.contenido);
             $scope.asignarTarea()
         } else {
             console.log("click doble");

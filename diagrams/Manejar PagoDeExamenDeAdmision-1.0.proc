@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
+  <process:MainProcess xmi:id="_bAdHYC9pEeu1IdgvlyKxPg" name="Manejar PagoDeExamenDeAdmision" author="pc" bonitaVersion="7.11.2" bonitaModelVersion="7.11.1-001" configId="ACED00057400304D616E656A6172205061676F44654578616D656E446541646D6973696F6E372E31312E312D303031372E31312E327370">
+    <elements xmi:type="process:Pool" xmi:id="_bAducC9pEeu1IdgvlyKxPg" name="Agregar PagoDeExamenDeAdmision">
+      <elements xmi:type="process:Lane" xmi:id="_bAducS9pEeu1IdgvlyKxPg" name="Employee lane" actor="_bAduii9pEeu1IdgvlyKxPg">
+        <elements xmi:type="process:StartEvent" xmi:id="_bAduci9pEeu1IdgvlyKxPg" name="Start1" outgoing="_dcHRgC9pEeu1IdgvlyKxPg">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_bAducy9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_bAdudC9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_bAdudS9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        </elements>
+        <elements xmi:type="process:EndEvent" xmi:id="_ckMyEC9pEeu1IdgvlyKxPg" name="End1" incoming="_dcHRgC9pEeu1IdgvlyKxPg">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_ckNZIS9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_ckNZIC9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_ckNZIi9pEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        </elements>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_gVsGsC9pEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmision" multiple="true" dataType="_bAduoy9pEeu1IdgvlyKxPg" className="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_y9MNUC9pEeu1IdgvlyKxPg" name="initLstCatPagoDeExamenDeAdmision()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;def catPagoDeExamenDeAdmisionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatPagoDeExamenDeAdmisionInput.each{&#xD;&#xA;&#x9;//Add a new composed CatPagoDeExamenDeAdmision instance&#xD;&#xA;&#x9;catPagoDeExamenDeAdmisionList.add({ currentCatPagoDeExamenDeAdmisionInput ->&#xD;&#xA;&#x9;&#x9;def catPagoDeExamenDeAdmisionVar = new com.anahuac.catalogos.CatPagoDeExamenDeAdmision()&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.montoAspiranteLocal = currentCatPagoDeExamenDeAdmisionInput.montoAspiranteLocal&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.montoAspitanteForaneo = currentCatPagoDeExamenDeAdmisionInput.montoAspitanteForaneo&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.montoAspiranteLocalDolares = currentCatPagoDeExamenDeAdmisionInput.montoAspiranteLocalDolares&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.montoAspiranteForaneoDolares = currentCatPagoDeExamenDeAdmisionInput.montoAspiranteForaneoDolares&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.instruccionesDePago = currentCatPagoDeExamenDeAdmisionInput.instruccionesDePago&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.deshabilitarPagoDeExamenDeAdmision = currentCatPagoDeExamenDeAdmisionInput.deshabilitarPagoDeExamenDeAdmision&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.textoDescriptivoPagoDeshabilitado = currentCatPagoDeExamenDeAdmisionInput.textoDescriptivoPagoDeshabilitado&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.isEliminado = currentCatPagoDeExamenDeAdmisionInput.isEliminado&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.clave = currentCatPagoDeExamenDeAdmisionInput.clave&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.descripcion = currentCatPagoDeExamenDeAdmisionInput.descripcion&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.fechaCreacion = LocalDateTime.now()&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.usuarioCreacion = currentCatPagoDeExamenDeAdmisionInput.usuarioCreacion&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionVar.campus = currentCatPagoDeExamenDeAdmisionInput.campus&#xD;&#xA;&#x9;&#x9;return catPagoDeExamenDeAdmisionVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catPagoDeExamenDeAdmisionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_yrPsQC9qEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionInput" type="COMPLEX" multiple="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_bAdugy9pEeu1IdgvlyKxPg" type="NONE">
+        <targetForm xmi:type="expression:Expression" xmi:id="_nGbqoC99Eeu1IdgvlyKxPg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_bAduhS9pEeu1IdgvlyKxPg">
+        <targetForm xmi:type="expression:Expression" xmi:id="_bAduhi9pEeu1IdgvlyKxPg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_dcHRgC9pEeu1IdgvlyKxPg" target="_ckMyEC9pEeu1IdgvlyKxPg" source="_bAduci9pEeu1IdgvlyKxPg">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_dcHRgS9pEeu1IdgvlyKxPg"/>
+        <condition xmi:type="expression:Expression" xmi:id="_dcHRgi9pEeu1IdgvlyKxPg" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <actors xmi:type="process:Actor" xmi:id="_bAduii9pEeu1IdgvlyKxPg" documentation="This is an example of actor that is mapped to any ACME users" name="Employee actor" initiator="true"/>
+      <contract xmi:type="process:Contract" xmi:id="_bAduiy9pEeu1IdgvlyKxPg">
+        <inputs xmi:type="process:ContractInput" xmi:id="_y9LmQC9pEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionInput" type="COMPLEX" multiple="true" dataReference="lstCatPagoDeExamenDeAdmision">
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmQS9pEeu1IdgvlyKxPg" name="montoAspiranteLocal"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmQi9pEeu1IdgvlyKxPg" name="montoAspitanteForaneo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmQy9pEeu1IdgvlyKxPg" name="montoAspiranteLocalDolares"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmRC9pEeu1IdgvlyKxPg" name="montoAspiranteForaneoDolares"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmRS9pEeu1IdgvlyKxPg" name="instruccionesDePago"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmRi9pEeu1IdgvlyKxPg" name="deshabilitarPagoDeExamenDeAdmision" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmRy9pEeu1IdgvlyKxPg" name="textoDescriptivoPagoDeshabilitado"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmSC9pEeu1IdgvlyKxPg" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmSS9pEeu1IdgvlyKxPg" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmSi9pEeu1IdgvlyKxPg" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmSy9pEeu1IdgvlyKxPg" name="fechaCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmTC9pEeu1IdgvlyKxPg" name="usuarioCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_y9LmTS9pEeu1IdgvlyKxPg" name="campus"/>
+        </inputs>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_bAdujC9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_bAdujS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_bAduji9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_bAdujy9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_bAdukC9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_bAdukS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_bAduki9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_bAduky9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_bAdulC9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_bAdulS9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_bAduli9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_bAduly9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_bAdumC9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_bAdumS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_bAdumi9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
+    <elements xmi:type="process:Pool" xmi:id="_1b7goC9pEeu1IdgvlyKxPg" name="Editar PagoDeExamenDeAdmision">
+      <elements xmi:type="process:StartEvent" xmi:id="_FBwmAC9qEeu1IdgvlyKxPg" name="Start2" outgoing="_LOB7AC9qEeu1IdgvlyKxPg">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_FBybMS9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_FBybMC9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_FBybMi9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <elements xmi:type="process:ServiceTask" xmi:id="_Fi3vAC9qEeu1IdgvlyKxPg" name="Borrar PagoDeExamenDeAdmision" outgoing="_Lw-QAC9qEeu1IdgvlyKxPg" incoming="_LOB7AC9qEeu1IdgvlyKxPg">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_Fi3vAi9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_Fi3vAS9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_Fi3vAy9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <operations xmi:type="expression:Operation" xmi:id="_lVvwIC99Eeu1IdgvlyKxPg">
+          <leftOperand xmi:type="expression:Expression" xmi:id="_lVvwIS99Eeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionToDelete" content="lstCatPagoDeExamenDeAdmisionToDelete" type="TYPE_VARIABLE" returnType="java.util.List">
+            <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_l-nG8C99Eeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionToDelete" multiple="true" dataType="_bAduoy9pEeu1IdgvlyKxPg" className="com.anahuac.catalogos.CatPagoDeExamenDeAdmision"/>
+          </leftOperand>
+          <rightOperand xmi:type="expression:Expression" xmi:id="_lVvwIi99Eeu1IdgvlyKxPg" content=""/>
+          <operator xmi:type="expression:Operator" xmi:id="_lVvwIy99Eeu1IdgvlyKxPg" type="DELETION"/>
+        </operations>
+        <loopCondition xmi:type="expression:Expression" xmi:id="_Fi3vBC9qEeu1IdgvlyKxPg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+        <loopMaximum xmi:type="expression:Expression" xmi:id="_Fi3vBS9qEeu1IdgvlyKxPg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+        <cardinalityExpression xmi:type="expression:Expression" xmi:id="_Fi3vBi9qEeu1IdgvlyKxPg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+        <iteratorExpression xmi:type="expression:Expression" xmi:id="_Fi3vCC9qEeu1IdgvlyKxPg" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
+        <completionCondition xmi:type="expression:Expression" xmi:id="_Fi3vBy9qEeu1IdgvlyKxPg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </elements>
+      <elements xmi:type="process:EndEvent" xmi:id="_Kn0PkC9qEeu1IdgvlyKxPg" name="End2" incoming="_Lw-QAC9qEeu1IdgvlyKxPg">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_Kn0Pki9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_Kn0PkS9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_Kn0Pky9qEeu1IdgvlyKxPg" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_6_DK8C9pEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmision" multiple="true" dataType="_bAduoy9pEeu1IdgvlyKxPg" className="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_9RHUPi9pEeu1IdgvlyKxPg" name="initLstCatPagoDeExamenDeAdmision()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.catalogos.CatPagoDeExamenDeAdmision;&#xD;&#xA;&#xD;&#xA;def catPagoDeExamenDeAdmisionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;for (Map objCatPagoDeExamenDeAdmisionInput: lstCatPagoDeExamenDeAdmisionInput){&#xD;&#xA;&#x9;if (Boolean.TRUE.equals(objCatPagoDeExamenDeAdmisionInput.todelete))&#xD;&#xA;&#x9;&#x9;continue;&#xD;&#xA;&#x9;CatPagoDeExamenDeAdmision objCatPagoDeExamenDeAdmision = catPagoDeExamenDeAdmisionDAO.findByPersistenceId(objCatPagoDeExamenDeAdmisionInput.persistenceId);&#xD;&#xA;&#x9;if(objCatPagoDeExamenDeAdmision != null){&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.montoAspiranteLocal = objCatPagoDeExamenDeAdmisionInput.montoAspiranteLocal&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.montoAspitanteForaneo = objCatPagoDeExamenDeAdmisionInput.montoAspitanteForaneo&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.montoAspiranteLocalDolares = objCatPagoDeExamenDeAdmisionInput.montoAspiranteLocalDolares&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.montoAspiranteForaneoDolares = objCatPagoDeExamenDeAdmisionInput.montoAspiranteForaneoDolares&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.instruccionesDePago = objCatPagoDeExamenDeAdmisionInput.instruccionesDePago&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.deshabilitarPagoDeExamenDeAdmision = objCatPagoDeExamenDeAdmisionInput.deshabilitarPagoDeExamenDeAdmision&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.textoDescriptivoPagoDeshabilitado = objCatPagoDeExamenDeAdmisionInput.textoDescriptivoPagoDeshabilitado&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.isEliminado = objCatPagoDeExamenDeAdmisionInput.isEliminado&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.clave = objCatPagoDeExamenDeAdmisionInput.clave&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.descripcion = objCatPagoDeExamenDeAdmisionInput.descripcion&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.fechaCreacion = objCatPagoDeExamenDeAdmisionInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.usuarioCreacion = objCatPagoDeExamenDeAdmisionInput.usuarioCreacion&#xD;&#xA;&#x9;&#x9;objCatPagoDeExamenDeAdmision.campus = objCatPagoDeExamenDeAdmisionInput.campus&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;catPagoDeExamenDeAdmisionList.add(objCatPagoDeExamenDeAdmision);&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return catPagoDeExamenDeAdmisionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_SSdfsC9tEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_SSdfsS9tEeu1IdgvlyKxPg" name="catPagoDeExamenDeAdmisionDAO" content="catPagoDeExamenDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmisionDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_RYiVcC9qEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionToDelete" multiple="true" dataType="_bAduoy9pEeu1IdgvlyKxPg" className="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_RYiVcS9qEeu1IdgvlyKxPg" name="init_lstCatPagoDeExamenDeAdmisionToDelete()" content="import com.anahuac.catalogos.CatPagoDeExamenDeAdmision;&#xD;&#xA;&#xD;&#xA;def catPagoDeExamenDeAdmisionList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;for (Map objCatPagoDeExamenDeAdmisionInput: lstCatPagoDeExamenDeAdmisionInput) {&#xD;&#xA;&#x9;if (Boolean.TRUE.equals(objCatPagoDeExamenDeAdmisionInput.todelete)){&#xD;&#xA;&#x9;&#x9;CatPagoDeExamenDeAdmision objCatPagoDeExamenDeAdmision = catPagoDeExamenDeAdmisionDAO.findByPersistenceId(objCatPagoDeExamenDeAdmisionInput.persistenceId);&#xD;&#xA;&#x9;&#x9;if (objCatPagoDeExamenDeAdmision != null) {&#xD;&#xA;&#x9;&#x9;&#x9;catPagoDeExamenDeAdmisionList.add(objCatPagoDeExamenDeAdmision)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return catPagoDeExamenDeAdmisionList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_kBiwkC9tEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_kBiwkS9tEeu1IdgvlyKxPg" name="catPagoDeExamenDeAdmisionDAO" content="catPagoDeExamenDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmisionDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_1b9V0C9pEeu1IdgvlyKxPg" type="NONE">
+        <targetForm xmi:type="expression:Expression" xmi:id="_nKfEMC99Eeu1IdgvlyKxPg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_1b9V0i9pEeu1IdgvlyKxPg">
+        <targetForm xmi:type="expression:Expression" xmi:id="_1b9V0y9pEeu1IdgvlyKxPg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_LOB7AC9qEeu1IdgvlyKxPg" target="_Fi3vAC9qEeu1IdgvlyKxPg" source="_FBwmAC9qEeu1IdgvlyKxPg">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_LOB7AS9qEeu1IdgvlyKxPg"/>
+        <condition xmi:type="expression:Expression" xmi:id="_LOB7Ai9qEeu1IdgvlyKxPg" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_Lw-QAC9qEeu1IdgvlyKxPg" target="_Kn0PkC9qEeu1IdgvlyKxPg" source="_Fi3vAC9qEeu1IdgvlyKxPg">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_Lw-QAS9qEeu1IdgvlyKxPg"/>
+        <condition xmi:type="expression:Expression" xmi:id="_Lw-QAi9qEeu1IdgvlyKxPg" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <contract xmi:type="process:Contract" xmi:id="_1b9V1C9pEeu1IdgvlyKxPg">
+        <inputs xmi:type="process:ContractInput" xmi:id="_9RHUMC9pEeu1IdgvlyKxPg" name="lstCatPagoDeExamenDeAdmisionInput" type="COMPLEX" multiple="true" dataReference="lstCatPagoDeExamenDeAdmision">
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUMS9pEeu1IdgvlyKxPg" name="montoAspiranteLocal"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUMi9pEeu1IdgvlyKxPg" name="montoAspitanteForaneo"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUMy9pEeu1IdgvlyKxPg" name="montoAspiranteLocalDolares"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUNC9pEeu1IdgvlyKxPg" name="montoAspiranteForaneoDolares"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUNS9pEeu1IdgvlyKxPg" name="instruccionesDePago"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUNi9pEeu1IdgvlyKxPg" name="deshabilitarPagoDeExamenDeAdmision" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUNy9pEeu1IdgvlyKxPg" name="textoDescriptivoPagoDeshabilitado"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUOC9pEeu1IdgvlyKxPg" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUOS9pEeu1IdgvlyKxPg" name="clave"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUOi9pEeu1IdgvlyKxPg" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUOy9pEeu1IdgvlyKxPg" name="fechaCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUPC9pEeu1IdgvlyKxPg" name="usuarioCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_9RHUPS9pEeu1IdgvlyKxPg" name="campus"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_91ArcC9pEeu1IdgvlyKxPg" name="todelete" type="BOOLEAN">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_91ArcS9pEeu1IdgvlyKxPg"/>
+          </inputs>
+        </inputs>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_1b8uwC9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_1b8uwS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_1b8uwi9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_1b8uwy9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_1b8uxC9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_1b8uxS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_1b8uxi9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_1b8uxy9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_1b8uyC9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_1b8uyS9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_1b8uyi9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_1b8uyy9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_1b8uzC9pEeu1IdgvlyKxPg">
+        <name xmi:type="expression:Expression" xmi:id="_1b8uzS9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_1b8uzi9pEeu1IdgvlyKxPg" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
+    <datatypes xmi:type="process:BooleanType" xmi:id="_bAdumy9pEeu1IdgvlyKxPg" name="Boolean"/>
+    <datatypes xmi:type="process:DateType" xmi:id="_bAdunC9pEeu1IdgvlyKxPg" name="Date"/>
+    <datatypes xmi:type="process:IntegerType" xmi:id="_bAdunS9pEeu1IdgvlyKxPg" name="Integer"/>
+    <datatypes xmi:type="process:LongType" xmi:id="_bAduni9pEeu1IdgvlyKxPg" name="Long"/>
+    <datatypes xmi:type="process:DoubleType" xmi:id="_bAduny9pEeu1IdgvlyKxPg" name="Double"/>
+    <datatypes xmi:type="process:StringType" xmi:id="_bAduoC9pEeu1IdgvlyKxPg" name="Text"/>
+    <datatypes xmi:type="process:JavaType" xmi:id="_bAduoS9pEeu1IdgvlyKxPg" name="Java_object"/>
+    <datatypes xmi:type="process:XMLType" xmi:id="_bAduoi9pEeu1IdgvlyKxPg" name="XML"/>
+    <datatypes xmi:type="process:BusinessObjectType" xmi:id="_bAduoy9pEeu1IdgvlyKxPg" name="Business_Object"/>
+  </process:MainProcess>
+  <notation:Diagram xmi:id="_bAdupC9pEeu1IdgvlyKxPg" type="Process" element="_bAdHYC9pEeu1IdgvlyKxPg" name="MyDiagram" measurementUnit="Pixel">
+    <children xmi:type="notation:Node" xmi:id="_bAdupS9pEeu1IdgvlyKxPg" type="2007" element="_bAducC9pEeu1IdgvlyKxPg">
+      <children xmi:type="notation:DecorationNode" xmi:id="_bAdupi9pEeu1IdgvlyKxPg" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_bAdupy9pEeu1IdgvlyKxPg" type="7001">
+        <children xmi:type="notation:Node" xmi:id="_bAduqC9pEeu1IdgvlyKxPg" type="3007" element="_bAducS9pEeu1IdgvlyKxPg">
+          <children xmi:type="notation:DecorationNode" xmi:id="_bAduqS9pEeu1IdgvlyKxPg" type="5007"/>
+          <children xmi:type="notation:DecorationNode" xmi:id="_bAduqi9pEeu1IdgvlyKxPg" type="7002">
+            <children xmi:type="notation:Shape" xmi:id="_bAduri9pEeu1IdgvlyKxPg" type="3002" element="_bAduci9pEeu1IdgvlyKxPg" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_bAdury9pEeu1IdgvlyKxPg" type="5024">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_bAdusC9pEeu1IdgvlyKxPg" y="5"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bAdusS9pEeu1IdgvlyKxPg" x="60" y="68"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_ckOnQC9pEeu1IdgvlyKxPg" type="3003" element="_ckMyEC9pEeu1IdgvlyKxPg" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_ckPOUC9pEeu1IdgvlyKxPg" type="5025">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_ckPOUS9pEeu1IdgvlyKxPg" y="5"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ckOnQS9pEeu1IdgvlyKxPg" x="226" y="66"/>
+            </children>
+          </children>
+          <styles xmi:type="notation:DescriptionStyle" xmi:id="_bAdusi9pEeu1IdgvlyKxPg"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_bAdusy9pEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+          <styles xmi:type="notation:LineStyle" xmi:id="_bAdutC9pEeu1IdgvlyKxPg"/>
+          <styles xmi:type="notation:FillStyle" xmi:id="_bAdutS9pEeu1IdgvlyKxPg"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bAduti9pEeu1IdgvlyKxPg" x="48" y="10" width="1297" height="199"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_bAduty9pEeu1IdgvlyKxPg"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_bAduuC9pEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_bAduuS9pEeu1IdgvlyKxPg"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_bAduui9pEeu1IdgvlyKxPg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_bAduuy9pEeu1IdgvlyKxPg" width="1320" height="250"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_1b984C9pEeu1IdgvlyKxPg" type="2007" element="_1b7goC9pEeu1IdgvlyKxPg">
+      <children xmi:type="notation:DecorationNode" xmi:id="_1b985S9pEeu1IdgvlyKxPg" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_1b985i9pEeu1IdgvlyKxPg" type="7001">
+        <children xmi:type="notation:Shape" xmi:id="_FBzCQC9qEeu1IdgvlyKxPg" type="3002" element="_FBwmAC9qEeu1IdgvlyKxPg" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_FBzCQi9qEeu1IdgvlyKxPg" type="5024">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_FBzCQy9qEeu1IdgvlyKxPg" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_FBzCQS9qEeu1IdgvlyKxPg" x="54" y="75"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_Fi4WEC9qEeu1IdgvlyKxPg" type="3027" element="_Fi3vAC9qEeu1IdgvlyKxPg" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
+          <children xmi:type="notation:DecorationNode" xmi:id="_Fi49IC9qEeu1IdgvlyKxPg" type="5017"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Fi4WES9qEeu1IdgvlyKxPg" x="141" y="55" width="176" height="88"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_Kn0PlC9qEeu1IdgvlyKxPg" type="3003" element="_Kn0PkC9qEeu1IdgvlyKxPg" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_Kn02oC9qEeu1IdgvlyKxPg" type="5025">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_Kn02oS9qEeu1IdgvlyKxPg" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_Kn0PlS9qEeu1IdgvlyKxPg" x="408" y="75"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_1b984S9pEeu1IdgvlyKxPg"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_1b984i9pEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_1b984y9pEeu1IdgvlyKxPg"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_1b985y9pEeu1IdgvlyKxPg"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_1b985C9pEeu1IdgvlyKxPg" width="1320" height="225"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_bAduvC9pEeu1IdgvlyKxPg"/>
+    <edges xmi:type="notation:Connector" xmi:id="_dcH4kC9pEeu1IdgvlyKxPg" type="4001" element="_dcHRgC9pEeu1IdgvlyKxPg" source="_bAduri9pEeu1IdgvlyKxPg" target="_ckOnQC9pEeu1IdgvlyKxPg" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_dcIfoC9pEeu1IdgvlyKxPg" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_dcIfoS9pEeu1IdgvlyKxPg" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_dcH4kS9pEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_dcH4ki9pEeu1IdgvlyKxPg" points="[0, -15, -142, 0]$[136, -14, -6, 1]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dcJtwC9pEeu1IdgvlyKxPg" id="(1.0,1.0)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_dcJtwS9pEeu1IdgvlyKxPg" id="(0.2,0.5666666666666667)"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_LOCiEC9qEeu1IdgvlyKxPg" type="4001" element="_LOB7AC9qEeu1IdgvlyKxPg" source="_FBzCQC9qEeu1IdgvlyKxPg" target="_Fi4WEC9qEeu1IdgvlyKxPg" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_LOCiEy9qEeu1IdgvlyKxPg" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_LOCiFC9qEeu1IdgvlyKxPg" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_LOCiES9qEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_LOCiEi9qEeu1IdgvlyKxPg" points="[-1, -15, -74, -5]$[57, -11, -16, -1]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_LODwMC9qEeu1IdgvlyKxPg" id="(1.0,1.0)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_LODwMS9qEeu1IdgvlyKxPg" id="(0.09090909090909091,0.45454545454545453)"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_Lw-3EC9qEeu1IdgvlyKxPg" type="4001" element="_Lw-QAC9qEeu1IdgvlyKxPg" source="_Fi4WEC9qEeu1IdgvlyKxPg" target="_Kn0PlC9qEeu1IdgvlyKxPg" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_Lw-3Ey9qEeu1IdgvlyKxPg" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_Lw-3FC9qEeu1IdgvlyKxPg" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_Lw-3ES9qEeu1IdgvlyKxPg" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_Lw-3Ei9qEeu1IdgvlyKxPg" points="[0, 7, -100, 8]$[91, 7, -9, 8]"/>
+      <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_LxAFMC9qEeu1IdgvlyKxPg" id="(1.0,0.3068181818181818)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_LxAFMS9qEeu1IdgvlyKxPg" id="(0.3,0.2)"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>
