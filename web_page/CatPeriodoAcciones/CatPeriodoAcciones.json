@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatPeriodoAcciones",
   "name" : "CatPeriodoAcciones",
-  "lastUpdate" : 1606328888176,
+  "lastUpdate" : 1606432772126,
   "rows" : [
     [
       {
@@ -270,7 +270,6 @@
                 "headers" : {
                   "type" : "constant",
                   "value" : [
-                    "Campus",
                     "Clave",
                     "Descripcion",
                     "UsuarioBanner",
@@ -285,7 +284,6 @@
                 "columnsKey" : {
                   "type" : "constant",
                   "value" : [
-                    "campus.descripcion",
                     "clave",
                     "descripcion",
                     "usuarioBanner",
@@ -1370,9 +1368,9 @@
       "value" : [
         "var resultado = [];",
         "",
-        "for(var x in $data.lstCampusByUser){",
+        "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
-        "        if($data.lstCampusByUser[x] === $data.lstCatCampus[index].descripcion){",
+        "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",
@@ -1436,6 +1434,52 @@
         " }else{",
         "     return false;",
         " }"
+      ],
+      "exposed" : false
+    },
+    "lstCampusRole" : {
+      "type" : "json",
+      "value" : [
+        "[{\"descripcion\":\"Anáhuac México Norte\", \"valor\":\"CAMPUS-MNORTE\"},\r",
+        "{\"descripcion\":\"Anáhuac México Sur\", \"valor\":\"CAMPUS-MSUR\"},\r",
+        "{\"descripcion\":\"Anáhuac Mayab\", \"valor\":\"CAMPUS-MAYAB\"},\r",
+        "{\"descripcion\":\"Anáhuac Xalapa\", \"valor\":\"CAMPUS-XALAPA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cordoba\", \"valor\":\"CAMPUS-CORDOBA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cancún\", \"valor\":\"CAMPUS-CANCUN\"},\r",
+        "{\"descripcion\":\"Anáhuac Oaxaca\", \"valor\":\"CAMPUS-OAXACA\"},\r",
+        "{\"descripcion\":\"Anáhuac Puebla\", \"valor\":\"CAMPUS-PUEBLA\"},\r",
+        "{\"descripcion\":\"Anáhuac Querétaro\", \"valor\":\"CAMPUS-QUERETARO\"},\r",
+        "{\"descripcion\":\"Juan Pablo II\", \"valor\":\"CAMPUS-JP2\"}]"
+      ],
+      "exposed" : false
+    },
+    "lstComparadorCampus" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "/*for(var i in $data.lstCatCampus){",
+        "    $data.lstCatCampus[i].descripcion",
+        "}*/",
+        "",
+        "return resultado;"
+      ],
+      "exposed" : false
+    },
+    "lstCampusUsuario" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "for(var x in $data.lstCampusByUser){",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
       ],
       "exposed" : false
     }

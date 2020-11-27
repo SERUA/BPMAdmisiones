@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatPagoExamenAcciones",
   "name" : "CatPagoExamenAcciones",
-  "lastUpdate" : 1606358387799,
+  "lastUpdate" : 1606434840291,
   "rows" : [
     [
       {
@@ -174,7 +174,8 @@
                   "value" : "descripcion"
                 },
                 "returnedKey" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : ""
                 },
                 "value" : {
                   "type" : "variable",
@@ -273,10 +274,9 @@
                     "Clave",
                     "Descripcion",
                     "Fecha Creacion",
-                    "Monto Aspirante Local",
-                    "Monto Aspirante foráneo",
-                    "Monto Aspirante local Dólares",
-                    "Monto aspirante foráneo Dólares",
+                    "Monto aspirante Local",
+                    "Monto aspirante foráneo",
+                    "Monto aspirante extranjero",
                     "Instrucciones de pago",
                     "texto descriptivo pago deshabilitado",
                     "Deshabilitar pago de examen de admisión"
@@ -295,7 +295,6 @@
                     "montoAspiranteLocal",
                     "montoAspitanteForaneo",
                     "montoAspiranteLocalDolares",
-                    "montoAspiranteForaneoDolares",
                     "instruccionesDePago",
                     "deshabilitarPagoDeExamenDeAdmision?\"Si\":\"no\"",
                     "textoDescriptivoPagoDeshabilitado"
@@ -761,7 +760,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Monto a pagar examen Aspirante local (Dólares)"
+                  "value" : "Monto  a pagar examen aspirante extranjero"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -812,11 +811,11 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "required" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "minLength" : {
                   "type" : "constant",
@@ -1142,7 +1141,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1588,7 +1587,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Monto a pagar examen Aspirante local (Dólares)"
+                  "value" : "Monto  a pagar examen aspirante extranjero"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -1639,11 +1638,11 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "required" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "minLength" : {
                   "type" : "constant",
@@ -1961,7 +1960,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -2244,11 +2243,11 @@
         "        validar = false;",
         "    }else if(parseInt($data.catPagoDeExamenDeAdmision_selected.montoAspiranteLocalDolares)<=0 || $data.catPagoDeExamenDeAdmision_selected.montoAspiranteLocalDolares.length <=0){",
         "        validar = false;",
-        "    }else if(isNaN($data.catPagoDeExamenDeAdmision_selected.montoAspiranteForaneoDolares)){",
+        "    }/*else if(isNaN($data.catPagoDeExamenDeAdmision_selected.montoAspiranteForaneoDolares)){",
         "        validar = false;",
         "    }else if(parseInt($data.catPagoDeExamenDeAdmision_selected.montoAspiranteForaneoDolares)<=0 || $data.catPagoDeExamenDeAdmision_selected.montoAspiranteForaneoDolares.length <=0){",
         "        validar = false;",
-        "    }else if($data.catPagoDeExamenDeAdmision_selected.instruccionesDePago.trim() === \"\"){",
+        "    }*/else if($data.catPagoDeExamenDeAdmision_selected.instruccionesDePago.trim() === \"\"){",
         "            validar = false;",
         "    }if($data.catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision === true){",
         "        if($data.catPagoDeExamenDeAdmision_selected.textoDescriptivoPagoDeshabilitado.trim() === \"\"){",
@@ -2275,14 +2274,14 @@
         "        validar = false;",
         "    }else if(parseInt($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteLocalDolares)<=0 || $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteLocalDolares.length <=0){",
         "        validar = false;",
-        "    }else if(isNaN($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteForaneoDolares)){",
+        "    }/*else if(isNaN($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteForaneoDolares)){",
         "        validar = false;",
         "    }else if(parseInt($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteForaneoDolares)<=0 || $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].montoAspiranteForaneoDolares.length <=0){",
         "        validar = false;",
-        "    }else if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].instruccionesDePago.trim() === \"\"){",
+        "    }*/else if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].instruccionesDePago.trim() === \"\"){",
         "        validar = false;",
         "    }else if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus.trim() === \"\"){",
-        "        $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus = $data.campus_selected.clave;",
+        "        $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus = $data.campus_selected.descripcion;",
         "        validar = false;",
         "    }",
         "    if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].deshabilitarPagoDeExamenDeAdmision === true){",
@@ -2306,10 +2305,9 @@
       "type" : "expression",
       "value" : [
         "var resultado = [];",
-        "",
-        "for(var x in $data.lstCampusByUser){",
+        "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
-        "        if($data.lstCampusByUser[x] === $data.lstCatCampus[index].descripcion){",
+        "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",
@@ -2373,6 +2371,39 @@
         " }else{",
         "     return false;",
         " }"
+      ],
+      "exposed" : false
+    },
+    "lstCampusRole" : {
+      "type" : "json",
+      "value" : [
+        "[{\"descripcion\":\"Anáhuac México Norte\", \"valor\":\"CAMPUS-MNORTE\"},\r",
+        "{\"descripcion\":\"Anáhuac México Sur\", \"valor\":\"CAMPUS-MSUR\"},\r",
+        "{\"descripcion\":\"Anáhuac Mayab\", \"valor\":\"CAMPUS-MAYAB\"},\r",
+        "{\"descripcion\":\"Anáhuac Xalapa\", \"valor\":\"CAMPUS-XALAPA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cordoba\", \"valor\":\"CAMPUS-CORDOBA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cancún\", \"valor\":\"CAMPUS-CANCUN\"},\r",
+        "{\"descripcion\":\"Anáhuac Oaxaca\", \"valor\":\"CAMPUS-OAXACA\"},\r",
+        "{\"descripcion\":\"Anáhuac Puebla\", \"valor\":\"CAMPUS-PUEBLA\"},\r",
+        "{\"descripcion\":\"Anáhuac Querétaro\", \"valor\":\"CAMPUS-QUERETARO\"},\r",
+        "{\"descripcion\":\"Juan Pablo II\", \"valor\":\"CAMPUS-JP2\"}]"
+      ],
+      "exposed" : false
+    },
+    "lstCampusUsuario" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "for(var x in $data.lstCampusByUser){",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
       ],
       "exposed" : false
     }

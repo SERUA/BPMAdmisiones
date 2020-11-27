@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatDescuentoAcciones",
   "name" : "CatDescuentoAcciones",
-  "lastUpdate" : 1606332862429,
+  "lastUpdate" : 1606446607484,
   "rows" : [
     [
       {
@@ -163,7 +163,7 @@
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "Seleccionar Campus"
+                  "value" : "Selecciona un Campus"
                 },
                 "availableValues" : {
                   "type" : "expression",
@@ -271,11 +271,10 @@
                   "type" : "constant",
                   "value" : [
                     "Campus",
-                    "Clave",
-                    "Descripcion",
-                    "UsuarioBanner",
-                    "Fecha Creacion",
-                    "Fecha Importacion"
+                    "tipo",
+                    "Usuario Creacion",
+                    "Inicio Vigencia",
+                    "Fin Vigencia"
                   ]
                 },
                 "content" : {
@@ -285,12 +284,11 @@
                 "columnsKey" : {
                   "type" : "constant",
                   "value" : [
-                    "campus.descripcion",
-                    "clave",
-                    "descripcion",
-                    "usuarioBanner",
-                    "fechaCreacion",
-                    "fechaImportacion"
+                    "campus",
+                    "tipo",
+                    "usuarioCreacion",
+                    "inicioVigencia",
+                    "finVigencia"
                   ]
                 },
                 "selectedRow" : {
@@ -459,8 +457,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "md" : 12,
+                "lg" : 12
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -481,11 +479,77 @@
                 },
                 "labelHidden" : {
                   "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "inline" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstTipoDescuento"
+                },
+                "displayedKey" : {
+                  "type" : "constant"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "selectedValue" : {
+                  "type" : "variable",
+                  "value" : "catDescuentos_selected.tipo"
+                }
+              },
+              "reference" : "06ae06a6-a4ec-4430-a380-527127a4c3fd",
+              "hasValidationError" : false,
+              "id" : "pbRadioButtons"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "catDescuentos_selected.tipo != \"Preparatoria\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
                   "value" : false
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Bachillerato"
+                  "value" : "Bachillerato:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -497,20 +561,22 @@
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "Select an option"
+                  "value" : "Seleccione un Bachillerato"
                 },
                 "availableValues" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "CatBachillerato"
                 },
                 "displayedKey" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "descripcion"
                 },
                 "returnedKey" : {
                   "type" : "constant"
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "catDescuentos_selected.catBachilleratos"
                 }
               },
               "reference" : "b1f25dab-4f89-41e4-a5d7-9254328b13d8",
@@ -531,8 +597,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catDescuentos_selected.tipo != \"Ciudad\""
                 },
                 "required" : {
                   "type" : "constant",
@@ -556,7 +622,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Ciudad"
+                  "value" : "Ciudad:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -571,7 +637,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "catDescuentos_selected.ciudad"
                 },
                 "type" : {
                   "type" : "constant",
@@ -606,8 +672,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catDescuentos_selected.tipo != \"Campaña\""
                 },
                 "required" : {
                   "type" : "constant",
@@ -631,7 +697,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Default label"
+                  "value" : "Campaña:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -646,7 +712,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "catDescuentos_selected.campana"
                 },
                 "type" : {
                   "type" : "constant",
@@ -700,7 +766,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Select"
+                  "value" : "Convenio o Descuento:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -712,10 +778,14 @@
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "Select an option"
+                  "value" : "Seleccione..."
                 },
                 "availableValues" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : [
+                    "Convenio",
+                    "Descuento"
+                  ]
                 },
                 "displayedKey" : {
                   "type" : "constant"
@@ -725,7 +795,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "catDescuentos_selected.convenioDescuento"
                 }
               },
               "reference" : "a82d9c7a-b046-4b8f-b02d-955467f9a3c9",
@@ -747,7 +817,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "required" : {
                   "type" : "constant",
@@ -759,7 +829,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Default label"
+                  "value" : "Evidencia documental:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -778,7 +848,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "catDescuentos_selected.fileSelected"
                 },
                 "errorContent" : {
                   "type" : "variable",
@@ -796,8 +866,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 2,
-                "lg" : 2
+                "md" : 4,
+                "lg" : 4
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -818,7 +888,7 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : 1
                 },
                 "readOnly" : {
                   "type" : "constant",
@@ -830,7 +900,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Clave:"
+                  "value" : "Descuento:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -845,34 +915,35 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catDescuentos_selected.clave"
+                  "value" : "catDescuentos_selected.descuento"
                 },
                 "type" : {
                   "type" : "constant",
-                  "value" : "text"
+                  "value" : "number"
                 },
                 "min" : {
                   "type" : "constant"
                 },
                 "max" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : 100
                 },
                 "step" : {
                   "type" : "constant",
                   "value" : 1
                 }
               },
-              "reference" : "2ba64ed2-79f9-4921-b270-a7e548343874",
+              "reference" : "e830c075-1d78-449b-963a-e2b9bba484eb",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "customInputNumerico"
             },
             {
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 10,
-                "lg" : 10
+                "md" : 4,
+                "lg" : 4
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -883,19 +954,11 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "required" : {
+                "readOnly" : {
                   "type" : "constant",
                   "value" : false
                 },
-                "minLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "maxLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "readOnly" : {
+                "required" : {
                   "type" : "constant",
                   "value" : false
                 },
@@ -905,7 +968,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Descripcion:"
+                  "value" : "Inicio Vigencia:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -915,31 +978,96 @@
                   "type" : "constant",
                   "value" : 4
                 },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catDescuentos_selected.inicioVigencia"
+                },
+                "dateFormat" : {
+                  "type" : "constant",
+                  "value" : "MM/dd/yyyy"
+                },
                 "placeholder" : {
-                  "type" : "interpolation"
+                  "type" : "interpolation",
+                  "value" : "Enter a date (mm/dd/yyyy)"
+                },
+                "showToday" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "todayLabel" : {
+                  "type" : "interpolation",
+                  "value" : "Hoy"
+                }
+              },
+              "reference" : "467825b3-c350-41fe-822b-05316deb7c0d",
+              "hasValidationError" : false,
+              "id" : "pbDatePicker"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Fin Vigencia:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catDescuentos_selected.descripcion"
+                  "value" : "catDescuentos_selected.finVigencia"
                 },
-                "type" : {
+                "dateFormat" : {
                   "type" : "constant",
-                  "value" : "text"
+                  "value" : "MM/dd/yyyy"
                 },
-                "min" : {
-                  "type" : "constant"
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Enter a date (mm/dd/yyyy)"
                 },
-                "max" : {
-                  "type" : "constant"
-                },
-                "step" : {
+                "showToday" : {
                   "type" : "constant",
-                  "value" : 1
+                  "value" : true
+                },
+                "todayLabel" : {
+                  "type" : "interpolation",
+                  "value" : "Hoy"
                 }
               },
-              "reference" : "cb8748c8-bc55-4929-ac05-3f0a356b5f40",
+              "reference" : "1517f7f6-5368-4b95-bef4-5f7423a9e6c8",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "pbDatePicker"
             }
           ],
           [
@@ -949,7 +1077,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 10,
-                "lg" : 6
+                "lg" : 4
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1014,7 +1142,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 2,
-                "lg" : 6
+                "lg" : 8
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1051,7 +1179,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1111,7 +1239,7 @@
                 },
                 "dataToSet2" : {
                   "type" : "variable",
-                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"campus\": null,  \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"fechaImportacion\":\"\", \t\"isEliminado\": false, \t\"usuarioBanner\": \"\", \t\"isEnabled\":true, \t\"clave\": \"\", \t\"todelete\": false , \"nombreCampus\":\"\" }"
+                  "value" : "{     \"persistenceId\": 0,     \"persistenceId_string\": \"0\",     \"persistenceVersion\": 0,     \"persistenceVersion_string\": \"0\",     \"catBachilleratos\": null,     \"ciudad\": \"\",     \"campana\": \"\",     \"documento\": \"\",     \"convenioDescuento\": \"\",     \"inicioVigencia\": \"\",     \"finVigencia\": \"\",     \"tipo\": \"\",     \"descuento\": 0,     \"usuarioCreacion\": \"\",     \"isEliminado\": false,     \"campus\": \"\",     \"bachillerato\": \"\", \t\"todelete\": false }"
                 },
                 "dataToChange2" : {
                   "type" : "variable",
@@ -1159,8 +1287,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 2,
-                "lg" : 2
+                "md" : 12,
+                "lg" : 12
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1170,6 +1298,137 @@
                 "hidden" : {
                   "type" : "constant",
                   "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "inline" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstTipoDescuento"
+                },
+                "displayedKey" : {
+                  "type" : "constant"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "selectedValue" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo"
+                }
+              },
+              "reference" : "d335dfa8-438d-4870-8fb1-15f121466bfe",
+              "hasValidationError" : false,
+              "id" : "pbRadioButtons"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Preparatoria\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Bachillerato:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Seleccionar un Bachillerato"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "CatBachillerato"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].catBachilleratos"
+                }
+              },
+              "reference" : "ffa0a4d7-ffcf-4af7-9b64-eba1d13789d4",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Ciudad\""
                 },
                 "required" : {
                   "type" : "constant",
@@ -1193,7 +1452,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Clave:"
+                  "value" : "Ciudad:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -1208,7 +1467,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].clave"
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].ciudad"
                 },
                 "type" : {
                   "type" : "constant",
@@ -1225,7 +1484,7 @@
                   "value" : 1
                 }
               },
-              "reference" : "cfb7966d-2748-46c0-97b3-de5a502bfa8b",
+              "reference" : "062f27db-5cae-4ff4-b7b0-cc62f90a18bf",
               "hasValidationError" : false,
               "id" : "pbInput"
             },
@@ -1234,8 +1493,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 10,
-                "lg" : 10
+                "md" : 4,
+                "lg" : 4
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1243,8 +1502,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Campaña\""
                 },
                 "required" : {
                   "type" : "constant",
@@ -1268,7 +1527,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Descripcion:"
+                  "value" : "Campaña:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -1283,7 +1542,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].descripcion"
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].campana"
                 },
                 "type" : {
                   "type" : "constant",
@@ -1300,9 +1559,345 @@
                   "value" : 1
                 }
               },
-              "reference" : "023c998d-0871-4282-876b-9614b108e771",
+              "reference" : "1ba2297b-8915-4073-8cbb-ea2896f8f69a",
               "hasValidationError" : false,
               "id" : "pbInput"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Convenio o Descuento"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona..."
+                },
+                "availableValues" : {
+                  "type" : "constant",
+                  "value" : [
+                    "Convenio",
+                    "Descuento"
+                  ]
+                },
+                "displayedKey" : {
+                  "type" : "constant"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].convenioDescuento"
+                }
+              },
+              "reference" : "2d18d880-a4e3-4555-8f71-fda04f4d44d3",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Evidencia documental:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "url" : {
+                  "type" : "constant",
+                  "value" : "../API/formFileUpload"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].fileSelected"
+                },
+                "errorContent" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "dd96e0ba-fae1-4cdf-9251-9e7bce3dfc1e",
+              "hasValidationError" : false,
+              "id" : "pbUpload"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Descuento:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].descuento"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "number"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant",
+                  "value" : 100
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "2380f227-8da6-4e99-86ed-ca393c76fff1",
+              "hasValidationError" : false,
+              "id" : "customInputNumerico"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Inicio Vigencia:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].inicioVigencia"
+                },
+                "dateFormat" : {
+                  "type" : "constant",
+                  "value" : "MM/dd/yyyy"
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Enter a date (mm/dd/yyyy)"
+                },
+                "showToday" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "todayLabel" : {
+                  "type" : "interpolation",
+                  "value" : "Hoy"
+                }
+              },
+              "reference" : "20412d78-3f19-4d15-9fbb-30e308abd912",
+              "hasValidationError" : false,
+              "id" : "pbDatePicker"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Fin Vigencia:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].finVigencia"
+                },
+                "dateFormat" : {
+                  "type" : "constant",
+                  "value" : "MM/dd/yyyy"
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Enter a date (mm/dd/yyyy)"
+                },
+                "showToday" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "todayLabel" : {
+                  "type" : "interpolation",
+                  "value" : "Hoy"
+                }
+              },
+              "reference" : "6f8a306b-da11-49bf-88d8-43e700d6f239",
+              "hasValidationError" : false,
+              "id" : "pbDatePicker"
             }
           ],
           [
@@ -1406,7 +2001,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1466,7 +2061,7 @@
                 },
                 "dataToSet2" : {
                   "type" : "variable",
-                  "value" : "{     \"lstCatDescuentosInput\": [         {             \"campus\": null,             \"nombreCampus\":\"\",             \"descripcion\": \"\",              \"isEliminado\": false,              \"usuarioBanner\": \"\",              \"fechaImportacion\":null,             \"clave\": \"\",              \"fechaCreacion\": null,             \"isEnabled\":true         }     ] }"
+                  "value" : "{     \"lstCatDescuentosInput\": [         {             \"persistenceId\": 0,             \"persistenceId_string\": \"0\",             \"persistenceVersion\": 0,             \"persistenceVersion_string\": \"0\",             \"catBachilleratos\": null,             \"ciudad\": \"\",             \"campana\": \"\",             \"documento\": \"\",             \"convenioDescuento\": \"\",             \"inicioVigencia\": \"\",             \"finVigencia\": \"\",             \"tipo\": \"\",             \"descuento\": 0,             \"usuarioCreacion\": \"\",             \"isEliminado\": false,             \"campus\": \"\",             \"bachillerato\": \"\"         }     ] }"
                 },
                 "dataToChange2" : {
                   "type" : "variable",
@@ -1510,7 +2105,7 @@
     "catDescuentos" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.descripcion}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
       ],
       "exposed" : false
     },
@@ -1644,15 +2239,23 @@
         "{\r",
         "    \"lstCatDescuentosInput\": [\r",
         "        {\r",
-        "            \"campus\": null,\r",
-        "            \"nombreCampus\":\"\",\r",
-        "            \"descripcion\": \"\", \r",
-        "            \"isEliminado\": false, \r",
-        "            \"usuarioBanner\": \"\", \r",
-        "            \"fechaImportacion\":null,\r",
-        "            \"clave\": \"\", \r",
-        "            \"fechaCreacion\": null,\r",
-        "            \"isEnabled\":true\r",
+        "            \"persistenceId\": 0,\r",
+        "            \"persistenceId_string\": \"0\",\r",
+        "            \"persistenceVersion\": 0,\r",
+        "            \"persistenceVersion_string\": \"0\",\r",
+        "            \"catBachilleratos\": null,\r",
+        "            \"ciudad\": \"\",\r",
+        "            \"campana\": \"\",\r",
+        "            \"documento\": \"\",\r",
+        "            \"convenioDescuento\": \"\",\r",
+        "            \"inicioVigencia\": \"\",\r",
+        "            \"finVigencia\": \"\",\r",
+        "            \"tipo\": \"\",\r",
+        "            \"descuento\": 0,\r",
+        "            \"usuarioCreacion\": \"\",\r",
+        "            \"isEliminado\": false,\r",
+        "            \"campus\": \"\",\r",
+        "            \"bachillerato\": \"\"\r",
         "        }\r",
         "    ]\r",
         "}"
@@ -1672,26 +2275,90 @@
       "type" : "expression",
       "value" : [
         "var validar = true;",
+        "",
         "if($data.editable === \"editar\"){",
-        "    if($data.catDescuentos_selected.clave.trim()=== \"\"){",
+        "    if($data.catDescuentos_selected.tipo.trim() === \"\"){",
         "        validar = false;",
-        "    }else if($data.catDescuentos_selected.descripcion.trim()=== \"\"){",
+        "    }else if($data.catDescuentos_selected.tipo === \"Preparatoria\" && $data.catDescuentos_selected.catBachilleratos === null){",
+        "        $data.catDescuentos_selected.catDescuentos_selectedciudad=\"\";",
+        "        $data.catDescuentos_selected.campana =\"\";",
+        "            validar = false;",
+        "    }",
+        "    else if($data.catDescuentos_selected.tipo === \"Ciudad\"&& $data.catDescuentos_selected.ciudad.trim()=== \"\"){",
+        "        $data.catDescuentos_selected.campana =\"\";",
+        "        $data.catDescuentos_selected.catBachilleratos =null;",
+        "            validar = false;",
+        "    }",
+        "    else if($data.catDescuentos_selected.tipo === \"Campaña\" && $data.catDescuentos_selected.campana.trim()=== \"\"){",
+        "        $data.catDescuentos_selected.ciudad=\"\";",
+        "        $data.catDescuentos_selected.catBachilleratos = null;",
+        "            validar = false;",
+        "    }",
+        "    else if($data.catDescuentos_selected.usuarioCreacion.trim()=== \"\"){",
+        "       $data.catDescuentos_selected.usuarioCreacion = $data.userData.user_name;",
+        "       validar = false;",
+        "    }else if($data.catDescuentos_selected.campus.trim() === \"\"){",
+        "        $data.catDescuentos_selected.campus = $data.campus_selected.descripcion;",
         "        validar = false;",
-        "    }else if($data.catDescuentos_selected.campus === null){",
+        "    }else if($data.catDescuentos_selected.convenioDescuento.trim() === \"\"){",
         "        validar = false;",
+        "    }else if($data.catDescuentos_selected.descuento>100){",
+        "        validar = false;",
+        "    }else if($data.catDescuentos_selected.inicioVigencia.length <8){",
+        "        validar = false;",
+        "    }else if($data.catDescuentos_selected.finVigencia.length <8){",
+        "        validar = false;",
+        "    }else{",
+        "        var date2 = new Date($data.catDescuentos_selected.finVigencia);",
+        "        var date1 = new Date($data.catDescuentos_selected.inicioVigencia);",
+        "        const date = new Date();",
+        "        if(date2<=date1){",
+        "            validar = false",
+        "        }",
         "    }",
         "}else if($data.editable === \"agregar\"){",
-        "    if($data.formOutputAgregar.lstCatDescuentosInput[0].clave.trim()=== \"\"){",
+        "    debugger;",
+        "    if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo.trim() === \"\"){",
         "        validar = false;",
-        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].descripcion.trim()=== \"\"){",
-        "        validar = false;",
-        "    } else if($data.formOutputAgregar.lstCatDescuentosInput[0].usuarioBanner.trim()=== \"\"){",
-        "       $data.formOutputAgregar.lstCatDescuentosInput[0].usuarioBanner = $data.userData.user_name;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo === \"Preparatoria\" && $data.formOutputAgregar.lstCatDescuentosInput[0].catBachilleratos === null){",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].ciudad=\"\";",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campana =\"\";",
+        "            validar = false;",
+        "    }",
+        "    else if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo === \"Ciudad\"&& $data.formOutputAgregar.lstCatDescuentosInput[0].ciudad.trim()=== \"\"){",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campana =\"\";",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].catBachilleratos =null;",
+        "            validar = false;",
+        "    }",
+        "    else if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo === \"Campaña\" && $data.formOutputAgregar.lstCatDescuentosInput[0].campana.trim()=== \"\"){",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].ciudad=\"\";",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].catBachilleratos = null;",
+        "            validar = false;",
+        "    }",
+        "    else if($data.formOutputAgregar.lstCatDescuentosInput[0].usuarioCreacion.trim()=== \"\"){",
+        "       $data.formOutputAgregar.lstCatDescuentosInput[0].usuarioCreacion = $data.userData.user_name;",
         "       validar = false;",
-        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].campus === null){",
-        "        $data.formOutputAgregar.lstCatDescuentosInput[0].nombreCampus = $data.campus_selected.descripcion;",
-        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campus= $data.campus_selected;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].campus.trim() === \"\"){",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campus = $data.campus_selected.descripcion;",
         "        validar = false;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].convenioDescuento.trim() === \"\"){",
+        "        validar = false;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].descuento>100){",
+        "        validar = false;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].inicioVigencia.length <8){",
+        "        validar = false;",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].finVigencia.length <8){",
+        "        validar = false;",
+        "    }else{",
+        "        var date2 = new Date($data.formOutputAgregar.lstCatDescuentosInput[0].finVigencia);",
+        "        var date1 = new Date($data.formOutputAgregar.lstCatDescuentosInput[0].inicioVigencia);",
+        "        const date = new Date();",
+        "        if(date1<date){",
+        "             validar = false",
+        "        }",
+        "        if(date2<=date1){",
+        "            validar = false",
+        "        }",
         "    }",
         "}",
         "",
@@ -1711,9 +2378,9 @@
       "value" : [
         "var resultado = [];",
         "",
-        "for(var x in $data.lstCampusByUser){",
+        "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
-        "        if($data.lstCampusByUser[x] === $data.lstCatCampus[index].descripcion){",
+        "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",
@@ -1777,6 +2444,57 @@
         " }else{",
         "     return false;",
         " }"
+      ],
+      "exposed" : false
+    },
+    "lstTipoDescuento" : {
+      "type" : "json",
+      "value" : [
+        "[",
+        "    \"Preparatoria\",",
+        "    \"Campaña\",",
+        "    \"Ciudad\"",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "CatBachillerato" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=find&p=0&c=9999"
+      ],
+      "exposed" : false
+    },
+    "lstCampusUsuario" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "for(var x in $data.lstCampusByUser){",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
+      ],
+      "exposed" : false
+    },
+    "lstCampusRole" : {
+      "type" : "json",
+      "value" : [
+        "[{\"descripcion\":\"Anáhuac México Norte\", \"valor\":\"CAMPUS-MNORTE\"},\r",
+        "{\"descripcion\":\"Anáhuac México Sur\", \"valor\":\"CAMPUS-MSUR\"},\r",
+        "{\"descripcion\":\"Anáhuac Mayab\", \"valor\":\"CAMPUS-MAYAB\"},\r",
+        "{\"descripcion\":\"Anáhuac Xalapa\", \"valor\":\"CAMPUS-XALAPA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cordoba\", \"valor\":\"CAMPUS-CORDOBA\"},\r",
+        "{\"descripcion\":\"Anáhuac Cancún\", \"valor\":\"CAMPUS-CANCUN\"},\r",
+        "{\"descripcion\":\"Anáhuac Oaxaca\", \"valor\":\"CAMPUS-OAXACA\"},\r",
+        "{\"descripcion\":\"Anáhuac Puebla\", \"valor\":\"CAMPUS-PUEBLA\"},\r",
+        "{\"descripcion\":\"Anáhuac Querétaro\", \"valor\":\"CAMPUS-QUERETARO\"},\r",
+        "{\"descripcion\":\"Juan Pablo II\", \"valor\":\"CAMPUS-JP2\"}]"
       ],
       "exposed" : false
     }
