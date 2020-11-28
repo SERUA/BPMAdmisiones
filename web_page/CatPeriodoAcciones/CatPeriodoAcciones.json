@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatPeriodoAcciones",
   "name" : "CatPeriodoAcciones",
-  "lastUpdate" : 1606432772126,
+  "lastUpdate" : 1606497455835,
   "rows" : [
     [
       {
@@ -712,7 +712,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1067,7 +1067,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=find&p={{inicio}}&c=10"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1171,7 +1171,7 @@
     "catPeriodo" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.descripcion}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
       ],
       "exposed" : false
     },
@@ -1284,7 +1284,7 @@
     "urlRefreshPaginado" : {
       "type" : "expression",
       "value" : [
-        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p=\"+$data.inicio+\"&c=10&f=nombreCampus=\"+$data.campus_selected.descripcion;"
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p=\"+$data.inicio+\"&c=10&f=nombreCampus=\"+$data.campus_selected.valor;"
       ],
       "exposed" : false
     },
@@ -1346,7 +1346,8 @@
         "       $data.formOutputAgregar.lstCatPeriodoInput[0].usuarioBanner = $data.userData.user_name;",
         "       validar = false;",
         "    }else if($data.formOutputAgregar.lstCatPeriodoInput[0].campus === null){",
-        "        $data.formOutputAgregar.lstCatPeriodoInput[0].nombreCampus = $data.campus_selected.descripcion;",
+        "        debugger;",
+        "        $data.formOutputAgregar.lstCatPeriodoInput[0].nombreCampus = $data.campus_selected.valor;",
         "        $data.formOutputAgregar.lstCatPeriodoInput[0].campus= $data.campus_selected;",
         "        validar = false;",
         "    }",
@@ -1371,6 +1372,8 @@
         "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
         "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
+        "            debugger",
+        "            $data.lstCatCampus[index].valor = $data.lstCampusUsuario[x].valor;",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",

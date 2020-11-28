@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatPagoExamenAcciones",
   "name" : "CatPagoExamenAcciones",
-  "lastUpdate" : 1606434840291,
+  "lastUpdate" : 1606516619380,
   "rows" : [
     [
       {
@@ -126,7 +126,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 6,
-                "lg" : 12
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -202,8 +202,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision.length >=1"
                 },
                 "disabled" : {
                   "type" : "expression",
@@ -278,7 +278,6 @@
                     "Monto aspirante foráneo",
                     "Monto aspirante extranjero",
                     "Instrucciones de pago",
-                    "texto descriptivo pago deshabilitado",
                     "Deshabilitar pago de examen de admisión"
                   ]
                 },
@@ -296,8 +295,7 @@
                     "montoAspitanteForaneo",
                     "montoAspiranteLocalDolares",
                     "instruccionesDePago",
-                    "deshabilitarPagoDeExamenDeAdmision?\"Si\":\"no\"",
-                    "textoDescriptivoPagoDeshabilitado"
+                    "deshabilitarPagoDeExamenDeAdmision?\"Si\":\"no\""
                   ]
                 },
                 "selectedRow" : {
@@ -447,8 +445,8 @@
                   "value" : ""
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -522,8 +520,8 @@
                   "value" : ""
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -599,8 +597,8 @@
                   "value" : 1
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -674,8 +672,8 @@
                   "value" : 1
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -751,8 +749,8 @@
                   "value" : 1
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -826,8 +824,8 @@
                   "value" : 1
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -891,8 +889,8 @@
                   "value" : false
                 },
                 "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "catPagoDeExamenDeAdmision_selected.deshabilitarPagoDeExamenDeAdmision"
                 },
                 "required" : {
                   "type" : "constant",
@@ -1039,7 +1037,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 10,
-                "lg" : 6
+                "lg" : 10
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1104,7 +1102,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 2,
-                "lg" : 6
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1141,7 +1139,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1866,7 +1864,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 10,
-                "lg" : 6
+                "lg" : 10
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1923,7 +1921,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 2,
-                "lg" : 6
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1960,7 +1958,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -2064,7 +2062,7 @@
     "catPagoDeExamenDeAdmision" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2097,7 +2095,7 @@
     "countCatPagoDeExamenDeAdmision" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=countForFind&p=0&c=10"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=countForFindByCampus&p=0&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2177,7 +2175,7 @@
     "urlRefreshPaginado" : {
       "type" : "expression",
       "value" : [
-        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p=\"+$data.inicio+\"&c=10&f=campus=\"+$data.campus_selected.descripcion;"
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatPagoDeExamenDeAdmision?q=getPagobyCampus&p=\"+$data.inicio+\"&c=10&f=campus=\"+$data.campus_selected.clave;"
       ],
       "exposed" : false
     },
@@ -2281,7 +2279,7 @@
         "    }*/else if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].instruccionesDePago.trim() === \"\"){",
         "        validar = false;",
         "    }else if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus.trim() === \"\"){",
-        "        $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus = $data.campus_selected.descripcion;",
+        "        $data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].campus = $data.campus_selected.clave;",
         "        validar = false;",
         "    }",
         "    if($data.formOutputAgregar.lstCatPagoDeExamenDeAdmisionInput[0].deshabilitarPagoDeExamenDeAdmision === true){",
@@ -2308,6 +2306,7 @@
         "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
         "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
+        "            $data.lstCatCampus[index].clave = $data.lstCampusUsuario[x].valor;",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",
@@ -2366,11 +2365,12 @@
     "agregar" : {
       "type" : "expression",
       "value" : [
-        "if($data.campus_selected.clave.trim()===\"\"||$data.campus_selected.clave === undefined||$data.campus_selected.clave === null){",
+        "if($data.campus_selected.clave === undefined||$data.campus_selected.clave === null||$data.campus_selected.clave.trim()===\"\"){",
         "     return true;",
         " }else{",
         "     return false;",
-        " }"
+        " }",
+        "    "
       ],
       "exposed" : false
     },

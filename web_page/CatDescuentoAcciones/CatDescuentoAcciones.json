@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatDescuentoAcciones",
   "name" : "CatDescuentoAcciones",
-  "lastUpdate" : 1606446607484,
+  "lastUpdate" : 1606533571449,
   "rows" : [
     [
       {
@@ -126,7 +126,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 6,
-                "lg" : 12
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -201,8 +201,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "lstCampus.length <=0"
                 },
                 "disabled" : {
                   "type" : "expression",
@@ -272,6 +272,7 @@
                   "value" : [
                     "Campus",
                     "tipo",
+                    "Descuento(%)",
                     "Usuario Creacion",
                     "Inicio Vigencia",
                     "Fin Vigencia"
@@ -286,6 +287,7 @@
                   "value" : [
                     "campus",
                     "tipo",
+                    "descuento",
                     "usuarioCreacion",
                     "inicioVigencia",
                     "finVigencia"
@@ -332,9 +334,9 @@
                   "value" : "urlRefreshPaginado"
                 }
               },
-              "reference" : "0f89ef16-a865-48e8-adca-cc6fc1dd14a3",
+              "reference" : "616fb377-4878-4232-be3c-c07f3639eb9c",
               "hasValidationError" : false,
-              "id" : "customTableSeleccionar2"
+              "id" : "customTableSeleccionarCenter"
             }
           ],
           [
@@ -524,7 +526,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 4,
-                "lg" : 4
+                "lg" : 3
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -589,82 +591,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 4,
-                "lg" : 4
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "catDescuentos_selected.tipo != \"Ciudad\""
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "minLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "maxLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Ciudad:"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "placeholder" : {
-                  "type" : "interpolation"
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "catDescuentos_selected.ciudad"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "text"
-                },
-                "min" : {
-                  "type" : "constant"
-                },
-                "max" : {
-                  "type" : "constant"
-                },
-                "step" : {
-                  "type" : "constant",
-                  "value" : 1
-                }
-              },
-              "reference" : "3865e03a-dcff-439d-8b32-7f7750496e48",
-              "hasValidationError" : false,
-              "id" : "pbInput"
-            },
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "lg" : 3
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -732,6 +659,381 @@
               "reference" : "ff49c8a3-20bd-443a-aaeb-afdea9343db9",
               "hasValidationError" : false,
               "id" : "pbInput"
+            },
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "editar.cargar"
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "6446f242-2f94-4b09-91f9-e2d794e3a9ce",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "catDescuentos_selected.tipo != \"Ciudad\""
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Ciudad:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "editar.ciudad_selected"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "9a19cd2e-607a-4955-afed-d003ad4411f3",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "catDescuentos_selected.tipo != \"Ciudad\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Cambiar ciudad"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "editar.cargar"
+                }
+              },
+              "reference" : "d5ef6d30-8f15-4536-ad4f-aa62d796ed72",
+              "hasValidationError" : false,
+              "id" : "pbCheckbox"
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "!editar.cargar"
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "c9eb4172-955f-4371-9a1c-a9746b7bf8fb",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "catDescuentos_selected.tipo != \"Ciudad\""
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Pais:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Seleccionar..."
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "lstCatPais"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "pais_selected"
+                      }
+                    },
+                    "reference" : "00f5df05-611f-4f58-9f75-25058b89453b",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "catDescuentos_selected.tipo != \"Ciudad\""
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Estado:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Seleccionar..."
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "lstCatEstados"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "estado_selected"
+                      }
+                    },
+                    "reference" : "ec0c334d-dcca-43ed-bdfa-058c532b6c5e",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "catDescuentos_selected.tipo != \"Ciudad\""
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Ciudad:"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Seleccionar..."
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "lstCatCiudad"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "catDescuentos_selected.ciudad"
+                      }
+                    },
+                    "reference" : "9e7bfdcd-c05c-4131-aff7-16204c11b3da",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  }
+                ]
+              ]
             }
           ],
           [
@@ -866,8 +1168,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "md" : 2,
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -888,7 +1190,7 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : 1
+                  "value" : 3
                 },
                 "readOnly" : {
                   "type" : "constant",
@@ -922,7 +1224,8 @@
                   "value" : "number"
                 },
                 "min" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : 0
                 },
                 "max" : {
                   "type" : "constant",
@@ -936,6 +1239,56 @@
               "reference" : "e830c075-1d78-449b-963a-e2b9bba484eb",
               "hasValidationError" : false,
               "id" : "customInputNumerico"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "px-left"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br/>\n<h4>%</4>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "0c5439a4-8ea6-4582-89eb-d10101590f6d",
+              "hasValidationError" : false,
+              "id" : "pbText"
             },
             {
               "type" : "component",
@@ -1077,7 +1430,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 10,
-                "lg" : 4
+                "lg" : 10
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1142,7 +1495,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 2,
-                "lg" : 8
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1179,7 +1532,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -1428,81 +1781,6 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Ciudad\""
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "minLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "maxLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Ciudad:"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "placeholder" : {
-                  "type" : "interpolation"
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].ciudad"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "text"
-                },
-                "min" : {
-                  "type" : "constant"
-                },
-                "max" : {
-                  "type" : "constant"
-                },
-                "step" : {
-                  "type" : "constant",
-                  "value" : 1
-                }
-              },
-              "reference" : "062f27db-5cae-4ff4-b7b0-cc62f90a18bf",
-              "hasValidationError" : false,
-              "id" : "pbInput"
-            },
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 4,
-                "lg" : 4
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
                   "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Campaña\""
                 },
                 "required" : {
@@ -1562,6 +1840,206 @@
               "reference" : "1ba2297b-8915-4073-8cbb-ea2896f8f69a",
               "hasValidationError" : false,
               "id" : "pbInput"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Ciudad\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Pais"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Seleccionar.."
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstCatPais"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "pais_selected"
+                }
+              },
+              "reference" : "d24fa40c-6998-486d-abc0-c95c2e510c36",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Ciudad\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Estado"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Seleccionar..."
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstCatEstados"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "estado_selected"
+                }
+              },
+              "reference" : "90e0bd4e-2d3a-436f-8a24-0e238f3e1894",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 4
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].tipo != \"Ciudad\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Ciudad:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Seleccionar..."
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstCatCiudad"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatDescuentosInput[0].ciudad"
+                }
+              },
+              "reference" : "b81597a6-0159-4224-9931-2376514ee568",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
             }
           ],
           [
@@ -1696,8 +2174,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "md" : 2,
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1718,7 +2196,7 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : 1
+                  "value" : 3
                 },
                 "readOnly" : {
                   "type" : "constant",
@@ -1752,7 +2230,8 @@
                   "value" : "number"
                 },
                 "min" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : 0
                 },
                 "max" : {
                   "type" : "constant",
@@ -1766,6 +2245,56 @@
               "reference" : "2380f227-8da6-4e99-86ed-ca393c76fff1",
               "hasValidationError" : false,
               "id" : "customInputNumerico"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "px-left"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br/>\n<h4>%</4>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "9ad2e421-3fd9-453c-b211-4c649debcb5c",
+              "hasValidationError" : false,
+              "id" : "pbText"
             },
             {
               "type" : "component",
@@ -1907,7 +2436,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 10,
-                "lg" : 6
+                "lg" : 10
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1964,7 +2493,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 2,
-                "lg" : 6
+                "lg" : 2
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -2001,7 +2530,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -2105,7 +2634,7 @@
     "catDescuentos" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.descripcion}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2142,7 +2671,7 @@
     "countCatDescuentos" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=countForFind&p=0&c=10"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=countForFindByCampus&p=0&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2222,7 +2751,7 @@
     "urlRefreshPaginado" : {
       "type" : "expression",
       "value" : [
-        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByNombreCampus&p=\"+$data.inicio+\"&c=10&f=nombreCampus=\"+$data.campus_selected.descripcion;"
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p=\"+$data.inicio+\"&c=10&f=campus=\"+$data.campus_selected.clave;"
       ],
       "exposed" : false
     },
@@ -2277,6 +2806,17 @@
         "var validar = true;",
         "",
         "if($data.editable === \"editar\"){",
+        "    debugger;",
+        "    if($data.catDescuentos_selected.ciudad !== null && $data.editar.ciudad_selected != undefined &&$data.editar.ciudad_selected.trim() === \"\"){",
+        "        ",
+        "        $data.editar.ciudad_selected = $data.catDescuentos_selected.ciudad;",
+        "        if( $data.editar.ciudad_selected.trim() === \"\"){",
+        "            $data.editar.cargar = true;",
+        "        }",
+        "    }",
+        "    if($data.editar.cargar === true && $data.catDescuentos_selected.ciudad === null){",
+        "        validar = false;",
+        "    }else ",
         "    if($data.catDescuentos_selected.tipo.trim() === \"\"){",
         "        validar = false;",
         "    }else if($data.catDescuentos_selected.tipo === \"Preparatoria\" && $data.catDescuentos_selected.catBachilleratos === null){",
@@ -2298,7 +2838,7 @@
         "       $data.catDescuentos_selected.usuarioCreacion = $data.userData.user_name;",
         "       validar = false;",
         "    }else if($data.catDescuentos_selected.campus.trim() === \"\"){",
-        "        $data.catDescuentos_selected.campus = $data.campus_selected.descripcion;",
+        "        $data.catDescuentos_selected.campus = $data.campus_selected.clave;",
         "        validar = false;",
         "    }else if($data.catDescuentos_selected.convenioDescuento.trim() === \"\"){",
         "        validar = false;",
@@ -2311,13 +2851,11 @@
         "    }else{",
         "        var date2 = new Date($data.catDescuentos_selected.finVigencia);",
         "        var date1 = new Date($data.catDescuentos_selected.inicioVigencia);",
-        "        const date = new Date();",
         "        if(date2<=date1){",
         "            validar = false",
         "        }",
         "    }",
         "}else if($data.editable === \"agregar\"){",
-        "    debugger;",
         "    if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo.trim() === \"\"){",
         "        validar = false;",
         "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].tipo === \"Preparatoria\" && $data.formOutputAgregar.lstCatDescuentosInput[0].catBachilleratos === null){",
@@ -2339,11 +2877,11 @@
         "       $data.formOutputAgregar.lstCatDescuentosInput[0].usuarioCreacion = $data.userData.user_name;",
         "       validar = false;",
         "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].campus.trim() === \"\"){",
-        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campus = $data.campus_selected.descripcion;",
+        "        $data.formOutputAgregar.lstCatDescuentosInput[0].campus = $data.campus_selected.clave;",
         "        validar = false;",
         "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].convenioDescuento.trim() === \"\"){",
         "        validar = false;",
-        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].descuento>100){",
+        "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].descuento>100 || $data.formOutputAgregar.lstCatDescuentosInput[0].descuento <=0){",
         "        validar = false;",
         "    }else if($data.formOutputAgregar.lstCatDescuentosInput[0].inicioVigencia.length <8){",
         "        validar = false;",
@@ -2352,11 +2890,16 @@
         "    }else{",
         "        var date2 = new Date($data.formOutputAgregar.lstCatDescuentosInput[0].finVigencia);",
         "        var date1 = new Date($data.formOutputAgregar.lstCatDescuentosInput[0].inicioVigencia);",
-        "        const date = new Date();",
-        "        if(date1<date){",
+        "        console.log(date1.getDate())",
+        "        var date = new Date();",
+        "        var yesterday = new Date(date.getTime());",
+        "        yesterday.setDate(date.getDate() - 1);",
+        "        yesterday.setHours(0,0,0,0);",
+        "        if(date1<yesterday){",
+        "            swal(\"!Atención!\", \"la fecha de \\\"inicio vigencia\\\" no puede ser menor a la de hoy\", \"warning\");",
         "             validar = false",
-        "        }",
-        "        if(date2<=date1){",
+        "        }else if(date2<=date1){",
+        "            swal(\"!Atención!\", \"la fecha de \\\"fin Vigencia\\\" no puede ser menor o igual a la de \\\"inicio vigencia\\\" \", \"warning\");",
         "            validar = false",
         "        }",
         "    }",
@@ -2381,6 +2924,7 @@
         "for(var x in $data.lstCampusUsuario){",
         "    for(var index in $data.lstCatCampus){",
         "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){",
+        "            $data.lstCatCampus[index].clave = $data.lstCampusUsuario[x].valor;",
         "            resultado.push($data.lstCatCampus[index]);",
         "        }",
         "    }",
@@ -2495,6 +3039,68 @@
         "{\"descripcion\":\"Anáhuac Puebla\", \"valor\":\"CAMPUS-PUEBLA\"},\r",
         "{\"descripcion\":\"Anáhuac Querétaro\", \"valor\":\"CAMPUS-QUERETARO\"},\r",
         "{\"descripcion\":\"Juan Pablo II\", \"valor\":\"CAMPUS-JP2\"}]"
+      ],
+      "exposed" : false
+    },
+    "lstCatPais" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"find [com.anahuac.catalogos.CatPais]\",\"businessObjectName\":\"CatPais\",\"query\":{\"name\":\"find\",\"displayName\":\"find\"},\"id\":\"com.anahuac.catalogos.CatPais\",\"filters\":[],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "lstCatEstados" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatEstados?q=findByPais&p=0&c=999&f=pais={{pais_selected}}"
+      ],
+      "exposed" : false
+    },
+    "pais_selected" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "lstCatCiudad" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=findByEstado&p=0&c=999&f=estado={{estado_selected}}"
+      ],
+      "exposed" : false
+    },
+    "estado_selected" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "editar" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"cargar\": false,",
+        "    \"actualizar\": false,",
+        "    \"ciudad_selected\":\"\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "cargar_Ciudad" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=findByDescripcion&p=0&c=999&f=descripcion={{catDescuentos_selected.ciudad}}"
+      ],
+      "exposed" : false
+    },
+    "limpar" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.editable == 'tabla'){",
+        "    $data.pais_selected = \"\";",
+        "    $data.estado_selected = \"\";",
+        "    $data.editar.cargar = false;",
+        "    $data.editar.ciudad_selected = \"\";",
+        "}",
+        "if($data.catDescuentos_selected.tipo !== \"Ciudad\"){",
+        "    $data.editar.cargar === false;",
+        "}"
       ],
       "exposed" : false
     }
