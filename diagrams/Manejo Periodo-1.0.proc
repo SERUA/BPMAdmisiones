@@ -80,12 +80,12 @@
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_OGaFUS7FEeumVvVSoJp-bA" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_OGaFUC7FEeumVvVSoJp-bA" name="" content="" returnTypeFixed="true"/>
         <stepSummary xmi:type="expression:Expression" xmi:id="_OGaFUi7FEeumVvVSoJp-bA" name="" content="" returnTypeFixed="true"/>
-        <operations xmi:type="expression:Operation" xmi:id="_UVObMC7JEeumVvVSoJp-bA">
-          <leftOperand xmi:type="expression:Expression" xmi:id="_UVObMS7JEeumVvVSoJp-bA" name="lstCatPeriodoToDelete" content="lstCatPeriodoToDelete" type="TYPE_VARIABLE" returnType="java.util.List">
-            <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JLC58C9GEeu1IdgvlyKxPg" name="lstCatPeriodoToDelete" multiple="true" dataType="_3dKAtC7EEeumVvVSoJp-bA" className="com.anahuac.catalogos.CatPeriodo"/>
+        <operations xmi:type="expression:Operation" xmi:id="_ilLF8DHuEeuT1on1PPjdVQ">
+          <leftOperand xmi:type="expression:Expression" xmi:id="_ilLF8THuEeuT1on1PPjdVQ" name="lstCatPeriodoToDelete" content="lstCatPeriodoToDelete" type="TYPE_VARIABLE" returnType="java.util.List">
+            <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jAdTwDHuEeuT1on1PPjdVQ" name="lstCatPeriodoToDelete" multiple="true" dataType="_3dKAtC7EEeumVvVSoJp-bA" className="com.anahuac.catalogos.CatPeriodo"/>
           </leftOperand>
-          <rightOperand xmi:type="expression:Expression" xmi:id="_UVObMi7JEeumVvVSoJp-bA" content=""/>
-          <operator xmi:type="expression:Operator" xmi:id="_UVObMy7JEeumVvVSoJp-bA" type="DELETION"/>
+          <rightOperand xmi:type="expression:Expression" xmi:id="_ilLF8jHuEeuT1on1PPjdVQ" content=""/>
+          <operator xmi:type="expression:Operator" xmi:id="_ilLF8zHuEeuT1on1PPjdVQ" type="DELETION"/>
         </operations>
         <loopCondition xmi:type="expression:Expression" xmi:id="_OGaFUy7FEeumVvVSoJp-bA" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
         <loopMaximum xmi:type="expression:Expression" xmi:id="_OGaFVC7FEeumVvVSoJp-bA" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -107,12 +107,12 @@
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_wwKuoC7FEeumVvVSoJp-bA" name="lstCatPeriodoToDelete" multiple="true" dataType="_3dKAtC7EEeumVvVSoJp-bA" className="com.anahuac.catalogos.CatPeriodo">
         <defaultValue xmi:type="expression:Expression" xmi:id="_wwKuoS7FEeumVvVSoJp-bA" name="init_lstCatPeriodoToDelete()" content="import com.anahuac.catalogos.CatPeriodo;&#xD;&#xA;&#xD;&#xA;def CatPeriodoList = [];&#xD;&#xA;&#xD;&#xA;for(Map objCatPeriodoInput: lstCatPeriodoInput){&#xD;&#xA;&#x9;if(Boolean.TRUE.equals(objCatPeriodoInput.todelete)){&#xD;&#xA;&#x9;&#x9;CatPeriodo objCatPeriodo =catPeriodoDAO.findByPersistenceId(objCatPeriodoInput.persistenceId);&#xD;&#xA;&#x9;&#x9;if(objCatPeriodo != null){&#xD;&#xA;&#x9;&#x9;&#x9;CatPeriodoList.add(objCatPeriodo);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return CatPeriodoList;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="expression:Expression" xmi:id="_W-IH8C9JEeu1IdgvlyKxPg" name="catPeriodoDAO" content="catPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPeriodoDAO" returnTypeFixed="true"/>
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_W-IH8S9JEeu1IdgvlyKxPg" name="lstCatPeriodoInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_lsLTIDHuEeuT1on1PPjdVQ" name="catPeriodoDAO" content="catPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPeriodoDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_lsLTITHuEeuT1on1PPjdVQ" name="lstCatPeriodoInput" type="COMPLEX" multiple="true"/>
         </defaultValue>
       </data>
-      <formMapping xmi:type="process:FormMapping" xmi:id="_NHBr8y7FEeumVvVSoJp-bA">
-        <targetForm xmi:type="expression:Expression" xmi:id="_KzDSMC9JEeu1IdgvlyKxPg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_NHBr8y7FEeumVvVSoJp-bA" type="NONE">
+        <targetForm xmi:type="expression:Expression" xmi:id="_oH7oEDHnEeuT1on1PPjdVQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_NHBr9S7FEeumVvVSoJp-bA">
         <targetForm xmi:type="expression:Expression" xmi:id="_NHBr9i7FEeumVvVSoJp-bA" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>

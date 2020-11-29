@@ -25,7 +25,8 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
                 switch (value) {
                     case "Si":
                         $scope.properties.selectedRow = row;
-                        $scope.properties.selectedRow["todelete"] = true;
+                        $scope.properties.selectedRow["todelete"] = false;
+                        $scope.properties.selectedRow["isEliminado"] = true;
                         $scope.$apply();
                         startProcess();
                         break;
@@ -54,6 +55,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     }
 
     function doRequest(method, url, params) {
+        
         var req = {
             method: method,
             url: url,
@@ -64,14 +66,16 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         return $http(req)
             .success(function(data, status) {
                 doRequestGet();
-                swal("Eliminado correctamente!", "", "success");
+                swal("!Eliminado correctamente!", "", "success");
+                
             })
             .error(function(data, status) {
-
+                
             });
     }
     
     function doRequestGet() {
+        var cantidad = angular.copy($scope.properties.cantidad);
         var req = {
             method: "GET",
             url: $scope.properties.urlGet,
