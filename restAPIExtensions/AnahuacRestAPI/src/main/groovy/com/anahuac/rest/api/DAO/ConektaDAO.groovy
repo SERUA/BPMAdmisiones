@@ -418,6 +418,12 @@ class ConektaDAO {
 			DecimalFormat twoPlaces = new DecimalFormat("0.00");
 			Map<String, String> mapResultado = new HashMap<String, String>();
 			Date createdAt = new Date((long)1000 * order.created_at);
+			SimpleDateFormat formatDate = new SimpleDateFormat("dd/MM/yyyy");
+			formatDate.setTimeZone(TimeZone.getTimeZone("GMT-6"));
+			SimpleDateFormat formatHours = new SimpleDateFormat("hh:mm");
+			formatHours.setTimeZone(TimeZone.getTimeZone("GMT-6"));
+			String dateString = formatDate.format(createdAt);
+			String timeString = formatHours.format(createdAt);
 			
 			if(payment_method.type.equals("spei")) {
 				SpeiPayment speiPayment = (SpeiPayment) charge.payment_method;
@@ -425,33 +431,26 @@ class ConektaDAO {
 				mapResultado.put("CLABE", speiPayment.clabe);
 				mapResultado.put("amount", "\$" + twoPlaces.format(amount).toString() + " " + order.currency);
 				mapResultado.put("id", order.id);
-				mapResultado.put("createdAtDate", createdAt.getDate() + "/" + createdAt.getMonth() + 1 + "/" + createdAt.getYear());
-				mapResultado.put("createdAtTime", createdAt.getHours() + ":" + createdAt.getMinutes());
+				mapResultado.put("createdAtDate", dateString);
+				mapResultado.put("createdAtTime", timeString);
 				mapResultado.put("type", payment_method.type);
 				
-//				lstResultado.add(mapResultado);
 			} else if(payment_method.type.equals("oxxo")) {
 				OxxoPayment oxxoPayment = (OxxoPayment) charge.payment_method;
 				
-//				lstResultado.add(new ConektaOxxo(
-//					order.id,
-//					"\$" + twoPlaces.format(amount).toString() + " " + order.currency,
-//					line_item.quantity + " - " + line_item.name + " - " + (line_item.unit_price / 100),
-//					oxxoPayment.reference)
-//				);
 				mapResultado.put("referencia", oxxoPayment.reference);
 				mapResultado.put("amount", "\$" + twoPlaces.format(amount).toString() + " " + order.currency);
 				mapResultado.put("id", order.id);
-				mapResultado.put("createdAtDate", createdAt.getDate() + "/" + createdAt.getMonth() + 1 + "/" + createdAt.getYear());
-				mapResultado.put("createdAtTime", createdAt.getHours() + ":" + createdAt.getMinutes());
+				mapResultado.put("createdAtDate", dateString);
+				mapResultado.put("createdAtTime", timeString);
 				mapResultado.put("type", payment_method.type);
 			} else {
 				mapResultado.put("cardNumber", payment_method.getVal("last4"));
 				mapResultado.put("amount", "\$" + twoPlaces.format(amount).toString() + " " + order.currency);
 				mapResultado.put("id", order.id);
-				mapResultado.put("createdAtDate", createdAt.getDate() + "/" + createdAt.getMonth() + 1 + "/" + createdAt.getYear());
-				mapResultado.put("createdAtTime", createdAt.getHours() + ":" + createdAt.getMinutes());
 				mapResultado.put("authorizationCode", payment_method.getVal("auth_code"));
+				mapResultado.put("createdAtDate", dateString);
+				mapResultado.put("createdAtTime", timeString);
 				mapResultado.put("name", order.customer_info.name);
 				mapResultado.put("type", payment_method.type);
 				
@@ -525,7 +524,7 @@ class ConektaDAO {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			def objDetalleSolicitudDAO = context.getApiClient().getDAO(DetalleSolicitudDAO.class);
 			List<DetalleSolicitud> detalleSolicitud = objDetalleSolicitudDAO.findByOrdenPago(id, 0, 1);
-			apiClient.login("acuna.karol@correo.com", "bpm");
+			apiClient.login("Administrador", "bpm");
 			String caseId = detalleSolicitud.get(0).caseId;
 			def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
 			apiClient.processAPI.executeFlowNode(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), "Esperar pago", 0, 1).get(0).getId());
@@ -537,5 +536,36 @@ class ConektaDAO {
 		}
 		
 		return resultado;
+	}
+	
+	public Result getOrdersByCampus(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		Result resultado = new Result();
+		List<Order> lstResultado = new ArrayList<Order>();
+		String apiKey = "";
+		String campus_id = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			order_id = object.order_id;
+			campus_id = object.campus_id;
+			
+			Result resultApiKey = getApiKeyByCampus(context, campus_id);
+			
+			if(resultApiKey.success) {
+				Conekta.setApiKey(resultApiKey.getData().get(0));
+			} else {
+				throw new Exception("Error inesperado");
+			}
+			
+			Order order = Order.find();
+			LOGGER.error "ORDER INFO : " +  order.toString();
+			
+			resultado.setSuccess(true);
+		}catch(Exception ex) {
+			LOGGER.error ex.getMessage()
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		}
 	}
 }

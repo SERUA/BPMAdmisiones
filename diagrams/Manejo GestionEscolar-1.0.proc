@@ -1,0 +1,287 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.2/notation" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
+  <process:MainProcess xmi:id="_pAVD0C5yEeuP4u9L93tjFQ" name="Manejo GestionEscolar" author="EMUI" bonitaVersion="7.11.2" bonitaModelVersion="7.11.1-001" configId="ACED00057400274D616E656A6F2047657374696F6E4573636F6C6172372E31312E312D303031372E31312E327370">
+    <elements xmi:type="process:Pool" xmi:id="_pAVD0S5yEeuP4u9L93tjFQ" name="Agregar Gestion escolar">
+      <elements xmi:type="process:Lane" xmi:id="_pAVD0i5yEeuP4u9L93tjFQ" name="Empleado (lane) " actor="_pAVD6y5yEeuP4u9L93tjFQ">
+        <elements xmi:type="process:StartEvent" xmi:id="_pAVD0y5yEeuP4u9L93tjFQ" name="inicio1" outgoing="_R26mUC50EeuP4u9L93tjFQ">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_pAVD1C5yEeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_pAVD1S5yEeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_pAVD1i5yEeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        </elements>
+        <elements xmi:type="process:EndEvent" xmi:id="_R2tK8C50EeuP4u9L93tjFQ" name="Fin1" incoming="_R26mUC50EeuP4u9L93tjFQ">
+          <dynamicLabel xmi:type="expression:Expression" xmi:id="_R2tK8i50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+          <dynamicDescription xmi:type="expression:Expression" xmi:id="_R2tK8S50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+          <stepSummary xmi:type="expression:Expression" xmi:id="_R2tK8y50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        </elements>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_tfvUsDGvEeupp93G9myzBA" name="lstCatGestionEscolar" multiple="true" dataType="_pAVEBC5yEeuP4u9L93tjFQ" className="com.anahuac.catalogos.CatGestionEscolar">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_vKoJRTGvEeupp93G9myzBA" name="initLstCatGestionEscolar()" content="import java.time.LocalDateTime&#xD;&#xA;def catGestionEscolarList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;lstCatGestionEscolarInput.each{&#xD;&#xA;&#x9;//Add a new composed CatGestionEscolar instance&#xD;&#xA;&#x9;catGestionEscolarList.add({ currentCatGestionEscolarInput ->&#xD;&#xA;&#x9;&#x9;def catGestionEscolarVar = new com.anahuac.catalogos.CatGestionEscolar()&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.nombre = currentCatGestionEscolarInput.nombre&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.descripcion = currentCatGestionEscolarInput.descripcion&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.enlace = currentCatGestionEscolarInput.enlace&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.propedeutico = currentCatGestionEscolarInput.propedeutico&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.programaparcial = currentCatGestionEscolarInput.programaparcial&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.matematicas = currentCatGestionEscolarInput.matematicas&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.inscripcionenero = currentCatGestionEscolarInput.inscripcionenero&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.inscripcionagosto = currentCatGestionEscolarInput.inscripcionagosto&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.periodoDisponible = {&#xD;&#xA;&#x9;&#x9;&#x9;def catPeriodoList = []&#xD;&#xA;&#x9;&#x9;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;&#x9;&#x9;currentCatGestionEscolarInput.periodoDisponible.each{&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;//Add CatPeriodo instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;catPeriodoList.add({ currentCatPeriodoInput ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;def catPeriodoVar = catPeriodoDAO.findByPersistenceId(currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(!catPeriodoVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatPeriodo` with the persistence id &quot; + currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return catPeriodoVar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catPeriodoList}()&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.isEliminado = currentCatGestionEscolarInput.isEliminado&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.usuarioCreacion = currentCatGestionEscolarInput.usuarioCreacion&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.fechaCreacion = LocalDateTime.now()&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.campus = currentCatGestionEscolarInput.campus&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.caseId = currentCatGestionEscolarInput.caseId&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.orden = currentCatGestionEscolarInput.orden&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.propedeuticos = {&#xD;&#xA;&#x9;&#x9;&#x9;def catPropedeuticoList = []&#xD;&#xA;&#x9;&#x9;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;&#x9;&#x9;currentCatGestionEscolarInput.propedeuticos.each{&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;//Add CatPropedeutico instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;catPropedeuticoList.add({ currentCatPropedeuticoInput ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;def catPropedeuticoVar = catPropedeuticoDAO.findByPersistenceId(currentCatPropedeuticoInput.persistenceId_string?.trim() ? currentCatPropedeuticoInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(!catPropedeuticoVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatPropedeutico` with the persistence id &quot; + currentCatPropedeuticoInput.persistenceId_string?.trim() ? currentCatPropedeuticoInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return catPropedeuticoVar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catPropedeuticoList}()&#xD;&#xA;&#x9;&#x9;return catGestionEscolarVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catGestionEscolarList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_0XVeoDGvEeupp93G9myzBA" name="lstCatGestionEscolarInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_0XVeoTGvEeupp93G9myzBA" name="catPeriodoDAO" content="catPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPeriodoDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_0XVeojGvEeupp93G9myzBA" name="catPropedeuticoDAO" content="catPropedeuticoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPropedeuticoDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_pAVD5C5yEeuP4u9L93tjFQ" type="NONE">
+        <targetForm xmi:type="expression:Expression" xmi:id="_vLRAYC9UEeuRQaY-GsxD1g" name="newForm61" content="9ce1ea30-c61d-47f3-8c05-e910a43e2e14" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_pAVD5i5yEeuP4u9L93tjFQ">
+        <targetForm xmi:type="expression:Expression" xmi:id="_pAVD5y5yEeuP4u9L93tjFQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_R26mUC50EeuP4u9L93tjFQ" target="_R2tK8C50EeuP4u9L93tjFQ" source="_pAVD0y5yEeuP4u9L93tjFQ">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_R26mUS50EeuP4u9L93tjFQ"/>
+        <condition xmi:type="expression:Expression" xmi:id="_R26mUi50EeuP4u9L93tjFQ" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <actors xmi:type="process:Actor" xmi:id="_pAVD6y5yEeuP4u9L93tjFQ" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
+      <contract xmi:type="process:Contract" xmi:id="_pAVD7C5yEeuP4u9L93tjFQ">
+        <inputs xmi:type="process:ContractInput" xmi:id="_vKoJMDGvEeupp93G9myzBA" name="lstCatGestionEscolarInput" type="COMPLEX" multiple="true" dataReference="lstCatGestionEscolar">
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJMTGvEeupp93G9myzBA" name="nombre"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJMjGvEeupp93G9myzBA" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJMzGvEeupp93G9myzBA" name="enlace"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJNDGvEeupp93G9myzBA" name="propedeutico" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJNTGvEeupp93G9myzBA" name="programaparcial" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJNjGvEeupp93G9myzBA" name="matematicas" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJNzGvEeupp93G9myzBA" name="inscripcionenero"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJODGvEeupp93G9myzBA" name="inscripcionagosto"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJOTGvEeupp93G9myzBA" name="periodoDisponible" type="COMPLEX" multiple="true">
+            <inputs xmi:type="process:ContractInput" xmi:id="_vKoJOjGvEeupp93G9myzBA" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJOzGvEeupp93G9myzBA" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJPDGvEeupp93G9myzBA" name="usuarioCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJPTGvEeupp93G9myzBA" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJPjGvEeupp93G9myzBA" name="campus"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJPzGvEeupp93G9myzBA" name="caseId"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJQDGvEeupp93G9myzBA" name="orden" type="INTEGER"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vKoJQTGvEeupp93G9myzBA" name="propedeuticos" type="COMPLEX" multiple="true">
+            <inputs xmi:type="process:ContractInput" xmi:id="_vKoJQjGvEeupp93G9myzBA" name="persistenceId_string"/>
+          </inputs>
+        </inputs>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_vKoJQzGvEeupp93G9myzBA" expression="lstCatGestionEscolarInput?.periodoDisponible.flatten().every{!it || it.persistenceId_string}" errorMessage="CatPeriodo must reference an existing instance with a persistenceId for CatGestionEscolar" name="aggregation_lstCatGestionEscolarInput_periodoDisponible">
+          <inputNames>lstCatGestionEscolarInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_vKoJRDGvEeupp93G9myzBA" expression="lstCatGestionEscolarInput?.propedeuticos.flatten().every{!it || it.persistenceId_string}" errorMessage="CatPropedeutico must reference an existing instance with a persistenceId for CatGestionEscolar" name="aggregation_lstCatGestionEscolarInput_propedeuticos">
+          <inputNames>lstCatGestionEscolarInput</inputNames>
+        </constraints>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_pAVD7S5yEeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_pAVD7i5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_pAVD7y5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_pAVD8C5yEeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_pAVD8S5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_pAVD8i5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_pAVD8y5yEeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_pAVD9C5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_pAVD9S5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_pAVD9i5yEeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_pAVD9y5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_pAVD-C5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_pAVD-S5yEeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_pAVD-i5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_pAVD-y5yEeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
+    <elements xmi:type="process:Pool" xmi:id="_GPQmsC50EeuP4u9L93tjFQ" name="Editar Gestion escolar">
+      <elements xmi:type="process:StartEvent" xmi:id="_TrGgwC50EeuP4u9L93tjFQ" name="Inicio2" outgoing="_UWY5cy50EeuP4u9L93tjFQ">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_TrGgwi50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_TrGgwS50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_TrGgwy50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <elements xmi:type="process:ServiceTask" xmi:id="_UWPIcC50EeuP4u9L93tjFQ" name="Borrar Gestion escolar" outgoing="_V4UmQC50EeuP4u9L93tjFQ" incoming="_UWY5cy50EeuP4u9L93tjFQ">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_UWPIci50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_UWPIcS50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_UWPIcy50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <operations xmi:type="expression:Operation" xmi:id="_2Lw0MDGwEeupp93G9myzBA">
+          <leftOperand xmi:type="expression:Expression" xmi:id="_2Lw0MTGwEeupp93G9myzBA" name="lstCatGestionEscolarToDelete" content="lstCatGestionEscolarToDelete" type="TYPE_VARIABLE" returnType="java.util.List">
+            <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2m6fIDGwEeupp93G9myzBA" name="lstCatGestionEscolarToDelete" multiple="true" dataType="_pAVEBC5yEeuP4u9L93tjFQ" className="com.anahuac.catalogos.CatGestionEscolar"/>
+          </leftOperand>
+          <rightOperand xmi:type="expression:Expression" xmi:id="_2Lw0MjGwEeupp93G9myzBA" content=""/>
+          <operator xmi:type="expression:Operator" xmi:id="_2Lw0MzGwEeupp93G9myzBA" type="DELETION"/>
+        </operations>
+        <loopCondition xmi:type="expression:Expression" xmi:id="_UWPIdC50EeuP4u9L93tjFQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+        <loopMaximum xmi:type="expression:Expression" xmi:id="_UWPIdS50EeuP4u9L93tjFQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+        <cardinalityExpression xmi:type="expression:Expression" xmi:id="_UWPIdi50EeuP4u9L93tjFQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
+        <iteratorExpression xmi:type="expression:Expression" xmi:id="_UWPIeC50EeuP4u9L93tjFQ" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
+        <completionCondition xmi:type="expression:Expression" xmi:id="_UWPIdy50EeuP4u9L93tjFQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </elements>
+      <elements xmi:type="process:EndEvent" xmi:id="_V34hYC50EeuP4u9L93tjFQ" name="Fin2" incoming="_V4UmQC50EeuP4u9L93tjFQ">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_V4BrUS50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_V4BrUC50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_V4BrUi50EeuP4u9L93tjFQ" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_8PztUDAbEeu4ZoZSLp5srw" name="lstCatGestionEscolarToDelete" multiple="true" dataType="_pAVEBC5yEeuP4u9L93tjFQ" className="com.anahuac.catalogos.CatGestionEscolar">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_adBzsDA5EeuBf48QmC7Yog" name="initLstCatGestionEscolarToDelete()" content="def catGestionEscolarList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;     .each{&#xD;&#xA;&#x9;//Add a new composed CatGestionEscolar instance&#xD;&#xA;&#x9;catGestionEscolarList.add({ currentCatGestionEscolarInput ->&#xD;&#xA;&#x9;&#x9;def catGestionEscolarVar = new com.anahuac.catalogos.CatGestionEscolar()&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.nombre = currentCatGestionEscolarInput.nombre&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.descripcion = currentCatGestionEscolarInput.descripcion&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.enlace = currentCatGestionEscolarInput.enlace&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.propedeutico = currentCatGestionEscolarInput.propedeutico&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.programaparcial = currentCatGestionEscolarInput.programaparcial&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.matematicas = currentCatGestionEscolarInput.matematicas&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.inscripcionenero = currentCatGestionEscolarInput.inscripcionenero&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.inscripcionagosto = currentCatGestionEscolarInput.inscripcionagosto&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.periodoDisponible = {&#xD;&#xA;&#x9;&#x9;&#x9;def catPeriodoList = []&#xD;&#xA;&#x9;&#x9;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;&#x9;&#x9;currentCatGestionEscolarInput.periodoDisponible.each{&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;//Add CatPeriodo instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;catPeriodoList.add({ currentCatPeriodoInput ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;def catPeriodoVar = catPeriodoDAO.findByPersistenceId(currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(!catPeriodoVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatPeriodo` with the persistence id &quot; + currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return catPeriodoVar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catPeriodoList}()&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.isEliminado = currentCatGestionEscolarInput.isEliminado&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.usuarioCreacion = currentCatGestionEscolarInput.usuarioCreacion&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.fechaCreacion = currentCatGestionEscolarInput.fechaCreacion&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.campus = currentCatGestionEscolarInput.campus&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.caseId = currentCatGestionEscolarInput.caseId&#xD;&#xA;&#x9;&#x9;catGestionEscolarVar.orden = currentCatGestionEscolarInput.orden&#xD;&#xA;&#x9;&#x9;return catGestionEscolarVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return catGestionEscolarList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="expression:Expression" xmi:id="_adBzsjA5EeuBf48QmC7Yog" name="catPeriodoDAO" content="catPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPeriodoDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_VFTJoDGwEeupp93G9myzBA" name="lstCatGestionEscolar" multiple="true" dataType="_pAVEBC5yEeuP4u9L93tjFQ" className="com.anahuac.catalogos.CatGestionEscolar">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_Wan95TGwEeupp93G9myzBA" name="initLstCatGestionEscolar()" content="import java.time.LocalDateTime&#xD;&#xA;import com.anahuac.catalogos.CatGestionEscolar&#xD;&#xA;def catGestionEscolarList = []&#xD;&#xA;&#xD;&#xA;&#x9;   for (Map objCatGestionEscolarInput: lstCatGestionEscolarInput) {&#xD;&#xA;   if (Boolean.TRUE.equals(objCatGestionEscolarInput.todelete))&#xD;&#xA;  continue;&#xD;&#xA;&#xD;&#xA;   CatGestionEscolar objCatGestionEscolar = catGestionEscolarDAO.findByPersistenceId(objCatGestionEscolarInput.persistenceId);&#xD;&#xA;   if (objCatGestionEscolar != null) {&#xD;&#xA;&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.nombre = objCatGestionEscolarInput.nombre&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.descripcion = objCatGestionEscolarInput.descripcion&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.enlace = objCatGestionEscolarInput.enlace&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.propedeutico = objCatGestionEscolarInput.propedeutico&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.programaparcial = objCatGestionEscolarInput.programaparcial&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.matematicas = objCatGestionEscolarInput.matematicas&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.inscripcionenero = objCatGestionEscolarInput.inscripcionenero&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.inscripcionagosto = objCatGestionEscolarInput.inscripcionagosto&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.periodoDisponible = {&#xD;&#xA;&#x9;&#x9;&#x9;def catPeriodoList = []&#xD;&#xA;&#x9;&#x9;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;&#x9;&#x9;objCatGestionEscolarInput.periodoDisponible.each{&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;//Add CatPeriodo instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;catPeriodoList.add({ currentCatPeriodoInput ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;def catPeriodoVar = catPeriodoDAO.findByPersistenceId(currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(!catPeriodoVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatPeriodo` with the persistence id &quot; + currentCatPeriodoInput.persistenceId_string?.trim() ? currentCatPeriodoInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return catPeriodoVar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catPeriodoList}()&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.isEliminado = objCatGestionEscolarInput.isEliminado&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.usuarioCreacion = objCatGestionEscolarInput.usuarioCreacion&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.fechaCreacion = LocalDateTime.now()&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.campus = objCatGestionEscolarInput.campus&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.caseId = objCatGestionEscolarInput.caseId&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.orden = objCatGestionEscolarInput.orden&#xD;&#xA;&#x9;&#x9;objCatGestionEscolar.propedeuticos = {&#xD;&#xA;&#x9;&#x9;&#x9;def catPropedeuticoList = []&#xD;&#xA;&#x9;&#x9;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;&#x9;&#x9;objCatGestionEscolarInput.propedeuticos.each{&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;//Add CatPropedeutico instance&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;catPropedeuticoList.add({ currentCatPropedeuticoInput ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;def catPropedeuticoVar = catPropedeuticoDAO.findByPersistenceId(currentCatPropedeuticoInput.persistenceId_string?.trim() ? currentCatPropedeuticoInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;if(!catPropedeuticoVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `CatPropedeutico` with the persistence id &quot; + currentCatPropedeuticoInput.persistenceId_string?.trim() ? currentCatPropedeuticoInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;return catPropedeuticoVar&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;return catPropedeuticoList}()&#xD;&#xA;&#x9;&#x9;catGestionEscolarList.add(objCatGestionEscolar)&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;return catGestionEscolarList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_zsWygDGwEeupp93G9myzBA" name="lstCatGestionEscolarInput" type="COMPLEX" multiple="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_zsWygTGwEeupp93G9myzBA" name="catPeriodoDAO" content="catPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPeriodoDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_zsWygjGwEeupp93G9myzBA" name="catPropedeuticoDAO" content="catPropedeuticoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatPropedeuticoDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_zsWygzGwEeupp93G9myzBA" name="catGestionEscolarDAO" content="catGestionEscolarDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.catalogos.CatGestionEscolarDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_GPQmwC50EeuP4u9L93tjFQ" type="NONE">
+        <targetForm xmi:type="expression:Expression" xmi:id="_GPQmwS50EeuP4u9L93tjFQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_GPQmwi50EeuP4u9L93tjFQ">
+        <targetForm xmi:type="expression:Expression" xmi:id="_GPQmwy50EeuP4u9L93tjFQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_UWY5cy50EeuP4u9L93tjFQ" target="_UWPIcC50EeuP4u9L93tjFQ" source="_TrGgwC50EeuP4u9L93tjFQ">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_UWY5dC50EeuP4u9L93tjFQ"/>
+        <condition xmi:type="expression:Expression" xmi:id="_UWY5dS50EeuP4u9L93tjFQ" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_V4UmQC50EeuP4u9L93tjFQ" target="_V34hYC50EeuP4u9L93tjFQ" source="_UWPIcC50EeuP4u9L93tjFQ">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_V4UmQS50EeuP4u9L93tjFQ"/>
+        <condition xmi:type="expression:Expression" xmi:id="_V4UmQi50EeuP4u9L93tjFQ" name="" type="TYPE_CONDITION" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <contract xmi:type="process:Contract" xmi:id="_GPQmxC50EeuP4u9L93tjFQ">
+        <inputs xmi:type="process:ContractInput" xmi:id="_Wan90DGwEeupp93G9myzBA" name="lstCatGestionEscolarInput" type="COMPLEX" multiple="true" dataReference="lstCatGestionEscolar">
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan90TGwEeupp93G9myzBA" name="nombre"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan90jGwEeupp93G9myzBA" name="descripcion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan90zGwEeupp93G9myzBA" name="enlace"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan91DGwEeupp93G9myzBA" name="propedeutico" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan91TGwEeupp93G9myzBA" name="programaparcial" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan91jGwEeupp93G9myzBA" name="matematicas" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan91zGwEeupp93G9myzBA" name="inscripcionenero"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan92DGwEeupp93G9myzBA" name="inscripcionagosto"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan92TGwEeupp93G9myzBA" name="periodoDisponible" type="COMPLEX" multiple="true">
+            <inputs xmi:type="process:ContractInput" xmi:id="_Wan92jGwEeupp93G9myzBA" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan92zGwEeupp93G9myzBA" name="isEliminado" type="BOOLEAN"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan93DGwEeupp93G9myzBA" name="usuarioCreacion"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan93TGwEeupp93G9myzBA" name="fechaCreacion" type="LOCALDATETIME"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan93jGwEeupp93G9myzBA" name="campus"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan93zGwEeupp93G9myzBA" name="caseId"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan94DGwEeupp93G9myzBA" name="orden" type="INTEGER"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_Wan94TGwEeupp93G9myzBA" name="propedeuticos" type="COMPLEX" multiple="true">
+            <inputs xmi:type="process:ContractInput" xmi:id="_Wan94jGwEeupp93G9myzBA" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_WsslQDGwEeupp93G9myzBA" name="todelete">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_WsslQTGwEeupp93G9myzBA"/>
+          </inputs>
+        </inputs>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_Wan94zGwEeupp93G9myzBA" expression="lstCatGestionEscolarInput?.periodoDisponible.flatten().every{!it || it.persistenceId_string}" errorMessage="CatPeriodo must reference an existing instance with a persistenceId for CatGestionEscolar" name="aggregation_lstCatGestionEscolarInput_periodoDisponible">
+          <inputNames>lstCatGestionEscolarInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_Wan95DGwEeupp93G9myzBA" expression="lstCatGestionEscolarInput?.propedeuticos.flatten().every{!it || it.persistenceId_string}" errorMessage="CatPropedeutico must reference an existing instance with a persistenceId for CatGestionEscolar" name="aggregation_lstCatGestionEscolarInput_propedeuticos">
+          <inputNames>lstCatGestionEscolarInput</inputNames>
+        </constraints>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_GPQmsS50EeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_GPQmsi50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_GPQmsy50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_GPQmtC50EeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_GPQmtS50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_GPQmti50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_GPQmty50EeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_GPQmuC50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_GPQmuS50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_GPQmui50EeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_GPQmuy50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_GPQmvC50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_GPQmvS50EeuP4u9L93tjFQ">
+        <name xmi:type="expression:Expression" xmi:id="_GPQmvi50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_GPQmvy50EeuP4u9L93tjFQ" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
+    <datatypes xmi:type="process:BooleanType" xmi:id="_pAVD_C5yEeuP4u9L93tjFQ" name="Boolean"/>
+    <datatypes xmi:type="process:DateType" xmi:id="_pAVD_S5yEeuP4u9L93tjFQ" name="Date"/>
+    <datatypes xmi:type="process:IntegerType" xmi:id="_pAVD_i5yEeuP4u9L93tjFQ" name="Integer"/>
+    <datatypes xmi:type="process:LongType" xmi:id="_pAVD_y5yEeuP4u9L93tjFQ" name="Long"/>
+    <datatypes xmi:type="process:DoubleType" xmi:id="_pAVEAC5yEeuP4u9L93tjFQ" name="Double"/>
+    <datatypes xmi:type="process:StringType" xmi:id="_pAVEAS5yEeuP4u9L93tjFQ" name="Text"/>
+    <datatypes xmi:type="process:JavaType" xmi:id="_pAVEAi5yEeuP4u9L93tjFQ" name="Java_object"/>
+    <datatypes xmi:type="process:XMLType" xmi:id="_pAVEAy5yEeuP4u9L93tjFQ" name="XML"/>
+    <datatypes xmi:type="process:BusinessObjectType" xmi:id="_pAVEBC5yEeuP4u9L93tjFQ" name="Business_Object"/>
+  </process:MainProcess>
+  <notation:Diagram xmi:id="_pAVEBS5yEeuP4u9L93tjFQ" type="Process" element="_pAVD0C5yEeuP4u9L93tjFQ" name="MiDiagrama2" measurementUnit="Pixel">
+    <children xmi:type="notation:Node" xmi:id="_pAVEBi5yEeuP4u9L93tjFQ" type="2007" element="_pAVD0S5yEeuP4u9L93tjFQ">
+      <children xmi:type="notation:DecorationNode" xmi:id="_pAVEBy5yEeuP4u9L93tjFQ" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_pAVECC5yEeuP4u9L93tjFQ" type="7001">
+        <children xmi:type="notation:Node" xmi:id="_pAVECS5yEeuP4u9L93tjFQ" type="3007" element="_pAVD0i5yEeuP4u9L93tjFQ">
+          <children xmi:type="notation:DecorationNode" xmi:id="_pAVECi5yEeuP4u9L93tjFQ" type="5007"/>
+          <children xmi:type="notation:DecorationNode" xmi:id="_pAVECy5yEeuP4u9L93tjFQ" type="7002">
+            <children xmi:type="notation:Shape" xmi:id="_pAVEDy5yEeuP4u9L93tjFQ" type="3002" element="_pAVD0y5yEeuP4u9L93tjFQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_pAVEEC5yEeuP4u9L93tjFQ" type="5024">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_pAVEES5yEeuP4u9L93tjFQ" x="3" y="6"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pAVEEi5yEeuP4u9L93tjFQ" x="60" y="68"/>
+            </children>
+            <children xmi:type="notation:Shape" xmi:id="_R22U4C50EeuP4u9L93tjFQ" type="3003" element="_R2tK8C50EeuP4u9L93tjFQ" fontName="Segoe UI">
+              <children xmi:type="notation:DecorationNode" xmi:id="_R22U4i50EeuP4u9L93tjFQ" type="5025">
+                <layoutConstraint xmi:type="notation:Location" xmi:id="_R22U4y50EeuP4u9L93tjFQ" y="5"/>
+              </children>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_R22U4S50EeuP4u9L93tjFQ" x="212" y="70"/>
+            </children>
+          </children>
+          <styles xmi:type="notation:DescriptionStyle" xmi:id="_pAVEEy5yEeuP4u9L93tjFQ"/>
+          <styles xmi:type="notation:FontStyle" xmi:id="_pAVEFC5yEeuP4u9L93tjFQ" fontName="Segoe UI"/>
+          <styles xmi:type="notation:LineStyle" xmi:id="_pAVEFS5yEeuP4u9L93tjFQ"/>
+          <styles xmi:type="notation:FillStyle" xmi:id="_pAVEFi5yEeuP4u9L93tjFQ"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pAVEFy5yEeuP4u9L93tjFQ" x="48" y="10" width="1297" height="142"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_pAVEGC5yEeuP4u9L93tjFQ"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_pAVEGS5yEeuP4u9L93tjFQ" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_pAVEGi5yEeuP4u9L93tjFQ"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_pAVEGy5yEeuP4u9L93tjFQ"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_pAVEHC5yEeuP4u9L93tjFQ" width="1320" height="250"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_GPQmxS50EeuP4u9L93tjFQ" type="2007" element="_GPQmsC50EeuP4u9L93tjFQ">
+      <children xmi:type="notation:DecorationNode" xmi:id="_GPQmyi50EeuP4u9L93tjFQ" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_GPQmyy50EeuP4u9L93tjFQ" type="7001">
+        <children xmi:type="notation:Shape" xmi:id="_TrGgxC50EeuP4u9L93tjFQ" type="3002" element="_TrGgwC50EeuP4u9L93tjFQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_TrGgxi50EeuP4u9L93tjFQ" type="5024">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_TrGgxy50EeuP4u9L93tjFQ" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_TrGgxS50EeuP4u9L93tjFQ" x="115" y="36"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_UWY5cC50EeuP4u9L93tjFQ" type="3027" element="_UWPIcC50EeuP4u9L93tjFQ" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
+          <children xmi:type="notation:DecorationNode" xmi:id="_UWY5ci50EeuP4u9L93tjFQ" type="5017"/>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UWY5cS50EeuP4u9L93tjFQ" x="208" y="36" width="120" height="60"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_V4BrUy50EeuP4u9L93tjFQ" type="3003" element="_V34hYC50EeuP4u9L93tjFQ" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_V4BrVS50EeuP4u9L93tjFQ" type="5025">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_V4BrVi50EeuP4u9L93tjFQ" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_V4BrVC50EeuP4u9L93tjFQ" x="393" y="55"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_GPQmxi50EeuP4u9L93tjFQ"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_GPQmxy50EeuP4u9L93tjFQ" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_GPQmyC50EeuP4u9L93tjFQ"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_GPQmzC50EeuP4u9L93tjFQ"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_GPQmyS50EeuP4u9L93tjFQ" width="1320" height="170"/>
+    </children>
+    <styles xmi:type="notation:DiagramStyle" xmi:id="_pAVEHS5yEeuP4u9L93tjFQ"/>
+    <edges xmi:type="notation:Connector" xmi:id="_R26mUy50EeuP4u9L93tjFQ" type="4001" element="_R26mUC50EeuP4u9L93tjFQ" source="_pAVEDy5yEeuP4u9L93tjFQ" target="_R22U4C50EeuP4u9L93tjFQ" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_R26mVi50EeuP4u9L93tjFQ" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_R26mVy50EeuP4u9L93tjFQ" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_R26mVC50EeuP4u9L93tjFQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_R26mVS50EeuP4u9L93tjFQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_UWiDYC50EeuP4u9L93tjFQ" type="4001" element="_UWY5cy50EeuP4u9L93tjFQ" source="_TrGgxC50EeuP4u9L93tjFQ" target="_UWY5cC50EeuP4u9L93tjFQ" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_UWiDYy50EeuP4u9L93tjFQ" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_UWiDZC50EeuP4u9L93tjFQ" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_UWiDYS50EeuP4u9L93tjFQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_UWiDYi50EeuP4u9L93tjFQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_V4UmQy50EeuP4u9L93tjFQ" type="4001" element="_V4UmQC50EeuP4u9L93tjFQ" source="_UWY5cC50EeuP4u9L93tjFQ" target="_V4BrUy50EeuP4u9L93tjFQ" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_V4UmRi50EeuP4u9L93tjFQ" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_V4UmRy50EeuP4u9L93tjFQ" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_V4UmRC50EeuP4u9L93tjFQ" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_V4UmRS50EeuP4u9L93tjFQ" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
+    </edges>
+  </notation:Diagram>
+</xmi:XMI>

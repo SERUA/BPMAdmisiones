@@ -31,7 +31,14 @@ class DBConnect {
 		 */
 		public final Connection getConnection() throws Exception {
 			Context initContext = new InitialContext();
+			//BDM
 			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/NotManagedBizDataDS");
+			return dataSource.getConnection();
+		}
+		public final Connection getConnectionBonita() throws Exception {
+			Context initContext = new InitialContext();
+			//Bonita instancias etc...
+			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/bonitaSequenceManagerDS");
 			return dataSource.getConnection();
 		}
 		public void closeObj(Connection con, Statement stm, ResultSet rs, PreparedStatement pstm) {

@@ -11,7 +11,11 @@ import org.bonitasoft.web.extension.rest.RestApiResponse
 import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import com.anahuac.rest.api.DAO.CatalogoBachilleratoDAO
+import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
+import com.anahuac.rest.api.Entity.Result
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
 
@@ -23,49 +27,97 @@ class IndexGet implements RestApiController {
 	RestApiResponse doHandle(HttpServletRequest request, RestApiResponseBuilder responseBuilder, RestAPIContext context) {
 		// To retrieve query parameters use the request.getParameter(..) method.
 		// Be careful, parameter values are always returned as String values
-		def result = null;
-		// Retrieve p parameter
-		def correo = request.getParameter "correo"
-		if (correo == null) {
-			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST, """{"error " : "the parameter correo is missing "}""")
-		}
-		def p = request.getParameter "p";
-		if (p == null) {
-			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
-        }
-        def c = request.getParameter "c";
-        if (c == null) {
-            return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter c is missing"}""")
-		}
+		RestApiResponseBuilder rb;
+		Result result = new Result();
 		def url = request.getParameter "url";
-		if (url == null) {
-			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
-        }
-		
-		Integer parameterP = Integer.valueOf(p);
-		Integer parameterC = Integer.valueOf(c);
-		//String jsonData = request.reader.readLines().join("\n")
-
-		//def result = ["correo": correo, "myParameterKey": ""]
-		
-		//VARIABLES DAO===============================
-		UsuariosDAO uDAO = new UsuariosDAO();
 		
 		//MAPEO DE SERVICIOS==================================================
 		try{
 			switch(url) {
 				case "habilitarUsuario":
-					result = uDAO.getHabilitarUsaurio(parameterP, parameterC, correo, context);
-					break;
+				// Retrieve p parameter
+				def correo = request.getParameter "correo"
+				if (correo == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST, """{"error " : "the parameter correo is missing "}""")
+				}
+				def p = request.getParameter "p";
+				if (p == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
+				}
+				def c = request.getParameter "c";
+				if (c == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter c is missing"}""")
+				}
+				
+				if (url == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
+				}
+						
+				Integer parameterP = Integer.valueOf(p);
+				Integer parameterC = Integer.valueOf(c);
+				//String jsonData = request.reader.readLines().join("\n")
+		
+				//def result = ["correo": correo, "myParameterKey": ""]
+				
+				//VARIABLES DAO===============================
+				UsuariosDAO uDAO = new UsuariosDAO();
+				responseBuilder.withMediaType("text/html; charset=utf-8")
+				result = uDAO.getHabilitarUsaurio(parameterP, parameterC, correo, context);
+				if(result.isSuccess()){
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, (result.getData().size()>0)?((url.equals("habilitarUsuario"))?result.getData().get(0):result.getData()):new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				case "getDescuentosCiudadBachillerato":
+				def p = request.getParameter "p";
+				if (p == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
+				}
+				def c = request.getParameter "c";
+				if (c == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter c is missing"}""")
+				}
+				String ciudad=request.getParameter "ciudad"
+				String campus=request.getParameter "campus"
+				String bachillerato=request.getParameter "bachillerato"
+				result = new CatalogoBachilleratoDAO().getDescuentosCiudadBachillerato(Integer.valueOf(p), Integer.valueOf(c), campus, bachillerato, ciudad, context)
+				responseBuilder.withMediaType("application/json")
+				return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				break;
+				case "getDescuentosCampana":
+				def p = request.getParameter "p";
+				if (p == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
+				}
+				def c = request.getParameter "c";
+				if (c == null) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter c is missing"}""")
+				}
+				String campus=request.getParameter "campus"
+				result = new CatalogoBachilleratoDAO().getDescuentosCampana(Integer.valueOf(p), Integer.valueOf(c), campus, context)
+				responseBuilder.withMediaType("application/json")
+				return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				break;
+				case "getCatNotificacionesFirma":
+				result = new NotificacionDAO().getFirma()
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 			}
 		}catch (Exception e) {
 			e.printStackTrace()
+			result.setSuccess(false)
+			result.setError(e.getMessage())
 		}
 		// Send the result as a JSON representation
 		// You may use buildPagedResponse if your result is multiple
 		if(result.isSuccess()){
-			responseBuilder.withMediaType("text/html; charset=utf-8")
-			return buildResponse(responseBuilder, HttpServletResponse.SC_OK, (result.getData().size()>0)?result.getData().get(0):new JsonBuilder(result).toString())
+			return buildResponse(responseBuilder, HttpServletResponse.SC_OK, (result.getData().size()>0)?((url.equals("habilitarUsuario"))?result.getData().get(0):result.getData()):new JsonBuilder(result).toString())
 		}else {
 			return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 		}

@@ -20,7 +20,10 @@ import org.slf4j.LoggerFactory
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.Usuarios
 import com.bonitasoft.web.extension.rest.RestAPIContext
-
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 import groovy.json.JsonSlurper
 
 class UsuariosDAO {
@@ -98,7 +101,7 @@ class UsuariosDAO {
 			plantilla = plantilla.replace("[href-confirmar]", prop.getProperty("HOST")+ "/bonita/API/extension/AnahuacRestGet?url=habilitarUsuario&correo="+str.correo+"&p=0&c=10" );
 			
 			MailGunDAO dao = new MailGunDAO();
-			dao.sendEmailPlantilla(str.correo,"Completar Registro",plantilla.replace("\\", ""),"","CAMPUS-PUEBLA", context);
+			resultado = dao.sendEmailPlantilla(str.correo,"Completar Registro",plantilla.replace("\\", ""),"","CAMPUS-PUEBLA", context);
 			
 			lstResultado.add(plantilla.replace("\\", ""))
 			resultado.setData(lstResultado);
@@ -153,7 +156,7 @@ class UsuariosDAO {
 			String plantilla = resultadoN.getData().get(0);
 			plantilla = plantilla.replace("[password]", object.password );
 			MailGunDAO dao = new MailGunDAO();
-			dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"","", context);
+			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"","CAMPUS-PUEBLA", context);
 			
 			
 			lstResultado.add(plantilla);
@@ -211,18 +214,22 @@ class UsuariosDAO {
 		Result resultado = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
+		NotificacionDAO nDAO = new NotificacionDAO();
 		try {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			apiClient.login("Administrador", "bpm")
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(correo);
-			
-			UserUpdater update_user = new UserUpdater();
-			update_user.setEnabled(true);
-			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-			
-			NotificacionDAO nDAO = new NotificacionDAO();
-			resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
+			if(!user.isEnabled()) {
+				UserUpdater update_user = new UserUpdater();
+				update_user.setEnabled(true);
+				final User user_update= identityAPI.updateUser(user.getId(), update_user);
+				
+				
+				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
+			}else {
+				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
+			}
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);

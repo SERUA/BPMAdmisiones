@@ -113,6 +113,10 @@ class SolicitudAdmisionCustom {
 	private String fotografiaB64;
 	@XmlElement
 	private String updateDate;
+	@XmlElement
+	private String estatusSolicitud;
+	@XmlElement
+	private DetalleSolicitudCustom objDetalleSolicitud;
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -437,6 +441,19 @@ class SolicitudAdmisionCustom {
 	public void setUpdateDate(String updateDate) {
 		this.updateDate = updateDate;
 	}
+	public String getEstatusSolicitud() {
+		return estatusSolicitud;
+	}
+	public void setEstatusSolicitud(String estatusSolicitud) {
+		this.estatusSolicitud = estatusSolicitud;
+	}
+	public DetalleSolicitudCustom getObjDetalleSolicitud() {
+		return objDetalleSolicitud;
+	}
+	public void setObjDetalleSolicitud(DetalleSolicitudCustom objDetalleSolicitud) {
+		this.objDetalleSolicitud = objDetalleSolicitud;
+	}
+	
 	@Override
 	public String toString() {
 		return "SolicitudAdmisionCustom [persistenceId=" + persistenceId + ", persistenceVersion=" + persistenceVersion
@@ -459,8 +476,8 @@ class SolicitudAdmisionCustom {
 				+ aceptoAvisoPrivacidad + ", confirmarAutorDatos=" + confirmarAutorDatos + ", caseId=" + caseId
 				+ ", taskId=" + taskId + ", catBachilleratos=" + catBachilleratos + ", processName=" + processName
 				+ ", processVersion=" + processVersion + ", taskName=" + taskName + ", objCatGestionEscolar="
-				+ objCatGestionEscolar + ", fotografiaB64=" + fotografiaB64 + ", updateDate=" + updateDate + "]";
+				+ objCatGestionEscolar + ", fotografiaB64=" + fotografiaB64 + ", updateDate=" + updateDate
+				+ ", estatusSolicitud=" + estatusSolicitud + ", objDetalleSolicitud=" + objDetalleSolicitud + "]";
 	}
-
 	
 }
