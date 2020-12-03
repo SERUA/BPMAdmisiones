@@ -4,6 +4,7 @@ import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.IdentityAPI
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
+import org.bonitasoft.engine.bpm.flownode.HumanTaskInstanceSearchDescriptor
 import org.bonitasoft.engine.bpm.process.ProcessDefinition
 import org.bonitasoft.engine.identity.ContactDataCreator
 import org.bonitasoft.engine.identity.User
@@ -12,11 +13,14 @@ import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserUpdater
 import org.bonitasoft.engine.profile.Profile
 import org.bonitasoft.engine.profile.ProfileMemberCreator
+import org.bonitasoft.engine.search.SearchOptions
 import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.engine.search.SearchResult
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.anahuac.catalogos.CatRegistro
+import com.anahuac.catalogos.CatRegistroDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.Usuarios
 import com.bonitasoft.web.extension.rest.RestAPIContext
@@ -189,15 +193,73 @@ class UsuariosDAO {
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
 			
+			resultado = enviarTarea(object.nombreusuario, context);
 			
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);
 			final User user_update= identityAPI.updateUser(user.getId(), update_user);
 		
 			lstResultado.add(user_update);
-					
+			
+			//enviarTarea(parameterP, parameterC, jsonData, context);
+			
 			lstResultado.add(object.nombreusuario);
 			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			LOGGER.error "ERROR=================================";
+			LOGGER.error e.getMessage();
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public Result enviarTarea(String correo,RestAPIContext context) {
+		Result resultado = new Result();
+		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+		CatRegistro objCatRegistro = new CatRegistro();
+		try {
+			
+			/*def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);*/
+			LOGGER.error "def object = jsonSlurper.parseText(jsonData);";
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login("Administrador", "bpm")
+			LOGGER.error "apiClient.login";
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
+			LOGGER.error "searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME";
+			final SearchOptions searchOptions = searchBuilder.done();
+			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
+			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
+			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
+			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				LOGGER.error "=================================";
+				LOGGER.error objHumanTaskInstance.getName();
+				LOGGER.error "=================================";
+				LOGGER.error "RootContainer" + objHumanTaskInstance.getRootContainerId()
+				lstCatRegistro = catRegistroDAO.findByCaseId(objHumanTaskInstance.getRootContainerId(), 0, 1)
+				if(lstCatRegistro != null) {
+					LOGGER.error "objCatRegistro=================================";
+					LOGGER.error "lstCatRegistro.size "+ lstCatRegistro.size()
+					if(lstCatRegistro.size() > 0) {
+						objCatRegistro = new CatRegistro();
+						objCatRegistro = lstCatRegistro.get(0);
+						
+						LOGGER.error "objCatRegistro=================================";
+						LOGGER.error objCatRegistro.getCorreoelectronico();
+						LOGGER.error "objCatRegistro=================================";
+						LOGGER.error correo
+						
+						if(objCatRegistro.getCorreoelectronico().equals(correo)) {
+							apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
+							apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
+						}
+					}
+				}
+			}
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
@@ -225,7 +287,7 @@ class UsuariosDAO {
 				update_user.setEnabled(true);
 				final User user_update= identityAPI.updateUser(user.getId(), update_user);
 				
-				
+				resultado = enviarTarea(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
 			}else {
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);

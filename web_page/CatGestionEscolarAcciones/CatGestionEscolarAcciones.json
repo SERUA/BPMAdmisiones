@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatGestionEscolarAcciones",
   "name" : "CatGestionEscolarAcciones",
-  "lastUpdate" : 1606869819943,
+  "lastUpdate" : 1606927740271,
   "rows" : [
     [
       {
@@ -561,7 +561,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "constant",
-                                    "value" : true
+                                    "value" : false
                                   },
                                   "disabled" : {
                                     "type" : "constant",
@@ -581,21 +581,23 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "Submit task"
+                                    "value" : "POST"
                                   },
                                   "assign" : {
                                     "type" : "constant",
                                     "value" : false
                                   },
                                   "url" : {
-                                    "type" : "interpolation"
+                                    "type" : "interpolation",
+                                    "value" : "../API/extension/AnahuacRest?url=getPdfFileCatalogo&p=0&c=10"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
                                     "value" : ""
                                   },
                                   "dataToSend" : {
-                                    "type" : "constant"
+                                    "type" : "expression",
+                                    "value" : "Files"
                                   },
                                   "dataFromSuccess" : {
                                     "type" : "variable",
@@ -628,11 +630,15 @@
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
+                                  },
+                                  "fileExtension" : {
+                                    "type" : "constant",
+                                    "value" : "pdf"
                                   }
                                 },
-                                "reference" : "8e0be5b5-ea60-4f1c-b8ce-b28d0d49998e",
+                                "reference" : "a6f88551-c810-4123-b8bf-3db56a7ff65f",
                                 "hasValidationError" : false,
-                                "id" : "customWidgetButtoncustome"
+                                "id" : "customCustomBtnDownloadExcel"
                               }
                             ]
                           ]

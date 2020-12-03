@@ -30,6 +30,7 @@ import com.anahuac.model.ProcesoCasoDAO
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.catalogos.CatBachilleratosDAO
 import com.anahuac.catalogos.CatGestionEscolarDAO
 import com.anahuac.rest.api.Entity.Custom.CatBachilleratosCustom
 import com.anahuac.rest.api.Entity.Custom.CatCampusCustom
@@ -2152,7 +2153,7 @@ class ListadoDAO {
 			
 			if(type.equals("gestion_escolar")) {
 				dataResult = getGestionEscolar(parameterP, parameterC, jsonData, context);
-				LOGGER.error "ERRROR=============dataReset==================="
+
 				if (dataResult.success) {
 					lstParams = dataResult.getData();
 				} else {
@@ -2162,7 +2163,7 @@ class ListadoDAO {
 				Row titleRow = sheet.createRow(++rowCount);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("LISTADO DE LICENCIATURAS DEL CAMPUS \""+ campus+"\"");
-				LOGGER.error "ERRROR=============titulo==================="
+
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("NOMBRE LICENCIATURA");
@@ -2177,7 +2178,7 @@ class ListadoDAO {
 				Cell header6= headersRow.createCell(5);
 				header6.setCellValue("PERIODOS");
 				com.anahuac.catalogos.CatGestionEscolar Escolar = new com.anahuac.catalogos.CatGestionEscolar();
-				LOGGER.error "ERRROR=============cuerpo==================="
+
 				for (int i = 0; i < lstParams.size(); ++i){
 					Escolar = new com.anahuac.catalogos.CatGestionEscolar();
 					Escolar = (com.anahuac.catalogos.CatGestionEscolar)lstParams.get(i);
@@ -2202,7 +2203,47 @@ class ListadoDAO {
 					Cell cell6= row.createCell(5);
 					cell6.setCellValue(periodos);
 				}
-				LOGGER.error "ERRROR=============info==================="
+			}else if(type.equals("bachilleratos")) {
+				dataResult = getBachilleratos(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos");
+				}
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("LISTADO DE BACHILLERATOS");
+				
+				Row headersRow = sheet.createRow(++rowCount);
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("DESCRIPCION");
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("PAIS");
+				Cell header3 = headersRow.createCell(2);
+				header3.setCellValue("ESTADO");
+				Cell header4 = headersRow.createCell(3);
+				header4.setCellValue("CIUDAD");
+				Cell header5= headersRow.createCell(4);
+				header5.setCellValue("PERTENECE A LA RED");
+				com.anahuac.catalogos.CatBachilleratos  bachillerato = new com.anahuac.catalogos.CatBachilleratos();
+			
+				for (int i = 0; i < lstParams.size(); ++i){
+					bachillerato = new com.anahuac.catalogos.CatBachilleratos();
+					bachillerato = (com.anahuac.catalogos.CatBachilleratos)lstParams.get(i);
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(bachillerato.getDescripcion().toString());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(bachillerato.getPais());
+					Cell cell3 = row.createCell(2);
+					cell3.setCellValue(bachillerato.getEstado());
+					Cell cell4 = row.createCell(3);
+					cell4.setCellValue(bachillerato.getCiudad());
+					Cell cell5= row.createCell(4);
+					def red = bachillerato.isPerteneceRed()?'Sí':"No";
+					cell5.setCellValue(red);
+				}
 			}
 			
 			FileOutputStream outputStream = new FileOutputStream("ReportCatalogo.xls");
@@ -2214,6 +2255,142 @@ class ListadoDAO {
 			resultado.setData(lstResultado);
 					
 		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	public Result getPdfFileCatalogo(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			
+			def documento="ReportCatalogos.pdf"
+			DocumentItext document = new DocumentItext();
+			document.setPageSize(PageSize.A4.rotate());
+			PdfWriter.getInstance(document, new FileOutputStream(documento));
+			
+			if(type.equals("gestion_escolar")) {
+				dataResult = getGestionEscolar(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos");
+				}
+				def campus= (object.campus == "CAMPUS-MNORTE"?"Anáhuac México Norte":object.campus == "CAMPUS-MSUR"?"Anáhuac México Sur":object.campus == "CAMPUS-MAYAB"?"Anáhuac Merida":object.campus =="CAMPUS-XALAPA"?"Anáhuac Xalapa":object.campus =="CAMPUS-CORDOBA"?"Anáhuac Cordoba":object.campus =="CAMPUS-CANCUN"?"Anáhuac Cancún":object.campus =="CAMPUS-OAXACA"?"Anáhuac Oaxaca":object.campus =="CAMPUS-PUEBLA"?"Anáhuac Puebla":object.campus =="CAMPUS-QUERETARO"?"Anáhuac Querétaro":"Juan Pablo II");
+				document.open();
+				Paragraph preface = new Paragraph("LISTADO DE LICENCIATURAS DEL CAMPUS \""+ campus+"\"");
+				preface.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(preface);
+				document.add( new Paragraph(" "))
+				PdfPTable table = new PdfPTable(6);
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("NOMBRE lICENCIATURA"));
+				table.addCell(header);
+				header.setPhrase(new Phrase("LIGA"));
+				table.addCell(header);
+				header.setPhrase(new Phrase("DESCRIPCION DE LA CARRERA"))
+				table.addCell(header);
+				header.setPhrase(new Phrase("INSCRIPCION DE ENERO"))
+				table.addCell(header);
+				header.setPhrase(new Phrase("INSCRIPCION DE AGOSTO"))
+				table.addCell(header);
+				header.setPhrase(new Phrase("PERIODOS"))
+				table.addCell(header);
+				
+				com.anahuac.catalogos.CatGestionEscolar  G_Escolar = new com.anahuac.catalogos.CatGestionEscolar();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					G_Escolar = new com.anahuac.catalogos.CatGestionEscolar();
+					G_Escolar = (com.anahuac.catalogos.CatGestionEscolar)lstParams.get(i);
+					table.addCell(new Phrase(G_Escolar.getNombre()));
+					table.addCell(new Phrase(G_Escolar.getEnlace()));
+					table.addCell(new Phrase(G_Escolar.getDescripcion()));
+					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionenero()));
+					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionagosto()));
+					com.anahuac.catalogos.CatPeriodo lstP = new com.anahuac.catalogos.CatPeriodo();
+					def periodos = "";
+					for(int f=0; f<G_Escolar.getPeriodoDisponible().size(); f++) {
+						lstP = new com.anahuac.catalogos.CatPeriodo();
+						lstP = (com.anahuac.catalogos.CatPeriodo)G_Escolar.getPeriodoDisponible().get(f);
+						periodos +=lstP.getDescripcion() + ",";
+					}
+					table.addCell(new Phrase(periodos));
+					
+				}
+				
+				document.add(table);
+				document.close();
+			}else if(type.equals("bachilleratos")) {
+				dataResult = getBachilleratos(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos");
+				}
+				document.open();
+				Paragraph preface = new Paragraph("LISTADO DE BACHILLERATOS");
+				preface.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(preface);
+				document.add( new Paragraph(" "))
+				PdfPTable table = new PdfPTable(5);
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("DESCRIPCION"));
+				table.addCell(header);
+				header.setPhrase(new Phrase("PAIS"));
+				table.addCell(header);
+				header.setPhrase(new Phrase("ESTADO"))
+				table.addCell(header);
+				header.setPhrase(new Phrase("CIUDAD"))
+				table.addCell(header);
+				header.setPhrase(new Phrase("PERTENECE A LA RED"))
+				table.addCell(header);
+				
+				com.anahuac.catalogos.CatBachilleratos  bachillerato = new com.anahuac.catalogos.CatBachilleratos();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					bachillerato = new com.anahuac.catalogos.CatBachilleratos();
+					bachillerato = (com.anahuac.catalogos.CatBachilleratos)lstParams.get(i);
+					table.addCell(new Phrase(bachillerato.getDescripcion()));
+					table.addCell(new Phrase(bachillerato.getPais()));
+					table.addCell(new Phrase(bachillerato.getEstado()));
+					table.addCell(new Phrase(bachillerato.getCiudad()));	
+					def red = bachillerato.isPerteneceRed()?'Sí':"No";
+					table.addCell(new Phrase(red));
+					
+				}
+				
+				document.add(table);
+				document.close();
+			}
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportCatalogos.pdf"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
 			e.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
@@ -2246,14 +2423,54 @@ class ListadoDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-		
-			LOGGER.error "ERRROR=============paso lista==================="
 			def objGestionEscolarDAO = context.apiClient.getDAO(CatGestionEscolarDAO.class);
-			LOGGER.error "ERRROR=============DAO==================="
 			lstGestionEscolar = objGestionEscolarDAO.getCatGestionEscolarByCampus(object.campus.toString(), 0, 9999)
-			LOGGER.error "ERRROR=============getbyCampus==================="
 			resultado.setError_info(strError);
 			resultado.setData(lstGestionEscolar);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setError_info(strError);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado
+	}
+	
+	public Result getBachilleratos(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context)  {
+		Result resultado = new Result();	
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		
+		Integer start = 0;
+		Integer end = 99999;
+		Integer inicioContador = 0;
+		Integer finContador = 0;
+		
+		List<com.anahuac.catalogos.CatBachilleratos> lstBachilleratos = new ArrayList<com.anahuac.catalogos.CatBachilleratos>();
+		
+		String strError = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			LOGGER.error "====object==="
+			LOGGER.error jsonData
+			def objBachilleratosDAO = context.apiClient.getDAO(CatBachilleratosDAO.class);
+			/*if(object.opcion == 2) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByEstado(object.estado)
+			}else if(object.opcion == 3) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByPais(object.pais)
+			}else {
+				
+			}*/
+			LOGGER.error "====LLEGO==="
+			lstBachilleratos = objBachilleratosDAO.getCatBachilleratos(0, 9999);
+			LOGGER.error "====PASO==="
+			
+			resultado.setError_info(strError);
+			resultado.setData(lstBachilleratos);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setError_info(strError);

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatBachillerato",
   "name" : "CatBachillerato",
-  "lastUpdate" : 1605742817951,
+  "lastUpdate" : 1606946653858,
   "rows" : [
     [
       {
@@ -166,7 +166,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<b>Catalogo de Preparatorias y Bachillerato</b>"
+                        "value" : "<b>Catálogo de Preparatorias y Bachillerato</b>"
                       },
                       "level" : {
                         "type" : "constant",
@@ -180,6 +180,35 @@
                     "reference" : "91d85ee2-8108-4371-a0ec-9bc149182921",
                     "hasValidationError" : false,
                     "id" : "pbTitle"
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 2,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "5710cbf0-c120-4206-b3ed-bc88260b9a6a",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
                   }
                 ]
               ]
@@ -588,21 +617,23 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "Submit task"
+                                    "value" : "POST"
                                   },
                                   "assign" : {
                                     "type" : "constant",
                                     "value" : false
                                   },
                                   "url" : {
-                                    "type" : "interpolation"
+                                    "type" : "interpolation",
+                                    "value" : "../API/extension/AnahuacRest?url=getExcelFileCatalogo&p=0&c=10"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
                                     "value" : ""
                                   },
                                   "dataToSend" : {
-                                    "type" : "constant"
+                                    "type" : "expression",
+                                    "value" : "Files"
                                   },
                                   "dataFromSuccess" : {
                                     "type" : "variable",
@@ -635,11 +666,15 @@
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
+                                  },
+                                  "fileExtension" : {
+                                    "type" : "constant",
+                                    "value" : "xls"
                                   }
                                 },
-                                "reference" : "aae485ab-5f34-487c-a99f-e7e12403a8f1",
+                                "reference" : "39e69720-e42a-4f15-bcb2-776478eafc67",
                                 "hasValidationError" : false,
-                                "id" : "customWidgetButtoncustome"
+                                "id" : "customCustomBtnDownloadExcel"
                               },
                               {
                                 "type" : "component",
@@ -676,21 +711,23 @@
                                   },
                                   "action" : {
                                     "type" : "constant",
-                                    "value" : "Submit task"
+                                    "value" : "POST"
                                   },
                                   "assign" : {
                                     "type" : "constant",
                                     "value" : false
                                   },
                                   "url" : {
-                                    "type" : "interpolation"
+                                    "type" : "interpolation",
+                                    "value" : "../API/extension/AnahuacRest?url=getPdfFileCatalogo&p=0&c=10"
                                   },
                                   "responseStatusCode" : {
                                     "type" : "variable",
                                     "value" : ""
                                   },
                                   "dataToSend" : {
-                                    "type" : "constant"
+                                    "type" : "expression",
+                                    "value" : "Files"
                                   },
                                   "dataFromSuccess" : {
                                     "type" : "variable",
@@ -723,11 +760,15 @@
                                   },
                                   "removeItem" : {
                                     "type" : "variable"
+                                  },
+                                  "fileExtension" : {
+                                    "type" : "constant",
+                                    "value" : "pdf"
                                   }
                                 },
-                                "reference" : "bfcf723c-2355-4316-9e61-9aff19a0f441",
+                                "reference" : "cbbe1b0f-0a0d-47db-a4a9-fccd5c7136ed",
                                 "hasValidationError" : false,
-                                "id" : "customWidgetButtoncustome"
+                                "id" : "customCustomBtnDownloadExcel"
                               }
                             ]
                           ]
@@ -1073,7 +1114,7 @@
                         "value" : [
                           "Clave",
                           "Descripción",
-                          "Pais",
+                          "País",
                           "Estado",
                           "Ciudad",
                           "usuario de creacíon",
@@ -2302,7 +2343,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Pais"
+                          "value" : "País"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -3268,6 +3309,19 @@
       "type" : "url",
       "value" : [
         "../API/bpm/case?c=25&d=processDefinitionId&d=started_by&d=startedBySubstitute&f=name=CatCiudad&n=activeFlowNodes&n=failedFlowNodes&o=id+DESC&p=0&s="
+      ],
+      "exposed" : false
+    },
+    "Files" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"tarea\":\"Validar Información\",\r",
+        "    \"Pais\":\"\",\r",
+        "    \"Estado\":\"\",\r",
+        "    \"type\": \"bachilleratos\",\r",
+        "    \"opcion\":1\r",
+        "};"
       ],
       "exposed" : false
     }

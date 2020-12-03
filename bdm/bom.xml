@@ -125,7 +125,7 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCatBachilleratos" content="SELECT c &#13;&#10;FROM CatBachilleratos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatBachilleratos">
+                <query name="getCatBachilleratos" content="SELECT c &#13;&#10;FROM CatBachilleratos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="java.util.List">
                     <queryParameters/>
                 </query>
                 <query name="getCatBachilleratosByEstado" content="SELECT c &#13;&#10;FROM CatBachilleratos c &#13;&#10;WHERE c.isEliminado = false AND c.estado = :estado  OR descripcion = 'Otro'&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatBachilleratos">
@@ -137,6 +137,9 @@
                     <queryParameters>
                         <queryParameter name="pais" className="java.lang.String"/>
                     </queryParameters>
+                </query>
+                <query name="getCountByEliminado" content="SELECT COUNT (c) &#13;&#10;FROM CatBachilleratos c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;" returnType="java.lang.Long">
+                    <queryParameters/>
                 </query>
             </queries>
             <indexes/>
@@ -349,7 +352,12 @@
                         <queryParameter name="bachillerato" className="java.lang.String"/>
                     </queryParameters>
                 </query>
-                <query name="getCatDescuentos" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE c.isEliminado =false&#13;&#10;AND c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatDescuentos">
+                <query name="getCatDescuentos" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatDescuentos">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="countForIsEliminado" content="SELECT  COUNT(c) &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.campus = :campus&#13;&#10;" returnType="java.lang.Long">
                     <queryParameters>
                         <queryParameter name="campus" className="java.lang.String"/>
                     </queryParameters>
@@ -403,6 +411,9 @@
             <uniqueConstraints/>
             <queries>
                 <query name="getCatEscolaridad" content="SELECT c &#13;&#10;FROM CatEscolaridad c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatEscolaridad">
+                    <queryParameters/>
+                </query>
+                <query name="contForIsEliminado" content="SELECT COUNT(c) &#13;&#10;FROM CatEscolaridad c &#13;&#10;WHERE  c.isEliminado = false" returnType="java.lang.Long">
                     <queryParameters/>
                 </query>
             </queries>
@@ -958,7 +969,12 @@
                 <query name="getCatPagoDeExamenDeAdmision" content="SELECT c &#13;&#10;FROM CatPagoDeExamenDeAdmision c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
                     <queryParameters/>
                 </query>
-                <query name="getPagobyCampus" content="SELECT c &#13;&#10;FROM CatPagoDeExamenDeAdmision  c &#13;&#10;WHERE c.campus = :campus&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+                <query name="getPagobyCampus" content="SELECT c &#13;&#10;FROM CatPagoDeExamenDeAdmision  c &#13;&#10;WHERE c.campus = :campus &#13;&#10;AND c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatPagoDeExamenDeAdmision">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="countForIsEliminado" content="SELECT COUNT(c )&#13;&#10;FROM CatPagoDeExamenDeAdmision c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.campus = :campus&#13;&#10;" returnType="java.lang.Long">
                     <queryParameters>
                         <queryParameter name="campus" className="java.lang.String"/>
                     </queryParameters>

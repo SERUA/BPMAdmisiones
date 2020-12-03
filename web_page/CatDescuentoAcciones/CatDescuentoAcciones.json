@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatDescuentoAcciones",
   "name" : "CatDescuentoAcciones",
-  "lastUpdate" : 1606533571449,
+  "lastUpdate" : 1606937043989,
   "rows" : [
     [
       {
@@ -24,7 +24,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "Catalogo Descuentos"
+            "value" : "Catalogo de descuentos"
           },
           "level" : {
             "type" : "constant",
@@ -1532,7 +1532,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=getCatDescuentos&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -2530,7 +2530,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=getCatDescuentos&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -2634,7 +2634,7 @@
     "catDescuentos" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=getCatDescuentos&p={{inicio}}&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2671,7 +2671,7 @@
     "countCatDescuentos" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=countForFindByCampus&p=0&c=10&f=campus={{campus_selected.clave}}"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=countForIsEliminado&p=0&c=10&f=campus={{campus_selected.clave}}"
       ],
       "exposed" : false
     },
@@ -2751,7 +2751,7 @@
     "urlRefreshPaginado" : {
       "type" : "expression",
       "value" : [
-        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=findByCampus&p=\"+$data.inicio+\"&c=10&f=campus=\"+$data.campus_selected.clave;"
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatDescuentos?q=getCatDescuentos&p=\"+$data.inicio+\"&c=10&f=campus=\"+$data.campus_selected.clave;"
       ],
       "exposed" : false
     },
