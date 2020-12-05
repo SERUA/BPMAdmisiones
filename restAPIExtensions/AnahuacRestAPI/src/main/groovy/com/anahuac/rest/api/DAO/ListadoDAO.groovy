@@ -2349,7 +2349,7 @@ class ListadoDAO {
 				document.add( new Paragraph(" "))
 				PdfPTable table = new PdfPTable(5);
 				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				header.setBackgroundColor(BaseColor.ORANGE);
 				
 				header.setPhrase(new Phrase("DESCRIPCION"));
 				table.addCell(header);

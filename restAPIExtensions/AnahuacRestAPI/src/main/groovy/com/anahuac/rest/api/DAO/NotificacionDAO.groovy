@@ -62,9 +62,7 @@ class NotificacionDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			assert object instanceof Map;
-			if(object.campus != null) {
-				
-			}
+			
 			userLogged = context.getApiSession().getUserId();
 			errorlog += "Se obtuvo el usuario " + userLogged;
 			def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
@@ -112,6 +110,8 @@ class NotificacionDAO {
 					}
 				 }
 			}
+			errorlog+="seteando mensaje"
+			
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlaceBanner())
 			
 			//3 variable plantilla [contacto]
@@ -169,6 +169,10 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[contenido]", cn.getContenidoCorreo())
 				plantilla=plantilla.replace("[firma]", cn.getContenido())
 				plantilla=plantilla.replace("[HOST]", prop.getProperty("HOST"))
+				if(object.mensaje != null) {
+					errorlog += "mensaje " + object.mensaje
+					plantilla = plantilla.replace("[MENSAJE]", object.mensaje);
+				}
 			}
 			
 			
@@ -342,7 +346,7 @@ class NotificacionDAO {
 		    errorlog += ", Variable8"
 			String tablaUsuario= ""
 			String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
-			
+			try {
 			def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
 			List<SolicitudDeAdmision> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(correo, 0, 999)
 			if(objSolicitudDeAdmision.size()>0) {
@@ -454,6 +458,9 @@ class NotificacionDAO {
 			if(!tablaUsuario.equals("")) {
 				plantilla = plantilla.replace("<!--[Variables de usuario]-->", "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"88%\"style=\"width: 88% !important; min-width: 88%; max-width: 88%; padding-left: 50px;padding-right: 50px;\"> [getLstVariableNotificacion] </table>")
 				plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario)
+			}
+			} catch (Exception e) {
+				e.printStackTrace()
 			}
 			plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario)
 			return plantilla

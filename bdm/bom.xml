@@ -457,6 +457,11 @@
                         <queryParameter name="campus" className="java.lang.String"/>
                     </queryParameters>
                 </query>
+                <query name="getCatDescuentoFecha" content="SELECT c &#13;&#10;FROM CatDescuentos c &#13;&#10;WHERE  c.isEliminado = false AND c.campus = :campus&#13;&#10;ORDER BY c.inicioVigencia ASC" returnType="com.anahuac.catalogos.CatDescuentos">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
             </queries>
             <indexes/>
         </businessObject>
@@ -550,6 +555,9 @@
             <uniqueConstraints/>
             <queries>
                 <query name="getCatEstadoCivil" content="SELECT c &#13;&#10;FROM CatEstadoCivil c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatEstadoCivil">
+                    <queryParameters/>
+                </query>
+                <query name="countForIsEliminado" content="SELECT  COUNT(c) &#13;&#10;FROM CatEstadoCivil c &#13;&#10;WHERE c.isEliminado = false" returnType="java.lang.Long">
                     <queryParameters/>
                 </query>
             </queries>
@@ -1628,6 +1636,9 @@
                 <query name="getCatReligion" content="SELECT c &#13;&#10;FROM CatReligion c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;ORDER BY c.descripcion ASC" returnType="com.anahuac.catalogos.CatReligion">
                     <queryParameters/>
                 </query>
+                <query name="countForIsEliminado" content="SELECT COUNT(c) &#13;&#10;FROM CatReligion c &#13;&#10;WHERE  c.isEliminado = false" returnType="java.lang.Long">
+                    <queryParameters/>
+                </query>
             </queries>
             <indexes/>
         </businessObject>
@@ -1905,6 +1916,9 @@
             <uniqueConstraints/>
             <queries>
                 <query name="getCatvive" content="SELECT c &#13;&#10;FROM Catvive c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.Catvive">
+                    <queryParameters/>
+                </query>
+                <query name="countForIsEliminado" content="SELECT COUNT(c) &#13;&#10;FROM Catvive c &#13;&#10;WHERE c.isEliminado = false" returnType="java.lang.Long">
                     <queryParameters/>
                 </query>
             </queries>
