@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatBachilleratosAcciones",
   "name" : "CatBachilleratosAcciones",
-  "lastUpdate" : 1607116740122,
+  "lastUpdate" : 1607224281145,
   "rows" : [
     [
       {
@@ -2849,6 +2849,7 @@
     "validar" : {
       "type" : "expression",
       "value" : [
+        "console.log($data.userData)",
         "var validado = true;",
         "if( $data.formOutputAgregar.lstCatBachilleratosInput.length >=1){",
         "    $data.formOutputAgregar.lstCatBachilleratosInput.forEach(element =>{",
@@ -2906,7 +2907,8 @@
         "    \"Pais\":\"\",\r",
         "    \"Estado\":\"\",\r",
         "    \"type\": \"bachilleratos\",\r",
-        "    \"opcion\":1\r",
+        "    \"opcion\":1,\r",
+        "    \"usuario\":$data.userData.user_name\r",
         "};"
       ],
       "exposed" : false

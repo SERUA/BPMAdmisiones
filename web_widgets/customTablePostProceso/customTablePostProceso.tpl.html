@@ -1,37 +1,38 @@
-<div class="table-responsive">
+<div class="table-responsive" ng-show="!isenvelope">
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
             <tr>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                     <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
-                </th>
+                <th>FOTO</th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">NOMBRE<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">EMAIL<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CURP')">CURP<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CURP'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">CAMPUS<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">PROGRAMA<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">INGRESO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTADO')">ESTADO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTADO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PREPARATORIA')">PREPARATORIA<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PREPARATORIA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">PROMEDIO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">ESTATUS<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('TIPO')">TIPO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPO'"></i></span></th>
+                <th> ACCIONES</th>     
             </tr>
         </thead>
         <tbody>
             <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
-                    <img ng-src="{{row.fotografiaB64}}" style="width: 64px;">
+                    <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
                 </td>
                 <td>
-                   {{row.primerNombre}} {{row.segundoNombre}} {{row.apellidoPaterno}} {{row.apellidoMaterno}}<br>
-                   {{row.correoElectronico}}<br>
+                   {{row.primernombre}} {{row.segundonombre}} {{row.apellidopaterno}} {{row.apellidomaterno}}<br>
+                   {{row.correoelectronico}}<br>
                    {{row.curp}}
                 </td>
                 <td>
-                    {{row.catCampus.descripcion}}<br>
-                    {{row.objCatGestionEscolar.descripcion}}<br>
-                    {{row.catPeriodo.descripcion}}
+                    {{row.campus}}<br>
+                    {{row.licenciatura}}<br>
+                    {{row.periodo}}
                 </td>
                 <td>
-                    {{row.catEstado.descripcion}}<br>
-                    {{row.catBachilleratos.descripcion}}<br>
-                    {{row.promedioGeneral}}
+                    {{row.estado}}<br>
+                    {{row.preparatoria}}<br>
+                    {{row.promediogeneral}}
                 </td>
                 <td>
-                    {{row.estatusSolicitud}}<br>
-                    {{row.objDetalleSolicitud.tipoAlumno}}<br>
-                    {{row.updateDate}}
+                    {{row.estatussolicitud}}<br>
+                    {{row.tipoalumno}}<br>
                 </td>
                 <td>
                     <table>
@@ -42,7 +43,7 @@
                                 </button>
                             </td>
                             <td>
-                                <button class="btn btn-primary" ng-click="asignarTarea(row)">
+                                <button class="btn btn-primary" ng-click="envelope(row)">
                                     <span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
                                 </button>
                             </td>
@@ -57,4 +58,29 @@
             </tr>
         </tbody>
     </table>
+    <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 text-center">
+    <div role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group" role="group" aria-label="First group">
+            <button type="button" class="btn btn-default" ng-click="anterior()">Anterior
+            </button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Second group">
+            <button ng-repeat="row in lstPaginado" ng-class="row.seleccionado?'btn-primary':'btn-default'" type="button" class="btn" ng-click="seleccionarPagina(row.numero)">{{row.numero}}
+            </button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Third group">
+            <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+<div ng-show="isenvelope">
+    <label>Mensaje de recordatorio para usuario</label>
+    <textarea row="5" class="form-control" style="resize:none" ng-model="mensaje"></textarea>
+    <br>
+    <div class="col-md-12">
+        <div class="col-md-6"><button class="btn btn-danger" ng-click="envelopeCancel()">Cancelar</button></div>
+        <div class="col-md-6"><button class="btn btn-info" ng-click="sendMail(selectedrow,mensaje)">Enviar recordatorio</button></div>
+    </div>
 </div>

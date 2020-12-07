@@ -1,6 +1,11 @@
 package com.anahuac.rest.api.DAO
 
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import java.sql.ResultSetMetaData
 import java.sql.RowId
+import java.sql.Statement
 import java.text.DateFormat
 import java.text.SimpleDateFormat
 
@@ -20,6 +25,7 @@ import org.bonitasoft.engine.search.Order
 import org.bonitasoft.engine.search.SearchOptions
 import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.engine.search.SearchResult
+import org.bonitasoft.engine.search.impl.SearchFilter
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -29,6 +35,7 @@ import com.anahuac.model.DetalleSolicitudDAO
 import com.anahuac.model.ProcesoCasoDAO
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
+import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.catalogos.CatBachilleratosDAO
 import com.anahuac.catalogos.CatGestionEscolarDAO
@@ -40,12 +47,15 @@ import com.anahuac.rest.api.Entity.Custom.CatLicenciaturaCustom
 import com.anahuac.rest.api.Entity.Custom.CatPeriodoCustom
 import com.anahuac.rest.api.Entity.Custom.DetalleSolicitudCustom
 import com.anahuac.rest.api.Entity.Custom.SolicitudAdmisionCustom
+import com.anahuac.rest.api.DB.Statements;
 import com.bonitasoft.engine.bpm.parameter.ParameterCriterion
 import com.bonitasoft.engine.bpm.process.impl.ProcessInstanceSearchDescriptor
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.itextpdf.text.BaseColor
 import com.itextpdf.text.Document as DocumentItext
 import com.itextpdf.text.DocumentException
+import com.itextpdf.text.Font
+import com.itextpdf.text.FontFactory
 import com.itextpdf.text.PageSize
 import com.itextpdf.text.Paragraph
 import com.itextpdf.text.Phrase
@@ -54,6 +64,7 @@ import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
 
 import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -63,6 +74,10 @@ import groovy.json.JsonSlurper
 
 class ListadoDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ListadoDAO.class);
+	Connection con;
+	Statement stm;
+	ResultSet rs;
+	PreparedStatement pstm;
 	
 	public Result getNuevasSolicitudes(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
@@ -580,7 +595,264 @@ class ListadoDAO {
 		}
 		return resultado
 	}
+	public Result selectAspirantesEnproceso(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where ="", bachillerato="", campus="", programa="", ingreso="", estado ="", tipoalumno ="", orderby="ORDER BY ", errorlog=""
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			assert object instanceof Map;
+			
+				errorlog+="object.lstFiltro" +object.lstFiltro
+				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+				closeCon = validarConexion();
+				String consulta = Statements.GET_ASPIRANTES_EN_PROCESO
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+                    errorlog+=", columna "+ filtro.get("columna")
+					switch(filtro.get("columna")) {
+						
+                        case "NOMBRE":
+                            errorlog+="NOMBRE"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(concat(sda.primernombre,' ', sda.segundonombre,' ',sda.apellidopaterno,' ',sda.apellidomaterno)) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "EMAIL":
+                            errorlog+="EMAIL"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.correoelectronico) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "CURP":
+                            errorlog+="CURP"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.curp) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "CAMPUS":
+                            errorlog+="CAMPUS"
+							campus +=" AND LOWER(campus.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								campus+="=LOWER('[valor]')"
+							}else {
+								campus+="LIKE LOWER('%[valor]%')"
+							}
+                            campus = campus.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "PREPARATORIA":
+                            errorlog+="PREPARATORIA"
+							bachillerato +=" AND LOWER(prepa.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								bachillerato+="=LOWER('[valor]')"
+							}else {
+								bachillerato+="LIKE LOWER('%[valor]%')"
+							}
+                            bachillerato = bachillerato.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "PROGRAMA":
+                            errorlog+="PROGRAMA"
+							programa +=" AND LOWER(gestionescolar.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								programa+="=LOWER('[valor]')"
+							}else {
+								programa+="LIKE LOWER('%[valor]%')"
+							}
+                            programa = programa.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "INGRESO":
+                            errorlog+="INGRESO"
+							ingreso +=" AND LOWER(periodo.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								ingreso+="=LOWER('[valor]')"
+							}else {
+								ingreso+="LIKE LOWER('%[valor]%')"
+							}
+                            ingreso = ingreso.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "ESTADO":
+                            errorlog+="ESTADO"
+							estado +=" AND LOWER(estado.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								estado+="=LOWER('[valor]')"
+							}else {
+								estado+="LIKE LOWER('%[valor]%')"
+							}
+                            estado = estado.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "PROMEDIO":
+                            errorlog+="PROMEDIO"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.PROMEDIOGENERAL) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "ESTATUS":
+                            errorlog+="ESTATUS"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.ESTATUSSOLICITUD) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+                        case "TIPO":
+                            errorlog+="TIPO"
+							tipoalumno +=" AND LOWER(da.TIPOALUMNO) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+                            tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+                            break;
+						default:
+						//consulta=consulta.replace("[BACHILLERATO]", bachillerato)
+						//consulta=consulta.replace("[WHERE]", where);
+						
+						break;
+					} 
+				}
+				switch(object.orderby) {
+					case "NOMBRE":
+					orderby+="sda.primernombre";
+					break;
+					case "EMAIL":
+					orderby+="sda.correoelectronico";
+					break;
+					case "CURP":
+					orderby+="sda.curp";
+					break;
+					case "CAMPUS":
+					orderby+="campus.DESCRIPCION"
+					break;
+					case "PREPARATORIA":
+					orderby+="prepa.DESCRIPCION"
+					break;
+					case "PROGRAMA":
+					orderby+="gestionescolar.DESCRIPCION"
+					break;
+					case "INGRESO":
+					orderby+="periodo.DESCRIPCION"
+					break;
+					case "ESTADO":
+					orderby +="estado.DESCRIPCION";
+					break;
+					case "PROMEDIO":
+					orderby+="sda.PROMEDIOGENERAL";
+					break;
+					case "ESTATUS":
+					orderby+="sda.ESTATUSSOLICITUD";
+					break;
+					case "TIPO":
+					orderby+="da.TIPOALUMNO";
+					break;
+					default:
+					orderby+="sda.persistenceid"
+					break;
+				}
+				orderby+=" "+object.orientation;
+				consulta=consulta.replace("[CAMPUS]", campus)
+				consulta=consulta.replace("[PROGRAMA]", programa)
+				consulta=consulta.replace("[INGRESO]", ingreso)
+				consulta=consulta.replace("[ESTADO]", estado)
+				consulta=consulta.replace("[BACHILLERATO]", bachillerato)
+				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
+				consulta=consulta.replace("[WHERE]", where);
+				
+				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campus.descripcion         AS campus, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION        AS ingreso, estado.DESCRIPCION         AS estado, prepa.DESCRIPCION          AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				rs= pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
+				rs = pstm.executeQuery()
+				rows = new ArrayList<Map<String, Object>>();
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				while(rs.next()) {
+					Map<String, Object> columns = new LinkedHashMap<String, Object>();
 	
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						if(metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+							String encoded = "";
+							try {
+								for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+									encoded = "../API/formsDocumentImage?document="+doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}catch(Exception e) {
+								columns.put("fotografiab64", "");
+								errorlog+= ""+e.getMessage();
+							}
+						}
+					}
+	
+					rows.add(columns);
+				}
+				resultado.setSuccess(true)
+				
+				resultado.setError_info(errorlog);
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 	public Result getAspirantesProceso(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		
@@ -1093,6 +1365,383 @@ class ListadoDAO {
 			}
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado
+	}
+	
+	public Result getAspirantesByStatusTemprano(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		
+		List<SolicitudAdmisionCustom> lstResultado = new ArrayList<SolicitudAdmisionCustom>();
+		List<String> lstGrupo = new ArrayList<String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
+		List<SolicitudDeAdmision> lstAllSolicitud = new ArrayList<SolicitudDeAdmision>();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Integer start = 0;
+		Integer end = 99999;
+		Integer inicioContador = 0;
+		Integer finContador = 0;
+		SolicitudDeAdmision objSolicitudDeAdmision = null;
+		SolicitudAdmisionCustom objSolicitudAdmisionCustom = new SolicitudAdmisionCustom();
+		CatCampusCustom objCatCampusCustom = new CatCampusCustom();
+		CatPeriodoCustom objCatPeriodoCustom = new CatPeriodoCustom();
+		CatEstadosCustom objCatEstadosCustom = new CatEstadosCustom();
+		CatLicenciaturaCustom objCatLicenciaturaCustom = new CatLicenciaturaCustom();
+		CatBachilleratosCustom objCatBachilleratosCustom = new CatBachilleratosCustom();
+		CatGestionEscolar objCatGestionEscolar = new CatGestionEscolar();
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		Boolean isFound = true;
+		Boolean isFoundCampus = false;
+		String nombreCandidato = "";
+		String nombreProceso = "";
+		String estatusSolicitud = "";
+		String gestionEscolar = "";
+		String catCampusStr = "";
+		String catPeriodoStr = "";
+		String catEstadoStr = "";
+		String catBachilleratoStr = "";
+		String strError = "";
+		ProcessDefinition objProcessDefinition;
+		String errorLog = "";
+		
+		DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			estatusSolicitud = object.estatusSolicitud
+			
+			assert object instanceof Map;
+			if(object.lstFiltro != null) {
+				assert object.lstFiltro instanceof List;
+			}
+	
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cancún");
+			objGrupoCampus.put("valor","CAMPUS-CANCUN");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Mayab");
+			objGrupoCampus.put("valor","CAMPUS-MAYAB");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Norte");
+			objGrupoCampus.put("valor","CAMPUS-MNORTE");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Sur");
+			objGrupoCampus.put("valor","CAMPUS-MSUR");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
+			objGrupoCampus.put("valor","CAMPUS-OAXACA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Puebla");
+			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
+			objGrupoCampus.put("valor","CAMPUS-XALAPA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Juan Pablo II");
+			objGrupoCampus.put("valor","CAMPUS-JP2");
+			lstGrupoCampus.add(objGrupoCampus);
+					
+			userLogged = context.getApiSession().getUserId();
+			LOGGER.error userLogged + "";
+	
+			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for(UserMembership objUserMembership : lstUserMembership) {
+				for(Map<String, String> rowGrupo : lstGrupoCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
+						lstGrupo.add(rowGrupo.get("descripcion"));
+						break;
+					}
+				}
+			}
+			
+			def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
+			def procesoCasoDAO = context.apiClient.getDAO(ProcesoCasoDAO.class);
+			
+			lstAllSolicitud = objSolicitudDeAdmisionDAO.find(0, 99999);
+			
+			for(SolicitudDeAdmision objAllSolicitud : lstAllSolicitud) {
+				objAllSolicitud.getCaseId()
+			}
+			
+			SearchOptionsBuilder searchBuilderProccess = new SearchOptionsBuilder(0, 99999);
+			searchBuilderProccess.filter(ProcessDeploymentInfoSearchDescriptor.NAME, "Proceso admisiones");
+			
+			final SearchOptions searchOptionsProccess = searchBuilderProccess.done();
+			SearchResult<ProcessDeploymentInfo> SearchProcessDeploymentInfo = context.getApiClient().getProcessAPI().searchProcessDeploymentInfos(searchOptionsProccess);
+			List<ProcessDeploymentInfo> lstProcessDeploymentInfo = SearchProcessDeploymentInfo.getResult();
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
+
+			inicioContador = 0;
+			finContador = 0;
+			
+//			for(ProcessDeploymentInfo  objProcessDeploymentInfo : lstProcessDeploymentInfo) {
+//				errorLog += objProcessDeploymentInfo.getVersion() + " ESTE ES EL CASEID DEL PROCESO, ";
+//				LOGGER.error objProcessDeploymentInfo.getProcessId().toString()+" - "+objProcessDeploymentInfo.getName() + " - " + objProcessDeploymentInfo.getVersion();
+//				if(inicioContador == 0) {
+//					LOGGER.error "IF";
+//					searchBuilder.filter(HumanTaskInstanceSearchDescriptor.PROCESS_DEFINITION_ID, objProcessDeploymentInfo.getProcessId().toString());
+//				}
+//				else {
+//					LOGGER.error "ELSE"
+//					searchBuilder.or();
+//					searchBuilder.differentFrom(HumanTaskInstanceSearchDescriptor.PROCESS_DEFINITION_ID, objProcessDeploymentInfo.getProcessId().toString());
+//				}
+//				
+//				inicioContador++;
+//			}
+//			
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.PROCESS_DEFINITION_ID, "9041478379247961769");
+		
+			errorLog += "searchBuilder :: " + searchBuilder.toString() + " ";
+			searchBuilder.sort(HumanTaskInstanceSearchDescriptor.PARENT_PROCESS_INSTANCE_ID, Order.ASC);
+			
+			final SearchOptions searchOptions = searchBuilder.done();
+			errorLog += "searchOptions " + searchOptions.toString() + " :: ";
+			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = context.getApiClient().getProcessAPI().searchHumanTaskInstances(searchOptions)
+			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
+			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				
+				objSolicitudAdmisionCustom = new SolicitudAdmisionCustom();
+				objCatCampusCustom = new CatCampusCustom();
+				isFound = true;
+				caseId = objHumanTaskInstance.getRootContainerId();
+				lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCaseId(caseId, start, end);
+
+				if(!lstSolicitudDeAdmision.empty){
+					objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCaseId(caseId, start, end).get(0);
+					catCampusStr = objSolicitudDeAdmision.getCatCampus() == null ? "" : objSolicitudDeAdmision.getCatCampus().getDescripcion();
+					isFoundCampus = false;
+					for(String objGrupo : lstGrupo) {
+						if(catCampusStr.toLowerCase().equals(objGrupo.toLowerCase())) {
+							isFoundCampus = true;
+						}
+					}
+					if(isFoundCampus) {
+						if(object.lstFiltro.size() > 0) {
+							for(def row: object.lstFiltro) {
+								isFound = false;
+								assert row instanceof Map;
+                                isFound = true;
+								nombreCandidato = objSolicitudDeAdmision.getPrimerNombre()+" "+objSolicitudDeAdmision.getSegundoNombre()+" "+objSolicitudDeAdmision.getApellidoPaterno()+" "+objSolicitudDeAdmision.getApellidoMaterno();
+								if(row.operador == 'Que contenga') {
+									if (row.columna == "NOMBRE") {
+										if (nombreCandidato.toLowerCase().contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "EMAIL") {
+										if (objSolicitudDeAdmision.getCorreoElectronico().toLowerCase().contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "CAMPUS") {
+										catCampusStr = objSolicitudDeAdmision.getCatCampus() == null ? "" : objSolicitudDeAdmision.getCatCampus().getDescripcion();
+										if(catCampusStr.toLowerCase().contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "PROGRAMA") {
+										gestionEscolar = objSolicitudDeAdmision.getCatGestionEscolar() == null ? "" : objSolicitudDeAdmision.getCatGestionEscolar().getDescripcion().toLowerCase();
+										if(gestionEscolar.contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "INGRESO") {
+										catPeriodoStr = objSolicitudDeAdmision.getCatPeriodo() == null ? "" : objSolicitudDeAdmision.getCatPeriodo().getDescripcion();
+										if(catPeriodoStr.toLowerCase().contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "ESTATUS") {
+										if(objSolicitudDeAdmision.getEstatusSolicitud().toLowerCase().contains(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									}
+								} else {
+									if (row.columna == "NOMBRE") {
+										if (nombreCandidato.toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "EMAIL") {
+										if (objSolicitudDeAdmision.getCorreoElectronico().toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "CAMPUS") {
+										catCampusStr = objSolicitudDeAdmision.getCatCampus() == null ? "" : objSolicitudDeAdmision.getCatCampus().getDescripcion();
+										if(catCampusStr.toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "PROGRAMA") {
+										gestionEscolar = objSolicitudDeAdmision.getCatGestionEscolar() == null ? "" : objSolicitudDeAdmision.getCatGestionEscolar().getDescripcion().toLowerCase();
+										if(gestionEscolar.toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "INGRESO") {
+										catPeriodoStr = objSolicitudDeAdmision.getCatPeriodo() == null ? "" : objSolicitudDeAdmision.getCatPeriodo().getDescripcion();
+										if(catPeriodoStr.toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									} else if (row.columna == "ESTATUS") {
+										if(objSolicitudDeAdmision.getEstatusSolicitud().toLowerCase().equals(row.valor.toLowerCase())) {
+											isFound = true;
+											break;
+										}
+									}
+								}
+							}
+						}
+					} else {
+						isFound = false;
+					}
+
+                    errorLog += objSolicitudDeAdmision.getEstatusSolicitud() + " : : " + estatusSolicitud + "; ";
+					
+					if(isFound) {
+						if(estatusSolicitud != null && objSolicitudDeAdmision.getEstatusSolicitud().toLowerCase().equals(estatusSolicitud.toLowerCase())) {
+							String encoded = "";
+							for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(objSolicitudDeAdmision.getCaseId(), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+							}
+
+                            errorLog += " context.getApiClient(); ";
+							objProcessDefinition = context.getApiClient().getProcessAPI().getProcessDefinition(objHumanTaskInstance.getProcessDefinitionId());
+							objSolicitudAdmisionCustom.setTaskName(objHumanTaskInstance.getName());
+							objSolicitudAdmisionCustom.setProcessName(objProcessDefinition.getName());
+							objSolicitudAdmisionCustom.setProcessVersion(objProcessDefinition.getVersion());
+							objSolicitudAdmisionCustom.setPersistenceId(objSolicitudDeAdmision.getPersistenceId());
+							objSolicitudAdmisionCustom.setPersistenceVersion(objSolicitudDeAdmision.getPersistenceVersion());
+							objSolicitudAdmisionCustom.setCaseId(objSolicitudDeAdmision.getCaseId());
+							objSolicitudAdmisionCustom.setPrimerNombre(objSolicitudDeAdmision.getPrimerNombre());
+							objSolicitudAdmisionCustom.setSegundoNombre(objSolicitudDeAdmision.getSegundoNombre());
+							objSolicitudAdmisionCustom.setApellidoPaterno(objSolicitudDeAdmision.getApellidoPaterno());
+							objSolicitudAdmisionCustom.setApellidoMaterno(objSolicitudDeAdmision.getApellidoMaterno());
+							objSolicitudAdmisionCustom.setCorreoElectronico(objSolicitudDeAdmision.getCorreoElectronico());
+							objSolicitudAdmisionCustom.setFoto(objSolicitudDeAdmision.getFoto());
+							objSolicitudAdmisionCustom.setTaskId(objHumanTaskInstance.getId());
+														
+							objCatGestionEscolar = new CatGestionEscolar();
+							if(objSolicitudDeAdmision.getCatGestionEscolar() != null ){
+								strError = strError + ", " + "if(objSolicitudDeAdmision.getCatGestionEscolar() != null ){";
+								objCatGestionEscolar.setPersistenceId(objSolicitudDeAdmision.getCatGestionEscolar().getPersistenceId());
+								objCatGestionEscolar.setPersistenceVersion(objSolicitudDeAdmision.getCatGestionEscolar().getPersistenceVersion());
+								objCatGestionEscolar.setNombre(objSolicitudDeAdmision.getCatGestionEscolar().getNombre());
+								objCatGestionEscolar.setDescripcion(objSolicitudDeAdmision.getCatGestionEscolar().getDescripcion());
+								objCatGestionEscolar.setEnlace(objSolicitudDeAdmision.getCatGestionEscolar().getEnlace());
+								objCatGestionEscolar.setPropedeutico(objSolicitudDeAdmision.getCatGestionEscolar().isPropedeutico());
+								objCatGestionEscolar.setProgramaparcial(objSolicitudDeAdmision.getCatGestionEscolar().isProgramaparcial());
+								objCatGestionEscolar.setMatematicas(objSolicitudDeAdmision.getCatGestionEscolar().isMatematicas());
+								objCatGestionEscolar.setInscripcionenero(objSolicitudDeAdmision.getCatGestionEscolar().getInscripcionenero());
+								objCatGestionEscolar.setInscripcionagosto(objSolicitudDeAdmision.getCatGestionEscolar().getInscripcionagosto());
+								objCatGestionEscolar.setIsEliminado(objSolicitudDeAdmision.getCatGestionEscolar().isIsEliminado());
+								objCatGestionEscolar.setUsuarioCreacion(objSolicitudDeAdmision.getCatGestionEscolar().getUsuarioCreacion());
+								objCatGestionEscolar.setCampus(objSolicitudDeAdmision.getCatGestionEscolar().getCampus());
+								objCatGestionEscolar.setCaseId(objSolicitudDeAdmision.getCatGestionEscolar().getCaseId());
+								strError = strError + ", " + "end if(objSolicitudDeAdmision.getCatGestionEscolar() != null ){";
+							}
+							objSolicitudAdmisionCustom.setObjCatGestionEscolar(objCatGestionEscolar);
+							
+							objCatCampusCustom = new CatCampusCustom();
+							if(objSolicitudDeAdmision.getCatCampus() != null){
+								strError = strError + ", " + "if(objSolicitudDeAdmision.getCatCampus() != null){";
+								objCatCampusCustom.setPersistenceId(objSolicitudDeAdmision.getCatCampus().getPersistenceId());
+								objCatCampusCustom.setPersistenceVersion(objSolicitudDeAdmision.getCatCampus().getPersistenceVersion());
+								objCatCampusCustom.setDescripcion(objSolicitudDeAdmision.getCatCampus().getDescripcion());
+								objCatCampusCustom.setUsuarioBanner(objSolicitudDeAdmision.getCatCampus().getUsuarioBanner());
+								objCatCampusCustom.setClave(objSolicitudDeAdmision.getCatCampus().getClave());
+								strError = strError + ", " + "end if(objSolicitudDeAdmision.getCatCampus() != null){";
+							}
+							objSolicitudAdmisionCustom.setCatCampus(objCatCampusCustom);
+							
+							objCatPeriodoCustom = new CatPeriodoCustom();
+							if(objSolicitudDeAdmision.getCatPeriodo() != null){
+								strError = strError + ", " + "if(objSolicitudDeAdmision.getCatPeriodo() != null){";
+								objCatPeriodoCustom.setPersistenceId(objSolicitudDeAdmision.getCatPeriodo().getPersistenceId());
+								objCatPeriodoCustom.setPersistenceVersion(objSolicitudDeAdmision.getCatPeriodo().getPersistenceVersion());
+								objCatPeriodoCustom.setDescripcion(objSolicitudDeAdmision.getCatPeriodo().getDescripcion());
+								objCatPeriodoCustom.setUsuarioBanner(objSolicitudDeAdmision.getCatPeriodo().getUsuarioBanner());
+								objCatPeriodoCustom.setClave(objSolicitudDeAdmision.getCatPeriodo().getClave());
+								strError = strError + ", " + "end if(objSolicitudDeAdmision.getCatPeriodo() != null){";
+							}
+							objSolicitudAdmisionCustom.setCatPeriodo(objCatPeriodoCustom);
+							
+							objCatEstadosCustom = new CatEstadosCustom();
+							if(objSolicitudDeAdmision.getCatEstado() != null){
+								strError = strError + ", " + "if(objSolicitudDeAdmision.getCatEstado() != null){";
+								objCatEstadosCustom.setPersistenceId(objSolicitudDeAdmision.getCatEstado().getPersistenceId());
+								objCatEstadosCustom.setPersistenceVersion(objSolicitudDeAdmision.getCatEstado().getPersistenceVersion());
+								objCatEstadosCustom.setClave(objSolicitudDeAdmision.getCatEstado().getClave());
+								objCatEstadosCustom.setDescripcion(objSolicitudDeAdmision.getCatEstado().getDescripcion());
+								objCatEstadosCustom.setUsuarioCreacion(objSolicitudDeAdmision.getCatEstado().getUsuarioCreacion());
+								strError = strError + ", " + "end if(objSolicitudDeAdmision.getCatEstado() != null){";
+							}
+							objSolicitudAdmisionCustom.setCatEstado(objCatEstadosCustom);
+	
+							objSolicitudAdmisionCustom.setUpdateDate(dfSalida.format(objHumanTaskInstance.getReachedStateDate()));
+							objSolicitudAdmisionCustom.setCatLicenciatura(objCatLicenciaturaCustom);
+	
+							objCatBachilleratosCustom = new CatBachilleratosCustom();
+							if(objSolicitudDeAdmision.getCatBachilleratos() != null){
+								strError = strError + ", " + "if(objSolicitudDeAdmision.getCatBachilleratos() != null){";
+								objCatBachilleratosCustom.setPersistenceId(objSolicitudDeAdmision.getCatBachilleratos().getPersistenceId());
+								objCatBachilleratosCustom.setPersistenceVersion(objSolicitudDeAdmision.getCatBachilleratos().getPersistenceVersion());
+								objCatBachilleratosCustom.setClave(objSolicitudDeAdmision.getCatBachilleratos().getClave());
+								objCatBachilleratosCustom.setDescripcion(objSolicitudDeAdmision.getCatBachilleratos().getDescripcion());
+								objCatBachilleratosCustom.setPais(objSolicitudDeAdmision.getCatBachilleratos().getPais());
+								objCatBachilleratosCustom.setEstado(objSolicitudDeAdmision.getCatBachilleratos().getEstado());
+								objCatBachilleratosCustom.setCiudad(objSolicitudDeAdmision.getCatBachilleratos().getCiudad());
+								strError = strError + ", " + "end if(objSolicitudDeAdmision.getCatBachilleratos() != null){";
+							}
+							objSolicitudAdmisionCustom.setCatBachilleratos(objCatBachilleratosCustom);
+							
+							objSolicitudAdmisionCustom.setFotografiaB64(encoded);
+							objSolicitudAdmisionCustom.setEstatusSolicitud(objSolicitudDeAdmision.getEstatusSolicitud())
+							lstResultado.add(objSolicitudAdmisionCustom);
+						}
+					}
+				}
+			}
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultado.setSuccess(false);
@@ -1690,6 +2339,10 @@ class ListadoDAO {
 			String type = object.type;
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
 			
 			if(type.equals("nuevas_solicitudes")) {
 				dataResult = getNuevasSolicitudes(parameterP, parameterC, jsonData, context);
@@ -1701,26 +2354,56 @@ class ListadoDAO {
 				}
 				
 				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("NUEVAS SOLICITUDES");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				
+				Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("SOLICITUD");
+				header1.setCellStyle(style);
 				Cell header2 = headersRow.createCell(1);
 				header2.setCellValue("NOMBRE");
+				header2.setCellStyle(style);
 				Cell header3 = headersRow.createCell(2);
 				header3.setCellValue("EMAIL");
+				header3.setCellStyle(style);
 				Cell header4 = headersRow.createCell(3);
 				header4.setCellValue("TELÉFONO");
+				header4.setCellStyle(style);
 				Cell header5= headersRow.createCell(4);
 				header5.setCellValue("PREPARATORIA");
+				header5.setCellStyle(style);
 				Cell header6 = headersRow.createCell(5);
 				header6.setCellValue("PROCEDENCIA");
+				header6.setCellStyle(style);
 				Cell header7 = headersRow.createCell(6);
 				header7.setCellValue("PROMEDIO");
+				header7.setCellStyle(style);
 				Cell header8 = headersRow.createCell(7);
 				header8.setCellValue("FECHA DE ENVIO");
+				header8.setCellStyle(style);
+				
 				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
 				
 				for (int i = 0; i < lstParams.size(); ++i){
@@ -1759,32 +2442,64 @@ class ListadoDAO {
 				}
 				
 				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("ASPITANTES EN PROCESO");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				
+				Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("NOMBRE");
+				header1.setCellStyle(style);
 				Cell header2 = headersRow.createCell(1);
 				header2.setCellValue("EMAIL");
+				header2.setCellStyle(style);
 				Cell header3 = headersRow.createCell(2);
 				header3.setCellValue("CURP");
+				header3.setCellStyle(style);
 				Cell header4 = headersRow.createCell(3);
 				header4.setCellValue("CAMPUS");
+				header4.setCellStyle(style);
 				Cell header5= headersRow.createCell(4);
 				header5.setCellValue("PROGRAMA");
+				header5.setCellStyle(style);
 				Cell header6 = headersRow.createCell(5);
 				header6.setCellValue("INGRESO ESTADO");
+				header6.setCellStyle(style);
 				Cell header7 = headersRow.createCell(6);
 				header7.setCellValue("PREPARATORIA");
+				header7.setCellStyle(style);
 				Cell header8 = headersRow.createCell(7);
 				header8.setCellValue("PROMEDIO");
+				header8.setCellStyle(style);
 				Cell header9 = headersRow.createCell(8);
 				header9.setCellValue("ESTATUS");
+				header9.setCellStyle(style);
 				Cell header10 = headersRow.createCell(9);
 				header10.setCellValue("TIPO");
+				header10.setCellStyle(style);
 				Cell header11 = headersRow.createCell(7);
 				header11.setCellValue("ÚLTIMA MODIFICACION");
+				header11.setCellStyle(style);
 				
 				for (int i = 0; i < lstParams.size(); ++i){
 					SolicitudAdmisionCustom  solicitud = (SolicitudAdmisionCustom) lstParams.get(i);
@@ -1828,34 +2543,59 @@ class ListadoDAO {
 				
 				String title = object.estatusSolicitud;
 				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue(title);
+				//Fecha y Nombre Usuario
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
 				
-				/*ID Banner	
-				Nombre / Email / Teléfono	
-				Campus / Programa / Ingreso	
-				Promedio	
-				Motivo de lista roja*/
+				Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("SOLICITUD");
+				header1.setCellStyle(style);
 				Cell header2 = headersRow.createCell(1);
 				header2.setCellValue("NOMBRE");
+				header2.setCellStyle(style);
 				Cell header3 = headersRow.createCell(2);
 				header3.setCellValue("EMAIL");
+				header3.setCellStyle(style);
 				Cell header4 = headersRow.createCell(3);
 				header4.setCellValue("TELÉFONO");
+				header4.setCellStyle(style);
 				Cell header5= headersRow.createCell(4);
 				header5.setCellValue("CAMPUS");
+				header5.setCellStyle(style);
 				Cell header6 = headersRow.createCell(5);
 				header6.setCellValue("PROGRAMA");
+				header6.setCellStyle(style);
 				Cell header7 = headersRow.createCell(6);
 				header7.setCellValue("INGRESO");
+				header7.setCellStyle(style);
 				Cell header8 = headersRow.createCell(7);
 				header8.setCellValue("PROMEDIO");
-				Cell header9 = headersRow.createCell(7);
+				header8.setCellStyle(style);
+				Cell header9 = headersRow.createCell(8);
 				header9.setCellValue(type.equals("lista_roja") ? "MOTIVO DE LISTA ROJA" : "MOTIVO DE RECHAZO");
+				header9.setCellStyle(style);
 				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
 				
 				for (int i = 0; i < lstParams.size(); ++i){
@@ -1887,8 +2627,80 @@ class ListadoDAO {
 					String motivo = type.equals("lista_roja") ? solicitud.getObjDetalleSolicitud().getObservacionesListaRoja() : solicitud.getObjDetalleSolicitud().getObservacionesRechazo();
 					cell9.setCellValue(motivo);
 				}
-			} 
+			} else if(type.equals("solicitudes_en_progreso")) {
+				dataResult = getNuevasSolicitudes(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos");
+				}
+				
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("NUEVAS SOLICITUDES");
+				
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				
+				Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
+				
+				Row headersRow = sheet.createRow(++rowCount);
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("SOLICITUD");
+				header1.setCellStyle(style);
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("NOMBRE");
+				header2.setCellStyle(style);
+				Cell header3 = headersRow.createCell(2);
+				header3.setCellValue("EMAIL");
+				header3.setCellStyle(style);
+				Cell header4 = headersRow.createCell(3);
+				header4.setCellValue("FECHA DE ENVIO");
+				header4.setCellStyle(style);
+				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					solicitud = new SolicitudAdmisionCustom();
+					solicitud = (SolicitudAdmisionCustom)lstParams.get(i);
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(solicitud.getPersistenceId().toString());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(
+						solicitud.getPrimerNombre() + " " + 
+						solicitud.getSegundoNombre() + " " +
+						solicitud.getApellidoPaterno() + " " +
+						solicitud.getApellidoMaterno()
+					);
+					Cell cell3 = row.createCell(2);
+					cell3.setCellValue(solicitud.getCorreoElectronico());
+					Cell cell4 = row.createCell(3);
+					cell4.setCellValue("");
+				}
+			}
 			
+			
+			for(int i=0; i<=rowCount+3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
 			FileOutputStream outputStream = new FileOutputStream("Report.xls");
 			workbook.write(outputStream);
 			
@@ -1922,7 +2734,9 @@ class ListadoDAO {
 			DocumentItext document = new DocumentItext();
 			document.setPageSize(PageSize.A4.rotate());
 			PdfWriter.getInstance(document, new FileOutputStream(documento));
-			
+			float fontSize = 8.5f;
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, fontSize, BaseColor.BLACK);
+			String phraseToInput = "";
 			if(type.equals("nuevas_solicitudes")) {
 				dataResult = getNuevasSolicitudes(parameterP, parameterC, jsonData, context);
 				
@@ -1933,46 +2747,68 @@ class ListadoDAO {
 				}
 				
 				document.open();
-				document.add(new Paragraph("NUEVAS SOLICITUDES"));
+				
+				Paragraph par = new Paragraph("REPORTE DE NUEVAS SOLICITUDES");
+				par.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(par);
+				document.add(new Paragraph(" "));
+				
 				PdfPTable table = new PdfPTable(8);
+				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
 				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
-				
-				header.setPhrase(new Phrase("SOLICITUD"));
+				Phrase ph = new Phrase();
+				ph.setFont(normalFont);
+				ph = new Phrase("SOLICITUD", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("NOMBRE"));
+				ph = new Phrase("NOMBRE", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("EMAIL"))
+				ph = new Phrase("EMAIL", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("TELÉFONO"))
+				ph = new Phrase("TELÉFONO", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("PREPARATORIA"))
+				ph = new Phrase("PREPARATORIA", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROCEDENCIA"))
+				ph = new Phrase("PROCEDENCIA", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROMEDIO"))
+				ph = new Phrase("PROMEDIO", normalFont);
+				header.setPhrase(ph)
 				table.addCell(header);
-				header.setPhrase(new Phrase("FECHA DE ENVIO"))
+				ph = new Phrase("FECHA DE ENVIO", normalFont);
+				header.setPhrase(ph);
 				table.addCell(header);
 				
 				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
-				
+				phraseToInput = new String();
 				for (int i = 0; i < lstParams.size(); ++i){
+					phraseToInput = new String();
 					solicitud = new SolicitudAdmisionCustom();
 					solicitud = (SolicitudAdmisionCustom)lstParams.get(i);
-					table.addCell(new Phrase(solicitud.getPersistenceId().toString()));
+					table.addCell(new Phrase(solicitud.getPersistenceId().toString(), normalFont));
 					table.addCell(new Phrase(
 						solicitud.getPrimerNombre() + " " +
 						solicitud.getSegundoNombre() + " " +
 						solicitud.getApellidoPaterno() + " " +
-						solicitud.getApellidoMaterno())
+						solicitud.getApellidoMaterno()), normalFont
 					);
-					table.addCell(new Phrase(solicitud.getCorreoElectronico()));
-					table.addCell(new Phrase(solicitud.getTelefono()));
-					table.addCell(new Phrase(solicitud.getCatBachilleratos().getDescripcion()));
-					table.addCell(new Phrase(solicitud.getCatEstado().getDescripcion()));
-					table.addCell(new Phrase(solicitud.getPromedioGeneral()));
-					table.addCell(new Phrase(""));
+					phraseToInput = solicitud.getCorreoElectronico();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getTelefono();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getCatBachilleratos().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getCatEstado().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getPromedioGeneral();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getUpdateDate();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 				}
 				
 				document.add(table);
@@ -1987,34 +2823,38 @@ class ListadoDAO {
 				}
 				
 				document.open();
-				document.add(new Paragraph("ASPIRANTES EN PROCESO"));
+				Paragraph par = new Paragraph("REPORTE DE ASPIRANTES EN PROCESO");
+				par.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(par);
+				document.add(new Paragraph(" "));
 				PdfPTable table = new PdfPTable(12);
+				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
 				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				
-				header.setPhrase(new Phrase("NOMBRE"));
+				header.setPhrase(new Phrase("NOMBRE", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("EMAIL"));
+				header.setPhrase(new Phrase("EMAIL", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("CURP"));
+				header.setPhrase(new Phrase("CURP", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("CAMPUS"));
+				header.setPhrase(new Phrase("CAMPUS", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROGRAMA"));
+				header.setPhrase(new Phrase("PROGRAMA", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("INGRESO"));
+				header.setPhrase(new Phrase("INGRESO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("ESTADO"));
+				header.setPhrase(new Phrase("ESTADO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PREPARATORIA"));
+				header.setPhrase(new Phrase("PREPARATORIA", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROMEDIO"));
+				header.setPhrase(new Phrase("PROMEDIO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("ESTATUS"));
+				header.setPhrase(new Phrase("ESTATUS", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("TIPO"))
+				header.setPhrase(new Phrase("TIPO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("ÚLTIMA MODIFICACION"))
+				header.setPhrase(new Phrase("ÚLTIMA MODIFICACION", normalFont));
 				table.addCell(header);
 				
 				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
@@ -2022,34 +2862,36 @@ class ListadoDAO {
 				for (int i = 0; i < lstParams.size(); ++i){
 					solicitud = new SolicitudAdmisionCustom();
 					solicitud = (SolicitudAdmisionCustom)lstParams.get(i);
-					String phraseToInput = new String();
+					phraseToInput = new String();
 					
-					phraseToInput = solicitud.getPrimerNombre() + " " +
+					phraseToInput = 
+						solicitud.getPrimerNombre()  + " " +
 						solicitud.getSegundoNombre() + " " +
 						solicitud.getApellidoPaterno() + " " +
 						solicitud.getApellidoMaterno();
-					table.addCell(new Phrase(phraseToInput = null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCorreoElectronico();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCurp();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatCampus().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
-					phraseToInput = solicitud.getCatLicenciatura().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getObjCatGestionEscolar().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatPeriodo().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatEstado().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatBachilleratos().getDescripcion()
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getPromedioGeneral();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getEstatusSolicitud();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getObjDetalleSolicitud() == null ? "" :solicitud.getObjDetalleSolicitud().getTipoAlumno();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
-					table.addCell(new Phrase(""));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getUpdateDate();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 				}
 				
 				document.add(table);
@@ -2066,28 +2908,34 @@ class ListadoDAO {
 				String title = object.estatusSolicitud;
 				
 				document.open();
-				document.add(new Paragraph("ASPIRANTES EN PROCESO"));
+				String title1 = "REPORTE DE " + (type.equals("lista_roja") ? "LISTA ROJA" : "ASPIRANTES RECHAZADOS");
+				Paragraph par = new Paragraph(title1);
+				par.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(par);
+				document.add(new Paragraph(" "));
+				
 				PdfPTable table = new PdfPTable(9);
+				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
 				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				
-				header.setPhrase(new Phrase("SOLICITUD"));
+				header.setPhrase(new Phrase("SOLICITUD", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("NOMBRE"));
+				header.setPhrase(new Phrase("NOMBRE", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("EMAIL"));
+				header.setPhrase(new Phrase("EMAIL", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("TELÉFONO"));
+				header.setPhrase(new Phrase("TELÉFONO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("CAMPUS"));
+				header.setPhrase(new Phrase("CAMPUS", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROGRAMA"));
+				header.setPhrase(new Phrase("PROGRAMA", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("INGRESO"));
+				header.setPhrase(new Phrase("INGRESO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PROMEDIO"));
+				header.setPhrase(new Phrase("PROMEDIO", normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase(type.equals("lista_roja") ? "MOTIVO DE LISTA ROJA" : "MOTIVO DE RECHAZO"));
+				header.setPhrase(new Phrase(type.equals("lista_roja") ? "MOTIVO DE LISTA ROJA" : "MOTIVO DE RECHAZO", normalFont));
 				table.addCell(header);
 				
 				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
@@ -2095,26 +2943,93 @@ class ListadoDAO {
 				for (int i = 0; i < lstParams.size(); ++i){
 					solicitud = new SolicitudAdmisionCustom();
 					solicitud = (SolicitudAdmisionCustom)lstParams.get(i);
-					String phraseToInput = new String();
-					table.addCell(new Phrase(solicitud.getPersistenceId().toString()));
+					phraseToInput = new String();
+					table.addCell(new Phrase(solicitud.getPersistenceId().toString(), normalFont));
 					table.addCell(new Phrase(
 						solicitud.getPrimerNombre() + " " +
 						solicitud.getSegundoNombre() + " " +
 						solicitud.getApellidoPaterno() + " " +
-						solicitud.getApellidoMaterno())
+						solicitud.getApellidoMaterno(), normalFont)
 					);
-					table.addCell(new Phrase(solicitud.getCorreoElectronico()));
-					table.addCell(new Phrase(solicitud.getTelefono()));
+					phraseToInput = solicitud.getCorreoElectronico();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getTelefono();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatCampus().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
-					phraseToInput = solicitud.getCatLicenciatura().getDescripcion();
-					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getObjCatGestionEscolar().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 					phraseToInput = solicitud.getCatPeriodo().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getPromedioGeneral();
 					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput));
-					table.addCell(new Phrase(solicitud.getPromedioGeneral()));
-					phraseToInput = type.equals("lista_roja") ? solicitud.getObjDetalleSolicitud().getObservacionesListaRoja(): solicitud.getObjDetalleSolicitud().getObservacionesRechazo();
-					table.addCell(new Phrase(phraseToInput));
+					phraseToInput = type.equals("lista_roja") ? solicitud.getObjDetalleSolicitud().getObservacionesListaRoja() : solicitud.getObjDetalleSolicitud().getObservacionesRechazo();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
 				}
+				
+				document.add(table);
+				document.close();
+			} else if(type.equals("aspirantes_en_progreso")) {
+				dataResult = getAspirantesByStatusTemprano(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos");
+				}
+				
+				String title = object.estatusSolicitud;
+				
+				document.open();
+				String title1 = "REPORTE DE SOLICITUDES EN PROGRESO" ;
+				Paragraph par = new Paragraph(title1);
+				par.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(par);
+				document.add(new Paragraph(" "));
+				
+				PdfPTable table = new PdfPTable(6);
+				table.setWidthPercentage(100f);
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("SOLICITUD", normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("NOMBRE", normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("EMAIL", normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("CAMPUS", normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("PROGRAMA", normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("INGRESO", normalFont));
+				table.addCell(header);
+				
+				SolicitudAdmisionCustom  solicitud = new SolicitudAdmisionCustom();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					solicitud = new SolicitudAdmisionCustom();
+					solicitud = (SolicitudAdmisionCustom)lstParams.get(i);
+					phraseToInput = new String();
+					table.addCell(new Phrase(solicitud.getPersistenceId().toString(), normalFont));
+					table.addCell(new Phrase(
+						solicitud.getPrimerNombre() + " " +
+						solicitud.getSegundoNombre() + " " +
+						solicitud.getApellidoPaterno() + " " +
+						solicitud.getApellidoMaterno(), normalFont)
+					);
+					phraseToInput = solicitud.getCorreoElectronico();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getCatCampus().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getObjCatGestionEscolar().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+					phraseToInput = solicitud.getCatPeriodo().getDescripcion();
+					table.addCell(new Phrase(phraseToInput == null ? "" : phraseToInput, normalFont));
+				}
+				
+				document.add(table);
+				document.close();
 			}
 			
 			List<Object> lstResultado = new ArrayList<Object>();
@@ -2150,6 +3065,10 @@ class ListadoDAO {
 			String type = object.type;
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
 			
 			if(type.equals("gestion_escolar")) {
 				dataResult = getGestionEscolar(parameterP, parameterC, jsonData, context);
@@ -2161,9 +3080,12 @@ class ListadoDAO {
 				}
 				def campus= (object.campus == "CAMPUS-MNORTE"?"Anáhuac México Norte":object.campus == "CAMPUS-MSUR"?"Anáhuac México Sur":object.campus == "CAMPUS-MAYAB"?"Anáhuac Merida":object.campus =="CAMPUS-XALAPA"?"Anáhuac Xalapa":object.campus =="CAMPUS-CORDOBA"?"Anáhuac Cordoba":object.campus =="CAMPUS-CANCUN"?"Anáhuac Cancún":object.campus =="CAMPUS-OAXACA"?"Anáhuac Oaxaca":object.campus =="CAMPUS-PUEBLA"?"Anáhuac Puebla":object.campus =="CAMPUS-QUERETARO"?"Anáhuac Querétaro":"Juan Pablo II");
 				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("LISTADO DE LICENCIATURAS DEL CAMPUS \""+ campus+"\"");
-
+				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("NOMBRE LICENCIATURA");
@@ -2212,20 +3134,46 @@ class ListadoDAO {
 					throw new Exception("No encontro datos");
 				}
 				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("LISTADO DE BACHILLERATOS");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				Date date = new Date();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(formatter.format(date).toString());
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
 				
 				Row headersRow = sheet.createRow(++rowCount);
+				
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("DESCRIPCION");
+				header1.setCellStyle(style);
 				Cell header2 = headersRow.createCell(1);
 				header2.setCellValue("PAIS");
+				header2.setCellStyle(style);
 				Cell header3 = headersRow.createCell(2);
 				header3.setCellValue("ESTADO");
+				header3.setCellStyle(style);
 				Cell header4 = headersRow.createCell(3);
 				header4.setCellValue("CIUDAD");
+				header4.setCellStyle(style);
 				Cell header5= headersRow.createCell(4);
 				header5.setCellValue("PERTENECE A LA RED");
+				header5.setCellStyle(style);
+				
+				headersRow.setRowStyle(style);
 				com.anahuac.catalogos.CatBachilleratos  bachillerato = new com.anahuac.catalogos.CatBachilleratos();
 			
 				for (int i = 0; i < lstParams.size(); ++i){
@@ -2246,6 +3194,9 @@ class ListadoDAO {
 				}
 			}
 			
+			for(int i=0; i<=rowCount+3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
 			FileOutputStream outputStream = new FileOutputStream("ReportCatalogo.xls");
 			workbook.write(outputStream);
 			
@@ -2349,7 +3300,7 @@ class ListadoDAO {
 				document.add( new Paragraph(" "))
 				PdfPTable table = new PdfPTable(5);
 				PdfPCell header = new PdfPCell();
-				header.setBackgroundColor(BaseColor.ORANGE);
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				
 				header.setPhrase(new Phrase("DESCRIPCION"));
 				table.addCell(header);
@@ -2514,5 +3465,12 @@ class ListadoDAO {
 		
 		is.close();
 		return bytes;
+	}
+	public Boolean validarConexion() {
+		Boolean retorno=false
+		if (con == null || con.isClosed()) {
+			con = new DBConnect().getConnection();
+			retorno=true
+		}
 	}
 }

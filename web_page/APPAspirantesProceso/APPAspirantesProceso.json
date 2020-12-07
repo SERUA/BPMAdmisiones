@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "APPAspirantesProceso",
   "name" : "APPAspirantesProceso",
-  "lastUpdate" : 1607109011448,
+  "lastUpdate" : 1607226423160,
   "rows" : [
     [
       {
@@ -131,7 +131,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "color-orange"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -231,7 +231,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Filtro especifico"
+                  "value" : "Filtro específico"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -625,7 +625,7 @@
                 },
                 "urlPost" : {
                   "type" : "constant",
-                  "value" : "../API/extension/AnahuacRest?url=getAspirantesProceso&p=0&c=100"
+                  "value" : "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100"
                 },
                 "dataToSend" : {
                   "type" : "variable",
@@ -1555,8 +1555,13 @@
         "return {\r",
         "    \"tarea\":\"Validar Información\",\r",
         "    \"lstFiltro\": $data.lstFiltros, \r",
-        "    \"type\": \"aspirantes_proceso\"\r",
-        "};"
+        "    \"type\": \"aspirantes_proceso\",\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":10,\r",
+        "    \"offset\":0,\r",
+        "    \"usuario\":$data.userData.user_name\r",
+        "}"
       ],
       "exposed" : false
     },

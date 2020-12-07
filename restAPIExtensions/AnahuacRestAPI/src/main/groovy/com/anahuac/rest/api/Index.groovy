@@ -30,7 +30,7 @@ class Index implements RestApiController {
 
     @Override
     RestApiResponse doHandle(HttpServletRequest request, RestApiResponseBuilder responseBuilder, RestAPIContext context) {
-		def result = null;
+		Result result = new Result();
         def p = request.getParameter "p";
         if (p == null) {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
@@ -100,6 +100,14 @@ class Index implements RestApiController {
 					break;
 				case "getAspirantesProceso":
 					result = lDao.getAspirantesProceso(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "selectAspirantesEnproceso":
+					result = lDao.selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -189,12 +197,21 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+					
 				/*case "encode":
 					result =  aDAO.base64Encode(parameterP, parameterC, jsonData, context);
 					break;
 				case "decode":
 					result =  aDAO.base64Decode(parameterP, parameterC, jsonData, context);
 					break;*/
+				case "getAspirantesByStatusTemprano":
+					result = lDao.getAspirantesByStatusTemprano(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "recuparaPassword":
 					result =  uDAO.postRecuperarPassword(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {
@@ -354,10 +371,12 @@ class Index implements RestApiController {
 			}
 
 		} catch (Exception e) {
-			e.printStackTrace()
+			result.setSuccess(false)
+			result.setError(e.getMessage())
+			//e.printStackTrace()
 		}
 		
-		return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+		return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
     }
 	
 	public Result notFound(String url) {

@@ -210,7 +210,7 @@ class UsuariosDAO {
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
 			
-			//resultado = enviarTarea(object.nombreusuario, context);
+			resultado = enviarTarea(object.nombreusuario, context);
 			
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);
@@ -304,7 +304,7 @@ class UsuariosDAO {
 				update_user.setEnabled(true);
 				final User user_update= identityAPI.updateUser(user.getId(), update_user);
 				
-				resultado = enviarTarea(correo, context);
+				//resultado = enviarTarea(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
 			}else {
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);

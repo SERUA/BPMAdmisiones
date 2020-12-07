@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory
 
 import com.anahuac.rest.api.DAO.CatalogoBachilleratoDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
+import com.anahuac.rest.api.DAO.SolicitudUsuarioDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.bonitasoft.web.extension.rest.RestAPIContext
@@ -108,11 +109,21 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+				case "getIdbanner":
+				String idbanner=request.getParameter "idbanner"
+				result = new SolicitudUsuarioDAO().getIdbanner(0, 9999, idbanner, context)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 			}
 		}catch (Exception e) {
 			e.printStackTrace()
 			result.setSuccess(false)
-			result.setError(e.getMessage())
+			result.setError("fallo por "+e.getMessage())
 		}
 		// Send the result as a JSON representation
 		// You may use buildPagedResponse if your result is multiple

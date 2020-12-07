@@ -16,4 +16,8 @@ class Statements {
 	public static final String GET_CAT_NOTIFICACION_FIRMA="SELECT PERSISTENCEID, CARGO, CORREO, GRUPO, NOMBRECOMPLETO, PERSISTENCEVERSION, SHOWCARGO, SHOWCORREO, SHOWGRUPO, SHOWTELEFONO, SHOWTITULO, TELEFONO, TITULO FROM CATNOTIFICACIONESFIRMA;"
 	
 	public static final String GET_CAMPUS_ID_FROM_CLAVE="SELECT persistenceid as campus_id FROM CATCAMPUS where grupoBonita=? limit 1 "
+	
+	public static final String GET_IDBANNER_BY_IDBANNER="SELECT idbanner FROM DETALLESOLICITUD where idbanner=?;"
+	
+	public static final String GET_ASPIRANTES_EN_PROCESO="SELECT sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campus.descripcion         AS campus, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION        AS ingreso, estado.DESCRIPCION         AS estado, prepa.DESCRIPCION          AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid FROM SOLICITUDDEADMISION sda INNER JOIN catcampus campus ON campus.persistenceid=sda.CATCAMPUS_PID [CAMPUS] INNER JOIN CATGESTIONESCOLAR gestionescolar ON gestionescolar.persistenceid=sda.CATGESTIONESCOLAR_PID [PROGRAMA] INNER JOIN CATPERIODO periodo ON periodo.PERSISTENCEID =sda.CATPERIODO_PID [INGRESO] INNER JOIN CATESTADOs estado ON estado.persistenceid =sda.CATESTADO_PID [ESTADO] INNER JOIN catbachilleratos prepa ON prepa.PERSISTENCEID =sda.CATBACHILLERATOS_PID [BACHILLERATO] INNER JOIN detallesolicitud da ON sda.caseid::INTEGER=da.caseid::INTEGER [TIPOALUMNO] [WHERE] [ORDERBY] [LIMITOFFSET]";
 }
