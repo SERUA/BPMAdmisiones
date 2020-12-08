@@ -52,6 +52,7 @@ import com.bonitasoft.engine.bpm.parameter.ParameterCriterion
 import com.bonitasoft.engine.bpm.process.impl.ProcessInstanceSearchDescriptor
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.itextpdf.text.BaseColor
+import com.itextpdf.text.Chunk
 import com.itextpdf.text.Document as DocumentItext
 import com.itextpdf.text.DocumentException
 import com.itextpdf.text.Font
@@ -62,7 +63,7 @@ import com.itextpdf.text.Phrase
 import com.itextpdf.text.pdf.PdfPCell
 import com.itextpdf.text.pdf.PdfPTable
 import com.itextpdf.text.pdf.PdfWriter
-
+import com.itextpdf.text.pdf.draw.VerticalPositionMark
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
@@ -599,13 +600,117 @@ class ListadoDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String where ="", bachillerato="", campus="", programa="", ingreso="", estado ="", tipoalumno ="", orderby="ORDER BY ", errorlog=""
+		List<String> lstGrupo = new ArrayList<String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		List<DetalleSolicitud> lstDetalleSolicitud = new ArrayList<DetalleSolicitud>();
 		
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			assert object instanceof Map;
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cancún");
+			objGrupoCampus.put("valor","CAMPUS-CANCUN");
+			lstGrupoCampus.add(objGrupoCampus);
 			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Mayab");
+			objGrupoCampus.put("valor","CAMPUS-MAYAB");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Norte");
+			objGrupoCampus.put("valor","CAMPUS-MNORTE");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Sur");
+			objGrupoCampus.put("valor","CAMPUS-MSUR");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
+			objGrupoCampus.put("valor","CAMPUS-OAXACA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Puebla");
+			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
+			objGrupoCampus.put("valor","CAMPUS-XALAPA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Juan Pablo II");
+			objGrupoCampus.put("valor","CAMPUS-JP2");
+			lstGrupoCampus.add(objGrupoCampus);
+					
+			userLogged = context.getApiSession().getUserId();
+			
+			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for(UserMembership objUserMembership : lstUserMembership) {
+				for(Map<String, String> rowGrupo : lstGrupoCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
+						lstGrupo.add(rowGrupo.get("descripcion"));
+						break;
+					}
+				}
+			}
+			
+			assert object instanceof Map;
+			where+=" WHERE sda.iseliminado=false"
+			if(object.estatusSolicitud !=null) {
+				if(object.estatusSolicitud.equals("Solicitud lista roja")) {
+					where+=" AND sda.ESTATUSSOLICITUD='Solicitud lista roja'"
+				}else if(object.estatusSolicitud.equals("Solicitud rechazada")) {
+					where+=" AND sda.ESTATUSSOLICITUD='Solicitud rechazada'"
+				}else if(object.estatusSolicitud.equals("Nuevas solicitudes")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud modificada' OR sda.ESTATUSSOLICITUD='Solicitud recibida')"
+				}else if(object.estatusSolicitud.equals("Solicitud en progreso")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en progreso')"
+				} else if(object.estatusSolicitud.equals("Aspirantes registrados sin validación de cuenta")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados sin validación de cuenta')"
+				} else if(object.estatusSolicitud.equals("Aspirantes registrados con validación de cuenta")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados con validación de cuenta')"
+				}
+				else if(object.estatusSolicitud.equals("Solicitud en espera de pago")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en espera de pago')"
+				}
+				else if(object.estatusSolicitud.equals("Solicitud con pago aceptado")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud con pago aceptado')"
+				}
+
+			}
+			campus+="AND ("
+			for(Integer i=0; i<lstGrupo.size(); i++) {
+				String campusMiembro=lstGrupo.get(i);
+				campus+="campus.descripcion='"+campusMiembro+"'"
+				if(i==(lstGrupo.size()-1)) {
+					campus+=") "	
+				}
+				else {
+					campus+=" OR "
+				}
+			}
+			
+			errorlog+="campus" + campus;
 				errorlog+="object.lstFiltro" +object.lstFiltro
 				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 				closeCon = validarConexion();
@@ -739,6 +844,21 @@ class ListadoDAO {
 							}
                             where = where.replace("[valor]", filtro.get("valor"))
                             break;
+						case "TELEFONO":
+							errorlog+="TELEFONO"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.telefonocelular) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
                         case "TIPO":
                             errorlog+="TIPO"
 							tipoalumno +=" AND LOWER(da.TIPOALUMNO) ";
@@ -749,6 +869,36 @@ class ListadoDAO {
 							}
                             tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
                             break;
+						case "IDBANNER":
+							errorlog+="IDBANNER"
+							tipoalumno +=" AND LOWER(da.idbanner) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						case "LISTAROJA":
+							errorlog+="LISTAROJA"
+							tipoalumno +=" AND LOWER(da.observacionesListaRoja) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						case "RECHAZO":
+							errorlog+="RECHAZO"
+							tipoalumno +=" AND LOWER(da.observacionesRechazo) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
 						default:
 						//consulta=consulta.replace("[BACHILLERATO]", bachillerato)
 						//consulta=consulta.replace("[WHERE]", where);
@@ -790,6 +940,18 @@ class ListadoDAO {
 					case "TIPO":
 					orderby+="da.TIPOALUMNO";
 					break;
+					case "TELEFONO":
+					orderby+="sda.telefonocelular";
+					break;
+					case "IDBANNER":
+					orderby+="da.idbanner";
+					break;
+					case "LISTAROJA":
+					orderby+="da.observacionesListaRoja";
+					break;
+					case "RECHAZO":
+					orderby+="da.observacionesRechazo";
+					break;
 					default:
 					orderby+="sda.persistenceid"
 					break;
@@ -803,13 +965,14 @@ class ListadoDAO {
 				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
 				consulta=consulta.replace("[WHERE]", where);
 				
-				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campus.descripcion         AS campus, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION        AS ingreso, estado.DESCRIPCION         AS estado, prepa.DESCRIPCION          AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campus.descripcion         AS campus, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION        AS ingreso, estado.DESCRIPCION         AS estado, prepa.DESCRIPCION          AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				rs= pstm.executeQuery()
 				if(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
 				}
 				consulta=consulta.replace("[ORDERBY]", orderby)
 				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				errorlog+=consulta
 				pstm = con.prepareStatement(consulta)
 				pstm.setInt(1, object.limit)
 				pstm.setInt(2, object.offset)
@@ -844,6 +1007,7 @@ class ListadoDAO {
 				resultado.setData(rows)
 				
 			} catch (Exception e) {
+			resultado.setError_info(errorlog)	
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		}finally {
@@ -2363,20 +2527,29 @@ class ListadoDAO {
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
 				
-				Date date = new Date();
-				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
 				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
 				String sDate = formatter.format(date);
 				Cell cellFechaData = titleRow.createCell(5);
 				cellFechaData.setCellValue(sDate);
 				
-				Row blank = sheet.createRow(++rowCount);object
+				Row blank = sheet.createRow(++rowCount);
 				Cell cellusuario = blank.createCell(4);
 				cellusuario.setCellValue("Usuario:");
 				cellusuario.setCellStyle(style);
 				Cell cellusuarioData = blank.createCell(5);
 				cellusuarioData.setCellValue(object.usuario);
+				
+				Row espacio = sheet.createRow(++rowCount);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
@@ -2451,20 +2624,28 @@ class ListadoDAO {
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
 				
-				Date date = new Date();
-				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
 				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
 				String sDate = formatter.format(date);
 				Cell cellFechaData = titleRow.createCell(5);
 				cellFechaData.setCellValue(sDate);
 				
-				Row blank = sheet.createRow(++rowCount);object
+				Row blank = sheet.createRow(++rowCount);
 				Cell cellusuario = blank.createCell(4);
 				cellusuario.setCellValue("Usuario:");
 				cellusuario.setCellStyle(style);
 				Cell cellusuarioData = blank.createCell(5);
 				cellusuarioData.setCellValue(object.usuario);
+				
+				Row espacio = sheet.createRow(++rowCount);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
@@ -2553,20 +2734,28 @@ class ListadoDAO {
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
 				
-				Date date = new Date();
-				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
 				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
 				String sDate = formatter.format(date);
 				Cell cellFechaData = titleRow.createCell(5);
 				cellFechaData.setCellValue(sDate);
 				
-				Row blank = sheet.createRow(++rowCount);object
+				Row blank = sheet.createRow(++rowCount);
 				Cell cellusuario = blank.createCell(4);
 				cellusuario.setCellValue("Usuario:");
 				cellusuario.setCellStyle(style);
 				Cell cellusuarioData = blank.createCell(5);
 				cellusuarioData.setCellValue(object.usuario);
+				
+				Row espacio = sheet.createRow(++rowCount);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
@@ -2647,20 +2836,28 @@ class ListadoDAO {
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
 				
-				Date date = new Date();
-				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
 				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
 				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
 				String sDate = formatter.format(date);
 				Cell cellFechaData = titleRow.createCell(5);
 				cellFechaData.setCellValue(sDate);
 				
-				Row blank = sheet.createRow(++rowCount);object
+				Row blank = sheet.createRow(++rowCount);
 				Cell cellusuario = blank.createCell(4);
 				cellusuario.setCellValue("Usuario:");
 				cellusuario.setCellStyle(style);
 				Cell cellusuarioData = blank.createCell(5);
 				cellusuarioData.setCellValue(object.usuario);
+				
+				Row espacio = sheet.createRow(++rowCount);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
@@ -2753,6 +2950,19 @@ class ListadoDAO {
 				document.add(par);
 				document.add(new Paragraph(" "));
 				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				document.add( new Paragraph(" "));
+				
 				PdfPTable table = new PdfPTable(8);
 				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
@@ -2827,6 +3037,21 @@ class ListadoDAO {
 				par.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(par);
 				document.add(new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				document.add( new Paragraph(" "));
+				
+				
 				PdfPTable table = new PdfPTable(12);
 				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
@@ -2914,6 +3139,20 @@ class ListadoDAO {
 				document.add(par);
 				document.add(new Paragraph(" "));
 				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				document.add( new Paragraph(" "));
+				
+				
 				PdfPTable table = new PdfPTable(9);
 				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
@@ -2986,6 +3225,19 @@ class ListadoDAO {
 				par.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(par);
 				document.add(new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				document.add( new Paragraph(" "));
 				
 				PdfPTable table = new PdfPTable(6);
 				table.setWidthPercentage(100f);
@@ -3085,20 +3337,55 @@ class ListadoDAO {
 				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
 				cellTitle.setCellValue("LISTADO DE LICENCIATURAS DEL CAMPUS \""+ campus+"\"");
+		
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
+				
+				Row espacio = sheet.createRow(++rowCount);
 				
 				Row headersRow = sheet.createRow(++rowCount);
 				Cell header1 = headersRow.createCell(0);
 				header1.setCellValue("NOMBRE LICENCIATURA");
+				header1.setCellStyle(style);
 				Cell header2 = headersRow.createCell(1);
 				header2.setCellValue("LIGA");
+				header2.setCellStyle(style);
 				Cell header3 = headersRow.createCell(2);
 				header3.setCellValue("DESCRIPCION DE LA CARRERA");
+				header3.setCellStyle(style);
 				Cell header4 = headersRow.createCell(3);
 				header4.setCellValue("INSCRIPCION DE ENERO");
+				header4.setCellStyle(style);
 				Cell header5= headersRow.createCell(4);
 				header5.setCellValue("INSCRIPCION DE AGOSTO");
+				header5.setCellStyle(style);
 				Cell header6= headersRow.createCell(5);
 				header6.setCellValue("PERIODOS");
+				header6.setCellStyle(style);
+				
+				headersRow.setRowStyle(style);
 				com.anahuac.catalogos.CatGestionEscolar Escolar = new com.anahuac.catalogos.CatGestionEscolar();
 
 				for (int i = 0; i < lstParams.size(); ++i){
@@ -3142,11 +3429,20 @@ class ListadoDAO {
 				Cell cellFecha = titleRow.createCell(4);
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
-				Date date = new Date();
-				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
 				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
+				String sDate = formatter.format(date);
 				Cell cellFechaData = titleRow.createCell(5);
-				cellFechaData.setCellValue(formatter.format(date).toString());
+				cellFechaData.setCellValue(sDate);
 				
 				Row blank = sheet.createRow(++rowCount);object
 				Cell cellusuario = blank.createCell(4);
@@ -3230,7 +3526,9 @@ class ListadoDAO {
 			DocumentItext document = new DocumentItext();
 			document.setPageSize(PageSize.A4.rotate());
 			PdfWriter.getInstance(document, new FileOutputStream(documento));
-			
+			float fontSize = 8.5f;
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, fontSize, BaseColor.BLACK);
+			String phraseToInput = "";
 			if(type.equals("gestion_escolar")) {
 				dataResult = getGestionEscolar(parameterP, parameterC, jsonData, context);
 				
@@ -3244,22 +3542,38 @@ class ListadoDAO {
 				Paragraph preface = new Paragraph("LISTADO DE LICENCIATURAS DEL CAMPUS \""+ campus+"\"");
 				preface.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(preface);
-				document.add( new Paragraph(" "))
+				document.add( new Paragraph(" "));
+				
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				document.add( new Paragraph(" "));
+				
 				PdfPTable table = new PdfPTable(6);
+				table.setWidthPercentage(100f);
 				PdfPCell header = new PdfPCell();
 				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				
-				header.setPhrase(new Phrase("NOMBRE lICENCIATURA"));
+				header.setPhrase(new Phrase("NOMBRE lICENCIATURA",normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("LIGA"));
+				header.setPhrase(new Phrase("LIGA",normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("DESCRIPCION DE LA CARRERA"))
+				header.setPhrase(new Phrase("DESCRIPCION DE LA CARRERA",normalFont))
 				table.addCell(header);
-				header.setPhrase(new Phrase("INSCRIPCION DE ENERO"))
+				header.setPhrase(new Phrase("INSCRIPCION DE ENERO",normalFont))
 				table.addCell(header);
-				header.setPhrase(new Phrase("INSCRIPCION DE AGOSTO"))
+				header.setPhrase(new Phrase("INSCRIPCION DE AGOSTO",normalFont))
 				table.addCell(header);
-				header.setPhrase(new Phrase("PERIODOS"))
+				header.setPhrase(new Phrase("PERIODOS",normalFont))
 				table.addCell(header);
 				
 				com.anahuac.catalogos.CatGestionEscolar  G_Escolar = new com.anahuac.catalogos.CatGestionEscolar();
@@ -3267,11 +3581,11 @@ class ListadoDAO {
 				for (int i = 0; i < lstParams.size(); ++i){
 					G_Escolar = new com.anahuac.catalogos.CatGestionEscolar();
 					G_Escolar = (com.anahuac.catalogos.CatGestionEscolar)lstParams.get(i);
-					table.addCell(new Phrase(G_Escolar.getNombre()));
-					table.addCell(new Phrase(G_Escolar.getEnlace()));
-					table.addCell(new Phrase(G_Escolar.getDescripcion()));
-					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionenero()));
-					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionagosto()));
+					table.addCell(new Phrase(G_Escolar.getNombre(),normalFont));
+					table.addCell(new Phrase(G_Escolar.getEnlace(),normalFont));
+					table.addCell(new Phrase(G_Escolar.getDescripcion(),normalFont));
+					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionenero(),normalFont));
+					table.addCell(new Phrase("\$"+G_Escolar.getInscripcionagosto(),normalFont));
 					com.anahuac.catalogos.CatPeriodo lstP = new com.anahuac.catalogos.CatPeriodo();
 					def periodos = "";
 					for(int f=0; f<G_Escolar.getPeriodoDisponible().size(); f++) {
@@ -3279,7 +3593,7 @@ class ListadoDAO {
 						lstP = (com.anahuac.catalogos.CatPeriodo)G_Escolar.getPeriodoDisponible().get(f);
 						periodos +=lstP.getDescripcion() + ",";
 					}
-					table.addCell(new Phrase(periodos));
+					table.addCell(new Phrase(periodos,normalFont));
 					
 				}
 				
@@ -3297,20 +3611,39 @@ class ListadoDAO {
 				Paragraph preface = new Paragraph("LISTADO DE BACHILLERATOS");
 				preface.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(preface);
+				document.add( new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				
+				
 				document.add( new Paragraph(" "))
+				
 				PdfPTable table = new PdfPTable(5);
+				table.setWidthPercentage(100f);
+				
 				PdfPCell header = new PdfPCell();
 				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
 				
-				header.setPhrase(new Phrase("DESCRIPCION"));
+				header.setPhrase(new Phrase("DESCRIPCION",normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("PAIS"));
+				header.setPhrase(new Phrase("PAIS",normalFont));
 				table.addCell(header);
-				header.setPhrase(new Phrase("ESTADO"))
+				header.setPhrase(new Phrase("ESTADO",normalFont))
 				table.addCell(header);
-				header.setPhrase(new Phrase("CIUDAD"))
+				header.setPhrase(new Phrase("CIUDAD",normalFont))
 				table.addCell(header);
-				header.setPhrase(new Phrase("PERTENECE A LA RED"))
+				header.setPhrase(new Phrase("PERTENECE A LA RED",normalFont))
 				table.addCell(header);
 				
 				com.anahuac.catalogos.CatBachilleratos  bachillerato = new com.anahuac.catalogos.CatBachilleratos();
@@ -3318,12 +3651,12 @@ class ListadoDAO {
 				for (int i = 0; i < lstParams.size(); ++i){
 					bachillerato = new com.anahuac.catalogos.CatBachilleratos();
 					bachillerato = (com.anahuac.catalogos.CatBachilleratos)lstParams.get(i);
-					table.addCell(new Phrase(bachillerato.getDescripcion()));
-					table.addCell(new Phrase(bachillerato.getPais()));
-					table.addCell(new Phrase(bachillerato.getEstado()));
-					table.addCell(new Phrase(bachillerato.getCiudad()));	
+					table.addCell(new Phrase(bachillerato.getDescripcion(),normalFont));
+					table.addCell(new Phrase(bachillerato.getPais(),normalFont));
+					table.addCell(new Phrase(bachillerato.getEstado(),normalFont));
+					table.addCell(new Phrase(bachillerato.getCiudad(),normalFont));	
 					def red = bachillerato.isPerteneceRed()?'Sí':"No";
-					table.addCell(new Phrase(red));
+					table.addCell(new Phrase(red,normalFont));
 					
 				}
 				
@@ -3335,7 +3668,7 @@ class ListadoDAO {
 			lstResultado.add(encodeFileToBase64Binary("ReportCatalogos.pdf"));
 			resultado.setSuccess(true);
 			resultado.setData(lstResultado);
-					
+		   LOGGER.error "LLego al final"
 		} catch (Exception e) {
 			e.printStackTrace();
 			resultado.setSuccess(false);
@@ -3402,6 +3735,7 @@ class ListadoDAO {
 		List<com.anahuac.catalogos.CatBachilleratos> lstBachilleratos = new ArrayList<com.anahuac.catalogos.CatBachilleratos>();
 		
 		String strError = "";
+		
 		
 		try {
 			def jsonSlurper = new JsonSlurper();

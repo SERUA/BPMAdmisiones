@@ -22,7 +22,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             data: angular.copy($scope.properties.dataToSend),
             params: params
         };
-  
         return $http(req)
         .success(function(data, status) {
             const blob = b64toBlob(data.data[0]);
@@ -34,7 +33,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.dataFromError = data;
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromSuccess = undefined;
-            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});W
         })
         .finally(function() {
             vm.busy = false;
