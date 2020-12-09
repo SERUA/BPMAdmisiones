@@ -37,7 +37,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
          $scope.properties.isImagen = "false";
          $scope.procesar = true;
      }else{
-         swal("Formato no valido!", "Solo puede agregar archivos PDF o imagenes JPG y PNG!", "warning");
+         swal("!Formato no valido!", "Solo puede agregar archivos PDF o imagenes JPG y PNG", "warning");
          $scope.properties.isPDF = "true";
          $scope.properties.isImagen = "true";
          $scope.properties.urlretorno = "";

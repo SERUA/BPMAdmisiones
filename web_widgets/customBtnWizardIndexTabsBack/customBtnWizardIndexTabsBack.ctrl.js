@@ -9,13 +9,33 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         if($scope.properties.selectedIndex === 2){
             //selectedIndexPersonal
             if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndexPersonal > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndexPersonal--;
             }
         }else if($scope.properties.selectedIndex === 3){
             if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndexFamiliar > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndexFamiliar--;
             }
             //selectedIndexFamiliar
+        }else if($scope.properties.selectedIndex === 4){
+            if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndexRevision > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
+                    $scope.properties.selectedIndexRevision--;
+            }
+            //selectedIndexRevision
         }
         
         
@@ -24,6 +44,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.selectedIndex === 0) {
                 console.log("validar 0");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 }
                 if ($scope.properties.formInput.catSolicitudDeAdmisionInput.catPais === null) {
@@ -47,6 +72,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else if ($scope.properties.formInput.catSolicitudDeAdmisionInput.otroTelefonoContacto === "") {
                     swal("Otro teléfono de contacto!", "Debe agregar otro teléfono de contacto!", "warning");
                 } else if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -66,6 +96,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     $scope.properties.selectedIndex++;
                 }*/
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.formInput.catSolicitudDeAdmisionInput.fechaNacimiento === undefined) {
                     swal("Fecha de nacimiento!", "Debe agergar su fecha de nacimiento!", "warning");
@@ -115,6 +150,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     } else if ($scope.properties.actanacimiento === undefined || JSON.stringify($scope.properties.actanacimiento) == '{}') {
                         swal("Acta de nacimiento!", "Debe agregar su acta de nacimiento!", "warning");
                     } else if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                         $scope.properties.selectedIndex--;
                     } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                         $scope.properties.formInput.fotoPasaporteDocumentInput.push($scope.properties.fotopasaporte);
@@ -132,6 +172,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                
             } else if ($scope.properties.selectedIndex === 2) {
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 }
                 if ($scope.properties.formInput.catSolicitudDeAdmisionInput.catBachilleratos === null) {
@@ -151,6 +196,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         swal("Contancia de calificaciones!", "Debe agregar la constancia de calificaciones de su preparatoria!", "warning");
                     } else {
                         if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                            $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                             $scope.properties.selectedIndex--;
                         } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                             $scope.properties.formInput.catSolicitudDeAdmisionInput.promedioGeneral = $scope.properties.formInput.catSolicitudDeAdmisionInput.promedioGeneral + "";
@@ -192,6 +242,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     swal("Contancia de calificaciones!", "Debe agregar la constancia de calificaciones de su preparatoria!", "warning");
                 } else {
                     if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                         $scope.properties.selectedIndex--;
                     } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                         $scope.properties.formInput.constanciaDocumentInput.push($scope.properties.kardex);
@@ -231,6 +286,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.selectedIndex === 0) {
                 console.log("validar 0");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -240,6 +300,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                 console.log("validar 1");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -248,6 +313,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else if ($scope.properties.selectedIndex === 2) {
                 
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -257,6 +327,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 console.log("validar 3");
              
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -266,6 +341,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
              if ($scope.properties.selectedIndex === 0) {
                 console.log("validar 0");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;
@@ -275,6 +355,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                 console.log("validar 1");
                 if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.fotopasaporte = undefined;
+                    $scope.properties.actanacimiento = undefined; 
+                    $scope.properties.kardex = undefined;
+                    $scope.properties.descuento = undefined;
+                    $scope.properties.collageBoard = undefined;
                     $scope.properties.selectedIndex--;
                 } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
                     $scope.properties.selectedIndex++;

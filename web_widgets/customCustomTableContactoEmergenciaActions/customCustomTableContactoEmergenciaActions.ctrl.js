@@ -17,7 +17,6 @@ function PbTableCtrl($scope, modalService) {
     }
 
     this.showdatos = function(row) {
-        debugger;
         $scope.properties.datomodificar = angular.copy(row);
         $scope.properties.ver = true;
         $scope.properties.datosEditar = row;
@@ -27,8 +26,6 @@ function PbTableCtrl($scope, modalService) {
     }
 
     this.editdatos = function(row) {
-                debugger;
-        console.log("entro al nuevo")
         $scope.properties.datomodificar = angular.copy(row);
         console.log($scope.properties.datomodificar);
         $scope.properties.ocultar = true;

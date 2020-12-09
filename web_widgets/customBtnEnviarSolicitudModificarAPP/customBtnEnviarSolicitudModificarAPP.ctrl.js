@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
 
   'use strict';
 
@@ -13,17 +13,31 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
       closeModal($scope.properties.closeOnSuccess);
     } else if ($scope.properties.action === 'Start process') {
         if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.datosVeridicos){
-            swal("Aviso!", "Debe aceptar que los datos ingresados son veridicos!", "warning");
+            swal("¡Aviso!", "Debe aceptar que los datos ingresados son veridicos!", "warning");
         }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad){
-            swal("Aviso!", "Debe aceptar el aviso de privacidad!", "warning");
+            swal("¡Aviso!", "Debe aceptar el aviso de privacidad!", "warning");
         }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.confirmarAutorDatos){
-            swal("Aviso!", "Debe aceptar que confirma que es el auto de los datos de este formulario!", "warning");
+            swal("¡Aviso!", "Debe aceptar que confirma que es el auto de los datos de este formulario!", "warning");
         }else{
             startProcess();
         }
     } else if ($scope.properties.action === 'Submit task') {
         console.log("Enviara a modificar");
-      submitTask();
+        if(!$scope.properties.catSolicitudDeAdmision.datosVeridicos){
+            swal("¡Aviso!", "Debe aceptar que los datos ingresados son veridicos", "warning");
+        }else if(!$scope.properties.catSolicitudDeAdmision.aceptoAvisoPrivacidad){
+            swal("¡Aviso!", "Debe aceptar el aviso de privacidad", "warning");
+        }else if(!$scope.properties.catSolicitudDeAdmision.confirmarAutorDatos){
+            swal("¡Aviso!", "Debe aceptar que confirma que es el auto de los datos de este formulario", "warning");
+        }else{
+            blockUI.start();
+            $scope.properties.dataToSend.isEnviarSolicitudCont = true;
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.promedioGeneral = $scope.properties.dataToSend.catSolicitudDeAdmisionInput.promedioGeneral + "";
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.catBachilleratos.persistenceId_string = $scope.properties.Bachilleratopersistenceid;
+            $scope.assignTask();
+            //submitTask();
+        }
+      
     } else if ($scope.properties.action === 'Open modal') {
       closeModal($scope.properties.closeOnSuccess);
       openModal($scope.properties.modalId);
@@ -33,6 +47,31 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
       doRequest($scope.properties.action, $scope.properties.url);
     }
   };
+
+    $scope.assignTask = function () {
+        //$scope.showModal();
+        let url = "../API/bpm/userTask/" + $scope.properties.taskId;
+        
+        var req = {
+            method: "PUT",
+            url: url,
+            data:{
+                "assigned_id": $scope.properties.userId
+            }
+        };
+
+        return $http(req).success(function(data, status) {
+            //$scope.executeTask();
+            submitTask();
+        })
+        .error(function(data, status) {
+            $scope.hideModal();
+            swal("Error", data.message, "error");
+        })
+        .finally(function() {
+            
+        });
+    }
 
   function openModal(modalId) {
     modalService.open(modalId);
@@ -112,12 +151,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $scope.properties.responseStatusCode = status;
         $scope.properties.dataFromError = undefined;
         notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status});
+        blockUI.stop();
         if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
           redirectIfNeeded();
         }
         closeModal($scope.properties.closeOnSuccess);
       })
       .error(function(data, status) {
+          blockUI.stop();
         $scope.properties.dataFromError = data;
         $scope.properties.responseStatusCode = status;
         $scope.properties.dataFromSuccess = undefined;

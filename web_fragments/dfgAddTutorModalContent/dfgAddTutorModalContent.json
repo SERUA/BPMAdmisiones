@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "dfgAddTutorModalContent",
   "name" : "dfgAddTutorModalContent",
-  "lastUpdate" : 1605500482540,
+  "lastUpdate" : 1607455815225,
   "rows" : [
     [
       {
@@ -97,7 +97,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -163,7 +163,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -231,7 +231,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -266,7 +266,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Nombre: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+            "value" : "Nombres: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -306,7 +306,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -381,7 +381,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -456,7 +456,7 @@
         "type" : "component",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 6,
           "md" : 6,
           "lg" : 6
         },
@@ -587,7 +587,7 @@
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -641,7 +641,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "¿Egresó de la universidad Anáhuac?<span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                              "value" : "¿Egresó de la Universidad Anáhuac?<span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -815,7 +815,7 @@
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1018,7 +1018,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Giro de la empresa:"
+                              "value" : "Giro de la empresa:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -1244,7 +1244,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1300,17 +1300,29 @@
                       "value" : {
                         "type" : "variable",
                         "value" : "tutor.catPais"
+                      },
+                      "formInput" : {
+                        "type" : "variable",
+                        "value" : "tutor"
+                      },
+                      "datosCP" : {
+                        "type" : "variable",
+                        "value" : "cp"
+                      },
+                      "haveCiudad" : {
+                        "type" : "variable",
+                        "value" : "haveCiudad"
                       }
                     },
-                    "reference" : "9baa823f-7538-4893-bcbd-d4c867914ea1",
+                    "reference" : "82cdee6c-48f7-4e74-8874-d7bc1e45ce27",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "customSelectChangeValueTutor"
                   },
                   {
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1320,8 +1332,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion !== 'México'"
                       },
                       "required" : {
                         "type" : "constant",
@@ -1380,6 +1392,81 @@
                     "reference" : "78e4857b-0ab2-4b1e-acad-d7072601cfbc",
                     "hasValidationError" : false,
                     "id" : "customInputNumerico"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion === 'México'"
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "expression",
+                        "value" : "tutor.viveContigo"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Código postal: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "tutor.codigoPostal"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "5127c338-d4ba-447b-8fe9-27cff87a7c0c",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
                   }
                 ],
                 [
@@ -1397,8 +1484,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "tutor.catPais.descripcion !== 'México'"
+                        "type" : "constant",
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -1483,6 +1570,124 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion !== 'México'"
+                      },
+                      "disabled" : {
+                        "type" : "expression",
+                        "value" : "tutor.viveContigo"
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Validar código postal"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "right"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "default"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Open modal"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "constant"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable"
+                      },
+                      "modalId" : {
+                        "type" : "expression",
+                        "value" : "modalCodigoPostal"
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "Last"
+                      },
+                      "valueToAdd" : {
+                        "type" : "constant"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      },
+                      "estado" : {
+                        "type" : "variable",
+                        "value" : "tutor.catEstado"
+                      },
+                      "ciudad" : {
+                        "type" : "variable",
+                        "value" : "tutor.ciudad"
+                      },
+                      "municipio" : {
+                        "type" : "variable",
+                        "value" : "tutor.delegacionMunicipio"
+                      },
+                      "asentamiento" : {
+                        "type" : "variable",
+                        "value" : "tutor.colonia"
+                      },
+                      "estadoExtranjero" : {
+                        "type" : "variable",
+                        "value" : "tutor.estadoExtranjero"
+                      },
+                      "cp" : {
+                        "type" : "variable",
+                        "value" : "cp"
+                      },
+                      "haveCiudad" : {
+                        "type" : "variable",
+                        "value" : "haveCiudad"
+                      }
+                    },
+                    "reference" : "6fe19c97-10b4-4079-b2ea-5c12b155a453",
+                    "hasValidationError" : false,
+                    "id" : "customBtnCodigoPostal"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1492,12 +1697,12 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion !== 'México'"
                       },
                       "disabled" : {
                         "type" : "expression",
-                        "value" : "tutor.viveContigo"
+                        "value" : "tutor.viveContigo || tutor.catPais.descripcion === 'México'"
                       },
                       "required" : {
                         "type" : "constant",
@@ -1548,7 +1753,82 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion === 'México'"
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "expression",
+                        "value" : "tutor.viveContigo"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Estado: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "tutor.estadoExtranjero"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "c362bdf3-3fa3-4d6c-9aaf-1d8a99ad5c51",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1574,7 +1854,7 @@
                       },
                       "readOnly" : {
                         "type" : "expression",
-                        "value" : "tutor.viveContigo"
+                        "value" : "tutor.viveContigo || haveCiudad"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1624,7 +1904,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1651,7 +1931,7 @@
                       },
                       "readOnly" : {
                         "type" : "expression",
-                        "value" : "tutor.viveContigo"
+                        "value" : "tutor.viveContigo || tutor.catPais.descripcion === 'México'"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1699,7 +1979,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1726,7 +2006,7 @@
                       },
                       "readOnly" : {
                         "type" : "expression",
-                        "value" : "tutor.viveContigo"
+                        "value" : "tutor.viveContigo || tutor.catPais.descripcion === 'México'"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1776,7 +2056,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1851,7 +2131,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1873,8 +2153,7 @@
                         "value" : ""
                       },
                       "maxLength" : {
-                        "type" : "constant",
-                        "value" : 1
+                        "type" : "constant"
                       },
                       "readOnly" : {
                         "type" : "expression",
@@ -1886,7 +2165,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Num. Exterior: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        "value" : "Núm. Exterior: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -1918,9 +2197,9 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "3be0c2c1-d11d-45da-9f40-1baea8637536",
+                    "reference" : "76d630e9-ea60-4d14-8596-1e71acae7bf5",
                     "hasValidationError" : false,
-                    "id" : "customInputNumerico"
+                    "id" : "pbInput"
                   }
                 ],
                 [
@@ -1928,7 +2207,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -1963,7 +2242,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Num. Interior:"
+                        "value" : "Núm. Interior:"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -2003,7 +2282,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 6,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -2013,8 +2292,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion !== 'México'"
                       },
                       "required" : {
                         "type" : "constant",
@@ -2071,6 +2350,81 @@
                       }
                     },
                     "reference" : "1e7a6397-26d4-4fd0-afe4-ca45c4cfedb8",
+                    "hasValidationError" : false,
+                    "id" : "customInputNumerico"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "tutor.catPais.descripcion === 'México'"
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : 14
+                      },
+                      "readOnly" : {
+                        "type" : "expression",
+                        "value" : "tutor.viveContigo"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Teléfono: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "tutor.telefono"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "5b8dbc2b-bc13-45b6-8a85-4c55888a4a1f",
                     "hasValidationError" : false,
                     "id" : "customInputNumerico"
                   }
@@ -2216,7 +2570,7 @@
         "        mostrar = true;\r",
         "    } else {\r",
         "        if ($data.catPadreTrabaja[x].persistenceId === $data.tutor.catTrabaja.persistenceId) {\r",
-        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\" || $data.catPadreTrabaja[x].descripcion === \"SI\") {\r",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\" || $data.catPadreTrabaja[x].descripcion === \"SI\" || $data.catPadreTrabaja[x].descripcion === \"Sí\") {\r",
         "                mostrar = false;\r",
         "            } else {\r",
         "                mostrar = true;\r",
@@ -2238,7 +2592,7 @@
         "        mostrar = true;\r",
         "    } else {\r",
         "        if ($data.catEgresoAnahuac[x].persistenceId === $data.tutor.catEgresoAnahuac.persistenceId) {\r",
-        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\" || $data.catEgresoAnahuac[x].descripcion === \"SI\") {\r",
+        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\" || $data.catEgresoAnahuac[x].descripcion === \"SI\" || $data.catEgresoAnahuac[x].descripcion === \"Sí\") {\r",
         "                mostrar = false;\r",
         "            } else {\r",
         "                mostrar = true;\r",
@@ -2314,6 +2668,36 @@
         ""
       ],
       "exposed" : true
+    },
+    "cp" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "haveCiudad" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "codigopostaltutor" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "lengtcodigo" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.tutor.codigoPostal.length>=5){",
+        "    $data.codigopostaltutor = $data.tutor.codigoPostal;",
+        "}"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

@@ -698,7 +698,7 @@ class ListadoDAO {
 				}
 
 			}
-			campus+="AND ("
+			campus+=" AND ("
 			for(Integer i=0; i<lstGrupo.size(); i++) {
 				String campusMiembro=lstGrupo.get(i);
 				campus+="campus.descripcion='"+campusMiembro+"'"
@@ -1017,6 +1017,418 @@ class ListadoDAO {
 		}
 		return resultado
 	}
+	
+	public Result selectSolicitudesEnProceso(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where ="", bachillerato="", campus="", programa="", ingreso="", estado ="", tipoalumno ="", orderby="ORDER BY ", errorlog=""
+		List<String> lstGrupo = new ArrayList<String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		List<DetalleSolicitud> lstDetalleSolicitud = new ArrayList<DetalleSolicitud>();
+		
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cancún");
+			objGrupoCampus.put("valor","CAMPUS-CANCUN");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Mayab");
+			objGrupoCampus.put("valor","CAMPUS-MAYAB");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Norte");
+			objGrupoCampus.put("valor","CAMPUS-MNORTE");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Sur");
+			objGrupoCampus.put("valor","CAMPUS-MSUR");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
+			objGrupoCampus.put("valor","CAMPUS-OAXACA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Puebla");
+			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
+			objGrupoCampus.put("valor","CAMPUS-XALAPA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Juan Pablo II");
+			objGrupoCampus.put("valor","CAMPUS-JP2");
+			lstGrupoCampus.add(objGrupoCampus);
+					
+			userLogged = context.getApiSession().getUserId();
+			
+			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for(UserMembership objUserMembership : lstUserMembership) {
+				for(Map<String, String> rowGrupo : lstGrupoCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
+						lstGrupo.add(rowGrupo.get("descripcion"));
+						break;
+					}
+				}
+			}
+			
+			assert object instanceof Map;
+			where+=" WHERE sda.iseliminado=false"
+			if(object.estatusSolicitud !=null) {
+				if(object.estatusSolicitud.equals("Solicitud en progreso")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en progreso')"
+				} else if(object.estatusSolicitud.equals("Aspirantes registrados sin validación de cuenta")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados sin validación de cuenta')"
+				} else if(object.estatusSolicitud.equals("Aspirantes registrados con validación de cuenta")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados con validación de cuenta')"
+				}
+			}
+			
+			campus+=" AND ("
+			
+			for(Integer i=0; i<lstGrupo.size(); i++) {
+				String campusMiembro=lstGrupo.get(i);
+				campus+="campus.descripcion='"+campusMiembro+"'"
+				if(i==(lstGrupo.size()-1)) {
+					campus+=") "
+				}
+				else {
+					campus+=" OR "
+				}
+			}
+			
+			errorlog+="campus" + campus;
+				errorlog+="object.lstFiltro" +object.lstFiltro
+				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+				closeCon = validarConexion();
+				String consulta = Statements.GET_SOLICITUDES_EN_PROCESO
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+					errorlog+=", columna "+ filtro.get("columna")
+					switch(filtro.get("columna")) {
+						
+						case "NOMBRE":
+							errorlog+="NOMBRE"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(concat(sda.primernombre,' ', sda.segundonombre,' ',sda.apellidopaterno,' ',sda.apellidomaterno)) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "EMAIL":
+							errorlog+="EMAIL"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.correoelectronico) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "CURP":
+							errorlog+="CURP"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.curp) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "CAMPUS":
+							errorlog+="CAMPUS"
+							campus +=" AND LOWER(campus.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								campus+="=LOWER('[valor]')"
+							}else {
+								campus+="LIKE LOWER('%[valor]%')"
+							}
+							campus = campus.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PREPARATORIA":
+							errorlog+="PREPARATORIA"
+							bachillerato +=" AND LOWER(prepa.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								bachillerato+="=LOWER('[valor]')"
+							}else {
+								bachillerato+="LIKE LOWER('%[valor]%')"
+							}
+							bachillerato = bachillerato.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PROGRAMA":
+							errorlog+="PROGRAMA"
+							programa +=" AND LOWER(gestionescolar.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								programa+="=LOWER('[valor]')"
+							}else {
+								programa+="LIKE LOWER('%[valor]%')"
+							}
+							programa = programa.replace("[valor]", filtro.get("valor"))
+							break;
+						case "INGRESO":
+							errorlog+="INGRESO"
+							ingreso +=" AND LOWER(periodo.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								ingreso+="=LOWER('[valor]')"
+							}else {
+								ingreso+="LIKE LOWER('%[valor]%')"
+							}
+							ingreso = ingreso.replace("[valor]", filtro.get("valor"))
+							break;
+						case "ESTADO":
+							errorlog+="ESTADO"
+							estado +=" AND LOWER(estado.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								estado+="=LOWER('[valor]')"
+							}else {
+								estado+="LIKE LOWER('%[valor]%')"
+							}
+							estado = estado.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PROMEDIO":
+							errorlog+="PROMEDIO"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.PROMEDIOGENERAL) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "ESTATUS":
+							errorlog+="ESTATUS"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.ESTATUSSOLICITUD) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "TELEFONO":
+							errorlog+="TELEFONO"
+							if(where.contains("WHERE")) {
+								where+= " AND "
+							}else {
+								where+= " WHERE "
+							}
+							where +=" LOWER(sda.telefonocelular) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "TIPO":
+							errorlog+="TIPO"
+							tipoalumno +=" AND LOWER(da.TIPOALUMNO) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						case "IDBANNER":
+							errorlog+="IDBANNER"
+							tipoalumno +=" AND LOWER(da.idbanner) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						case "LISTAROJA":
+							errorlog+="LISTAROJA"
+							tipoalumno +=" AND LOWER(da.observacionesListaRoja) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						case "RECHAZO":
+							errorlog+="RECHAZO"
+							tipoalumno +=" AND LOWER(da.observacionesRechazo) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								tipoalumno+="=LOWER('[valor]')"
+							}else {
+								tipoalumno+="LIKE LOWER('%[valor]%')"
+							}
+							tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+							break;
+						default:
+						//consulta=consulta.replace("[BACHILLERATO]", bachillerato)
+						//consulta=consulta.replace("[WHERE]", where);
+						
+						break;
+					}
+				}
+				switch(object.orderby) {
+					case "NOMBRE":
+					orderby+="sda.primernombre";
+					break;
+					case "EMAIL":
+					orderby+="sda.correoelectronico";
+					break;
+					case "CURP":
+					orderby+="sda.curp";
+					break;
+					case "CAMPUS":
+					orderby+="campus.DESCRIPCION"
+					break;
+					case "PREPARATORIA":
+					orderby+="prepa.DESCRIPCION"
+					break;
+					case "PROGRAMA":
+					orderby+="gestionescolar.DESCRIPCION"
+					break;
+					case "INGRESO":
+					orderby+="periodo.DESCRIPCION"
+					break;
+					case "ESTADO":
+					orderby +="estado.DESCRIPCION";
+					break;
+					case "PROMEDIO":
+					orderby+="sda.PROMEDIOGENERAL";
+					break;
+					case "ESTATUS":
+					orderby+="sda.ESTATUSSOLICITUD";
+					break;
+					case "TIPO":
+					orderby+="da.TIPOALUMNO";
+					break;
+					case "TELEFONO":
+					orderby+="sda.telefonocelular";
+					break;
+					case "IDBANNER":
+					orderby+="da.idbanner";
+					break;
+					case "LISTAROJA":
+					orderby+="da.observacionesListaRoja";
+					break;
+					case "RECHAZO":
+					orderby+="da.observacionesRechazo";
+					break;
+					default:
+					orderby+="sda.persistenceid"
+					break;
+				}
+				orderby+=" "+object.orientation;
+				consulta=consulta.replace("[CAMPUS]", campus)
+				consulta=consulta.replace("[PROGRAMA]", programa)
+				consulta=consulta.replace("[INGRESO]", ingreso)
+				consulta=consulta.replace("[ESTADO]", estado)
+				consulta=consulta.replace("[BACHILLERATO]", bachillerato)
+				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
+				consulta=consulta.replace("[WHERE]", where);
+				
+				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campus.descripcion         AS campus, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION        AS ingreso, estado.DESCRIPCION         AS estado, prepa.DESCRIPCION          AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				rs= pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				errorlog+=consulta
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
+				rs = pstm.executeQuery()
+				rows = new ArrayList<Map<String, Object>>();
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				while(rs.next()) {
+					Map<String, Object> columns = new LinkedHashMap<String, Object>();
+	
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						if(metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+							String encoded = "";
+							try {
+								for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+									encoded = "../API/formsDocumentImage?document="+doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}catch(Exception e) {
+								columns.put("fotografiab64", "");
+								errorlog+= ""+e.getMessage();
+							}
+						}
+					}
+	
+					rows.add(columns);
+				}
+				resultado.setSuccess(true)
+				
+				resultado.setError_info(errorlog);
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	public Result getAspirantesProceso(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		
@@ -2603,7 +3015,7 @@ class ListadoDAO {
 					Cell cell7 = row.createCell(6);
 					cell7.setCellValue(solicitud.getPromedioGeneral());
 					Cell cell8 = row.createCell(7);
-					cell8.setCellValue("");
+					cell8.setCellValue(solicitud.getUpdateDate());
 				}
 			} else if (type.equals("aspirantes_proceso")) {
 				dataResult = getAspirantesProceso(parameterP, parameterC, jsonData, context);
@@ -2711,7 +3123,7 @@ class ListadoDAO {
 					Cell cell10 = row.createCell(9);
 					cell10.setCellValue(solicitud.getObjDetalleSolicitud() == null ? "" : solicitud.getObjDetalleSolicitud().getTipoAlumno());
 					Cell cell11 = row.createCell(10);
-					cell11.setCellValue("");
+					cell11.setCellValue(solicitud.getUpdateDate());
 				}
 			} else if (type.equals("lista_roja") || type.equals("aspirantes_rechazados")) {
 				dataResult = getAspirantesByStatus(parameterP, parameterC, jsonData, context);
@@ -3385,7 +3797,19 @@ class ListadoDAO {
 				header6.setCellValue("PERIODOS");
 				header6.setCellStyle(style);
 				
+				Cell header7= headersRow.createCell(6);
+				header7.setCellValue("PROPEDEUTICO");
+				header7.setCellStyle(style);
+				Cell header8= headersRow.createCell(7);
+				header8.setCellValue("PROG PARCIAL");
+				header8.setCellStyle(style);
+				Cell header9= headersRow.createCell(8);
+				header9.setCellValue("CUATRIMESTRAL");
+				
+				header9.setCellStyle(style);
+				
 				headersRow.setRowStyle(style);
+				
 				com.anahuac.catalogos.CatGestionEscolar Escolar = new com.anahuac.catalogos.CatGestionEscolar();
 
 				for (int i = 0; i < lstParams.size(); ++i){
@@ -3411,6 +3835,16 @@ class ListadoDAO {
 					}
 					Cell cell6= row.createCell(5);
 					cell6.setCellValue(periodos);
+					
+					String isPropedeutico = Escolar.isPropedeutico() ? "Sí" : "No";
+					Cell cell7= row.createCell(6);
+					cell7.setCellValue(isPropedeutico);
+					Cell cell8= row.createCell(7);
+					String isProgramaParcial = Escolar.isProgramaparcial() ? "Sí" : "No";
+					cell8.setCellValue(isProgramaParcial);
+					String isCuatrimestral = Escolar.isMatematicas()  ? "Sí" : "No";
+					Cell cell9= row.createCell(8);
+					cell9.setCellValue(isCuatrimestral);
 				}
 			}else if(type.equals("bachilleratos")) {
 				dataResult = getBachilleratos(parameterP, parameterC, jsonData, context);
@@ -3735,7 +4169,6 @@ class ListadoDAO {
 		List<com.anahuac.catalogos.CatBachilleratos> lstBachilleratos = new ArrayList<com.anahuac.catalogos.CatBachilleratos>();
 		
 		String strError = "";
-		
 		
 		try {
 			def jsonSlurper = new JsonSlurper();

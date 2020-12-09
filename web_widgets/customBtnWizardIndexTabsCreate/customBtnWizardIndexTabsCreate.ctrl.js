@@ -1,0 +1,869 @@
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+
+    $scope.action = function() {
+        var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        if ($scope.properties.tabs === "Informacion Personal") {
+            if ($scope.properties.selectedIndex === 1) {
+                console.log("validar 1");
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                }
+                if ($scope.properties.catSolicitudDeAdmision.catPais === null) {
+                    swal("¡País!", "Debe seleccionar el país", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.codigoPostal === "" || $scope.properties.catSolicitudDeAdmision.codigoPostal === null) {
+                    swal("¡Código postal!", "Debe agregar el código postal", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.catEstado === null && $scope.properties.catSolicitudDeAdmision.catPais.descripcion === "México") {
+                    swal("¡Estado!", "Debe seleccionar el estado", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.catPais.descripcion !== "México" && $scope.properties.catSolicitudDeAdmision.estadoExtranjero === "") {
+                    swal("¡Estado!", "Debe agregar el estado", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.ciudad === "" || $scope.properties.catSolicitudDeAdmision.ciudad === null) {
+                    swal("¡Ciudad!", "Debe agregar una ciudad", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.calle === "" || $scope.properties.catSolicitudDeAdmision.calle === null) {
+                    swal("¡Calle!", "Debe agregar la calle", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.ciudad === "" || $scope.properties.catSolicitudDeAdmision.ciudad === null) {
+                    swal("¡Ciudad!", "Debe agregar una ciudad", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.numExterior === "" || $scope.properties.catSolicitudDeAdmision.numExterior === null) {
+                    swal("¡Número!", "Debe agregar el número de su domicilio", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.colonia === "" || $scope.properties.catSolicitudDeAdmision.colonia === null) {
+                    swal("¡Colonia!", "Debe agregar la colonia", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.telefono === "" || $scope.properties.catSolicitudDeAdmision.telefono === null) {
+                    swal("¡Teléfono!", "Debe el agregar el teléfono", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.telefono.length !== 10 && $scope.properties.catSolicitudDeAdmision.catPais.descripcion === "México") {
+                    swal("¡Teléfono celular!", "Su teléfono celular debe ser de 10 digitos", "warning");
+                } else if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                    //$scope.properties.selectedIndex++;
+                    $scope.assignTask();
+                }
+
+            } else if ($scope.properties.selectedIndex === 0) {
+                $scope.faltacampo = false;
+                console.log("validar 0");
+                if ($scope.properties.catSolicitudDeAdmision.curp === null) {
+                    $scope.properties.catSolicitudDeAdmision.curp = "";
+                }
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.catSolicitudDeAdmision.fechaNacimiento === undefined || $scope.properties.catSolicitudDeAdmision.fechaNacimiento === null || $scope.properties.catSolicitudDeAdmision.fechaNacimiento === "") {
+                    swal("¡Fecha de nacimiento!", "Debe agregar su fecha de nacimiento", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catNacionalidad === null) {
+                    swal("¡Nacionalidad!", "Debe seleccionar su nacionalidad", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catReligion === null) {
+                    swal("¡Religión!", "Debe seleccionar su religión", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.curp === "" && $scope.properties.catSolicitudDeAdmision.catNacionalidad.descripcion === "Mexicana") {
+                    swal("¡CURP!", "Debe agregar su CURP", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.curp.length < 18 && $scope.properties.catSolicitudDeAdmision.catNacionalidad.descripcion === "Mexicana") {
+                    swal("¡CURP!", "Su CURP debe tener 18 caracteres", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.telefonoCelular === undefined || $scope.properties.catSolicitudDeAdmision.telefonoCelular === null) {
+                    swal("¡Teléfono celular!", "Debe agregar su número celular", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.telefonoCelular.length !== 10 && $scope.properties.catSolicitudDeAdmision.catNacionalidad.descripcion === "Mexicana") {
+                    swal("¡Teléfono celular!", "Su teléfono celular debe ser de 10 digitos", "warning");
+                    $scope.faltacampo = true;
+                }
+                else if ($scope.properties.catSolicitudDeAdmision.telefonoCelular === "" || $scope.properties.catSolicitudDeAdmision.telefonoCelular === null || $scope.properties.catSolicitudDeAdmision.telefonoCelular === undefined) {
+                    swal("¡Teléfono celular!", "Debe agregar su número celular", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catEstadoCivil === null) {
+                    swal("¡Estado civil!", "Debe seleccionar su estado civil", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catSexo === null) {
+                    swal("¡Sexo!", "Debe seleccionar su sexo", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catPresentasteEnOtroCampus === null) {
+                    swal("¡Presentó examen en otro campus!", "Debe seleccionar si ha realizado la solicitud en otro campus", "warning");
+                    $scope.faltacampo = true;
+                } else if ($scope.properties.catSolicitudDeAdmision.catPresentasteEnOtroCampus.descripcion === "Sí" || $scope.properties.catSolicitudDeAdmision.catPresentasteEnOtroCampus.descripcion === "Si") {
+                    if ($scope.properties.catSolicitudDeAdmision.catCampusPresentadoSolicitud.length === 0) {
+                        swal("¡Campus presentado!", "Debe seleccionar el/los campus donde ha presentado su solicitud", "warning");
+                        $scope.faltacampo = true;
+                    }
+                }
+                if (!$scope.faltacampo) {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+						$scope.fallo = false;
+						if($scope.properties.fotopasaportearchivo.length > 0){
+                            if(JSON.stringify($scope.properties.fotopasaporte) === "{}"){
+                                $scope.fallo = true;
+								swal("¡Fotografía!", "Debe agregar una fotografía", "warning");	
+                            }else{
+                                var auxData = null;
+                                if($scope.properties.fotopasaportearchivo[0].newValue === undefined){
+                                    auxData = $scope.properties.fotopasaportearchivo[0];
+                                }else{
+                                    auxData = angular.copy($scope.properties.fotopasaportearchivo[0].newValue);
+                                }
+                                auxData.filename = $scope.properties.fotopasaporte === undefined?null:($scope.properties.fotopasaporte.filename === '' ? null : $scope.properties.fotopasaporte.filename)
+                                auxData.tempPath = $scope.properties.fotopasaporte === undefined?null:($scope.properties.fotopasaporte.tempPath === ''?null:$scope.properties.fotopasaporte.tempPath);
+                                auxData.contentType = $scope.properties.fotopasaporte === undefined?null:($scope.properties.fotopasaporte.contentType === ''?null:$scope.properties.fotopasaporte.contentType);
+                                if(auxData.id !== undefined){
+                                    $scope.properties.fotopasaportearchivo[0]={
+                                        "id":angular.copy(auxData.id),
+                                        "newValue": angular.copy(auxData)
+                                    };
+                                }else{
+                                    if($scope.properties.fotopasaportearchivo[0].newValue.filename !== $scope.properties.fotopasaporte.filename){
+                                        $scope.properties.fotopasaportearchivo[0]={
+                                            "newValue": angular.copy(auxData)
+                                        };
+                                    }
+                                }
+                            }
+						} else{
+							if ($scope.properties.fotopasaporte === undefined || JSON.stringify($scope.properties.fotopasaporte) == '{}') {
+								$scope.fallo = true;
+								swal("¡Fotografía!", "Debe agregar una fotografía", "warning");	
+							}else{
+								$scope.properties.fotopasaportearchivo = [];
+								$scope.properties.fotopasaportearchivo.push({
+									"newValue": angular.copy($scope.properties.fotopasaporte)
+								});
+							}
+						}
+
+						if(!$scope.fallo){
+							if($scope.properties.actanacimientoarchivo.length > 0){
+                                if(JSON.stringify($scope.properties.actanacimiento) === "{}"){
+                                    $scope.fallo = true;
+                                    swal("¡Acta de nacimiento!", "Debe agregar su acta de nacimiento", "warning");
+                                }else{
+                                    var auxData = null;
+                                    if($scope.properties.actanacimientoarchivo[0].newValue === undefined){
+                                        auxData = $scope.properties.actanacimientoarchivo[0];
+                                    }else{
+                                        auxData = angular.copy($scope.properties.actanacimientoarchivo[0].newValue);
+                                    }
+                                    auxData.filename = $scope.properties.actanacimiento === undefined?null:($scope.properties.actanacimiento.filename === ''?null:$scope.properties.actanacimiento.filename);
+                                    auxData.tempPath = $scope.properties.actanacimiento === undefined?null:($scope.properties.actanacimiento.tempPath === ''?null:$scope.properties.actanacimiento.tempPath);
+                                    auxData.contentType = $scope.properties.actanacimiento === undefined?null:($scope.properties.actanacimiento.contentType === ''?null:$scope.properties.actanacimiento.contentType);
+                                    if(auxData.id !== undefined){
+                                        $scope.properties.actanacimientoarchivo[0]={
+                                            "id":angular.copy(auxData.id),
+                                            "newValue": angular.copy(auxData)
+                                        };
+                                    }else{
+                                        if($scope.properties.actanacimientoarchivo[0].newValue.filename !== $scope.properties.actanacimientoarchivo.filename){
+                                            $scope.properties.actanacimientoarchivo[0]={
+                                                "newValue": angular.copy(auxData)
+                                            };
+                                        }
+                                    }
+                                }                                
+							}else{
+								if ($scope.properties.actanacimiento === undefined || JSON.stringify($scope.properties.actanacimiento) == '{}') {
+									$scope.fallo = true;
+									swal("¡Acta de nacimiento!", "Debe agregar su acta de nacimiento", "warning");
+								}else{
+									$scope.properties.actanacimientoarchivo = [];
+									$scope.properties.actanacimientoarchivo.push({
+										"newValue": angular.copy($scope.properties.actanacimiento)
+									});
+								}
+							}
+							if(!$scope.fallo){
+								if ($scope.properties.idExtranjero !== undefined) {
+									$scope.properties.catSolicitudDeAdmision.curp = $scope.properties.idExtranjero;
+								}
+                                //$scope.properties.selectedIndex++;
+                                $scope.assignTask();
+							}
+						}
+                    }
+                }
+            } else if ($scope.properties.selectedIndex === 2) {
+                debugger;
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.catSolicitudDeAdmision.catBachilleratos === null) {
+                    swal("¡Preparatoria!", "Debe seleccionar una preparatoria en caso de no encontrar la suya seleccionar la opción otro", "warning");
+                } else if ($scope.properties.catSolicitudDeAdmision.catBachilleratos.descripcion === "Otro") {
+                    if ($scope.properties.datosPreparatoria.nombreBachillerato === "") {
+                        swal("¡Preparatoria!", "Debe agregar el nombre de su preparatoria", "warning");
+                    } else if ($scope.properties.datosPreparatoria.paisBachillerato === undefined) {
+                        swal("¡País preparatoria!", "Debe agregar el país de su preparatoria", "warning");
+                    } else if ($scope.properties.datosPreparatoria.estadoBachillerato === undefined) {
+                        swal("¡Estado preparatoria!", "Debe agregar el estado de su preparatoria", "warning");
+                    } else if ($scope.properties.datosPreparatoria.ciudadBachillerato === undefined) {
+                        swal("¡Ciudad preparatoria!", "Debe agregar la ciudad de su preparatoria", "warning");
+                    } else if ($scope.properties.catSolicitudDeAdmision.promedioGeneral === "") {
+                        swal("¡Promedio!", "Debe agregar el promedio que obtuvo en su preparatoria", "warning");
+                    } else if ($scope.properties.kardex === undefined || JSON.stringify($scope.properties.actanacimiento) == '{}') {
+                        swal("¡Contancia de calificaciones!", "Debe agregar la constancia de calificaciones de su preparatoria", "warning");
+                    } else {
+                        if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                            $scope.properties.selectedIndex--;
+                        } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                            $scope.properties.catSolicitudDeAdmision.promedioGeneral = $scope.properties.catSolicitudDeAdmision.promedioGeneral + "";
+                            if ($scope.properties.fotopasaporte !== undefined) {
+                                $scope.properties.fotopasaportearchivo["newValue"] = $scope.properties.fotopasaporte;
+                                console.log($scope.properties.fotopasaportearchivo);
+                            }
+                            if ($scope.properties.actanacimiento !== undefined) {
+                                $scope.properties.actanacimientoarchivo["newValue"] = $scope.properties.actanacimiento;
+                            }
+                            if ($scope.properties.constancia !== undefined) {
+                                $scope.properties.constanciaarchivo["newValue"] = $scope.properties.constancia;
+                            }
+                            if ($scope.properties.tieneDescuento === true) {
+                                if ($scope.properties.descuento !== undefined) {
+                                    $scope.properties.descuentoarchivo["newValue"] = $scope.properties.descuento;
+                                    if ($scope.properties.idExtranjero !== undefined) {
+                                        $scope.properties.catSolicitudDeAdmision.curp = $scope.properties.idExtranjero;
+                                    }
+                                    //$scope.properties.selectedIndex++;
+                                    $scope.assignTask();
+                                } else {
+                                    swal("¡Documento de descuento!", "Debe agregar el documento que acredita tu descuento", "warning");
+                                }
+                            } else {
+                                if ($scope.properties.idExtranjero !== undefined) {
+                                    $scope.properties.catSolicitudDeAdmision.curp = $scope.properties.idExtranjero;
+                                }
+                                //$scope.properties.selectedIndex++;
+                                $scope.assignTask();
+                            }
+                        }
+                    }
+                } else if ($scope.properties.catSolicitudDeAdmision.promedioGeneral === "") {
+                    swal("¡Promedio!", "Debe agregar el promedio que obtuvo en su preparatoria", "warning");
+                } else if ($scope.properties.kardex === undefined || JSON.stringify($scope.properties.actanacimiento) == '{}') {
+                    swal("¡Contancia de calificaciones!", "Debe agregar la constancia de calificaciones de su preparatoria", "warning");
+                } else {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        if ($scope.properties.constancia !== undefined) {
+                            $scope.properties.constanciaarchivo["newValue"] = $scope.properties.constancia;
+                        }
+                        if ($scope.properties.tieneDescuento === true) {
+                            if ($scope.properties.descuento !== undefined) {
+                                $scope.properties.descuentoarchivo["newValue"] = $scope.properties.descuento;
+                                if ($scope.properties.idExtranjero !== undefined) {
+                                    $scope.properties.catSolicitudDeAdmision.curp = $scope.properties.idExtranjero;
+                                }
+                                //$scope.properties.selectedIndex++;
+                                $scope.assignTask();
+                            } else {
+                                swal("¡Documento de descuento!", "Debe agregar el documento que acredita tu descuento", "warning");
+                            }
+                        } else {
+                            if ($scope.properties.idExtranjero !== undefined) {
+                                $scope.properties.catSolicitudDeAdmision.curp = $scope.properties.idExtranjero;
+                            }
+                            //$scope.properties.selectedIndex++;
+                            $scope.assignTask();
+                        }
+                    }
+                }
+            }
+        } else if ($scope.properties.tabs === "Informacion Familiar") {
+            if ($scope.properties.selectedIndex === 0) {
+                console.log("validar 0");
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.tutor.length === 0) {
+                    swal("¡Tutor!", "Debe agregar al menos un tutor", "warning");
+                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                    $scope.properties.cp = undefined;
+                    //$scope.properties.selectedIndex++;
+                    $scope.assignTask();
+                }
+
+            } else if ($scope.properties.selectedIndex === 1) {
+
+                console.log("validar 1");
+                if ($scope.properties.padre.desconozcoDatosPadres) {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        //$scope.properties.cp = undefined;
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        $scope.properties.cp = undefined;
+                        //$scope.properties.selectedIndex++;
+                        $scope.assignTask();
+                    }
+                } else if ($scope.properties.padre.vive === 0 || $scope.properties.padre.vive === null) {
+                    swal("¡Padre vive!", "Debe seleccionar si la padre vive", "warning");
+                } else if ($scope.properties.padre.catTitulo === 0 || $scope.properties.padre.catTitulo === null) {
+                    swal("¡Título!", "Debe seleccionar el título para identificar al padre", "warning");
+                } else if ($scope.properties.padre.nombre === "" || $scope.properties.padre.nombre === undefined) {
+                    swal("¡Nombre del padre!", "Debe agregar nombre del padre", "warning");
+                } else if ($scope.properties.padre.apellidos === "" || $scope.properties.padre.apellidos === undefined) {
+                    swal("¡Apellidos del padre!", "Debe agregar los apellidos del padre", "warning");
+                } else if ($scope.properties.datosPadres.padrevive) {
+                    if ($scope.properties.padre.catEgresoAnahuac === 0 || $scope.properties.padre.catEgresoAnahuac === null) {
+                        swal("¡Egreso Anáhuac!", "Debe seleccionar si su padre egreso del universidad Anáhuac", "warning");
+                    } else if ($scope.properties.datosPadres.padreegresoanahuac) {
+                        if ($scope.properties.padre.catCampusEgreso === 0 || $scope.properties.padre.catCampusEgreso === null) {
+                            swal("¡Campus egresado!", "Debe seleccionar de que campus Anáhuac egresó su padre", "warning");
+                        } else {
+                            if ($scope.properties.padre.catTrabaja === 0 || $scope.properties.padre.catTrabaja === null) {
+                                swal("¡Trabaja!", "Debe seleccionar si su padre trabaja", "warning");
+                            } else if ($scope.properties.datosPadres.padretrabaja) {
+                                if ($scope.properties.padre.empresaTrabaja === "" || $scope.properties.padre.empresaTrabaja === undefined) {
+                                    swal("¡Empresa!", "Debe agregar el nombre del empresa donde su padre trabaja", "warning");
+                                } else if ($scope.properties.padre.giroEmpresa === "" || $scope.properties.padre.giroEmpresa === undefined) {
+                                    swal("¡Giro empresa!!", "Debe agregar el giro de la empresa del de trabajo del padre!", "warning");
+                                } else if ($scope.properties.padre.puesto === "" || $scope.properties.padre.puesto === undefined) {
+                                    swal("¡Puesto!", "Debe agregar el puesto de trabajo del padre", "warning");
+                                } else if ($scope.properties.padre.correoElectronico === "" || $scope.properties.padre.correoElectronico === undefined) {
+                                    swal("¡Correo electrónico!", "Debe agregar el correo electrónico del padre", "warning");
+                                } else if (!re.test(String($scope.properties.padre.correoElectronico.trim()).toLowerCase())) {
+                                    swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                                } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
+                                    swal("¡Escolaridad!", "Debe seleccionar la escolaridad del padre", "warning");
+                                } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
+                                    swal("¡País!", "Debe agregar el país del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) {
+                                    swal("¡Código postal!", "Debe agregar el código postal del domicilio del padre", "warning");
+                                } else if (($scope.properties.padre.catEstado === 0 || $scope.properties.padre.catEstado === null) && $scope.properties.padre.catPais.descripcion === "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.estadoExtranjero === "" && $scope.properties.padre.catPais.descripcion !== "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.ciudad === "" || $scope.properties.padre.ciudad === undefined) {
+                                    swal("¡Ciudad!", "Debe agregar la calle del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.colonia === "" || $scope.properties.padre.colonia === undefined) {
+                                    swal("¡Colonia!", "Debe agregar la colonia del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.calle === "" || $scope.properties.padre.calle === undefined) {
+                                    swal("¡Calle!", "Debe agregar la calle del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.numeroExterior === "" || $scope.properties.padre.numeroExterior === undefined) {
+                                    swal("¡Número exterior!", "Debe agregar el número exterior del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
+                                    swal("¡Teléfono!", "Debe agregar el teléfono del padre", "warning");
+                                } else {
+                                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                        $scope.properties.selectedIndex--;
+                                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                        $scope.properties.cp = undefined;
+                                        //$scope.properties.selectedIndex++;
+                                        $scope.assignTask();
+                                    }
+                                }
+                            } else {
+                                if ($scope.properties.padre.correoElectronico === "" || $scope.properties.padre.correoElectronico === undefined) {
+                                    swal("¡Correo electrónico!", "Debe agregar el correo electrónico del padre", "warning");
+                                } else if (!re.test(String($scope.properties.padre.correoElectronico.trim()).toLowerCase())) {
+                                    swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                                } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
+                                    swal("¡Escolaridad!", "Debe seleccionar la escolaridad del padre", "warning");
+                                } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
+                                    swal("¡País!", "Debe agregar el país del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) {
+                                    swal("¡Código postal!", "Debe agregar el código postal del domicilio del padre", "warning");
+                                } else if (($scope.properties.padre.catEstado === 0 || $scope.properties.padre.catEstado === null) && $scope.properties.padre.catPais.descripcion === "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.estadoExtranjero === "" && $scope.properties.padre.catPais.descripcion !== "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.ciudad === "" || $scope.properties.padre.ciudad === undefined) {
+                                    swal("¡Ciudad!", "Debe agregar la calle del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.colonia === "" || $scope.properties.padre.colonia === undefined) {
+                                    swal("¡Colonia!", "Debe agregar la colonia del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.calle === "" || $scope.properties.padre.calle === undefined) {
+                                    swal("¡Calle!", "Debe agregar la calle del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.numeroExterior === "" || $scope.properties.padre.numeroExterior === undefined) {
+                                    swal("¡Número exterior!", "Debe agregar el número exterior del domicilio del padre", "warning");
+                                } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
+                                    swal("¡Teléfono!", "Debe agregar el teléfono del padre", "warning");
+                                } else {
+                                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                        $scope.properties.selectedIndex--;
+                                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                        $scope.properties.cp = undefined;
+                                        //$scope.properties.selectedIndex++;
+                                        $scope.assignTask();
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        if ($scope.properties.padre.catTrabaja === 0 || $scope.properties.padre.catTrabaja === null) {
+                            swal("¡Trabaja!", "Debe seleccionar si su padre trabaja", "warning");
+                        } else if ($scope.properties.datosPadres.padretrabaja) {
+                            if ($scope.properties.padre.empresaTrabaja === "" || $scope.properties.padre.empresaTrabaja === undefined) {
+                                swal("¡Empresa!", "Debe agregar el nombre del empresa donde su padre trabaja", "warning");
+                            } else if ($scope.properties.padre.giroEmpresa === "" || $scope.properties.padre.giroEmpresa === undefined) {
+                                swal("¡Giro empresa!!", "Debe agregar el giro de la empresa del de trabajo del padre!", "warning");
+                            } else if ($scope.properties.padre.puesto === "" || $scope.properties.padre.puesto === undefined) {
+                                swal("¡Puesto!", "Debe agregar el puesto de trabajo del padre", "warning");
+                            } else if ($scope.properties.padre.correoElectronico === "" || $scope.properties.padre.correoElectronico === undefined) {
+                                swal("¡Correo electrónico!", "Debe agregar el correo electrónico del padre", "warning");
+                            } else if (!re.test(String($scope.properties.padre.correoElectronico.trim()).toLowerCase())) {
+                                swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                            } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
+                                swal("¡Escolaridad!", "Debe seleccionar la escolaridad del padre", "warning");
+                            } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
+                                swal("¡País!", "Debe agregar el país del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) {
+                                swal("¡Código postal!", "Debe agregar el código postal del domicilio del padre", "warning");
+                            } else if (($scope.properties.padre.catEstado === 0 || $scope.properties.padre.catEstado === null) && $scope.properties.padre.catPais.descripcion === "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.estadoExtranjero === "" && $scope.properties.padre.catPais.descripcion !== "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.ciudad === "" || $scope.properties.padre.ciudad === undefined) {
+                                swal("¡Ciudad!", "Debe agregar la calle del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.colonia === "" || $scope.properties.padre.colonia === undefined) {
+                                swal("¡Colonia!", "Debe agregar la colonia del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.calle === "" || $scope.properties.padre.calle === undefined) {
+                                swal("¡Calle!", "Debe agregar la calle del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.numeroExterior === "" || $scope.properties.padre.numeroExterior === undefined) {
+                                swal("¡Número exterior!", "Debe agregar el número exterior del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
+                                swal("¡Teléfono!", "Debe agregar el teléfono del padre", "warning");
+                            } else {
+                                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                    $scope.properties.selectedIndex--;
+                                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                    $scope.properties.cp = undefined;
+                                    //$scope.properties.selectedIndex++;
+                                    $scope.assignTask();
+                                }
+                            }
+                        } else {
+                            if ($scope.properties.padre.correoElectronico === "" || $scope.properties.padre.correoElectronico === undefined) {
+                                swal("¡Correo electrónico!", "Debe agregar el correo electrónico del padre", "warning");
+                            } else if (!re.test(String($scope.properties.padre.correoElectronico.trim()).toLowerCase())) {
+                                swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                            } else if ($scope.properties.padre.catEscolaridad === 0 || $scope.properties.padre.catEscolaridad === null) {
+                                swal("¡Escolaridad!", "Debe seleccionar la escolaridad del padre", "warning");
+                            } else if ($scope.properties.padre.catPais === 0 || $scope.properties.padre.catPais === null) {
+                                swal("¡País!", "Debe agregar el país del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.codigoPostal === "" || $scope.properties.padre.codigoPostal === undefined) {
+                                swal("¡Código postal!", "Debe agregar el código postal del domicilio del padre", "warning");
+                            } else if (($scope.properties.padre.catEstado === 0 || $scope.properties.padre.catEstado === null) && $scope.properties.padre.catPais.descripcion === "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.estadoExtranjero === "" && $scope.properties.padre.catPais.descripcion !== "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.ciudad === "" || $scope.properties.padre.ciudad === undefined) {
+                                swal("¡Ciudad!", "Debe agregar la calle del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.colonia === "" || $scope.properties.padre.colonia === undefined) {
+                                swal("¡Colonia!", "Debe agregar la colonia del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.calle === "" || $scope.properties.padre.calle === undefined) {
+                                swal("¡Calle!", "Debe agregar la calle del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.numeroExterior === "" || $scope.properties.padre.numeroExterior === undefined) {
+                                swal("¡Número exterior!", "Debe agregar el número exterior del domicilio del padre", "warning");
+                            } else if ($scope.properties.padre.telefono === "" || $scope.properties.padre.telefono === undefined) {
+                                swal("¡Teléfono!", "Debe agregar el teléfono del padre", "warning");
+                            } else {
+                                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                    $scope.properties.selectedIndex--;
+                                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                    $scope.properties.cp = undefined;
+                                    //$scope.properties.selectedIndex++;
+                                    $scope.assignTask();
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        $scope.properties.cp = undefined;
+                        //$scope.properties.selectedIndex++;
+                        $scope.assignTask();
+                    }
+                }
+            } else if ($scope.properties.selectedIndex === 2) {
+                console.log("valida a la madre")
+                if ($scope.properties.madre.desconozcoDatosPadres) {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        //$scope.properties.cp = undefined;
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        $scope.properties.cp = undefined;
+                        //$scope.properties.selectedIndex++;
+                        $scope.assignTask();
+                    }
+                } else if ($scope.properties.madre.vive === 0 || $scope.properties.madre.vive === null) {
+                    swal("¡Madre vive!", "Debe seleccionar si la madre vive", "warning");
+                } else if ($scope.properties.madre.catTitulo === 0 || $scope.properties.madre.catTitulo === null) {
+                    swal("¡Título!", "Debe seleccionar el título para identificar a la madre", "warning");
+                } else if ($scope.properties.madre.nombre === "" || $scope.properties.madre.nombre === undefined) {
+                    swal("¡Nombre de la madre!", "Debe agregar nombre de la madre", "warning");
+                } else if ($scope.properties.madre.apellidos === "" || $scope.properties.madre.apellidos === undefined) {
+                    swal("¡Apellidos de la madre!", "Debe agregar los apellidos de la madre", "warning");
+                } else if ($scope.properties.datosPadres.madrevive) {
+                    if ($scope.properties.madre.catEgresoAnahuac === 0 || $scope.properties.madre.catEgresoAnahuac === null) {
+                        swal("¡Egreso Anáhuac!", "Debe seleccionar si su madre egreso de la universidad Anáhuac", "warning");
+                    } else if ($scope.properties.datosPadres.madreegresoanahuac) {
+                        if ($scope.properties.madre.catCampusEgreso === 0 || $scope.properties.madre.catCampusEgreso === null) {
+                            swal("¡Campus egresado!", "Debe seleccionar de que campus Anáhuac egresó su madre", "warning");
+                        } else {
+                            if ($scope.properties.madre.catTrabaja === 0 || $scope.properties.madre.catTrabaja === null) {
+                                swal("¡Trabaja!", "Debe seleccionar si su madre trabaja", "warning");
+                            } else if ($scope.properties.datosPadres.madretrabaja) {
+                                if ($scope.properties.madre.empresaTrabaja === "" || $scope.properties.madre.empresaTrabaja === undefined) {
+                                    swal("¡Empresa!", "Debe agregar el nombre de la empresa donde su madre trabaja", "warning");
+                                } else if ($scope.properties.madre.giroEmpresa === "" || $scope.properties.madre.giroEmpresa === undefined) {
+                                    swal("¡Giro empresa!!", "Debe agregar el giro de la empresa del de trabajo de la madre!", "warning");
+                                } else if ($scope.properties.madre.puesto === "" || $scope.properties.madre.puesto === undefined) {
+                                    swal("¡Puesto!", "Debe agregar el puesto de trabajo de la madre", "warning");
+                                } else if ($scope.properties.madre.correoElectronico === "" || $scope.properties.madre.correoElectronico === undefined) {
+                                    swal("¡Correo electrónico!", "Debe agregar el correo electrónico de la madre", "warning");
+                                } else if (!re.test(String($scope.properties.madre.correoElectronico.trim()).toLowerCase())) {
+                                    swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                                } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
+                                    swal("¡Escolaridad!", "Debe seleccionar la escolaridad de la madre", "warning");
+                                } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
+                                    swal("¡País!", "Debe agregar el país del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) {
+                                    swal("¡Código postal!", "Debe agregar el código postal del domicilio de la madre", "warning");
+                                } else if (($scope.properties.madre.catEstado === 0 || $scope.properties.madre.catEstado === null) && $scope.properties.madre.catPais.descripcion === "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.estadoExtranjero === "" && $scope.properties.madre.catPais.descripcion !== "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.ciudad === "" || $scope.properties.madre.ciudad === undefined) {
+                                    swal("¡Ciudad!", "Debe agregar la calle del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.colonia === "" || $scope.properties.madre.colonia === undefined) {
+                                    swal("¡Colonia!", "Debe agregar la colonia del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.calle === "" || $scope.properties.madre.calle === undefined) {
+                                    swal("¡Calle!", "Debe agregar la calle del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.numeroExterior === "" || $scope.properties.madre.numeroExterior === undefined) {
+                                    swal("¡Número exterior!", "Debe agregar el número exterior del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
+                                    swal("¡Teléfono!", "Debe agregar el teléfono de la madre", "warning");
+                                } else {
+                                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                        $scope.properties.selectedIndex--;
+                                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                        $scope.properties.cp = undefined;
+                                        //$scope.properties.selectedIndex++;
+                                        $scope.assignTask();
+                                    }
+                                }
+                            } else {
+                                if ($scope.properties.madre.correoElectronico === "" || $scope.properties.madre.correoElectronico === undefined) {
+                                    swal("¡Correo electrónico!", "Debe agregar el correo electrónico de la madre", "warning");
+                                } else if (!re.test(String($scope.properties.madre.correoElectronico.trim()).toLowerCase())) {
+                                    swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                                } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
+                                    swal("¡Escolaridad!", "Debe seleccionar la escolaridad de la madre", "warning");
+                                } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
+                                    swal("¡País!", "Debe agregar el país del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) {
+                                    swal("¡Código postal!", "Debe agregar el código postal del domicilio de la madre", "warning");
+                                } else if (($scope.properties.madre.catEstado === 0 || $scope.properties.madre.catEstado === null) && $scope.properties.madre.catPais.descripcion === "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.estadoExtranjero === "" && $scope.properties.madre.catPais.descripcion !== "México") {
+                                    swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.ciudad === "" || $scope.properties.madre.ciudad === undefined) {
+                                    swal("¡Ciudad!", "Debe agregar la calle del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.colonia === "" || $scope.properties.madre.colonia === undefined) {
+                                    swal("¡Colonia!", "Debe agregar la colonia del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.calle === "" || $scope.properties.madre.calle === undefined) {
+                                    swal("¡Calle!", "Debe agregar la calle del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.numeroExterior === "" || $scope.properties.madre.numeroExterior === undefined) {
+                                    swal("¡Número exterior!", "Debe agregar el número exterior del domicilio de la madre", "warning");
+                                } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
+                                    swal("¡Teléfono!", "Debe agregar el teléfono de la madre", "warning");
+                                } else {
+                                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                        $scope.properties.selectedIndex--;
+                                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                        $scope.properties.cp = undefined;
+                                        //$scope.properties.selectedIndex++;
+                                        $scope.assignTask();
+                                    }
+                                }
+                            }
+                        }
+
+                    } else {
+                        if ($scope.properties.madre.catTrabaja === 0 || $scope.properties.madre.catTrabaja === null) {
+                            swal("¡Trabaja!", "Debe seleccionar si su madre trabaja", "warning");
+                        } else if ($scope.properties.datosPadres.madretrabaja) {
+                            if ($scope.properties.madre.empresaTrabaja === "" || $scope.properties.madre.empresaTrabaja === undefined) {
+                                swal("¡Empresa!", "Debe agregar el nombre de la empresa donde su madre trabaja", "warning");
+                            } else if ($scope.properties.madre.giroEmpresa === "" || $scope.properties.madre.giroEmpresa === undefined) {
+                                swal("¡Giro empresa!!", "Debe agregar el giro de la empresa del de trabajo de la madre!", "warning");
+                            } else if ($scope.properties.madre.puesto === "" || $scope.properties.madre.puesto === undefined) {
+                                swal("¡Puesto!", "Debe agregar el puesto de trabajo de la madre", "warning");
+                            } else if ($scope.properties.madre.correoElectronico === "" || $scope.properties.madre.correoElectronico === undefined) {
+                                swal("¡Correo electrónico!", "Debe agregar el correo electrónico de la madre", "warning");
+                            } else if (!re.test(String($scope.properties.madre.correoElectronico.trim()).toLowerCase())) {
+                                swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                            } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
+                                swal("¡Escolaridad!", "Debe seleccionar la escolaridad de la madre", "warning");
+                            } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
+                                swal("¡País!", "Debe agregar el país del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) {
+                                swal("¡Código postal!", "Debe agregar el código postal del domicilio de la madre", "warning");
+                            } else if (($scope.properties.madre.catEstado === 0 || $scope.properties.madre.catEstado === null) && $scope.properties.madre.catPais.descripcion === "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.estadoExtranjero === "" && $scope.properties.madre.catPais.descripcion !== "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.ciudad === "" || $scope.properties.madre.ciudad === undefined) {
+                                swal("¡Ciudad!", "Debe agregar la calle del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.colonia === "" || $scope.properties.madre.colonia === undefined) {
+                                swal("¡Colonia!", "Debe agregar la colonia del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.calle === "" || $scope.properties.madre.calle === undefined) {
+                                swal("¡Calle!", "Debe agregar la calle del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.numeroExterior === "" || $scope.properties.madre.numeroExterior === undefined) {
+                                swal("¡Número exterior!", "Debe agregar el número exterior del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
+                                swal("¡Teléfono!", "Debe agregar el teléfono de la madre", "warning");
+                            } else {
+                                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                    $scope.properties.selectedIndex--;
+                                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                    $scope.properties.cp = undefined;
+                                    //$scope.properties.selectedIndex++;
+                                    $scope.assignTask();
+                                }
+                            }
+                        } else {
+                            if ($scope.properties.madre.correoElectronico === "" || $scope.properties.madre.correoElectronico === undefined) {
+                                swal("¡Correo electrónico!", "Debe agregar el correo electrónico de la madre", "warning");
+                            } else if (!re.test(String($scope.properties.madre.correoElectronico.trim()).toLowerCase())) {
+                                swal("¡Correo electrónico!", "Su correo electrónico no es válido", "warning");
+                            } else if ($scope.properties.madre.catEscolaridad === 0 || $scope.properties.madre.catEscolaridad === null) {
+                                swal("¡Escolaridad!", "Debe seleccionar la escolaridad de la madre", "warning");
+                            } else if ($scope.properties.madre.catPais === 0 || $scope.properties.madre.catPais === null) {
+                                swal("¡País!", "Debe agregar el país del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.codigoPostal === "" || $scope.properties.madre.codigoPostal === undefined) {
+                                swal("¡Código postal!", "Debe agregar el código postal del domicilio de la madre", "warning");
+                            } else if (($scope.properties.madre.catEstado === 0 || $scope.properties.madre.catEstado === null) && $scope.properties.madre.catPais.descripcion === "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.estadoExtranjero === "" && $scope.properties.madre.catPais.descripcion !== "México") {
+                                swal("¡Estado!", "Debe agregar el estado del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.ciudad === "" || $scope.properties.madre.ciudad === undefined) {
+                                swal("¡Ciudad!", "Debe agregar la calle del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.colonia === "" || $scope.properties.madre.colonia === undefined) {
+                                swal("¡Colonia!", "Debe agregar la colonia del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.calle === "" || $scope.properties.madre.calle === undefined) {
+                                swal("¡Calle!", "Debe agregar la calle del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.numeroExterior === "" || $scope.properties.madre.numeroExterior === undefined) {
+                                swal("¡Número exterior!", "Debe agregar el número exterior del domicilio de la madre", "warning");
+                            } else if ($scope.properties.madre.telefono === "" || $scope.properties.madre.telefono === undefined) {
+                                swal("¡Teléfono!", "Debe agregar el teléfono de la madre", "warning");
+                            } else {
+                                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                                    $scope.properties.selectedIndex--;
+                                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                                    $scope.properties.cp = undefined;
+                                    //$scope.properties.selectedIndex++;
+                                    $scope.assignTask();
+                                }
+                            }
+                        }
+                    }
+                } else {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        $scope.properties.cp = undefined;
+                        //$scope.properties.selectedIndex++;
+                        $scope.assignTask();
+                    }
+                }
+
+            } else if ($scope.properties.selectedIndex === 3) {
+                console.log("validar 3");
+                if ($scope.properties.contactoEmergencia.length === 0) {
+                    swal("¡Contacto de emergencia!", "Debe agregar al menos un contacto de emergencia", "warning");
+                } else {
+                    if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                        $scope.properties.selectedIndex--;
+                    } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                        //$scope.properties.selectedIndex++;
+                        $scope.assignTask();
+                    }
+                }
+            }
+        } else if ($scope.properties.tabs === "Revisa Solicitud") {
+            if ($scope.properties.selectedIndex === 0) {
+                console.log("validar 0");
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                    //$scope.properties.selectedIndex++;
+                    $scope.assignTask();
+                }
+
+            } else if ($scope.properties.selectedIndex === 1) {
+                console.log("validar 1");
+                if ($scope.properties.action === "Anterior" && $scope.properties.selectedIndex > 0) {
+                    $scope.properties.selectedIndex--;
+                } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
+                    //$scope.properties.selectedIndex++;
+                    $scope.assignTask();
+                }
+
+            }
+        }
+    }
+
+    function openModal(modalid) {
+
+        modalService.open(modalid);
+    }
+
+    function closeModal(shouldClose) {
+        if (shouldClose)
+            modalService.close();
+    }
+
+    $scope.assignTask = function() {
+        //$scope.showModal();
+        let url = "../API/bpm/userTask/" + $scope.properties.taskId;
+
+        var req = {
+            method: "PUT",
+            url: url,
+            data: {
+                "assigned_id": $scope.properties.userId
+            }
+        };
+
+        return $http(req).success(function(data, status) {
+                //$scope.executeTask();
+                submitTask();
+            })
+            .error(function(data, status) {
+                $scope.hideModal();
+                swal("Error", data.message, "error");
+            })
+            .finally(function() {
+
+            });
+    }
+	
+	function submitTask() {
+        var id;
+        //id = getUrlParam('id');
+        id = $scope.properties.taskId;
+        if (id) {
+            var params = getUserParam();
+            //params.assign = $scope.properties.assign;
+            doRequest('POST', '../API/bpm/userTask/' + id + '/execution', params).then(function() {
+                localStorageService.delete($window.location.href);
+            });
+        } else {
+            $log.log('Impossible to retrieve the task id value from the URL');
+        }
+    }
+	
+    function getUserParam() {
+        var userId = getUrlParam('user');
+        if (userId) {
+            return {
+                'user': userId
+            };
+        }
+        return {};
+    }
+	
+    function getUrlParam(param) {
+        var paramValue = $location.absUrl().match('[//?&]' + param + '=([^&#]*)($|[&#])');
+        if (paramValue) {
+            return paramValue[1];
+        }
+        return '';
+    }
+	
+	function doRequest(method, url, params) {
+        //vm.busy = true;
+        
+        if ($scope.properties.tabs === "Informacion Personal") {
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.selectedIndexPersonal = $scope.properties.selectedIndex+1;
+
+            /*if($scope.properties.catSolicitudDeAdmision.catBachilleratos.persistenceid_string !== undefined){
+                $scope.properties.dataToSend.catSolicitudDeAdmisionInput.catBachilleratos.persistenceId_string = $scope.properties.catSolicitudDeAdmision.catBachilleratos.persistenceid_string;
+            }*/
+        }
+        if ($scope.properties.tabs === "Informacion Familiar") {
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.selectedIndexFamiliar = $scope.properties.selectedIndex+1;
+        }
+        if ($scope.properties.tabs === "Revisa Solicitud") {
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.selectedIndexRevision = $scope.properties.selectedIndex+1;
+        }
+        if($scope.properties.Bachilleratopersistenceid !== undefined && $scope.properties.Bachilleratopersistenceid !== null && $scope.properties.Bachilleratopersistenceid !== ""){
+            $scope.properties.dataToSend.catSolicitudDeAdmisionInput.catBachilleratos.persistenceId_string = $scope.properties.Bachilleratopersistenceid;
+        }
+        console.log($scope.properties.dataToSend);
+        var req = {
+            method: method,
+            url: url,
+            data: angular.copy($scope.properties.dataToSend),
+            params: params
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+               /* $scope.properties.dataFromSuccess = data;
+                $scope.properties.responseStatusCode = status;
+                $scope.properties.dataFromError = undefined;
+                notifyParentFrame({
+                    message: 'success',
+                    status: status,
+                    dataFromSuccess: data,
+                    dataFromError: undefined,
+                    responseStatusCode: status
+                });*/
+                /*if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
+                    redirectIfNeeded();
+                }
+                closeModal($scope.properties.closeOnSuccess);*/
+                getTask();
+                topFunction();
+                $scope.properties.selectedIndex++;
+            })
+            .error(function(data, status) {
+                console.log("Error al avanzar tarea")
+                console.log(data);
+                console.log(status);
+                /*$scope.properties.dataFromError = data;
+                $scope.properties.responseStatusCode = status;
+                $scope.properties.dataFromSuccess = undefined;
+                notifyParentFrame({
+                    message: 'error',
+                    status: status,
+                    dataFromError: data,
+                    dataFromSuccess: undefined,
+                    responseStatusCode: status
+                });*/
+            })
+            .finally(function() {
+                //vm.busy = false;
+            });
+    }
+
+    function getTask(){
+        setTimeout(function(){ 
+            var req = {
+            method: 'GET',
+            url: $scope.properties.urlCurrentTask
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+                console.log("SUCCSES")
+                console.log(data);
+                $scope.properties.currentTask = data;
+            })
+            .error(function(data, status) {
+                console.log("Error al avanzar tarea")
+                console.log(data);
+                console.log(status);
+            })
+            .finally(function() {
+                //vm.busy = false;
+            });
+            
+        }, 1000);
+        
+    }
+
+    function topFunction() {
+        document.body.scrollTop = 0;
+        document.documentElement.scrollTop = 0;
+      }
+}

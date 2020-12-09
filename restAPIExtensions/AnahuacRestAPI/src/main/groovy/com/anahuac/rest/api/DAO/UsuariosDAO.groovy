@@ -237,11 +237,13 @@ class UsuariosDAO {
 		Result resultado = new Result();
 		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
 		CatRegistro objCatRegistro = new CatRegistro();
+		String errorLog ="";
 		try {
 			
 			/*def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);*/
 			LOGGER.error "def object = jsonSlurper.parseText(jsonData);";
+			errorLog = errorLog + "";
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
 			apiClient.login("Administrador", "bpm")
 			LOGGER.error "apiClient.login";
@@ -304,7 +306,7 @@ class UsuariosDAO {
 				update_user.setEnabled(true);
 				final User user_update= identityAPI.updateUser(user.getId(), update_user);
 				
-				//resultado = enviarTarea(correo, context);
+				resultado = enviarTarea(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
 			}else {
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);

@@ -14,7 +14,7 @@ class CatSexoCustom {
 	@XmlElement
 	private String descripcion;
 	@XmlElement
-	private Date fechaCreacion;
+	private String fechaCreacion;
 	@XmlElement
 	private String usuarioCreacion;
 	@XmlElement
@@ -43,10 +43,12 @@ class CatSexoCustom {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public Date getFechaCreacion() {
+	
+	
+	public String getFechaCreacion() {
 		return fechaCreacion;
 	}
-	public void setFechaCreacion(Date fechaCreacion) {
+	public void setFechaCreacion(String fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
 	}
 	public String getUsuarioCreacion() {
