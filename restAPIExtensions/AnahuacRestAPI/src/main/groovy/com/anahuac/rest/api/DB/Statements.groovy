@@ -13,7 +13,7 @@ class Statements {
 	
 	public static final String UPDATE_CAT_NOTIFICACIONES_FIRMA="UPDATE CATNOTIFICACIONESFIRMA SET  CARGO = ?, CORREO = ?, GRUPO = ?, NOMBRECOMPLETO = ?,  SHOWCARGO = ?, SHOWCORREO = ?, SHOWGRUPO = ?, SHOWTELEFONO = ?, SHOWTITULO = ?, TELEFONO = ?, TITULO = ? WHERE PERSISTENCEID = ?;"
 	
-	public static final String GET_CAT_NOTIFICACION_FIRMA="SELECT PERSISTENCEID, CARGO, CORREO, GRUPO, NOMBRECOMPLETO, PERSISTENCEVERSION, SHOWCARGO, SHOWCORREO, SHOWGRUPO, SHOWTELEFONO, SHOWTITULO, TELEFONO, TITULO FROM CATNOTIFICACIONESFIRMA;"
+	public static final String GET_CAT_NOTIFICACION_FIRMA="SELECT PERSISTENCEID, CARGO, CORREO, GRUPO, NOMBRECOMPLETO, PERSISTENCEVERSION, SHOWCARGO, SHOWCORREO, SHOWGRUPO, SHOWTELEFONO, SHOWTITULO, TELEFONO, TITULO FROM CATNOTIFICACIONESFIRMA [WHERE] [ORDERBY] [LIMITOFFSET];"
 	
 	public static final String GET_CAMPUS_ID_FROM_CLAVE="SELECT persistenceid as campus_id FROM CATCAMPUS where grupoBonita=? limit 1 "
 	
@@ -26,9 +26,18 @@ class Statements {
 	/*************DANIEL CERVANTES***********************/
 	public static final String GET_CATCAMPUS="SELECT * FROM CATCAMPUS [WHERE] [ORDERBY] [LIMITOFFSET]"
 	/*************DANIEL CERVANTES FIN*******************/
-	
+	/*************JUAN ESQUER***********************/
+	public static final String GET_CATTITULO="SELECT * FROM CATTITULO  [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATESTADOCIVIL ="SELECT * FROM CATESTADOCIVIL  [WHERE] [ORDERBY] [LIMITOFFSET]"
+	/*************JUAN ESQUER FIN*******************/
 	/***********************JESUS OSUNA********************************/
 	public static final String GET_CATESCOLARIDAD = "SELECT * FROM CATESCOLARIDAD [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_CATSEXO = "SELECT * FROM CATSEXO [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATPARENTESCO = "SELECT * FROM CATPARENTESCO [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATDESCUENTOS = "SELECT c.*, b.descripcion as bachilleratos FROM CATDESCUENTOS c left join CATBACHILLERATOS b on b.PERSISTENCEID = c.CATBACHILLERATOS_PID [BACHILLERATO]  [WHERE] [ORDERBY] [LIMITOFFSET]"
 	/***********************JESUS OSUNA FIN********************************/
+	/***********************ERIC ROSAS*******************************/
+	public static final String GET_CATPERIODO = "SELECT * FROM CATPERIODO [WHERE] [ORDERBY] [LIMITOFFSET]"
+	
+	/***********************ERIC ROSAS FIN********************************/
 }

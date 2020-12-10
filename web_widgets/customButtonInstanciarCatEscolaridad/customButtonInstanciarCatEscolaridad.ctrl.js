@@ -74,7 +74,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
 var validar = false;
 function startProcess() {
-    debugger
         if ($scope.properties.dataToChange2.clave || $scope.properties.dataToChange2.clave === "") {
             if ($scope.properties.dataToChange2.clave && $scope.properties.dataToChange2.descripcion ) {
                 if ($scope.properties.processId) {

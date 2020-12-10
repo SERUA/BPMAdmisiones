@@ -23,6 +23,8 @@ class CatPeriodoCustom {
 	private String clave;
 	@XmlElement
 	private String isEnable;
+	@XmlElement
+	private Boolean isCuatrimestral;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -77,6 +79,13 @@ class CatPeriodoCustom {
 	}
 	public void setIsEnable(String isEnable) {
 		this.isEnable = isEnable;
+	}
+	
+	public Boolean getIsCuatrimestral() {
+		return IsCuatrimestral;
+	}
+	public void setIsCuatrimestral(Boolean IsCuatrimestral) {
+		this.IsCuatrimestral = IsCuatrimestral;
 	}
 	
 	@Override

@@ -1,8 +1,8 @@
 {
   "designerVersion" : "1.11.52",
-  "id" : "APPSolicitudesEnProceso",
-  "name" : "APPSolicitudesEnProceso",
-  "lastUpdate" : 1603837920214,
+  "id" : "APPNuevasSolicitudes",
+  "name" : "APPNuevasSolicitudes",
+  "lastUpdate" : 1607557308716,
   "rows" : [
     [
       {
@@ -37,8 +37,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 6,
-                "lg" : 6
+                "md" : 3,
+                "lg" : 3
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -51,7 +51,74 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "SOLICITUDES EN PROCESO"
+                  "value" : "REGRESAR"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "URL"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "/portal/resource/app/administrativo/dashboard/content/?app=administrativo"
+                },
+                "pageToken" : {
+                  "type" : "constant"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant"
+                },
+                "urlParams" : {
+                  "type" : "constant"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                }
+              },
+              "reference" : "af04054f-1a51-45bd-80c5-b7d9c7ad8939",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "color-orange"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Nuevas solicitudes"
                 },
                 "level" : {
                   "type" : "constant",
@@ -125,96 +192,6 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "REGRESAR"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "default"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Submit task"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                }
-              },
-              "reference" : "7967f55d-1d5e-424a-a45e-bd412b586d1b",
-              "hasValidationError" : false,
-              "id" : "pbButton"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
                 "md" : 4,
                 "lg" : 4
               },
@@ -233,7 +210,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Filtro especifico"
+                  "value" : "Filtro específico"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -299,7 +276,7 @@
                 },
                 "buttonStyle" : {
                   "type" : "constant",
-                  "value" : "warning"
+                  "value" : "primary"
                 },
                 "action" : {
                   "type" : "constant",
@@ -310,18 +287,20 @@
                   "value" : false
                 },
                 "url" : {
-                  "type" : "interpolation"
+                  "type" : "interpolation",
+                  "value" : ""
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
                   "value" : ""
                 },
                 "dataToSend" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "dataToSend"
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "fileResult"
                 },
                 "closeOnSuccess" : {
                   "type" : "constant",
@@ -387,29 +366,31 @@
                 },
                 "buttonStyle" : {
                   "type" : "constant",
-                  "value" : "warning"
+                  "value" : "primary"
                 },
                 "action" : {
                   "type" : "constant",
-                  "value" : "Submit task"
+                  "value" : "POST"
                 },
                 "assign" : {
                   "type" : "constant",
                   "value" : false
                 },
                 "url" : {
-                  "type" : "interpolation"
+                  "type" : "interpolation",
+                  "value" : "../API/extension/AnahuacRest?url=getExcelFile&p=0&c=10"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
                   "value" : ""
                 },
                 "dataToSend" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "dataToSend"
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "fileResult"
                 },
                 "closeOnSuccess" : {
                   "type" : "constant",
@@ -438,11 +419,15 @@
                 },
                 "removeItem" : {
                   "type" : "variable"
+                },
+                "fileExtension" : {
+                  "type" : "constant",
+                  "value" : "xls"
                 }
               },
-              "reference" : "a7b8a311-93c8-478f-aa4d-4ae2cfe91271",
+              "reference" : "6cae6b9e-3786-4f61-8310-d22342544136",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "customCustomBtnDownloadExcel"
             },
             {
               "type" : "component",
@@ -475,25 +460,27 @@
                 },
                 "buttonStyle" : {
                   "type" : "constant",
-                  "value" : "warning"
+                  "value" : "primary"
                 },
                 "action" : {
                   "type" : "constant",
-                  "value" : "Submit task"
+                  "value" : "POST"
                 },
                 "assign" : {
                   "type" : "constant",
                   "value" : false
                 },
                 "url" : {
-                  "type" : "interpolation"
+                  "type" : "interpolation",
+                  "value" : "../API/extension/AnahuacRest?url=getPdfFile&p=0&c=10"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
                   "value" : ""
                 },
                 "dataToSend" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "dataToSend"
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
@@ -526,11 +513,15 @@
                 },
                 "removeItem" : {
                   "type" : "variable"
+                },
+                "fileExtension" : {
+                  "type" : "constant",
+                  "value" : "pdf"
                 }
               },
-              "reference" : "5a7c2851-ada7-4e8e-81f5-135fddeab685",
+              "reference" : "0f61a79c-bf7f-402e-ae37-e1e356365c02",
               "hasValidationError" : false,
-              "id" : "pbButton"
+              "id" : "customCustomBtnDownloadExcel"
             }
           ],
           [
@@ -577,58 +568,6 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<div class=\"row\">\n    <div class=\"col-lg-12\">\n        <pre>{{lstContenido|json}}</pre>\n    </div>\n</div>"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                }
-              },
-              "reference" : "2af0b210-ab4f-4307-8fc0-34191f256e42",
-              "hasValidationError" : false,
-              "id" : "pbText"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
                   "value" : false
                 },
                 "allowHTML" : {
@@ -638,10 +577,12 @@
                 "headers" : {
                   "type" : "constant",
                   "value" : [
-                    "NOMBRE / EMAIL / CURP",
-                    "CAMPUS / PROGRAMA / INGRESO",
-                    "ESTADO / PREPARATORIA / PROMEDIO",
-                    "ESTATUS / TIPO / ÚLTIMA MODIFICACION",
+                    "FOTO",
+                    "SOLICITUD",
+                    "NOMBRE/EMAIL/TELÉFONO",
+                    "PROGRAMA/INGRESO",
+                    "PREPARATORIA/PROCEDENCIA/PROMEDIO",
+                    "FECHA DE ENVÍO",
                     "ACCIONES"
                   ]
                 },
@@ -664,13 +605,9 @@
                   "type" : "constant",
                   "value" : true
                 },
-                "content" : {
-                  "type" : "constant",
-                  "value" : "lstContenido"
-                },
                 "urlPost" : {
                   "type" : "constant",
-                  "value" : "../API/extension/AnahuacRest?url=getSolicitudTramite&p=0&c=100"
+                  "value" : "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100"
                 },
                 "dataToSend" : {
                   "type" : "variable",
@@ -679,11 +616,15 @@
                 "lstContenido" : {
                   "type" : "variable",
                   "value" : "lstContenido"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
                 }
               },
-              "reference" : "274bcb29-c876-4f06-beff-fdba7fb59410",
+              "reference" : "29c643f2-0b0f-420e-b843-829ee02407a7",
               "hasValidationError" : false,
-              "id" : "customTablePost"
+              "id" : "customTablePostNuevaSolicitud"
             }
           ]
         ]
@@ -1482,6 +1423,13 @@
       "external" : false
     },
     {
+      "id" : "25b6be4f-928a-44d5-84d8-03eff82ca34d",
+      "name" : "anahuac_custom_styles (1) (1) (1).css",
+      "type" : "css",
+      "order" : 4,
+      "external" : false
+    },
+    {
       "id" : "39cb7871-2fce-4d20-b657-552ca8bf6351",
       "name" : "style.css",
       "type" : "css",
@@ -1525,18 +1473,16 @@
       "type" : "json",
       "value" : [
         "[\r",
-        "\t\"NOMBRE\",\r",
-        "\t\"EMAIL\",\r",
-        "\t\"CURP\",\r",
-        "\t\"CAMPUS\",\r",
-        "\t\"PROGRAMA\",\r",
-        "\t\"INGRESO\",\r",
-        "\t\"ESTADO\",\r",
-        "\t\"PREPARATORIA\",\r",
-        "\t\"PROMEDIO\",\r",
-        "\t\"ESTATUS\",\r",
-        "\t\"TIPO\",\r",
-        "\t\"ÚLTIMA MODIFICACION\"\r",
+        "    \"SOLICITUD\",\r",
+        "    \"NOMBRE\",\r",
+        "    \"EMAIL\",\r",
+        "    \"TELÉFONO\",\r",
+        "    \"PROGRAMA\",\r",
+        "    \"INGRESO\",\r",
+        "    \"PREPARATORIA\",\r",
+        "    \"PROCEDENCIA\",\r",
+        "    \"PROMEDIO\",\r",
+        "    \"FECHA DE ENVIO\"\r",
         "]"
       ],
       "exposed" : false
@@ -1587,9 +1533,30 @@
       "type" : "expression",
       "value" : [
         "return {\r",
+        "    \"estatusSolicitud\":\"Nuevas solicitudes\",\r",
         "    \"tarea\":\"Validar Información\",\r",
-        "    \"lstFiltro\": $data.lstFiltros\r",
+        "    \"lstFiltro\": $data.lstFiltros,\r",
+        "    \"type\": \"nuevas_solicitudes\",\r",
+        "    \"usuario\":$data.userData.user_name,\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":20,\r",
+        "    \"offset\":0\r",
         "};"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
+      ],
+      "exposed" : false
+    },
+    "fileResult" : {
+      "type" : "json",
+      "value" : [
+        "{}"
       ],
       "exposed" : false
     }

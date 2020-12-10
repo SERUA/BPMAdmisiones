@@ -16,9 +16,17 @@ class CatEstadoCivilCustom {
 	@XmlElement
 	private Date fechaCreacion;
 	@XmlElement
+	private Date fechaImportacion;
+	@XmlElement
 	private String usuarioCreacion;
 	@XmlElement
 	private Boolean isEliminado;
+	public Date getFechaImportacion() {
+		return fechaImportacion;
+	}
+	public void setFechaImportacion(Date fechaImportacion) {
+		this.fechaImportacion = fechaImportacion;
+	}
 	public Long getPersistenceId() {
 		return persistenceId;
 	}

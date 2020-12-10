@@ -7,13 +7,13 @@
         </option>
     </select>
 </div>
-    <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3">
-        <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
+<div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3">
+    <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
         <option ng-value="20">20</option>
         <option ng-value="40">40</option>
         <option ng-value="100">100</option>
     </select>
-    </div>
+</div>
 <div class="table-responsive col-xs-12">
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
 <thead>
@@ -59,10 +59,8 @@
             </tr>
         </tbody>
     </table>
-        <div class="col-xs-5">
-            <div class="dataTables_info">Mostrando {{properties.dataToSend.offset+1}} a {{((properties.dataToSend.limit*valorSeleccionado)>value)?value:properties.dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
-        </div>
-        <div class="col-xs-7 text-center">
+<div class="col-xs-5"><div class="dataTables_info">Mostrando {{properties.dataToSend.offset+1}} a {{((properties.dataToSend.limit*valorSeleccionado)>value)?value:properties.dataToSend.limit*valorSeleccionado}} de {{value}} registros</div></div>
+    <div class="col-xs-7 text-center">
     <div role="toolbar" aria-label="Toolbar with button groups">
         <div class="btn-group" role="group" aria-label="First group">
             <button type="button" class="btn btn-default" ng-click="anterior()">Anterior

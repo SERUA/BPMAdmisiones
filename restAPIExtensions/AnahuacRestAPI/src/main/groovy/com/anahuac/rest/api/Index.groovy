@@ -32,19 +32,17 @@ class Index implements RestApiController {
     @Override
     RestApiResponse doHandle(HttpServletRequest request, RestApiResponseBuilder responseBuilder, RestAPIContext context) {
 		Result result = new Result();
-        
-		try {
-			def p = request.getParameter "p";
-			if (p == null) {
-				return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
+        def p = request.getParameter "p";
+        if (p == null) {
+            return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter p is missing"}""")
         }
         def c = request.getParameter "c";
         if (c == null) {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter c is missing"}""")
-			}
-			def url = request.getParameter "url";
-			if (url == null) {
-				return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
+        }
+		def url = request.getParameter "url";
+		if (url == null) {
+			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
 				
 		//VARIABLES===========================================================
@@ -61,8 +59,8 @@ class Index implements RestApiController {
 		MailGunDAO mgDAO = new MailGunDAO();
 		CatalogoBachilleratoDAO bDao = new CatalogoBachilleratoDAO()
 		//MAPEO DE SERVICIOS==================================================
+		try {
 			switch(url) {
-				
 				case "test":
 					result = dao.testFuction(parameterP, parameterC, jsonData);
 					if (result.isSuccess()) {
@@ -157,7 +155,27 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				/**************JESUS OSUNA FIN*********************/		
+					
+					case "getCatParentesco":
+					result = new CatalogosDAO().getCatParentesco(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getCatDescuentos":
+					result = new CatalogosDAO().getCatDescuentos(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				/**************JESUS OSUNA FIN*********************/				
 				case "selectSolicitudesEnProceso":
 					result = lDao.selectSolicitudesEnProceso(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {

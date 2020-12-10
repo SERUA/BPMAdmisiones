@@ -99,7 +99,7 @@ function startProcess() {
             }
 
         } else {
-            if ($scope.properties.dataToChange2.lstCatEscolaridadInput[0].clave && $scope.properties.dataToChange2.lstCatEscolaridadInput[0].descripcion) {
+            if ($scope.properties.dataToChange2.lstCatSexoInput[0].clave && $scope.properties.dataToChange2.lstCatSexoInput[0].descripcion) {
                 if ($scope.properties.processId) {
                     var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
                         doRequest("GET", $scope.properties.url).then(function () {
@@ -113,10 +113,10 @@ function startProcess() {
                     $log.log('Impossible to retrieve the process definition id value from the URL');
                 }
             } else {
-                if (!$scope.properties.dataToChange2.lstCatEscolaridadInput[0].descripcion) {
+                if (!$scope.properties.dataToChange2.lstCatSexoInput[0].descripcion) {
                     swal("¡Aviso!", "Faltó capturar información en: Descripción.", "warning");
                 }
-                if (!$scope.properties.dataToChange2.lstCatEscolaridadInput[0].clave) {
+                if (!$scope.properties.dataToChange2.lstCatSexoInput[0].clave) {
                     swal("¡Aviso!", "Faltó capturar información en: Clave.", "warning");
                 }
                

@@ -12,7 +12,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };
 
     this.selectRowDelete = function(row) {
-        swal("Esta seguro que desea eliminar?", {
+        swal("¿Esta seguro que desea "+ (row["isEnabled"] ? "desactivar" : "desactivar") +" el período?", {
                 buttons: {
                     cancel: "No",
                     catch: {
@@ -65,7 +65,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         return $http(req)
             .success(function(data, status) {
                 doRequestGet();
-                swal("!Eliminado correctamente!", "", "success");
+                swal("!Período "+($scope.properties.dataToSend.lstCatPeriodoInput[0].isEnabled ? "activado" : "desactivado")+" correctamente!", "", "success");
                 
             })
             .error(function(data, status) {
@@ -89,4 +89,31 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
 
             });
     }
+
+    this.selectRowEnable = function(row)  {
+        console.log(row)
+        swal("¿Esta seguro que desea "+ (row["isEnabled"] ? "desactivar" : "activar") +" el período?", {
+                buttons: {
+                    cancel: "No",
+                    catch: {
+                        text: "Si",
+                        value: "Si",
+                    }
+                },
+            })
+            .then((value) => {
+                switch (value) {
+                    case "Si":
+                    $scope.properties.selectedRow = row;
+                    $scope.properties.selectedRow["todelete"] = false;
+                    $scope.properties.selectedRow["isEnabled"] = !$scope.properties.selectedRow["isEnabled"];
+                    habilitado = true;
+                    $scope.$apply();
+                    startProcess();
+                    break;
+                    default:
+
+                }
+            });
+    };
 }

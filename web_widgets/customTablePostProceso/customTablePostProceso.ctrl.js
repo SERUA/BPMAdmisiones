@@ -1,4 +1,4 @@
-function PbTableCtrl($scope, $http, $window) {
+function PbTableCtrl($scope, $http, $window,blockUI) {
 
     this.isArray = Array.isArray;
 
@@ -17,6 +17,7 @@ function PbTableCtrl($scope, $http, $window) {
     }
 
     function doRequest(method, url, params) {
+        blockUI.start();
         var req = {
             method: method,
             url: url,
@@ -34,7 +35,10 @@ function PbTableCtrl($scope, $http, $window) {
             .error(function (data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
-            .finally(function () { });
+            .finally(function () {
+                
+                blockUI.stop();
+            });
     }
 
     $scope.asignarTarea = function (rowData) {
@@ -167,7 +171,7 @@ function PbTableCtrl($scope, $http, $window) {
     $scope.valorTotal = 10;
 
     $scope.loadPaginado = function () {
-        $scope.valorTotal = Math.ceil($scope.value / 10);
+        $scope.valorTotal = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
         $scope.lstPaginado = []
         if ($scope.valorSeleccionado <= 5) {
             $scope.iniciarP = 1;
@@ -198,8 +202,8 @@ function PbTableCtrl($scope, $http, $window) {
             }
         }
         $scope.valorSeleccionado = $scope.valorSeleccionado + 1;
-        if ($scope.valorSeleccionado > Math.ceil($scope.value / 10)) {
-            $scope.valorSeleccionado = Math.ceil($scope.value / 10);
+        if ($scope.valorSeleccionado > Math.ceil($scope.value / $scope.properties.dataToSend.limit)) {
+            $scope.valorSeleccionado = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
         }
         $scope.seleccionarPagina($scope.valorSeleccionado);
     }
@@ -286,5 +290,17 @@ function PbTableCtrl($scope, $http, $window) {
             $scope.properties.dataToSend.lstFiltro.push(filter);
         }
     }
-
+    $scope.sizing=function(){
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        try{
+            $scope.properties.dataToSend.limit=parseInt($scope.properties.dataToSend.limit);
+        }catch(exception){
+            
+        }
+        
+        doRequest("POST", $scope.properties.urlPost);
+    }
 }

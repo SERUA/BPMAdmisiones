@@ -1,4 +1,4 @@
-function PbTableCtrl($scope, $http, $window) {
+function PbTableCtrl($scope, $http, $window,blockUI) {
 
     this.isArray = Array.isArray;
 
@@ -17,6 +17,7 @@ function PbTableCtrl($scope, $http, $window) {
     }
 
     function doRequest(method, url, params) {
+        blockUI.start();
         var req = {
             method: method,
             url: url,
@@ -34,7 +35,9 @@ function PbTableCtrl($scope, $http, $window) {
             .error(function(data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
-            .finally(function() {});
+            .finally(function() {
+                blockUI.stop();
+            });
     }
     ///API/bpm/process/4774666324165829920?d=deployedBy&n=openCases&n=failedCases
         $scope.preAsignarTarea=function(rowData) {
