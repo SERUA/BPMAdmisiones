@@ -1,0 +1,2928 @@
+{
+  "designerVersion" : "1.11.52",
+  "id" : "CatCiudadAcciones",
+  "name" : "CatCiudadAcciones",
+  "lastUpdate" : 1607424745125,
+  "rows" : [
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "bcb8762f-beaa-43a5-8688-a1059bf7dae8",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Catálago de ciudades"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 2"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "1acc32d2-0bc4-44a4-a3c9-5e5a160cf30a",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "editable != 'tabla'"
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "640f9c77-bbb8-4e39-94ab-caa5030c2eb4",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Agregar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "variableDestino" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "variableAcopiar" : {
+                  "type" : "variable",
+                  "value" : "'agregar'"
+                },
+                "OpenModal" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "modalId" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "07a43f0c-0aa8-4629-9d79-7e25487789ec",
+              "hasValidationError" : false,
+              "id" : "customButtonSetValor"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "headers" : {
+                  "type" : "constant",
+                  "value" : [
+                    "Orden",
+                    "Clave",
+                    "Descripción",
+                    "País",
+                    "Estado",
+                    "Fecha creación",
+                    "Usuario creación"
+                  ]
+                },
+                "content" : {
+                  "type" : "expression",
+                  "value" : "catCiudad"
+                },
+                "columnsKey" : {
+                  "type" : "constant",
+                  "value" : [
+                    "orden",
+                    "clave",
+                    "descripcion",
+                    "pais",
+                    "estado",
+                    "fechaCreacion | date:'dd-MM-yyyy HH:mm:ss'",
+                    "usuarioCreacion"
+                  ]
+                },
+                "selectedRow" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selectedNR"
+                },
+                "striped" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "condensed" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "bordered" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "isSelected" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "processId" : {
+                  "type" : "variable",
+                  "value" : "processEditData[0].id"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "dataToSend" : {
+                  "type" : "variable",
+                  "value" : "formOutputBorrar"
+                },
+                "contenido" : {
+                  "type" : "variable",
+                  "value" : "catCiudad"
+                },
+                "urlGet" : {
+                  "type" : "expression",
+                  "value" : "urlRefreshPaginado"
+                }
+              },
+              "reference" : "7b6ff1cc-2289-421a-8dcd-76801e562eff",
+              "hasValidationError" : false,
+              "id" : "customTableSeleccionarIsEliminado"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "value" : {
+                  "type" : "expression",
+                  "value" : "countCatCiudad[0]"
+                },
+                "inicio" : {
+                  "type" : "variable",
+                  "value" : "inicio"
+                },
+                "fin" : {
+                  "type" : "variable",
+                  "value" : "final"
+                },
+                "valorSeleccionado" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "6812704d-722b-49ad-9681-27204a7ac55b",
+              "hasValidationError" : false,
+              "id" : "customPaginado"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "editable != 'editar'"
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "22d4d080-e3a2-4f05-8a20-489405498426",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 5,
+                "lg" : 5
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "faf94756-9218-44fd-9619-e3dca659ef5c",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [ ]
+              ]
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 3,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "inline" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "availableValues" : {
+                  "type" : "constant",
+                  "value" : [
+                    "Pais",
+                    "Estado"
+                  ]
+                },
+                "displayedKey" : {
+                  "type" : "constant"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "selectedValue" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.isEstado"
+                }
+              },
+              "reference" : "0c6b002c-4081-4ec0-8399-9c5b6e473abc",
+              "hasValidationError" : false,
+              "id" : "pbRadioButtons"
+            },
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 4,
+                "lg" : 5
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "3c729d48-74a5-4620-934c-33d46f833b8a",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [ ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Orden"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.orden"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "d9577acc-470e-4f61-a1e5-441bb8ec721b",
+              "hasValidationError" : false,
+              "id" : "customInputNumericoCatalogos"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Clave"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.clave"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "82aed1f6-c02b-4779-95fa-7bb14504883f",
+              "hasValidationError" : false,
+              "id" : "pbInput"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Descripción"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.descripcion"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "00d61a48-c4f8-49ef-abe6-20f6558230e7",
+              "hasValidationError" : false,
+              "id" : "customInputMinMayCustom"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "catCiudad_selected.isEstado == 'Estado'"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "País"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstPais"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.pais"
+                }
+              },
+              "reference" : "dad0d3ef-a523-49b7-982a-28e8d9bab410",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "catCiudad_selected.isEstado == 'Pais'"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Estado"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstEstados"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "nombre"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "nombre"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.estado"
+                }
+              },
+              "reference" : "6093c5d5-bfa1-412c-bf02-7d30bed7295f",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 3,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Campus"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catCampus"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.campus"
+                }
+              },
+              "reference" : "4583d615-a101-4dd7-97cf-b22172122897",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 3,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Región"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected.region"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "a2d657a6-c3fc-4be6-b1d8-174a36dde336",
+              "hasValidationError" : false,
+              "id" : "customInputMinMayCustom"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 8,
+                "lg" : 8
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Cancelar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "default"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "variableDestino" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "variableAcopiar" : {
+                  "type" : "variable",
+                  "value" : "'tabla'"
+                },
+                "OpenModal" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "modalId" : {
+                  "type" : "constant"
+                },
+                "variableDestino2" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected"
+                },
+                "variableAcopiar2" : {
+                  "type" : "variable",
+                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"isEliminado\": false, \t\"usuarioCreacion\": \"\", \t\"pais\": null, \t\"clave\": \"\", \t\"isEnabled\": true, \t\"orden\": null, \t\"caseId\": null, \t\"campus\":\"\", \t\"estado\":null, \t\"region\":\"\", \t\"isEstado\":\"\" }"
+                }
+              },
+              "reference" : "0f34fae9-98b2-4da3-bc42-297d92dbbfd0",
+              "hasValidationError" : false,
+              "id" : "customButtonSetValorDoble"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "!validado.validar"
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Guardar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Start process"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p={{inicio}}&c=10"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "formOutput"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : "catCiudad"
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "processId" : {
+                  "type" : "variable",
+                  "value" : "processEditData[0].id"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "dataToSet" : {
+                  "type" : "variable",
+                  "value" : "\"tabla\""
+                },
+                "dataToChange" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "dataToSet2" : {
+                  "type" : "variable",
+                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"isEliminado\": false, \t\"usuarioCreacion\": \"\", \t\"pais\": null, \t\"clave\": \"\", \t\"isEnabled\": true, \t\"orden\": null, \t\"caseId\": null, \t\"campus\":\"\", \t\"estado\":null, \t\"region\":\"\", \t\"isEstado\":\"\" }"
+                },
+                "dataToChange2" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected"
+                }
+              },
+              "reference" : "932643dc-067a-41db-91b1-0516a23d65d7",
+              "hasValidationError" : false,
+              "id" : "customButtonInstanciar"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Guardar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Start process"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p={{inicio}}&c=10"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "formOutput"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : "catCiudad"
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "processId" : {
+                  "type" : "variable",
+                  "value" : "processEditData[0].id"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "dataToSet" : {
+                  "type" : "variable",
+                  "value" : "\"tabla\""
+                },
+                "dataToChange" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "dataToSet2" : {
+                  "type" : "variable",
+                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"isEliminado\": false, \t\"usuarioCreacion\": \"\", \t\"pais\": null, \t\"clave\": \"\", \t\"isEnabled\": true, \t\"orden\": null, \t\"caseId\": null, \t\"campus\":\"\", \t\"estado\":null, \t\"region\":\"\", \t\"isEstado\":\"\" }"
+                },
+                "dataToChange2" : {
+                  "type" : "variable",
+                  "value" : "catCiudad_selected"
+                }
+              },
+              "reference" : "a8366322-2b81-49ea-afca-7b4a1dd07e85",
+              "hasValidationError" : false,
+              "id" : "customButtonInstanciarCatCiudad"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "editable != 'agregar'"
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "af8a95e1-3455-4649-93b9-f563c58ae62b",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "a63603d5-fcc1-46c2-920e-8b9f965fcb9c",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 5,
+                      "lg" : 5
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "f193a779-2a14-4ccf-abee-e50a61873df2",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 3,
+                      "lg" : 2
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "inline" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "availableValues" : {
+                        "type" : "constant",
+                        "value" : [
+                          "Pais",
+                          "Estado"
+                        ]
+                      },
+                      "displayedKey" : {
+                        "type" : "constant"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant"
+                      },
+                      "selectedValue" : {
+                        "type" : "variable",
+                        "value" : "formOutputAgregar.lstCatCiudadInput[0].isEstado"
+                      }
+                    },
+                    "reference" : "5b19093b-1259-4e45-a2a8-b836ad03f4b3",
+                    "hasValidationError" : false,
+                    "id" : "pbRadioButtons"
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "497a4dc8-fa49-4165-8054-bdc199ca403b",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Orden"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].orden"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "eca6f6ac-6790-4f5b-a83e-4d88f02eba0a",
+              "hasValidationError" : false,
+              "id" : "customInputNumericoCatalogos"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 6,
+                "lg" : 6
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Clave"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].clave"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "0eaeb3c9-eba1-4e75-b90a-f2d3f0a62870",
+              "hasValidationError" : false,
+              "id" : "pbInput"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Descripción"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].descripcion"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "8b4b1dd0-4be8-4438-9495-638e71c61556",
+              "hasValidationError" : false,
+              "id" : "customInputMinMayCustom"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].isEstado == 'Estado'"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "País"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstPais"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].pais"
+                }
+              },
+              "reference" : "321a7b5a-4ebc-436e-b514-de4260b6f82a",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].isEstado == 'Pais'"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Estado"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstEstados"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "nombre"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "nombre"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].estado"
+                }
+              },
+              "reference" : "4908a68c-0dcc-4a5c-9632-da162e7e0d5f",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 3,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Campus"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Select an option"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catCampus"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].campus"
+                }
+              },
+              "reference" : "c8ad3f2b-b471-4754-987b-75f72d9d49be",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 3,
+                "lg" : 3
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 1
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Región"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatCiudadInput[0].region"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "e81fde54-2c86-43ac-9b47-8e8a818c52ad",
+              "hasValidationError" : false,
+              "id" : "customInputMinMayCustom"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 8,
+                "lg" : 8
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Cancelar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "default"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "variableDestino" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "variableAcopiar" : {
+                  "type" : "variable",
+                  "value" : "'tabla'"
+                },
+                "OpenModal" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "modalId" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "1580ec7e-979b-4839-876b-906d4a3abd65",
+              "hasValidationError" : false,
+              "id" : "customButtonSetValor"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "!validado.validar"
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Guardar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Start process"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p={{inicio}}&c=10"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : "catCiudad"
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "processId" : {
+                  "type" : "variable",
+                  "value" : "processAgregarData[0].id"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "dataToSet" : {
+                  "type" : "variable",
+                  "value" : "\"tabla\""
+                },
+                "dataToChange" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "dataToSet2" : {
+                  "type" : "variable",
+                  "value" : "{     \"lstCatCiudadInput\": [         {             \"descripcion\": \"\",              \"isEliminado\": false,              \"usuarioCreacion\": \"\",              \"clave\": \"\",              \"isEnabled\": false,              \"orden\": 0,              \"caseId\": null,              \"fechaCreacion\": null,              \"region\":\"\",             \"estado\":null,             \"campus\":\"\",             \"pais\": null,             \"isEstado\":\"Pais\"         }     ] }"
+                },
+                "dataToChange2" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar"
+                }
+              },
+              "reference" : "b431fb63-5751-4d64-9564-d9489ecc6de7",
+              "hasValidationError" : false,
+              "id" : "customButtonInstanciar"
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 2,
+                "lg" : 2
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Guardar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Start process"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p={{inicio}}&c=10"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "formOutputAgregar"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : "catCiudad"
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "processId" : {
+                  "type" : "variable",
+                  "value" : "processAgregarData[0].id"
+                },
+                "userId" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "dataToSet" : {
+                  "type" : "variable",
+                  "value" : "\"tabla\""
+                },
+                "dataToChange" : {
+                  "type" : "variable",
+                  "value" : "editable"
+                },
+                "dataToSet2" : {
+                  "type" : "variable",
+                  "value" : "{     \"lstCatCiudadInput\": [         {             \"descripcion\": \"\",              \"isEliminado\": false,              \"usuarioCreacion\": \"\",              \"clave\": \"\",              \"isEnabled\": false,              \"orden\": 0,              \"caseId\": null,              \"fechaCreacion\": null,              \"region\":\"\",             \"estado\":null,             \"campus\":\"\",             \"pais\": null,             \"isEstado\":\"Pais\"         }     ] }"
+                },
+                "dataToChange2" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar"
+                }
+              },
+              "reference" : "aa2fb8fc-43aa-42ad-8173-03e745d36551",
+              "hasValidationError" : false,
+              "id" : "customButtonInstanciarCatCiudad"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "objEntrada" : {
+            "type" : "variable",
+            "value" : "catCiudad_selectedNR"
+          },
+          "objSalida" : {
+            "type" : "variable",
+            "value" : "catCiudad_selected"
+          }
+        },
+        "reference" : "cd6c526f-30be-4c88-a255-23e3d4df5c30",
+        "hasValidationError" : false,
+        "id" : "customCopyData"
+      }
+    ]
+  ],
+  "assets" : [
+    {
+      "id" : "dc5bd050-1c97-4f1f-9ee8-362da6c0d49a",
+      "name" : "anahuac_custom_styles (1).css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "db9aeb66-3b6b-4e29-a5b2-6fbbb1c36868",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "39f09ccc-063f-45e7-b74c-03b1343c0fd0",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    }
+  ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "catCiudad" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p={{inicio}}&c=10"
+      ],
+      "exposed" : false
+    },
+    "catCiudad_selected" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "\t\"persistenceId\": 0,\r",
+        "\t\"persistenceId_string\": \"0\",\r",
+        "\t\"persistenceVersion\": 0,\r",
+        "\t\"persistenceVersion_string\": \"0\",\r",
+        "\t\"descripcion\": \"\",\r",
+        "\t\"fechaCreacion\": \"\",\r",
+        "\t\"isEliminado\": false,\r",
+        "\t\"usuarioCreacion\": \"\",\r",
+        "\t\"pais\": null,\r",
+        "\t\"clave\": \"\",\r",
+        "\t\"isEnabled\": true,\r",
+        "\t\"orden\": null,\r",
+        "\t\"caseId\": null,\r",
+        "\t\"campus\":\"\",\r",
+        "\t\"estado\":null,\r",
+        "\t\"region\":\"\",\r",
+        "\t\"isEstado\":\"\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "catCiudad_selectedNR" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "countCatCiudad" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCountByEliminado&p=0&c=10"
+      ],
+      "exposed" : false
+    },
+    "editable" : {
+      "type" : "constant",
+      "value" : [
+        "tabla"
+      ],
+      "exposed" : false
+    },
+    "final" : {
+      "type" : "constant",
+      "value" : [
+        "10"
+      ],
+      "exposed" : false
+    },
+    "formOutput" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "\tlstCatCiudadInput: $data.lstCatCiudad",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "lstCatCiudadBorrar" : {
+      "type" : "expression",
+      "value" : [
+        "var lstResultado = [];",
+        "",
+        "lstResultado.push($data.catCiudad_selectedNR);",
+        "",
+        "return lstResultado;"
+      ],
+      "exposed" : false
+    },
+    "processAgregarData" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?c=10&p=0&f=name=Agregar%20Ciudad"
+      ],
+      "exposed" : false
+    },
+    "processEditData" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/process?c=1000&p=0&f=name=Editar%20Ciudad"
+      ],
+      "exposed" : false
+    },
+    "urlRefreshPaginado" : {
+      "type" : "expression",
+      "value" : [
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatCiudad?q=getCatCiudadByOrden&p=\"+$data.inicio+\"&c=10\"; "
+      ],
+      "exposed" : false
+    },
+    "inicio" : {
+      "type" : "constant",
+      "value" : [
+        "0"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
+      ],
+      "exposed" : false
+    },
+    "lstCatCiudad" : {
+      "type" : "expression",
+      "value" : [
+        "var lstResultado = [];",
+        "",
+        "lstResultado.push($data.catCiudad_selected);",
+        "",
+        "return lstResultado;"
+      ],
+      "exposed" : false
+    },
+    "formOutputBorrar" : {
+      "type" : "expression",
+      "value" : [
+        "return { \"lstCatCiudadInput\": $data.lstCatCiudadBorrar }"
+      ],
+      "exposed" : false
+    },
+    "formOutputAgregar" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "    \"lstCatCiudadInput\": [\r",
+        "        {\r",
+        "            \"descripcion\": \"\", \r",
+        "            \"isEliminado\": false, \r",
+        "            \"usuarioCreacion\": \"\", \r",
+        "            \"clave\": \"\", \r",
+        "            \"isEnabled\": false, \r",
+        "            \"orden\": 0, \r",
+        "            \"caseId\": null, \r",
+        "            \"fechaCreacion\": null, \r",
+        "            \"region\":\"\",\r",
+        "            \"estado\":null,\r",
+        "            \"campus\":\"\",\r",
+        "            \"pais\": null,\r",
+        "            \"isEstado\":\"Pais\"\r",
+        "        }\r",
+        "    ]\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "catPais" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatPais?q=find&p=0&c=9999"
+      ],
+      "exposed" : false
+    },
+    "catEstados" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatEstados?q=find&p=0&c=9999"
+      ],
+      "exposed" : false
+    },
+    "catCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.catalogos.CatCampus?q=find&p=0&c=9999"
+      ],
+      "exposed" : false
+    },
+    "usuarioCreacion" : {
+      "type" : "expression",
+      "value" : [
+        "//$data.catCiudad_selected.usuarioBanner = $data.userData.user_name;",
+        "$data.formOutputAgregar.lstCatCiudadInput[0].usuarioCreacion = $data.userData.user_name;\t"
+      ],
+      "exposed" : false
+    },
+    "validado" : {
+      "type" : "json",
+      "value" : [
+        "{\"validar\":false}"
+      ],
+      "exposed" : false
+    },
+    "validarAgregar" : {
+      "type" : "expression",
+      "value" : [
+        "var validado = true;",
+        "if( $data.formOutputAgregar.lstCatCiudadInput.length >=1){",
+        "    $data.formOutputAgregar.lstCatCiudadInput.forEach(element =>{",
+        "        debugger;",
+        "        if(element.isEstado === \"Pais\"){",
+        "            element.estado = null",
+        "        }else if(element.isEstado === \"Estado\"){",
+        "              element.pais = null",
+        "        }else if(element.orden ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.descripcion ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.clave ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.pais ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.estado ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.campus.descripcion ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.region ===\"\"){",
+        "            validado = false;",
+        "        }",
+        "        ",
+        "    });  ",
+        "}else{",
+        "    validado = false;",
+        "}",
+        "",
+        "$data.validado.validar = validado;"
+      ],
+      "exposed" : false
+    },
+    "validarEditar" : {
+      "type" : "expression",
+      "value" : [
+        "var validado = true;",
+        "if( $data.formOutput.lstCatCiudadInput.length >=1){",
+        "    $data.formOutput.lstCatCiudadInput.forEach(element =>{",
+        "        debugger;",
+        "        if(element.isEstado === \"Pais\"){",
+        "            element.estado = null",
+        "        }else if(element.isEstado === \"Estado\"){",
+        "              element.pais = null",
+        "        }else if(element.orden ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.descripcion ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.clave ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.pais ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.estado ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.campus.descripcion ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.region ===\"\"){",
+        "            validado = false;",
+        "        }else if(element.isEstado === Pais){",
+        "            element.pais = null",
+        "        }else if(element.isEstado === Estado){",
+        "            element.estado = null",
+        "        }",
+        "    });  ",
+        "}else{",
+        "    validado = false;",
+        "}",
+        "",
+        "$data.validado.validar = validado;"
+      ],
+      "exposed" : false
+    },
+    "lstPais" : {
+      "type" : "json",
+      "value" : [
+        "[{\"descripcion\":\"Afganistán\"},\r",
+        "{\"descripcion\":\"Albania\"},\r",
+        "{\"descripcion\":\"Alemania\"},\r",
+        "{\"descripcion\":\"Andorra\"},\r",
+        "{\"descripcion\":\"Angola\"},\r",
+        "{\"descripcion\":\"Anguila\"},\r",
+        "{\"descripcion\":\"Antigua y Barbuda\"},\r",
+        "{\"descripcion\":\"Antillas Holandesas\"},\r",
+        "{\"descripcion\":\"Arabia Saudí\"},\r",
+        "{\"descripcion\":\"Argelia\"},\r",
+        "{\"descripcion\":\"Argentina\"},\r",
+        "{\"descripcion\":\"Armenia\"},\r",
+        "{\"descripcion\":\"Aruba\"},\r",
+        "{\"descripcion\":\"Australia\"},\r",
+        "{\"descripcion\":\"Austria\"},\r",
+        "{\"descripcion\":\"Azerbaiyán\"},\r",
+        "{\"descripcion\":\"Bahamas\"},\r",
+        "{\"descripcion\":\"Bahrein\"},\r",
+        "{\"descripcion\":\"Bangladesh\"},\r",
+        "{\"descripcion\":\"Barbados\"},\r",
+        "{\"descripcion\":\"Bélgica\"},\r",
+        "{\"descripcion\":\"Belice\"},\r",
+        "{\"descripcion\":\"Benin\"},\r",
+        "{\"descripcion\":\"Bermudas\"},\r",
+        "{\"descripcion\":\"Bielorrusia\"},\r",
+        "{\"descripcion\":\"Bolivia\"},\r",
+        "{\"descripcion\":\"Bosnia y Herzegovina\"},\r",
+        "{\"descripcion\":\"Botswana\"},\r",
+        "{\"descripcion\":\"Brasil\"},\r",
+        "{\"descripcion\":\"Brunei\"},\r",
+        "{\"descripcion\":\"Bulgaria\"},\r",
+        "{\"descripcion\":\"Burkina Faso\"},\r",
+        "{\"descripcion\":\"Burma (Myanmar)\"},\r",
+        "{\"descripcion\":\"Burundi\"},\r",
+        "{\"descripcion\":\"Bután\"},\r",
+        "{\"descripcion\":\"Cabo Verde\"},\r",
+        "{\"descripcion\":\"Camboya\"},\r",
+        "{\"descripcion\":\"Camerún\"},\r",
+        "{\"descripcion\":\"Chad\"},\r",
+        "{\"descripcion\":\"China\"},\r",
+        "{\"descripcion\":\"Chipre\"},\r",
+        "{\"descripcion\":\"Comores\"},\r",
+        "{\"descripcion\":\"Corea del Norte\"},\r",
+        "{\"descripcion\":\"Corea del Sur\"},\r",
+        "{\"descripcion\":\"Costa de marfil\"},\r",
+        "{\"descripcion\":\"Costa Rica\"},\r",
+        "{\"descripcion\":\"Croacia (Hrvatska)\"},\r",
+        "{\"descripcion\":\"Cuba\"},\r",
+        "{\"descripcion\":\"Dinamarca\"},\r",
+        "{\"descripcion\":\"República de Yibuti\"},\r",
+        "{\"descripcion\":\"Dominica\"},\r",
+        "{\"descripcion\":\"Ecuador\"},\r",
+        "{\"descripcion\":\"Egipto\"},\r",
+        "{\"descripcion\":\"El Salvador\"},\r",
+        "{\"descripcion\":\"Emiratos Unidos\"},\r",
+        "{\"descripcion\":\"Eritrea\"},\r",
+        "{\"descripcion\":\"Eslovenia\"},\r",
+        "{\"descripcion\":\"Estonia\"},\r",
+        "{\"descripcion\":\"Etiopía\"},\r",
+        "{\"descripcion\":\"Fiji\"},\r",
+        "{\"descripcion\":\"Filipinas\"},\r",
+        "{\"descripcion\":\"Finlandia\"},\r",
+        "{\"descripcion\":\"Gabón\"},\r",
+        "{\"descripcion\":\"Gambia\"},\r",
+        "{\"descripcion\":\"Georgia\"},\r",
+        "{\"descripcion\":\"Ghana\"},\r",
+        "{\"descripcion\":\"Granada\"},\r",
+        "{\"descripcion\":\"Grecia\"},\r",
+        "{\"descripcion\":\"Groenlandia\"},\r",
+        "{\"descripcion\":\"Guam\"},\r",
+        "{\"descripcion\":\"Guatemala\"},\r",
+        "{\"descripcion\":\"Guayana\"},\r",
+        "{\"descripcion\":\"Guinea\"},\r",
+        "{\"descripcion\":\"Guinea Ecuatorial\"},\r",
+        "{\"descripcion\":\"Guinea-Bissau\"},\r",
+        "{\"descripcion\":\"Haití\"},\r",
+        "{\"descripcion\":\"Holanda\"},\r",
+        "{\"descripcion\":\"Honduras\"},\r",
+        "{\"descripcion\":\"Hong Kong\"},\r",
+        "{\"descripcion\":\"Hungría\"},\r",
+        "{\"descripcion\":\"India\"},\r",
+        "{\"descripcion\":\"Indonesia\"},\r",
+        "{\"descripcion\":\"Irak\"},\r",
+        "{\"descripcion\":\"Irán\"},\r",
+        "{\"descripcion\":\"Irlanda\"},\r",
+        "{\"descripcion\":\"Islandia\"},\r",
+        "{\"descripcion\":\"Islas Caimán\"},\r",
+        "{\"descripcion\":\"Islas Cook\"},\r",
+        "{\"descripcion\":\"Islas de Cocos o Keeling\"},\r",
+        "{\"descripcion\":\"Islas Faroe\"},\r",
+        "{\"descripcion\":\"Islas Malvinas\"},\r",
+        "{\"descripcion\":\"Islas Marianas del Norte\"},\r",
+        "{\"descripcion\":\"Islas Marshall\"},\r",
+        "{\"descripcion\":\"Islas Navidad\"},\r",
+        "{\"descripcion\":\"Islas Palau\"},\r",
+        "{\"descripcion\":\"Islas Salomón\"},\r",
+        "{\"descripcion\":\"Islas Tokelau\"},\r",
+        "{\"descripcion\":\"Islas Turks y Caicos\"},\r",
+        "{\"descripcion\":\"Islas Víergenes (US)\"},\r",
+        "{\"descripcion\":\"Islas Vírgenes Británicas\"},\r",
+        "{\"descripcion\":\"Islas Wallis y Futuna\"},\r",
+        "{\"descripcion\":\"Israel\"},\r",
+        "{\"descripcion\":\"Jamaica\"},\r",
+        "{\"descripcion\":\"Japón\"},\r",
+        "{\"descripcion\":\"Jordania\"},\r",
+        "{\"descripcion\":\"Kazajistán\"},\r",
+        "{\"descripcion\":\"Kenia\"},\r",
+        "{\"descripcion\":\"Kirguizistán\"},\r",
+        "{\"descripcion\":\"Kiribati\"},\r",
+        "{\"descripcion\":\"Kosovo\"},\r",
+        "{\"descripcion\":\"Kuwait\"},\r",
+        "{\"descripcion\":\"Laos\"},\r",
+        "{\"descripcion\":\"Lesotho\"},\r",
+        "{\"descripcion\":\"Letonia\"},\r",
+        "{\"descripcion\":\"Líbano\"},\r",
+        "{\"descripcion\":\"Liberia\"},\r",
+        "{\"descripcion\":\"Libia\"},\r",
+        "{\"descripcion\":\"Liechtenstein\"},\r",
+        "{\"descripcion\":\"Lituania\"},\r",
+        "{\"descripcion\":\"Luxemburgo\"},\r",
+        "{\"descripcion\":\"Macao\"},\r",
+        "{\"descripcion\":\"Macedonia\"},\r",
+        "{\"descripcion\":\"Madagascar\"},\r",
+        "{\"descripcion\":\"Malaysia\"},\r",
+        "{\"descripcion\":\"Malawi\"},\r",
+        "{\"descripcion\":\"Maldivas\"},\r",
+        "{\"descripcion\":\"Malí\"},\r",
+        "{\"descripcion\":\"Malta\"},\r",
+        "{\"descripcion\":\"Marruecos\"},\r",
+        "{\"descripcion\":\"Martinica\"},\r",
+        "{\"descripcion\":\"Mauritania\"},\r",
+        "{\"descripcion\":\"Mayotte\"},\r",
+        "{\"descripcion\":\"Micronesia\"},\r",
+        "{\"descripcion\":\"Moldavia\"},\r",
+        "{\"descripcion\":\"Mónaco\"},\r",
+        "{\"descripcion\":\"Mongolia\"},\r",
+        "{\"descripcion\":\"Montenegro\"},\r",
+        "{\"descripcion\":\"Montserrat\"},\r",
+        "{\"descripcion\":\"Mozambique\"},\r",
+        "{\"descripcion\":\"Namibia\"},\r",
+        "{\"descripcion\":\"Nauru\"},\r",
+        "{\"descripcion\":\"Nepal\"},\r",
+        "{\"descripcion\":\"Nicaragua\"},\r",
+        "{\"descripcion\":\"Níger\"},\r",
+        "{\"descripcion\":\"Nigeria\"},\r",
+        "{\"descripcion\":\"Niue\"},\r",
+        "{\"descripcion\":\"Norfolk\"},\r",
+        "{\"descripcion\":\"Noruega\"},\r",
+        "{\"descripcion\":\"Nueva Caledonia\"},\r",
+        "{\"descripcion\":\"Nueva Zelanda\"},\r",
+        "{\"descripcion\":\"Omán\"},\r",
+        "{\"descripcion\":\"Panamá\"},\r",
+        "{\"descripcion\":\"Papúa Nueva Guinea\"},\r",
+        "{\"descripcion\":\"Paquistán\"},\r",
+        "{\"descripcion\":\"Paraguay\"},\r",
+        "{\"descripcion\":\"Perú\"},\r",
+        "{\"descripcion\":\"Pitcairn\"},\r",
+        "{\"descripcion\":\"Polinesia Francesa\"},\r",
+        "{\"descripcion\":\"Polonia\"},\r",
+        "{\"descripcion\":\"Portugal\"},\r",
+        "{\"descripcion\":\"Puerto Rico\"},\r",
+        "{\"descripcion\":\"Qatar\"},\r",
+        "{\"descripcion\":\"Reino Unido\"},\r",
+        "{\"descripcion\":\"República Centroafricana\"},\r",
+        "{\"descripcion\":\"República Checa\"},\r",
+        "{\"descripcion\":\"República de Sudáfrica\"},\r",
+        "{\"descripcion\":\"República del Congo\"},\r",
+        "{\"descripcion\":\"República Dominicana\"},\r",
+        "{\"descripcion\":\"Eslovaquia\"},\r",
+        "{\"descripcion\":\"Repúbllica democrática del Congo\"},\r",
+        "{\"descripcion\":\"Ruanda\"},\r",
+        "{\"descripcion\":\"Rumania\"},\r",
+        "{\"descripcion\":\"Rusia\"},\r",
+        "{\"descripcion\":\"Saint Kitts y Nevis\"},\r",
+        "{\"descripcion\":\"Samoa\"},\r",
+        "{\"descripcion\":\"Samoa Americana\"},\r",
+        "{\"descripcion\":\"San Marino\"},\r",
+        "{\"descripcion\":\"San Martin\"},\r",
+        "{\"descripcion\":\"San Vicente y Granadinas\"},\r",
+        "{\"descripcion\":\"Santa Helena\"},\r",
+        "{\"descripcion\":\"Santa Lucía\"},\r",
+        "{\"descripcion\":\"Santo Tomé y Príncipe\"},\r",
+        "{\"descripcion\":\"Senegal\"},\r",
+        "{\"descripcion\":\"Serbia\"},\r",
+        "{\"descripcion\":\"Seychelles\"},\r",
+        "{\"descripcion\":\"Sierra Leona\"},\r",
+        "{\"descripcion\":\"Singapur\"},\r",
+        "{\"descripcion\":\"Siria\"},\r",
+        "{\"descripcion\":\"Somalia\"},\r",
+        "{\"descripcion\":\"Sri Lanka\"},\r",
+        "{\"descripcion\":\"St. Pierre y Miquelon\"},\r",
+        "{\"descripcion\":\"Suazilandia\"},\r",
+        "{\"descripcion\":\"Sudán\"},\r",
+        "{\"descripcion\":\"Suecia\"},\r",
+        "{\"descripcion\":\"Suiza\"},\r",
+        "{\"descripcion\":\"Surinam\"},\r",
+        "{\"descripcion\":\"Tailandia\"},\r",
+        "{\"descripcion\":\"Taiwán\"},\r",
+        "{\"descripcion\":\"Tanzania\"},\r",
+        "{\"descripcion\":\"Tayikistán\"},\r",
+        "{\"descripcion\":\"Timor-Leste\"},\r",
+        "{\"descripcion\":\"Togo\"},\r",
+        "{\"descripcion\":\"Tonga\"},\r",
+        "{\"descripcion\":\"Trinidad y Tobago\"},\r",
+        "{\"descripcion\":\"Túnez\"},\r",
+        "{\"descripcion\":\"Turkmenistán\"},\r",
+        "{\"descripcion\":\"Turquía\"},\r",
+        "{\"descripcion\":\"Tuvalu\"},\r",
+        "{\"descripcion\":\"Ucrania\"},\r",
+        "{\"descripcion\":\"Uganda\"},\r",
+        "{\"descripcion\":\"Uruguay\"},\r",
+        "{\"descripcion\":\"Uzbekistán\"},\r",
+        "{\"descripcion\":\"Vanuatu\"},\r",
+        "{\"descripcion\":\"Vaticano\"},\r",
+        "{\"descripcion\":\"Vietnam\"},\r",
+        "{\"descripcion\":\"Yemen\"},\r",
+        "{\"descripcion\":\"Zambia\"},\r",
+        "{\"descripcion\":\"Zimbabue\"}]"
+      ],
+      "exposed" : false
+    },
+    "isEstado" : {
+      "type" : "json",
+      "value" : [
+        "{\"isEstado\":false}"
+      ],
+      "exposed" : false
+    },
+    "lstEstados" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "  {\r",
+        "    \"id\": 1,\r",
+        "    \"nombre\": \"AGUASCALIENTES\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 2,\r",
+        "    \"nombre\": \"BAJA CALIFORNIA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 3,\r",
+        "    \"nombre\": \"BAJA CALIFORNIA SUR\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 4,\r",
+        "    \"nombre\": \"CHIHUAHUA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 5,\r",
+        "    \"nombre\": \"CHIAPAS\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 6,\r",
+        "    \"nombre\": \"CAMPECHE\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 7,\r",
+        "    \"nombre\": \"CIUDAD DE MEXICO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 8,\r",
+        "    \"nombre\": \"COAHUILA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 9,\r",
+        "    \"nombre\": \"COLIMA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 10,\r",
+        "    \"nombre\": \"DURANGO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 11,\r",
+        "    \"nombre\": \"GUERRERO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 12,\r",
+        "    \"nombre\": \"GUANAJUATO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 13,\r",
+        "    \"nombre\": \"HIDALGO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 14,\r",
+        "    \"nombre\": \"JALISCO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 15,\r",
+        "    \"nombre\": \"MICHOACAN\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 16,\r",
+        "    \"nombre\": \"ESTADO DE MEXICO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 17,\r",
+        "    \"nombre\": \"MORELOS\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 18,\r",
+        "    \"nombre\": \"NAYARIT\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 19,\r",
+        "    \"nombre\": \"NUEVO LEON\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 20,\r",
+        "    \"nombre\": \"OAXACA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 21,\r",
+        "    \"nombre\": \"PUEBLA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 22,\r",
+        "    \"nombre\": \"QUINTANA ROO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 23,\r",
+        "    \"nombre\": \"QUERETARO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 24,\r",
+        "    \"nombre\": \"SINALOA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 25,\r",
+        "    \"nombre\": \"SAN LUIS POTOSI\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 26,\r",
+        "    \"nombre\": \"SONORA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 27,\r",
+        "    \"nombre\": \"TABASCO\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 28,\r",
+        "    \"nombre\": \"TLAXCALA\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 29,\r",
+        "    \"nombre\": \"TAMAULIPAS\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 30,\r",
+        "    \"nombre\": \"VERACRUZ\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 31,\r",
+        "    \"nombre\": \"YUCATAN\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"id\": 32,\r",
+        "    \"nombre\": \"ZACATECAS\"\r",
+        "  }\r",
+        "]"
+      ],
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "uuid" : "161bf3ac-19bc-4eef-a57d-f0c015d2786f",
+  "type" : "page",
+  "description" : "Page generated with Bonita UI designer"
+}
