@@ -25,7 +25,8 @@ function ($scope) {
     
     $scope.scrollTo = function scrollToCategory(_direction) {
         var elem = document.getElementById("wizard-container");
-        var elemWidth = document.querySelector(".wizard-step-container").scrollWidth;
+        // var elemWidth = document.querySelector(".wizard-step-container").scrollWidth;
+        var elemWidth = 200;
         if (_direction === "back") {
           if (elem.scrollLeft === 0) {
             elem.scrollTo({

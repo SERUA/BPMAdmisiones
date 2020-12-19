@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatSexoAcciones",
   "name" : "CatSexoAcciones",
-  "lastUpdate" : 1607539757780,
+  "lastUpdate" : 1608141000189,
   "rows" : [
     [
       {
@@ -915,11 +915,15 @@
                 "dataToChange2" : {
                   "type" : "variable",
                   "value" : "catSexo_selected"
+                },
+                "nombreTabla" : {
+                  "type" : "constant",
+                  "value" : "lstCatSexoInput"
                 }
               },
-              "reference" : "14948c86-24fb-4944-b684-ac7c0b908345",
+              "reference" : "be40244f-1f4d-484c-8337-fcac40329b8d",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatSexo"
+              "id" : "customButtonInstanciarCatGenerico"
             }
           ]
         ]
@@ -1384,11 +1388,15 @@
                 "dataToChange2" : {
                   "type" : "variable",
                   "value" : "formOutputAgregar"
+                },
+                "nombreTabla" : {
+                  "type" : "constant",
+                  "value" : "lstCatSexoInput"
                 }
               },
-              "reference" : "fec6e05d-8e6c-4fae-b7b3-b01eceeb63a7",
+              "reference" : "77318270-aa05-415a-8314-c92b8b827230",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatSexo"
+              "id" : "customButtonInstanciarCatGenerico"
             }
           ]
         ]
@@ -1524,6 +1532,70 @@
                       "hasValidationError" : false,
                       "id" : "pbContainer",
                       "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "headers" : {
+                                "type" : "constant",
+                                "value" : [
+                                  "Columna",
+                                  "Operador",
+                                  "Valor"
+                                ]
+                              },
+                              "columnsKey" : {
+                                "type" : "constant",
+                                "value" : [
+                                  "columna",
+                                  "operador",
+                                  "valor"
+                                ]
+                              },
+                              "selectedRow" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "striped" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "condensed" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "bordered" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "content" : {
+                                "type" : "variable",
+                                "value" : "lstFiltrosPre"
+                              }
+                            },
+                            "reference" : "25824ee1-a007-43a9-a889-d23bb40b2451",
+                            "hasValidationError" : false,
+                            "id" : "customTableDelete"
+                          }
+                        ],
                         [
                           {
                             "type" : "container",
@@ -1731,7 +1803,7 @@
                                     },
                                     "placeholder" : {
                                       "type" : "interpolation",
-                                      "value" : "Seleccionar..."
+                                      "value" : "Ingresar valor"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -1852,70 +1924,6 @@
                             "reference" : "13f44dc3-ad29-429b-9edc-5f941b08b062",
                             "hasValidationError" : false,
                             "id" : "customButtonAddClean"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "allowHTML" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "headers" : {
-                                "type" : "constant",
-                                "value" : [
-                                  "Columna",
-                                  "Operador",
-                                  "Valor"
-                                ]
-                              },
-                              "columnsKey" : {
-                                "type" : "constant",
-                                "value" : [
-                                  "columna",
-                                  "operador",
-                                  "valor"
-                                ]
-                              },
-                              "selectedRow" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "striped" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "condensed" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "bordered" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "content" : {
-                                "type" : "variable",
-                                "value" : "lstFiltrosPre"
-                              }
-                            },
-                            "reference" : "25824ee1-a007-43a9-a889-d23bb40b2451",
-                            "hasValidationError" : false,
-                            "id" : "customTableDelete"
                           }
                         ]
                       ]
@@ -2210,6 +2218,7 @@
       "type" : "expression",
       "value" : [
         "var validar = true;",
+        "console.log($data.userData);",
         "if($data.editable === \"editar\"){",
         "    if($data.catSexo_selected.clave.trim()=== \"\"){",
         "        validar = false;",

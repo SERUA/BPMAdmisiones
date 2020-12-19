@@ -18,14 +18,42 @@ class CatPeriodoCustom {
 	@XmlElement
 	private String usuarioBanner;
 	@XmlElement
-	private Date fechaImplementacion;
+	private Date fechaImportacion;
 	@XmlElement
 	private String clave;
 	@XmlElement
-	private String isEnable;
+	private Boolean isEnabled;
 	@XmlElement
-	private Boolean isCuatrimestral;
+	private String nombreCampus;
+	@XmlElement
+	private String persistenceId_string;
+	@XmlElement
+	private Boolean isCuatrimestral
 	
+	public Date getFechaImportacion() {
+		return fechaImportacion;
+	}
+	public void setFechaImportacion(Date fechaImportacion) {
+		this.fechaImportacion = fechaImportacion;
+	}
+	public Boolean getIsCuatrimestral() {
+		return isCuatrimestral;
+	}
+	public void setIsCuatrimestral(Boolean isCuatrimestral) {
+		this.isCuatrimestral = isCuatrimestral;
+	}
+	public String getNombreCampus() {
+		return nombreCampus;
+	}
+	public void setNombreCampus(String nombreCampus) {
+		this.nombreCampus = nombreCampus;
+	}
+	public String getPersistenceId_string() {
+		return persistenceId_string;
+	}
+	public void setPersistenceId_string(String persistenceId_string) {
+		this.persistenceId_string = persistenceId_string;
+	}
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -62,39 +90,19 @@ class CatPeriodoCustom {
 	public void setUsuarioBanner(String usuarioBanner) {
 		this.usuarioBanner = usuarioBanner;
 	}
-	public Date getFechaImplementacion() {
-		return fechaImplementacion;
-	}
-	public void setFechaImplementacion(Date fechaImplementacion) {
-		this.fechaImplementacion = fechaImplementacion;
-	}
 	public String getClave() {
 		return clave;
 	}
 	public void setClave(String clave) {
 		this.clave = clave;
 	}
-	public String getIsEnable() {
-		return isEnable;
+	public Boolean getIsEnabled() {
+		return isEnabled;
 	}
-	public void setIsEnable(String isEnable) {
-		this.isEnable = isEnable;
-	}
-	
-	public Boolean getIsCuatrimestral() {
-		return IsCuatrimestral;
-	}
-	public void setIsCuatrimestral(Boolean IsCuatrimestral) {
-		this.IsCuatrimestral = IsCuatrimestral;
+	public void setIsEnabled(Boolean isEnabled) {
+		this.isEnabled = isEnabled;
 	}
 	
-	@Override
-	public String toString() {
-		return "CatCampusCustom [persistenceId=" + persistenceId + ", persistenceVersion=" + persistenceVersion
-				+ ", descripcion=" + descripcion + ", fechaCreacion=" + fechaCreacion + ", isEliminado=" + isEliminado
-				+ ", usuarioBanner=" + usuarioBanner + ", fechaImplementacion=" + fechaImplementacion + ", clave="
-				+ clave + ", isEnable=" + isEnable + "]";
-	}
 	
 	
 }

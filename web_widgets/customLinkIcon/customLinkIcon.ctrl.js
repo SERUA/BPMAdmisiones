@@ -78,4 +78,19 @@ function PbLinkCtrl($scope, $location, $window, httpParamSerializer) {
       }
     }
   }
+  $scope.viewfile = function (src) {
+        if (src.toLowerCase().includes(".jpg") || src.toLowerCase().includes(".png") || src.toLowerCase().includes(".jpeg") || src.toLowerCase().includes(".gif") || src.toLowerCase().includes(".tif") || src.toLowerCase().includes(".bmp") || src.toLowerCase().includes(".tiff")) {
+            Swal.fire({
+                title: "<i>Previsualización</i>",
+                html: "<img style='width:50%' src='" + src + "'><br><a style='font-size: 20px; color: #ff5900;' href='" + src + "' target='_blank' class='btn btn-link'>Descargar</a>",
+                confirmButtonText: "Cerrar",
+            });
+        } else {
+            Swal.fire({
+                title: "<i>Previsualización</i>",
+                html: "<iframe style='width:50%' src='" + src + "'></iframe>",
+                confirmButtonText: "Cerrar",
+            });
+        }
+    }
 }

@@ -1,4 +1,4 @@
-function ($scope, $http) {
+function ($scope, $http, modalService) {
     
     $scope.formInput = { 
         "conIsPagoValidado" : false, 
@@ -8,9 +8,18 @@ function ($scope, $http) {
         }
     }
     
+    $scope.showModal = function(){
+        $("#loading").modal("show");
+    };
+    
+    $scope.hideModal = function(){
+        $("#loading").modal("hide");
+    };
+    
     $scope.newNavValue = "";
     
     $scope.assignTask = function () {
+        $scope.showModal();
         let url = "../API/bpm/userTask/" + $scope.properties.taskId;
         
         var req = {
@@ -25,7 +34,8 @@ function ($scope, $http) {
             $scope.executeTask();
         })
         .error(function(data, status) {
-            swal("Error", data.message, "error")
+            $scope.hideModal();
+            swal("Error", data.message, "error");
         })
         .finally(function() {
             
@@ -37,11 +47,13 @@ function ($scope, $http) {
         let url = ipBonita + "/API/bpm/userTask/" + $scope.properties.taskId + "/execution";
         
         $http.post(url, $scope.formInput).success(function(data){
-            $scope.properties.navigationVar = $scope.newNavValue;
+            $scope.hideModal();
+            $scope.properties.navigationVar = "hideall"
+            swal("Pago exitoso", "Redireccionando.", "success");
             if($scope.reloadPage){
                 setTimeout(function(){
                     window.location.reload();
-                }, 2000);   
+                }, 3000);   
             }
         }).error(function(error){
             console.log("Fallo la tarea" + JSON.stringify(error));

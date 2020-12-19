@@ -661,6 +661,11 @@ class ListadoDAO {
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
 			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
+			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
+			lstGrupoCampus.add(objGrupoCampus);
 					
 			userLogged = context.getApiSession().getUserId();
 			
@@ -1083,6 +1088,11 @@ class ListadoDAO {
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
+			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
 			lstGrupoCampus.add(objGrupoCampus);
 					
 			userLogged = context.getApiSession().getUserId();

@@ -1,10 +1,38 @@
+.hide-component{
+    visibility: hidden;
+}
+
+/* ANTIGUO WIZARD
 .wizard-container{
     width: 50%;
+        min-width: 42rem;
+        position: relative;
+        right: 0;
     height: 5rem;
     display: inline-flex;
     margin-bottom: 1rem;
     overflow-x: scroll;
     margin-left: 50%;
+    scrollbar-width: none;
+}*/
+
+.wizard-container{
+    width: 400px;
+    max-width: 100%;
+    /* position: absolute; */
+    right: 0;
+    height: 5rem;
+    display: inline-flex;
+    margin-bottom: 1rem;
+    overflow-x: scroll;
+    margin-left: calc(100% - 402px);
+}
+
+@media only screen and (max-width: 767px){
+    .wizard-container{
+        width: 100%;
+        margin-left: 0;
+    }   
 }
 
 .wizard-container::-webkit-scrollbar {
@@ -73,11 +101,13 @@
 }
 
 .wizard-step.completed{
-    background: #303030;
+    /*background: #303030;*/
+    background: #848484;
 }
 
 .wizard-step.completed:before{
-    border-left:2rem solid #303030;
+    /*border-left:2rem solid #303030;*/
+    border-left:2rem solid #848484;
 }
 
 .wizard-step.current{
@@ -110,9 +140,11 @@
 }
 
 .arrow-back:hover{
-    border-right: 1.6rem solid #303030;
+    /*border-right: 1.6rem solid #303030;*/
+    border-right: 1.6rem solid #848484;
 }
 
 .arrow-forward:hover{
-    border-left: 1.6rem solid  #303030;
+    /*border-left: 1.6rem solid  #303030;*/
+    border-left: 1.6rem solid  #848484;
 }

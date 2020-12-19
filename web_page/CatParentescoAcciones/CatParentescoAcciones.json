@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "CatParentescoAcciones",
   "name" : "CatParentescoAcciones",
-  "lastUpdate" : 1607540558433,
+  "lastUpdate" : 1608146432235,
   "rows" : [
     [
       {
@@ -353,7 +353,7 @@
                 },
                 "urlPost" : {
                   "type" : "constant",
-                  "value" : "/bonita/API/extension/AnahuacRest?url=getCatParentesco&p=0&c=100"
+                  "value" : "/bonita/API/extension/AnahuacRest?url=getCatGenerico&p=0&c=100"
                 }
               },
               "reference" : "e0914c61-5fd2-4c7d-85c6-a27fb4e13de7",
@@ -842,7 +842,7 @@
                 },
                 "action" : {
                   "type" : "constant",
-                  "value" : "POST"
+                  "value" : "Start process"
                 },
                 "assign" : {
                   "type" : "constant",
@@ -915,11 +915,15 @@
                 "dataToChange2" : {
                   "type" : "variable",
                   "value" : "catParentesco_selected"
+                },
+                "nombreTabla" : {
+                  "type" : "constant",
+                  "value" : "lstCatParentescoInput"
                 }
               },
-              "reference" : "3689da07-df02-4b4c-8422-26ac969b53c0",
+              "reference" : "92c0e4f9-356c-421c-ba5f-ef506b140dd4",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatParentesco"
+              "id" : "customButtonInstanciarCatGenerico"
             }
           ]
         ]
@@ -1384,11 +1388,15 @@
                 "dataToChange2" : {
                   "type" : "variable",
                   "value" : "formOutputAgregar"
+                },
+                "nombreTabla" : {
+                  "type" : "constant",
+                  "value" : "lstCatParentescoInput"
                 }
               },
-              "reference" : "dc9e53ea-38fb-496f-8d37-b0cabbddb163",
+              "reference" : "29c09882-a51f-4b7a-bbd3-c3670691337a",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatParentesco"
+              "id" : "customButtonInstanciarCatGenerico"
             }
           ]
         ]
@@ -2241,7 +2249,8 @@
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
-        "    \"offset\":0\r",
+        "    \"offset\":0,\r",
+        "    \"catalogo\":\"CATPARENTESCO\"\r",
         "};"
       ],
       "exposed" : false

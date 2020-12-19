@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="table table-hover table-striped table-bordered">
+        <thead>
+        </thead>
+        <tbody>
+            <tr ng-show="properties.isMexicano">
+                <td><button ng-click="ctrl.action()" class="btn btn-success">Validar CURP</button></td>
+                <td>{{properties.curp}}</td>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="properties.isCurpValidado">El CURP existe en RENAPO
+                        </label>
+                    </div>
+                </td>
+            </tr>
+                        <tr>
+                <td><a ng-click="viewfile(properties.constancia)" target="_self" class="btn btn-success">Visualizar kárdex</a></td>
+                <td>{{properties.promedio}}</td>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="properties.promedioCoincide">El promedio coincide con el kárdex o carta
+                        </label>
+                    </div>
+                </td>
+            </tr>
+            <tr ng-hide="properties.resultadoCB == null">
+                <td><a ng-click="viewfile(properties.resultadoCB)" target="_self" class="btn btn-success">Visualizar college board</a></td>
+                <td>{{properties.resultadoPAA}}</td>
+                <td>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox" ng-model="properties.cbCoincide">El PAA coincide con la carta oficial de College Board
+                        </label>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,60 @@
+<div id="reader" ></div>
+
+<div ng-if="!ctrl.activado"> 
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+    <br/>
+</div>
+
+<br/>
+<div ng-if="ctrl.camaras.length>=1">
+    <label for="id_select"> Seleccionar cámara: </label>
+    <select id="id_select" ng-options="item.label for item in ctrl.camaras" ng-model="ctrl.selected" ng-change="cambioCamara()" ng-disabled="ctrl.activado" >
+    </select>
+</div>
+<br/>
+
+<div class="text-center"  ng-if="!ctrl.camaras.length>=1">
+    <button class="btn btn-primary"
+        type="button"
+        ng-click="buscarCamaras()"
+        >
+        Buscar cámara
+    </button>
+
+</div>
+<div ng-if="ctrl.camaras.length>=1">
+    <div class="text-center" ng-if="!ctrl.activado" >
+        <button class="btn btn-primary" ng-disabled="ctrl.desactivar === true"
+            type="button"
+            ng-click="iniciar()"
+            >
+            Abrir cámara
+        </button>
+    </div>
+</div>
+<div class="text-center" ng-if="ctrl.activado">
+    <button
+    class="btn btn-primary"
+        type="button"
+        ng-click="cerrar()"
+        >
+        Cerrrar cámara
+    </button>
+
+</div>

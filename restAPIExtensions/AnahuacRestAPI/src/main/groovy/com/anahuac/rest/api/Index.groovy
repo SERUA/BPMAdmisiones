@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory
 import com.anahuac.catalogos.CatNotificacionesFirma
 import com.anahuac.rest.api.DAO.CatalogoBachilleratoDAO
 import com.anahuac.rest.api.DAO.ConektaDAO
+import com.anahuac.rest.api.DAO.HubspotDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.MailGunDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
@@ -58,6 +59,7 @@ class Index implements RestApiController {
 		NotificacionDAO nDAO = new NotificacionDAO();
 		MailGunDAO mgDAO = new MailGunDAO();
 		CatalogoBachilleratoDAO bDao = new CatalogoBachilleratoDAO()
+		HubspotDAO hDAO = new HubspotDAO();
 		//MAPEO DE SERVICIOS==================================================
 		try {
 			switch(url) {
@@ -134,18 +136,26 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				/**************DANIEL CERVANTES FIN****************/
-				/**************JESUS OSUNA*************************/
-					case "getCatEscolaridad":
-					result = new CatalogosDAO().getCatEscolaridad(jsonData, context)
-					responseBuilder.withMediaType("application/json")
+					case "getCatPais":
+					result = new CatalogosDAO().getCatPais(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					
+				/**************DANIEL CERVANTES FIN****************/
+				/**************JESUS OSUNA*************************/
+					case "getCatEscolaridad":
+					result = new CatalogosDAO().getCatEscolaridad(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;		
 					case "getCatSexo":
 					result = new CatalogosDAO().getCatSexo(jsonData, context)
 					responseBuilder.withMediaType("application/json")
@@ -166,6 +176,16 @@ class Index implements RestApiController {
 					}
 					break;
 					
+					case "getCatNacionalidad":
+					result = new CatalogosDAO().getCatNacionalidad(jsonData)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 					case "getCatDescuentos":
 					result = new CatalogosDAO().getCatDescuentos(jsonData, context)
 					responseBuilder.withMediaType("application/json")
@@ -175,7 +195,28 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				/**************JESUS OSUNA FIN*********************/				
+					
+					case "getCatGenerico":
+					result = new CatalogosDAO().getCatGenerico(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				/**************JESUS OSUNA FIN*********************/
+				/***********************ERIC ROSAS**********************/
+					case "getCatPeriodo":
+					result = new CatalogosDAO().getCatPeriodo(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				/***********************ERIC ROSAS FIN******************/						
 				case "selectSolicitudesEnProceso":
 					result = lDao.selectSolicitudesEnProceso(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {
@@ -354,6 +395,14 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "insertCatBitacoraComentario":
+					result = bDao.insertCatBitacoraComentario(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "updateBachillerato":
 					result = bDao.update(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -424,6 +473,22 @@ class Index implements RestApiController {
 					break;
 				case "enviarTarea":
 					result = uDAO.enviarTarea(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "createOrUpdateRegistro":
+					result = hDAO.createOrUpdateRegistro(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "createOrUpdateEnviada":
+					result = hDAO.createOrUpdateEnviada(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

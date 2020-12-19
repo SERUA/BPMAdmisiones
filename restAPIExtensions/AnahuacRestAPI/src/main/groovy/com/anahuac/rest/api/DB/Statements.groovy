@@ -25,19 +25,27 @@ class Statements {
 	
 	/*************DANIEL CERVANTES***********************/
 	public static final String GET_CATCAMPUS="SELECT * FROM CATCAMPUS [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATCATPAIS="SELECT * FROM CATPAIS [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATCATTITULO="SELECT * FROM CATPAIS [WHERE] [ORDERBY] [LIMITOFFSET]"
 	/*************DANIEL CERVANTES FIN*******************/
 	/*************JUAN ESQUER***********************/
 	public static final String GET_CATTITULO="SELECT * FROM CATTITULO  [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_CATESTADOCIVIL ="SELECT * FROM CATESTADOCIVIL  [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATTIPOPRUEBA = "SELECT * FROM CATTIPOPRUEBA [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATPSICOLOGO = "SELECT * FROM CATPSICOLOGO  [WHERE] [ORDERBY] [LIMITOFFSET]"
 	/*************JUAN ESQUER FIN*******************/
 	/***********************JESUS OSUNA********************************/
 	public static final String GET_CATESCOLARIDAD = "SELECT * FROM CATESCOLARIDAD [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_CATSEXO = "SELECT * FROM CATSEXO [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_CATPARENTESCO = "SELECT * FROM CATPARENTESCO [WHERE] [ORDERBY] [LIMITOFFSET]"
-	public static final String GET_CATDESCUENTOS = "SELECT c.*, b.descripcion as bachilleratos FROM CATDESCUENTOS c left join CATBACHILLERATOS b on b.PERSISTENCEID = c.CATBACHILLERATOS_PID [BACHILLERATO]  [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATDESCUENTOS = "SELECT c.*, b.descripcion as bachilleratos FROM CATDESCUENTOS c left join CATBACHILLERATOS b on b.PERSISTENCEID = c.CATBACHILLERATOS_PID [BACHILLERATO] LEFT JOIN CATCAMPUS a on a.grupobonita=c.campus [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATNACIONALIDAD = "SELECT * FROM CATNACIONALIDAD [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATGENERICO = "SELECT * FROM [CATALOGO] [WHERE] [ORDERBY] [LIMITOFFSET]"
 	/***********************JESUS OSUNA FIN********************************/
+	/*************JOSÉ GARCÍA***********************/
+	public static final String GET_CATPROPEDEUTICO ="SELECT p.*, c.descripcion AS campus FROM CATPROPEDEUTICO p INNER JOIN CATCAMPUS c ON p.CAMPUS_PID = c.PERSISTENCEID  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	/*************JOSÉ GARCÍA FIN***********************/
 	/***********************ERIC ROSAS*******************************/
 	public static final String GET_CATPERIODO = "SELECT * FROM CATPERIODO [WHERE] [ORDERBY] [LIMITOFFSET]"
-	
 	/***********************ERIC ROSAS FIN********************************/
 }
