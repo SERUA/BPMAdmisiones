@@ -63,7 +63,28 @@ function PbButtonCtrl($scope, $http, $window) {
                     var jsonData =  JSON.parse(qrCodeMessage);
                     if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.usuario !== undefined && jsonData.usuario !== null){
                         ctrl.leyendo = true;
-                        $scope.doRequest(jsonData.usuario).then(function() {
+						///Funcion para pruebas
+						$scope.doRequest(jsonData.usuario);
+						if($scope.properties.datosUsuario.length === 0){
+                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
+                                closeOnClickOutside: false,
+                                buttons: {
+                                    catch: {
+                                        text: "OK",
+                                        value: "OK",
+                                    }
+                                },
+                            }).then((value) => { ctrl.leyendo = false });
+                        }else{
+                            ctrl.leyendo = true;
+                            $scope.properties.infoQR = jsonData;
+                            $scope.properties.cambioPantalla = "lista";
+                            swal("¡Aspirante encontrado!", `Aspirante: ${jsonData.nombre}`,"success");
+                            $scope.fechaCheck();
+                            $scope.cerrar();
+                        }
+						
+                        /*$scope.doRequest(jsonData.usuario).then(function() {
                         if($scope.properties.datosUsuario.length === 0){
                             swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
                                 closeOnClickOutside: false,
@@ -93,7 +114,7 @@ function PbButtonCtrl($scope, $http, $window) {
                                     }
                                 },
                             }).then((value) => { ctrl.leyendo = false });
-                        });
+                        });*/
                     }else{
                         ctrl.leyendo = true;
                         swal("¡QR inválido!", `El código QR escaneado no tiene datos validos`,"warning", {
@@ -146,7 +167,27 @@ function PbButtonCtrl($scope, $http, $window) {
                     var jsonData =  JSON.parse(qrCodeMessage);
                     if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.usuario !== undefined && jsonData.usuario !== null){
                         ctrl.leyendo = true;
-                        $scope.doRequest(jsonData.usuario).then(function() {
+						///datos de pruebas
+						$scope.doRequest(jsonData.usuario);
+						if($scope.properties.datosUsuario.length === 0){
+                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
+                                closeOnClickOutside: false,
+                                buttons: {
+                                    catch: {
+                                        text: "OK",
+                                        value: "OK",
+                                    }
+                                },
+                            }).then((value) => { ctrl.leyendo = false });
+                        }else{
+                            ctrl.leyendo = true;
+                            $scope.properties.infoQR = jsonData;
+                            $scope.properties.cambioPantalla = "lista";
+                            swal("¡Aspirante encontrado!", `Aspirante: ${jsonData.nombre}`,"success");
+                            $scope.fechaCheck();
+                            $scope.cerrar();
+                        }
+                        /*$scope.doRequest(jsonData.usuario).then(function() {
                         if($scope.properties.datosUsuario.length === 0){
                             swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
                                 closeOnClickOutside: false,
@@ -176,7 +217,7 @@ function PbButtonCtrl($scope, $http, $window) {
                                     }
                                 },
                             }).then((value) => { ctrl.leyendo = false });
-                        });
+                        });*/
                     }else{
                         ctrl.leyendo = true;
                         swal("¡QR inválido!", `El código QR escaneado no tiene datos validos`,"warning", {
@@ -239,7 +280,7 @@ function PbButtonCtrl($scope, $http, $window) {
     }
     
     $scope.doRequest = function(usuario) {
-        var info =  {
+        /*var info =  {
             "tarea":"Validar Información",
             "lstFiltro": [
                 {
@@ -254,7 +295,7 @@ function PbButtonCtrl($scope, $http, $window) {
             "limit":20,
             "offset":0,
             "usuario":"Administrador"
-        }
+        }*/
         
         /*
         var info = {
@@ -266,7 +307,7 @@ function PbButtonCtrl($scope, $http, $window) {
             "offset":0
         }*/
         
-        var req = {
+        /*var req = {
             method: "POST",
             url: "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100",
             data: info,
@@ -277,14 +318,20 @@ function PbButtonCtrl($scope, $http, $window) {
             .success(function (data, status) {
                 //data.data[0]
                 $scope.properties.datosUsuario = data.data[0];
-                console.log(data.data)
             })
             .error(function (data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function () {
                 
-            });
+            });*/
+            
+            
+            for(var i = 0; i < $scope.properties.lstContenido.length; i++){
+                if($scope.properties.lstContenido[i].correoelectronico === usuario){
+                   $scope.properties.datosUsuario = $scope.properties.lstContenido[i]; 
+                }
+            }
     }
 
     $scope.cambioCamara = function(){
@@ -312,10 +359,4 @@ function PbButtonCtrl($scope, $http, $window) {
         });
     }
     
-   
-    
-
 }
-
-
-

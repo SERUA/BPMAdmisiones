@@ -25,7 +25,7 @@ import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.Custom.PruebaCustom
 import com.anahuac.rest.api.Entity.Custom.SesionCustom
-import com.anahuac.rest.api.Entity.db.CatPsicologo
+import com.anahuac.rest.api.Entity.db.Responsable
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
 import com.anahuac.rest.api.Entity.db.Sesion
 import com.bonitasoft.web.extension.rest.RestAPIContext
@@ -185,6 +185,43 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+				
+				case "getUserBonita":
+				String jsonData =request.getParameter "jsonData"
+				result = new SesionesDAO().getUserBonita(jsonData,context)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				
+				break;
+				
+				case "getCatGestionEscolar":
+				String jsonData =request.getParameter "jsonData"
+				result = new CatalogosDAO().getCatGestionEscolar(jsonData, context)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				
+				break;
+				
+				case "getSesion":
+				String persistenceId =request.getParameter "sessionid"
+				result = new SesionesDAO().getSesion(Long.parseLong(persistenceId),context)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				
+				break;
+				
 				case "getIdbanner":
 				String idbanner=request.getParameter "idbanner"
 				result = new SolicitudUsuarioDAO().getIdbanner(0, 9999, idbanner, context)
@@ -204,6 +241,17 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+				
+				case "getCatBachillerato":
+				String jsonData =request.getParameter "jsonData"
+				result = new CatalogosDAO().getCatBachillerato(jsonData, context)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				
 				case "getSesions":
 				List<SesionCustom> sesions = new ArrayList()
 				SesionCustom sesion = new SesionCustom();
@@ -215,8 +263,8 @@ class IndexGet implements RestApiController {
 				prueba.setCampus(new CatCampus())
 				prueba.setPais(new CatPais())
 				prueba.setTipo(new CatTipoPrueba())
-				List<CatPsicologo> psicologos = new ArrayList();
-				psicologos.add(new CatPsicologo());
+				List<Responsable> psicologos = new ArrayList();
+				psicologos.add(new Responsable());
 				
 				prueba.setPsicologos(psicologos)
 				List<PruebaCustom> pruebas = new ArrayList();

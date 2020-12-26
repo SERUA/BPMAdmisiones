@@ -44,20 +44,20 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result postRegistrarUsuario(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+	public Result postRegistrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoN = new Result();
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
-		List<String> lstResultado = new ArrayList<String>();
+		List < String > lstResultado = new ArrayList < String > ();
 		Long userLogged = 0L;
 		Long caseId = 0L;
 		Long total = 0L;
-		
+	
 		Integer start = 0;
 		Integer end = 99999;
-		
-		Usuarios objUsuario= new Usuarios();
-		
+	
+		Usuarios objUsuario = new Usuarios();
+	
 		String error_log = "";
 		
 		try {
@@ -66,19 +66,19 @@ class UsuariosDAO {
 			error_log = error_log + " | ";
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			// Datos de la cuenta del Usuario
-			UserCreator creator = new UserCreator(object.nombreusuario,object.password);
+			UserCreator creator = new UserCreator(object.nombreusuario, object.password);
 			creator.setFirstName(object.nombre).setLastName(object.apellido);
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
 			apiClient.login("Administrador", "bpm")
 			error_log = error_log + " | apiClient.login(Administrador, bpm)";
-			
+	
 			//Registro del usuario
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.createUser(creator);
 			error_log = error_log + " | final User user = identityAPI.createUser(creator);";
-			
+	
 			apiClient.login(user.getUserName(), object.password)
 			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()
 			error_log = error_log + " | final IdentityAPI identityAPI2 = apiClient.getIdentityAPI()";
@@ -87,38 +87,38 @@ class UsuariosDAO {
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(false);
 			error_log = error_log + " | UserUpdater update_user = new UserUpdater();";
-			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+			final User user_update = identityAPI.updateUser(user.getId(), update_user);
 			error_log = error_log + " | final User user_update= identityAPI.updateUser(user.getId(), update_user);";
-			
-			def str = jsonSlurper.parseText('{"campus": "CAMPUS-PUEBLA","correo":"'+object.nombreusuario+'", "codigo": "registrar","isEnviar":false}');
+	
+			def str = jsonSlurper.parseText('{"campus": "' + object.campus + '","correo":"' + object.nombreusuario + '", "codigo": "registrar","isEnviar":false}');
 			error_log = error_log + " | def str = jsonSlurper.parseText";
-			error_log = error_log + " | "+ str;
-			
+			error_log = error_log + " | " + str;
+	
 			NotificacionDAO nDAO = new NotificacionDAO();
-			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
-			error_log = error_log + " | "+ resultadoN.getError_info();
-			error_log = error_log + " | "+ resultadoN.getError();
-			
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+object.campus+"\", \"correo\":\"" + object.nombreusuario + "\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
+			error_log = error_log + " | " + resultadoN.getError_info();
+			error_log = error_log + " | " + resultadoN.getError();
+	
 			String plantilla = resultadoN.getData().get(0);
 			error_log = error_log + " | String plantilla = resultadoN.getData().get(0);";
-			
-			
+	
+	
 			Properties prop = new Properties();
 			String propFileName = "configuration.properties";
 			InputStream inputStream;
 			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
 			error_log = error_log + " | inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);";
-			
+	
 			if (inputStream != null) {
 				prop.load(inputStream);
 			} else {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 			error_log = error_log + " | if (inputStream != null) {";
-			plantilla = plantilla.replace("[href-confirmar]", prop.getProperty("HOST")+ "/bonita/apps/login/activate/?correo="+str.correo+"" );
+			plantilla = plantilla.replace("[href-confirmar]", prop.getProperty("HOST") + "/bonita/apps/login/activate/?correo=" + str.correo + "");
 			error_log = error_log + " | plantilla = plantilla.replace([href-confirmar], prop.getProperty";
 			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(str.correo,"Completar Registro",plantilla.replace("\\", ""),"","CAMPUS-PUEBLA", context);
+			resultado = dao.sendEmailPlantilla(str.correo, "Completar Registro", plantilla.replace("\\", ""), "", object.campus, context);
 			error_log = error_log + " | resultado = dao.sendEmailPlantilla(str.correo,";
 			lstResultado.add(plantilla.replace("\\", ""))
 			error_log = error_log + " | lstResultado.add(plantilla.replace(";

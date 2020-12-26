@@ -24,8 +24,6 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
             data: angular.copy($scope.properties.dataToSend),
             params: params
         };
-        console.log("params");
-        console.log(params);
         return $http(req)
             .success(function (data, status) {
                 $scope.properties.lstContenido = data.data;
@@ -51,7 +49,6 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
         return $http(req)
             .success(function (data, status) {
-                debugger
                 var url = "/bonita/apps/administrativo/verSolicitudAdmision/?id=[TASKID]&displayConfirmation=false";
                 url = url.replace("[TASKID]", data[0].id);
                 window.top.location.href = url;
@@ -74,7 +71,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
         $scope.selectedrow = {};
     }
     $scope.sendMail = function (row, mensaje) {
-        if (row.grupobonita == undefined) {
+        if (row.grupobonita === undefined) {
             for (var i = 0; i < $scope.lstCampus.length; i++) {
                 if ($scope.lstCampus[i].descripcion == row.campus) {
                     row.grupobonita = $scope.lstCampus[i].valor;
@@ -145,12 +142,14 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
     }
     ];
     $(function () {
+        if($scope.properties.lstContenido.length >1){return }
         doRequest("POST", $scope.properties.urlPost);
     })
 
 
     $scope.$watch("properties.dataToSend", function (newValue, oldValue) {
         if (newValue !== undefined) {
+            if($scope.properties.lstContenido.length >1){return }
             doRequest("POST", $scope.properties.urlPost);
         }
         console.log($scope.properties.dataToSend);
@@ -310,7 +309,6 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
      $scope.doRequestRedirect = function(row) {
         $scope.properties.datosUsuario = row;
         $scope.properties.cambioPantalla = 'lista'
-        console.log(data.data)
     }
     
     $scope.redirectComentario = function(row){

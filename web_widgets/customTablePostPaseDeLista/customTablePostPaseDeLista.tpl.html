@@ -1,11 +1,4 @@
 <div ng-show="!isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstMembership.length>1">
-        <select class="form-control" ng-model="filtroCampus" ng-options="getCampusByGrupo(member.group_id.name) as getCampusByGrupo(member.group_id.name) for member in lstMembership" ng-change="addFilter()">
-        <option style="display:none" value="">
-            Seleccionar campus
-        </option>
-        </select>
-    </div>
     <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3">
         <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
         <option ng-value="20">20</option>
@@ -34,7 +27,7 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='LICENCIATURA'"></i></span> </th>
                             
-                    <th><span style="cursor:pointer" ng-click="setOrderBy('TIPO')">TIPO<i class="glyphicon"
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('TIPO')">RESIDENCIA<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='TIPO'"></i></span></th>
                             
@@ -60,7 +53,7 @@
                         <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
                     </td>
                     <td>
-                        {{row.idBanner}}
+                        {{row.idbanner}}
                     </td>
                     <td>
                         {{row.primernombre}} {{row.segundonombre}} {{row.apellidopaterno}} {{row.apellidomaterno}}<br> {{row.correoelectronico}}
@@ -69,7 +62,7 @@
                         {{row.campus}}<br> {{row.licenciatura}}
                     </td>
                     <td>
-                        {{row.tipoExamen}}
+                        {{row.tipoalumno}}
                     </td>
                     <td>
                         {{row.sexo}}
@@ -80,19 +73,18 @@
                         {{row.preparatoria}}
                     </td>
                     <td>
-                        <div class=" middle-td text-center">
-                            <button class="btnEliminar" ng-click="doRequestRedirect(row)" type="button"><span ng-class="row.asistencia===true?'glyphicon glyphicon-check iconograndetabla' : 'glyphicon glyphicon-unchecked iconograndetabla' " aria-hidden="true"></span></button> 
-                            <i class="glyphicon glyphicon-user iconograndetabla"></i>
+                        <div class=" middle-td text-center"  ng-click="doRequestRedirect(row)">
+                            <button class="btnEliminar" type="button"><span ng-class="row.observacionesrechazo === true?'glyphicon glyphicon-check iconograndetabla' : 'glyphicon glyphicon-unchecked iconograndetabla' " aria-hidden="true"></span></button> 
+                            <button class="btnEliminar" type="button"><i class="glyphicon glyphicon-user iconograndetabla"></i></button>
                         </div>
                     </td>
                     <td>
                         <table>
                             <tr>
-                                <td>
-                                    <button class="btn btn-default" ng-click="asignarTarea(row)">
+                                <!--<td> <button class="btn btn-default" ng-click="asignarTarea(row)">
                                     <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                                 </button>
-                                </td>
+                                </td>-->
                                 <td>
                                     <button class="btn btn-primary" ng-click="redirectComentario(row)">
                                     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>

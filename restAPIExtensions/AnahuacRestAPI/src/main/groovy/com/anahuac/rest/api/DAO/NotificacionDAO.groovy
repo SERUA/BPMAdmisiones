@@ -370,7 +370,7 @@ class NotificacionDAO {
 						tablaUsuario += plantillaTabla.replace("[clave]", variables).replace("[valor]", objSolicitudDeAdmision.get(0).getCatPeriodo().getDescripcion())
 					}
 					if(variables.equals("Preparatoria")){
-						tablaUsuario += plantillaTabla.replace("[clave]", variables).replace("[valor]", objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
+						tablaUsuario += plantillaTabla.replace("[clave]", variables).replace("[valor]", (objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion().equals("Otro"))?objSolicitudDeAdmision.get(0).getBachillerato():objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
 					}
 					if(variables.equals("Promedio")){
 						tablaUsuario += plantillaTabla.replace("[clave]", variables).replace("[valor]", objSolicitudDeAdmision.get(0).getPromedioGeneral())
@@ -399,7 +399,7 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).getCatCampus().getDescripcion())
 				plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreoElectronico())
 				plantilla=plantilla.replace("[PERIODO]",objSolicitudDeAdmision.get(0).getCatPeriodo().getDescripcion())
-				plantilla=plantilla.replace("[PREPARATORIA]",objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
+				plantilla=plantilla.replace("[PREPARATORIA]",(objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion().equals("Otro"))?objSolicitudDeAdmision.get(0).getBachillerato():objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
 				plantilla=plantilla.replace("[PROMEDIO]",objSolicitudDeAdmision.get(0).getPromedioGeneral())
 				plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).getEstatusSolicitud())
 				errorlog += ", Variable14"

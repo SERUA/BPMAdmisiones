@@ -5,10 +5,10 @@ import com.anahuac.catalogos.CatEstados
 import com.anahuac.catalogos.CatPais
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
 import com.anahuac.rest.api.Entity.db.Prueba
-import com.anahuac.rest.api.Entity.db.CatPsicologo
+import com.anahuac.rest.api.Entity.db.Responsable
 
 class PruebaCustom extends Prueba {
-	private List<CatPsicologo> psicologos;
+	private List<ResponsableCustom> psicologos;
 	private CatCampus campus;
 	private CatPais pais;
 	private CatEstados estado;
@@ -20,10 +20,10 @@ class PruebaCustom extends Prueba {
 	public void setTipo(CatTipoPrueba tipo) {
 		this.tipo = tipo;
 	}
-	public List<CatPsicologo> getPsicologos() {
+	public List<ResponsableCustom> getPsicologos() {
 		return psicologos;
 	}
-	public void setPsicologos(List<CatPsicologo> psicologos) {
+	public void setPsicologos(List<ResponsableCustom> psicologos) {
 		this.psicologos = psicologos;
 	}
 	public CatCampus getCampus() {
@@ -44,4 +44,13 @@ class PruebaCustom extends Prueba {
 	public void setEstado(CatEstados estado) {
 		this.estado = estado;
 	}
+	
+	@Override
+	public boolean equals(Object arg0) {
+		Boolean part1=arg0 != null;
+		Boolean part2=arg0 instanceof PruebaCustom;
+		Boolean part3=((PruebaCustom) arg0).getPersistenceId().equals(this.getPersistenceId());
+		return (part1 && part2 && part3);
+	}
+	
 }

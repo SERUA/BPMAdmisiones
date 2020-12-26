@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaDeLaSesion",
   "name" : "PaseListaDeLaSesion",
-  "lastUpdate" : 1608338739799,
+  "lastUpdate" : 1609019940975,
   "rows" : [
     [
       {
@@ -114,10 +114,10 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 5,
                       "sm" : 2,
                       "md" : 2,
-                      "lg" : 4
+                      "lg" : 2
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -142,7 +142,7 @@
                       },
                       "buttonStyle" : {
                         "type" : "constant",
-                        "value" : "dark"
+                        "value" : "info"
                       },
                       "action" : {
                         "type" : "constant",
@@ -193,11 +193,15 @@
                       },
                       "removeItem" : {
                         "type" : "variable"
+                      },
+                      "fileExtension" : {
+                        "type" : "constant",
+                        "value" : "xls"
                       }
                     },
-                    "reference" : "9c8ed05e-1451-4420-bd93-7d4dc86b47ca",
+                    "reference" : "3d6abffb-b788-4395-9018-4420d04ba13d",
                     "hasValidationError" : false,
-                    "id" : "customWidgetButtoncustome"
+                    "id" : "customCustomBtnRedireccion"
                   },
                   {
                     "type" : "component",
@@ -205,7 +209,7 @@
                       "xs" : 8,
                       "sm" : 8,
                       "md" : 8,
-                      "lg" : 4
+                      "lg" : 8
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -218,7 +222,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "{{strSesion.FEHCA_INICIO}}"
+                        "value" : "{{strSesion.FECHA}}"
                       },
                       "level" : {
                         "type" : "constant",
@@ -239,7 +243,7 @@
                       "xs" : 4,
                       "sm" : 2,
                       "md" : 2,
-                      "lg" : 4
+                      "lg" : 2
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -351,7 +355,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -839,7 +843,7 @@
                 },
                 "urlPost" : {
                   "type" : "constant",
-                  "value" : "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100"
+                  "value" : "/bonita/API/extension/AnahuacRest?url=getSesionesAspirantes&p=0&c=100"
                 },
                 "dataToSend" : {
                   "type" : "variable",
@@ -1872,7 +1876,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 2,
                       "md" : 3,
                       "lg" : 3
                     },
@@ -1922,7 +1926,7 @@
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 8,
                       "md" : 6,
                       "lg" : 6
                     },
@@ -2001,6 +2005,10 @@
                             "urlPost" : {
                               "type" : "variable",
                               "value" : "urlPost"
+                            },
+                            "lstContenido" : {
+                              "type" : "expression",
+                              "value" : "lstContenido"
                             }
                           },
                           "reference" : "c7feecab-4fb3-42c1-82a6-a8b4ff5a3b20",
@@ -2014,7 +2022,7 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 12,
+                      "sm" : 2,
                       "md" : 3,
                       "lg" : 3
                     },
@@ -2822,7 +2830,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Correo:"
+                              "value" : "Correo electrónico:"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -3004,7 +3012,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<h4>{{procedencia}} Collage Board</h4>"
+                              "value" : "<h4>{{procedencia}} College Board</h4>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3086,12 +3094,12 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "strUsuario.observacionesrechazo == true"
                       },
                       "disabled" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -3105,60 +3113,74 @@
                         "type" : "constant",
                         "value" : "primary"
                       },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Submit task"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
+                      "value" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "strUsuario.observacionesrechazo"
                       },
-                      "dataToSend" : {
-                        "type" : "constant"
+                      "seleccion" : {
+                        "type" : "constant",
+                        "value" : true
                       },
-                      "dataFromSuccess" : {
+                      "regresarTabla" : {
                         "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
+                        "value" : "accion_selected"
                       }
                     },
-                    "reference" : "d2100bfa-14df-4544-9422-cd753fad4b7b",
+                    "reference" : "dfd4a294-9c9d-41d9-a1a5-0a3d5d9a16ec",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "customBtnGuardarAsistencia"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "strUsuario.observacionesrechazo == null || strUsuario.observacionesrechazo === false"
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Cancelar asistencia"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "strUsuario.observacionesrechazo"
+                      },
+                      "seleccion" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "regresarTabla" : {
+                        "type" : "variable",
+                        "value" : "accion_selected"
+                      }
+                    },
+                    "reference" : "a95a75d1-c74e-4748-954e-baa5ecc4f0a6",
+                    "hasValidationError" : false,
+                    "id" : "customBtnGuardarAsistencia"
                   }
                 ],
                 [
@@ -3741,7 +3763,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Mostrar historial comentarios"
+                        "value" : "Mostrar historial de comentarios"
                       },
                       "value" : {
                         "type" : "variable",
@@ -3793,7 +3815,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Inserte tu comentario:"
+                        "value" : "Escribe comentarios sobre el aspirante:"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -4047,7 +4069,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Historial comentarios"
+                        "value" : "Historial de comentarios"
                       },
                       "level" : {
                         "type" : "constant",
@@ -4090,8 +4112,8 @@
                         "value" : [
                           "Comentarios",
                           "Usuario",
-                          "Fecha creacíon",
-                          "Modulo",
+                          "Fecha creación",
+                          "Módulo",
                           "Aspirante"
                         ]
                       },
@@ -4332,9 +4354,11 @@
         "    \r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\":$data.userData.user_name,\r",
+        "    \"sesion\": parseInt($data.idSesion),\r",
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
+        "    \"estatusSolicitud\": \"Solicitud con pago aceptado\",\r",
         "    \"offset\":0\r",
         "};"
       ],
@@ -4381,7 +4405,7 @@
         "{",
         "    \"NOMBRE\":\"\",",
         "    \"DESCRIPCION\":\"\",",
-        "    \"FEHCA_INICIO\":\"26/SEP/2020 10:00\",",
+        "    \"FECHA\":\"26/SEP/2020 10:00\",",
         "    \"ISMEDICINA\":\"\",",
         "    \"catPreparatoria\":[],",
         "    \"catEstado\": [],",

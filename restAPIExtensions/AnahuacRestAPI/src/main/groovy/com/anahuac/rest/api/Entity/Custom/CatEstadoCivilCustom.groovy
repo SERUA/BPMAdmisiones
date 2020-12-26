@@ -14,18 +14,27 @@ class CatEstadoCivilCustom {
 	@XmlElement
 	private String descripcion;
 	@XmlElement
-	private Date fechaCreacion;
+	//private Date fechaCreacion;
+	private String fechaCreacion
 	@XmlElement
-	private Date fechaImportacion;
+	//private Date fechaImportacion;
+	private String fechaImportacion;
 	@XmlElement
-	private String usuarioCreacion;
+	private String usuarioBanner;
 	@XmlElement
 	private Boolean isEliminado;
-	public Date getFechaImportacion() {
+	
+	/*public Date getFechaImportacion() {
 		return fechaImportacion;
 	}
 	public void setFechaImportacion(Date fechaImportacion) {
 		this.fechaImportacion = fechaImportacion;
+	}*/
+	public String getFechaImportacion() {
+	 return fechaImportacion;
+	}
+	public void setFechaImportacion(String fechaImportacion) {
+	 this.fechaImportacion = fechaImportacion;
 	}
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -51,17 +60,25 @@ class CatEstadoCivilCustom {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public Date getFechaCreacion() {
+	/*public Date getFechaCreacion() {
 		return fechaCreacion;
 	}
 	public void setFechaCreacion(Date fechaCreacion) {
 		this.fechaCreacion = fechaCreacion;
+	}*/
+	
+	public String getFechaCreacion() {
+	 return fechaCreacion;
 	}
-	public String getUsuarioCreacion() {
-		return usuarioCreacion;
+	public void setFechaCreacion(String fechaCreacion) {
+	 this.fechaCreacion = fechaCreacion;
 	}
-	public void setUsuarioCreacion(String usuarioCreacion) {
-		this.usuarioCreacion = usuarioCreacion;
+	
+	public String getusuarioBanner() {
+		return usuarioBanner;
+	}
+	public void setusuarioBanner(String usuarioBanner) {
+		this.usuarioBanner = usuarioBanner;
 	}
 	public Boolean getIsEliminado() {
 		return isEliminado;
@@ -73,7 +90,7 @@ class CatEstadoCivilCustom {
 	public String toString() {
 		return "CatLicenciaturaCustom [persistenceId=" + persistenceId + ", persistenceVersion=" + persistenceVersion
 				+ ", clave=" + clave + ", descripcion=" + descripcion + ", fechaCreacion=" + fechaCreacion
-				+ ", usuarioCreacion=" + usuarioCreacion + ", isEliminado=" + isEliminado + "]";
+				+ ", usuarioBanner=" + usuarioBanner + ", isEliminado=" + isEliminado + "]";
 	}
 	
 }

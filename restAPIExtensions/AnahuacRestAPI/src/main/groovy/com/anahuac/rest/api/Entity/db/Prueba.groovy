@@ -1,7 +1,7 @@
 package com.anahuac.rest.api.Entity.db
 
 class Prueba {
-    private Long presistenceId;
+    private Long persistenceId;
     private Long persistenceVersion;
     private String nombre;
     private String aplicacion;
@@ -24,7 +24,14 @@ class Prueba {
     private Long sesion_pid;
 	private Long cattipoprueba_pid;
 	private String duracion;
+	private String descripcion;
 	
+	public String getDescripcion() {
+		return descripcion;
+	}
+	public void setDescripcion(String descripcion) {
+		this.descripcion = descripcion;
+	}
 	public String getDuracion() {
 		return duracion;
 	}
@@ -37,11 +44,11 @@ class Prueba {
 	public void setCattipoprueba_pid(Long cattipoprueba_pid) {
 		this.cattipoprueba_pid = cattipoprueba_pid;
 	}
-	public Long getPresistenceId() {
-		return presistenceId;
+	public Long getPersistenceId() {
+		return persistenceId;
 	}
-	public void setPresistenceId(Long presistenceId) {
-		this.presistenceId = presistenceId;
+	public void setPersistenceId(Long persistenceId) {
+		this.persistenceId = persistenceId;
 	}
 	public Long getPersistenceVersion() {
 		return persistenceVersion;

@@ -2,7 +2,9 @@ package com.anahuac.rest.api.DAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Entity.Custom.CatBachilleratoCustomFiltro
 import com.anahuac.rest.api.Entity.Custom.CatCampusCustomFiltro
+import com.anahuac.rest.api.Entity.Custom.CatCiudadCustonFiltro
 import com.anahuac.rest.api.Entity.Custom.CatPaisCustomFiltro
 import com.anahuac.catalogos.CatBachilleratos
 import com.anahuac.catalogos.CatCampus
@@ -11,7 +13,9 @@ import com.anahuac.catalogos.CatTitulo
 import com.anahuac.rest.api.Entity.Custom.CatDescuentosCustom
 import com.anahuac.rest.api.Entity.Custom.CatEscolaridadCustom
 import com.anahuac.rest.api.Entity.Custom.CatEstadoCivilCustom
+import com.anahuac.rest.api.Entity.Custom.CatEstadoCustomFiltro
 import com.anahuac.rest.api.Entity.Custom.CatGenericoFiltro
+import com.anahuac.rest.api.Entity.Custom.CatGestionEscolar
 import com.anahuac.rest.api.Entity.Custom.CatNacionalidadCustomeFiltro
 import com.anahuac.rest.api.Entity.Custom.CatParentescoCustom
 import com.anahuac.rest.api.Entity.Custom.CatPropedeuticoCustom
@@ -29,8 +33,10 @@ import java.time.LocalTime
 
 import org.bonitasoft.engine.identity.UserMembership  
 import org.bonitasoft.engine.identity.UserMembershipCriterion
-
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 class CatalogosDAO {
+	private static final Logger LOGGER = LoggerFactory.getLogger(CatalogosDAO.class);
 	Connection con;
 	Statement stm;
 	ResultSet rs;
@@ -381,7 +387,7 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-				String consulta = Statements.GET_CATCATPAIS;
+				String consulta = Statements.GET_CATPAIS;
 				CatPaisCustomFiltro row = new CatPaisCustomFiltro();
 				List<CatPaisCustomFiltro> rows = new ArrayList<CatPaisCustomFiltro>();
 				closeCon = validarConexion();
@@ -575,7 +581,502 @@ class CatalogosDAO {
 		}
 		return resultado
 	}
-	
+	public Result getCatEstados(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+			String where ="WHERE ISELIMINADO=false", orderby="ORDER BY "
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+				String consulta = Statements.GET_CATESTADOS;
+				CatEstadoCustomFiltro row = new CatEstadoCustomFiltro();
+				List<CatEstadoCustomFiltro> rows = new ArrayList<CatEstadoCustomFiltro>();
+				closeCon = validarConexion();
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+					switch(filtro.get("columna")) {
+						case "CLAVE":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(clave) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						case "DESCRIPCIÓN":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(DESCRIPCION) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "FECHA CREACIÓN":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(FECHACREACION) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "ISELIMINADO":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(ISELIMINADO) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "ORDEN":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(ORDEN) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+							 case "PAÍS":
+							 if(where.contains("WHERE")) {
+									   where+= " AND "
+								  }else {
+									   where+= " WHERE "
+								  }
+								  where +=" LOWER(PAIS) ";
+								  if(filtro.get("operador").equals("Igual a")) {
+									   where+="=LOWER('[valor]')"
+								  }else {
+									   where+="LIKE LOWER('%[valor]%')"
+								  }
+								  where = where.replace("[valor]", filtro.get("valor"))
+								  break;
+						case "PERSISTENCEID":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(PERSISTENCEID) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "PERSISTENCEVERSION":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(PERSISTENCEVERSION) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+							 case "USUARIO CREACIÓN":
+							 if(where.contains("WHERE")) {
+									   where+= " AND "
+								  }else {
+									   where+= " WHERE "
+								  }
+								  where +=" LOWER(USUARIOCREACION) ";
+								  if(filtro.get("operador").equals("Igual a")) {
+									   where+="=LOWER('[valor]')"
+								  }else {
+									   where+="LIKE LOWER('%[valor]%')"
+								  }
+								  where = where.replace("[valor]", filtro.get("valor"))
+								  break;
+					}
+				}
+				switch(object.orderby) {
+					case "CLAVE":
+					orderby+="clave";
+					break;
+					case "DESCRIPCIÓN":
+					orderby+="descripcion";
+					break;
+					case "FECHA CREACIÓN":
+					orderby+="fechaCreacion";
+					break;
+					case "ISELIMINADO":
+					orderby+="isEliminado";
+					break;
+					case "ORDEN":
+					orderby+="orden";
+					break;
+					case "PERSISTENCEID":
+					orderby+="persistenceId";
+					break;
+					case "PERSISTENCEVERSION":
+					orderby+="persistenceVersion";
+					break;
+					case "USUARIO CREACIÓN":
+					orderby+="usuarioCreacion";
+					break;
+					case "PAÍS":
+					orderby+="pais";
+					break;
+					case "ORDEN":
+					orderby+="orden";
+					break;
+					default:
+					orderby+="persistenceid"
+					break;
+				}
+				orderby+=" "+object.orientation;
+				consulta=consulta.replace("[WHERE]", where);
+				pstm = con.prepareStatement(consulta.replace("*", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				rs= pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
+				
+				rs = pstm.executeQuery()
+				
+				while(rs.next()) {
+					row = new CatEstadoCustomFiltro();
+					row.setClave(rs.getString("clave"));
+					row.setOrden(rs.getLong("orden"));
+					row.setPais(rs.getString("pais"));
+					row.setDescripcion(rs.getString("descripcion"));
+					row.setFechaCreacion(rs.getString("fechaCreacion"));
+					row.setIsEliminado(rs.getBoolean("isEliminado"));
+					row.setCaseId(rs.getString("caseId"));
+					row.setPersistenceId(rs.getLong("persistenceId"));
+					row.setPersistenceVersion(rs.getLong("persistenceVersion"));
+					row.setUsuarioCreacion(rs.getString("usuarioCreacion"));
+					rows.add(row)
+				}
+				resultado.setSuccess(true)
+				
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+public Result getCatBachillerato(String jsonData, RestAPIContext context) {
+	Result resultado = new Result();
+	Boolean closeCon = false;
+	String where = "WHERE ISELIMINADO=false", orderby = "ORDER BY "
+	try {
+		def jsonSlurper = new JsonSlurper();
+		def object = jsonSlurper.parseText(jsonData);
+
+		String consulta = Statements.GET_CATBACHILLERATO;
+		CatBachilleratoCustomFiltro row = new CatBachilleratoCustomFiltro();
+		List < CatBachilleratoCustomFiltro > rows = new ArrayList<CatBachilleratoCustomFiltro>();
+		closeCon = validarConexion();
+		for (Map < String, Object > filtro: (List<Map<String, Object>>) object.lstFiltro) {
+			switch (filtro.get("columna")) {
+				case "CLAVE":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(clave) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "DESCRIPCIÓN":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(DESCRIPCION) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "FECHA CREACIÓN":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(FECHACREACION) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "FECHA IMPLEMENTACIÓN":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(FECHAIMPLEMENTACION) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "ISELIMINADO":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(ISELIMINADO) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "CIUDAD":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(CIUDAD) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "PAÍS":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(PAIS) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "ESTADO":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(ESTADO) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "PERSISTENCEID":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(PERSISTENCEID) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "PERSISTENCEVERSION":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(PERSISTENCEVERSION) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "USUARIO CREACIÓN":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(USUARIOBANNER) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "PERTENECE A LA RED":
+					if (where.contains("WHERE")) {
+						where += " AND "
+					} else {
+						where += " WHERE "
+					}
+					where += " LOWER(PERTENECERED) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+			}
+		}
+		switch (object.orderby) {
+			case "CLAVE":
+				orderby += "clave";
+				break;
+				case "PERTENECE A LA RED":
+				orderby += "PERTENECERED";
+				break;
+			case "DESCRIPCIÓN":
+				orderby += "descripcion";
+				break;
+			case "FECHA CREACIÓN":
+				orderby += "fechaCreacion";
+				break;
+				case "FECHA IMPLEMENTACIÓN":
+				orderby += "fechaImplementacion";
+				break;
+			case "ISELIMINADO":
+				orderby += "isEliminado";
+				break;
+			case "ORDEN":
+				orderby += "orden";
+				break;
+			case "PERSISTENCEID":
+				orderby += "persistenceId";
+				break;
+			case "PERSISTENCEVERSION":
+				orderby += "persistenceVersion";
+				break;
+			case "USUARIO CREACIÓN":
+				orderby += "usuarioBanner";
+				break;
+			case "PAÍS":
+				orderby += "pais";
+				break;
+			case "ESTADO":
+				orderby += "estado";
+				break;
+				case "CIUDAD":
+				orderby += "ciudad";
+				break;
+			default:
+				orderby += "persistenceid"
+				break;
+		}
+		orderby += " " + object.orientation;
+		consulta = consulta.replace("[WHERE]", where);
+		pstm = con.prepareStatement(consulta.replace("*", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+		rs = pstm.executeQuery()
+		if (rs.next()) {
+			resultado.setTotalRegistros(rs.getInt("registros"))
+		}
+		consulta = consulta.replace("[ORDERBY]", orderby)
+		consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+
+		pstm = con.prepareStatement(consulta)
+		pstm.setInt(1, object.limit)
+		pstm.setInt(2, object.offset)
+
+		rs = pstm.executeQuery()
+
+		while (rs.next()) {
+			row = new CatBachilleratoCustomFiltro();
+			row.setCiudad(rs.getString("ciudad"));
+			row.setClave(rs.getString("clave"));
+			row.setDescripcion(rs.getString("descripcion"));
+			row.setEstado(rs.getString("estado"));
+			row.setFechaCreacion(rs.getString("fechaCreacion"));
+			row.setFechaImportacion(rs.getString("fechaImportacion"));
+			row.setPais(rs.getString("pais"));
+			row.setIsEliminado(rs.getBoolean("isEliminado"));
+			row.setIsEnabled(rs.getBoolean("isEnabled"));
+			row.setUsuarioBanner(rs.getString("usuarioBanner"));
+			row.setPersistenceId(rs.getLong("persistenceId"));
+			row.setPersistenceVersion(rs.getLong("persistenceVersion"));
+			row.setPerteneceRed(rs.getBoolean("perteneceRed"));
+			rows.add(row)
+		}
+		resultado.setSuccess(true)
+
+		resultado.setData(rows)
+
+	} catch (Exception e) {
+		resultado.setSuccess(false);
+		resultado.setError(e.getMessage());
+	}finally {
+		if (closeCon) {
+			new DBConnect().closeObj(con, stm, rs, pstm)
+		}
+	}
+	return resultado
+}
 	/***********************DANIEL CERVANTES FIN************************/
 	/***********************JUAN ESQUER******************************/
 	public Result getCatTitulo(String jsonData) {
@@ -781,7 +1282,7 @@ class CatalogosDAO {
 				orderby+="usuariobanner";
 				break
 				case "FECHA CREACIÓN":
-				orderby+="fechacreacion";
+				orderby+="fechaCreacion";
 				break
 				case "FECHA IMPORTACIÓN":
 				orderby+="fechaImportacion";
@@ -809,20 +1310,22 @@ class CatalogosDAO {
 				pstm.setInt(2, object.offset)
 				rs = pstm.executeQuery()
 				while(rs.next()) {
-					row = new CatTitulo()
+					row = new CatEstadoCivilCustom()
 					row.setClave(rs.getString("clave"))
 					row.setDescripcion(rs.getString("descripcion"))
 					row.setIsEliminado(rs.getBoolean("isEliminado"))
 					try {
-						row.fechaCreacion(new java.util.Date(rs.getDate("fechacreacion")))
-						row.fechaImportacion(new java.util.Date(rs.getDate("fechaImportacion")))
+						row.setFechaCreacion(rs.getString("fechaCreacion"))
+						row.setFechaImportacion(rs.getString("fechaImportacion"))
+						//row.fechaCreacion(new java.util.Date(rs.getDate("fechacreacion")))
+						//row.fechaImportacion(new java.util.Date(rs.getDate("fechaimportacion")))
 						}catch(Exception e) {
 						errorlog+=e.getMessage()
 					}
 					
 					row.setPersistenceId(rs.getLong("persistenceId"))
 					row.setPersistenceVersion(rs.getLong("persistenceVersion"))
-					row.setUsuarioCreacion(rs.getString("usuariobanner"))
+					row.setusuarioBanner(rs.getString("usuariobanner"))
 					rows.add(row)
 				}
 				resultado.setSuccess(true)
@@ -1747,6 +2250,301 @@ class CatalogosDAO {
 					row.setUsuarioCreacion(rs.getString("usuariocreacion"))
 					row.setCampus(rs.getString("campus"))
 					row.setConvenioDescuento(rs.getString("convenioDescuento"))
+					
+					rows.add(row)
+				}
+				
+				resultado.setSuccess(true)
+				resultado.setError(errorLog)
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
+				resultado.setError_info(errorLog)
+				resultado.setSuccess(false);
+				resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	public Result getCatGestionEscolar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where ="", orderby="ORDER BY ", errorLog = "",bachillerato="", campus=""
+		
+		List<String> lstGrupo = new ArrayList<String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//assert object instanceof List;
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cancún");
+			objGrupoCampus.put("valor","CAMPUS-CANCUN");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Mayab");
+			objGrupoCampus.put("valor","CAMPUS-MAYAB");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Norte");
+			objGrupoCampus.put("valor","CAMPUS-MNORTE");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac México Sur");
+			objGrupoCampus.put("valor","CAMPUS-MSUR");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
+			objGrupoCampus.put("valor","CAMPUS-OAXACA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Puebla");
+			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
+			objGrupoCampus.put("valor","CAMPUS-XALAPA");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
+			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Juan Pablo II");
+			objGrupoCampus.put("valor","CAMPUS-JP2");
+			lstGrupoCampus.add(objGrupoCampus);
+			
+			objGrupoCampus = new HashMap<String, String>();
+			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
+			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
+			lstGrupoCampus.add(objGrupoCampus);
+					
+			userLogged = context.getApiSession().getUserId();
+			
+			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for(UserMembership objUserMembership : lstUserMembership) {
+				for(Map<String, String> rowGrupo : lstGrupoCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
+						lstGrupo.add(rowGrupo.get("valor"));
+						break;
+					}
+				}
+			}
+			
+			where+=" WHERE isEliminado = false";
+			campus+=" AND ("
+			for(Integer i=0; i<lstGrupo.size(); i++) {
+				String campusMiembro=lstGrupo.get(i);
+				campus+="campus='"+campusMiembro+"'"
+				if(i==(lstGrupo.size()-1)) {
+					campus+=") "
+				}
+				else {
+					campus+=" OR "
+				}
+			}
+			
+				String consulta = Statements.GET_CATGESTIONESCOLAR
+				CatGestionEscolar row = new CatGestionEscolar();
+				List<CatDescuentosCustom> rows = new ArrayList<CatDescuentosCustom>();
+				closeCon = validarConexion();
+				
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+					
+					switch(filtro.get("columna")) {
+						case "NOMBRE LICENCIATURA":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(nombre) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						case "LIGA":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(enlace) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "DESCRIPCION DE CARRERA":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(descripcion) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+							 
+						case "INSCRIPCIÓN ENERO":
+						if(where.contains("WHERE")) {
+									   where+= " AND "
+								  }else {
+									   where+= " WHERE "
+								  }
+								  where +=" LOWER(inscripcionenero) ";
+								  if(filtro.get("operador").equals("Igual a")) {
+									   where+="=LOWER('[valor]')"
+								  }else {
+									   where+="LIKE LOWER('%[valor]%')"
+								  }
+								  where = where.replace("[valor]", filtro.get("valor"))
+								  break;
+						case "INSCRIPCIÓN AGOSTO":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(inscripcionagosto) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						case "PERSISTENCEVERSION":
+						if(where.contains("WHERE")) {
+								  where+= " AND "
+							 }else {
+								  where+= " WHERE "
+							 }
+							 where +=" LOWER(PERSISTENCEVERSION) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								  where+="=LOWER('[valor]')"
+							 }else {
+								  where+="LIKE LOWER('%[valor]%')"
+							 }
+							 where = where.replace("[valor]", filtro.get("valor"))
+							 break;
+						 case "CAMPUS":
+							 if(where.contains("WHERE")) {
+									   where+= " AND "
+								  }else {
+									   where+= " WHERE "
+								  }
+								  where +=" LOWER(campus) ";
+								  if(filtro.get("operador").equals("Igual a")) {
+									   where+="=LOWER('[valor]')"
+								  }else {
+									   where+="LIKE LOWER('%[valor]%')"
+								  }
+								  where = where.replace("[valor]", filtro.get("valor"))
+								  break;
+					}
+				}
+				switch(object.orderby) {
+					case "NOMBRE LICENCIATURA":
+					orderby+="nombre";
+					break;
+					case "LIGA":
+					orderby+="enlace";
+					break;
+					case "DESCRIPCION DE CARRERA":
+					orderby+="descripcion";
+					break;
+					case "INSCRIPCIÓN ENERO":
+					orderby+="inscripcionenero";
+					break;
+					case "INSCRIPCIÓN AGOSTO":
+					orderby+="inscripcionagosto";
+					break;
+					case "PERSISTENCEVERSION":
+					orderby+="PERSISTENCEVERSION";
+					break;
+					case "CAMPUS":
+					orderby+="campus";
+					break;
+					default:
+					orderby+="orden"
+					break;
+				}
+				
+				orderby+=" "+object.orientation;
+				where+=" "+campus 
+				consulta=consulta.replace("[WHERE]", where);
+				
+				pstm = con.prepareStatement(consulta.replace("*", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				rs= pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				errorLog += " "+consulta
+				errorLog+= "consulta"
+				errorLog+= consulta
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
+				
+				errorLog+= "fecha=="
+
+				rs = pstm.executeQuery()
+				while(rs.next()) {
+					
+					row = new CatGestionEscolar()
+					row.setCampus(rs.getString("campus"))
+					row.setCaseId(rs.getString("caseId"))
+					row.setDescripcion(rs.getString("descripcion"))
+					row.setEnlace(rs.getString("enlace"))
+					try {
+					row.setFechaCreacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
+					}catch(Exception e) {
+						errorLog+=", "+e.getMessage()
+					}
+					row.setInscripcionagosto(rs.getString("inscripcionagosto"))
+					row.setInscripcionenero(rs.getString("inscripcionenero"))
+					row.setIsEliminado(rs.getBoolean("isEliminado"))
+					row.setMatematicas(rs.getBoolean("matematicas"))
+					row.setNombre(rs.getString("nombre"))
+					row.setPersistenceId(rs.getLong("persistenceId"))
+					row.setPersistenceVersion(rs.getLong("persistenceVersion"))
+					row.setProgramaparcial(rs.getBoolean("programaparcial"))
+					row.setPropedeutico(rs.getBoolean("propedeutico"))
+					row.setUsuarioCreacion(rs.getString("usuarioCreacion"))
 					
 					rows.add(row)
 				}

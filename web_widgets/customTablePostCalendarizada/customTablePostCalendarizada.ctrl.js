@@ -2,6 +2,12 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
     this.isArray = Array.isArray;
 
+
+    $scope.redirecc = function(row){
+        var url = "/apps/administrativo/PaseDeLista?id="+row.sesion.persistenceId;
+        window.top.location.href = url;
+    }
+    
     this.isClickable = function () {
         return $scope.properties.isBound('selectedRow');
     };

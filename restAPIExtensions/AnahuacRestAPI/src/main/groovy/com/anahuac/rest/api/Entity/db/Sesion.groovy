@@ -10,9 +10,16 @@ class Sesion {
     private Long estado_pid;
     private Long pais_pid;
 	private Long bachillerato_pid;
-    private String borrador;
+    private Boolean borrador;
 	private String tipo;
+	private Long campus_pid;
 	
+	public Long getCampus_pid() {
+		return campus_pid;
+	}
+	public void setCampus_pid(Long campus_pid) {
+		this.campus_pid = campus_pid;
+	}
 	public String getTipo() {
 		return tipo;
 	}
@@ -73,11 +80,12 @@ class Sesion {
 	public void setPais_pid(Long pais_pid) {
 		this.pais_pid = pais_pid;
 	}
-	public String getBorrador() {
+	public Boolean getBorrador() {
 		return borrador;
 	}
-	public void setBorrador(String borrador) {
+	public void setBorrador(Boolean borrador) {
 		this.borrador = borrador;
 	}
+
 	
 }

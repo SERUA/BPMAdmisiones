@@ -38,6 +38,8 @@ import com.anahuac.model.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.catalogos.CatBachilleratosDAO
+import com.anahuac.catalogos.CatCampus
+import com.anahuac.catalogos.CatCampusDAO
 import com.anahuac.catalogos.CatGestionEscolarDAO
 import com.anahuac.rest.api.Entity.Custom.CatBachilleratosCustom
 import com.anahuac.rest.api.Entity.Custom.CatCampusCustom
@@ -85,7 +87,7 @@ class ListadoDAO {
 		
 		List<SolicitudAdmisionCustom> lstResultado = new ArrayList<SolicitudAdmisionCustom>();
 		List<String> lstGrupo = new ArrayList<String>();
-		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		//List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
 		
 		
 		Long userLogged = 0L;
@@ -126,12 +128,15 @@ class ListadoDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			
 			assert object instanceof Map;
 			if(object.lstFiltro != null) {
 				assert object.lstFiltro instanceof List;
 			}
 
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -180,15 +185,15 @@ class ListadoDAO {
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
-			lstGrupoCampus.add(objGrupoCampus);
+			lstGrupoCampus.add(objGrupoCampus);*/
 			
 			userLogged = context.getApiSession().getUserId();
 			
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}
@@ -611,7 +616,10 @@ class ListadoDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -666,14 +674,14 @@ class ListadoDAO {
 			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
 			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
 			lstGrupoCampus.add(objGrupoCampus);
-					
+			*/
 			userLogged = context.getApiSession().getUserId();
 			
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}
@@ -700,6 +708,18 @@ class ListadoDAO {
 				}
 				else if(object.estatusSolicitud.equals("Solicitud con pago aceptado")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud con pago aceptado')"
+				}
+				else if(object.estatusSolicitud.equals("Autodescripción en proceso")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Autodescripción en proceso')"
+				}
+				else if(object.estatusSolicitud.equals("Elección de pruebas no calendarizado")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Elección de pruebas no calendarizado')"
+				}
+				else if(object.estatusSolicitud.equals("No se ha impreso credencial")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='No se ha impreso credencial')"
+				}
+				else if(object.estatusSolicitud.equals("Ya se imprimió su credencial")) {
+					where+=" AND (sda.ESTATUSSOLICITUD='Ya se imprimió su credencial')"
 				}
 
 			}
@@ -1039,7 +1059,10 @@ class ListadoDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -1093,15 +1116,15 @@ class ListadoDAO {
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
 			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
-			lstGrupoCampus.add(objGrupoCampus);
+			lstGrupoCampus.add(objGrupoCampus);*/
 					
 			userLogged = context.getApiSession().getUserId();
 			
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}
@@ -1488,12 +1511,16 @@ class ListadoDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			
 			assert object instanceof Map;
 			if(object.lstFiltro != null) {
 				assert object.lstFiltro instanceof List;
 			}
 
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -1542,15 +1569,15 @@ class ListadoDAO {
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
-			lstGrupoCampus.add(objGrupoCampus);
+			lstGrupoCampus.add(objGrupoCampus);*/
 					
 			userLogged = context.getApiSession().getUserId();
 			
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}
@@ -2005,12 +2032,15 @@ class ListadoDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			estatusSolicitud = object.estatusSolicitud
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			assert object instanceof Map;
 			if(object.lstFiltro != null) {
 				assert object.lstFiltro instanceof List;
 			}
 	
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -2060,15 +2090,15 @@ class ListadoDAO {
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
 			lstGrupoCampus.add(objGrupoCampus);
-					
+			*/
 			userLogged = context.getApiSession().getUserId();
 			LOGGER.error userLogged + "";
 	
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}
@@ -2414,7 +2444,11 @@ class ListadoDAO {
 			if(object.lstFiltro != null) {
 				assert object.lstFiltro instanceof List;
 			}
-
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+		
+			/*
 			objGrupoCampus = new HashMap<String, String>();
 			objGrupoCampus.put("descripcion","Anáhuac Cancún");
 			objGrupoCampus.put("valor","CAMPUS-CANCUN");
@@ -2464,14 +2498,14 @@ class ListadoDAO {
 			objGrupoCampus.put("descripcion","Juan Pablo II");
 			objGrupoCampus.put("valor","CAMPUS-JP2");
 			lstGrupoCampus.add(objGrupoCampus);
-					
+				*/	
 			userLogged = context.getApiSession().getUserId();
 			LOGGER.error userLogged+""; 
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("descripcion"));
+				for(CatCampus rowGrupo : lstCatCampus) {
+					if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
 				}

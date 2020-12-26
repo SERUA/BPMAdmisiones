@@ -16,10 +16,15 @@ import com.anahuac.rest.api.DAO.HubspotDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.MailGunDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
+import com.anahuac.rest.api.DAO.SesionesDAO
 import com.anahuac.rest.api.DAO.TestDAO
 import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Entity.Custom.PruebaCustom
+import com.anahuac.rest.api.Entity.Custom.ResponsableCustom
+import com.anahuac.rest.api.Entity.Custom.SesionCustom
+import com.anahuac.rest.api.Entity.db.ResponsableDisponible
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
 
@@ -144,6 +149,31 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+					case "getCatEstados":
+					result = new CatalogosDAO().getCatEstados(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					case "getCatCiudad":
+					result = new CatalogosDAO().getCatCiudad(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					case "getCatBachillerato":
+					result = new CatalogosDAO().getCatBachillerato(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 				/**************DANIEL CERVANTES FIN****************/
 				/**************JESUS OSUNA*************************/
 					case "getCatEscolaridad":
@@ -198,6 +228,27 @@ class Index implements RestApiController {
 					
 					case "getCatGenerico":
 					result = new CatalogosDAO().getCatGenerico(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					
+					case "getSesionesCalendarizadas":
+					result = new SesionesDAO().getSesionesCalendarizadas(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getSesionesAspirantes":
+					result = new SesionesDAO().getSesionesAspirantes(jsonData, context)
 					responseBuilder.withMediaType("application/json")
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -445,6 +496,93 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "insertSesion":
+					def jsonSlurper = new JsonSlurper();
+					def object = jsonSlurper.parseText(jsonData);
+					
+					assert object instanceof Map;
+					SesionCustom sesion = new SesionCustom()
+					sesion.setBachillerato_pid((object.bachillerato_pid==null)?null:Long.parseLong(object.bachillerato_pid))
+					sesion.setBorrador(object.borrador)
+					sesion.setDescripcion(object.descripcion)
+					sesion.setEstado_pid(object.estado_pid)
+					sesion.setFecha_inicio(object.fecha_inicio)
+					sesion.setIsmedicina(object.ismedicina)
+					sesion.setNombre(object.nombre)
+					sesion.setPais_pid(object.pais_pid)
+					sesion.setPersistenceId(object.persistenceId)
+					sesion.setPersistenceVersion(object.persistenceVersion)
+					sesion.setPruebas(new ArrayList())
+					sesion.setTipo(object.tipo)
+					sesion.setCampus_pid(new Long(object.campus_pid))
+					for (int i =0; i<object.pruebas.size(); i++) {
+						def obj = object.pruebas[i]
+						PruebaCustom prueba = new PruebaCustom()
+						prueba.setAplicacion(obj.aplicacion)
+						prueba.setCalle(obj.calle)
+						prueba.setCampus_pid(obj.campus_pid)
+						prueba.setCattipoprueba_pid(obj.cattipoprueba_pid)
+						prueba.setCodigo_postal(obj.codigo_postal)
+						prueba.setColonia(obj.colonia)
+						prueba.setCupo(obj.cupo)
+						prueba.setDuracion(obj.duracion)
+						prueba.setEntrada(obj.entrada)
+						prueba.setEstado_pid(obj.estado_pid)
+						prueba.setIseliminado(obj.iseliminado)
+						prueba.setLugar(obj.lugar)
+						prueba.setMunicipio(obj.municipio)
+						prueba.setNombre(obj.nombre)
+						prueba.setNumero_ext(obj.numero_ext)
+						prueba.setNumero_int(obj.numero_int)
+						prueba.setPais_pid(obj.pais_pid)
+						prueba.setPersistenceId(obj.persistenceId)
+						prueba.setPersistenceVersion(obj.persistenceVersion)
+						prueba.setPsicologos(new ArrayList())
+						prueba.setRegistrados(obj.registrados)
+						prueba.setSalida(obj.salida)
+						prueba.setSesion_pid(obj.sesion_pid)
+						prueba.setUltimo_dia_inscripcion(obj.ultimo_dia_inscripcion)
+						prueba.setDescripcion(obj.descripcion)
+						for(int j =0; j<obj.psicologos.size(); j++) {
+							def psi = obj.psicologos[j]
+							ResponsableCustom rc = new ResponsableCustom()
+							rc.setFirstname(psi.firstname)
+							rc.setGrupo(psi.grupo)
+							rc.setId(Long.parseLong(psi.id))
+							rc.setLastname(psi.lastname)
+							rc.setLstFechasDisponibles(new ArrayList())
+							
+							for(int k=0; k<psi.lstFechasDisponibles.size();k++) {
+								def disponible=psi.lstFechasDisponibles[k]
+								ResponsableDisponible rd = new ResponsableDisponible()
+								rd.setDisponible(disponible.disponible)
+								rd.setHorario(disponible.horario)
+								rd.setPersistenceVersion(disponible.persistenceVersion)
+								rd.setPersisteneceId(disponible.persisteneceId)
+								rc.getLstFechasDisponibles().add(rd)
+							}
+							prueba.getPsicologos().add(rc)
+							
+						}
+						sesion.getPruebas().add(prueba)
+					}
+					sesion.setTipo(object.tipo)
+					result = new SesionesDAO().insertSesion(sesion)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getSesionesCalendario":
+				String fecha=request.getParameter "fecha"
+				result = new SesionesDAO().getSesionesCalendario(fecha,jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 				case "updateFirma":
 					def jsonSlurper = new JsonSlurper();
 					def object = jsonSlurper.parseText(jsonData);
