@@ -6,7 +6,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     
     
     $scope.redirect = function(){
-        var url = "/apps/administrativo/SesionCalendarizadas";
+        var url = "/apps/administrativo/"+$scope.properties.Direccion;
         window.top.location.href = url;
     }
 }

@@ -1,22 +1,31 @@
 package com.anahuac.rest.api.Entity.db
 
 class ResponsableDisponible {
-	private Long persisteneceId;
+	private Long persistenceId;
 	private Long persistenceVersion;
 	private String horario;
 	private Long responsableId;
 	private Boolean disponible;
+	private Boolean ocupado;
+	
+	public Boolean getOcupado() {
+		return ocupado;
+	}
+	public void setOcupado(Boolean ocupado) {
+		this.ocupado = ocupado;
+	}
 	public Boolean getDisponible() {
 		return disponible;
 	}
 	public void setDisponible(Boolean disponible) {
 		this.disponible = disponible;
 	}
-	public Long getPersisteneceId() {
-		return persisteneceId;
+
+	public Long getPersistenceId() {
+		return persistenceId;
 	}
-	public void setPersisteneceId(Long persisteneceId) {
-		this.persisteneceId = persisteneceId;
+	public void setPersistenceId(Long persistenceId) {
+		this.persistenceId = persistenceId;
 	}
 	public Long getPersistenceVersion() {
 		return persistenceVersion;

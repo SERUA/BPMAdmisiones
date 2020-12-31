@@ -8,6 +8,8 @@ class Responsable {
 	private String grupo;
 	private String rol;
 	private Long id;
+	private Boolean iseliminado;
+	private String fechacreacion;
 	
 	public Long getId() {
 		return id;
@@ -39,8 +41,6 @@ class Responsable {
 	public void setRol(String rol) {
 		this.rol = rol;
 	}
-	private Boolean iseliminado;
-	private String fechacreacion;
 	public Long getPersistenceId() {
 		return persistenceId;
 	}

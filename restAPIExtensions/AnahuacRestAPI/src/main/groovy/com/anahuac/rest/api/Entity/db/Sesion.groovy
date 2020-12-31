@@ -13,7 +13,14 @@ class Sesion {
     private Boolean borrador;
 	private String tipo;
 	private Long campus_pid;
+	private Long ciudad_pid;
 	
+	public Long getCiudad_pid() {
+		return ciudad_pid;
+	}
+	public void setCiudad_pid(Long ciudad_pid) {
+		this.ciudad_pid = ciudad_pid;
+	}
 	public Long getCampus_pid() {
 		return campus_pid;
 	}

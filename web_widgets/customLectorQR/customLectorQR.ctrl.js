@@ -61,12 +61,12 @@ function PbButtonCtrl($scope, $http, $window) {
                     }).then((value) => { ctrl.leyendo = false });
                 }else{
                     var jsonData =  JSON.parse(qrCodeMessage);
-                    if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.usuario !== undefined && jsonData.usuario !== null){
+                    if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.idbanner !== undefined && jsonData.idbanner !== null){
                         ctrl.leyendo = true;
 						///Funcion para pruebas
 						$scope.doRequest(jsonData.usuario);
 						if($scope.properties.datosUsuario.length === 0){
-                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
+                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.idbanner}`,"warning", {
                                 closeOnClickOutside: false,
                                 buttons: {
                                     catch: {
@@ -165,12 +165,12 @@ function PbButtonCtrl($scope, $http, $window) {
                     }).then((value) => { ctrl.leyendo = false });
                 }else{
                     var jsonData =  JSON.parse(qrCodeMessage);
-                    if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.usuario !== undefined && jsonData.usuario !== null){
+                    if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.idbanner !== undefined && jsonData.idbanner !== null){
                         ctrl.leyendo = true;
 						///datos de pruebas
 						$scope.doRequest(jsonData.usuario);
 						if($scope.properties.datosUsuario.length === 0){
-                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.usuario}`,"warning", {
+                            swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.idbanner}`,"warning", {
                                 closeOnClickOutside: false,
                                 buttons: {
                                     catch: {

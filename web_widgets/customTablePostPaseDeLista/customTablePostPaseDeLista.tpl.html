@@ -27,9 +27,9 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='LICENCIATURA'"></i></span> </th>
                             
-                    <th><span style="cursor:pointer" ng-click="setOrderBy('TIPO')">RESIDENCIA<i class="glyphicon"
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('RESIDENCIA')">RESIDENCIA<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='TIPO'"></i></span></th>
+                            ng-show="properties.dataToSend.orderby=='RESIDENCIA'"></i></span></th>
                             
                     <th><span style="cursor:pointer" ng-click="setOrderBy('SEXO')">SEXO<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -40,6 +40,8 @@
                             ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PREPARATORIA')">PREPARATORIA<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PREPARATORIA'"></i></span> </th>
+                    
+                    <th ng-if="properties.lstContenido[0].tipoprueba_PID=='1'"> HORA DE LA ENTREVISTA</th>
                             
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('ASISTENCIA')">QUITAR O PONER ASISTENCIA<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -50,32 +52,35 @@
             <tbody>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                     <td>
-                        <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
+                        <img ng-src="{{row.aspirantes[0].fotografiab64}}" style="width: 64px;">
                     </td>
                     <td>
-                        {{row.idbanner}}
+                        {{row.aspirantes[0].idbanner}}
                     </td>
                     <td>
-                        {{row.primernombre}} {{row.segundonombre}} {{row.apellidopaterno}} {{row.apellidomaterno}}<br> {{row.correoelectronico}}
+                        {{row.aspirantes[0].primernombre}} {{row.aspirantes[0].segundonombre}} {{row.aspirantes[0].apellidopaterno}} {{row.aspirantes[0].apellidomaterno}}<br> {{row.aspirantes[0].correoelectronico}}
                     </td>
                     <td>
-                        {{row.campus}}<br> {{row.licenciatura}}
+                        {{row.aspirantes[0].campus}}<br> {{row.aspirantes[0].licenciatura}}
                     </td>
                     <td>
-                        {{row.tipoalumno}}
+                        {{row.aspirantes[0].tipoalumno}}
                     </td>
                     <td>
-                        {{row.sexo}}
+                        {{row.aspirantes[0].sexo}}
                     </td>
                     <td>
-                        {{row.promediogeneral}}
+                        {{row.aspirantes[0].promediogeneral}}
                         <br/>
-                        {{row.preparatoria}}
+                        {{row.aspirantes[0].preparatoria}}
+                    </td>
+                    <td ng-if="properties.lstContenido[0].tipoprueba_PID=='1'">
+                        {{row.horario}}
                     </td>
                     <td>
                         <div class=" middle-td text-center"  ng-click="doRequestRedirect(row)">
-                            <button class="btnEliminar" type="button"><span ng-class="row.observacionesrechazo === true?'glyphicon glyphicon-check iconograndetabla' : 'glyphicon glyphicon-unchecked iconograndetabla' " aria-hidden="true"></span></button> 
-                            <button class="btnEliminar" type="button"><i class="glyphicon glyphicon-user iconograndetabla"></i></button>
+                            <span ng-class="row.asistencia === true?'glyphicon glyphicon-check iconograndetabla' : 'glyphicon glyphicon-unchecked iconograndetabla' " aria-hidden="true"></span>
+                            <i class="glyphicon glyphicon-user iconograndetabla"></i>
                         </div>
                     </td>
                     <td>

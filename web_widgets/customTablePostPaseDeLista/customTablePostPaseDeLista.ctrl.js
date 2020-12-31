@@ -142,7 +142,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
     }
     ];
     $(function () {
-        if($scope.properties.lstContenido.length >1){return }
+        //if($scope.properties.lstContenido.length >1){return }
         doRequest("POST", $scope.properties.urlPost);
     })
 

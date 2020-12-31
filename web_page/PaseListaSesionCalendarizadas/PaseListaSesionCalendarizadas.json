@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaSesionCalendarizadas",
   "name" : "PaseListaSesionCalendarizadas",
-  "lastUpdate" : 1608830291161,
+  "lastUpdate" : 1609365076455,
   "rows" : [
     [
       {
@@ -1438,6 +1438,7 @@
         "return {\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\": parseInt($data.userData.user_id),\r",
+        "    \"fecha\": $data.getFecha+\"\",\r",
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
@@ -1507,6 +1508,19 @@
         "    \"lugar\":\"Anáhuac México Norte\"",
         "}",
         "]"
+      ],
+      "exposed" : false
+    },
+    "getFecha" : {
+      "type" : "expression",
+      "value" : [
+        "const date = new Date();\r",
+        "const offsetMs = date.getTimezoneOffset() * 60 * 1000;\r",
+        "const msLocal =  date.getTime() - offsetMs;\r",
+        "const dateLocal = new Date(msLocal);\r",
+        "const iso = dateLocal.toISOString();\r",
+        "const isoLocal = iso.slice(0, 10);\r",
+        "return isoLocal;"
       ],
       "exposed" : false
     }

@@ -4,7 +4,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
 
     $scope.redirecc = function(row){
-        var url = "/apps/administrativo/PaseDeLista?id="+row.sesion.persistenceId;
+        var url = "/apps/administrativo/PaseDeLista?idsesion="+row.sesion.persistenceId+"&idprueba="+row.prueba.persistenceId;
         window.top.location.href = url;
     }
     

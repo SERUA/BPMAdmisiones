@@ -25,6 +25,7 @@ import com.anahuac.rest.api.Entity.Custom.PruebaCustom
 import com.anahuac.rest.api.Entity.Custom.ResponsableCustom
 import com.anahuac.rest.api.Entity.Custom.SesionCustom
 import com.anahuac.rest.api.Entity.db.ResponsableDisponible
+import com.anahuac.rest.api.Entity.db.Sesion_Aspirante
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
 
@@ -173,6 +174,14 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+					case "getCatFiltradoCalalogosAdMisiones":
+					result = new CatalogosDAO().getCatFiltradoCalalogosAdMisiones(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 					
 				/**************DANIEL CERVANTES FIN****************/
 				/**************JESUS OSUNA*************************/
@@ -256,6 +265,47 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+					
+					case "getSesionesCalendarizadasPasadas":
+					result = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getSesionesCalendarizadasPasadas":
+					result = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "insertPaseLista":
+					result = new SesionesDAO().insertPaseLista(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "updatePaseLista":
+					result = new SesionesDAO().updatePaseLista(jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 				/**************JESUS OSUNA FIN*********************/
 				/***********************ERIC ROSAS**********************/
 					case "getCatPeriodo":
@@ -502,7 +552,7 @@ class Index implements RestApiController {
 					
 					assert object instanceof Map;
 					SesionCustom sesion = new SesionCustom()
-					sesion.setBachillerato_pid((object.bachillerato_pid==null)?null:Long.parseLong(object.bachillerato_pid))
+					sesion.setBachillerato_pid((object.bachillerato_pid==null)?null:object.bachillerato_pid)
 					sesion.setBorrador(object.borrador)
 					sesion.setDescripcion(object.descripcion)
 					sesion.setEstado_pid(object.estado_pid)
@@ -514,7 +564,8 @@ class Index implements RestApiController {
 					sesion.setPersistenceVersion(object.persistenceVersion)
 					sesion.setPruebas(new ArrayList())
 					sesion.setTipo(object.tipo)
-					sesion.setCampus_pid(new Long(object.campus_pid))
+					sesion.setCiudad_pid(object.ciudad_pid)
+					sesion.setCampus_pid(object.campus_pid)
 					for (int i =0; i<object.pruebas.size(); i++) {
 						def obj = object.pruebas[i]
 						PruebaCustom prueba = new PruebaCustom()
@@ -548,8 +599,14 @@ class Index implements RestApiController {
 							ResponsableCustom rc = new ResponsableCustom()
 							rc.setFirstname(psi.firstname)
 							rc.setGrupo(psi.grupo)
-							rc.setId(Long.parseLong(psi.id))
+							try {
+								rc.setId(psi.id)
+							}catch(Exception e) {
+								rc.setId(Long.parseLong(psi.id))
+							}
 							rc.setLastname(psi.lastname)
+							rc.setPersistenceId(psi.persistenceId)
+							rc.setIseliminado(psi.iseliminado)
 							rc.setLstFechasDisponibles(new ArrayList())
 							
 							for(int k=0; k<psi.lstFechasDisponibles.size();k++) {
@@ -558,7 +615,7 @@ class Index implements RestApiController {
 								rd.setDisponible(disponible.disponible)
 								rd.setHorario(disponible.horario)
 								rd.setPersistenceVersion(disponible.persistenceVersion)
-								rd.setPersisteneceId(disponible.persisteneceId)
+								rd.setPersistenceId(disponible.persistenceId)
 								rc.getLstFechasDisponibles().add(rd)
 							}
 							prueba.getPsicologos().add(rc)
@@ -583,7 +640,33 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
-				case "updateFirma":
+				
+				case "getSesionesCalendarioAspirante":
+				String fecha=request.getParameter "fecha"
+				result = new SesionesDAO().getSesionesCalendarioAspirante(fecha,jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				case "insertSesionAspirante":
+					def jsonSlurper = new JsonSlurper();
+					def object = jsonSlurper.parseText(jsonData);
+					
+					assert object instanceof Map;
+					Sesion_Aspirante sesionAspirante = new Sesion_Aspirante()
+					sesionAspirante.setResponsabledisponible_pid(object.responsabledisponible_pid)
+					sesionAspirante.setSesiones_pid(object.sesiones_pid)
+					sesionAspirante.setUsername(object.username)
+					result = new SesionesDAO().insertSesionAspirante(sesionAspirante)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					case "updateFirma":
 					def jsonSlurper = new JsonSlurper();
 					def object = jsonSlurper.parseText(jsonData);
 					

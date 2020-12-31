@@ -1,0 +1,111 @@
+<div class="col-md-12">
+    <div class="btn-group btn-group-md" role="group" aria-label="Large button group">
+        <button type="button" class="btn btn-default" style="background-color: #ff5900;color:white;">{{properties.detalleSolicitud[0].tipoAlumno}}</button>
+        <button type="button" class="btn btn-default" style="background-color: black;color: white;">{{(properties.usuario[0].catCampus.descripcion=='Anáhuac Mayab')?'Anáhuac Mérida': properties.usuario[0].catCampus.descripcion}}</button>
+        <button type="button" class="btn btn-default" style="background-color: black;color: white;">{{properties.usuario[0].catGestionEscolar.descripcion}}</button>
+    </div>
+</div>
+<br>
+<br>
+<br>
+<div class="panel panel-danger col-md-12" ng-show="properties.hideCalendario!==true">
+    <div class="panel-heading" style="background-color: #ff5900" align="center"><strong style="color:white;">Calendario de entrevistas</strong></div>
+    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;'>
+        <div class="dhx_cal_navline">
+            <div class="dhx_cal_prev_button">&nbsp;</div>
+            <div class="dhx_cal_next_button">&nbsp;</div>
+            <div class="dhx_cal_today_button"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_cal_tab" name="day_tab" style="right:204px;"></div>
+            <div class="dhx_cal_tab" name="week_tab" style="right:140px;"></div>
+            <div class="dhx_cal_tab" name="month_tab" style="right:76px;"></div>
+            <div class="dhx_cal_date"></div>
+            <div class="dhx_minical_icon" id="dhx_minical_icon" ng-click="show_minical()">&nbsp;</div>
+        </div>
+        <div class="dhx_cal_header"></div>
+        <div class="dhx_cal_data"></div>
+    </div>
+</div>
+<div class="col-lg-12" ng-show="properties.hideCalendario==true" style="text-align: center;">
+    <div class="row">
+        <h2>Sesión: {{sesion.nombre}}</h2>
+        <h2>Descripción: {{sesion.descripcion}}</h2>
+    </div>
+    <div class="row">
+        <ul class="list-group col-lg-6 col-md-6">
+            <li class="list-group-item btn-primary" style="text-align: left;"><strong>Collage Board</strong></li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonCollage.nombre}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonCollage.descripcion}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Fecha:</strong>{{jsonCollage.aplicacion}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonCollage.entrada}} - {{jsonCollage.salida}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Lugar:</strong>{{jsonCollage.lugar}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonCollage.municipio}},{{jsonCollage.colonia}} CP:{{jsonCollage.codigo_postal}}</li>
+        </ul>
+        <ul class="list-group col-lg-6 col-md-6">
+            <li class="list-group-item btn-primary" style="text-align: left;"><strong>Psicométrico</strong></li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonPsicometrico.nombre}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonPsicometrico.descripcion}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Fecha:</strong>{{jsonPsicometrico.aplicacion}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonPsicometrico.entrada}} - {{jsonPsicometrico.salida}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Lugar:</strong>{{jsonPsicometrico.lugar}}</li>
+            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonPsicometrico.municipio}},{{jsonPsicometrico.colonia}} CP:{{jsonPsicometrico.codigo_postal}}</li>
+        </ul>
+        <ul class="list-group col-lg-6 col-md-6">
+            <li style="cursor: pointer; text-align: left;" class="list-group-item btn-primary"  ng-click="modalConfirmar()"><strong>Entrevista</strong></li>
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonEntrevista.nombre}}</li>
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonEntrevista.descripcion}}</li>
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Fecha:</strong>{{jsonEntrevista.aplicacion}}</li>
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{datosSelected.horario}}
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Lugar:</strong>{{jsonEntrevista.lugar}}</li>
+            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonEntrevista.municipio}},{{jsonEntrevista.colonia}} CP:{{jsonEntrevista.codigo_postal}}</li>
+        </ul>
+    </div>
+    <div class="col-lg-12 col-md-12">
+        <div class="row col-lg-6 col-md-6" style="text-align: center;">
+            <button class="btn btn-info" ng-click="setShowCalendar()">Atrás</button>
+        </div>
+        <div class="row col-lg-6 col-md-6" style="text-align: center;">
+            <button class="btn btn-primary" ng-click="insertSesionAspirante()">Confirmar sesión</button>
+        </div>
+    </div>
+</div>
+<!-- Modal -->
+<div id="modalConfirmar" class="modal fade" role="dialog" data-backdrop="static">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h4 class="modal-title" align="center"><strong>Seleccionar entrevista</strong></h4>
+            </div>
+            <div class="modal-body row">
+                <div class="col-xs-6">
+                    <div class="col-xs-12">
+                        <span>Psicólogo: <strong>{{jsonEntrevista.psicologos[0].firstname + " " + jsonEntrevista.psicologos[0].lastname}}</strong></span>
+                    </div>
+                </div>
+                <div class="col-xs-6 text-center">
+                    <div class="col-xs-12">
+                        <table class="table table-striped">
+                            <tbody>
+                                <tr ng-repeat="disponibles in jsonEntrevista.psicologos[0].lstFechasDisponibles">
+                                    <td>{{disponibles.horario}}</td>
+                                    <td><label style="cursor: pointer; outline: none;" ng-click="selectEntrevista(disponibles);"><span class="label label-{{(disponibles.ocupado)?'default':(disponibles.disponible)?'success':'default'}}">{{(disponibles.ocupado)?'Ocupado':(disponibles.disponible)?"Disponible":"No Disponible"}}</span></label></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar
+     <span class="glyphicon glyphicon-remove"></span>
+    </button>
+            </div>
+        </div>
+
+    </div>
+</div>

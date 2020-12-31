@@ -723,7 +723,9 @@ class ListadoDAO {
 				}
 
 			}
-			campus+=" AND ("
+			if(lstGrupo.size()>0) {
+				campus+=" AND ("
+			}
 			for(Integer i=0; i<lstGrupo.size(); i++) {
 				String campusMiembro=lstGrupo.get(i);
 				campus+="campus.descripcion='"+campusMiembro+"'"

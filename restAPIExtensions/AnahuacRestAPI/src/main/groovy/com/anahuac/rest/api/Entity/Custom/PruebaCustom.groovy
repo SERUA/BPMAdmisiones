@@ -13,7 +13,14 @@ class PruebaCustom extends Prueba {
 	private CatPais pais;
 	private CatEstados estado;
 	private CatTipoPrueba tipo;
+	private Boolean cambioDuracion;
 	
+	public Boolean getCambioDuracion() {
+		return cambioDuracion;
+	}
+	public void setCambioDuracion(Boolean cambioDuracion) {
+		this.cambioDuracion = cambioDuracion;
+	}
 	public CatTipoPrueba getTipo() {
 		return tipo;
 	}
