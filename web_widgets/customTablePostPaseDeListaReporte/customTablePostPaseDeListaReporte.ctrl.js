@@ -142,14 +142,14 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
     }
     ];
     $(function () {
-        if($scope.properties.lstContenido.length >1){return }
+        //if($scope.properties.lstContenido.length >1){return }
         doRequest("POST", $scope.properties.urlPost);
     })
 
 
     $scope.$watch("properties.dataToSend", function (newValue, oldValue) {
         if (newValue !== undefined) {
-            if($scope.properties.lstContenido.length >1){return }
+            //if($scope.properties.lstContenido.length >1){return }
             doRequest("POST", $scope.properties.urlPost);
         }
         console.log($scope.properties.dataToSend);

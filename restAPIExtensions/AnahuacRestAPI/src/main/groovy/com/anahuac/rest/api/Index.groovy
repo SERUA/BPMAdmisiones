@@ -276,8 +276,8 @@ class Index implements RestApiController {
 					}
 					break;
 					
-					case "getSesionesCalendarizadasPasadas":
-					result = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
+					case "getSesionesAspirantesPasados":
+					result = new SesionesDAO().getSesionesAspirantesPasados(jsonData, context)
 					responseBuilder.withMediaType("application/json")
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -597,6 +597,7 @@ class Index implements RestApiController {
 						for(int j =0; j<obj.psicologos.size(); j++) {
 							def psi = obj.psicologos[j]
 							ResponsableCustom rc = new ResponsableCustom()
+							rc.setPersistenceId(psi.persistenceId)
 							rc.setFirstname(psi.firstname)
 							rc.setGrupo(psi.grupo)
 							try {
@@ -608,7 +609,7 @@ class Index implements RestApiController {
 							rc.setPersistenceId(psi.persistenceId)
 							rc.setIseliminado(psi.iseliminado)
 							rc.setLstFechasDisponibles(new ArrayList())
-							
+							rc.setLicenciaturas(psi.licenciaturas)
 							for(int k=0; k<psi.lstFechasDisponibles.size();k++) {
 								def disponible=psi.lstFechasDisponibles[k]
 								ResponsableDisponible rd = new ResponsableDisponible()
@@ -616,6 +617,7 @@ class Index implements RestApiController {
 								rd.setHorario(disponible.horario)
 								rd.setPersistenceVersion(disponible.persistenceVersion)
 								rd.setPersistenceId(disponible.persistenceId)
+								
 								rc.getLstFechasDisponibles().add(rd)
 							}
 							prueba.getPsicologos().add(rc)

@@ -64,7 +64,7 @@ function PbButtonCtrl($scope, $http, $window) {
                     if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.idbanner !== undefined && jsonData.idbanner !== null){
                         ctrl.leyendo = true;
 						///Funcion para pruebas
-						$scope.doRequest(jsonData.usuario);
+						$scope.doRequest(jsonData.idbanner);
 						if($scope.properties.datosUsuario.length === 0){
                             swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.idbanner}`,"warning", {
                                 closeOnClickOutside: false,
@@ -168,7 +168,7 @@ function PbButtonCtrl($scope, $http, $window) {
                     if(jsonData.nombre !== undefined && jsonData.nombre !== null && jsonData.idbanner !== undefined && jsonData.idbanner !== null){
                         ctrl.leyendo = true;
 						///datos de pruebas
-						$scope.doRequest(jsonData.usuario);
+						$scope.doRequest(jsonData.idbanner);
 						if($scope.properties.datosUsuario.length === 0){
                             swal("¡Aspirante no registrado!", `El aspirante no se encuentra registrado en esta sesión ${jsonData.nombre} ${jsonData.idbanner}`,"warning", {
                                 closeOnClickOutside: false,
@@ -328,7 +328,7 @@ function PbButtonCtrl($scope, $http, $window) {
             
             
             for(var i = 0; i < $scope.properties.lstContenido.length; i++){
-                if($scope.properties.lstContenido[i].correoelectronico === usuario){
+                if($scope.properties.lstContenido[i].aspirantes[0].idbanner === usuario){
                    $scope.properties.datosUsuario = $scope.properties.lstContenido[i]; 
                 }
             }

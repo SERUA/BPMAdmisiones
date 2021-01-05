@@ -61,6 +61,22 @@ class UsuariosDAO {
 		String error_log = "";
 		
 		try {
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
+
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			error_log = error_log + " | ";
@@ -71,8 +87,8 @@ class UsuariosDAO {
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
-			apiClient.login("Administrador", "bpm")
-			error_log = error_log + " | apiClient.login(Administrador, bpm)";
+			apiClient.login(username, password)
+			error_log = error_log + " | apiClient.login(username, password)";
 	
 			//Registro del usuario
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
@@ -101,19 +117,7 @@ class UsuariosDAO {
 	
 			String plantilla = resultadoN.getData().get(0);
 			error_log = error_log + " | String plantilla = resultadoN.getData().get(0);";
-	
-	
-			Properties prop = new Properties();
-			String propFileName = "configuration.properties";
-			InputStream inputStream;
-			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
-			error_log = error_log + " | inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);";
-	
-			if (inputStream != null) {
-				prop.load(inputStream);
-			} else {
-				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
-			}
+			
 			error_log = error_log + " | if (inputStream != null) {";
 			plantilla = plantilla.replace("[href-confirmar]", prop.getProperty("HOST") + "/bonita/apps/login/activate/?correo=" + str.correo + "");
 			error_log = error_log + " | plantilla = plantilla.replace([href-confirmar], prop.getProperty";
@@ -147,11 +151,27 @@ class UsuariosDAO {
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
 		try {
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
+			
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login("Administrador", "bpm");
+			apiClient.login(username, password);
 			
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
@@ -201,11 +221,27 @@ class UsuariosDAO {
 		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
 		try {
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
+
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login("Administrador", "bpm")
+			apiClient.login(username, password)
 			
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(object.nombreusuario);
@@ -239,13 +275,27 @@ class UsuariosDAO {
 		CatRegistro objCatRegistro = new CatRegistro();
 		String errorLog ="";
 		try {
-			
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
 			/*def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);*/
 			LOGGER.error "def object = jsonSlurper.parseText(jsonData);";
 			errorLog = errorLog + "";
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login("Administrador", "bpm")
+			apiClient.login(username, password)
 			LOGGER.error "apiClient.login";
 			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
 			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
@@ -297,8 +347,26 @@ class UsuariosDAO {
 		List<String> lstResultado = new ArrayList<String>();
 		NotificacionDAO nDAO = new NotificacionDAO();
 		try {
+
+
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
+			
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login("Administrador", "bpm")
+			apiClient.login(username, password)
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.getUserByUserName(correo);
 			if(!user.isEnabled()) {

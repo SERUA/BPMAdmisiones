@@ -518,13 +518,29 @@ class ConektaDAO {
 		List<DetalleSolicitud> lstResultado = new ArrayList<DetalleSolicitud>();
 		
 		try {
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+
+			username = prop.getProperty("USERNAME");
+			password = prop.getProperty("PASSWORD");
+
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			String id = object.data.object.id;
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			def objDetalleSolicitudDAO = context.getApiClient().getDAO(DetalleSolicitudDAO.class);
 			List<DetalleSolicitud> detalleSolicitud = objDetalleSolicitudDAO.findByOrdenPago(id, 0, 1);
-			apiClient.login("Administrador", "bpm");
+			apiClient.login(username, password);
 			String caseId = detalleSolicitud.get(0).caseId;
 			def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
 			apiClient.processAPI.executeFlowNode(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), "Esperar pago", 0, 1).get(0).getId());

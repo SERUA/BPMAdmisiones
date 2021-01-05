@@ -10,7 +10,14 @@ class Responsable {
 	private Long id;
 	private Boolean iseliminado;
 	private String fechacreacion;
+	private String licenciaturas;
 	
+	public String getLicenciaturas() {
+		return licenciaturas;
+	}
+	public void setLicenciaturas(String licenciaturas) {
+		this.licenciaturas = licenciaturas;
+	}
 	public Long getId() {
 		return id;
 	}

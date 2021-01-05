@@ -64,30 +64,30 @@ class NotificacionDAO {
 			assert object instanceof Map;
 			
 			userLogged = context.getApiSession().getUserId();
-			errorlog += "Se obtuvo el usuario " + userLogged;
+			errorlog += "| Se obtuvo el usuario " + userLogged;
 			def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
 			ProcesoCaso procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
-			errorlog += ", Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
+			errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
 			def catNotificacionesDAO = context.getApiClient().getDAO(CatNotificacionesDAO.class);
 			CatNotificaciones catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			
-			errorlog += ", se obtiene el catNotificaciones para generar el b64 del documento "
+			errorlog += "| se obtiene el catNotificaciones para generar el b64 del documento "
 
-			errorlog += ",  catNotificacionDAO"
+			errorlog += "|  catNotificacionDAO"
 
-			errorlog += ",  lcn"
+			errorlog += "|  lcn"
 			List<Document> lstDoc = new ArrayList()
 			try {
 				lstDoc =context.getApiClient().getProcessAPI().getDocumentList(Long.valueOf(procesoCaso.getCaseId()), "imageHeader", 0, 10)
 			} catch (Exception e) {
-				errorlog += ", No hay imageHeader en " + object.campus +" con codigo " + object.codigo
+				errorlog += "| No hay imageHeader en " + object.campus +" con codigo " + object.codigo
 			}
-			errorlog += ", se genera el b64 banner"
+			errorlog += "| se genera el b64 banner"
 			List<Document> docEtapaProceso = new ArrayList();
 			try {
 				docEtapaProceso = context.getApiClient().getProcessAPI().getDocumentList(Long.valueOf(procesoCaso.getCaseId()), "docEtapaProceso", 0, 100)
 			} catch (Exception e) {
-				errorlog += ", No hay docEtapaProceso en " + object.campus +" con codigo " + object.codigo
+				errorlog += "| No hay docEtapaProceso en " + object.campus +" con codigo " + object.codigo
 			}
 			List<Document> docGuiaEstudio = new ArrayList();
 			try {
@@ -96,26 +96,27 @@ class NotificacionDAO {
 				e.printStackTrace()
 			}
 			// 1 variable plantilla [banner-href]
-			errorlog += ", Variable1"
+			errorlog += "| Variable1"
+			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCaseId()
+			
 			CatNotificaciones cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
-			errorlog += ",  lstDoc"
-			if(lstDoc.size()>0) {
-				errorlog += ",  lstDoc.size="+lstDoc.size()
+			errorlog += "|  lstDoc"
+			/*if(lstDoc.size()>0) {
+				errorlog += "|  lstDoc.size="+lstDoc.size()
 				for(Document doc : lstDoc) {
 					if(doc.getContentFileName().equals(cn.getNombreImagenHeader())) {
 						encoded ="data:image/png;base64, "+ Base64.getEncoder().encodeToString(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId))
-						// 2 variable plantilla [banner]
-						errorlog += ", Variable2"
+						errorlog += "| Variable2"
 						plantilla=plantilla.replace("[banner]", encoded)
 					}
 				 }
-			}
-			errorlog+="seteando mensaje"
+			}*/
+			errorlog+="| seteando mensaje"
 			
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlaceBanner())
 			
 			//3 variable plantilla [contacto]
-			errorlog += ", Variable3"
+			errorlog += "| Variable3"
 			/*
 			if(!cn.getEnlaceContacto().equals("")) {
 				plantilla = plantilla.replace("<!--CONTACTO-->", prop.getProperty("plantilla_contacto"))
@@ -123,27 +124,27 @@ class NotificacionDAO {
 			}
 			
 			//4 variable plantilla [facebook-href]
-			errorlog += ", Variable4"
+			errorlog += "| Variable4"
 			if(!cn.getEnlaceFacebook().equals("")) {
 				plantilla = plantilla.replace("<!--FACEBOOK-->", "<td> <a href=\"[facebook-href]\"> <img style=\"width: 20px;\"src=\"https://i.ibb.co/vJmN84t/facebook.png\"> </a> </td>")
 				plantilla=plantilla.replace("[facebook-href]",cn.getEnlaceFacebook())
 			}
 			
 			//5 variable plantilla [instagram-href]
-			errorlog += ", Variable5"
+			errorlog += "| Variable5"
 			if(!cn.getEnlaceInstagram().equals("")) {
 				plantilla = plantilla.replace("<!--INSTAGRAM-->", "<td><a href=\"[instagram-href]\"> <img style=\"width: 25px;\"src=\"https://i.ibb.co/BHhs2y9/instagram.png\"> </a> </td>")
 				plantilla=plantilla.replace("[instagram-href]", cn.getEnlaceInstagram())
 			}
 			//6 variable plantilla [twitter-href]
-			errorlog += ", Variable6"
+			errorlog += "| Variable6"
 			if(!cn.getEnlaceTwitter().equals("")) {
 				plantilla = plantilla.replace("<!--twitter-->", "<td><a href=\"[twitter-href]\"> <img style=\"width: 20px;\"src=\"https://i.ibb.co/X2hsqx4/twitter.png\"> </a> </td>")
 				plantilla=plantilla.replace("[twitter-href]",cn.getEnlaceTwitter())
 			}
 			*/
 			//7 variable plantilla [titulo]
-			errorlog += ", Variable7"
+			errorlog += "| Variable7"
 			plantilla=plantilla.replace("[titulo]",cn.getTitulo())
 			
 			Calendar cal = Calendar.getInstance();
@@ -163,28 +164,28 @@ class NotificacionDAO {
 			plantilla=plantilla.replace("[MIN]",minuto)
 			
 			//9 variable plantilla [contenido]
-			errorlog += ", Variable9"
+			errorlog += "| Variable9"
 			if(!cn.getContenidoCorreo().equals("")) {
 				plantilla=plantilla.replace("<!--[CONTENIDO]-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td class=\"col-12\"style=\"font-size: initial; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [contenido]</td> </tr> </tbody> </table>")
 				plantilla=plantilla.replace("[contenido]", cn.getContenidoCorreo())
 				plantilla=plantilla.replace("[firma]", cn.getContenido())
 				plantilla=plantilla.replace("[HOST]", prop.getProperty("HOST"))
 				if(object.mensaje != null) {
-					errorlog += "mensaje " + object.mensaje
+					errorlog += "| mensaje " + object.mensaje
 					plantilla = plantilla.replace("[MENSAJE]", object.mensaje);
 				}
 			}
 			
 			
 			//8 Seccion table atributos usuario
-			errorlog += ", Variable8.1 listado de correos copia"
+			errorlog += "| Variable8.1 listado de correos copia"
 			String tablaUsuario= ""
 			String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave] </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px; \"> [valor] </span> </font> </td> </tr>"
-			errorlog += ", Variable8.2 object.correo=" + object.correo
+			errorlog += "| Variable8.2 object.correo=" + object.correo
 			correo=object.correo;
-			errorlog += ", Variable8.3 cn.getAsunto()=" + cn.getAsunto()
+			errorlog += "| Variable8.3 cn.getAsunto()=" + cn.getAsunto()
 			asunto=cn.getAsunto();
-			errorlog += ", Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLstCorreoCopia().size()
+			errorlog += "| Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLstCorreoCopia().size()
 			if(cn.getLstCorreoCopia().size()>0) {
 				for(String row: cn.getLstCorreoCopia()) {
 					if(cc == "") {
@@ -203,29 +204,29 @@ class NotificacionDAO {
 			pstm.setString(1, object.correo)
 			rs = pstm.executeQuery()
 				if (rs.next()) {
-					errorlog += ", Variable15.1"
+					errorlog += "| Variable15.1"
 					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner")==null?"":rs.getString("IdBanner"))
-					errorlog += ", Variable15.2"
+					errorlog += "| Variable15.2"
 					plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",rs.getString("ObservacionesRechazo")==null?"[RECHAZO-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesRechazo"):"[RECHAZO-COMENTARIOS]")
-					errorlog += ", Variable15.3"
+					errorlog += "| Variable15.3"
 					plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
-					errorlog += ", Variable15.3"
+					errorlog += "| Variable15.3"
 					plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
 					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
 					
 					if(!ordenpago.equals("")) {
-						errorlog += ", campusid"
+						errorlog += "| campusid"
 						pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE)
 						pstm.setString(1, object.campus)
 						rs = pstm.executeQuery()
 						if(rs.next()) {
 							
 							campus_id = rs.getString("campus_id")==null?"": rs.getString("campus_id")
-							errorlog += ", se obtuvo el campusid"+campus_id
+							errorlog += "| se obtuvo el campusid"+campus_id
 							resultado = new ConektaDAO().getOrderDetails(0, 999, "{\"order_id\":\""+ordenpago+"\", \"campus_id\":\""+campus_id+"\"}", context)
-							errorlog += ", se va castear map string string por data"
+							errorlog += "| se va castear map string string por data"
 							Map<String, String> conektaData =(Map<String, String>) resultado.getData().get(0)
-							errorlog += ", casteo exitoso"
+							errorlog += "| casteo exitoso"
 							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
 							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
 							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": conektaData.get("type"))
@@ -242,31 +243,31 @@ class NotificacionDAO {
 			}
 				
 			}
-			errorlog += ", Variable8.5 DataUsuarioAdmision"
+			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog);
-			errorlog += ", Variable8.6 DataUsuarioRegistro"
+			errorlog += "| Variable8.6 DataUsuarioRegistro"
 			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
 
 			String tablaPasos=""
 			String plantillaPasos="<tr> <td class= \"col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center aling-middle backgroundOrange color-index number-table \"> [numero]</td> <td class= \"col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center aling-middle backgroundDGray \"> <div class= \"row \"> <div class= \"col-12 form-group color-titulo \"> <img src= \"[imagen] \"> </div> <div class= \"col-12 color-index sub-img \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [titulo] </div> </div> </td> <td class= \"col-xs-7 col-sm-7 col-md-7 col-lg-7 col-7 text-justify aling-middle backgroundLGray \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [descripcion] </td> </tr>"
 			
 			def catImageNotificacion = context.apiClient.getDAO(CatImageNotificacionDAO.class);
-			errorlog += ", Variable9.1 catImageNotificacion.findByCaseId"
+			errorlog += "| Variable9.1 catImageNotificacion.findByCaseId"
 			List<CatImageNotificacion> lci = catImageNotificacion.findByCaseId(Long.valueOf(procesoCaso.getCaseId()), 0, 999)
 			Integer numero= 0;
-			errorlog += ", Variable9.2 lci.size()=" + lci.size()
+			errorlog += "| Variable9.2 lci.size()=" + lci.size()
 			if(lci.size()>0) {
 				plantilla= plantilla.replace("<!--[PASOS]-->", "<table class=\"table table-bordered\"> <tbody> [pasos] </tbody> </table>")
 				for(CatImageNotificacion ci: lci) {
 					if(ci.getCodigo().equals(cn.getCodigo())) {
 					numero++
-					errorlog += ", Variable10."+numero
+					errorlog += "| Variable10."+numero
 					String imagen= "";
 					//Descripcion es el nombre del documento
-					errorlog += ", Variable10.1 doc=" + ci.getDescripcion()
+					errorlog += "| Variable10.1 doc=" + ci.getDescripcion()
 					if(docEtapaProceso.size()>0) {
 						for(Document doc:docEtapaProceso) {
-								errorlog += ", Variable10.1 doc=" + ci.getDescripcion()+"= doc.getName()="+ doc.getContentFileName()
+								errorlog += "| Variable10.1 doc=" + ci.getDescripcion()+"= doc.getName()="+ doc.getContentFileName()
 								if(doc.getContentFileName().equals(ci.getDescripcion())) {
 									imagen ="data:image/png;base64, "+ Base64.getEncoder().encodeToString(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId))
 								}
@@ -276,12 +277,12 @@ class NotificacionDAO {
 					}
 				}
 			}
-			errorlog += ", Variable11"
+			errorlog += "| Variable11"
 			plantilla=plantilla.replace("[pasos]", tablaPasos)
-			errorlog += ", Variable12"
+			errorlog += "| Variable12"
 			String guia=cn.getDocGuiaEstudio()==null?"":cn.getDocGuiaEstudio();
 			/*for(Document doc:docGuiaEstudio) {
-				errorlog += ", Variable10.1 doc.getName()="+ doc.getContentFileName()
+				errorlog += "| Variable10.1 doc.getName()="+ doc.getContentFileName()
 				if(cn.getDocGuiaEstudio().equals(doc.getContentFileName())) {
 					guia ="src=\"data:application/octet-stream;base64, "+ Base64.getEncoder().encodeToString(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId)) +"\" download=\""+doc.getContentFileName() +"\""
 				}
@@ -293,13 +294,13 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[guia-src]", guia)
 			}
 			
-			errorlog += ", Variable13"
+			errorlog += "| Variable13"
 			if(!cn.getContenidoLeonel().equals("") ) {
 				plantilla=plantilla.replace("<!--Leonel-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td width=\"25%\" style=\"text-align: right;\"> <img style=\"width: 57%;\"src=\"https://i.ibb.co/g4NJKJz/leonel-1.png\"> </td> <td class=\"col-6\"> <div class=\"arrow_box\" style=\"position: relative; background: rgb(255, 131, 0); border: 4px solid rgb(255, 131, 0);\"> <h6 class=\"logo\"style=\"font-size: 12px; padding: 10px; color: white; font-weight: 500;font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [leonel]</h6> </div> </td> </tr> </tbody> </table>")
 				plantilla=plantilla.replace("[leonel]", cn.getContenidoLeonel())
 			}
 			
-			errorlog += ", Variable15"
+			errorlog += "| Variable15"
 			
 			encoded=""
 			try {
@@ -310,7 +311,7 @@ class NotificacionDAO {
 					}
 				}
 			} catch (Exception e) {
-				errorlog += ", No se encuentra la imageFooter de campus " + object.campus + " con codigo " + object.codigo 
+				errorlog += "| No se encuentra la imageFooter de campus " + object.campus + " con codigo " + object.codigo 
 			}
 			
 			   

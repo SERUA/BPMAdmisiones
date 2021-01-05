@@ -105,7 +105,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
         "valor": "CAMPUS-CANCUN"
     },
     {
-        "descripcion": "Anáhuac Mayab",
+        "descripcion": "Anáhuac Mérida",
         "valor": "CAMPUS-MAYAB"
     },
     {
@@ -149,7 +149,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
     $scope.$watch("properties.dataToSend", function (newValue, oldValue) {
         if (newValue !== undefined) {
-            if($scope.properties.lstContenido.length >1){return }
+            //if($scope.properties.lstContenido.length >1){return }
             doRequest("POST", $scope.properties.urlPost);
         }
         console.log($scope.properties.dataToSend);
@@ -315,6 +315,42 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
         $scope.properties.datosUsuario = row;
         $scope.properties.cambioPantalla = 'comentarios'
         window.scrollTo(0,0);
+    }
+    
+    $scope.blockPaseLista = function(row){
+        
+        var d = new Date();
+        
+        var n = moment( (d.getHours() < 10? "0"+d.getHours() : d.getHours()) +":"+ (d.getMinutes() < 10 ? "0"+d.getMinutes() : d.getMinutes() ) , 'HH:mm'  );
+        var fecha = moment(d.getFullYear()+"-"+((d.getMonth()+1) < 10 ?"0"+(d.getMonth()+1):(d.getMonth()+1) )+"-"+(d.getDate() < 10 ? "0"+d.getDate() : d.getDate() ))
+        
+        //var n = moment("09:00", 'HH:mm');
+        //var fecha = moment("2021-01-31", 'YYYY-MM-DD ')
+        //console.log( moment(fecha).isSame(row.fecha));
+        // && moment("2021-01-31").isSame(row.fecha)
+        
+        var ini = angular.copy(row.horario.slice(0,5));
+        var last =angular.copy(row.horario.slice(8,13));
+        
+        var inicio = moment(ini, 'HH:mm');
+        var fin = moment(last, 'HH:mm');
+        
+        if(row.tipoprueba_PID == "1"){
+        
+            if(  n.isSameOrAfter(inicio) && n.isSameOrBefore(fin) && fecha.isSame(row.fecha)){
+                $scope.properties.habilitado = true;
+            }else{
+                $scope.properties.habilitado = false;
+            }
+            
+        }else{
+            
+            if( n.isSameOrBefore(fin) && n.isSameOrAfter(inicio) && fecha.isSame(row.fecha) ){
+                $scope.properties.habilitado = true;
+            }else{
+                $scope.properties.habilitado = false;
+            }
+        }
     }
     
 }

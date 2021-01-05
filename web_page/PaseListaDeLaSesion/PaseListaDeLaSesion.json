@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaDeLaSesion",
   "name" : "PaseListaDeLaSesion",
-  "lastUpdate" : 1609444096895,
+  "lastUpdate" : 1609806408873,
   "rows" : [
     [
       {
@@ -358,8 +358,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : true
+                  "type" : "expression",
+                  "value" : ""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -455,96 +455,6 @@
                           "reference" : "226eea5f-eb55-4fbe-a841-080896996d36",
                           "hasValidationError" : false,
                           "id" : "customButtonSetValor"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 6,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "disabled" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "<i class=\"glyphicon glyphicon-print\"></i> Imprimir"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "primary"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "Submit task"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            }
-                          },
-                          "reference" : "13cbc5f5-c5b8-4fa4-acea-38ffc0dde257",
-                          "hasValidationError" : false,
-                          "id" : "customButtonPrint"
                         }
                       ]
                     ]
@@ -868,6 +778,10 @@
                 "datosUsuario" : {
                   "type" : "variable",
                   "value" : "strUsuario"
+                },
+                "habilitado" : {
+                  "type" : "variable",
+                  "value" : "strSesion.habilitado"
                 }
               },
               "reference" : "6baa367c-46ef-4aa0-8487-0c712b3d4fdb",
@@ -2572,7 +2486,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "borderBlack"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -3274,6 +3188,58 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
+                        "value" : "color-text-orange"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "strSesion.habilitado == true"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<h4>*No se encuentra en el horario para el pase de lista de este aspirante</h4>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "107c3d87-0ae4-4caf-a72f-1261b96d4a68",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
                         "value" : ""
                       },
                       "hidden" : {
@@ -3281,8 +3247,8 @@
                         "value" : "strUsuario.asistencia== true"
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "strSesion.habilitado == false"
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -3337,8 +3303,8 @@
                         "value" : "strUsuario.asistencia== null || strUsuario.asistencia=== false"
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "strSesion.habilitado == false"
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -3793,8 +3759,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "strSesion.habilitado == false"
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -4199,13 +4165,7 @@
         "[\r",
         "    \"ID BANNER\",\r",
         "    \"NOMBRE\",\r",
-        "    \"EMAIL\",\r",
-        "    \"UNIVERSIDAD\",\r",
-        "    \"LICENCIATURA\",\r",
-        "    \"TIPO\",\r",
-        "    \"SEXO\",\r",
-        "    \"PROMEDIO\",\r",
-        "    \"PREPARATORIA\"\r",
+        "    \"EMAIL\"\r",
         "]"
       ],
       "exposed" : false
@@ -4223,7 +4183,6 @@
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
-        "    \"estatusSolicitud\": \"Solicitud con pago aceptado\",\r",
         "    \"offset\":0\r",
         "};"
       ],
@@ -4268,14 +4227,7 @@
       "type" : "json",
       "value" : [
         "{",
-        "    \"NOMBRE\":\"\",",
-        "    \"DESCRIPCION\":\"\",",
-        "    \"FECHA\":\"26/SEP/2020 10:00\",",
-        "    \"ISMEDICINA\":\"\",",
-        "    \"catPreparatoria\":[],",
-        "    \"catEstado\": [],",
-        "    \"catPais\": [],",
-        "    \"BORRADOR\": \"\"",
+        "    \"habilitado\":false",
         "}"
       ],
       "exposed" : false

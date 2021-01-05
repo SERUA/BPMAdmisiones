@@ -23,6 +23,8 @@ import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.text.SimpleDateFormat
+
+import org.apache.commons.collections4.functors.ComparatorPredicate.Criterion
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
@@ -517,9 +519,10 @@ class SesionesDAO {
 							pstm.setBoolean(2, disponible.getDisponible())
 							pstm.setLong(3, responsable.getId())
 							pstm.setLong(4,prueba.getPersistenceId())
+							pstm.setString(5, responsable.getLicenciaturas())
 							if(disponible.getPersistenceId()>0){
-								pstm.setBoolean(5, (responsable.getIseliminado()==null)?false:responsable.getIseliminado())
-								pstm.setLong(6, disponible.getPersistenceId())
+								pstm.setBoolean(6, (responsable.getIseliminado()==null)?false:responsable.getIseliminado())
+								pstm.setLong(7, disponible.getPersistenceId())
 								pstm.executeUpdate()
 							}else {
 								pstm.executeUpdate()
@@ -543,9 +546,10 @@ class SesionesDAO {
 							pstm.setNull(2, java.sql.Types.NULL)
 							pstm.setLong(3, responsable.getId())
 							pstm.setLong(4,prueba.getPersistenceId())
+							pstm.setNull(5,java.sql.Types.NULL)
 							if(responsable.getPersistenceId()>0){
-								pstm.setBoolean(5, (responsable.getIseliminado()==null)?false:responsable.getIseliminado())
-								pstm.setLong(6, responsable.getPersistenceId())
+								pstm.setBoolean(6, (responsable.getIseliminado()==null)?false:responsable.getIseliminado())
+								pstm.setLong(7, responsable.getPersistenceId())
 								pstm.executeUpdate()
 							}else {
 							pstm.executeUpdate()
@@ -598,12 +602,24 @@ class SesionesDAO {
 						throw new Exception("No hay cupo");
 					}
 				}
+				
+				pstm = con.prepareStatement(Statements.GET_OCUPADO_RESPONSABLE_DISPONIBLE)
+				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+				rs = pstm.executeQuery()
+				if(rs.next()) {
+					throw new Exception("Se encuentra ocupado")
+				}
+				
 				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS)
 				pstm.setLong(1, sesionAspirante.getSesiones_pid())
 				pstm.setLong(2, sesionAspirante.getSesiones_pid())
 				pstm.executeUpdate();
 				
 				pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE)
+				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+				pstm.executeUpdate();
+				
+				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
 				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
 				pstm.executeUpdate();
 				
@@ -615,7 +631,6 @@ class SesionesDAO {
 				pstm.executeUpdate();
 				rs = pstm.getGeneratedKeys()
 				
-				rs = pstm.getGeneratedKeys();
 				if(rs.next()) {
 					sesionAspirante.setPersistenceId(rs.getLong("persistenceId"))
 				}
@@ -864,8 +879,10 @@ class SesionesDAO {
 					p.setPsicologos(new ArrayList())
 					
 					User usr;
+					UserMembership membership
 					if(rs.getLong("RESPONSABLEID")>0) {
 						usr = context.getApiClient().getIdentityAPI().getUser(rs.getLong("RESPONSABLEID"))
+						membership=context.getApiClient().getIdentityAPI().getUserMemberships(usr.getId(), 0, 100, UserMembershipCriterion.GROUP_NAME_ASC).get(0)
 					}
 					
 					if(sesion.getPruebas().contains(p)) {
@@ -876,10 +893,14 @@ class SesionesDAO {
 						fd.setHorario(rs.getString("horario"))
 						fd.setPersistenceId(rs.getLong("rid"))
 						fd.setResponsableId(rs.getLong("RESPONSABLEID"))
+						psi.setLicenciaturas(rs.getString("licenciaturas"))
 						psi.setPersistenceId(rs.getLong("rid"))
+						
 						try {
 							psi.setFirstname(usr.getFirstName())
 							psi.setLastname(usr.getLastName())
+							psi.setGrupo(membership.groupName)
+							psi.setRol(membership.roleName)
 						}catch(Exception e) {
 							resultado.setError_info(e.getMessage())
 						}
@@ -906,9 +927,12 @@ class SesionesDAO {
 						psi.setId(rs.getLong("RESPONSABLEID"))
 						fd.setPersistenceId(rs.getLong("rid"))
 						fd.setResponsableId(rs.getLong("RESPONSABLEID"))
+						psi.setLicenciaturas(rs.getString("licenciaturas"))
 						psi.setPersistenceId(rs.getLong("rid"))
 						psi.setLstFechasDisponibles(new ArrayList())
 						try {
+							psi.setGrupo(membership.groupName)
+							psi.setRol(membership.roleName)
 							psi.setFirstname(usr.getFirstName())
 							psi.setLastname(usr.getLastName())
 							
@@ -938,6 +962,237 @@ class SesionesDAO {
 		}
 		return resultado;
 	}
+	public Result getSesionAspirante(Long persistenceId, RestAPIContext context) {
+		
+		
+				Result resultado = new Result();
+				Boolean closeCon = false;
+				List<SesionCustom> lstSesion = new ArrayList();
+				SesionCustom sesion = new SesionCustom()
+				String where=" ", consulta =""
+				try {
+		
+					closeCon = validarConexion();
+			
+					
+					pstm = con.prepareStatement(Statements.GET_SESION_ID)
+					pstm.setLong(1, persistenceId)
+					rs = pstm.executeQuery()
+					if(rs.next()) {
+						sesion = new SesionCustom();
+						sesion.setBachillerato_pid(rs.getLong("PREPARATORIA_PID"))
+						sesion.setBorrador(rs.getBoolean("borrador"))
+						sesion.setDescripcion(rs.getString("descripcion"))
+						sesion.setEstado_pid(rs.getLong("estado_pid"))
+						sesion.setFecha_inicio(rs.getString("fecha_inicio"))
+						sesion.setIsmedicina(rs.getBoolean("ismedicina"))
+						sesion.setNombre(rs.getString("nombre"))
+						sesion.setPais_pid(rs.getLong("pais_pid"))
+						sesion.setPersistenceId(rs.getLong("persistenceId"))
+						sesion.setPersistenceVersion(rs.getLong("persistenceVersion"))
+						sesion.setPruebas(new ArrayList())
+						sesion.setCampus_pid(rs.getLong("campus_pid"))
+						sesion.setTipo(rs.getString("tipo"))
+						sesion.setCiudad_pid(rs.getLong("ciudad_pid"))
+						pstm = con.prepareStatement(Statements.GET_PRUEBAS_SESION_PID_ASPIRANTE)
+						pstm.setLong(1, sesion.getPersistenceId())
+						rs = pstm.executeQuery()
+						while(rs.next()) {
+							
+							PruebaCustom p = new PruebaCustom()
+							p.setAplicacion(rs.getString("aplicacion"))
+							p.setCalle(rs.getString("calle"))
+							p.setCampus_pid(rs.getLong("campus_pid"))
+							p.setCattipoprueba_pid(rs.getLong("cattipoprueba_pid"))
+							p.setCodigo_postal(rs.getString("codigo_postal"))
+							p.setColonia(rs.getString("colonia"))
+							p.setCupo(rs.getInt("cupo"))
+							p.setDescripcion(rs.getString("descripcion"))
+							p.setDuracion(rs.getString("duracion"))
+							p.setEntrada(rs.getString("entrada"))
+							p.setEstado_pid(rs.getLong("estado_pid"))
+							p.setIseliminado(rs.getBoolean("iseliminado"))
+							p.setLugar(rs.getString("lugar"))
+							p.setMunicipio(rs.getString("municipio"))
+							p.setNombre(rs.getString("nombre"))
+							p.setNumero_ext(rs.getString("numero_ext"))
+							p.setNumero_int(rs.getString("numero_int"))
+							p.setPais_pid(rs.getLong("pais_pid"))
+							p.setPersistenceId(rs.getLong("persistenceId"))
+							p.setPersistenceVersion(rs.getLong("persistenceVersion"))
+							p.setRegistrados(rs.getInt("registrados"))
+							p.setSalida(rs.getString("salida"))
+							p.setSesion_pid(rs.getLong("sesion_pid"))
+							p.setUltimo_dia_inscripcion(rs.getString("ultimo_dia_inscripcion"))
+							p.setTipo(new CatTipoPrueba())
+							p.getTipo().setDescripcion(rs.getString("tipo"))
+							p.setPsicologos(new ArrayList())
+							
+							User usr;
+							UserMembership membership
+							if(rs.getLong("RESPONSABLEID")>0) {
+								usr = context.getApiClient().getIdentityAPI().getUser(rs.getLong("RESPONSABLEID"))
+								membership=context.getApiClient().getIdentityAPI().getUserMemberships(usr.getId(), 0, 100, UserMembershipCriterion.GROUP_NAME_ASC).get(0)
+							}
+							
+							if(sesion.getPruebas().contains(p)) {
+								ResponsableCustom psi = new ResponsableCustom()
+								ResponsableDisponible fd = new ResponsableDisponible()
+								fd.setDisponible(rs.getBoolean("disponible"))
+								fd.setOcupado(rs.getBoolean("ocupado"))
+								fd.setHorario(rs.getString("horario"))
+								fd.setPersistenceId(rs.getLong("rid"))
+								fd.setResponsableId(rs.getLong("RESPONSABLEID"))
+								psi.setLicenciaturas(rs.getString("licenciaturas"))
+								psi.setPersistenceId(rs.getLong("rid"))
+								
+								try {
+									psi.setFirstname(usr.getFirstName())
+									psi.setLastname(usr.getLastName())
+									psi.setGrupo(membership.groupName)
+									psi.setRol(membership.roleName)
+								}catch(Exception e) {
+									resultado.setError_info(e.getMessage())
+								}
+								
+								
+								psi.setId(rs.getLong("RESPONSABLEID"))
+							
+								if(sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().contains(psi)) {
+									sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().get(sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().indexOf(psi)).getLstFechasDisponibles().add(fd)
+									
+								}else {
+									if(fd.getResponsableId()>0) {
+									psi.setLstFechasDisponibles(new ArrayList())
+									psi.getLstFechasDisponibles().add(fd)
+									sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().add(psi)
+									}
+								}
+							}else {
+								ResponsableCustom psi = new ResponsableCustom()
+								ResponsableDisponible fd = new ResponsableDisponible()
+								fd.setDisponible(rs.getBoolean("disponible"))
+								fd.setOcupado(rs.getBoolean("ocupado"))
+								fd.setHorario(rs.getString("horario"))
+								psi.setId(rs.getLong("RESPONSABLEID"))
+								fd.setPersistenceId(rs.getLong("rid"))
+								fd.setResponsableId(rs.getLong("RESPONSABLEID"))
+								psi.setLicenciaturas(rs.getString("licenciaturas"))
+								psi.setPersistenceId(rs.getLong("rid"))
+								psi.setLstFechasDisponibles(new ArrayList())
+								try {
+									psi.setGrupo(membership.groupName)
+									psi.setRol(membership.roleName)
+									psi.setFirstname(usr.getFirstName())
+									psi.setLastname(usr.getLastName())
+									
+									psi.getLstFechasDisponibles().add(fd)
+									p.getPsicologos().add(psi)
+								}catch(Exception e) {
+									resultado.setError_info(e.getMessage())
+								}
+								
+								
+								
+								sesion.getPruebas().add(p)
+							}
+						}
+					}
+					pstm = con.prepareStatement(Statements.GET_PRUEBAS_SESION_ENTREVISTA_ASPIRANTE)
+					pstm.setLong(1, sesion.getPersistenceId())
+					pstm.setLong(2, sesion.getPersistenceId())
+					rs=pstm.executeQuery()
+					if(rs.next()) {
+						
+						PruebaCustom p = new PruebaCustom()
+						p.setAplicacion(rs.getString("aplicacion"))
+						p.setCalle(rs.getString("calle"))
+						p.setCampus_pid(rs.getLong("campus_pid"))
+						p.setCattipoprueba_pid(rs.getLong("cattipoprueba_pid"))
+						p.setCodigo_postal(rs.getString("codigo_postal"))
+						p.setColonia(rs.getString("colonia"))
+						p.setCupo(rs.getInt("cupo"))
+						p.setDescripcion(rs.getString("descripcion"))
+						p.setDuracion(rs.getString("duracion"))
+						p.setEntrada(rs.getString("entrada"))
+						p.setEstado_pid(rs.getLong("estado_pid"))
+						p.setIseliminado(rs.getBoolean("iseliminado"))
+						p.setLugar(rs.getString("lugar"))
+						p.setMunicipio(rs.getString("municipio"))
+						p.setNombre(rs.getString("nombre"))
+						p.setNumero_ext(rs.getString("numero_ext"))
+						p.setNumero_int(rs.getString("numero_int"))
+						p.setPais_pid(rs.getLong("pais_pid"))
+						p.setPersistenceId(rs.getLong("persistenceId"))
+						p.setPersistenceVersion(rs.getLong("persistenceVersion"))
+						p.setRegistrados(rs.getInt("registrados"))
+						p.setSalida(rs.getString("salida"))
+						p.setSesion_pid(rs.getLong("sesion_pid"))
+						p.setUltimo_dia_inscripcion(rs.getString("ultimo_dia_inscripcion"))
+						p.setTipo(new CatTipoPrueba())
+						p.getTipo().setDescripcion(rs.getString("tipo"))
+						p.setPsicologos(new ArrayList())
+						
+						User usr;
+						UserMembership membership
+						if(rs.getLong("RESPONSABLEID")>0) {
+							usr = context.getApiClient().getIdentityAPI().getUser(rs.getLong("RESPONSABLEID"))
+							membership=context.getApiClient().getIdentityAPI().getUserMemberships(usr.getId(), 0, 100, UserMembershipCriterion.GROUP_NAME_ASC).get(0)
+						}
+						sesion.getPruebas().add(p)
+						pstm = con.prepareStatement(Statements.GET_HORARIOS_PRUEBAS_ENTREVISTA_ASPIRANTE)
+						pstm.setLong(1, p.getPersistenceId())
+						rs = pstm.executeQuery()
+						while(rs.next()) {
+							ResponsableCustom psi = new ResponsableCustom()
+							ResponsableDisponible fd = new ResponsableDisponible()
+							fd.setDisponible(rs.getBoolean("disponible"))
+							fd.setOcupado(rs.getBoolean("ocupado"))
+							fd.setHorario(rs.getString("horario"))
+							fd.setPersistenceId(rs.getLong("rid"))
+							fd.setResponsableId(rs.getLong("RESPONSABLEID"))
+							psi.setLicenciaturas(rs.getString("licenciaturas"))
+							psi.setPersistenceId(rs.getLong("rid"))
+							
+							try {
+								psi.setFirstname(usr.getFirstName())
+								psi.setLastname(usr.getLastName())
+								psi.setGrupo(membership.groupName)
+								psi.setRol(membership.roleName)
+							}catch(Exception e) {
+								resultado.setError_info(e.getMessage())
+							}
+							
+							
+							psi.setId(rs.getLong("RESPONSABLEID"))
+						
+							if(sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().contains(psi)) {
+								sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().get(sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().indexOf(psi)).getLstFechasDisponibles().add(fd)
+								
+							}else {
+								if(fd.getResponsableId()>0) {
+								psi.setLstFechasDisponibles(new ArrayList())
+								psi.getLstFechasDisponibles().add(fd)
+								sesion.getPruebas().get(sesion.getPruebas().indexOf(p)).getPsicologos().add(psi)
+								}
+							}
+						}
+						
+					}
+					lstSesion.add(sesion)
+					resultado.setError_info(consulta)
+					resultado.setData(lstSesion)
+					resultado.setSuccess(true)
+				} catch (Exception e) {
+					resultado.setSuccess(false);
+					resultado.setError(e.getMessage());
+				}finally {
+					if(closeCon) {
+						new DBConnect().closeObj(con, stm, rs, pstm)
+					}
+				}
+				return resultado;
+			}
 	
 	
 	
@@ -1207,27 +1462,23 @@ class SesionesDAO {
 				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
 				closeCon = validarConexion();
 				
-				/*for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 					switch(filtro.get("columna")) {
 						
-					case "ID":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(da.idbanner) ";
+					case "ID BANNER":
+					
+						where+= " AND "
+						where +=" da.idbanner ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
 					case "NOMBRE":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(concat(sda.primernombre,' ', sda.segundonombre,' ',sda.apellidopaterno,' ',sda.apellidomaterno)) ";
+						where +="  AND LOWER(concat(sda.primernombre,' ', sda.segundonombre,' ',sda.apellidopaterno,' ',sda.apellidomaterno)) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1237,10 +1488,7 @@ class SesionesDAO {
 						break;
 						
 					case "EMAIL":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(sda.correoelectronico) ";
+						where +=" AND LOWER(sda.correoelectronico) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1249,7 +1497,7 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
-					case "PROMEDIO":
+					/*case "PROMEDIO":
                             errorlog+="PROMEDIO"
 							if(where.contains("WHERE")) {
 								where+= " AND "
@@ -1298,10 +1546,25 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
+					case "LICENCIATURA":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}
+						where +=" LOWER(sx.descripcion) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;*/
+						
 					}
 					
 					
-				}*/
+					
+					
+				}
 				
 				errorlog+="llego al orderby "
 				switch(object.orderby) {
@@ -1333,6 +1596,7 @@ class SesionesDAO {
 					case "PROMEDIO":
 					orderbyUsuario+="sda.PROMEDIOGENERAL";
 					break;
+					
 					default:
 					orderbyUsuario+="sda.primernombre"
 					break;
@@ -1815,6 +2079,136 @@ class SesionesDAO {
 		}
 		return resultado
 	}
+	
+	
+	public Result getSesionesAspirantesPasados(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		String where ="", orderby="ORDER BY ", errorlog="", role="", group="", orderbyUsuario="ORDER BY sda.primernombre";
+		try {
+				def jsonSlurper = new JsonSlurper();
+				def object = jsonSlurper.parseText(jsonData);
+				
+				String consulta = Statements.GET_SESIONESASPIRANTEPASADAS
+				SesionesAspiranteCustom row = new SesionesAspiranteCustom();
+				List<SesionesAspiranteCustom> rows = new ArrayList<SesionesAspiranteCustom>();
+				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
+				closeCon = validarConexion();
+				
+										
+				orderby+="SA.username"
+				orderby+=" "+object.orientation;
+				consulta=consulta.replace("[WHERE]", where);
+				consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
+				
+				int tipo = 0;
+				pstm = con.prepareStatement(Statements.GET_TIPOPRUEBA)
+				pstm.setInt(1, object.prueba)
+				rs= pstm.executeQuery();
+				if(rs.next()) {
+					tipo = (rs.getInt("tipoprueba_pid"))
+				}
+				if(tipo == 1) {
+					consulta=consulta.replace("[ENTREVISTA]", "AND rd.persistenceid = sa.responsabledisponible_pid")
+				}else {
+					consulta=consulta.replace("[ENTREVISTA]", "")
+				}
+				errorlog+="tipo "+tipo
+				pstm = con.prepareStatement(consulta.replace("SA.*,RD.responsableid,RD.prueba_pid, S.fecha_inicio, P.nombre as nombre_prueba,P.Lugar as lugar_prueba, c.descripcion as tipo_prueba, case when C.persistenceid=1 then rd.horario  else concat(p.entrada,' - ',p.salida) end as horario, c.persistenceid as tipoprueba_pid, PL.asistencia", "COUNT(SA.username) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm.setInt(1, object.sesion)
+				pstm.setInt(2, object.prueba)
+				
+				rs= pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				errorlog+="conteo exitoso "
+					
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.sesion)
+				pstm.setInt(2, object.prueba)
+				pstm.setInt(3, object.limit)
+				pstm.setInt(4, object.offset)
+				
+				rs = pstm.executeQuery()
+				
+				while(rs.next()) {
+					row = new SesionesAspiranteCustom();
+					row.setUsername(rs.getString("username"))
+					row.setSession_pid(rs.getLong("sesiones_pid"));
+					row.setPersistenceid(rs.getLong("persistenceid"));
+					row.setFecha(rs.getString("fecha_inicio"));
+					row.setLugar_prueba(rs.getString("lugar_prueba"));
+					row.setTipo_prueba(rs.getString("tipo_prueba"));
+					row.setNombre_prueba(rs.getString("nombre_prueba"));
+					row.setHorario(rs.getString("horario"));
+					row.setTipoprueba_PID(rs.getString("tipoprueba_pid"));
+					row.setEntrada(rs.getString("asistencia"))
+					if(row.getEntrada() != null) {
+						errorlog+="entro if "
+						row.setAsistencia(rs.getBoolean("asistencia"));
+					}
+					
+					
+					String aspirantessesion=Statements.GET_ASPIRANTESDELASESION
+					aspirantessesion=aspirantessesion.replace("[ORDERBY]", orderbyUsuario)
+					
+					pstm = con.prepareStatement(aspirantessesion)
+					pstm.setString(1, row.getUsername())
+					rs2 = pstm.executeQuery()
+					errorlog+="otra llamada "
+					aspirante = new ArrayList<Map<String, Object>>();
+					ResultSetMetaData metaData = rs2.getMetaData();
+					int columnCount = metaData.getColumnCount();
+					
+					while(rs2.next()) {
+						Map<String, Object> columns = new LinkedHashMap<String, Object>();
+	
+						for (int i = 1; i <= columnCount; i++) {
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs2.getString(i));
+							if(metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+								String encoded = "";
+								try {
+									for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs2.getString(i)), "fotoPasaporte", 0, 10)) {
+										encoded = "../API/formsDocumentImage?document="+doc.getId();
+										columns.put("fotografiab64", encoded);
+									}
+								}catch(Exception e) {
+									columns.put("fotografiab64", "");
+									errorlog+= ""+e.getMessage();
+								}
+							}
+						}
+						aspirante.add(columns);
+					}
+					row.setAspirantes(aspirante);
+					rows.add(row);
+
+				}
+				
+						
+				resultado.setError_info(consulta +" errorLog = "+errorlog)
+				resultado.setData(rows)
+				resultado.setSuccess(true)
+				
+			} catch (Exception e) {
+				resultado.setSuccess(false);
+				resultado.setError(e.getMessage());
+				resultado.setError_info(errorlog)
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	
 	
 	
 	
