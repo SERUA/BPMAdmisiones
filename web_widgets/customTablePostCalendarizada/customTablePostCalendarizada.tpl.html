@@ -1,11 +1,4 @@
 <div ng-show="!isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstMembership.length>1">
-        <select class="form-control" ng-model="filtroCampus" ng-options="getCampusByGrupo(member.group_id.name) as getCampusByGrupo(member.group_id.name) for member in lstMembership" ng-change="addFilter()">
-        <option style="display:none" value="">
-            Seleccionar campus
-        </option>
-        </select>
-    </div>
     <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3">
         <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
         <option ng-value="20">20</option>
@@ -54,7 +47,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr ng-repeat="row in properties.lstContenido[0]" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                     <td>
                         {{row.prueba.persistenceId}}
                     </td>

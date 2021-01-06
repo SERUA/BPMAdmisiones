@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "SesionCalendarizadasPasadas",
   "name" : "SesionCalendarizadasPasadas",
-  "lastUpdate" : 1609365052294,
+  "lastUpdate" : 1609887313211,
   "rows" : [
     [
       {
@@ -256,7 +256,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : true
+            "value" : false
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -273,7 +273,7 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 8,
+                "md" : 6,
                 "lg" : 8
               },
               "propertyValues" : {
@@ -283,7 +283,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -389,7 +389,7 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
+                "md" : 6,
                 "lg" : 4
               },
               "propertyValues" : {
@@ -399,7 +399,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -442,25 +442,27 @@
                       },
                       "buttonStyle" : {
                         "type" : "constant",
-                        "value" : "warning"
+                        "value" : "primary"
                       },
                       "action" : {
                         "type" : "constant",
-                        "value" : "Submit task"
+                        "value" : "POST"
                       },
                       "assign" : {
                         "type" : "constant",
                         "value" : false
                       },
                       "url" : {
-                        "type" : "interpolation"
+                        "type" : "interpolation",
+                        "value" : "../API/extension/AnahuacRest?url=getExcelSesionesCalendarizadas&p=0&c=10"
                       },
                       "responseStatusCode" : {
                         "type" : "variable",
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "Files"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -534,25 +536,27 @@
                       },
                       "buttonStyle" : {
                         "type" : "constant",
-                        "value" : "warning"
+                        "value" : "primary"
                       },
                       "action" : {
                         "type" : "constant",
-                        "value" : "Submit task"
+                        "value" : "POST"
                       },
                       "assign" : {
                         "type" : "constant",
                         "value" : false
                       },
                       "url" : {
-                        "type" : "interpolation"
+                        "type" : "interpolation",
+                        "value" : "../API/extension/AnahuacRest?url=getPdfSesionesCalendarizadas&p=0&c=10"
                       },
                       "responseStatusCode" : {
                         "type" : "variable",
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "Files"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -588,7 +592,7 @@
                       },
                       "fileExtension" : {
                         "type" : "constant",
-                        "value" : "xls"
+                        "value" : "pdf"
                       }
                     },
                     "reference" : "e14f6c5b-dd58-40ca-9d34-cf39cfba61a6",
@@ -1405,8 +1409,9 @@
         "    \"ALUMNOS GENERALES\",\r",
         "    \"ALUMNOS ASIGNADOS\",\r",
         "    \"FECHA\",\r",
-        "    \"TIPO\",\r",
-        "    \"LUGAR\"\r",
+        "    \"RESIDENCIA\",\r",
+        "    \"LUGAR\",\r",
+        "    \"TIPO PRUEBA\"\r",
         "]"
       ],
       "exposed" : false
@@ -1521,6 +1526,23 @@
         "const iso = dateLocal.toISOString();\r",
         "const isoLocal = iso.slice(0, 10);\r",
         "return isoLocal;"
+      ],
+      "exposed" : false
+    },
+    "Files" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"lstFiltro\": [],\r",
+        "    \"usuario\": parseInt($data.userData.user_id),\r",
+        "    \"fecha\": $data.getFecha+\"\",\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":999999,\r",
+        "    \"offset\":0,\r",
+        "    \"usuarioNombre\":$data.userData.user_name,\r",
+        "    \"type\": \"sesioncalendarizadasreporte\"\r",
+        "};"
       ],
       "exposed" : false
     }

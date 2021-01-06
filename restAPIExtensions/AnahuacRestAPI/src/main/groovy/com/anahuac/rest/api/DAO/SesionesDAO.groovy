@@ -1220,23 +1220,17 @@ class SesionesDAO {
 					switch(filtro.get("columna")) {
 						
 					case "ID":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(pruebas_id) ";
+						where +=" AND P.persistenceid ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
 					case "NOMBRE":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.nombre) ";
+						where +=" AND LOWER(P.nombre) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1245,37 +1239,29 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
-					case "CUPO":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.cupo) ";
+					case "ALUMNOS GENERALES":
+						where +=" AND CAST(P.cupo as varchar) ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
 					case "ALUMNOS ASIGNADOS":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.registrados) ";
+						where +=" AND CAST(P.registrados as varchar) ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
+						
 					case "RESIDENCIA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.tipo) ";
+						where +=" AND LOWER(S.tipo) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1285,10 +1271,7 @@ class SesionesDAO {
 						break;
 						
 					case "FECHA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.fecha_inicio) ";
+						where +=" AND LOWER( CAST(S.fecha_inicio as varchar)) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1298,10 +1281,7 @@ class SesionesDAO {
 						break;
 						
 					case "LUGAR":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.lugar) ";
+						where +=" AND LOWER(P.lugar) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1312,10 +1292,7 @@ class SesionesDAO {
 						
 						
 					case "TIPO_PRUEBA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(c.descripcion) ";
+						where +=" AND LOWER(c.descripcion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1325,10 +1302,7 @@ class SesionesDAO {
 						break;
 						
 					case "NOMBRE_SESION":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.nombre_sesion) ";
+						where +=" AND LOWER(S.nombre_sesion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1427,11 +1401,8 @@ class SesionesDAO {
 						rows.add(Pruebas)
 					}
 					
-				
-			
-				lstSesion.add(rows)
 				resultado.setError_info(consulta +" errorLog = "+errorlog)
-				resultado.setData(lstSesion)
+				resultado.setData(rows)
 				resultado.setSuccess(true)
 			} catch (Exception e) {
 				resultado.setSuccess(false);
@@ -1466,9 +1437,7 @@ class SesionesDAO {
 					switch(filtro.get("columna")) {
 						
 					case "ID BANNER":
-					
-						where+= " AND "
-						where +=" da.idbanner ";
+						where +=" AND CAST(da.idbanner as varchar) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="='[valor]'"
 						}else {
@@ -1497,19 +1466,17 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
-					/*case "PROMEDIO":
+					case "PROMEDIO":
                             errorlog+="PROMEDIO"
-							if(where.contains("WHERE")) {
-								where+= " AND "
-							}
-							where +=" LOWER(sda.PROMEDIOGENERAL) ";
+							where +=" AND  CAST(sda.PROMEDIOGENERAL as varchar) ";
 							if(filtro.get("operador").equals("Igual a")) {
-								where+="=LOWER('[valor]')"
+								where+=" ='[valor]' "
 							}else {
-								where+="LIKE LOWER('%[valor]%')"
+								where+="LIKE '%[valor]%'"
 							}
                             where = where.replace("[valor]", filtro.get("valor"))
                             break;
+							
 					case "PREPARATORIA":
 							where +=" AND LOWER(prepa.DESCRIPCION) ";
 							if(filtro.get("operador").equals("Igual a")) {
@@ -1521,10 +1488,7 @@ class SesionesDAO {
 							break;
 							
 					case "RESIDENCIA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.tipo) ";
+						where +=" AND LOWER(da.TIPOALUMNO) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1534,10 +1498,7 @@ class SesionesDAO {
 						break;
 						
 					case "SEXO":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(sx.descripcion) ";
+						where +=" AND LOWER(sx.descripcion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1547,17 +1508,24 @@ class SesionesDAO {
 						break;
 						
 					case "LICENCIATURA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(sx.descripcion) ";
+						where +=" AND LOWER(gestionescolar.DESCRIPCION) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
 							where+="LIKE LOWER('%[valor]%')"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
-						break;*/
+						break;
+						
+					case "UNIVERSIDAD":
+						where +=" AND LOWER(campus.DESCRIPCION) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
 						
 					}
 					
@@ -1570,40 +1538,44 @@ class SesionesDAO {
 				switch(object.orderby) {
 					
 					case "IDBANNER":
-					orderbyUsuario+="da.idbanner";
+					orderby+="da.idbanner";
 					break;
 					case "NOMBRE":
-					orderbyUsuario+="sda.primernombre";
+					orderby+="sda.primernombre";
 					break;
 					case "EMAIL":
-					orderbyUsuario+="sda.correoelectronico";
+					orderby+="sda.correoelectronico";
 					break;
 					case "PREPARATORIA":
-					orderbyUsuario+="prepa.DESCRIPCION"
+					orderby+="prepa.DESCRIPCION"
 					break;
-					case "UNIVERSIDAD":
-					orderbyUsuario+="campus.DESCRIPCION"
+					case "CAMPUS":
+					orderby+="campus.DESCRIPCION"
 					break;
 					case "RESIDENCIA":
-					orderbyUsuario+="S.tipo";
+					orderby+="da.TIPOALUMNO";
 					break;
 					case "SEXO":
-					orderbyUsuario+="sx.descripcion";
+					orderby+="sx.descripcion";
 					break;
 					case "LICENCIATURA":
-					orderbyUsuario+="gestionescolar.DESCRIPCION";
+					orderby+="gestionescolar.DESCRIPCION";
 					break;
 					case "PROMEDIO":
-					orderbyUsuario+="sda.PROMEDIOGENERAL";
+					orderby+="sda.PROMEDIOGENERAL";
+					break;
+					
+					case "ASISTENCIA":
+					orderby+= "PL.asistencia";
 					break;
 					
 					default:
-					orderbyUsuario+="sda.primernombre"
+					orderby+="SA.username"
 					break;
 					
 				}
 						
-				orderby+="SA.username"
+				//orderby+="SA.username"
 				orderby+=" "+object.orientation;
 				consulta=consulta.replace("[WHERE]", where);
 				consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
@@ -1643,19 +1615,6 @@ class SesionesDAO {
 				
 				rs = pstm.executeQuery()
 				
-				/*rows = new ArrayList<Map<String, Object>>();
-				ResultSetMetaData metaData = rs.getMetaData();
-				int columnCount = metaData.getColumnCount();
-				while(rs.next()) {
-					Map<String, Object> columns = new LinkedHashMap<String, Object>();
-	
-					for (int i = 1; i <= columnCount; i++) {
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
-					}
-	
-					rows.add(columns);
-				}*/
-				
 				while(rs.next()) {	
 					row = new SesionesAspiranteCustom();
 					row.setUsername(rs.getString("username"))
@@ -1674,10 +1633,7 @@ class SesionesDAO {
 					}
 					
 					
-					String aspirantessesion=Statements.GET_ASPIRANTESDELASESION
-					aspirantessesion=aspirantessesion.replace("[ORDERBY]", orderbyUsuario)
-					
-					pstm = con.prepareStatement(aspirantessesion)
+					pstm = con.prepareStatement(Statements.GET_ASPIRANTESDELASESION)
 					pstm.setString(1, row.getUsername())
 					rs2 = pstm.executeQuery()
 					errorlog+="otra llamada "
@@ -1750,23 +1706,17 @@ class SesionesDAO {
 					switch(filtro.get("columna")) {
 						
 					case "ID":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(pruebas_id) ";
+						where +=" AND P.persistenceid ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
 					case "NOMBRE":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.nombre) ";
+						where +=" AND LOWER(P.nombre) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1775,37 +1725,29 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
-					case "CUPO":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.cupo) ";
+					case "ALUMNOS GENERALES":
+						where +=" AND CAST(P.cupo as varchar) ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
 					case "ALUMNOS ASIGNADOS":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.registrados) ";
+						where +=" AND CAST(P.registrados as varchar) ";
 						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
+							where+="='[valor]'"
 						}else {
-							where+="LIKE LOWER('%[valor]%')"
+							where+="LIKE '%[valor]%'"
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
+						
 					case "RESIDENCIA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.tipo) ";
+						where +=" AND LOWER(S.tipo) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1815,10 +1757,7 @@ class SesionesDAO {
 						break;
 						
 					case "FECHA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.fecha_inicio) ";
+						where +=" AND LOWER( CAST(S.fecha_inicio as varchar)) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1828,10 +1767,7 @@ class SesionesDAO {
 						break;
 						
 					case "LUGAR":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(P.lugar) ";
+						where +=" AND LOWER(P.lugar) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1841,24 +1777,8 @@ class SesionesDAO {
 						break;
 						
 						
-					case "TIPO_PRUEBA":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(c.descripcion) ";
-						if(filtro.get("operador").equals("Igual a")) {
-							where+="=LOWER('[valor]')"
-						}else {
-								where+="LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-						
-					case "NOMBRE_SESION":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}
-						where +=" LOWER(S.nombre_sesion) ";
+					case "TIPO PRUEBA":
+						where +=" AND LOWER(c.descripcion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1955,11 +1875,8 @@ class SesionesDAO {
 						rows.add(Pruebas)
 					}
 					
-				
-			
-				lstSesion.add(rows)
 				resultado.setError_info(consulta +" errorLog = "+errorlog)
-				resultado.setData(lstSesion)
+				resultado.setData(rows)
 				resultado.setSuccess(true)
 			} catch (Exception e) {
 				resultado.setSuccess(false);
@@ -2097,9 +2014,148 @@ class SesionesDAO {
 				List<SesionesAspiranteCustom> rows = new ArrayList<SesionesAspiranteCustom>();
 				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
 				closeCon = validarConexion();
+				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+					switch(filtro.get("columna")) {
+						
+					case "ID BANNER":
+					
+						where +=" AND CAST(da.idbanner as varchar) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="='[valor]'"
+						}else {
+							where+="LIKE '%[valor]%'"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "NOMBRE":
+						where +="  AND LOWER(concat(sda.primernombre,' ', sda.segundonombre,' ',sda.apellidopaterno,' ',sda.apellidomaterno)) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "EMAIL":
+						where +=" AND LOWER(sda.correoelectronico) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "PROMEDIO":
+							where +=" AND CAST(sda.PROMEDIOGENERAL as varchar )";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="='[valor]'"
+							}else {
+								where+="LIKE '%[valor]%'"
+							}
+                            where = where.replace("[valor]", filtro.get("valor"))
+                            break;
+							
+					case "PREPARATORIA":
+							where +=" AND LOWER(prepa.DESCRIPCION) ";
+							if(filtro.get("operador").equals("Igual a")) {
+								where+="=LOWER('[valor]')"
+							}else {
+								where+="LIKE LOWER('%[valor]%')"
+							}
+							where= where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+					case "RESIDENCIA":
+						where +="AND  LOWER(da.TIPOALUMNO) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "SEXO":
+						where +=" AND LOWER(sx.descripcion) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "LICENCIATURA":
+						where +=" AND LOWER(gestionescolar.DESCRIPCION) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "UNIVERSIDAD":
+						where +=" AND LOWER(campus.DESCRIPCION) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					}
+					
+					
+					
+					
+				}
 				
+				errorlog+="llego al orderby "
+				switch(object.orderby) {
+					
+					case "IDBANNER":
+					orderby+="da.idbanner";
+					break;
+					case "NOMBRE":
+					orderby+="sda.primernombre";
+					break;
+					case "EMAIL":
+					orderby+="sda.correoelectronico";
+					break;
+					case "PREPARATORIA":
+					orderby+="prepa.DESCRIPCION"
+					break;
+					case "CAMPUS":
+					orderby+="campus.DESCRIPCION"
+					break;
+					case "RESIDENCIA":
+					orderby+="da.TIPOALUMNO";
+					break;
+					case "SEXO":
+					orderby+="sx.descripcion";
+					break;
+					case "LICENCIATURA":
+					orderby+="gestionescolar.DESCRIPCION";
+					break;
+					case "PROMEDIO":
+					orderby+="sda.PROMEDIOGENERAL";
+					break;
+					case "ASISTENCIA":
+					orderby+= "PL.asistencia";
+					break;
+					
+					default:
+					orderby+="SA.username"
+					break;
+					
+				}
 										
-				orderby+="SA.username"
+				//orderby+="SA.username"
 				orderby+=" "+object.orientation;
 				consulta=consulta.replace("[WHERE]", where);
 				consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
@@ -2155,10 +2211,9 @@ class SesionesDAO {
 					}
 					
 					
-					String aspirantessesion=Statements.GET_ASPIRANTESDELASESION
-					aspirantessesion=aspirantessesion.replace("[ORDERBY]", orderbyUsuario)
+					Statements.GET_ASPIRANTESDELASESION
 					
-					pstm = con.prepareStatement(aspirantessesion)
+					pstm = con.prepareStatement(Statements.GET_ASPIRANTESDELASESION)
 					pstm.setString(1, row.getUsername())
 					rs2 = pstm.executeQuery()
 					errorlog+="otra llamada "

@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaDeLaSesion",
   "name" : "PaseListaDeLaSesion",
-  "lastUpdate" : 1609806408873,
+  "lastUpdate" : 1609888468572,
   "rows" : [
     [
       {
@@ -474,7 +474,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -521,21 +521,23 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "POST"
                             },
                             "assign" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "url" : {
-                              "type" : "interpolation"
+                              "type" : "interpolation",
+                              "value" : "../API/extension/AnahuacRest?url=getExcelPaseLista&p=0&c=10"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
                               "value" : ""
                             },
                             "dataToSend" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "Files"
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
@@ -613,21 +615,23 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "POST"
                             },
                             "assign" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "url" : {
-                              "type" : "interpolation"
+                              "type" : "interpolation",
+                              "value" : "../API/extension/AnahuacRest?url=getPdfPaseLista&p=0&c=10"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
                               "value" : ""
                             },
                             "dataToSend" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "Files"
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
@@ -663,7 +667,7 @@
                             },
                             "fileExtension" : {
                               "type" : "constant",
-                              "value" : "xls"
+                              "value" : "pdf"
                             }
                           },
                           "reference" : "d91f6a98-b175-4b6a-ad8c-390bbe086b97",
@@ -3161,7 +3165,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<ul class=\"list-group col-lg-12 col-md-12\">\n            <li class=\"list-group-item btn-primary\" style=\"text-align: left;\"><strong>{{strUsuario.tipo_prueba}}</strong></li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>*Nombre cita:</strong>{{strUsuario.nombre_prueba}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>*Fecha:</strong>{{strUsuario.fecha}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>*Hora:</strong>{{strUsuario.horario}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>*Lugar:</strong>{{strUsuario.lugar_prueba}}</li>\n\n        </ul>"
+                              "value" : "<ul class=\"list-group col-lg-12 col-md-12\">\n            <li class=\"list-group-item btn-primary\" style=\"text-align: left;\"><strong>{{strUsuario.tipo_prueba}}</strong></li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>Nombre cita:</strong>{{strUsuario.nombre_prueba}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>Fecha:</strong>{{strUsuario.fecha}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>Hora:</strong>{{strUsuario.horario}}</li>\n            <li class=\"list-group-item list-group-item-default\" style=\"text-align: left;\"><strong>Lugar:</strong>{{strUsuario.lugar_prueba}}</li>\n\n        </ul>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -3191,8 +3195,8 @@
                         "value" : "color-text-orange"
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "strSesion.habilitado == true"
+                        "type" : "constant",
+                        "value" : true
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3216,7 +3220,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<h4>*No se encuentra en el horario para el pase de lista de este aspirante</h4>"
+                        "value" : "<h4>*El presente aspirante no se encuentra en </h4>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -3759,8 +3763,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "strSesion.habilitado == false"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -4165,7 +4169,13 @@
         "[\r",
         "    \"ID BANNER\",\r",
         "    \"NOMBRE\",\r",
-        "    \"EMAIL\"\r",
+        "    \"EMAIL\",\r",
+        "    \"UNIVERSIDAD\",\r",
+        "    \"PROMEDIO\",\r",
+        "    \"PREPARATORIA\",\r",
+        "    \"RESIDENCIA\",\r",
+        "    \"SEXO\",\r",
+        "    \"LICENCIATURA\"\r",
         "]"
       ],
       "exposed" : false
@@ -4174,7 +4184,6 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\": parseInt($data.userData.user_id),\r",
         "    \"fecha\": $data.getFechas+\"\",\r",
@@ -4361,6 +4370,26 @@
         "    \"username\":$data.strUsuario.username,",
         "    \"asistencia\":$data.strUsuario.asistencia,",
         "    \"usuarioPaseLista\":$data.userData.user_name",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "Files" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"lstFiltro\": [],\r",
+        "    \"usuario\": parseInt($data.userData.user_id),\r",
+        "    \"fecha\": $data.getFechas+\"\",\r",
+        "    \"sesion\": parseInt($data.idSesion),\r",
+        "    \"prueba\":parseInt($data.idPrueba),\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":999,\r",
+        "    \"offset\":0,\r",
+        "    \"usuarioNombre\":$data.userData.user_name,\r",
+        "    \"nombrePrueba\":$data.lstContenido[0].nombre_prueba,\r",
+        "    \"type\": \"paselista\",\r",
         "};"
       ],
       "exposed" : false

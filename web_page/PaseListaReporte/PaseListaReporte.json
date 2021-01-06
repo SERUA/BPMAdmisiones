@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaReporte",
   "name" : "PaseListaReporte",
-  "lastUpdate" : 1609807843851,
+  "lastUpdate" : 1609881146104,
   "rows" : [
     [
       {
@@ -474,7 +474,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -521,21 +521,23 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "POST"
                             },
                             "assign" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "url" : {
-                              "type" : "interpolation"
+                              "type" : "interpolation",
+                              "value" : "../API/extension/AnahuacRest?url=getExcelPaseLista&p=0&c=10"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
                               "value" : ""
                             },
                             "dataToSend" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "Files"
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
@@ -613,21 +615,23 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "POST"
                             },
                             "assign" : {
                               "type" : "constant",
                               "value" : false
                             },
                             "url" : {
-                              "type" : "interpolation"
+                              "type" : "interpolation",
+                              "value" : "../API/extension/AnahuacRest?url=getPdfPaseLista&p=0&c=10"
                             },
                             "responseStatusCode" : {
                               "type" : "variable",
                               "value" : ""
                             },
                             "dataToSend" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "Files"
                             },
                             "dataFromSuccess" : {
                               "type" : "variable",
@@ -663,7 +667,7 @@
                             },
                             "fileExtension" : {
                               "type" : "constant",
-                              "value" : "xls"
+                              "value" : "pdf"
                             }
                           },
                           "reference" : "80392811-cc15-4aa2-8b5e-9b65afc17865",
@@ -3456,7 +3460,7 @@
                       },
                       "readOnly" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "required" : {
                         "type" : "constant",
@@ -3997,7 +4001,13 @@
         "[\r",
         "    \"ID BANNER\",\r",
         "    \"NOMBRE\",\r",
-        "    \"EMAIL\"\r",
+        "    \"EMAIL\",\r",
+        "    \"UNIVERSIDAD\",\r",
+        "    \"PROMEDIO\",\r",
+        "    \"PREPARATORIA\",\r",
+        "    \"RESIDENCIA\",\r",
+        "    \"SEXO\",\r",
+        "    \"LICENCIATURA\"\r",
         "]"
       ],
       "exposed" : false
@@ -4015,7 +4025,6 @@
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
-        "    \"estatusSolicitud\": \"Solicitud con pago aceptado\",\r",
         "    \"offset\":0\r",
         "};"
       ],
@@ -4194,6 +4203,26 @@
         "    \"username\":$data.strUsuario.username,",
         "    \"asistencia\":$data.strUsuario.asistencia,",
         "    \"usuarioPaseLista\":$data.userData.user_name",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "Files" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"lstFiltro\": [],\r",
+        "    \"usuario\": parseInt($data.userData.user_id),\r",
+        "    \"fecha\": $data.getFechas+\"\",\r",
+        "    \"sesion\": parseInt($data.idSesion),\r",
+        "    \"prueba\":parseInt($data.idPrueba),\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":999,\r",
+        "    \"offset\":0,\r",
+        "    \"usuarioNombre\":$data.userData.user_name,\r",
+        "    \"nombrePrueba\":$data.lstContenido[0].nombre_prueba,\r",
+        "    \"type\": \"paselistareporte\",\r",
         "};"
       ],
       "exposed" : false

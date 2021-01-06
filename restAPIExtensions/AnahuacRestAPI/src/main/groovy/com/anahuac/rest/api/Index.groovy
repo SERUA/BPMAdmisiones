@@ -117,6 +117,22 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+					case "getExcelFileCatalogosAD":
+					result = lDao.getExcelFileCatalogosAD(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					case "getPdfFileCatalogoAD":
+					result = lDao.getPdfFileCatalogoAD(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "getAspirantesProceso":
 					result = lDao.getAspirantesProceso(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {
@@ -306,6 +322,45 @@ class Index implements RestApiController {
 					}
 					break;
 					
+					case "getExcelPaseLista":
+					result = new ListadoDAO().getExcelPaseLista(parameterP, parameterC, jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getPdfPaseLista":
+					result = new ListadoDAO().getPdfPaseLista(parameterP, parameterC, jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getExcelSesionesCalendarizadas":
+					result = new ListadoDAO().getExcelSesionesCalendarizadas(parameterP, parameterC, jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+					case "getPdfSesionesCalendarizadas":
+					result = new ListadoDAO().getPdfSesionesCalendarizadas(parameterP, parameterC, jsonData, context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				/**************JESUS OSUNA FIN*********************/
 				/***********************ERIC ROSAS**********************/
 					case "getCatPeriodo":

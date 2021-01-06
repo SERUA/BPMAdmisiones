@@ -19,6 +19,11 @@ class CatPaisCustom {
 	private String usuarioCreacion;
 	@XmlElement
 	private Boolean isEliminado;
+	@XmlElement
+	private String persistenceId_string;
+	@XmlElement
+	private String persistenceVersion_string;
+	
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -61,6 +66,19 @@ class CatPaisCustom {
 	public void setIsEliminado(Boolean isEliminado) {
 		this.isEliminado = isEliminado;
 	}
+	public String getPersistenceId_string() {
+		return persistenceId_string;
+	}
+	public void setPersistenceId_string(String persistenceId_string) {
+		this.persistenceId_string = persistenceId_string;
+	}
+	public String getPersistenceVersion_string() {
+		return persistenceVersion_string;
+	}
+	public void setPersistenceVersion_string(String persistenceVersion_string) {
+		this.persistenceVersion_string = persistenceVersion_string;
+	}
+	
 	@Override
 	public String toString() {
 		return "CatLicenciaturaCustom [persistenceId=" + persistenceId + ", persistenceVersion=" + persistenceVersion

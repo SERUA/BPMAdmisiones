@@ -11,21 +11,41 @@
             <thead>
                 <tr>
                     <th>FOTO</th>
-                    <th>ID BANNER</th>
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('IDBANNER')">ID BANNER<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='IDBANNER'"></i></span></th>
                             
-                    <th>NOMBRE / EMAIL </th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">NOMBRE<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">EMAIL<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> </th>
                             
-                    <th>UNIVERSIDAD / LICENCIATURA </th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">UNIVERSIDAD<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='CAMPUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('LICENCIATURA')">LICENCIATURA<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='LICENCIATURA'"></i></span> </th>
                             
-                    <th>RESIDENCIA</th>
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('RESIDENCIA')">RESIDENCIA<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='RESIDENCIA'"></i></span></th>
                             
-                    <th>SEXO</th>
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('SEXO')">SEXO<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='SEXO'"></i></span></th>
                             
-                    <th> PROMEDIO </th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">PROMEDIO<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PREPARATORIA')">PREPARATORIA<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PREPARATORIA'"></i></span> </th>
                     
                     <th ng-if="properties.lstContenido[0].tipoprueba_PID=='1'"> HORA DE LA ENTREVISTA</th>
                             
-                    <th>QUITAR O PONER ASISTENCIA</th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ASISTENCIA')">QUITAR O PONER ASISTENCIA<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ASISTENCIA'"></i></span></th>
                     <th> ACCIONES</th>
                 </tr>
             </thead>
@@ -71,7 +91,7 @@
                                 </button>
                                 </td>-->
                                 <td>
-                                    <button class="btn btn-primary" ng-click="redirectComentario(row)">
+                                    <button class="btn btn-primary" ng-click="redirectComentario(row); blockPaseLista(row)">
                                     <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
                                 </button>
                                 </td>

@@ -334,7 +334,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
         
         var inicio = moment(ini, 'HH:mm');
         var fin = moment(last, 'HH:mm');
-        
+        debugger;
         if(row.tipoprueba_PID == "1"){
         
             if(  n.isSameOrAfter(inicio) && n.isSameOrBefore(fin) && fecha.isSame(row.fecha)){

@@ -48,7 +48,9 @@ import com.anahuac.rest.api.Entity.Custom.CatGestionEscolar
 import com.anahuac.rest.api.Entity.Custom.CatLicenciaturaCustom
 import com.anahuac.rest.api.Entity.Custom.CatPeriodoCustom
 import com.anahuac.rest.api.Entity.Custom.DetalleSolicitudCustom
+import com.anahuac.rest.api.Entity.Custom.PruebasCustom
 import com.anahuac.rest.api.Entity.Custom.SolicitudAdmisionCustom
+import com.anahuac.rest.api.Entity.Custom.SesionesAspiranteCustom
 import com.anahuac.rest.api.DB.Statements;
 import com.bonitasoft.engine.bpm.parameter.ParameterCriterion
 import com.bonitasoft.engine.bpm.process.impl.ProcessInstanceSearchDescriptor
@@ -71,8 +73,8 @@ import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.ss.usermodel.Row
 import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
-
-
+import com.anahuac.catalogos.CatMateriasDAO
+import com.anahuac.catalogos.CatTipoLecturaDAO
 import groovy.json.JsonSlurper
 
 class ListadoDAO {
@@ -689,10 +691,11 @@ class ListadoDAO {
 			
 			assert object instanceof Map;
 			where+=" WHERE sda.iseliminado=false"
-			if(object.estatusSolicitud !=null) {
+				if(object.estatusSolicitud !=null) {
 				if(object.estatusSolicitud.equals("Solicitud lista roja")) {
 					where+=" AND sda.ESTATUSSOLICITUD='Solicitud lista roja'"
-				}else if(object.estatusSolicitud.equals("Solicitud rechazada")) {
+				}
+				else if(object.estatusSolicitud.equals("Solicitud rechazada")) {
 					where+=" AND sda.ESTATUSSOLICITUD='Solicitud rechazada'"
 				}else if(object.estatusSolicitud.equals("Nuevas solicitudes")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud modificada' OR sda.ESTATUSSOLICITUD='Solicitud recibida')"
@@ -702,8 +705,7 @@ class ListadoDAO {
 					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados sin validación de cuenta')"
 				} else if(object.estatusSolicitud.equals("Aspirantes registrados con validación de cuenta")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados con validación de cuenta')"
-				}
-				else if(object.estatusSolicitud.equals("Solicitud en espera de pago")) {
+				}else if(object.estatusSolicitud.equals("Solicitud en espera de pago")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en espera de pago')"
 				}
 				else if(object.estatusSolicitud.equals("Solicitud con pago aceptado")) {
@@ -721,7 +723,6 @@ class ListadoDAO {
 				else if(object.estatusSolicitud.equals("Ya se imprimió su credencial")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Ya se imprimió su credencial')"
 				}
-
 			}
 			if(lstGrupo.size()>0) {
 				campus+=" AND ("
@@ -1410,7 +1411,6 @@ class ListadoDAO {
 				consulta=consulta.replace("[ESTADO]", estado)
 				consulta=consulta.replace("[BACHILLERATO]", bachillerato)
 				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
-				where+=" "+campus +" "+programa +" " + ingreso + " " + estado +" "+bachillerato +" "+tipoalumno
 				consulta=consulta.replace("[WHERE]", where);
 				
 				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, prepa.DESCRIPCION AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
@@ -4245,6 +4245,846 @@ class ListadoDAO {
 			e.printStackTrace();
 		}
 		return resultado
+	}
+	
+	public Result getExcelFileCatalogosAD(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+			
+			if(type.equals("materias")) {
+				dataResult = getMaterias(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de materias");
+				}
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("LISTADO DE MATERIAS");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+								
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
+				
+				Row headersRow = sheet.createRow(++rowCount);
+				
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("CLAVE");
+				header1.setCellStyle(style);
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("DESCIPCION");
+				header2.setCellStyle(style);
+				headersRow.setRowStyle(style);
+				com.anahuac.catalogos.CatMaterias  materias = new com.anahuac.catalogos.CatMaterias();
+			
+				for (int i = 0; i < lstParams.size(); ++i){
+					materias = new com.anahuac.catalogos.CatMaterias();
+					materias = (com.anahuac.catalogos.CatMaterias)lstParams.get(i);
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(materias.getClave().toString());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(materias.getDescripcion().toString());
+				}
+			}
+			 if(type.equals("tipoLectura")) {
+				dataResult = getMaterias(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos tipo lectura");
+				}
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("LISTADO DE TIPO LECTURA");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+				LOGGER.error "====a==="
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				/*Date date = new Date();
+				TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
+				formatter.setTimeZone(timeZone);
+				String sDate = formatter.format(date);*/
+				
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+				Row blank = sheet.createRow(++rowCount);object
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuario);
+				
+				Row headersRow = sheet.createRow(++rowCount);
+				
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("CLAVE");
+				header1.setCellStyle(style);
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("DESCRIPCION");
+				header2.setCellStyle(style);
+				headersRow.setRowStyle(style);
+				com.anahuac.catalogos.CatTipoLectura  tipoLectura = new com.anahuac.catalogos.CatTipoLectura();
+				for (int i = 0; i < lstParams.size(); ++i){
+					tipoLectura = new com.anahuac.catalogos.CatTipoLectura();
+					LOGGER.error "====b==="
+					tipoLectura = (com.anahuac.catalogos.CatTipoLectura)lstParams.get(i);
+					LOGGER.error "====c==="
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(tipoLectura.getClave().toString());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(tipoLectura.getDescripcion());
+				}
+			}
+			
+			for(int i=0; i<=rowCount+3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			FileOutputStream outputStream = new FileOutputStream("ReportCatalogo.xls");
+			workbook.write(outputStream);
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportCatalogo.xls"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+					
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	public Result getMaterias(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context)  {
+		Result resultado = new Result();	
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		
+		Integer start = 0;
+		Integer end = 99999;
+		Integer inicioContador = 0;
+		Integer finContador = 0;
+		
+		List<com.anahuac.catalogos.CatMaterias> lstMaterias = new ArrayList<com.anahuac.catalogos.CatMaterias>();
+		
+		String strError = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			LOGGER.error "====object==="
+			LOGGER.error jsonData
+			def objMateriasDAO = context.apiClient.getDAO(CatMateriasDAO.class);
+			/*if(object.opcion == 2) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByEstado(object.estado)
+			}else if(object.opcion == 3) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByPais(object.pais)
+			}else {
+				
+			}*/
+			LOGGER.error "====LLEGO==="
+			lstMaterias = objMateriasDAO.getCatMateriasList(0, 9999);
+			LOGGER.error "====PASO==="
+			
+			resultado.setError_info(strError);
+			resultado.setData(lstMaterias);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setError_info(strError);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado
+	}
+	public Result getTipoLectura(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context)  {
+		Result resultado = new Result();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		
+		Integer start = 0;
+		Integer end = 99999;
+		Integer inicioContador = 0;
+		Integer finContador = 0;
+		
+		List<com.anahuac.catalogos.CatTipoLectura> lstTipoLectura = new ArrayList<com.anahuac.catalogos.CatTipoLectura>();
+		
+		String strError = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			LOGGER.error "====object==="
+			LOGGER.error jsonData
+			def objTipoLecturaDAO = context.apiClient.getDAO(CatTipoLecturaDAO.class);
+			/*if(object.opcion == 2) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByEstado(object.estado)
+			}else if(object.opcion == 3) {
+				lstBachilleratos = objBachilleratosDAO.getCatBachilleratosByPais(object.pais)
+			}else {
+				
+			}*/
+			LOGGER.error "====LLEGO==="
+			lstTipoLectura = objTipoLecturaDAO.getCatTipoLecturaList(0, 9999);
+			LOGGER.error "====PASO==="
+			
+			resultado.setError_info(strError);
+			resultado.setData(lstTipoLectura);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setError_info(strError);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado
+	}
+	public Result getPdfFileCatalogoAD(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			
+			def documento="ReportCatalogos.pdf"
+			DocumentItext document = new DocumentItext();
+			document.setPageSize(PageSize.A4.rotate());
+			PdfWriter.getInstance(document, new FileOutputStream(documento));
+			float fontSize = 8.5f;
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, fontSize, BaseColor.BLACK);
+			String phraseToInput = "";
+			if(type.equals("materias")) {
+				dataResult = getMaterias(parameterP, parameterC, jsonData, context);
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de materias");
+				}
+				document.open();
+				Paragraph preface = new Paragraph("LISTADO DE MATERIAS");
+				preface.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(preface);
+				document.add( new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuario);
+				document.add(p);
+				
+				
+				document.add( new Paragraph(" "))
+				
+				PdfPTable table = new PdfPTable(2);
+				table.setWidthPercentage(100f);
+				
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("CLAVE",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("DESCRIPCION",normalFont));
+				table.addCell(header);
+				
+				com.anahuac.catalogos.CatMaterias  materias = new com.anahuac.catalogos.CatMaterias();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					materias = new com.anahuac.catalogos.CatMaterias();
+					materias = (com.anahuac.catalogos.CatMaterias)lstParams.get(i);
+					table.addCell(new Phrase(materias.getClave(),normalFont));
+					table.addCell(new Phrase(materias.getDescripcion(),normalFont));
+				}
+				
+				document.add(table);
+				document.close();
+			}
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportCatalogos.pdf"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		   LOGGER.error "LLego al final"
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	public Result getExcelPaseLista(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+		
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+		
+			if(type.equals("paselista") || type.equals("paselistareporte")) {
+				
+				if(type.equals("paselista")) {
+					dataResult = new SesionesDAO().getSesionesAspirantes(jsonData, context)
+				}else{
+					dataResult = new SesionesDAO().getSesionesAspirantesPasados(jsonData, context)
+				}
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de pase de lista");
+				}
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("LISTADO DE ASISTENCIA DE LA PRUEBA:\"" +object.nombrePrueba+"\"   ");
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+			
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+			
+				Row blank = sheet.createRow(++rowCount);
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuarioNombre);
+			
+				Row headersRow = sheet.createRow(++rowCount);
+			
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("ID BANNER");
+				header1.setCellStyle(style);
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("NOMBRE");
+				header2.setCellStyle(style);
+				
+				Cell header3 = headersRow.createCell(2);
+				header3.setCellValue("EMAIL");
+				header3.setCellStyle(style);
+				Cell header4 = headersRow.createCell(3);
+				header4.setCellValue("UNIVERSIDAD");
+				header4.setCellStyle(style);
+				Cell header5 = headersRow.createCell(4);
+				header5.setCellValue("LICENCIATURA");
+				header5.setCellStyle(style);
+				Cell header6 = headersRow.createCell(5);
+				header6.setCellValue("RESIDENCIA");
+				header6.setCellStyle(style);
+				
+				Cell header7 = headersRow.createCell(6);
+				header7.setCellValue("SEXO");
+				header7.setCellStyle(style);
+				Cell header8 = headersRow.createCell(7);
+				header8.setCellValue("PROMEDIO");
+				header8.setCellStyle(style);
+				Cell header9 = headersRow.createCell(8);
+				header9.setCellValue("PREPARATORIA");
+				header9.setCellStyle(style);
+				Cell header10 = headersRow.createCell(9);
+				header10.setCellValue("ASISTENCIA");
+				header10.setCellStyle(style);
+				
+				headersRow.setRowStyle(style);
+				
+				SesionesAspiranteCustom  Aspirantes = new SesionesAspiranteCustom();
+		
+				for (int i = 0; i < lstParams.size(); ++i){
+					Aspirantes = new SesionesAspiranteCustom();
+					Aspirantes = (SesionesAspiranteCustom)lstParams.get(i);
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(Aspirantes.getAspirantes().get(0).get("idbanner").toString());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(Aspirantes.getAspirantes().get(0).get("primernombre").toString()+" "+ Aspirantes.getAspirantes().get(0).get("segundonombre").toString()+" "+ Aspirantes.getAspirantes().get(0).get("apellidopaterno").toString()+" "+Aspirantes.getAspirantes().get(0).get("apellidomaterno").toString());
+					Cell cell3 = row.createCell(2);
+					cell3.setCellValue(Aspirantes.getAspirantes().get(0).get("correoelectronico").toString());
+					Cell cell4 = row.createCell(3);
+					cell4.setCellValue(Aspirantes.getAspirantes().get(0).get("campus").toString());
+					Cell cell5 = row.createCell(4);
+					cell5.setCellValue(Aspirantes.getAspirantes().get(0).get("licenciatura").toString());
+					Cell cell6 = row.createCell(5);
+					cell6.setCellValue(Aspirantes.getAspirantes().get(0).get("tipoalumno").toString());
+					Cell cell7 = row.createCell(6);
+					cell7.setCellValue(Aspirantes.getAspirantes().get(0).get("sexo").toString());
+					Cell cell8 = row.createCell(7);
+					cell8.setCellValue(Aspirantes.getAspirantes().get(0).get("promediogeneral").toString());
+					Cell cell9 = row.createCell(8);
+					cell9.setCellValue(Aspirantes.getAspirantes().get(0).get("preparatoria").toString());
+					Cell cell10 = row.createCell(9);
+					cell10.setCellValue( (Aspirantes.getAsistencia() != null ? (Aspirantes.getAsistencia() == true ?"Sí":"No") : "No").toString());
+				}
+			}
+		
+			for(int i=0; i<=rowCount+3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			FileOutputStream outputStream = new FileOutputStream("ReportPaseLista.xls");
+			workbook.write(outputStream);
+		
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportPaseLista.xls"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		return resultado;
+	}
+	
+	
+	public Result getPdfPaseLista(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			
+			def documento="ReportPaseLista.pdf"
+			DocumentItext document = new DocumentItext();
+			document.setPageSize(PageSize.A4.rotate());
+			PdfWriter.getInstance(document, new FileOutputStream(documento));
+			float fontSize = 8.5f;
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, fontSize, BaseColor.BLACK);
+			String phraseToInput = "";
+			if(type.equals("paselista") || type.equals("paselistareporte")) {
+				
+				if(type.equals("paselista")) {
+					dataResult = new SesionesDAO().getSesionesAspirantes(jsonData, context)
+				}else{
+					dataResult = new SesionesDAO().getSesionesAspirantesPasados(jsonData, context)
+				}
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de pase de lista");
+				}
+				document.open();
+				Paragraph preface = new Paragraph("LISTADO DE ASISTENCIA DE LA PRUEBA:\"" +object.nombrePrueba+"\" ");
+				preface.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(preface);
+				document.add( new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuarioNombre);
+				document.add(p);
+				
+				
+				document.add( new Paragraph(" "))
+				
+				PdfPTable table = new PdfPTable(10);
+				table.setWidthPercentage(100f);
+				
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("ID BANNER",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("NOMBRE",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("EMAIL",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("UNIVERSIDAD",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("LICENCIATURA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("RESIDENCIA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("SEXO",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("PROMEDIO",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("PREPARATORIA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("ASISTENCIA",normalFont));
+				table.addCell(header);
+				
+				SesionesAspiranteCustom  Aspirantes = new SesionesAspiranteCustom();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					Aspirantes = new SesionesAspiranteCustom();
+					Aspirantes = (SesionesAspiranteCustom)lstParams.get(i);
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("idbanner").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("primernombre").toString()+" "+ Aspirantes.getAspirantes().get(0).get("segundonombre").toString()+" "+ Aspirantes.getAspirantes().get(0).get("apellidopaterno").toString()+" "+Aspirantes.getAspirantes().get(0).get("apellidomaterno").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("correoelectronico").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("campus").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("licenciatura").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("tipoalumno").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("sexo").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("promediogeneral").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("preparatoria").toString(),normalFont));
+					table.addCell(new Phrase((Aspirantes.getAsistencia() != null ? (Aspirantes.getAsistencia() == true ?"Sí":"No") : "No").toString(),normalFont));
+				}
+				
+				document.add(table);
+				document.close();
+			}
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportPaseLista.pdf"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	public Result getExcelSesionesCalendarizadas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+		
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+		
+			if(type.equals("sesioncalendarizadas") || type.equals("sesioncalendarizadasreporte")) {
+				
+				if(type.equals("sesioncalendarizadas")) {
+					dataResult = new SesionesDAO().getSesionesCalendarizadas(jsonData, context)
+				}else{
+					dataResult = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
+				}
+				
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de sesiones calendarizadas");
+				}
+				Row titleRow = sheet.createRow(++rowCount);
+				Cell cellReporte = titleRow.createCell(1);
+				cellReporte.setCellValue("Reporte:");
+				cellReporte.setCellStyle(style);
+				Cell cellTitle = titleRow.createCell(2);
+				cellTitle.setCellValue("LISTADO DE SESIONES CALENDARIZADAS "+(type.equals("sesioncalendarizadasreporte") ?"PASADAS":""));
+				Cell cellFecha = titleRow.createCell(4);
+				cellFecha.setCellValue("Fecha:");
+				cellFecha.setCellStyle(style);
+			
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+			
+				String sDate = formatter.format(date);
+				Cell cellFechaData = titleRow.createCell(5);
+				cellFechaData.setCellValue(sDate);
+			
+				Row blank = sheet.createRow(++rowCount);
+				Cell cellusuario = blank.createCell(4);
+				cellusuario.setCellValue("Usuario:");
+				cellusuario.setCellStyle(style);
+				Cell cellusuarioData = blank.createCell(5);
+				cellusuarioData.setCellValue(object.usuarioNombre);
+			
+				Row headersRow = sheet.createRow(++rowCount);
+			
+				Cell header1 = headersRow.createCell(0);
+				header1.setCellValue("ID");
+				header1.setCellStyle(style);
+				Cell header2 = headersRow.createCell(1);
+				header2.setCellValue("NOMBRE");
+				header2.setCellStyle(style);
+				
+				Cell header3 = headersRow.createCell(2);
+				header3.setCellValue("ALUMNOS GENERALES");
+				header3.setCellStyle(style);
+				Cell header4 = headersRow.createCell(3);
+				header4.setCellValue("ALUMNOS ASIGNADOS");
+				header4.setCellStyle(style);
+				Cell header5 = headersRow.createCell(4);
+				header5.setCellValue("TIPO PRUEBA");
+				header5.setCellStyle(style);
+				Cell header6 = headersRow.createCell(5);
+				header6.setCellValue("RESIDENCIA");
+				header6.setCellStyle(style);
+				
+				Cell header7 = headersRow.createCell(6);
+				header7.setCellValue("FECHA");
+				header7.setCellStyle(style);
+				Cell header8 = headersRow.createCell(7);
+				header8.setCellValue("LUGAR");
+				header8.setCellStyle(style);
+				
+				headersRow.setRowStyle(style);
+				
+				PruebasCustom  SESION = new PruebasCustom();
+		
+				for (int i = 0; i < lstParams.size(); ++i){
+					SESION = new PruebasCustom();
+					SESION = (PruebasCustom)lstParams.get(i);
+					Row row = sheet.createRow(++rowCount);
+					Cell cell1 = row.createCell(0);
+					cell1.setCellValue(SESION.getPrueba().getPersistenceId());
+					Cell cell2 = row.createCell(1);
+					cell2.setCellValue(SESION.getPrueba().getNombre());
+					Cell cell3 = row.createCell(2);
+					cell3.setCellValue(SESION.getPrueba().getCupo());
+					Cell cell4 = row.createCell(3);
+					cell4.setCellValue(SESION.getPrueba().getRegistrados());
+					Cell cell5 = row.createCell(4);
+					cell5.setCellValue(SESION.getPrueba().getTipo().getDescripcion());
+					Cell cell6 = row.createCell(5);
+					cell6.setCellValue(SESION.getSesion().getTipo());
+					Cell cell7 = row.createCell(6);
+					cell7.setCellValue(SESION.getSesion().getFecha_inicio());
+					Cell cell8 = row.createCell(7);
+					cell8.setCellValue(SESION.getPrueba().getLugar());
+				}
+			}
+		
+			for(int i=0; i<=rowCount+3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			FileOutputStream outputStream = new FileOutputStream("ReportSesionesCalendarizadas.xls");
+			workbook.write(outputStream);
+		
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportSesionesCalendarizadas.xls"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+				
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+	
+		return resultado;
+	}
+	
+	
+	public Result getPdfSesionesCalendarizadas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Result dataResult = new Result();
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			
+			def documento="ReportSesionesCalendarizadas.pdf"
+			DocumentItext document = new DocumentItext();
+			document.setPageSize(PageSize.A4.rotate());
+			PdfWriter.getInstance(document, new FileOutputStream(documento));
+			float fontSize = 8.5f;
+			Font normalFont = FontFactory.getFont(FontFactory.HELVETICA, fontSize, BaseColor.BLACK);
+			String phraseToInput = "";
+			if(type.equals("sesioncalendarizadas") || type.equals("sesioncalendarizadasreporte")) {
+				
+				if(type.equals("sesioncalendarizadas")) {
+					dataResult = new SesionesDAO().getSesionesCalendarizadas(jsonData, context)
+				}else{
+					dataResult = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
+				}
+				if (dataResult.success) {
+					lstParams = dataResult.getData();
+				} else {
+					throw new Exception("No encontro datos de pase de lista");
+				}
+				document.open();
+				Paragraph preface = new Paragraph("LISTADO DE SESIONES CALENDARIZADAS "+(type.equals("sesioncalendarizadasreporte") ?"PASADAS":""));
+				preface.setAlignment(Paragraph.ALIGN_CENTER);
+				document.add(preface);
+				document.add( new Paragraph(" "));
+				
+				Calendar cal = Calendar.getInstance();
+				cal.add(Calendar.HOUR_OF_DAY, -7);
+				Date date = cal.getTime();
+				SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy");
+				String sDate = formatter.format(date);
+				
+
+				Chunk glue = new Chunk(new VerticalPositionMark());
+				Paragraph p = new Paragraph("FECHA: "+sDate);
+				p.add(new Chunk(glue));
+				p.add("USUARIO: "+object.usuarioNombre);
+				document.add(p);
+				
+				
+				document.add( new Paragraph(" "))
+				
+				PdfPTable table = new PdfPTable(8);
+				table.setWidthPercentage(100f);
+				
+				PdfPCell header = new PdfPCell();
+				header.setBackgroundColor(BaseColor.LIGHT_GRAY);
+				
+				header.setPhrase(new Phrase("ID",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("NOMBRE",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("ALUMNOS GENERALES",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("ALUMNOS ASIGNADOS",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("TIPO PRUEBA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("RESIDENCIA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("FECHA",normalFont));
+				table.addCell(header);
+				header.setPhrase(new Phrase("LUGAR",normalFont));
+				table.addCell(header);
+				
+				PruebasCustom  SESION = new PruebasCustom();
+				
+				for (int i = 0; i < lstParams.size(); ++i){
+					SESION = new PruebasCustom();
+					SESION = (PruebasCustom)lstParams.get(i);
+					table.addCell(new Phrase(SESION.getPrueba().getPersistenceId().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getPrueba().getNombre().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getPrueba().getCupo().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getPrueba().getRegistrados().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getPrueba().getTipo().getDescripcion().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getSesion().getTipo().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getSesion().getFecha_inicio().toString(),normalFont));
+					table.addCell(new Phrase(SESION.getPrueba().getLugar().toString(),normalFont));
+				}
+				
+				document.add(table);
+				document.close();
+			}
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(encodeFileToBase64Binary("ReportSesionesCalendarizadas.pdf"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} 
+		
+		return resultado;
 	}
 	
 	private String encodeFileToBase64Binary(String fileName)
