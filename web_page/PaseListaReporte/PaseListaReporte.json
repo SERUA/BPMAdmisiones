@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaReporte",
   "name" : "PaseListaReporte",
-  "lastUpdate" : 1609881146104,
+  "lastUpdate" : 1609980192029,
   "rows" : [
     [
       {
@@ -491,8 +491,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 8,
-                            "lg" : 8
+                            "md" : 6,
+                            "lg" : 6
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -504,8 +504,8 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "lstContenido.length < 1"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -513,7 +513,7 @@
                             },
                             "alignment" : {
                               "type" : "constant",
-                              "value" : "left"
+                              "value" : "right"
                             },
                             "buttonStyle" : {
                               "type" : "constant",
@@ -585,8 +585,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 6,
+                            "lg" : 6
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -598,8 +598,8 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "lstContenido.length < 1"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -2486,7 +2486,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "borderBlack"
+                              "value" : "borderBlack img_heigth"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -3056,7 +3056,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Celular"
+                              "value" : "Celular:"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -3089,6 +3089,83 @@
                             }
                           },
                           "reference" : "858454c7-0664-467a-849b-65d9f76b2af4",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Asistencia:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strUsuario.asistencia == null ? \"No\" : strUsuario.asistencia == true ? \"Sí\": \"No\""
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "5fd7853c-beb9-4c88-856d-4209defe35b1",
                           "hasValidationError" : false,
                           "id" : "pbInput"
                         }

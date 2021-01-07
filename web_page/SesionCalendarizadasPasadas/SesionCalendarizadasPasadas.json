@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "SesionCalendarizadasPasadas",
   "name" : "SesionCalendarizadasPasadas",
-  "lastUpdate" : 1609887313211,
+  "lastUpdate" : 1609970457559,
   "rows" : [
     [
       {
@@ -169,7 +169,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Sesiones calendarizadas pasadas"
+                  "value" : "Reporte de sesiones calendarizadas"
                 },
                 "level" : {
                   "type" : "constant",
@@ -416,7 +416,7 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 8,
+                      "md" : 6,
                       "lg" : 8
                     },
                     "propertyValues" : {
@@ -429,12 +429,12 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "lstContenido.length < 1"
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "<span ng-class=\"row.asistencia===true?'glyphicon glyphicon-check iconograndetabla' : 'glyphicon glyphicon-unchecked iconograndetabla' \" aria-hidden=\"true\"></span> Excel"
+                        "value" : "<i class=\"glyphicon glyphicon-download-alt\"></i>  Excel"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -510,7 +510,7 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 4,
+                      "md" : 6,
                       "lg" : 4
                     },
                     "propertyValues" : {
@@ -523,8 +523,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "lstContenido.length < 1"
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -532,7 +532,7 @@
                       },
                       "alignment" : {
                         "type" : "constant",
-                        "value" : "right"
+                        "value" : "left"
                       },
                       "buttonStyle" : {
                         "type" : "constant",

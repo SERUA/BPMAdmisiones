@@ -621,6 +621,7 @@ class SesionesDAO {
 				
 				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
 				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+				pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
 				pstm.executeUpdate();
 				
 				pstm = con.prepareStatement(Statements.INSERT_SESION_ASPIRANTE, Statement.RETURN_GENERATED_KEYS)
@@ -1488,7 +1489,7 @@ class SesionesDAO {
 							break;
 							
 					case "RESIDENCIA":
-						where +=" AND LOWER(da.TIPOALUMNO) ";
+						where +=" AND LOWER(R.descripcion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1553,7 +1554,7 @@ class SesionesDAO {
 					orderby+="campus.DESCRIPCION"
 					break;
 					case "RESIDENCIA":
-					orderby+="da.TIPOALUMNO";
+					orderby+="R.descripcion";
 					break;
 					case "SEXO":
 					orderby+="sx.descripcion";
@@ -1564,7 +1565,6 @@ class SesionesDAO {
 					case "PROMEDIO":
 					orderby+="sda.PROMEDIOGENERAL";
 					break;
-					
 					case "ASISTENCIA":
 					orderby+= "PL.asistencia";
 					break;
@@ -1698,6 +1698,7 @@ class SesionesDAO {
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = Statements.GET_SESIONESCALENDARIZADASPASADAS
+				//AND CAST(S.fecha_inicio AS DATE) < CAST([FECHA] AS DATE)
 				PruebaCustom row = new PruebaCustom();
 				List<PruebasCustom> rows = new ArrayList<PruebasCustom>();
 				closeCon = validarConexion();
@@ -1828,7 +1829,7 @@ class SesionesDAO {
 					errorlog+="paso el order "
 					orderby+=" "+object.orientation;
 					consulta=consulta.replace("[WHERE]", where);
-					consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");					
+					//consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");					
 					errorlog+="paso el where"
 					
 					pstm = con.prepareStatement(consulta.replace("P.nombre, S.fecha_inicio, S.tipo as residencia, P.persistenceid as pruebas_id, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT(P.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
@@ -2010,6 +2011,7 @@ class SesionesDAO {
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = Statements.GET_SESIONESASPIRANTEPASADAS
+				//AND CAST(S.fecha_inicio AS DATE) < CAST([FECHA] AS DATE)
 				SesionesAspiranteCustom row = new SesionesAspiranteCustom();
 				List<SesionesAspiranteCustom> rows = new ArrayList<SesionesAspiranteCustom>();
 				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
@@ -2069,7 +2071,7 @@ class SesionesDAO {
 							break;
 							
 					case "RESIDENCIA":
-						where +="AND  LOWER(da.TIPOALUMNO) ";
+						where +="AND  LOWER(R.descripcion) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -2134,7 +2136,7 @@ class SesionesDAO {
 					orderby+="campus.DESCRIPCION"
 					break;
 					case "RESIDENCIA":
-					orderby+="da.TIPOALUMNO";
+					orderby+="R.descripcion";
 					break;
 					case "SEXO":
 					orderby+="sx.descripcion";
@@ -2158,7 +2160,7 @@ class SesionesDAO {
 				//orderby+="SA.username"
 				orderby+=" "+object.orientation;
 				consulta=consulta.replace("[WHERE]", where);
-				consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
+				//consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
 				
 				int tipo = 0;
 				pstm = con.prepareStatement(Statements.GET_TIPOPRUEBA)
@@ -2210,8 +2212,6 @@ class SesionesDAO {
 						row.setAsistencia(rs.getBoolean("asistencia"));
 					}
 					
-					
-					Statements.GET_ASPIRANTESDELASESION
 					
 					pstm = con.prepareStatement(Statements.GET_ASPIRANTESDELASESION)
 					pstm.setString(1, row.getUsername())

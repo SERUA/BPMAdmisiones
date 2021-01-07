@@ -4692,7 +4692,7 @@ class ListadoDAO {
 					Cell cell5 = row.createCell(4);
 					cell5.setCellValue(Aspirantes.getAspirantes().get(0).get("licenciatura").toString());
 					Cell cell6 = row.createCell(5);
-					cell6.setCellValue(Aspirantes.getAspirantes().get(0).get("tipoalumno").toString());
+					cell6.setCellValue(Aspirantes.getAspirantes().get(0).get("residencia").toString());
 					Cell cell7 = row.createCell(6);
 					cell7.setCellValue(Aspirantes.getAspirantes().get(0).get("sexo").toString());
 					Cell cell8 = row.createCell(7);
@@ -4815,7 +4815,7 @@ class ListadoDAO {
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("correoelectronico").toString(),normalFont));
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("campus").toString(),normalFont));
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("licenciatura").toString(),normalFont));
-					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("tipoalumno").toString(),normalFont));
+					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("residencia").toString(),normalFont));
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("sexo").toString(),normalFont));
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("promediogeneral").toString(),normalFont));
 					table.addCell(new Phrase(Aspirantes.getAspirantes().get(0).get("preparatoria").toString(),normalFont));
@@ -4880,7 +4880,7 @@ class ListadoDAO {
 				cellReporte.setCellValue("Reporte:");
 				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
-				cellTitle.setCellValue("LISTADO DE SESIONES CALENDARIZADAS "+(type.equals("sesioncalendarizadasreporte") ?"PASADAS":""));
+				cellTitle.setCellValue((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS ");
 				Cell cellFecha = titleRow.createCell(4);
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
@@ -5010,7 +5010,7 @@ class ListadoDAO {
 					throw new Exception("No encontro datos de pase de lista");
 				}
 				document.open();
-				Paragraph preface = new Paragraph("LISTADO DE SESIONES CALENDARIZADAS "+(type.equals("sesioncalendarizadasreporte") ?"PASADAS":""));
+				Paragraph preface = new Paragraph((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS ");
 				preface.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(preface);
 				document.add( new Paragraph(" "));

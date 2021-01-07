@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "PaseListaDeLaSesion",
   "name" : "PaseListaDeLaSesion",
-  "lastUpdate" : 1609888468572,
+  "lastUpdate" : 1609975334255,
   "rows" : [
     [
       {
@@ -491,8 +491,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 8,
-                            "lg" : 8
+                            "md" : 6,
+                            "lg" : 6
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -504,8 +504,8 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "lstContenido.length < 1"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -513,7 +513,7 @@
                             },
                             "alignment" : {
                               "type" : "constant",
-                              "value" : "left"
+                              "value" : "right"
                             },
                             "buttonStyle" : {
                               "type" : "constant",
@@ -585,8 +585,8 @@
                           "dimension" : {
                             "xs" : 12,
                             "sm" : 12,
-                            "md" : 4,
-                            "lg" : 4
+                            "md" : 6,
+                            "lg" : 6
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -598,8 +598,8 @@
                               "value" : false
                             },
                             "disabled" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "lstContenido.length < 1"
                             },
                             "label" : {
                               "type" : "interpolation",
@@ -2490,7 +2490,7 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : "borderBlack"
+                              "value" : "borderBlack img_heigth"
                             },
                             "hidden" : {
                               "type" : "constant",
@@ -3195,8 +3195,8 @@
                         "value" : "color-text-orange"
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : true
+                        "type" : "expression",
+                        "value" : "strSesion.habilitado == true"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3220,7 +3220,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<h4>*El presente aspirante no se encuentra en </h4>"
+                        "value" : "<h4>*No es el horario ({{strUsuario.horario}}) para pasar lista </h4>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -3281,6 +3281,10 @@
                       "dataToSend" : {
                         "type" : "variable",
                         "value" : "strAsistencia"
+                      },
+                      "datosUsuario" : {
+                        "type" : "variable",
+                        "value" : "strUsuario"
                       }
                     },
                     "reference" : "dfd4a294-9c9d-41d9-a1a5-0a3d5d9a16ec",
@@ -3337,6 +3341,10 @@
                       "dataToSend" : {
                         "type" : "variable",
                         "value" : "strAsistencia"
+                      },
+                      "datosUsuario" : {
+                        "type" : "variable",
+                        "value" : "strUsuario"
                       }
                     },
                     "reference" : "a95a75d1-c74e-4748-954e-baa5ecc4f0a6",

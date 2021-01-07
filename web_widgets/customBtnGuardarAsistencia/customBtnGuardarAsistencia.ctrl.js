@@ -14,17 +14,36 @@ function PbButtonCtrl($scope, $http, $window) {
         };
         return $http(req)
             .success(function (data, status) {
-                $scope.properties.regresarTabla = "tabla";
                 if($scope.properties.seleccion === true){
                     swal("¡Asistencia capturada correctamente!","","success")
                 }else{
                     swal("¡Asistencia cancelada correctamente!","","success")    
                 }
+                doRequestCaseValue($scope.properties.seleccion);
+                 $scope.properties.regresarTabla = "tabla";
             })
             .error(function (data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             });
             
     };
+    
+     function doRequestCaseValue (asistencia){
+        
+        var caseId = $scope.properties.datosUsuario.aspirantes[0].caseid;
+        var variableNombre = "asistencia"+( $scope.properties.datosUsuario.tipoprueba_PID == 1?"entrevista": $scope.properties.datosUsuario.tipo_prueba == "Examen Psicométrico" ? "psicometrico" : "collegeboard") 
+        var req = {
+            method: "PUT",
+            url: `/API/bpm/caseVariable/${caseId}/${variableNombre}`,
+            data: `{ "type": "java.lang.Boolean","value": "${asistencia}"}`
+        };
+        return $http(req)
+            .success(function (data, status) {
+                
+            })
+            .error(function (data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            });
+    }
 
 }
