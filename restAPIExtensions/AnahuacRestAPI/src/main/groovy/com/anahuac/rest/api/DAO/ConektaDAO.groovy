@@ -13,8 +13,11 @@ import com.anahuac.catalogos.CatApiKeyDAO
 import com.anahuac.catalogos.CatCampus
 import com.anahuac.model.DetalleSolicitud
 import com.anahuac.model.DetalleSolicitudDAO
+import com.anahuac.rest.api.DB.DBConnect
+import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.ConektaOxxo
 import com.anahuac.rest.api.Entity.ConektaPaymentResponse
+import com.anahuac.rest.api.Entity.OrdenBitacora
 import com.anahuac.rest.api.Entity.Result
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import groovy.json.JsonSlurper
@@ -26,11 +29,31 @@ import io.conekta.Order
 import io.conekta.OxxoPayment
 import io.conekta.PaymentMethod
 import io.conekta.SpeiPayment
+
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import java.sql.Statement
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 
 class ConektaDAO {
     private static final Logger LOGGER = LoggerFactory.getLogger(ConektaDAO.class);
+	
+	Connection con;
+	Statement stm;
+	ResultSet rs;
+	PreparedStatement pstm;
+	
+	ResultSet rs2;
+
+	public Boolean validarConexion() {
+		Boolean retorno=false
+		if (con == null || con.isClosed()) {
+			con = new DBConnect().getConnection();
+			retorno=true
+		}
+	}
 
     public Result pagoOxxoCash(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
         Result resultado = new Result();
@@ -45,8 +68,6 @@ class ConektaDAO {
 		Long nowUnixTimestamp = System.currentTimeMillis();
 		Long thirtyDaysFromNowUnixTimestamp = (nowUnixTimestamp + 30L * 24 * 60 * 60 * 1000)/ 1000L;
 		String thirtyDaysFromNow = thirtyDaysFromNowUnixTimestamp.toString();
-//		getApiKeyByCampus(context, "2");
-//		Conekta.setApiKey("key_dHs4rzK9otyxcbqTrzn5sw");
 		String token = "";
 		String name = "";
 		String email = "";
@@ -56,6 +77,7 @@ class ConektaDAO {
 		String country = "";
 		String unit_price = "";
 		String campus_id = "";
+		
         try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -65,6 +87,7 @@ class ConektaDAO {
 			phone = object.phone;
 			unit_price = object.unit_price;
 			campus_id = object.campus_id;
+			caseId = Long.valueOf(object.caseId);
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -112,6 +135,21 @@ class ConektaDAO {
                 oxxoPayment.reference)
 			);
 			
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Oxxo Pay. Referencia: " + oxxoPayment.reference);
+			ordenBit.setEstatus("Pago pendiente");
+			ordenBit.setObservaciones("");
+			ordenBit.setCaseId(caseId);
+
+			crearRegistroPago(ordenBit);
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
+								
             resultado.setData(lstResultado);
             resultado.setSuccess(true);
         } catch (io.conekta.ErrorList error) {
@@ -143,7 +181,13 @@ class ConektaDAO {
 		String country = "";
 		String unit_price = "";
 		String campus_id = "";
-
+		double amount;
+		DecimalFormat twoPlaces = new DecimalFormat("0.00");
+		String order_id = "";
+		String cardEnd = "";
+		String cardBrand = "";
+		Long caseId = 0L;
+		
 		try{
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -154,6 +198,9 @@ class ConektaDAO {
 			name = object.name;
 			unit_price = object.unit_price;
 			campus_id = object.campus_id;
+			cardEnd = object.last4;
+			cardBrand = object.cardBrand;
+			caseId = Long.valueOf(object.caseId);
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -193,21 +240,49 @@ class ConektaDAO {
 			+ "}"
 			));
 		
+			LOGGER.error "no llega hasta aqui";
 			LineItems line_item = (LineItems)order.line_items.get(0);
 			Charge charge = (Charge) order.charges.get(0);
 			PaymentMethod payment_method = (PaymentMethod) charge.payment_method;
+			order_id = order.id;
 			lstResultado.add(new ConektaPaymentResponse(order.id, "" + (order.amount/100) + order.currency, line_item.quantity + " - "
 				+ line_item.name + " - "
 				+ (line_item.unit_price/100), payment_method.getVal("auth_code")+"", payment_method.getVal("name") + " - "
 				+ payment_method.getVal("last4") + " - "
 				+ payment_method.getVal("brand") + " - "
 				+ payment_method.getVal("type")));
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Tarjeta " + payment_method.getVal("brand") + " que termina en " +  payment_method.getVal("last4"));
+			ordenBit.setEstatus("Pago rech");
+			ordenBit.setObservaciones("");
+			ordenBit.setCaseId(caseId);
+			crearRegistroPago(ordenBit);
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
 			resultado.setData(lstResultado)
 			resultado.setSuccess(true)
 		  
 		} catch (io.conekta.ErrorList error) {
-			LOGGER.error error.details.get(0).message
-			LOGGER.error error.details.get(0).message
+			LOGGER.error error.details.get(0).message;
+			String errorMessage =  error.details.get(0).message;
+			
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order_id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + unit_price.toString() + "MXN");
+			ordenBit.setMedioPago("Tarjeta " + cardBrand + " que termina en " +  cardEnd);
+			ordenBit.setEstatus("Pago rechazado");
+			ordenBit.setObservaciones(error.details.get(0).message);
+			ordenBit.setCaseId(caseId);
+			
+			crearRegistroPago(ordenBit);
+			
 			resultado.setSuccess(false);
 			resultado.setError(error.details.get(0).message);
 		} catch (Exception e) {
@@ -226,6 +301,7 @@ class ConektaDAO {
 		
 		Result resultado = new Result();
 		List<Map<String, String>> lstResultado = new ArrayList<Map<String, String>>();
+		Long caseId = 0L;
 //		Conekta.setApiKey("key_dHs4rzK9otyxcbqTrzn5sw");
 		Long nowUnixTimestamp = System.currentTimeMillis();
 		Long thirtyDaysFromNowUnixTimestamp =  (nowUnixTimestamp + 30L * 24 * 60 * 60 * 1000) / 1000L;
@@ -245,6 +321,7 @@ class ConektaDAO {
 			phone = object.phone;
 			unit_price = object.unit_price;
 			campus_id = object.campus_id;
+			caseId = Long.valueOf(object.caseId);
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -287,6 +364,20 @@ class ConektaDAO {
 			DecimalFormat twoPlaces = new DecimalFormat("0.00");
 			mapResultado.put("amount", "\$" + twoPlaces.format(amount).toString() + " " + order.currency);
 			mapResultado.put("id", order.id);
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Pago SPEI. CLABE: " + speiPayment.clabe + ". Banco: " + speiPayment.bank);
+			ordenBit.setEstatus("Pago pendiente");
+			ordenBit.setObservaciones("");
+			ordenBit.setCaseId(caseId);
+
+			crearRegistroPago(ordenBit);
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
 			
 			lstResultado.add(mapResultado);
 			
@@ -583,5 +674,250 @@ class ConektaDAO {
 			resultado.setSuccess(false)
 			resultado.setError(ex.getMessage())
 		}
+	}
+	
+	public Result crearRegistroPago(OrdenBitacora ordenBit) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			Date fecha = new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").parse(ordenBit.getFechaMovimiento());
+			pstm = con.prepareStatement(Statements.INSERT_BITACORA_PAGO);
+			pstm.setString(1, ordenBit.getEstatus());
+			pstm.setString(2, "");
+			pstm.setDate(3, convert(fecha));
+			pstm.setBoolean(4, false);
+			pstm.setString(5, ordenBit.getMedioPago());
+			pstm.setString(6, ordenBit.getMonto());
+			pstm.setString(7, ordenBit.getNoTransaccion());
+			pstm.setString(8, ordenBit.getObservaciones());
+			pstm.setString(9, ordenBit.getUsuarioAspirante());
+			pstm.setString(10, "0");
+			
+			pstm.executeUpdate();
+			
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			con.rollback();
+			LOGGER.error "ERROR EN EL LOGUEO"
+			LOGGER.error "ERROR=================================";
+			LOGGER.error e.getMessage();
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	private static java.sql.Date convert(java.util.Date uDate) {
+		java.sql.Date sDate = new java.sql.Date(uDate.getTime());
+		return sDate;
+	}
+	//Convert Date to Calendar
+	private Calendar dateToCalendar(Date date) {
+
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(date);
+		return calendar;
+	}
+	
+	public Result selectBitacoraPago(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "WHERE isEliminado = false", orderby = "ORDER BY ", errorlog = "";
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			OrdenBitacora row = new OrdenBitacora();
+			List<OrdenBitacora> rows = new ArrayList<OrdenBitacora>();
+			closeCon = validarConexion();
+			
+			for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+				switch(filtro.get("columna")) {
+					case "NOTRANSACCION":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(NOTRANSACCION) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "USUARIOASPIRANTE":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(USUARIOASPIRANTE) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "FECHAMOVIMIENTO":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(FECHAMOVIMIENTO) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "MONTO":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(MONTO) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "MEDIOPAGO":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(MEDIOPAGO) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "ESTATUS":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(ESTATUS) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "OBSERVACIONES":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(OBSERVACIONES) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				}
+			}
+			
+			switch(object.orderby) {
+				case "NOTRANSACCION":
+					orderby += "noTransaccion";
+				break;
+				case "USUARIOASPIRANTE":
+					orderby += "usuarioAspirante";
+				break;
+				case "FECHAMOVIMIENTO":
+					orderby += "fechaMovimiento";
+				break; 
+				case "MONTO":
+					orderby += "monto";
+				break; 
+				case "MEDIOPAGO":
+					orderby += "medioPago";
+				break;
+				case "ESTATUS":
+					orderby += "estatus";
+				break;
+				case "OBSERVACIONES":
+					orderby += "observaciones";
+				break;
+			}
+			
+			if(orderby.equals("ORDER BY ")) {
+				orderby += "PERSISTENCEID";
+			}
+			
+			orderby += " " + object.orientation;
+			
+			String consulta = Statements.GET_BITACORA_PAGO;
+			consulta = consulta.replace("[WHERE]", where);
+			String consultaCount = Statements.GET_COUNT_BITACORA_PAGO;
+			consultaCount = consultaCount.replace("[WHERE]", where);
+			
+			pstm = con.prepareStatement(consultaCount.replace("*", "COUNT(PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+			rs = pstm.executeQuery();
+			
+			errorlog = consulta.replace("*", "COUNT(PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", "");
+			
+			if(rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"));
+			}
+			
+			consulta = consulta.replace("[ORDERBY]", orderby);
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?");
+			pstm = con.prepareStatement(consulta);
+			pstm.setInt(1, object.limit);
+			pstm.setInt(2, object.offset);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()){
+				row = new OrdenBitacora();
+				row.setNoTransaccion(rs.getString("noTransaccion"));
+				row.setUsuarioAspirante(rs.getString("usuarioAspirante"));
+				row.setFechaMovimiento(rs.getString("fechaMovimiento"));
+				row.setMonto(rs.getString("monto"));
+				row.setMedioPago(rs.getString("medioPago"));
+				row.setEstatus(rs.getString("estatus"));
+				row.setObservaciones(rs.getString("observaciones"));
+				row.setCaseId(rs.getLong("caseId"));
+				
+				rows.add(row);
+			}
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+			resultado.setData(rows);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorlog)
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 }

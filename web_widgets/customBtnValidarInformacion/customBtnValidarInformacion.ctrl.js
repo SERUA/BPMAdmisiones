@@ -69,6 +69,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.dataToSend.detalleSolicitudInput.cbCoincide === undefined) {
                 $scope.properties.dataToSend.detalleSolicitudInput.cbCoincide = null
             }
+            if ($scope.properties.dataToSend.detalleSolicitudInput.admisionAnahuac === undefined) {
+                $scope.properties.dataToSend.detalleSolicitudInput.admisionAnahuac = null
+            }
             /* descuento: $data.detalleSolicitud.descuento !== undefined ? $data.detalleSolicitud.descuento : null,
        observacionesDescuento: $data.detalleSolicitud.observacionesDescuento !== undefined ? $data.detalleSolicitud.observacionesDescuento : null,
        observacionesCambio: $data.detalleSolicitud.observacionesCambio !== undefined ? $data.detalleSolicitud.observacionesCambio : null,
@@ -176,7 +179,52 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }*/
             } else if ($scope.properties.accion === "Validar candidato") {
                 doRequestCallBack("GET", "/bonita/API/extension/AnahuacRestGet?url=getIdbanner&idbanner=" + $scope.properties.dataToSend.detalleSolicitudInput.idBanner, {}, {}, function(datos) {
-                    if ($scope.properties.dataToSend.detalleSolicitudInput.idBanner === null || $scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) {
+                    if ($scope.properties.dataToSend.detalleSolicitudInput.isCurpValidado === false && $scope.properties.isMexicano) {
+                        swal.fire("¡Validar CURP!", "¡Debe validar la CURP del aspirante!", "warning");
+                    } else if ($scope.properties.dataToSend.detalleSolicitudInput.promedioCoincide === false) {
+                        swal.fire("¡Validar promedio!", "¡Debe validar que el promedio del aspirante coinsida!", "warning");
+                    } else if ($scope.properties.dataToSend.detalleSolicitudInput.revisado === false) {
+                        swal.fire("¡Validar duplicados!", "¡Debe seleccionar si reviso los duplicados!", "warning");
+                    } else if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno === null) {
+                        swal.fire("¡Tipo de alumno!", "¡Debe seleccionar el tipo de alumno!", "warning");
+                    } else if ($scope.properties.dataToSend.detalleSolicitudInput.catResidencia === null) {
+                        swal.fire("¡Residencia!", "¡Debe seleccionar la residencia del alumno!", "warning");
+                    } else if($scope.properties.dataToSend.detalleSolicitudInput.catTipoAdmision === null){
+                        swal.fire("¡Tipo de admisión!", "¡Debe seleccionar el tipo de admisión del alumno!", "warning");
+                    } else if ($scope.properties.dataToSend.detalleSolicitudInput.idBanner === null || $scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) {
+                        swal.fire("¡Id Banner!", ($scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) ? "Favor de capturar 8 dígitos para Id Banner" : "Debe agregar el Id Banner!", "warning");
+                    } else if (datos.length > 0) {
+                        swal.fire("¡Id Banner!", `Ya existe Id Banner ${$scope.properties.dataToSend.detalleSolicitudInput.idBanner}`, "warning");
+                    } else if($scope.properties.dataToSend.detalleSolicitudInput.catTipoAdmision.clave === "AA"){
+                        if($scope.properties.dataToSend.detalleSolicitudInput.admisionAnahuac){
+                            $scope.properties.dataToSend.conIsInformacionValidada = true;
+                            $scope.properties.dataToSend.conIsListaRoja = false;
+                            $scope.properties.dataToSend.conIs100Descuento = false;
+                            $scope.properties.dataToSend.conIsAdmisionAnahuac = true;
+                            $scope.properties.dataToSend.conIsRechazada = false;
+                            $scope.confirmacion();
+                        }else{
+                            swal.fire("¡Tipo de admisión!", "¡Debe validar la carta de la Admisión Anáhuac!", "warning");
+                        }
+                        
+                    } else {
+                        $scope.properties.dataToSend.conIsInformacionValidada = true;
+                        $scope.properties.dataToSend.conIsListaRoja = false;
+                        $scope.properties.dataToSend.conIs100Descuento = false;
+                        $scope.properties.dataToSend.conIsAdmisionAnahuac = false;
+                        $scope.properties.dataToSend.conIsRechazada = false;
+                        $scope.confirmacion();
+                    }
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    
+                    /*if ($scope.properties.dataToSend.detalleSolicitudInput.idBanner === null || $scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) {
                         swal.fire("¡Id Banner!", ($scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) ? "Favor de capturar 8 dígitos para Id Banner" : "Debe agregar el Id Banner!", "warning");
                     } else if (datos.length > 0) {
                         swal.fire("¡Id Banner!", `Ya existe Id Banner ${$scope.properties.dataToSend.detalleSolicitudInput.idBanner}`, "warning");
@@ -184,20 +232,21 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.dataToSend.detalleSolicitudInput.catPagoDeExamenDeAdmision = $scope.properties.getPagoExamen[0];
                         console.log($scope.properties.tipoAdmision);
                         console.log($scope.properties.objCampanaSelected);
-                        if ($scope.properties.isAdmisionAnahuac) {
+                        if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAdmision.clave === "AA") {
                             if ($scope.properties.dataToSend.detalleSolicitudInput.isCurpValidado === false && $scope.properties.isMexicano) {
                                 swal.fire("¡Validar CURP!", "¡Debe validar la CURP del aspirante!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.promedioCoincide === false) {
                                 swal.fire("¡Validar promedio!", "¡Debe validar que el promedio del aspirante coinsida!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.revisado === false) {
                                 swal.fire("¡Validar duplicados!", "¡Debe seleccionar si reviso los duplicados!", "warning");
-                            } else if ($scope.properties.tipoAlumno == null || $scope.properties.tipoAlumno == "") {
+                            } else if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string === "") {
                                 swal.fire("¡Tipo de alumno!", "¡Debe seleccionar el tipo de alumno!", "warning");
+                            } else if ($scope.properties.dataToSend.detalleSolicitudInput.catResidencia.persistenceId_string === "") {
+                                swal.fire("¡Residencia!", "¡Debe seleccionar la residencia del alumno!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.idBanner === null || $scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) {
                                 swal.fire("¡Id Banner!", ($scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) ? "Favor de capturar 8 dígitos para Id Banner" : "¡Debe agregar el Id Banner!", "warning");
                             } else {
-                                if ($scope.properties.tipoAlumno != null && $scope.properties.tipoAlumno != "") {
-                                    $scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
+                                if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string !== "") {
                                     $scope.properties.dataToSend.conIsInformacionValidada = true;
                                     $scope.properties.dataToSend.conIsListaRoja = false;
                                     $scope.properties.dataToSend.conIs100Descuento = false;
@@ -210,25 +259,27 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
 
                             }
-                        } else {
+                        } else if($scope.properties.dataToSend.detalleSolicitudInput.catTipoAdmision.persistenceId_string === ""){
+                            swal.fire("¡Tipo de admisión!", "¡Debe seleccionar el tipo de admisión del alumno!", "warning");
+                        }else {
                             if ($scope.properties.dataToSend.detalleSolicitudInput.isCurpValidado === false && $scope.properties.isMexicano) {
                                 swal.fire("¡Validar CURP!", "¡Debe validar la CURP del aspirante!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.promedioCoincide === false) {
                                 swal.fire("¡Validar promedio!", "¡Debe validar que el promedio del aspirante coinsida!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.revisado === false) {
                                 swal.fire("¡Validar duplicados!", "¡Debe seleccionar si reviso los duplicados!", "warning");
-                            } else if ($scope.properties.tipoAlumno == null || $scope.properties.tipoAlumno == "") {
+                            } else if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string === "") {
                                 swal.fire("¡Tipo de alumno!", "¡Debe seleccionar el tipo de alumno!", "warning");
                             } else if ($scope.properties.dataToSend.detalleSolicitudInput.idBanner === null || $scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) {
                                 swal.fire("¡Id Banner!", ($scope.properties.dataToSend.detalleSolicitudInput.idBanner.length < 8) ? "Favor de capturar 8 dígitos para idBanner" : "¡Debe agregar el idBanner!", "warning");
                             } else if ($scope.properties.tipoAdmision !== undefined && $scope.properties.tipoAdmision !== null) {
-                                if ($scope.properties.tipoAdmision === "Individual") {
+                                /*if ($scope.properties.tipoAdmision === "Individual") {
                                     if ($scope.properties.objCampanaSelected === null) {
                                         swal.fire("¡Campaña!", "¡Debe seleccionar una campaña!", "warning");
                                     } else if ($scope.properties.dataToSend.detalleSolicitudInput.descuento === null) {
                                         swal.fire("¡Descuento!", "¡Debe agregar un descuento!", "warning");
                                     } else {
-                                        if ($scope.properties.tipoAlumno != null && $scope.properties.tipoAlumno != "") {
+                                        if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string !== "") {
                                             $scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
                                             $scope.properties.dataToSend.conIsInformacionValidada = true;
                                             $scope.properties.dataToSend.conIsListaRoja = false;
@@ -242,7 +293,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                                     }
                                 } else {
-                                    if ($scope.properties.tipoAlumno != null && $scope.properties.tipoAlumno != "") {
+                                    if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string !== "") {
                                         $scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
                                         $scope.properties.dataToSend.conIsInformacionValidada = true;
                                         $scope.properties.dataToSend.conIsListaRoja = false;
@@ -255,10 +306,20 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     }
 
                                 }
-
+                                if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string !== "") {
+                                    //$scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
+                                    $scope.properties.dataToSend.conIsInformacionValidada = true;
+                                    $scope.properties.dataToSend.conIsListaRoja = false;
+                                    $scope.properties.dataToSend.conIs100Descuento = false;
+                                    $scope.properties.dataToSend.conIsAdmisionAnahuac = false;
+                                    $scope.properties.dataToSend.conIsRechazada = false;
+                                    $scope.confirmacion();
+                                } else {
+                                    swal.fire("¡Tipo de alumno!", "¡Debe seleccionar el tipo de alumno!", "warning");
+                                }
                             } else {
-                                if ($scope.properties.tipoAlumno != null && $scope.properties.tipoAlumno != "") {
-                                    $scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
+                                if ($scope.properties.dataToSend.detalleSolicitudInput.catTipoAlumno.persistenceId_string !== "") {
+                                    //$scope.properties.dataToSend.detalleSolicitudInput.tipoAlumno = $scope.properties.tipoAlumno;
                                     $scope.properties.dataToSend.conIsInformacionValidada = true;
                                     $scope.properties.dataToSend.conIsListaRoja = false;
                                     $scope.properties.dataToSend.conIs100Descuento = false;
@@ -271,7 +332,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                             }
                         }
-                    }
+                    }*/
                 })
             } else if ($scope.properties.accion === "Lista roja") {
                 $scope.properties.dataToSend.detalleSolicitudInput.catDescuentos = null;

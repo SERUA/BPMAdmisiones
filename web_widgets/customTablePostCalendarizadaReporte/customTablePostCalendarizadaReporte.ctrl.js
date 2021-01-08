@@ -2,7 +2,6 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
     this.isArray = Array.isArray;
 
-
     $scope.redirecc = function(row){
         var url = "/apps/administrativo/PaseListaReporte?idsesion="+row.sesion.persistenceId+"&idprueba="+row.prueba.persistenceId;
         window.top.location.href = url;

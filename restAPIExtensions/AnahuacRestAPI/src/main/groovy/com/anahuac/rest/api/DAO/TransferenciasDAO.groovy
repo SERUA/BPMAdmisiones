@@ -115,11 +115,12 @@ class TransferenciasDAO {
 				}
 			}
 			
-			errorlog+="campus" + campus;
+			//errorlog+="campus" + campus;
 				errorlog+="object.lstFiltro" +object.lstFiltro
 				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 				closeCon = validarConexion();
 				String consulta = Statements.GET_SOLICITUDES_TRANSFERENCIA
+				errorlog+="Aqui tomo la primer consulta: "+consulta
 				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 					errorlog+=", columna "+ filtro.get("columna")
 					switch(filtro.get("columna")) {
@@ -371,17 +372,32 @@ class TransferenciasDAO {
 				where+=" "+campus +" "+programa +" " + ingreso + " " + estado +" "+bachillerato +" "+tipoalumno
 				consulta=consulta.replace("[WHERE]", where);
 				
-				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, prepa.DESCRIPCION AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				//pstm = con.prepareStatement(consulta.replace("SELECT sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, prepa.DESCRIPCION AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, le.descripcion, ciudadestado.descripcion, ciudadpais.descripcion, estadoexamen.descripcion, pais.descripcion FROM SOLICITUDDEADMISION sda ", "SELECT COUNT(sda.persistenceid) as registros FROM SOLICITUDDEADMISION sda ").replace("[LIMITOFFSET]","").replace("[ORDERBY]", "").replace("GROUP BY sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion, campus.descripcion, gestionescolar.DESCRIPCION, periodo.DESCRIPCION, estado.DESCRIPCION, prepa.DESCRIPCION, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, le.descripcion, ciudadestado.descripcion, ciudadpais.descripcion, estadoexamen.descripcion, pais.descripcion", "GROUP BY sda.persistenceid"))
+				//errorlog+=consulta
+				String consultaCount = Statements.GET_COUNT_SOLICITUDES_TRASNFERENCIA;
+				consultaCount=consultaCount.replace("[CAMPUS]", campus)
+				consultaCount=consultaCount.replace("[PROGRAMA]", programa)
+				consultaCount=consultaCount.replace("[INGRESO]", ingreso)
+				consultaCount=consultaCount.replace("[ESTADO]", estado)
+				consultaCount=consultaCount.replace("[BACHILLERATO]", bachillerato)
+				consultaCount=consultaCount.replace("[TIPOALUMNO]", tipoalumno)
+				consultaCount=consultaCount.replace("[WHERE]", where)
+				consultaCount=consultaCount.replace("[LIMITOFFSET]","");
+				consultaCount=consultaCount.replace("[ORDERBY]", "");
+//				errorlog+=" AQUI ES LA CONSULTA PARA CONTAR "+consultaCount
+				pstm = con.prepareStatement(consultaCount);
 				rs= pstm.executeQuery()
 				if(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
 				}
 				consulta=consulta.replace("[ORDERBY]", orderby)
 				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
-				errorlog+=consulta
+				errorlog+=" AQUI VOY A REALIZAR LA CONSULTA "+consulta
+				errorlog+=" LIMIT "+object.limit + " OFFSET " +object.offset
 				pstm = con.prepareStatement(consulta)
 				pstm.setInt(1, object.limit)
 				pstm.setInt(2, object.offset)
+				
 				rs = pstm.executeQuery()
 				rows = new ArrayList<Map<String, Object>>();
 				ResultSetMetaData metaData = rs.getMetaData();
@@ -410,10 +426,12 @@ class TransferenciasDAO {
 				resultado.setSuccess(true)
 				
 				resultado.setError_info(errorlog);
+				//resultado.setError(consulta);
 				resultado.setData(rows)
 				
 			} catch (Exception e) {
 			resultado.setError_info(errorlog)
+			//resultado.setError_info(consulta)
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		}finally {

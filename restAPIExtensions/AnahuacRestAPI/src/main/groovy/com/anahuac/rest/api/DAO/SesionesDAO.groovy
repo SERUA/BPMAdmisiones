@@ -624,7 +624,7 @@ class SesionesDAO {
 				pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
 				pstm.executeUpdate();
 				
-				pstm = con.prepareStatement(Statements.INSERT_SESION_ASPIRANTE, Statement.RETURN_GENERATED_KEYS)
+				pstm = con.prepareStatement(Statements.INSERT_sesionaspirante, Statement.RETURN_GENERATED_KEYS)
 				pstm.setString(1, sesionAspirante.getUsername())
 				pstm.setLong(2, sesionAspirante.getSesiones_pid())
 				pstm.setLong(3, sesionAspirante.getResponsabledisponible_pid())
@@ -1272,7 +1272,7 @@ class SesionesDAO {
 						break;
 						
 					case "FECHA":
-						where +=" AND LOWER( CAST(S.fecha_inicio as varchar)) ";
+						where +=" AND LOWER( CAST(P.aplicacion as varchar)) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1334,7 +1334,7 @@ class SesionesDAO {
 						orderby+="S.tipo";
 						break;
 						case "FECHA":
-						orderby+="S.fecha_inicio";
+						orderby+="P.aplicacion";
 						break;
 						case "LUGAR":
 						orderby+="P.lugar";
@@ -1346,7 +1346,7 @@ class SesionesDAO {
 						orderby+="S.nombre";
 						break;
 						default:
-						orderby+="S.fecha_inicio"
+						orderby+="P.aplicacion"
 						break;
 						
 					}
@@ -1356,7 +1356,7 @@ class SesionesDAO {
 					consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");
 					errorlog+="paso el where"
 					
-					pstm = con.prepareStatement(consulta.replace("DISTINCT(P.persistenceid)  as pruebas_id,   P.nombre, S.fecha_inicio, S.tipo as residencia, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT( DISTINCT(P.persistenceid)) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+					pstm = con.prepareStatement(consulta.replace("DISTINCT(P.persistenceid)  as pruebas_id,   P.nombre, P.aplicacion, S.tipo as residencia, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT( DISTINCT(P.persistenceid)) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 					pstm.setInt(1, object.usuario)
 					
 					rs= pstm.executeQuery()
@@ -1389,7 +1389,7 @@ class SesionesDAO {
 						row.setSalida(rs.getString("salida"))
 						
 						SesionCustom row2 = new SesionCustom();
-						row2.setFecha_inicio(rs.getString("fecha_inicio"));
+						row2.setFecha_inicio(rs.getString("aplicacion"));
 						row2.setTipo(rs.getString("residencia"));
 						row2.setPersistenceId(rs.getLong("sesiones_id"));
 						row2.setNombre(rs.getString("nombre_sesion"));
@@ -1593,7 +1593,7 @@ class SesionesDAO {
 					consulta=consulta.replace("[ENTREVISTA]", "")
 				}
 				errorlog+="tipo "+tipo
-				pstm = con.prepareStatement(consulta.replace("SA.*,RD.responsableid,RD.prueba_pid, S.fecha_inicio, P.nombre as nombre_prueba,P.Lugar as lugar_prueba, c.descripcion as tipo_prueba, case when C.persistenceid=1 then rd.horario  else concat(p.entrada,' - ',p.salida) end as horario, c.persistenceid as tipoprueba_pid, PL.asistencia", "COUNT(SA.username) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm = con.prepareStatement(consulta.replace("SA.*,RD.responsableid,RD.prueba_pid, P.aplicacion, P.nombre as nombre_prueba,P.Lugar as lugar_prueba, c.descripcion as tipo_prueba, case when C.persistenceid=1 then rd.horario  else concat(p.entrada,' - ',p.salida) end as horario, c.persistenceid as tipoprueba_pid, PL.asistencia", "COUNT(SA.username) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				pstm.setInt(1, object.sesion)
 				pstm.setInt(2, object.prueba)
 				pstm.setInt(3, object.usuario)
@@ -1620,7 +1620,7 @@ class SesionesDAO {
 					row.setUsername(rs.getString("username"))
 					row.setSession_pid(rs.getLong("sesiones_pid"));
 					row.setPersistenceid(rs.getLong("persistenceid"));
-					row.setFecha(rs.getString("fecha_inicio"));
+					row.setFecha(rs.getString("aplicacion"));
 					row.setLugar_prueba(rs.getString("lugar_prueba"));
 					row.setTipo_prueba(rs.getString("tipo_prueba"));
 					row.setNombre_prueba(rs.getString("nombre_prueba"));
@@ -1698,7 +1698,7 @@ class SesionesDAO {
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = Statements.GET_SESIONESCALENDARIZADASPASADAS
-				//AND CAST(S.fecha_inicio AS DATE) < CAST([FECHA] AS DATE)
+				//AND CAST(S.fecha_inicio P.aplicacion AS DATE) < CAST([FECHA] AS DATE)
 				PruebaCustom row = new PruebaCustom();
 				List<PruebasCustom> rows = new ArrayList<PruebasCustom>();
 				closeCon = validarConexion();
@@ -1758,7 +1758,7 @@ class SesionesDAO {
 						break;
 						
 					case "FECHA":
-						where +=" AND LOWER( CAST(S.fecha_inicio as varchar)) ";
+						where +=" AND LOWER( CAST(P.aplicacion as varchar)) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1810,7 +1810,7 @@ class SesionesDAO {
 						orderby+="S.residencia";
 						break;
 						case "FECHA":
-						orderby+="S.fecha_inicio";
+						orderby+="P.aplicacion";
 						break;
 						case "LUGAR":
 						orderby+="P.lugar";
@@ -1822,7 +1822,7 @@ class SesionesDAO {
 						orderby+="S.nombre";
 						break;
 						default:
-						orderby+="S.fecha_inicio"
+						orderby+="P.aplicacion"
 						break;
 						
 					}
@@ -1832,7 +1832,7 @@ class SesionesDAO {
 					//consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");					
 					errorlog+="paso el where"
 					
-					pstm = con.prepareStatement(consulta.replace("P.nombre, S.fecha_inicio, S.tipo as residencia, P.persistenceid as pruebas_id, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT(P.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+					pstm = con.prepareStatement(consulta.replace("P.nombre, P.aplicacion, S.tipo as residencia, P.persistenceid as pruebas_id, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT(P.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 					
 					rs= pstm.executeQuery()
 					if(rs.next()) {
@@ -1863,7 +1863,7 @@ class SesionesDAO {
 						row.setSalida(rs.getString("salida"))
 						
 						SesionCustom row2 = new SesionCustom();
-						row2.setFecha_inicio(rs.getString("fecha_inicio"));
+						row2.setFecha_inicio(rs.getString("aplicacion"));
 						row2.setTipo(rs.getString("residencia"));
 						row2.setPersistenceId(rs.getLong("sesiones_id"));
 						row2.setNombre(rs.getString("nombre_sesion"));
@@ -2011,7 +2011,7 @@ class SesionesDAO {
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = Statements.GET_SESIONESASPIRANTEPASADAS
-				//AND CAST(S.fecha_inicio AS DATE) < CAST([FECHA] AS DATE)
+				//AND CAST(S.fecha_inicio P.aplicacion AS DATE) < CAST([FECHA] AS DATE)
 				SesionesAspiranteCustom row = new SesionesAspiranteCustom();
 				List<SesionesAspiranteCustom> rows = new ArrayList<SesionesAspiranteCustom>();
 				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
@@ -2175,7 +2175,7 @@ class SesionesDAO {
 					consulta=consulta.replace("[ENTREVISTA]", "")
 				}
 				errorlog+="tipo "+tipo
-				pstm = con.prepareStatement(consulta.replace("SA.*,RD.responsableid,RD.prueba_pid, S.fecha_inicio, P.nombre as nombre_prueba,P.Lugar as lugar_prueba, c.descripcion as tipo_prueba, case when C.persistenceid=1 then rd.horario  else concat(p.entrada,' - ',p.salida) end as horario, c.persistenceid as tipoprueba_pid, PL.asistencia", "COUNT(SA.username) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm = con.prepareStatement(consulta.replace("SA.*,RD.responsableid,RD.prueba_pid, P.aplicacion, P.nombre as nombre_prueba,P.Lugar as lugar_prueba, c.descripcion as tipo_prueba, case when C.persistenceid=1 then rd.horario  else concat(p.entrada,' - ',p.salida) end as horario, c.persistenceid as tipoprueba_pid, PL.asistencia", "COUNT(SA.username) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				pstm.setInt(1, object.sesion)
 				pstm.setInt(2, object.prueba)
 				
@@ -2200,7 +2200,7 @@ class SesionesDAO {
 					row.setUsername(rs.getString("username"))
 					row.setSession_pid(rs.getLong("sesiones_pid"));
 					row.setPersistenceid(rs.getLong("persistenceid"));
-					row.setFecha(rs.getString("fecha_inicio"));
+					row.setFecha(rs.getString("aplicacion"));
 					row.setLugar_prueba(rs.getString("lugar_prueba"));
 					row.setTipo_prueba(rs.getString("tipo_prueba"));
 					row.setNombre_prueba(rs.getString("nombre_prueba"));

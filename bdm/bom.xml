@@ -23,6 +23,19 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.bitacora.CatBitacoraCorreos">
+            <fields>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="de" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="para" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="estatus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="mensaje" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.bitacora.CatBitacoraGeneral">
             <fields>
                 <field type="STRING" length="255" name="eventos" nullable="true" collection="false"/>
@@ -50,6 +63,9 @@
                 <field type="STRING" length="255" name="estatus" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="observaciones" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombrePago" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -263,49 +279,35 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCatCiudadByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatCiudadByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCatCiudadByEstado" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE  c.isEliminado = false AND c.pais LIKE '%México%' AND c.estado = :estado&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                <query name="getCatCiudadByEstado" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE  c.isEliminado = false AND c.pais LIKE '%México%' AND c.estado = :estado&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
                     <queryParameters>
                         <queryParameter name="estado" className="java.lang.String"/>
-                        <queryParameter name="caseId" className="java.lang.String"/>
                     </queryParameters>
                 </query>
-                <query name="getPaises" content="SELECT DISTINCT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false AND c.pais NOT LIKE '%México%'&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getPaises" content="SELECT DISTINCT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false AND c.pais NOT LIKE '%México%'&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCiudadesByPais" content="SELECT DISTINCT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE&#13;&#10;c.pais = :pais&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                <query name="getCiudadesByPais" content="SELECT DISTINCT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE&#13;&#10;c.pais = :pais&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
                     <queryParameters>
                         <queryParameter name="pais" className="java.lang.String"/>
-                        <queryParameter name="caseId" className="java.lang.String"/>
                     </queryParameters>
                 </query>
-                <query name="getCatCiudadExtranjero" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais NOT LIKE '%México%'&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatCiudadExtranjero" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais NOT LIKE '%México%'&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCatCiudad" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais LIKE '%México%'&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatCiudad" content="SELECT c&#13;&#10;FROM CatCiudad  c &#13;&#10;WHERE c.isEliminado = false AND c.pais LIKE '%México%'&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCatCiudadEstadoByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.estado ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatCiudadEstadoByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.estado ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCatCiudadPaisByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.pais ASC" returnType="com.anahuac.catalogos.CatCiudad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatCiudadPaisByCaso" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.pais ASC" returnType="com.anahuac.catalogos.CatCiudad">
+                    <queryParameters/>
                 </query>
-                <query name="getCatCiudadByOrden" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC&#13;&#10;" returnType="com.anahuac.catalogos.CatCiudad">
+                <query name="getCatCiudadByOrden" content="SELECT c &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC, c.descripcion ASC&#13;&#10;" returnType="com.anahuac.catalogos.CatCiudad">
                     <queryParameters/>
                 </query>
                 <query name="getCountByEliminado" content="SELECT COUNT (c) &#13;&#10;FROM CatCiudad c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;" returnType="java.lang.Long">
@@ -678,21 +680,16 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCatEstados" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatEstados" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
+                    <queryParameters/>
                 </query>
-                <query name="getCatEstadosByPais" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.pais = :pais&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
+                <query name="getCatEstadosByPais" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.pais = :pais&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
                     <queryParameters>
                         <queryParameter name="pais" className="java.lang.String"/>
-                        <queryParameter name="caseId" className="java.lang.String"/>
                     </queryParameters>
                 </query>
-                <query name="getCatEstadosByCaso" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatEstadosByCaso" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
+                    <queryParameters/>
                 </query>
                 <query name="getEstadosByOrden" content="SELECT c &#13;&#10;FROM CatEstados c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatEstados">
                     <queryParameters/>
@@ -866,10 +863,8 @@
                         <queryParameter name="campus" className="java.lang.String"/>
                     </queryParameters>
                 </query>
-                <query name="getCatGestionEscolarByCaso" content="SELECT c &#13;&#10;FROM CatGestionEscolar c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.nombre ASC" returnType="com.anahuac.catalogos.CatGestionEscolar">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatGestionEscolarByCaso" content="SELECT c &#13;&#10;FROM CatGestionEscolar c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.nombre ASC" returnType="com.anahuac.catalogos.CatGestionEscolar">
+                    <queryParameters/>
                 </query>
                 <query name="counForByCampus" content="SELECT COUNT (c) &#13;&#10;FROM CatGestionEscolar c &#13;&#10;WHERE  c.isEliminado = false&#13;&#10;AND c.campus = :campus&#13;&#10;" returnType="java.lang.Long">
                     <queryParameters>
@@ -1229,10 +1224,8 @@
                 <query name="getCatNacionalidad" content="SELECT c &#13;&#10;FROM CatNacionalidad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY  c.orden ASC, c.descripcion ASC" returnType="com.anahuac.catalogos.CatNacionalidad">
                     <queryParameters/>
                 </query>
-                <query name="getCatNacionalidadCaso" content="SELECT c &#13;&#10;FROM CatNacionalidad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId=:caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatNacionalidad">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatNacionalidadCaso" content="SELECT c &#13;&#10;FROM CatNacionalidad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatNacionalidad">
+                    <queryParameters/>
                 </query>
                 <query name="getCatNacionalidadOrden" content="SELECT c &#13;&#10;FROM CatNacionalidad c&#13;&#10;ORDER BY c.orden ASC" returnType="java.util.List">
                     <queryParameters/>
@@ -1401,20 +1394,14 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCatPais" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatPais" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
+                    <queryParameters/>
                 </query>
-                <query name="getCatPaisExtranjero" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false AND  c.descripcion NOT LIKE '%México%'&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatPaisExtranjero" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false AND  c.descripcion NOT LIKE '%México%'&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
+                    <queryParameters/>
                 </query>
-                <query name="getCatPaisByCaso" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
-                    <queryParameters>
-                        <queryParameter name="caseId" className="java.lang.String"/>
-                    </queryParameters>
+                <query name="getCatPaisByCaso" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
+                    <queryParameters/>
                 </query>
                 <query name="getCatPaisByOrden" content="SELECT c &#13;&#10;FROM CatPais c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatPais">
                     <queryParameters/>
@@ -1919,6 +1906,25 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatSacramentos">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCatSacramentos" content="SELECT c &#13;&#10;FROM CatSacramentos c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatSacramentos">
+                    <queryParameters/>
+                </query>
+                <query name="getCountByIsEliminado" content="SELECT COUNT (c) &#13;&#10;FROM CatSacramentos c &#13;&#10;WHERE c.isEliminado = false" returnType="java.lang.Long">
+                    <queryParameters/>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatSemestreReprobado">
             <fields>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
@@ -2087,7 +2093,7 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCatTipoDiscapacidad" content="SELECT c &#13;&#10;FROM CatTipoDiscapacidad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.descripcion ASC" returnType="com.anahuac.catalogos.CatTipoDiscapacidad">
+                <query name="getCatTipoDiscapacidad" content="SELECT c &#13;&#10;FROM CatTipoDiscapacidad c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.catalogos.CatTipoDiscapacidad">
                     <queryParameters/>
                 </query>
                 <query name="getCountByIsELiminado" content="SELECT COUNT (c) &#13;&#10;FROM CatTipoDiscapacidad c &#13;&#10;WHERE c.isEliminado = false" returnType="java.lang.Long">
@@ -2114,6 +2120,17 @@
                     <queryParameters/>
                 </query>
             </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.catalogos.CatTipoPrueba">
+            <fields>
+                <field type="STRING" length="512" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="iseliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.catalogos.CatTipoTerapia">
@@ -2554,6 +2571,76 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.Pruebas">
+            <fields>
+                <field type="STRING" length="512" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="aplicacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="entrada" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="salida" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="registrados" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="ultimo_dia_inscripcion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="cupo" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="lugar" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="campus_pid" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_int" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo_postal" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="municipio" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="pais_pid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="estado_pid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="iseliminado" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="sesion_pid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="duracion" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="cattipoprueba_pid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.ResponsableDisponible">
+            <fields>
+                <field type="STRING" length="255" name="horario" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="disponible" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="responsableid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="prueba_pid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="iseliminado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="ocupado" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="licenciaturas" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.SesionAspirante">
+            <fields>
+                <field type="STRING" length="512" name="username" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="sesiones_pid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="responsabledisponible_pid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.model.Sesiones">
+            <fields>
+                <field type="STRING" length="512" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="ismedicina" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="preparatoria_pid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="estado_pid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="pais_pid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="borrador" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="campus_pid" nullable="true" collection="false"/>
+                <field type="STRING" length="512" name="tipo" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="ciudad_pid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.model.SolicitudDeAdmision">
             <fields>
                 <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatLugarExamen" fetchType="EAGER" name="catLugarExamen" nullable="true" collection="false"/>
@@ -2621,7 +2708,16 @@
                 <field type="BOOLEAN" length="255" name="admisionAnahuac" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="findDuplicados" content="SELECT s &#13;&#10;FROM SolicitudDeAdmision s &#13;&#10;WHERE &#13;&#10; LOWER(concat(s.primernombre,' ', s.segundonombre,' ',s.apellidopaterno,' ',s.apellidomaterno)) = :nombre&#13;&#10;AND s.correoElectronico = :correoElectronico&#13;&#10;AND s.fechaNacimiento = :fechaNacimiento&#13;&#10;AND s.curp = :curp&#13;&#10;ORDER BY s.persistenceId ASC" returnType="com.anahuac.model.SolicitudDeAdmision">
+                    <queryParameters>
+                        <queryParameter name="correoElectronico" className="java.lang.String"/>
+                        <queryParameter name="fechaNacimiento" className="java.time.LocalDateTime"/>
+                        <queryParameter name="curp" className="java.lang.String"/>
+                        <queryParameter name="nombre" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.model.Terapia">
