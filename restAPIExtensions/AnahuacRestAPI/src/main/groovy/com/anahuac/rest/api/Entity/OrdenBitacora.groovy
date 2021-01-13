@@ -9,7 +9,21 @@ class OrdenBitacora {
 	private String estatus;
 	private String observaciones;
 	private Long caseId;
+	private String campus;
+	private String nombrePago;
 	
+	public String getCampus() {
+		return campus;
+	}
+	public void setCampus(String campus) {
+		this.campus = campus;
+	}
+	public String getNombrePago() {
+		return nombrePago;
+	}
+	public void setNombrePago(String nombrePago) {
+		this.nombrePago = nombrePago;
+	}
 	public Long getCaseId() {
 		return caseId;
 	}

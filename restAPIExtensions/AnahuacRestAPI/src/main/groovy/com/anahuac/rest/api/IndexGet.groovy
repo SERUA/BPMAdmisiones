@@ -276,6 +276,16 @@ class IndexGet implements RestApiController {
 				}
 				break;
 				
+				case "getCatBitacoraCorreo":
+				String jsonData =request.getParameter "jsonData"
+				result = new NotificacionDAO().getCatBitacoraCorreo(jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				
 				case "getSesions":
 				List<SesionCustom> sesions = new ArrayList()
 				SesionCustom sesion = new SesionCustom();

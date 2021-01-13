@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgInformacionSolicitudUpadate",
   "name" : "frgInformacionSolicitudUpadate",
-  "lastUpdate" : 1607455815324,
+  "lastUpdate" : 1610468830929,
   "rows" : [
     [
       {
@@ -158,7 +158,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : "catSolicitudDeAdmision.catCampus"
+            "value" : "catSolicitudDeAdmision.catCampusEstudio"
           }
         },
         "reference" : "4ce38492-b988-46c0-b188-0ce591fd8972",
@@ -381,7 +381,7 @@
           },
           "disabled" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "inline" : {
             "type" : "constant",
@@ -438,7 +438,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "lugarexamen !== \"En el mismo campus en donde realizaré mi licenciatura\""
+            "value" : "catSolicitudDeAdmision.catLugarExamen.descripcion !== \"En el mismo campus en donde realizaré mi licenciatura\""
           },
           "required" : {
             "type" : "constant",
@@ -513,7 +513,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "lugarexamen !== \"En un estado\""
+            "value" : "catSolicitudDeAdmision.catLugarExamen.descripcion !== \"En un estado\""
           },
           "required" : {
             "type" : "constant",
@@ -588,7 +588,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "lugarexamen !== \"En el extranjero (solo si vives fuera de México)\""
+            "value" : "catSolicitudDeAdmision.catLugarExamen.descripcion !== \"En el extranjero (solo si vives fuera de México)\""
           },
           "required" : {
             "type" : "constant",

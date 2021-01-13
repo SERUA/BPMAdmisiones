@@ -1,7 +1,20 @@
 function PbTableCtrl($scope, $http, $window,blockUI) {
 
     this.isArray = Array.isArray;
-
+    this.orden = false;
+    
+    
+    $scope.cambioOrden = function(orden){
+        if(orden){
+            $scope.properties.orden = ">=";
+        }else{
+            $scope.properties.orden = "<";
+        }
+        $scope.$apply();
+        doRequest("POST", $scope.properties.urlPost);
+        
+    }
+    
     $scope.redirecc = function(row){
         var url = "/apps/administrativo/PaseListaReporte?idsesion="+row.sesion.persistenceId+"&idprueba="+row.prueba.persistenceId;
         window.top.location.href = url;
@@ -23,10 +36,12 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
 
     function doRequest(method, url, params) {
         blockUI.start();
+        var datos = angular.copy($scope.properties.dataToSend);
+
         var req = {
             method: method,
             url: url,
-            data: angular.copy($scope.properties.dataToSend),
+            data: datos,
             params: params
         };
 
@@ -111,7 +126,7 @@ function PbTableCtrl($scope, $http, $window,blockUI) {
         "valor": "CAMPUS-CANCUN"
     },
     {
-        "descripcion": "Anáhuac Mayab",
+        "descripcion": "Anáhuac Mérida",
         "valor": "CAMPUS-MAYAB"
     },
     {

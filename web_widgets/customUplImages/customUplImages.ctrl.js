@@ -107,7 +107,6 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
 
     $scope.CheckDimension = function(response) {
-        debugger;
         //Get reference of File.
         var fileUpload = document.getElementById("file");
         $scope.properties.revisar = true;

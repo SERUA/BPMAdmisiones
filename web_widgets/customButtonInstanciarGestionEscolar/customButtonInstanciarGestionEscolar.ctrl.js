@@ -3,6 +3,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     'use strict';
 
     var vm = this;
+    var validarPeriodoDisponible;
+    var validarInscripcionagosto;
+    var validarInscripcionenero;
+    var validarPropedeuticos;
     this.action = function action() {
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
@@ -69,189 +73,193 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.collectionToModify.push(item);
         }
     }
-var validarPeriodoDisponible;
- var validarInscripcionagosto;
- var validarInscripcionenero;
- var validarPropedeuticos;
+
     function startProcess() {
-	debugger
-	if ($scope.properties.dataToChange2.campus) { // validacion editar
-		if ($scope.properties.dataToChange2.nombre && $scope.properties.dataToChange2.descripcion && $scope.properties.dataToChange2.enlace) {
-			if ($scope.properties.dataToChange2.propedeutico === false) {
-			    $scope.properties.dataToChange2.propedeuticos = [];
-				if ($scope.properties.dataToChange2.periodoDisponible <= 0) {
-					validarPeriodoDisponible = false
-					swal("¡Seleccione por lo menos un!", "Periodo disponible");
-				} else {
-					validarPeriodoDisponible = true;
-				}
-				if ($scope.properties.dataToChange2.inscripcionagosto) {
-					validarInscripcionagosto = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripcion Agosto 2021");
-					validarInscripcionagosto = false;
-				}
-				if ($scope.properties.dataToChange2.inscripcionenero) {
-					validarInscripcionenero = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripción Enero 2021");
-					validarInscripcionenero = false;
-				}
-				if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true) {
-					if ($scope.properties.processId) {
-						var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
-							doRequest("GET", $scope.properties.url).then(function () {
-								$scope.properties.dataToChange = $scope.properties.dataToSet;
-								$scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-							});
-							localStorageService.delete($window.location.href);
-						});
+        if ($scope.properties.dataToChange2.campus) { // validacion editar
+            // if ($scope.properties.dataToChange2.nombre && $scope.properties.dataToChange2.descripcion && $scope.properties.dataToChange2.enlace) {
+            if ($scope.properties.dataToChange2.nombre && $scope.properties.dataToChange2.descripcion) {
+                if ($scope.properties.dataToChange2.propedeutico === false) {
+                    $scope.properties.dataToChange2.propedeuticos = [];
+                    if ($scope.properties.dataToChange2.periodoDisponible <= 0) {
+                        validarPeriodoDisponible = false
+                        swal("¡Seleccione por lo menos un!", "Periodo disponible", "warning");
+                    } else {
+                        validarPeriodoDisponible = true;
+                    }
+                    if ($scope.properties.dataToChange2.inscripcionagosto) {
+                        validarInscripcionagosto = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripcion Agosto 2021", "warning");
+                        validarInscripcionagosto = false;
+                    }
+                    if ($scope.properties.dataToChange2.inscripcionenero) {
+                        validarInscripcionenero = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripción Enero 2021", "warning");
+                        validarInscripcionenero = false;
+                    }
+                    if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true) {
+                        if ($scope.properties.processId) {
+                            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
+                                doRequest("GET", $scope.properties.url).then(function () {
+                                    $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                                });
+                                localStorageService.delete($window.location.href);
+                            });
 
-					} else {
-						$log.log('Impossible to retrieve the process definition id value from the URL');
-					}
-				}
-			}
-			if ($scope.properties.dataToChange2.propedeutico === true) {
-				if ($scope.properties.dataToChange2.periodoDisponible <= 0) {
-					validarPeriodoDisponible = false
-					swal("¡Seleccione por lo menos un!", "Periodo disponible");
-				} else {
-					validarPeriodoDisponible = true;
-				}
-				if ($scope.properties.dataToChange2.inscripcionagosto) {
-					validarInscripcionagosto = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripcion Agosto 2021");
-					validarInscripcionagosto = false;
-				}
-				if ($scope.properties.dataToChange2.inscripcionenero) {
-					validarInscripcionenero = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripción Enero 2021");
-					validarInscripcionenero = false;
-				}
-				if ($scope.properties.dataToChange2.propedeuticos <= 0) {
-					swal("¡Seleccione por lo menos un!", "Propedéutico disponible");
-					validarPropedeuticos = false;
-				} else {
-					validarPropedeuticos = true;
-				}
-				if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true && validarPropedeuticos === true) {
-					if ($scope.properties.processId) {
-						var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
-							doRequest("GET", $scope.properties.url).then(function () {
-								$scope.properties.dataToChange = $scope.properties.dataToSet;
-								$scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-							});
-							localStorageService.delete($window.location.href);
-						});
+                        } else {
+                            $log.log('Impossible to retrieve the process definition id value from the URL');
+                        }
+                    }
+                }
+                if ($scope.properties.dataToChange2.propedeutico === true) {
+                    if ($scope.properties.dataToChange2.periodoDisponible <= 0) {
+                        validarPeriodoDisponible = false
+                        swal("¡Seleccione por lo menos un!", "Periodo disponible", "warning");
+                    } else {
+                        validarPeriodoDisponible = true;
+                    }
+                    if ($scope.properties.dataToChange2.inscripcionagosto) {
+                        validarInscripcionagosto = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripcion Agosto 2021", "warning");
+                        validarInscripcionagosto = false;
+                    }
+                    if ($scope.properties.dataToChange2.inscripcionenero) {
+                        validarInscripcionenero = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripción Enero 2021", "warning");
+                        validarInscripcionenero = false;
+                    }
+                    if ($scope.properties.dataToChange2.propedeuticos <= 0) {
+                        swal("¡Seleccione por lo menos un!", "Propedéutico disponible", "warning");
+                        validarPropedeuticos = false;
+                    } else {
+                        validarPropedeuticos = true;
+                    }
+                    if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true && validarPropedeuticos === true) {
+                        if ($scope.properties.processId) {
+                            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
+                                doRequest("GET", $scope.properties.url).then(function () {
+                                    $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                                });
+                                localStorageService.delete($window.location.href);
+                            });
 
-					} else {
-						$log.log('Impossible to retrieve the process definition id value from the URL');
-					}
-				}
-			}
-		} else {
-			if (!$scope.properties.dataToChange2.enlace) {
-				swal("¡Falto capurar informacion en:!", "Enlace de sitio web");
-			}
-			if (!$scope.properties.dataToChange2.descripcion) {
-				swal("¡Falto capurar informacion en:!", "Descripción de la Carrera");
-			}
-			if (!$scope.properties.dataToChange2.nombre) {
-				swal("¡Falto capurar informacion en:!", "Nombre licenciatura");
-			}
-		}
-	} else {// validacion guardar
-		if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].nombre && $scope.properties.dataToChange2.lstCatGestionEscolarInput[0].descripcion && $scope.properties.dataToChange2.lstCatGestionEscolarInput[0].enlace) {
-			if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeutico === false) {
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].periodoDisponible <= 0) {
-					validarPeriodoDisponible = false
-					swal("¡Seleccione por lo menos un!", "Periodo disponible");
-				} else {
-					validarPeriodoDisponible = true;
-				}
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionagosto) {
-					validarInscripcionagosto = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripcion Agosto 2021");
-					validarInscripcionagosto = false;
-				}
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionenero) {
-					validarInscripcionenero = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripción Enero 2021");
-					validarInscripcionenero = false;
-				}
-				if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true) {
-					if ($scope.properties.processId) {
-						var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
-							doRequest("GET", $scope.properties.url).then(function () {
-								$scope.properties.dataToChange = $scope.properties.dataToSet;
-								$scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-							});
-							localStorageService.delete($window.location.href);
-						});
+                        } else {
+                            $log.log('Impossible to retrieve the process definition id value from the URL');
+                        }
+                    }
+                }
+            } else {
+                // if (!$scope.properties.dataToChange2.enlace) {
+                //     swal("¡Aviso!", "Faltó capturar información en: Enlace de sitio web", "warning");
+                // }
+                if (!$scope.properties.dataToChange2.descripcion) {
+                    swal("¡Aviso!", "Faltó capturar información en: Descripción de la Carrera", "warning");
+                }
+                if (!$scope.properties.dataToChange2.nombre) {
+                    swal("¡Aviso!", "Faltó capturar información en: Nombre licenciatura", "warning");
+                }
+                if(!$scope.properties.dataToChange2.clave){
+                    swal("¡Aviso!","Faltó capturar informacion en: Clave","warning");
+                }
+            }
+        } else {// validacion guardar
+            if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].nombre && $scope.properties.dataToChange2.lstCatGestionEscolarInput[0].descripcion) {
+            // if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].nombre && $scope.properties.dataToChange2.lstCatGestionEscolarInput[0].descripcion && $scope.properties.dataToChange2.lstCatGestionEscolarInput[0].enlace) {
+                if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeutico === false) {
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].periodoDisponible <= 0) {
+                        validarPeriodoDisponible = false
+                        swal("¡Seleccione por lo menos un!", "Periodo disponible", "warning");
+                    } else {
+                        validarPeriodoDisponible = true;
+                    }
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionagosto) {
+                        validarInscripcionagosto = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripcion Agosto 2021", "warning");
+                        validarInscripcionagosto = false;
+                    }
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionenero) {
+                        validarInscripcionenero = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripción Enero 2021", "warning");
+                        validarInscripcionenero = false;
+                    }
+                    if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true) {
+                        if ($scope.properties.processId) {
+                            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
+                                doRequest("GET", $scope.properties.url).then(function () {
+                                    $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                                });
+                                localStorageService.delete($window.location.href);
+                            });
 
-					} else {
-						$log.log('Impossible to retrieve the process definition id value from the URL');
-					}
-				}
-			}
-			if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeutico === true) {
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].periodoDisponible <= 0) {
-					validarPeriodoDisponible = false
-					swal("¡Seleccione por lo menos un!", "Periodo disponible");
-				} else {
-					validarPeriodoDisponible = true;
-				}
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionagosto) {
-					validarInscripcionagosto = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripcion Agosto 2021");
-					validarInscripcionagosto = false;
-				}
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionenero) {
-					validarInscripcionenero = true;
-				} else {
-					swal("¡Falto capurar informacion en:!", "Inscripción Enero 2021");
-					validarInscripcionenero = false;
-				}
-				if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeuticos <= 0) {
-					swal("¡Seleccione por lo menos un!", "Propedéutico disponible");
-					validarPropedeuticos = false;
-				} else {
-					validarPropedeuticos = true;
-				}
-				if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true && validarPropedeuticos === true) {
-					if ($scope.properties.processId) {
-						var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
-							doRequest("GET", $scope.properties.url).then(function () {
-								$scope.properties.dataToChange = $scope.properties.dataToSet;
-								$scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-							});
-							localStorageService.delete($window.location.href);
-						});
+                        } else {
+                            $log.log('Impossible to retrieve the process definition id value from the URL');
+                        }
+                    }
+                }
+                if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeutico === true) {
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].periodoDisponible <= 0) {
+                        validarPeriodoDisponible = false
+                        swal("¡Seleccione por lo menos un!", "Periodo disponible", "warning");
+                    } else {
+                        validarPeriodoDisponible = true;
+                    }
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionagosto) {
+                        validarInscripcionagosto = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripcion Agosto 2021", "warning");
+                        validarInscripcionagosto = false;
+                    }
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].inscripcionenero) {
+                        validarInscripcionenero = true;
+                    } else {
+                        swal("¡Aviso!", "Faltó capturar información en: Inscripción Enero 2021", "warning");
+                        validarInscripcionenero = false;
+                    }
+                    if ($scope.properties.dataToChange2.lstCatGestionEscolarInput[0].propedeuticos <= 0) {
+                        swal("¡Seleccione por lo menos un!", "Propedéutico disponible", "warning");
+                        validarPropedeuticos = false;
+                    } else {
+                        validarPropedeuticos = true;
+                    }
+                    if (validarPeriodoDisponible === true && validarInscripcionagosto === true && validarInscripcionenero === true && validarPropedeuticos === true) {
+                        if ($scope.properties.processId) {
+                            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function () {
+                                doRequest("GET", $scope.properties.url).then(function () {
+                                    $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                                });
+                                localStorageService.delete($window.location.href);
+                            });
 
-					} else {
-						$log.log('Impossible to retrieve the process definition id value from the URL');
-					}
-				}
-			}
-		} else {
-			if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].enlace) {
-				swal("¡Falto capurar informacion en:!", "Enlace de sitio web");
-			}
-			if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].descripcion) {
-				swal("¡Falto capurar informacion en:!", "Descripción de la Carrera");
-			}
-			if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].nombre) {
-				swal("¡Falto capurar informacion en:!", "Nombre licenciatura");
-			}
-		}
-	}
-}
+                        } else {
+                            $log.log('Impossible to retrieve the process definition id value from the URL');
+                        }
+                    }
+                }
+            } else {
+                // if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].enlace) {
+                //     swal("¡Aviso!", "Faltó capturar información en: Enlace de sitio web", "warning");
+                // }
+                if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].descripcion) {
+                    swal("¡Aviso!", "Faltó capturar información en: Descripción de la Carrera", "warning");
+                }
+                if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].nombre) {
+                    swal("¡Aviso!", "Faltó capturar información en: Nombre licenciatura", "warning");
+                }
+                if (!$scope.properties.dataToChange2.lstCatGestionEscolarInput[0].clave) {
+                    swal("¡Aviso!", "Faltó capturar información en: clave", "warning");
+                }
+            }
+        }
+    }
 
     /**
      * Execute a get/post request to an URL
@@ -267,26 +275,25 @@ var validarPeriodoDisponible;
             params: params
         };
 
-        return $http(req)
-            .success(function(data, status) {
-                $scope.properties.dataFromSuccess = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromError = undefined;
-                notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status });
-                if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
-                    redirectIfNeeded();
-                }
-                closeModal($scope.properties.closeOnSuccess);
-            })
-            .error(function(data, status) {
-                $scope.properties.dataFromError = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromSuccess = undefined;
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function() {
-                vm.busy = false;
-            });
+        return $http(req).success(function(data, status) {
+            $scope.properties.dataFromSuccess = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromError = undefined;
+            notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status });
+            if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
+                redirectIfNeeded();
+            }
+            closeModal($scope.properties.closeOnSuccess);
+        })
+        .error(function(data, status) {
+            $scope.properties.dataFromError = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromSuccess = undefined;
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+            vm.busy = false;
+        });
     }
 
     function redirectIfNeeded() {
@@ -341,5 +348,4 @@ var validarPeriodoDisponible;
             $log.log('Impossible to retrieve the task id value from the URL');
         }
     }
-
 }

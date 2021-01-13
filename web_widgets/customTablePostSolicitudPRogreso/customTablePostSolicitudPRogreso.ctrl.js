@@ -343,7 +343,7 @@ function PbTableCtrl($scope, $http, $window) {
         
         doRequest("POST", $scope.properties.urlPost);
     }
-
+    
     $scope.getCatCampus = function() {
         var req = {
             method: "GET",

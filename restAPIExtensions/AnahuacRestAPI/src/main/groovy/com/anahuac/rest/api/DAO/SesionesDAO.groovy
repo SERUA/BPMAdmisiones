@@ -1,5 +1,7 @@
 package com.anahuac.rest.api.DAO
 
+import com.anahuac.catalogos.CatCampus
+import com.anahuac.catalogos.CatCampusDAO
 import com.anahuac.catalogos.CatNotificacionesFirma
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
@@ -22,6 +24,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 import org.apache.commons.collections4.functors.ComparatorPredicate.Criterion
@@ -29,6 +32,7 @@ import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
+
 
 class SesionesDAO {
 	Connection con;
@@ -127,6 +131,51 @@ class SesionesDAO {
 		}
 		return resultado
 	}
+	
+	public Result getLastFechaExamenByUsername(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog="";
+		String fechaFinalStr="";
+		
+		List<Long> lstResultado = new ArrayList<Long>();
+				
+		DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd");
+		Calendar calendario = new GregorianCalendar();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+						
+			errorlog+="| consulta: "+Statements.GET_LAST_FECHA_EXAMEN;
+			pstm = con.prepareStatement(Statements.GET_LAST_FECHA_EXAMEN);
+			pstm.setString(1, object.username);
+			rs = pstm.executeQuery();
+			if(rs.next()) {
+				errorlog+="| fechaFinal: "+rs.getString("fechaFinal");
+				fechaFinalStr = rs.getString("fechaFinal")
+				if(fechaFinalStr != null) {
+					calendario.setTime(dfSalida.parse(fechaFinalStr));
+					calendario.add(Calendar.DAY_OF_YEAR, 1);
+					lstResultado.add(calendario.getTimeInMillis());
+				}
+			}
+			
+			resultado.setError_info(errorlog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorlog)
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	public Result getCatPsicologo(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -1692,17 +1741,49 @@ class SesionesDAO {
 		Long caseId = 0L;
 		Long total = 0L;
 		List<PruebasCustom> lstSesion = new ArrayList();
-		String where ="", orderby="ORDER BY ", errorlog="", role="", group="";
+		String where ="", orderby="ORDER BY ", errorlog="", role="", campus="", group="";
+		List<String> lstGrupo = new ArrayList<String>();
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		try {
 				def jsonSlurper = new JsonSlurper();
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = Statements.GET_SESIONESCALENDARIZADASPASADAS
-				//AND CAST(S.fecha_inicio P.aplicacion AS DATE) < CAST([FECHA] AS DATE)
+				//AND CAST(P.aplicacion AS DATE) [ORDEN] CAST([FECHA] AS DATE)
 				PruebaCustom row = new PruebaCustom();
 				List<PruebasCustom> rows = new ArrayList<PruebasCustom>();
 				closeCon = validarConexion();
 				errorlog+="llego a filtro "+object.lstFiltro.toString()
+				
+				def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+				List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+				
+				userLogged = context.getApiSession().getUserId();
+				
+				List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+				for(UserMembership objUserMembership : lstUserMembership) {
+					for(CatCampus rowGrupo : lstCatCampus) {
+						if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+							lstGrupo.add(rowGrupo.getDescripcion());
+							break;
+						}
+					}
+				}
+				
+				if(lstGrupo.size()>0) {
+					campus+=" AND ("
+				}
+				for(Integer i=0; i<lstGrupo.size(); i++) {
+					String campusMiembro=lstGrupo.get(i);
+					campus+="campus.descripcion='"+campusMiembro+"'"
+					if(i==(lstGrupo.size()-1)) {
+						campus+=") "
+					}
+					else {
+						campus+=" OR "
+					}
+				}
+				
 				for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 					switch(filtro.get("columna")) {
 						
@@ -1723,6 +1804,21 @@ class SesionesDAO {
 						}else {
 							where+="LIKE LOWER('%[valor]%')"
 						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "CAMPUS":
+						errorlog+="CAMPUS"
+						campus +=" AND LOWER(campus.DESCRIPCION) ";
+						where +=" AND LOWER(campus.DESCRIPCION)  "
+						if(filtro.get("operador").equals("Igual a")) {
+							campus+="=LOWER('[valor]')"
+							where +="=LOWER('[valor]')"
+						}else {
+							campus+="LIKE LOWER('%[valor]%')"
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						campus = campus.replace("[valor]", filtro.get("valor"))
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
@@ -1828,11 +1924,12 @@ class SesionesDAO {
 					}
 					errorlog+="paso el order "
 					orderby+=" "+object.orientation;
+					consulta=consulta.replace("[CAMPUS]", campus)
 					consulta=consulta.replace("[WHERE]", where);
-					//consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");					
-					errorlog+="paso el where"
-					
-					pstm = con.prepareStatement(consulta.replace("P.nombre, P.aplicacion, S.tipo as residencia, P.persistenceid as pruebas_id, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida", "COUNT(P.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+					consulta=consulta.replace("[ORDEN]", object.orden);
+					consulta=consulta.replace("[FECHA]", "'"+object.fecha+"'");					
+					errorlog+="paso el where2"
+					pstm = con.prepareStatement(consulta.replace("P.nombre, P.aplicacion, S.tipo as residencia, P.persistenceid as pruebas_id, S.persistenceid as sesiones_id, P.lugar, P.registrados as alumnos_generales, S.nombre as nombre_sesion, c.descripcion as tipo_prueba, P.cupo, P.entrada,P.salida, campus.descripcion AS campus", "COUNT(P.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 					
 					rs= pstm.executeQuery()
 					if(rs.next()) {
@@ -1859,7 +1956,7 @@ class SesionesDAO {
 						row.setCupo(rs.getInt("cupo"));
 						row.setTipo(new CatTipoPrueba())
 						row.getTipo().setDescripcion(rs.getString("tipo_prueba"));
-						row.setEntrada(rs.getString("entrada"));
+						row.setEntrada(rs.getString("campus"));
 						row.setSalida(rs.getString("salida"))
 						
 						SesionCustom row2 = new SesionCustom();

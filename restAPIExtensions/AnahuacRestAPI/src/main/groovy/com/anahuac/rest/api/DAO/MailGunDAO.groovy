@@ -278,6 +278,7 @@ class MailGunDAO {
 					objGrupoSelected = row;
 				}
 			}
+			String correoDe =""
 			def daoCatApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class)
 			for(CatApiKey ca:daoCatApiKey.find(0,9999)) {
 				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor")
@@ -288,8 +289,12 @@ class MailGunDAO {
 					errorlog += ", estructura.MailgunDominio= " + ca.getMailgunDominio();
 					errorlog += ", estructura.getMailgun= " + ca.getMailgun();
 					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgunCorreo();
+					correoDe=ca.getMailgunCorreo()
 				}
 			}
+			List<String> ad = new ArrayList<String>()
+			ad.add(correoDe)
+			resultado.setAdditional_data(ad)
 			//errorlog += ", estructura" + estructura.toString()
 			JsonNode jsonNode = sendSimpleMessage(estructura)
 			errorlog += ",jsonNode"

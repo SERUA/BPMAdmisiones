@@ -33,12 +33,12 @@ function PbDatePickerCtrl($scope, $log, widgetNameFactory, $element, $locale, $b
   }
 
     $scope.$watch("properties.value", function(){
-        debugger;
         var fechaminima = new Date(new Date().getTime() - 473353500000);
         console.log($scope.properties.value);
         if($scope.properties.value.getTime() > fechaminima.getTime()){
             console.log("mayor")
-            swal("¡Fecha de nacimiento!","La fecha de nacimiento no cumple con los requisitos necesarios.","warning")
+            //swal("¡Fecha de nacimiento!","La fecha de nacimiento "+$scope.properties.value.toISOString().substring(0, 10)+" no cumple con los requisitos necesarios de edad dado que indica que el aspirante es menor a 15 años.","warning")
+            swal("¡Fecha de nacimiento!","La fecha de nacimiento ingresada no cumple con los requisitos necesarios de edad, dado que indica que eres menor a 15 años.","warning")
             $scope.properties.value = "";
             $scope.$apply();
         }else{

@@ -621,62 +621,7 @@ class ListadoDAO {
 			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 			
 			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
-			/*
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Cancún");
-			objGrupoCampus.put("valor","CAMPUS-CANCUN");
-			lstGrupoCampus.add(objGrupoCampus);
 			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Mayab");
-			objGrupoCampus.put("valor","CAMPUS-MAYAB");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac México Norte");
-			objGrupoCampus.put("valor","CAMPUS-MNORTE");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac México Sur");
-			objGrupoCampus.put("valor","CAMPUS-MSUR");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
-			objGrupoCampus.put("valor","CAMPUS-OAXACA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Puebla");
-			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
-			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
-			objGrupoCampus.put("valor","CAMPUS-XALAPA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
-			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Juan Pablo II");
-			objGrupoCampus.put("valor","CAMPUS-JP2");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
-			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
-			lstGrupoCampus.add(objGrupoCampus);
-			*/
 			userLogged = context.getApiSession().getUserId();
 			
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
@@ -700,7 +645,7 @@ class ListadoDAO {
 				}else if(object.estatusSolicitud.equals("Nuevas solicitudes")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud modificada' OR sda.ESTATUSSOLICITUD='Solicitud recibida')"
 				}else if(object.estatusSolicitud.equals("Solicitud en progreso")) {
-					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en progreso')"
+					where+=" AND (sda.ESTATUSSOLICITUD='Solicitud en progreso' OR sda.ESTATUSSOLICITUD='Solicitud a modificar')"
 				} else if(object.estatusSolicitud.equals("Aspirantes registrados sin validación de cuenta")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Aspirantes registrados sin validación de cuenta')"
 				} else if(object.estatusSolicitud.equals("Aspirantes registrados con validación de cuenta")) {
@@ -722,6 +667,10 @@ class ListadoDAO {
 				}
 				else if(object.estatusSolicitud.equals("Ya se imprimió su credencial")) {
 					where+=" AND (sda.ESTATUSSOLICITUD='Ya se imprimió su credencial')"
+				}
+				//CODIGO PP
+				else if(object.estatusSolicitud.equals("Aspirantes en proceso")) {
+					where+=" AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en progreso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' )"
 				}
 			}
 			if(lstGrupo.size()>0) {
@@ -991,10 +940,16 @@ class ListadoDAO {
 				consulta=consulta.replace("[ESTADO]", estado)
 				consulta=consulta.replace("[BACHILLERATO]", bachillerato)
 				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
+				//consulta=consulta.replace("[TIPORESIDENCIA]", tiporecidencia)
+				//consulta=consulta.replace("[TIPODEADMISION]", tipodeadmision)
+				//consulta=consulta.replace("[SEDEDELEXAMEN]", sededelexamen)
 				where+=" "+campus +" "+programa +" " + ingreso + " " + estado +" "+bachillerato +" "+tipoalumno
+				//where+=" "+campus +" "+programa +" " + ingreso + " " + estado +" "+bachillerato +" "+tipoalumno+" "+tiporecidencia+" "+tipodeadmision+" "+sededelexamen
 				consulta=consulta.replace("[WHERE]", where);
 				
-				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, prepa.DESCRIPCION AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, TAL.descripcion as tipoDeAlumno", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				//pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				
 				rs= pstm.executeQuery()
 				if(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
@@ -1413,7 +1368,7 @@ class ListadoDAO {
 				consulta=consulta.replace("[TIPOALUMNO]", tipoalumno)
 				consulta=consulta.replace("[WHERE]", where);
 				
-				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, prepa.DESCRIPCION AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				rs= pstm.executeQuery()
 				if(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
@@ -4855,6 +4810,7 @@ class ListadoDAO {
 			int rowCount = 0;
 			List<Object> lstParams;
 			String type = object.type;
+			String orden = ""
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(type);
 			CellStyle style = workbook.createCellStyle();
@@ -4867,6 +4823,7 @@ class ListadoDAO {
 				if(type.equals("sesioncalendarizadas")) {
 					dataResult = new SesionesDAO().getSesionesCalendarizadas(jsonData, context)
 				}else{
+					orden = object.orden;
 					dataResult = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
 				}
 				
@@ -4880,7 +4837,7 @@ class ListadoDAO {
 				cellReporte.setCellValue("Reporte:");
 				cellReporte.setCellStyle(style);
 				Cell cellTitle = titleRow.createCell(2);
-				cellTitle.setCellValue((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS ");
+				cellTitle.setCellValue((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS "+(orden.equals(">=") ? "ACTIVAS":orden.equals("<") ? "PASADAS": "" ));
 				Cell cellFecha = titleRow.createCell(4);
 				cellFecha.setCellValue("Fecha:");
 				cellFecha.setCellStyle(style);
@@ -4989,7 +4946,7 @@ class ListadoDAO {
 			int rowCount = 0;
 			List<Object> lstParams;
 			String type = object.type;
-			
+			String orden = "";
 			def documento="ReportSesionesCalendarizadas.pdf"
 			DocumentItext document = new DocumentItext();
 			document.setPageSize(PageSize.A4.rotate());
@@ -5002,6 +4959,7 @@ class ListadoDAO {
 				if(type.equals("sesioncalendarizadas")) {
 					dataResult = new SesionesDAO().getSesionesCalendarizadas(jsonData, context)
 				}else{
+					orden = object.orden;
 					dataResult = new SesionesDAO().getSesionesCalendarizadasPasadas(jsonData, context)
 				}
 				if (dataResult.success) {
@@ -5010,7 +4968,7 @@ class ListadoDAO {
 					throw new Exception("No encontro datos de pase de lista");
 				}
 				document.open();
-				Paragraph preface = new Paragraph((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS ");
+				Paragraph preface = new Paragraph((type.equals("sesioncalendarizadasreporte") ?"REPORTE DE ":"")+"LISTADO DE SESIONES CALENDARIZADAS "+(orden.equals(">=") ? "ACTIVAS":orden.equals("<") ? "PASADAS": "" ));
 				preface.setAlignment(Paragraph.ALIGN_CENTER);
 				document.add(preface);
 				document.add( new Paragraph(" "));

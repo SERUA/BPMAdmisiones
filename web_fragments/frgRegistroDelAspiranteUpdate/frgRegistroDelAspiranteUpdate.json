@@ -2,8 +2,44 @@
   "designerVersion" : "1.11.52",
   "id" : "frgRegistroDelAspiranteUpdate",
   "name" : "frgRegistroDelAspiranteUpdate",
-  "lastUpdate" : 1607455815336,
+  "lastUpdate" : 1610468830948,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "catSolicitudDeAdmision" : {
+            "type" : "variable",
+            "value" : "catSolicitudDeAdmision"
+          },
+          "variableDestino" : {
+            "type" : "variable",
+            "value" : "variableDestino"
+          },
+          "gestionActual" : {
+            "type" : "variable",
+            "value" : "gestionActual"
+          }
+        },
+        "reference" : "e16a9193-70db-426e-bb60-1e7ca02dc451",
+        "hasValidationError" : false,
+        "id" : "customCustomSetVariableVacio"
+      }
+    ],
     [
       {
         "type" : "component",
@@ -564,7 +600,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "¿A cuál de las universidades de la Red Anáhuac deseas ingresar?"
+                  "value" : "¿A cuál de las universidades de la Red Anáhuac deseas ingresar? <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -572,7 +608,7 @@
                 },
                 "labelWidth" : {
                   "type" : "constant",
-                  "value" : 4
+                  "value" : 12
                 },
                 "placeholder" : {
                   "type" : "interpolation",
@@ -591,7 +627,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catSolicitudDeAdmision.catCampus"
+                  "value" : "catSolicitudDeAdmision.catCampusEstudio"
                 }
               },
               "reference" : "d80c17eb-c8c6-4686-b709-1d392611a9ff",
@@ -715,7 +751,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "catSolicitudDeAdmision.catGestionEscolar.propedeuticos"
+                  "value" : "catPropedeutico"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -766,7 +802,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Período de ingreso <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                  "value" : "Período de ingreso: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -1031,75 +1067,6 @@
               "hasValidationError" : false,
               "id" : "pbInput"
             }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "Necesito ayuda para terminar de elegir mi carrera"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "URL"
-                },
-                "targetUrl" : {
-                  "type" : "constant",
-                  "value" : "http://"
-                },
-                "pageToken" : {
-                  "type" : "constant"
-                },
-                "processName" : {
-                  "type" : "constant"
-                },
-                "processVersion" : {
-                  "type" : "constant"
-                },
-                "taskId" : {
-                  "type" : "constant"
-                },
-                "caseId" : {
-                  "type" : "constant"
-                },
-                "target" : {
-                  "type" : "constant",
-                  "value" : "_blank"
-                },
-                "appToken" : {
-                  "type" : "constant"
-                },
-                "urlParams" : {
-                  "type" : "constant"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "link"
-                }
-              },
-              "reference" : "d12254dc-d864-407f-a4d0-eb3e1e8e8341",
-              "hasValidationError" : false,
-              "id" : "pbLink"
-            }
           ]
         ]
       }
@@ -1238,7 +1205,7 @@
     "ciudadpais" : {
       "type" : "expression",
       "value" : [
-        "var city = $data.catSolicitudDeAdmision.ciudadExamenPais.descripcion +\", \"+ $data.catSolicitudDeAdmision.ciudadExamenPais.estado",
+        "var city = $data.catSolicitudDeAdmision.ciudadExamenPais.descripcion +\", \"+ $data.catSolicitudDeAdmision.ciudadExamenPais.pais",
         "return city;"
       ],
       "exposed" : false
@@ -1255,6 +1222,17 @@
       "value" : [
         "$data.catSolicitudDeAdmision.avisoPrivacidad = true;"
       ],
+      "exposed" : false
+    },
+    "variableDestino" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "gestionActual" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

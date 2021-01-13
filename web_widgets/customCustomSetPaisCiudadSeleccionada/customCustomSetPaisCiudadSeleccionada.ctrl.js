@@ -43,7 +43,12 @@ function ($scope, $http) {
                 if(!$scope.llenovalororiginal){
                     $scope.ciudadExamenSelected = $scope.properties.catSolicitudDeAdmision.ciudadExamenPais;
                     $scope.llenovalororiginal = true;
-                    $scope.properties.paisSeleccionado = $scope.properties.catSolicitudDeAdmision.catPaisExamen.descripcion;
+                    if($scope.properties.catSolicitudDeAdmision.ciudadExamenPais !== null){
+                        $scope.properties.paisSeleccionado = $scope.properties.catSolicitudDeAdmision.catPaisExamen.descripcion;
+                    }else{
+                        $scope.properties.paisSeleccionado === "";
+                    }
+                    
                     unregister();
                 }
             }   

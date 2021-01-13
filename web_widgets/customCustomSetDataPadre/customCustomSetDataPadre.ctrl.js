@@ -1,7 +1,6 @@
 function($scope, $http) {
 
     $scope.$watch("properties.reload", function() {
-        debugger;
         if ($scope.properties.reload === undefined) {
             $scope.properties.datosPadres = {
                 "catTitulo": null,

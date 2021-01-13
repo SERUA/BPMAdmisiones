@@ -3,7 +3,8 @@
         <div class="panel-heading">
             <div class="tr">
                 <div class="td">
-                    <input type="checkbox" name="" ng-model="properties.value" ng-disabled="true"> Revisado
+                    <input type="checkbox" name="" ng-model="properties.value" ng-disabled="true"> {{properties.findByCorreoElectronico.length > 1?"Se encontraron duplicados": "No se encontraron duplicados"}}
+                    
                 </div>
             </div>
         </div>
@@ -23,7 +24,7 @@
         <div class="panel-heading">
             <div class="tr">
                 <div class="td">
-                    <input type="checkbox" name="" ng-model="properties.value"> Revisado
+                    <input type="checkbox" name="" ng-model="properties.value"> {{properties.findByCorreoElectronico.length > 1?"Se encontraron duplicados": "No se encontraron duplicados"}}
                 </div>
             </div>
         </div>
@@ -49,3 +50,5 @@
         </div>
     </div>
 </div>
+
+<div style ="text-align: center !important;">Busqueda de solicitudes duplicadas</div>

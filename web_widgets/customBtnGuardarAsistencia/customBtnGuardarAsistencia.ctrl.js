@@ -29,9 +29,8 @@ function PbButtonCtrl($scope, $http, $window) {
     };
     
      function doRequestCaseValue (asistencia){
-        
         var caseId = $scope.properties.datosUsuario.aspirantes[0].caseid;
-        var variableNombre = "asistencia"+( $scope.properties.datosUsuario.tipoprueba_PID == 1?"entrevista": $scope.properties.datosUsuario.tipo_prueba == "Examen Psicométrico" ? "psicometrico" : "collegeboard") 
+        var variableNombre = "asistencia"+( $scope.properties.datosUsuario.tipoprueba_PID == 1?"Entrevista": $scope.properties.datosUsuario.tipo_prueba == "Examen Psicométrico" ? "Psicometrico" : "CollegeBoard") 
         var req = {
             method: "PUT",
             url: `/API/bpm/caseVariable/${caseId}/${variableNombre}`,

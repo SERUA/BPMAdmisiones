@@ -71,220 +71,236 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
     }
 
-   var tipo = false;
-function startProcess() {
-    debugger
-    if($scope.properties.dataToChange2.campus){
-        if( $scope.properties.dataToChange2.tipo == "Preparatoria"){
-            tipo = true;
-            if( $scope.properties.dataToChange2.catBachilleratos &&  $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia){
-                 if ($scope.properties.processId) {
-                    var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                    doRequest("GET", $scope.properties.url).then(function() {
-                    $scope.properties.dataToChange = $scope.properties.dataToSet;
-                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                    });
-                    localStorageService.delete($window.location.href);
-                });
-    
-                }else {
-                    $log.log('Impossible to retrieve the process definition id value from the URL');
-                }
-            }else {
-                if($scope.properties.dataToChange2.finVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
-                }
-                if($scope.properties.dataToChange2.inicioVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
-                }
-                if(!$scope.properties.dataToChange2.descuento){
-                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.convenioDescuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.catBachilleratos){
-                     swal("¡Aviso!", "Faltó capturar información en: Bachillerato", "warning");
-                }
-            }
-            
-        }
-        if( $scope.properties.dataToChange2.tipo == "Campaña"){
-            tipo = true;
-            if( $scope.properties.dataToChange2.campana &&  $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia){
-                 if ($scope.properties.processId) {
-                    var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                    doRequest("GET", $scope.properties.url).then(function() {
-                    $scope.properties.dataToChange = $scope.properties.dataToSet;
-                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                    });
-                    localStorageService.delete($window.location.href);
-                });
-    
-                }else {
-                    $log.log('Impossible to retrieve the process definition id value from the URL');
-                }
-            }else {
-                if($scope.properties.dataToChange2.finVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
-                }
-                if($scope.properties.dataToChange2.inicioVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
-                }
-                if(!$scope.properties.dataToChange2.descuento){
-                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.convenioDescuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.campana){
-                     swal("¡Aviso!", "Faltó capturar información en: Campaña", "warning");
-                }
-            }
-            
-        }
-        if( $scope.properties.dataToChange2.tipo == "Ciudad"){
-            tipo = true;
-            if( $scope.properties.dataToChange2.ciudad &&  $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia ){
-                 if ($scope.properties.processId) {
-                    var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                    doRequest("GET", $scope.properties.url).then(function() {
-                    $scope.properties.dataToChange = $scope.properties.dataToSet;
-                    $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                    });
-                    localStorageService.delete($window.location.href);
-                });
-    
-                }else {
-                    $log.log('Impossible to retrieve the process definition id value from the URL');
-                }
-            }else {
-                if($scope.properties.dataToChange2.finVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
-                }
-                if($scope.properties.dataToChange2.inicioVigencia < 8){
-                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
-                }
-                if(!$scope.properties.dataToChange2.descuento){
-                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.convenioDescuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
-                }
-                if(!$scope.properties.dataToChange2.ciudad){
-                     swal("¡Aviso!", "Faltó capturar información en: Ciudad", "warning");
-                }
-            }
-            
-        }
-    }else{
-    if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Preparatoria"){
-        tipo = true;
-        if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].catBachilleratos &&  $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia){
-             if ($scope.properties.processId) {
-                var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                doRequest("GET", $scope.properties.url).then(function() {
-                $scope.properties.dataToChange = $scope.properties.dataToSet;
-                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                });
-                localStorageService.delete($window.location.href);
-            });
+    var tipo = false;
 
-            }else {
-                $log.log('Impossible to retrieve the process definition id value from the URL');
-            }
-        }else {
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
-            }
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento){
-                swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].catBachilleratos){
-                 swal("¡Aviso!", "Faltó capturar información en: Bachillerato", "warning");
-            }
-        }
-        
-    }
-    if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Campaña"){
-        tipo = true;
-        if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].campana &&  $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia ){
-             if ($scope.properties.processId) {
-                var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                doRequest("GET", $scope.properties.url).then(function() {
-                $scope.properties.dataToChange = $scope.properties.dataToSet;
-                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                });
-                localStorageService.delete($window.location.href);
-            });
+    function startProcess() {
+        debugger
+        if ($scope.properties.dataToChange2.campus) {
+            if ($scope.properties.dataToChange2.tipo == "Preparatoria") {
+                tipo = true;
+                $scope.properties.dataToSend.lstCatDescuentosInput[0]["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].persistenceId;
+                $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos.persistenceId;
+                $scope.properties.dataToSend.lstCatDescuentosInput[0].campus = localStorage.getItem("campus");
+                if ($scope.properties.dataToChange2.catBachilleratos && $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia) {
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
 
-            }else {
-                $log.log('Impossible to retrieve the process definition id value from the URL');
-            }
-        }else {
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
-            }
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento){
-                swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
-            }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].campana){
-                 swal("¡Aviso!", "Faltó capturar información en: Campaña", "warning");
-            }
-        }
-        
-    }
-    if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Ciudad"){
-        tipo = true;
-        if( $scope.properties.dataToChange2.lstCatDescuentosInput[0].ciudad &&  $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia ){
-             if ($scope.properties.processId) {
-                var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
-                doRequest("GET", $scope.properties.url).then(function() {
-                $scope.properties.dataToChange = $scope.properties.dataToSet;
-                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
-                });
-                localStorageService.delete($window.location.href);
-            });
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.catBachilleratos) {
+                        swal("¡Aviso!", "Faltó capturar información en: Bachillerato", "warning");
+                    }
+                }
 
-            }else {
-                $log.log('Impossible to retrieve the process definition id value from the URL');
             }
-        }else {
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+            if ($scope.properties.dataToChange2.tipo == "Campaña") {
+                tipo = true;
+                if ($scope.properties.dataToChange2.campana && $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia) {
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
+
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.campana) {
+                        swal("¡Aviso!", "Faltó capturar información en: Campaña", "warning");
+                    }
+                }
+
             }
-            if($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8){
-                    swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+            if ($scope.properties.dataToChange2.tipo == "Ciudad") {
+                tipo = true;
+                if ($scope.properties.dataToChange2.ciudad && $scope.properties.dataToChange2.convenioDescuento && $scope.properties.dataToChange2.descuento && $scope.properties.dataToChange2.inicioVigencia && $scope.properties.dataToChange2.finVigencia) {
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
+
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.ciudad) {
+                        swal("¡Aviso!", "Faltó capturar información en: Ciudad", "warning");
+                    }
+                }
+
             }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento){
-                    swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+        } else {
+            if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Preparatoria") {
+                tipo = true;
+
+
+                $scope.properties.dataToSend.lstCatDescuentosInput[0]["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].persistenceId;
+                $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos.persistenceId;
+
+                $scope.properties.dataToSend.lstCatDescuentosInput[0].campus = localStorage.getItem("campus");
+
+                if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].catBachilleratos && $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia) {
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
+
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].catBachilleratos) {
+                        swal("¡Aviso!", "Faltó capturar información en: Bachillerato", "warning");
+                    }
+                }
+
             }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento){
-                swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+            if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Campaña") {
+                tipo = true;
+                if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].campana && $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia) {
+                    $scope.properties.dataToSend.lstCatDescuentosInput[0]["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].persistenceId;
+                    $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos = null;
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
+
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].campana) {
+                        swal("¡Aviso!", "Faltó capturar información en: Campaña", "warning");
+                    }
+                }
+
             }
-            if(!$scope.properties.dataToChange2.lstCatDescuentosInput[0].ciudad){
-                 swal("¡Aviso!", "Faltó capturar información en: Ciudad", "warning");
+            if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].tipo == "Ciudad") {
+                tipo = true;
+                if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].ciudad && $scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento && $scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia && $scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia) {
+                    $scope.properties.dataToSend.lstCatDescuentosInput[0]["persistenceId_string"] = $scope.properties.dataToSend.lstCatDescuentosInput[0].persistenceId;
+                    $scope.properties.dataToSend.lstCatDescuentosInput[0].catBachilleratos = null;
+
+                    if ($scope.properties.processId) {
+                        var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+                            doRequest("GET", $scope.properties.url).then(function() {
+                                $scope.properties.dataToChange = $scope.properties.dataToSet;
+                                $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
+                            });
+                            localStorageService.delete($window.location.href);
+                        });
+
+                    } else {
+                        $log.log('Impossible to retrieve the process definition id value from the URL');
+                    }
+                } else {
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].finVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Fin Vigencia", "warning");
+                    }
+                    if ($scope.properties.dataToChange2.lstCatDescuentosInput[0].inicioVigencia < 8) {
+                        swal("¡Aviso!", "Faltó capturar información en: Inicio Vigencia", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].descuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].convenioDescuento) {
+                        swal("¡Aviso!", "Faltó capturar información en: Convenio o Descuento", "warning");
+                    }
+                    if (!$scope.properties.dataToChange2.lstCatDescuentosInput[0].ciudad) {
+                        swal("¡Aviso!", "Faltó capturar información en: Ciudad", "warning");
+                    }
+                }
+
             }
         }
-        
+        if (tipo == false) {
+            swal("¡Atención!", "Por favor seleccione un tipo de descuento", "warning");
+        }
     }
-}
-if (tipo == false){
-    swal("¡Atención!","Por favor seleccione un tipo de descuento", "warning");
-}
-}
 
     /**
      * Execute a get/post request to an URL
@@ -293,10 +309,22 @@ if (tipo == false){
      */
     function doRequest(method, url, params) {
         vm.busy = true;
+        $scope.properties.dataToSend.lstCatDescuentosInput[0].campus = localStorage.getItem("campus");
+        var objDataToSend = angular.copy($scope.properties.dataToSend);
+        objDataToSend.lstCatDescuentosInput[0].campus = localStorage.getItem("campus");
+        if(objDataToSend.lstCatDescuentosInput[0].tipo === "Preparatoria"){
+            if(objDataToSend.lstCatDescuentosInput[0].catBachilleratos.persistenceid_string != null && objDataToSend.lstCatDescuentosInput[0].catBachilleratos.persistenceid_string != undefined){
+                objDataToSend.lstCatDescuentosInput[0].catBachilleratos["persistenceId_string"] = objDataToSend.lstCatDescuentosInput[0].catBachilleratos.persistenceid_string;
+            }
+        }
+        else{
+        	objDataToSend.lstCatDescuentosInput[0].catBachilleratos = null;
+        }
+
         var req = {
             method: method,
             url: url,
-            data: angular.copy($scope.properties.dataToSend),
+            data: angular.copy(objDataToSend),
             params: params
         };
 

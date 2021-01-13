@@ -1,6 +1,4 @@
 function ($scope, $http, blockUI) {
-    debugger;
-    
     if($scope.properties.reload === undefined || $scope.properties.reload === "" || $scope.properties.reload === null){
         $scope.properties.showbuttons = true;
     }
@@ -13,12 +11,4 @@ function ($scope, $http, blockUI) {
         }
         
     });
-    
-   /* $scope.$watch("properties.reload", function(){
-        if(($scope.properties.reload === undefined || $scope.properties.reload.length === 0) && $scope.properties.campusSeleccionado !== undefined){
-            $("#loading").modal("show");
-        }else{
-            $("#loading").modal("hide");
-        }
-    });*/
 }

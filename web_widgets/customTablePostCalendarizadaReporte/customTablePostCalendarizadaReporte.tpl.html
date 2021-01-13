@@ -1,10 +1,36 @@
 <div ng-show="!isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3">
-        <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
-        <option ng-value="20">20</option>
-        <option ng-value="40">40</option>
-        <option ng-value="100">100</option>
+<div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstMembership.length>1">
+    <select class="form-control" ng-model="filtroCampus"
+        ng-options="getCampusByGrupo(member.group_id.name) as getCampusByGrupo(member.group_id.name) for member in lstMembership"
+        ng-change="addFilter()">
+        <option style="display:none" value="">
+            Seleccionar campus
+        </option>
     </select>
+</div>
+    <div style="margin-bottom:15px; float: right; margin-right:20px" >
+       <table>
+    <tr>
+        <td  data-toggle="tooltip" data-placement="top" title="Cambio entre sesiones activas y pasadas">
+            <label style="margin-right:15px">{{orden ?"Sesiones activas: ":"Sesiones pasadas: "}}</label>
+        </td>
+        <td data-toggle="tooltip" data-placement="top" title="Cambio entre sesiones activas y pasadas">
+            <div class="material-switch pull-left"   >
+                <input id="someSwitchOptionSuccess" name="someSwitchOption001" type="checkbox" ng-model="orden" ng-click="cambioOrden(orden)"/>
+                <label for="someSwitchOptionSuccess" class="label-success"></label>
+            </div>
+             <!--<label><input type="checkbox" ng-model="orden" ng-click="cambioOrden(orden)"> {{orden ?"Activos":"Pasados"}}</label>-->
+        </td>
+        <td>
+            <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit" style="margin-left: 15px;width: 100px;">
+            <option ng-value="20">20</option>
+            <option ng-value="40">40</option>
+            <option ng-value="100">100</option>
+        </select>
+        </td>
+    </tr>
+</table>
+        
     </div>
     <div class="table-responsive col-xs-12">
         <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
@@ -43,6 +69,7 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='LUGAR'"></i></span> </th>
                             
+                    <th>CAMPUS</th>
                     <th> VER</th>
                 </tr>
             </thead>
@@ -71,6 +98,9 @@
                     </td>
                     <td>
                         {{row.prueba.lugar}}
+                    </td>
+                    <td>
+                        {{row.prueba.entrada}}
                     </td>
                     <td>
                         <table>

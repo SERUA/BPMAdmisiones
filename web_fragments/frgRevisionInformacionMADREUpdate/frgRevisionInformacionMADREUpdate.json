@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgRevisionInformacionMADREUpdate",
   "name" : "frgRevisionInformacionMADREUpdate",
-  "lastUpdate" : 1607455815340,
+  "lastUpdate" : 1610468830953,
   "rows" : [
     [
       {
@@ -404,7 +404,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "¿Egresó de la universidad Anáhuac?"
+            "value" : "¿Egresó de la Universidad Anáhuac?"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -438,6 +438,73 @@
         "hasValidationError" : false,
         "id" : "pbSelect"
       },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 4,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "egresoanahuac"
+          },
+          "disabled" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿De cuál?"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : ""
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catCampus"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.catCampusEgreso"
+          }
+        },
+        "reference" : "6f85eaeb-7c37-4849-b15f-5d06c87c062d",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      }
+    ],
+    [
       {
         "type" : "component",
         "dimension" : {
@@ -502,9 +569,7 @@
         "reference" : "104fa25f-3cf2-4316-83a4-eee7f8ba79f2",
         "hasValidationError" : false,
         "id" : "pbSelect"
-      }
-    ],
-    [
+      },
       {
         "type" : "component",
         "dimension" : {
@@ -2021,6 +2086,38 @@
         ""
       ],
       "exposed" : true
+    },
+    "catCampus" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "egresoanahuac" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catEgresoAnahuac.length; x++) {\r",
+        "    if ($data.madre.catEgresoAnahuac === undefined) {\r",
+        "        mostrar = true;\r",
+        "        $data.anahuac = false;\r",
+        "    } else {\r",
+        "        if ($data.catEgresoAnahuac[x].persistenceId === $data.madre.catEgresoAnahuac.persistenceId) {\r",
+        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\" || $data.catEgresoAnahuac[x].descripcion === \"SI\" || $data.catEgresoAnahuac[x].descripcion === \"Sí\") {\r",
+        "                mostrar = false;\r",
+        "                $data.anahuac = true;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "                $data.anahuac = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

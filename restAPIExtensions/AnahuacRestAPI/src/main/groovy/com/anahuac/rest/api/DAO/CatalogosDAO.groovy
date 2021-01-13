@@ -1,4 +1,7 @@
 package com.anahuac.rest.api.DAO
+
+import com.anahuac.catalogos.CatCampus
+import com.anahuac.catalogos.CatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
@@ -2307,85 +2310,38 @@ public Result getCatFiltradoCalalogosAdMisiones(String jsonData, RestAPIContext 
 			def object = jsonSlurper.parseText(jsonData);
 			
 			//assert object instanceof List;
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Cancún");
-			objGrupoCampus.put("valor","CAMPUS-CANCUN");
-			lstGrupoCampus.add(objGrupoCampus);
 			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Mayab");
-			objGrupoCampus.put("valor","CAMPUS-MAYAB");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac México Norte");
-			objGrupoCampus.put("valor","CAMPUS-MNORTE");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac México Sur");
-			objGrupoCampus.put("valor","CAMPUS-MSUR");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Oaxaca");
-			objGrupoCampus.put("valor","CAMPUS-OAXACA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Puebla");
-			objGrupoCampus.put("valor","CAMPUS-PUEBLA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
-			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Xalapa");
-			objGrupoCampus.put("valor","CAMPUS-XALAPA");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Querétaro");
-			objGrupoCampus.put("valor","CAMPUS-QUERETARO");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Juan Pablo II");
-			objGrupoCampus.put("valor","CAMPUS-JP2");
-			lstGrupoCampus.add(objGrupoCampus);
-			
-			objGrupoCampus = new HashMap<String, String>();
-			objGrupoCampus.put("descripcion","Anáhuac Cordoba");
-			objGrupoCampus.put("valor","CAMPUS-CORDOBA");
-			lstGrupoCampus.add(objGrupoCampus);
 					
-			userLogged = context.getApiSession().getUserId();
-			
-			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
-			for(UserMembership objUserMembership : lstUserMembership) {
-				for(Map<String, String> rowGrupo : lstGrupoCampus) {
-					if(objUserMembership.getGroupName().equals(rowGrupo.get("valor"))) {
-						lstGrupo.add(rowGrupo.get("valor"));
-						break;
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+				List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+				
+				userLogged = context.getApiSession().getUserId();
+				
+				List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+				for(UserMembership objUserMembership : lstUserMembership) {
+					for(CatCampus rowGrupo : lstCatCampus) {
+						if(objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+							lstGrupo.add(rowGrupo.getDescripcion());
+							break;
+						}
 					}
 				}
-			}
-			
-			where+=" WHERE c.isEliminado = false";
-			campus+=" AND ("
-			for(Integer i=0; i<lstGrupo.size(); i++) {
-				String campusMiembro=lstGrupo.get(i);
-				campus+="c.campus='"+campusMiembro+"'"
-				if(i==(lstGrupo.size()-1)) {
-					campus+=") "
+				
+				if(lstGrupo.size()>0) {
+					campus+=" AND ("
 				}
-				else {
-					campus+=" OR "
+				
+				where+=" WHERE c.isEliminado = false";
+				for(Integer i=0; i<lstGrupo.size(); i++) {
+					String campusMiembro=lstGrupo.get(i);
+					campus+="campus.descripcion='"+campusMiembro+"'"
+					if(i==(lstGrupo.size()-1)) {
+						campus+=") "
+					}
+					else {
+						campus+=" OR "
+					}
 				}
-			}
 			
 				String consulta = Statements.GET_CATDESCUENTOS
 				CatDescuentosCustom row = new CatDescuentosCustom();

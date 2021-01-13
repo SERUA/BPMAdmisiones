@@ -44,7 +44,11 @@ function ($scope, $http) {
                     $scope.ciudadExamenSelected = $scope.properties.catSolicitudDeAdmision.ciudadExamen;
                     $scope.llenovalororiginal = true;
                     $scope.estadoExamenSelected = $scope.properties.catSolicitudDeAdmision.catEstadoExamen;
-                    $scope.properties.estadoSeleccionado = $scope.properties.catSolicitudDeAdmision.catEstadoExamen.descripcion;
+                    if($scope.properties.catSolicitudDeAdmision.catEstadoExamen !== null){
+                        $scope.properties.estadoSeleccionado = $scope.properties.catSolicitudDeAdmision.catEstadoExamen.descripcion;
+                    }else{
+                        $scope.properties.estadoSeleccionado = "";
+                    }
                     unregister();
                 }
             }   

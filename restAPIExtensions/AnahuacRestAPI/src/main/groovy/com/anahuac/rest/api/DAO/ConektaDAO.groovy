@@ -77,6 +77,7 @@ class ConektaDAO {
 		String country = "";
 		String unit_price = "";
 		String campus_id = "";
+		String campus = "";
 		
         try {
 			def jsonSlurper = new JsonSlurper();
@@ -88,6 +89,7 @@ class ConektaDAO {
 			unit_price = object.unit_price;
 			campus_id = object.campus_id;
 			caseId = Long.valueOf(object.caseId);
+			campus = object.campus;
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -146,6 +148,8 @@ class ConektaDAO {
 			ordenBit.setEstatus("Pago pendiente");
 			ordenBit.setObservaciones("");
 			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(name);
+			ordenBit.setCampus(campus);
 
 			crearRegistroPago(ordenBit);
 			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
@@ -187,6 +191,8 @@ class ConektaDAO {
 		String cardEnd = "";
 		String cardBrand = "";
 		Long caseId = 0L;
+		String campus = "";
+		String nombrePago = "";
 		
 		try{
 			def jsonSlurper = new JsonSlurper();
@@ -201,6 +207,8 @@ class ConektaDAO {
 			cardEnd = object.last4;
 			cardBrand = object.cardBrand;
 			caseId = Long.valueOf(object.caseId);
+			nombrePago = object.nombrePago;
+			campus = object.campus;
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -240,7 +248,6 @@ class ConektaDAO {
 			+ "}"
 			));
 		
-			LOGGER.error "no llega hasta aqui";
 			LineItems line_item = (LineItems)order.line_items.get(0);
 			Charge charge = (Charge) order.charges.get(0);
 			PaymentMethod payment_method = (PaymentMethod) charge.payment_method;
@@ -259,9 +266,12 @@ class ConektaDAO {
 			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
 			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
 			ordenBit.setMedioPago("Tarjeta " + payment_method.getVal("brand") + " que termina en " +  payment_method.getVal("last4"));
-			ordenBit.setEstatus("Pago rech");
+			ordenBit.setEstatus("Pago aceptado");
 			ordenBit.setObservaciones("");
 			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(nombrePago);
+			ordenBit.setCampus(campus);
+			
 			crearRegistroPago(ordenBit);
 			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
 			resultado.setData(lstResultado)
@@ -280,6 +290,8 @@ class ConektaDAO {
 			ordenBit.setEstatus("Pago rechazado");
 			ordenBit.setObservaciones(error.details.get(0).message);
 			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(nombrePago);
+			ordenBit.setCampus(campus);
 			
 			crearRegistroPago(ordenBit);
 			
@@ -312,6 +324,7 @@ class ConektaDAO {
 		String phone = "";
 		String unit_price = "";
 		String campus_id = "";
+		String campus = "";
 		
 		try{
 			def jsonSlurper = new JsonSlurper();
@@ -322,6 +335,7 @@ class ConektaDAO {
 			unit_price = object.unit_price;
 			campus_id = object.campus_id;
 			caseId = Long.valueOf(object.caseId);
+			campus = object.campus;
 			
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
@@ -375,6 +389,8 @@ class ConektaDAO {
 			ordenBit.setEstatus("Pago pendiente");
 			ordenBit.setObservaciones("");
 			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(name);
+			ordenBit.setCampus(campus);
 
 			crearRegistroPago(ordenBit);
 			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
@@ -693,7 +709,10 @@ class ConektaDAO {
 			pstm.setString(7, ordenBit.getNoTransaccion());
 			pstm.setString(8, ordenBit.getObservaciones());
 			pstm.setString(9, ordenBit.getUsuarioAspirante());
-			pstm.setString(10, "0");
+			pstm.setLong(10, 0L);
+			pstm.setLong(11, ordenBit.getCaseId());
+			pstm.setString(12, ordenBit.getCampus());
+			pstm.setString(13, ordenBit.getNombrePago());
 			
 			pstm.executeUpdate();
 			
@@ -838,6 +857,20 @@ class ConektaDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 					break;
+					case "CAMPUS":
+						if(where.contains("WHERE")) {
+							where+= " AND ";
+						} else {
+							where+= " WHERE ";
+						}
+						where +=" LOWER(CAMPUS) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')";
+						}else {
+							where+="LIKE LOWER('%[valor]%')";
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
 				}
 			}
 			
@@ -902,6 +935,7 @@ class ConektaDAO {
 				row.setEstatus(rs.getString("estatus"));
 				row.setObservaciones(rs.getString("observaciones"));
 				row.setCaseId(rs.getLong("caseId"));
+				row.setNombrePago(rs.getString("nombrePago"))
 				
 				rows.add(row);
 			}

@@ -19,9 +19,9 @@
 <thead>
             <tr>
                 <th>FOTO</th>
-                <th>ID</th>
+                <th>SOLICITUD</th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">NOMBRE<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">EMAIL<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span>/ <span style="cursor:pointer" ng-click="setOrderBy('TELEFONO')">TELÉFONO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TELEFONO'"></i></span> </th>
-                <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">PROGRAMA<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">INGRESO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">PROGRAMA <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> /<span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">PERÍODO DE INGRESO <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> /<span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">CAMPUS INGRESO <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTADO')">PROCEDENCIA<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTADO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PREPARATORIA')">PREPARATORIA<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PREPARATORIA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">PROMEDIO<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
                 <th> ACCIONES</th>     
             </tr>
@@ -41,11 +41,12 @@
                 </td>
                 <td>
                     {{row.licenciatura}}<br>
-                    {{row.periodo}}
+                    {{row.ingreso}}<br>
+                    {{row.campus}}
                 </td>
                 <td>
-                    {{row.preparatoria}}<br>
                     {{row.estado}}<br>
+                    {{row.preparatoria}}<br>
                     {{row.promediogeneral}}
                 </td>
                 <!--td>

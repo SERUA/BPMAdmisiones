@@ -852,6 +852,7 @@
                 <field type="STRING" length="255" name="caseId" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPropedeutico" fetchType="EAGER" name="propedeuticos" nullable="true" collection="true"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -2709,10 +2710,10 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="findDuplicados" content="SELECT s &#13;&#10;FROM SolicitudDeAdmision s &#13;&#10;WHERE &#13;&#10; LOWER(concat(s.primernombre,' ', s.segundonombre,' ',s.apellidopaterno,' ',s.apellidomaterno)) = :nombre&#13;&#10;AND s.correoElectronico = :correoElectronico&#13;&#10;AND s.fechaNacimiento = :fechaNacimiento&#13;&#10;AND s.curp = :curp&#13;&#10;ORDER BY s.persistenceId ASC" returnType="com.anahuac.model.SolicitudDeAdmision">
+                <query name="findByDuplicados" content="SELECT s &#13;&#10;FROM SolicitudDeAdmision s &#13;&#10;WHERE  CONCAT(s.primerNombre, ' ',s.segundoNombre ,' ', s.apellidoPaterno,' ',s.apellidoMaterno  ) like CONCAT( '%',:nombre,'%')&#13;&#10;OR s.correoElectronico like  CONCAT('%', :correoElectronico, '%')&#13;&#10;OR  s.fechaNacimiento  like CONCAT( '%',:fechaNacimiento , '%')&#13;&#10;OR s.curp = CONCAT('%',:curp,'%')&#13;&#10;ORDER BY s.persistenceId ASC" returnType="com.anahuac.model.SolicitudDeAdmision">
                     <queryParameters>
                         <queryParameter name="correoElectronico" className="java.lang.String"/>
-                        <queryParameter name="fechaNacimiento" className="java.time.LocalDateTime"/>
+                        <queryParameter name="fechaNacimiento" className="java.lang.String"/>
                         <queryParameter name="curp" className="java.lang.String"/>
                         <queryParameter name="nombre" className="java.lang.String"/>
                     </queryParameters>

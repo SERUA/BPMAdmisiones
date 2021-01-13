@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frmValidarSolicitudDeAdmision1",
   "name" : "frmValidarSolicitudDeAdmision",
-  "lastUpdate" : 1610066908331,
+  "lastUpdate" : 1610400902101,
   "rows" : [
     [
       {
@@ -20018,9 +20018,9 @@
                   "value" : 1
                 }
               },
-              "reference" : "74a9a1b3-a456-4d47-ad1b-1287288a95eb",
+              "reference" : "b62f238d-cf23-4659-b597-b15f844aa979",
               "hasValidationError" : false,
-              "id" : "customInputLimit"
+              "id" : "customInputNumerico"
             }
           ],
           [
@@ -24349,7 +24349,9 @@
                       "Campus",
                       "Licenciatura",
                       "Periodo",
-                      "Avance"
+                      "Avance",
+                      "Fecha Nacimiento",
+                      "Curp"
                     ]
                   },
                   "content" : {
@@ -24364,7 +24366,9 @@
                       "catCampus.descripcion",
                       "catGestionEscolar.nombre",
                       "catPeriodo.descripcion",
-                      "estatusSolicitud"
+                      "estatusSolicitud",
+                      "fechaNacimiento | date:'dd-MM-yyyy'",
+                      "curp"
                     ]
                   },
                   "selectedRow" : {
@@ -25221,10 +25225,17 @@
   ],
   "assets" : [
     {
-      "id" : "3835cf73-0401-4e35-b777-5157d1dfa274",
+      "id" : "0cff87b2-d4ec-46e5-aa4b-faf1f712e521",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "8c60d339-c497-4716-9141-eadce4d40287",
       "name" : "jquery.min.js",
       "type" : "js",
-      "order" : 1,
+      "order" : 4,
       "external" : false
     },
     {
@@ -25235,32 +25246,25 @@
       "external" : false
     },
     {
+      "id" : "7ed6f80c-8e1e-4003-a559-d0979c31c20d",
+      "name" : "anahuac_custom_styles.css",
+      "type" : "css",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "a08e5f6a-dec4-4892-8366-98053526af74",
+      "name" : "logo.png",
+      "type" : "img",
+      "order" : 7,
+      "external" : false
+    },
+    {
       "id" : "be750248-9b8b-4f05-b2fb-9b20ab4fd543",
       "name" : "https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js",
       "type" : "js",
-      "order" : 4,
+      "order" : 5,
       "external" : true
-    },
-    {
-      "id" : "0cff87b2-d4ec-46e5-aa4b-faf1f712e521",
-      "name" : "localization.json",
-      "type" : "json",
-      "order" : 0,
-      "external" : false
-    },
-    {
-      "id" : "a0da2952-1e9e-42ef-88a3-14609ce7ef08",
-      "name" : "anahuac_custom_styles.css",
-      "type" : "css",
-      "order" : 3,
-      "external" : false
-    },
-    {
-      "id" : "34952607-9711-4c0e-a30c-38c2d9b08661",
-      "name" : "logo.png",
-      "type" : "img",
-      "order" : 2,
-      "external" : false
     }
   ],
   "inactiveAssets" : [
@@ -26547,7 +26551,7 @@
     "findByCorreoElectronico" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&f=correoElectronico={{objSolicitudDeAdmision.correoElectronico}}&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByDuplicados&f=correoElectronico={{objSolicitudDeAdmision.correoElectronico}}&f=fechaNacimiento={{objSolicitudDeAdmision.fechaNacimiento.toString()}}&f=curp={{objSolicitudDeAdmision.curp}}&f=nombre={{objSolicitudDeAdmision.primerNombre+' '+objSolicitudDeAdmision.segundoNombre+' '+objSolicitudDeAdmision.apellidoPaterno+' '+objSolicitudDeAdmision.apellidoMaterno}}&p=0&c=9999"
       ],
       "exposed" : false
     },
@@ -26938,21 +26942,21 @@
     "cattipoAlumno" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatTipoAlumno?q=find&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatTipoAlumno?q=getCatTipoAlumno&p=0&c=9999"
       ],
       "exposed" : false
     },
     "catResidencia" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatResidencia?q=find&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatResidencia?q=getCatResidencia&p=0&c=9999"
       ],
       "exposed" : false
     },
     "catTipoAdmision" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatTipoAdmision?q=find&p=0&c=9999"
+        "../API/bdm/businessData/com.anahuac.catalogos.CatTipoAdmision?q=getCatTipoAdmision&p=0&c=9999"
       ],
       "exposed" : false
     },

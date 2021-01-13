@@ -282,7 +282,15 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					
+					case "getLastFechaExamenByUsername" :
+					result = new SesionesDAO().getLastFechaExamenByUsername(jsonData)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 					case "getSesionesAspirantes":
 					result = new SesionesDAO().getSesionesAspirantes(jsonData, context)
 					responseBuilder.withMediaType("application/json")
@@ -605,6 +613,7 @@ class Index implements RestApiController {
 					firma.setShowTitulo(object.showTitulo)
 					firma.setTelefono(object.telefono)
 					firma.setTitulo(object.titulo)
+					firma.setCampus(object.campus)
 					result = new NotificacionDAO().insertFirma(firma)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -753,6 +762,7 @@ class Index implements RestApiController {
 					firma.setShowTitulo(object.showTitulo)
 					firma.setTelefono(object.telefono)
 					firma.setTitulo(object.titulo)
+					firma.setCampus(object.campus)
 					result = new NotificacionDAO().updateFirma(firma)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())

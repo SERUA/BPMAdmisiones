@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "SesionCalendarizadasPasadas",
   "name" : "SesionCalendarizadasPasadas",
-  "lastUpdate" : 1610046619507,
+  "lastUpdate" : 1610389861458,
   "rows" : [
     [
       {
@@ -229,7 +229,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Reporte de sesiones calendarizadas"
+                  "value" : "Listado de sesiones calendarizadas"
                 },
                 "level" : {
                   "type" : "constant",
@@ -731,6 +731,10 @@
           "userId" : {
             "type" : "variable",
             "value" : "userData.user_id"
+          },
+          "orden" : {
+            "type" : "variable",
+            "value" : "activos"
           }
         },
         "reference" : "60770672-1707-4741-a8cd-badb50370684",
@@ -1507,7 +1511,8 @@
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":20,\r",
-        "    \"offset\":0\r",
+        "    \"offset\":0,\r",
+        "    \"orden\":$data.activos+\"\"\r",
         "};"
       ],
       "exposed" : false
@@ -1601,8 +1606,16 @@
         "    \"limit\":999999,\r",
         "    \"offset\":0,\r",
         "    \"usuarioNombre\":$data.userData.user_name,\r",
-        "    \"type\": \"sesioncalendarizadasreporte\"\r",
-        "};"
+        "    \"type\": \"sesioncalendarizadasreporte\",\r",
+        "    \"orden\":$data.activos+\"\"\r",
+        "};\r"
+      ],
+      "exposed" : false
+    },
+    "activos" : {
+      "type" : "constant",
+      "value" : [
+        "<"
       ],
       "exposed" : false
     }

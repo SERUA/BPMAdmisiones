@@ -17,6 +17,7 @@ function PbAutocompleteCtrl($scope, $parse, $log, widgetNameFactory) {
     }
 
     $scope.testblur = function() {
+        debugger;
         $scope.properties.urlCollageBoard = "";
         $scope.properties.isPDFCollageBoard = "true";
         $scope.properties.isImagenCollage = "true";

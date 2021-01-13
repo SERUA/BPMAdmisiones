@@ -2,7 +2,7 @@
   "designerVersion" : "1.11.52",
   "id" : "frgAgregarContactoEmergenciaUpdate",
   "name" : "frgAgregarContactoEmergenciaUpdate",
-  "lastUpdate" : 1607455815289,
+  "lastUpdate" : 1610468830863,
   "rows" : [
     [
       {
@@ -200,7 +200,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<b>En la información de padre seleccionó la opción no vive o desconozco sus datos por lo tanto no puede seleccionarlo como contacto de emergencia."
+            "value" : "<b>En la información de padre seleccionaste la opción no vive o desconozco sus datos por lo tanto no puedes seleccionarlo como contacto de emergencia."
           },
           "alignment" : {
             "type" : "constant",
@@ -252,7 +252,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<b>En la información de la madre seleccionó la opción no vive o desconozco sus datos por lo tanto no puede seleccionarlo como contacto de emergencia."
+            "value" : "<b>En la información de la madre seleccionaste la opción no vive o desconozco sus datos por lo tanto no puedes seleccionarla como contacto de emergencia."
           },
           "alignment" : {
             "type" : "constant",
@@ -295,8 +295,8 @@
             "value" : 50
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "bloqueoDatos"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -370,8 +370,8 @@
             "value" : 10
           },
           "readOnly" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "bloqueoDatos"
           },
           "labelHidden" : {
             "type" : "constant",
@@ -456,7 +456,7 @@
           },
           "label" : {
             "type" : "interpolation",
-            "value" : "Teléfono celular:"
+            "value" : "Teléfono celular: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
           },
           "labelPosition" : {
             "type" : "constant",
@@ -905,8 +905,18 @@
         "        if ($data.catCasoDeEmergencia[x].descripcion === \"Padre\") {\r",
         "            if($data.padre.vive !== undefined && $data.padre.vive !== null && $data.padre.vive.persistenceId_string !== \"\"){\r",
         "                if ($data.padre.vive.descripcion === \"Si\" || $data.padre.vive.descripcion === \"Sí\") {\r",
+        "                    $data.bloqueoDatos = true;\r",
+        "                    /*$data.casoEmergenciaJSON = {\r",
+        "                      \"nombre\": \"\",\r",
+        "                      \"telefono\": \"\",\r",
+        "                      \"catCasoDeEmergencia\": null,\r",
+        "                      \"telefonoCelular\": \"\",\r",
+        "                      \"parentesco\": \"\",\r",
+        "                      \"catParentesco\": null\r",
+        "                    }*/\r",
         "                    $data.casoEmergenciaJSON.nombre = $data.padre.nombre + \" \" + $data.padre.apellidos;\r",
         "                    $data.casoEmergenciaJSON.telefono = $data.padre.telefono;\r",
+        "                    //$data.casoEmergenciaJSON.telefonoCelular = \"\";\r",
         "                    otro = false;\r",
         "                    $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                    for (var j = 0; j < $data.catParentescoCompleto.length; j++) {\r",
@@ -926,12 +936,14 @@
         "                      \"parentesco\": \"\",\r",
         "                      \"catParentesco\": null\r",
         "                    }\r",
+        "                    $data.bloqueoDatos = true;\r",
         "                    $data.showpadrealert = false;\r",
         "                    $data.showmadrealert = true;\r",
         "    \t\t\t\tmostrar = true;\r",
         "                }\r",
         "            }else{\r",
         "                if($data.padre.desconozcoDatosPadres){\r",
+        "                    $data.bloqueoDatos = true;\r",
         "                    $data.casoEmergenciaJSON = {\r",
         "                      \"nombre\": \"\",\r",
         "                      \"telefono\": \"\",\r",
@@ -947,9 +959,19 @@
         "            }\r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Madre\") {\r",
         "            if($data.madre.vive !== undefined && $data.madre.vive !== null && $data.madre.vive.persistenceId_string !== \"\"){\r",
-        "                if ($data.madre.vive.descripcion === \"Si\" || $data.padre.vive.descripcion === \"Sí\") {\r",
+        "                if ($data.madre.vive.descripcion === \"Si\" || $data.madre.vive.descripcion === \"Sí\") {\r",
+        "                    $data.bloqueoDatos = true;\r",
+        "                    /*$data.casoEmergenciaJSON = {\r",
+        "                      \"nombre\": \"\",\r",
+        "                      \"telefono\": \"\",\r",
+        "                      \"catCasoDeEmergencia\": null,\r",
+        "                      \"telefonoCelular\": \"\",\r",
+        "                      \"parentesco\": \"\",\r",
+        "                      \"catParentesco\": null\r",
+        "                    }*/\r",
         "                    $data.casoEmergenciaJSON.nombre = $data.madre.nombre + \" \" + $data.madre.apellidos;\r",
         "                    $data.casoEmergenciaJSON.telefono = $data.madre.telefono;\r",
+        "                    //$data.casoEmergenciaJSON.telefonoCelular = \"\";\r",
         "                    otro = false;\r",
         "                    $data.casoEmergenciaJSON.parentesco = $data.catCasoDeEmergencia[x].descripcion;\r",
         "                    for (var j = 0; j < $data.catParentescoCompleto.length; j++) {\r",
@@ -961,6 +983,7 @@
         "                    $data.showmadrealert = false;\r",
         "                    $data.showpadrealert = false;\r",
         "                } else {\r",
+        "                    $data.bloqueoDatos = true;\r",
         "                    $data.casoEmergenciaJSON = {\r",
         "                      \"nombre\": \"\",\r",
         "                      \"telefono\": \"\",\r",
@@ -975,6 +998,7 @@
         "                }\r",
         "            }else{\r",
         "                if($data.madre.desconozcoDatosPadres){\r",
+        "                    $data.bloqueoDatos = true;\r",
         "                    $data.casoEmergenciaJSON = {\r",
         "                      \"nombre\": \"\",\r",
         "                      \"telefono\": \"\",\r",
@@ -992,8 +1016,18 @@
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Tutor\") {\r",
         "            $data.showpadrealert = false;\r",
         "            $data.showmadrealert = false;\r",
+        "            $data.bloqueoDatos = true;\r",
+        "            /*$data.casoEmergenciaJSON = {\r",
+        "                      \"nombre\": \"\",\r",
+        "                      \"telefono\": \"\",\r",
+        "                      \"catCasoDeEmergencia\": null,\r",
+        "                      \"telefonoCelular\": \"\",\r",
+        "                      \"parentesco\": \"\",\r",
+        "                      \"catParentesco\": null\r",
+        "                    }*/\r",
         "            $data.casoEmergenciaJSON.nombre = $data.tutorbdm[0].nombre + \" \" + $data.tutorbdm[0].apellidos;\r",
         "            $data.casoEmergenciaJSON.telefono = $data.tutorbdm[0].telefono;\r",
+        "            //$data.casoEmergenciaJSON.telefonoCelular = \"\";\r",
         "            $data.casoEmergenciaJSON.catParentesco = $data.tutorbdm[0].catParentezco;\r",
         "            if($data.tutorbdm[0].otroParentesco !== \"\"){\r",
         "                $data.casoEmergenciaJSON.parentesco = $data.tutorbdm[0].otroParentesco;\r",
@@ -1001,16 +1035,28 @@
         "                $data.casoEmergenciaJSON.parentesco = $data.tutorbdm[0].catParentezco.descripcion;\r",
         "            }\r",
         "        } else if ($data.catCasoDeEmergencia[x].descripcion === \"Otro\") {\r",
-        "            $data.contactoJson = {\r",
-        "              \"nombre\": \"\",\r",
-        "              \"telefono\": \"\",\r",
-        "              \"catCasoDeEmergencia\": null,\r",
-        "              \"telefonoCelular\": \"\",\r",
-        "              \"parentesco\": \"\",\r",
-        "              \"catParentesco\": null\r",
+        "            if($data.isOtroContacto === false || $data.isOtroContacto === undefined){\r",
+        "                $data.bloqueoDatos = false;\r",
+        "                $data.casoEmergenciaJSON = {\r",
+        "                    \"nombre\": \"\",\r",
+        "                    \"telefono\": \"\",\r",
+        "                    \"catCasoDeEmergencia\": $data.catCasoDeEmergencia[x],\r",
+        "                    \"telefonoCelular\": \"\",\r",
+        "                    \"parentesco\": \"\",\r",
+        "                    \"catParentesco\": null\r",
+        "                }\r",
+        "                $data.isOtroContacto = true;\r",
+        "            }else{\r",
+        "               /* $data.casoEmergenciaJSON.nombre = \"\";\r",
+        "                $data.casoEmergenciaJSON.telefono = \"\";\r",
+        "                $data.casoEmergenciaJSON.telefonoCelular = \"\";\r",
+        "                $data.casoEmergenciaJSON.parentesco = \"\";\r",
+        "                $data.casoEmergenciaJSON.catParentesco = null;*/\r",
         "            }\r",
         "            $data.showmadrealert = false;\r",
         "            $data.showpadrealert = false;\r",
+        "        } else {\r",
+        "            $data.bloqueoDatos = true;\r",
         "        }\r",
         "    }\r",
         "  }\r",
@@ -1114,6 +1160,17 @@
         ""
       ],
       "exposed" : true
+    },
+    "isOtroContacto" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "bloqueoDatos" : {
+      "type" : "constant",
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

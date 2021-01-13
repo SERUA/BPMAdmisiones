@@ -1,7 +1,5 @@
 function ($scope) {
-    //debugger;
     $scope.maxCompletedStep = $scope.properties.selectedIndex;
-    //$scope.properties.selectedIndex = 0;
     
     $scope.nextStep = function(){
         if($scope.properties.content[$scope.properties.selectedIndex].isValid){
@@ -72,7 +70,6 @@ function ($scope) {
     }
     
     $scope.selectStepManually = function(_index){
-        debugger;
         if(_index <= $scope.maxCompletedStep){
             if(_index!== 0){
                 $scope.properties.selectedIndex = _index;
@@ -93,7 +90,6 @@ function ($scope) {
     });
 
     $scope.$watchCollection("properties.selectedIndex", function(newValue, oldValue) {
-        debugger;
         if($scope.properties.selectedIndex !== undefined){
             $scope.maxCompletedStep = $scope.properties.selectedIndex;
             $scope.setSelected($scope.properties.selectedIndex);
