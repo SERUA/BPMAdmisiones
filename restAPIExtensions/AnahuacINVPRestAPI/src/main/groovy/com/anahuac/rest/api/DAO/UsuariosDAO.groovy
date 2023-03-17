@@ -1320,6 +1320,12 @@ class UsuariosDAO {
 				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
 				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
+				row.setTempentrada(rs.getString("temp_horainiciosesion"));
+				row.setTempsalida(rs.getString("tes_horafinsesion"));
+				row.setTempfecha(rs.getString("temp_fechainiciosesion"));
+				row.setTempprueba(rs.getString("temp_sesion"));
+				row.setTemptoleranciaentrada(rs.getString("temp_toleranciaentrada"));
+				row.setTemptoleranciaSalida(rs.getString("temp_toleranciasalida"));
 				
 				rows.add(row);
 			}
@@ -1628,6 +1634,43 @@ class UsuariosDAO {
 		return resultado;
 	} 
 	
+	public Result checkToleranciaTemp(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Boolean hasTolerance = false;
+		List<Boolean> data = new ArrayList<Boolean>();
+		String errorInfo = "";
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_TOLERANCIATEMP_BY_USERNAME);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				hasTolerance = rs.getBoolean("tienetolerancia");
+			} else {
+				throw new Exception("no_sesion_asignada");
+			}
+			
+			data.add(hasTolerance);
+			resultado.setData(data);
+			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
 	public Result checkToleranciaFront(String username) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -1650,16 +1693,19 @@ class UsuariosDAO {
 			
 			if(!isTemporal) {
 				pstm = con.prepareStatement(Statements.GET_TOLERANCIA_BY_USERNAME);
-				pstm.setString(1, username);
-				rs = pstm.executeQuery();
-				
-				if(rs.next()) {
-					hasTolerance = rs.getBoolean("tienetolerancia");
-				} else {
-					hasTolerance = false;
-				}
 			} else {
-				hasTolerance = true;
+				pstm = con.prepareStatement(Statements.GET_TOLERANCIATEMP_BY_USERNAME);
+//				hasTolerance = true;
+			}
+			
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				hasTolerance = rs.getBoolean("tienetolerancia");
+			} else {
+				hasTolerance = false;
+				throw new Exception("no_sesion_asignada");
 			}
 			
 			data.add(hasTolerance);
@@ -1673,6 +1719,336 @@ class UsuariosDAO {
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getAspirantesTodos(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = " WHERE ( ctpr.descripcion = 'Examen Psicométrico'  ";
+		String errorlog = "  ";
+		String orderBy = " ORDER BY ";
+		List < String > lstGrupo = new ArrayList < String > ();
+		String errorLog = "";
+		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+		SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			Long userLogged = context.getApiSession().getUserId();
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+			
+			errorLog += " | lstGrupo.size(): " + lstGrupo.size().toString() + " | object.campus: " + object.campus.toString();
+			if (lstGrupo.size() > 0 && object.campus == null) {
+				where += " AND (";
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += " ccam.descripcion = '" + campusMiembro + "'"
+					errorLog += " [| campusMiembro" + campusMiembro;
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+				errorLog += "] "
+			} else if(object.campus != null) {
+				where += " AND ccam.grupobonita = '" + object.campus + "'"
+			}
+			
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				switch (filtro.get("columna")) {
+					case "id_sesion":
+						errorlog += "prue.sesion_pid "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( prue.sesion_pid = [valor] )";
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "idBpm,idbanner":
+						errorlog += "creg.caseid "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( ( LOWER(creg.caseid::VARCHAR) like lower('%[valor]%') )";
+						where += " OR ( LOWER(dets.idbanner) like lower('%[valor]%') ) )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "nombre":
+						errorlog += "ses.nombre"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( ( LOWER(creg.primernombre) like lower('%[valor]%') ) ";
+						where += " OR ( LOWER(creg.segundonombre) like lower('%[valor]%') ) ";
+						where += " OR ( LOWER(creg.apellidopaterno) like lower('%[valor]%') )  ";
+						where += " OR ( LOWER(creg.apellidomaterno) like lower('%[valor]%') ) )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Id Banner":
+						errorlog += "dets.idbanner "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(dets.idbanner) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "uni":
+						errorlog += "ccam.descripcion "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(ccam.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "telefono,celular,correo":
+						errorlog += "sdad.telefono "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( ( LOWER(sdad.telefono) like lower('%[valor]%') )";
+						where += " OR ( LOWER(sdad.telefonocelular) like lower('%[valor]%') )";
+						where += " OR ( LOWER(creg.correoelectronico) like lower('%[valor]%') ) )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Celular":
+						errorlog += "sdad.telefonocelular "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(sdad.telefonocelular) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Correo":
+						errorlog += "creg.correoelectronico "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(creg.correoelectronico) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Preguntas":
+						errorlog += "total_preguntas "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(total_preguntas) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Contestadas":
+						errorlog += "total_respuestas "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(total_respuestas) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "inicio,termino,tiempo":
+						errorlog += "extr.fechainicio "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( ( LOWER(extr.fechainicio) like lower('%[valor]%') )";
+						where += " OR ( LOWER(extr.fechafin) like lower('%[valor]%') ) )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Término":
+						errorlog += "extr.fechafin "
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(extr.fechafin) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Tiempo":
+//						errorlog += "fechafin "
+//						if (where.contains("WHERE")) {
+//							where += " AND "
+//						} else {
+//							where += " WHERE "
+//						}
+//						where += " ( LOWER(fechafin) like lower('%[valor]%') )";
+//						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "Estatus":
+//						errorlog += "fechafin "
+//						if (where.contains("WHERE")) {
+//							where += " AND "
+//						} else {
+//							where += " WHERE "
+//						}
+//						where += " ( LOWER(fechafin) like lower('%[valor]%') )";
+//						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					default:
+						break;
+				}
+			}
+			
+			switch(object.orderby) {
+				case "idBpm":
+					orderBy = " ORDER BY creg.caseid " + object.orientation;
+				break;
+				case "idbanner":
+					orderBy = " ORDER BY dets.idbanner " + object.orientation;
+				break;
+				case "nombre":
+					orderBy = " ORDER BY creg.primernombre " + object.orientation;
+				break;
+				case "uni":
+					orderBy = " ORDER BY ccam.descripcion " + object.orientation;
+				break;
+				case "telefono":
+					orderBy = " ORDER BY sdad.telefono  " + object.orientation;
+				break;
+				case "celular":
+					orderBy = " ORDER BY creg.caseid " + object.orientation;
+				break;
+				case "correo":
+					orderBy = " ORDER BY creg.correoelectronico " + object.orientation;
+				break;
+				case "preguntas":
+					orderBy = " ORDER BY total_preguntas " + object.orientation;
+				break;
+				case "contestadas":
+					orderBy = " ORDER BY total_respuestas " + object.orientation;
+				break;
+				case "inicio":
+					orderBy = " ORDER BY extr.fechainicio " + object.orientation;
+				break;
+				case "termino":
+					orderBy = " ORDER BY extr.fechafin " + object.orientation;
+				break;
+				default:
+					orderBy = " ORDER BY creg.caseid " + object.orientation;
+				break;
+			}
+			
+			AspiranteSesionCustom row = new AspiranteSesionCustom();
+			List <AspiranteSesionCustom> rows = new ArrayList <AspiranteSesionCustom>();
+			closeCon = validarConexion();
+			
+			where += " ) OR (temp.username IS NOT NULL)";
+			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaCcount);
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("total_registros"));
+			}
+			
+			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
+			errorLog += consulta;
+			pstm = con.prepareStatement(consulta);
+			pstm.setInt(1, object.limit);
+			pstm.setInt(2, object.offset);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				row = new AspiranteSesionCustom();
+				String nombre = rs.getString("primernombre");
+				if(rs.getString("segundonombre").equals("") || rs.getString("segundonombre") == null) {
+					nombre += " " + rs.getString("segundonombre")
+				}
+				nombre += " " + rs.getString("apellidopaterno");
+				if(rs.getString("apellidomaterno").equals("") || rs.getString("apellidomaterno") == null) {
+					nombre += " " + rs.getString("apellidomaterno")
+				}
+				row.setIdBpm(rs.getLong("idbpm"));
+				row.setNombre(nombre);
+				row.setUni(rs.getString("campus"));
+				row.setCorreoElectronico(rs.getString("correoelectronico"));
+				row.setTelefono(rs.getString("telefono"));
+				row.setCelular(rs.getString("telefonocelular"));
+				row.setPreguntas(rs.getInt("total_preguntas"));
+				row.setContestadas(rs.getInt("total_respuestas"));
+				
+				if(rs.getTimestamp("fechainicio") != null) {
+					Date date = new Date(rs.getTimestamp("fechainicio").getTime());
+					row.setInicio(formatter.format(date));
+				} else {
+					row.setInicio("...");
+				}
+				
+				if(rs.getTimestamp("fechafin") != null) {
+					Date date = new Date(rs.getTimestamp("fechafin").getTime());
+					row.setTermino(formatter.format(date));
+				}
+				
+				if(rs.getTimestamp("tiempo") != null) {
+					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+					row.setTiempo(formatterTime.format(date));
+				}
+				
+				row.setIdBanner(rs.getString("idbanner"));
+				row.setIdioma(rs.getString("idioma") != null ? rs.getString("idioma") : "ESP");
+				row.setBloqueado(rs.getBoolean("usuariobloqueado"));
+				row.setTerminado(rs.getBoolean("terminado"));
+				row.setCaseidINVP(rs.getString("caseidinvp"))
+				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
+				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
+				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
+				
+				row.setIsTemporal(rs.getBoolean("istemporal"));
+				row.setTempentrada(rs.getString("horainiciosesion_temp"));
+				row.setTempsalida(rs.getString("horafinsesion_temp"));
+				row.setTempfecha(rs.getString("fechainiciosesion_temp"));
+				row.setTempprueba(rs.getString("nombre__temp"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
 		}
 		

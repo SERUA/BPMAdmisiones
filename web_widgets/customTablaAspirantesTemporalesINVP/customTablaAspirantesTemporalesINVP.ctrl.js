@@ -43,6 +43,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.isenvelope = false;
     $scope.selectedrow = {};
     $scope.mensaje = "";
+    $scope.filtroCampusAsignar = "";
+    $scope.selectedSesionString = "";
   
     $scope.envelope = function(row) {
         $scope.isenvelope = true;
@@ -379,16 +381,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     
     $scope.setSelectedAspirante = function(_aspirante, _modal){
-        debugger;
         $scope.selectedAspirante = angular.copy(_aspirante);
+        $scope.selectedSesion = {};
         if(_modal === "bloquear"){
             mostrarModal("modalBloquear");
         } else if(_modal === "reactivar"){
             mostrarModal("modalReactivar");
+        } else if (_modal === "asignar"){
+            mostrarModal("modalAsignar");
+            getSesionesByCampus();
         } else {
             mostrarModal("modalTerminar");
         }
-
     }
 
     $scope.mostrarModalTodos = function(_idModal){
@@ -422,9 +426,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         $http.post(url).success(function(_data){
             getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
-            // ocultarModal("modalTerminar");
-            // swal("Ok", "Usuario terminado", "success");
-            // doRequest("POST", $scope.properties.urlPost);
         }).error(function(_error){
 
         });
@@ -445,7 +446,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     function getTaskInfo(_caseid){
-        // let url = "../API/bpm/task?c=10&p=0&f=name=Examen%20INVP&f=caseId=" + _caseid;
         let url = "../API/bpm/task?c=10&p=0&f=caseId=" + _caseid;
         
         $http.get(url).success(function(_data){
@@ -533,6 +533,41 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             doRequest("POST", $scope.properties.urlPost);
         }).error(function(_error){
 
+        });
+    }
+
+    $scope.selectedSesion = {};
+    $scope.getSesionesByCampus = function(){
+        getSesionesByCampus($scope.filtroCampusAsignar);
+    }
+    
+    function getSesionesByCampus(){
+        let url = "../API/extension/AnahuacINVPRestGet?url=getSesionesByCampus&p=0&c=10&campus=" + $scope.selectedAspirante.uni;
+        
+        $http.get(url).success(function(_data){
+            $scope.lstSesiones = _data;
+            $scope.selectedSesionString = "";
+        }).error(function(_error){
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
+    $scope.$watch("selectedSesionString", function(){
+        $scope.selectedSesion = JSON.parse($scope.selectedSesionString);
+        $scope.selectedSesion.username = $scope.selectedAspirante.correoElectronico;
+        $scope.selectedSesion.toleranciaminutos = $scope.selectedSesion.toleranciaminutos != 0 ? $scope.selectedSesion.toleranciaminutos : 5 ;
+        $scope.selectedSesion.toleranciasalidaminutos =  $scope.selectedSesion.toleranciasalidaminutos != 0 ?  $scope.selectedSesion.toleranciasalidaminutos : 5;
+    });
+
+    $scope.insertUpdateUsuarioNuevaConfig = function(){
+        let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
+
+        $http.post(url, $scope.selectedSesion).success(function(_data){
+            ocultarModal("modalAsignar");
+            swal("Ok", "Cambios guardados", "success");
+            doRequest("POST", $scope.properties.urlPost);
+        }).error(function(_error){
+            
         });
     }
 }

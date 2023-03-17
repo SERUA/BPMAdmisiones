@@ -25,6 +25,7 @@ import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.CatPreguntasCustomFiltro
 import com.anahuac.rest.api.Entity.custom.ConfiguracionesINVP
+import com.anahuac.rest.api.Entity.custom.SesionCampusCustom
 import com.anahuac.rest.api.Entity.custom.SesionesCustom
 
 import groovy.json.JsonSlurper
@@ -1632,7 +1633,7 @@ public Result getCatPreguntas(String jsonData) {
 			}
 			
 			pstm.setInt(1, Integer.valueOf(object.toleranciaminutos));
-			pstm.setInt(2, Integer.valueOf(object.toleranciaSalidaMinutos));
+			pstm.setInt(2, Integer.valueOf(object.toleranciasalidaminutos));
 			pstm.setLong(3, object.idprueba);
 			pstm.executeUpdate();
 			
@@ -1689,4 +1690,148 @@ public Result getCatPreguntas(String jsonData) {
 		
 		return resultado;
 	}
+	
+	public Result getSesionesByCampus(String campus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			List<SesionCampusCustom> rows = new ArrayList<SesionCampusCustom>();
+			SesionCampusCustom sesion = new SesionCampusCustom();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_SESIONES_BY_CAMPUS);
+			pstm.setString(1, campus);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				sesion = new SesionCampusCustom();
+				sesion.setIdprueba(rs.getLong("idprueba"));
+				sesion.setEntrada(rs.getString("entrada"));
+				sesion.setSalida(rs.getString("salida"));
+				sesion.setAplicacion(rs.getString("aplicacion"));
+				sesion.setNombresesion(rs.getString("nombresesion"));
+				sesion.setToleranciaminutos(rs.getInt("toleranciaminutos"));
+				sesion.setToleranciasalidaminutos(rs.getInt("toleranciasalidaminutos"));
+				sesion.setEstatus(rs.getString("estatus"));
+				sesion.setCampus(rs.getString("campus"));
+				sesion.setGrupobonita(rs.getString("grupobonita"));
+				
+				rows.add(sesion);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result insertUpdateUsuarioNuevaConfig(String jsonData) {
+		Result resultado = new Result();
+		String errorlog = "";
+		Boolean closeCon = false;
+		Boolean existe = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.GET_EXISTE_NUEVA_CONF_USUARIO);
+			pstm.setString(1, object.username);
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				existe = rs.getBoolean("existe");
+			}
+			
+			if(existe) {
+				pstm = con.prepareStatement(Statements.UPDATE_NUEVA_CONFIG_USUARIO);
+				pstm.setString(1, object.aplicacion);
+				pstm.setString(2, object.entrada);
+				pstm.setString(3, object.salida);
+				pstm.setInt(4, object.toleranciaminutos);
+				pstm.setInt(5, object.toleranciasalidaminutos);
+				pstm.setLong(6, object.idprueba);
+				pstm.setString(7, object.username);
+			} else {
+				pstm = con.prepareStatement(Statements.INSERT_NUEVA_CONFIG_USUARIO);
+				pstm.setString(1, object.username);
+				pstm.setString(2, object.aplicacion);
+				pstm.setString(3, object.entrada);
+				pstm.setString(4, object.salida);
+				pstm.setInt(5, object.toleranciaminutos);
+				pstm.setInt(6, object.toleranciasalidaminutos);
+				pstm.setLong(7, object.idprueba);
+			}
+			
+			pstm.executeUpdate();
+			
+			con.commit();
+			
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getNuevaConfigUsuario(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			List<SesionCampusCustom> rows = new ArrayList<SesionCampusCustom>();
+			SesionCampusCustom sesion = new SesionCampusCustom();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_NUEVA_CONF_USUARIO);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				sesion = new SesionCampusCustom();
+				sesion.setIdprueba(rs.getLong("idprueba"));
+				sesion.setEntrada(rs.getString("horainiciosesion"));
+				sesion.setSalida(rs.getString("horafinsesion"));
+				sesion.setAplicacion(rs.getString("fechainiciosesion"));
+				sesion.setToleranciaminutos(rs.getInt("toleranciaentradasesion"));
+				sesion.setToleranciasalidaminutos(rs.getInt("toleranciasalidasesion"));
+				sesion.setIdprueba(rs.getLong("idprueba"));
+				
+				rows.add(sesion);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
 }

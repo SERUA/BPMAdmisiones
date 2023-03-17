@@ -21,6 +21,13 @@ class AspiranteSesionCustom {
 	private String estatusINVP;
 	private Boolean examenReiniciado;
 	private Boolean usuarioBloqueado;
+	private String tempprueba;
+	private String tempentrada;
+	private String tempsalida;
+	private String tempfecha;
+	private String temptoleranciaentrada;
+	private String temptoleranciaSalida;
+	private Boolean isTemporal;
 	
 	public Boolean getUsuarioBloqueado() {
 		return usuarioBloqueado;
@@ -142,4 +149,47 @@ class AspiranteSesionCustom {
 	public void setIdioma(String idioma) {
 		this.idioma = idioma;
 	}
+	public String getTempprueba() {
+		return tempprueba;
+	}
+	public void setTempprueba(String tempprueba) {
+		this.tempprueba = tempprueba;
+	}
+	public String getTempentrada() {
+		return tempentrada;
+	}
+	public void setTempentrada(String tempentrada) {
+		this.tempentrada = tempentrada;
+	}
+	public String getTempsalida() {
+		return tempsalida;
+	}
+	public void setTempsalida(String tempsalida) {
+		this.tempsalida = tempsalida;
+	}
+	public String getTempfecha() {
+		return tempfecha;
+	}
+	public void setTempfecha(String tempfecha) {
+		this.tempfecha = tempfecha;
+	}
+	public String getTemptoleranciaentrada() {
+		return temptoleranciaentrada;
+	}
+	public void setTemptoleranciaentrada(String temptoleranciaentrada) {
+		this.temptoleranciaentrada = temptoleranciaentrada;
+	}
+	public String getTemptoleranciaSalida() {
+		return temptoleranciaSalida;
+	}
+	public void setTemptoleranciaSalida(String temptoleranciaSalida) {
+		this.temptoleranciaSalida = temptoleranciaSalida;
+	}
+	public Boolean getIsTemporal() {
+		return isTemporal;
+	}
+	public void setIsTemporal(Boolean isTemporal) {
+		this.isTemporal = isTemporal;
+	}
+	
 }

@@ -147,7 +147,7 @@ class RespuestasExamenDAO {
 				
 				resultado.setSuccess(true);
 			} else {
-				String mensaje = idioma.equals("ESP") ? "Tu examen ya ha finalizado" : "Your test has ended";
+				String mensaje = "test_end";
 				throw new Exception(mensaje);
 			}
 		} catch (Exception e) {
@@ -293,7 +293,7 @@ class RespuestasExamenDAO {
 				
 				resultado.setSuccess(true);
 			} else {
-				String mensaje = idioma.equals("ESP") ? "Tu examen ya ha finalizado" : "Your test has ended";
+				String mensaje = "test_end";
 				throw new Exception(mensaje);
 			}
 		} catch (Exception e) {

@@ -123,7 +123,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
 
     function getAspirantesSesion(_idsesion){
-        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantes&p=0&c=10";
+        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
         $scope.dataToSend.lstFiltro = [{
             "columna":"id_sesion",

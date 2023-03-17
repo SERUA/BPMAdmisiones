@@ -37,17 +37,32 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function checkTolerancia(_username){
-        let url = "../API/extension/AnahuacINVPRestGet?url=checkTolerancia&p=0&c=10&&username=" + _username;
+        let url = "../API/extension/AnahuacINVPRestGet?url=checkToleranciaFront&p=0&c=10&&username=" + _username;
 
         $http.get(url).success(function(_success){
-            debugger;
             if(_success[0] === true){
                 startProcess();
             } else {
-                swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+                } else {
+                    swal("Error", "The entry tolerance time for your exam has been exceeded", "error");
+                }
             }
         }).error(function(_error){
-            swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+            if(_error.error === "no_sesion_asignada"){
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Aún no tienes una sesión asignada. Contacta con tu aplicador.", "error");
+                } else {
+                    swal("Error", "You don't have a session assigned yet. Contact your advisor.", "error");
+                }
+            } else {
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+                } else {
+                    swal("Error", "The entry tolerance time for your exam has been exceeded", "error");
+                }
+            }
         });
     }
 

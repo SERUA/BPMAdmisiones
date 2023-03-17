@@ -71,7 +71,7 @@ class LoginSesionesDAO {
 			pstm.setString(2, object.username);
 			rs = pstm.executeQuery();
 			
-			while (rs.next()) {
+			if (rs.next()) {
 				row = new LoginSesion()
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
@@ -87,6 +87,29 @@ class LoginSesionesDAO {
 				row.setSalida(rs.getString("salida"));
 				row.setUsername(rs.getString("username"));
 				rows.add(row);
+			} else {
+				consulta = Statements.GET_SESION_LOGIN_TEMPORAL;
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, object.username);
+				pstm.setString(2, object.aplicacion);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					row = new LoginSesion();
+					row.setNombre_sesion(rs.getString("nombresesion"));
+					row.setDescripcion(rs.getString("descripcionsesion"))
+					row.setNombre_prueba(rs.getString("nombre_prueba") + " (Temporal)");
+					row.setId_prueba(rs.getLong("idprueba"));
+					try {
+						row.setAplicacion(rs.getString("fechainiciosesion"));
+					} catch (Exception e) {
+						errorlog += e.getMessage();
+					}
+					row.setEntrada(rs.getString("horainiciosesion"));
+					row.setSalida(rs.getString("horafinsesion"));
+					row.setUsername(rs.getString("username"));
+					rows.add(row);
+				}
 			}
 			
 			resultado.setSuccess(true);
@@ -200,22 +223,28 @@ class LoginSesionesDAO {
 						additional_data.add("block");
 						row.put("havesesion", true);
 					} else {
+						Result checkTolerancia = new Result();
+						errorlog += " | Checando tolerancia para aspirante "
 						if(isTemporal == true) {
-							row.put("havesesion", false);
+							errorlog += " temporal "
+							checkTolerancia = new UsuariosDAO().checkToleranciaTemp(object.username);
 						} else {
-							Result checkTolerancia = new UsuariosDAO().checkTolerancia(object.username);
-							if(checkTolerancia.isSuccess()) {
-								tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
-							} else {
-								tieneTolerancia = false;
-							}
-							
-							if(!tieneTolerancia) {
-								additional_data.add("toler");
-								row.put("havesesion", true);
-							} else {
-								row.put("havesesion", false);
-							}
+							checkTolerancia = new UsuariosDAO().checkTolerancia(object.username);
+						}
+						errorlog += " | Tolerancia revisada " + checkTolerancia.isSuccess().toString();
+						if(checkTolerancia.isSuccess()) {
+							errorlog += " | tiene tolerancia registrada "
+							tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
+						} else {
+							errorlog += " | NO tiene tolerancia registrada "
+							throw new Exception("no_sesion_asignada");
+						}
+						
+						if(!tieneTolerancia) {
+							additional_data.add("toler");
+							row.put("havesesion", true);
+						} else {
+							row.put("havesesion", false);
 						}
 					}
 				} else {
@@ -230,10 +259,8 @@ class LoginSesionesDAO {
 			resultado.setAdditional_data(additional_data);
 			resultado.setError_info(errorlog);
 		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			errorlog = errorlog + " | " + e.getMessage();
 			resultado.setError_info(errorlog);
 		} finally {
 			if (closeCon) {

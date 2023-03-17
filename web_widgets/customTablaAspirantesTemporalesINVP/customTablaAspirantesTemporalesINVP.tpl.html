@@ -49,6 +49,13 @@
                 <th>
                     <span style="cursor:pointer" ng-click="setOrderBy('estatus')"> Estatus <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span>
                 </th>
+
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')"> Sesion asignada <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')"> Fecha <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')"> Hora entrada<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')"> Hora salida<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span>
+                </th>
                 <th>
                     <span>Idioma</span>
                 </th>
@@ -65,6 +72,7 @@
                 <td><input ng-model="dynamicInput['contestadas']" class="form-control" ng-enter="filterKeyPress('Contestadas', dynamicInput['contestadas'])"></td>
                 <td><input ng-model="dynamicInput['inicio']" class="form-control" ng-enter="filterKeyPress('Inicio', dynamicInput['inicio'])"></td>
                 <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('Estatus', dynamicInput['estatus'])"></td>
+                <td></td>
                 <td></td>
                 <td></td>
             </tr>
@@ -88,6 +96,12 @@
                     {{row.tiempo}}
                 </td>
                 <td>{{row.estatusINVP}}</td>
+                <td>
+                    {{row.tempprueba}} <br>
+                    {{row.tempfecha}}<br>
+                    {{row.tempentrada}}<br>
+                    {{row.tempsalida}}
+                </td>
                 <td class="text-center">
                     <button type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning">
                         <label>{{row.idioma}}</label>
@@ -106,6 +120,10 @@
                     </button>
                     <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                         <span class="glyphicon glyphicon-lock"></span>
+                    </button>
+
+                    <button ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'asignar')" class="btn btn-info">
+                        <span class="glyphicon glyphicon-cog"></span>
                     </button>
                 </td>
             </tr>
@@ -259,6 +277,67 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" ng-click="bloquearAspiranteDef()">Aceptar</button>
+        </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalAsignar">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Asignar horario a aspirante temporal</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <!--<div class="col-xs-12"> -->
+                <!--    <label>Campus:</label>-->
+                <!--    <select class="form-control" ng-model="filtroCampusAsignar"-->
+                <!--        ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser" ng-change="getSesionesByCampus()">-->
+                <!--        <option style="display:none" value="">-->
+                <!--            Seleccionar campus-->
+                <!--        </option>-->
+                <!--    </select>-->
+                <!--</div>-->
+                <div class="col-xs-12"> 
+                    <label>Sesión:</label>
+                    <select class="form-control" ng-model="selectedSesionString">
+                        <option value="">Seleccione...</option>
+                        <option ng-repeat="sesion in lstSesiones" value="{{sesion}}">{{sesion.nombresesion}}</option>
+                    </select>
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Fecha:</label>
+                    <input ng-model="selectedSesion.aplicacion" disabled class="form-control">
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Hora inicio:</label>
+                    <input ng-model="selectedSesion.entrada" disabled class="form-control" >
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Hora fin:</label>
+                    <input ng-model="selectedSesion.salida" disabled class="form-control" >
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Estatus:</label>
+                    <input ng-model="selectedSesion.estatus" disabled class="form-control">
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Tolerancia entrada: (minutos)</label>
+                    <input ng-model="selectedSesion.toleranciaminutos" disabled class="form-control">
+                </div>
+                <div class="col-xs-6"> 
+                    <label>Tolerancia salida (minutos):</label>
+                    <input ng-model="selectedSesion.toleranciasalidaminutos" disabled class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" ng-click="insertUpdateUsuarioNuevaConfig()">Guardar</button>
         </div>
         </div>
     </div>

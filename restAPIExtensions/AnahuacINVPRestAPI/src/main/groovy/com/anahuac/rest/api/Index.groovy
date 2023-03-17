@@ -402,6 +402,20 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "insertUpdateUsuarioNuevaConfig":
+				try{
+					result =  cDAO.insertUpdateUsuarioNuevaConfig(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				} catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
 			
 			case "getSesionesToday":
 				try{
@@ -434,10 +448,24 @@ class Index implements RestApiController {
 				}
 				
 			break;
-			
 			case "getAspirantesTemporales":
 				try{
 					result =  new UsuariosDAO().getAspirantesTemporales(jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				
+			break;
+			case "getAspirantesTodos":
+				try{
+					result =  new UsuariosDAO().getAspirantesTodos(jsonData, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -466,8 +494,6 @@ class Index implements RestApiController {
 				}
 				
 			break;
-			
-			
 			case "bloquearAspirante":
 				try{
 					String username =request.getParameter "username"

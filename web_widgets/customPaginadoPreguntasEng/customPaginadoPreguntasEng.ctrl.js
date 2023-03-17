@@ -200,13 +200,18 @@ function($scope, $http) {
                 $scope.properties.dataFromError = undefined;
             })
             .error(function(data, status) {
+
+                if(data.error === "test_end"){
+                    mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                } else {
+                    mensaje = "The connection was lost, please try again."
+                }
+
                 Swal.fire({
-                    title: '<strong>Attention</strong>',
+                    title: '<strong>Atención</strong>',
                     icon: 'error',
-                    //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                    html:'The connection was lost, please try again.', showCloseButton: false
+                    html:mensaje, showCloseButton: false
                 }).then((result) => {
-                    debugger;
                     let posicion = 0;
                     let pregunta = ($scope.objcontestada.pregunta);
                     for (var i = 0; i < $scope.properties.objPreguntasContestadas.length; i++) {
@@ -226,11 +231,31 @@ function($scope, $http) {
                     $scope.loadPaginado();
                     console.log($scope.properties.objPreguntasContestadas);
                 });
-            
-                /*$scope.properties.dataFromError = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromSuccess = undefined;*/
-                //notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+                // Swal.fire({
+                //     title: '<strong>Attention</strong>',
+                //     icon: 'error',
+                //     html:'The connection was lost, please try again.', showCloseButton: false
+                // }).then((result) => {
+                //     debugger;
+                //     let posicion = 0;
+                //     let pregunta = ($scope.objcontestada.pregunta);
+                //     for (var i = 0; i < $scope.properties.objPreguntasContestadas.length; i++) {
+                //         if (pregunta === $scope.properties.objPreguntasContestadas[i].pregunta) {
+                //             posicion = i;
+                //         }
+                //     }
+
+                //     $scope.properties.objPreguntasContestadas = $scope.properties.objPreguntasContestadas.slice(0, posicion-1);
+                    
+                //     for (var i = 0; i < $scope.lstPaginado.length; i++) {
+                //         if(pregunta === $scope.lstPaginado[i].numero){
+                //             $scope.lstPaginado[i].contestado = false;
+                //             break;
+                //         }
+                //     }
+                //     $scope.loadPaginado();
+                //     console.log($scope.properties.objPreguntasContestadas);
+                // });
             })
             .finally(function() {
                 //vm.busy = false;
@@ -253,16 +278,26 @@ function($scope, $http) {
                 $scope.properties.dataFromError = undefined;
             })
             .error(function(data, status) {
+                let mensaje = "";
+
+                if(data.error === "test_end"){
+                    mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                } else {
+                    mensaje = "The connection was lost, please try again."
+                }
                 Swal.fire({
-                    title: '<strong>Attention</strong>',
+                    title: '<strong>Atención</strong>',
                     icon: 'error',
                     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                    html:'The connection was lost, please try again.', showCloseButton: false
+                    html:mensaje, showCloseButton: false
                 });
-                /*$scope.properties.dataFromError = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromSuccess = undefined;*/
-                //notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+                
+                // Swal.fire({
+                //     title: '<strong>Attention</strong>',
+                //     icon: 'error',
+                //     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
+                //     html:'The connection was lost, please try again.', showCloseButton: false
+                // });
             })
             .finally(function() {
                 //vm.busy = false;
@@ -275,22 +310,4 @@ function($scope, $http) {
         }
     });
 
-  /*  $scope.$watch("properties.respuesta", function() {
-        debugger;
-        if ($scope.properties.respuesta !== undefined && $scope.properties.respuesta !== null) {
-            if (!$scope.isseleccion) {
-                $scope.objcontestada = angular.copy($scope.properties.objRespuesta);
-               // $scope.properties.valorSeleccionado = $scope.properties.valorSeleccionado + 1;
-
-                for (var i in $scope.lstPaginado) {
-                    if ($scope.lstPaginado[i].numero == $scope.properties.valorSeleccionado) {
-                        $scope.properties.inicio = ($scope.lstPaginado[i].numero - 1);
-                        $scope.properties.fin = $scope.lstPaginado[i].fin;
-                        $scope.valorSeleccionado = $scope.lstPaginado[i].numero +1;
-                    }
-                }
-                $scope.loadPaginado();
-            }
-        }
-    });*/
 }

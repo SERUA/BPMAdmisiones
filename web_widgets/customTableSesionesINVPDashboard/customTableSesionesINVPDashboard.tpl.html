@@ -165,6 +165,7 @@
                 <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
                     <thead>
                         <tr>
+                            <td></td>
                             <th>
                                 <span style="cursor:pointer" ng-click="setOrderBy('idBpm')"> No. <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='idBpm'"></i></span> / 
                                 <span style="cursor:pointer" ng-click="setOrderBy('idBanner')"> Id Banner <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='idBanner'"></i></span>
@@ -203,6 +204,7 @@
                     </thead>
                     <tbody>
                         <tr>
+                            <td></td>
                             <td><input ng-model="dynamicInput['idBpm']" class="form-control" ng-enter="filterKeyPress('No.', dynamicInput['idBpm'])"></td>
                             <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('Nombre', dynamicInput['nombre'])"></td>
                             <td><input ng-model="dynamicInput['uni']" class="form-control" ng-enter="filterKeyPress('Uni.', dynamicInput['uni'])"></td>
@@ -215,6 +217,10 @@
                             <td></td>
                         </tr>
                         <tr ng-repeat="row in aspirantes" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                            <td class="text-center">
+                                <span ng-if="row.isTemporal" class="glyphicon glyphicon-user"></span>
+                                <span ng-if="!row.isTemporal" class="glyphicon glyphicon-user color-orange"></span>
+                            </td>
                             <td>
                                 {{row.idBpm}} <br>
                                 {{row.idBanner}}
@@ -431,22 +437,7 @@
                             <div class="col-xs-5">
                                 <div class="dataTables_info">Mostrando {{dataToSend.offset + 1}} a {{((dataToSend.limit * valorSeleccionadoAsp) > valueAsp) ? valueAsp : dataToSend.limit * valorSeleccionadoAsp}} de {{valueAsp}} registros</div>
                             </div>
-                            <div class="col-xs-7 text-center">
-                                <!-- <div role="toolbar" aria-label="Toolbar with button groups">
-                                    <div class="btn-group" role="group" aria-label="First group">
-                                        <button type="button" class="btn btn-default" ng-click="anteriorAsp()">Anterior
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" role="group" aria-label="Second group">
-                                        <button ng-repeat="row in lstPaginadoAsp" ng-class="row.seleccionado?'btn-primary':'btn-default'" type="button" class="btn" ng-click="seleccionarPaginaAsp(row.numero)">{{row.numero}}
-                                        </button>
-                                    </div>
-                                    <div class="btn-group" role="group" aria-label="Third group">
-                                        <button type="button" class="btn btn-default" ng-click="siguienteAsp()">Siguiente
-                                        </button>
-                                    </div>
-                                </div> -->
-                            </div>
+                            <div class="col-xs-7 text-center"></div>
                         </div>
                     </div>
                 </div>
