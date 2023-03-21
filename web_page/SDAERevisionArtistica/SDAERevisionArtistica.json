@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionArtistica",
   "name" : "SDAERevisionArtistica",
-  "lastUpdate" : 1674171919915,
+  "lastUpdate" : 1678489130299,
   "rows" : [
     [
       {
@@ -1509,7 +1509,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>validar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>validar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1537,7 +1537,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "readOnly" : {
                           "type" : "constant",
@@ -1579,6 +1579,66 @@
                       "reference" : "09bdb445-9720-43bd-b227-9d362d220693",
                       "hasValidationError" : false,
                       "id" : "pbTextarea"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 250
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInputAprobar.solicitudApoyoEducativoInput.motivoAprobadaArtistica"
+                        }
+                      },
+                      "reference" : "96bf4751-51f9-45ad-90ee-7b6b19e52d2e",
+                      "hasValidationError" : false,
+                      "id" : "customCustomTextAreaLimit"
                     }
                   ]
                 ]

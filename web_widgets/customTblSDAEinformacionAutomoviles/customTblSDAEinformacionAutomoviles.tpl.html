@@ -27,26 +27,17 @@
                     <label class="moneda-display2">$</label><input class="form-control moneda-display2-input" max="99999999" ng-model="row.costoAproximado" ng-disabled="!properties.editar" type="number" pattern="[0-9]*" data-politespace data-grouplength="3" data-delimiter="," data-reverse>
                 </td>
                 <td>
-                    <!--<select class="form-control" ng-model="row.catSituacionAuto_id" ng-disabled="!properties.editar">-->
-                    <!--    <option value="">Seleccionar</option>-->
-                    <!--    <option ng-repeat="option in properties.lstSituacionAuto.data" ng-value="option.persistenceId">{{option.descripcion}}</option>-->
-                    <!--</select>-->
-                    
                     <select class="form-control" ng-disabled="!properties.editar" name="" id="" ng-model="row.catSituacionAuto_id" placeholder="Selecciona una opción">
                         <option value="">Seleccionar...</option>
                         <option ng-repeat="option in properties.lstSituacionAuto.data" value="{{option.persistenceId}}">{{option.descripcion}}</option>
                     </select>
                 </td>
                 <td ng-if="properties.editar">
-                    <button class="btn btn-link" ng-click="removeItem(row)" ng-if="($index > 0) || (properties.content.length > 1)">
+                    <button class="btn btn-link" ng-click="removeItem(row)" >
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>
-                
             </tr>
         </tbody>
     </table>
 </div>
-
-<!--<pre>{{ properties.content | json }}</pre>-->
-
