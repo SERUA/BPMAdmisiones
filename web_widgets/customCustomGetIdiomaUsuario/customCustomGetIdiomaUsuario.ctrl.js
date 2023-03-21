@@ -1,7 +1,6 @@
 function($scope, $http) {
 
     $scope.getCommentList = function() {
-        debugger;
         var req = {
             method: "GET",
             url: "../API/extension/AnahuacINVPRestGet?url=getIdiomaUsuario&p=0&c=10&username=" + $scope.properties.reload

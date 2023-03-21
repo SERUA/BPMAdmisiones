@@ -201,8 +201,12 @@ function($scope, $http) {
             })
             .error(function(data, status) {
 
-                if(data.error === "test_end"){
-                    mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                if(data){
+                    if(data.error === "test_end"){
+                        mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                    } else {
+                        mensaje = "The connection was lost, please try again."
+                    }
                 } else {
                     mensaje = "The connection was lost, please try again."
                 }
@@ -280,11 +284,16 @@ function($scope, $http) {
             .error(function(data, status) {
                 let mensaje = "";
 
-                if(data.error === "test_end"){
-                    mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                if(data){
+                    if(data.error === "test_end"){
+                        mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                    } else {
+                        mensaje = "The connection was lost, please try again."
+                    }
                 } else {
                     mensaje = "The connection was lost, please try again."
                 }
+
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',

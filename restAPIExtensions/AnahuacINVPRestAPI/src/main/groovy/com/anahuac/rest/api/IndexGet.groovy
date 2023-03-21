@@ -211,17 +211,26 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
-			
+			case "getTerminoPrueba":
+				String username =request.getParameter "username"
+				result = new LoginSesionesDAO().getTerminoPrueba(username)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 			case "getcelularusuariotemporal":
-			String username =request.getParameter "username"
-			result = new LoginSesionesDAO().getcelularusuariotemporal(username)
-			responseBuilder.withMediaType("application/json")
-			if (result.isSuccess()) {
-				return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-			}else {
-				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-			}
-			break;
+				String username =request.getParameter "username"
+				result = new LoginSesionesDAO().getcelularusuariotemporal(username)
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 			}
 		}catch (Exception e) {
 			e.printStackTrace()

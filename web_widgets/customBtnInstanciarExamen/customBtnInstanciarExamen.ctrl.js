@@ -42,9 +42,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $http.get(url).success(function(_success){
             if(_success[0] === true){
                 startProcess();
+                // getTerminoPrueba(_username);
             } else {
                 if($scope.properties.idioma === "ESP"){
-                    swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen", "error");
                 } else {
                     swal("Error", "The entry tolerance time for your exam has been exceeded", "error");
                 }
@@ -58,13 +59,26 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }
             } else {
                 if($scope.properties.idioma === "ESP"){
-                    swal("Error", "Se ha excedido el timepo de tolerancia de entrada a tu examen", "error");
+                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen", "error");
                 } else {
                     swal("Error", "The entry tolerance time for your exam has been exceeded", "error");
                 }
             }
         });
     }
+
+    // function getTerminoPrueba(_username){
+
+    //     let url = "../API/extension/AnahuacINVPRestGet?url=getTerminoPrueba&p=0&c=100&username=" + _username 
+
+    //     $http.get(url).success(function(data){
+    //         $scope.properties.dataToSend.terminarExamenInput = data[0];
+    //         startProcess();
+    //     }).error(function(data){
+    //         swal("Error", "Error al obtener la información, intente de nuevo ams tarde ", "error");
+    //     });
+
+    // }
 
     function removeFromCollection() {
         if ($scope.properties.collectionToModify) {

@@ -10,6 +10,8 @@ import java.text.SimpleDateFormat
 
 import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.IdentityAPI
+import org.bonitasoft.engine.bpm.flownode.ActivityInstance
+import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo
 import org.bonitasoft.engine.identity.ContactDataCreator
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserCreator
@@ -545,7 +547,6 @@ class UsuariosDAO {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 					case "id_sesion":
-						errorlog += "prue.sesion_pid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -555,7 +556,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 					break;
 					case "idBpm,idbanner":
-						errorlog += "creg.caseid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -566,7 +566,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "nombre":
-						errorlog += "ses.nombre"
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -579,7 +578,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Id Banner":
-						errorlog += "dets.idbanner "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -589,7 +587,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "uni":
-						errorlog += "ccam.descripcion "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -599,7 +596,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "telefono,celular,correo":
-						errorlog += "sdad.telefono "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -611,7 +607,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Celular":
-						errorlog += "sdad.telefonocelular "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -621,7 +616,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Correo":
-						errorlog += "creg.correoelectronico "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -631,7 +625,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Preguntas":
-						errorlog += "total_preguntas "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -641,7 +634,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Contestadas":
-						errorlog += "total_respuestas "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -651,7 +643,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "inicio,termino,tiempo":
-						errorlog += "extr.fechainicio "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -662,7 +653,6 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Término":
-						errorlog += "extr.fechafin "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -758,11 +748,11 @@ class UsuariosDAO {
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
 				String nombre = rs.getString("primernombre");
-				if(rs.getString("segundonombre").equals("") || rs.getString("segundonombre") == null) {
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
 					nombre += " " + rs.getString("segundonombre")
 				}
 				nombre += " " + rs.getString("apellidopaterno");
-				if(rs.getString("apellidomaterno").equals("") || rs.getString("apellidomaterno") == null) {
+				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
@@ -1285,11 +1275,11 @@ class UsuariosDAO {
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
 				String nombre = rs.getString("primernombre");
-				if(rs.getString("segundonombre").equals("") || rs.getString("segundonombre") == null) {
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
 					nombre += " " + rs.getString("segundonombre")
 				}
 				nombre += " " + rs.getString("apellidopaterno");
-				if(rs.getString("apellidomaterno").equals("") || rs.getString("apellidomaterno") == null) {
+				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
@@ -1604,17 +1594,43 @@ class UsuariosDAO {
 		Boolean hasTolerance = false;
 		List<Boolean> data = new ArrayList<Boolean>();
 		String errorInfo = "";
+		Boolean examenReiniciado = false;
 		
 		try {
 			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_TOLERANCIA_BY_USERNAME);
+			pstm = con.prepareStatement(Statements.GET_INVP_INSTANCIA);
 			pstm.setString(1, username);
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {
-				hasTolerance = rs.getBoolean("tienetolerancia");
+				examenReiniciado = rs.getBoolean("examenReiniciado");
 			} else {
-				hasTolerance = false;
+				examenReiniciado = false;
+			}
+			
+			if(examenReiniciado != true) {
+				closeCon = validarConexion();
+				pstm = con.prepareStatement(Statements.GET_TOLERANCIA_BY_USERNAME);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					hasTolerance = rs.getBoolean("tienetolerancia");
+				} else {
+					hasTolerance = false;
+				}
+			}
+			
+			if(hasTolerance != true || examenReiniciado == true) {
+				pstm = con.prepareStatement(Statements.GET_TOLERANCIATEMP_BY_USERNAME);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					hasTolerance = rs.getBoolean("tienetolerancia");
+				} else {
+					hasTolerance = false;
+				}
 			}
 			
 			data.add(hasTolerance);
@@ -1735,6 +1751,7 @@ class UsuariosDAO {
 		String errorLog = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
+		String idprueba = "";
 		
 		try {
 			def jsonSlurper = new JsonSlurper();
@@ -1754,7 +1771,6 @@ class UsuariosDAO {
 				}
 			}
 			
-			errorLog += " | lstGrupo.size(): " + lstGrupo.size().toString() + " | object.campus: " + object.campus.toString();
 			if (lstGrupo.size() > 0 && object.campus == null) {
 				where += " AND (";
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
@@ -1782,7 +1798,8 @@ class UsuariosDAO {
 							where += " WHERE "
 						}
 						where += " ( prue.sesion_pid = [valor] )";
-						where = where.replace("[valor]", filtro.get("valor"))
+						where = where.replace("[valor]", filtro.get("valor"));
+						idprueba = filtro.get("valor");
 					break;
 					case "idBpm,idbanner":
 						errorlog += "creg.caseid "
@@ -1969,7 +1986,7 @@ class UsuariosDAO {
 			List <AspiranteSesionCustom> rows = new ArrayList <AspiranteSesionCustom>();
 			closeCon = validarConexion();
 			
-			where += " ) OR (temp.username IS NOT NULL)";
+			where += " ) OR (temp.username IS NOT NULL  AND temp.idprueba = " + idprueba + ")";
 			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);
 			rs = pstm.executeQuery();
@@ -1987,11 +2004,11 @@ class UsuariosDAO {
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
 				String nombre = rs.getString("primernombre");
-				if(rs.getString("segundonombre").equals("") || rs.getString("segundonombre") == null) {
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
 					nombre += " " + rs.getString("segundonombre")
 				}
 				nombre += " " + rs.getString("apellidopaterno");
-				if(rs.getString("apellidomaterno").equals("") || rs.getString("apellidomaterno") == null) {
+				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
@@ -2028,7 +2045,6 @@ class UsuariosDAO {
 				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
 				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
-				
 				row.setIsTemporal(rs.getBoolean("istemporal"));
 				row.setTempentrada(rs.getString("horainiciosesion_temp"));
 				row.setTempsalida(rs.getString("horafinsesion_temp"));
@@ -2050,6 +2066,56 @@ class UsuariosDAO {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getUserHumanTask(Long caseid, String value, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog ="";
+		Boolean closeCon = false, processId = false;
+		try {
+			String username = "";
+			String password = "";
+			
+			List<ActivityInstance> activityInstances = [];
+			ProcessDeploymentInfo info;
+			Map<String, Serializable> datos = new HashMap<String, Serializable>();
+			List < Map < String, Serializable >> rows = new ArrayList < Map < String, Serializable >> ();
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login(username, password)
+			
+			//org.bonitasoft.engine.api.APIClient apiClient = context.getApiClient();
+			try {
+				activityInstances = apiClient.getProcessAPI().assignAndExecuteUserTask(caseid, caseid, datos)
+				
+				for(int i = 0; i< activityInstances?.size(); i++) {
+					datos = new HashMap<String, Serializable>();
+					datos.put("displayDescription", activityInstances[i]['displayDescription'] );
+					datos.put("executedBy", activityInstances[i]['executedBy'] );
+					datos.put("rootContainerId", activityInstances[i]['rootContainerId'] );
+					rows.add(datos);
+				}
+			} catch(Exception ex) {
+				errorLog += ex;
+			}
+			
+			resultado.setData(rows)
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
 		}
 		
 		return resultado;

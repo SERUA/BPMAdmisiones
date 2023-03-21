@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInicioINVP",
   "name" : "appInicioINVP",
-  "lastUpdate" : 1678840379422,
+  "lastUpdate" : 1679438414882,
   "rows" : [
     [
       {
@@ -169,8 +169,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -179,26 +179,48 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== 'principal'"
+                  "value" : "navigationVar !== 'aspirantesEnSesion'"
                 },
-                "content" : {
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Regresar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "info"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "navigationVar" : {
                   "type" : "variable",
-                  "value" : "lstFiltros"
+                  "value" : "navigationVar"
+                },
+                "newValue" : {
+                  "type" : "constant",
+                  "value" : "principal"
                 }
               },
-              "reference" : "2dd77a0b-6d99-43a2-b2b3-a9b1a554278c",
+              "reference" : "b2591a5a-dee7-40ca-91bc-067a340b6aaa",
               "hasValidationError" : false,
-              "id" : "customListFiltrosBloqueoCampusINVP"
-            }
-          ],
-          [
+              "id" : "customCustomBtnNavigationByVariable"
+            },
             {
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -219,7 +241,7 @@
                 },
                 "alignment" : {
                   "type" : "constant",
-                  "value" : "left"
+                  "value" : "right"
                 },
                 "buttonStyle" : {
                   "type" : "constant",
@@ -235,7 +257,7 @@
                 },
                 "url" : {
                   "type" : "interpolation",
-                  "value" : "../API/extension/AnahuacINVPRestAPI?url=getExcelFileAspirantes&p=0&c=10"
+                  "value" : "../API/extension/AnahuacINVPRestAPI?url=getExcelFileAspirantesTodos&p=0&c=10"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
@@ -285,6 +307,34 @@
               "reference" : "00fdb614-18e2-4fa9-9c3d-b62d993a5efa",
               "hasValidationError" : false,
               "id" : "customCustomBtnDownloadExcel"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "navigationVar !== 'principal'"
+                },
+                "content" : {
+                  "type" : "variable",
+                  "value" : "lstFiltros"
+                }
+              },
+              "reference" : "2dd77a0b-6d99-43a2-b2b3-a9b1a554278c",
+              "hasValidationError" : false,
+              "id" : "customListFiltrosBloqueoCampusINVP"
             }
           ],
           [

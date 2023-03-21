@@ -98,7 +98,7 @@ class LoginSesionesDAO {
 					row = new LoginSesion();
 					row.setNombre_sesion(rs.getString("nombresesion"));
 					row.setDescripcion(rs.getString("descripcionsesion"))
-					row.setNombre_prueba(rs.getString("nombre_prueba") + " (Temporal)");
+					row.setNombre_prueba("(Temporal)");
 					row.setId_prueba(rs.getLong("idprueba"));
 					try {
 						row.setAplicacion(rs.getString("fechainiciosesion"));
@@ -197,6 +197,7 @@ class LoginSesionesDAO {
 		Boolean closeCon = false;
 		String errorlog = "";
 		Boolean isTemporal = false;
+		Boolean examenReiniciado = false;
 		try {
 			
 			def jsonSlurper = new JsonSlurper();
@@ -211,43 +212,50 @@ class LoginSesionesDAO {
 			
 			if (rs.next()) {
 				isTemporal = rs.getBoolean("istemporal");
+				examenReiniciado = rs.getBoolean("examenreiniciado");
 				row = new HashMap<String,Object>();
 				Result checkBloqueado = new UsuariosDAO().checkBloqueado(object.username);
 				Boolean bloqueado = false;
 				Boolean tieneTolerancia = false;
 				
 				if(checkBloqueado.isSuccess()) {
+					errorlog += " | 1 ";
 					bloqueado = (Boolean) checkBloqueado.getData().get(0);
 					
 					if(bloqueado) {
+						errorlog += " | 2 ";
 						additional_data.add("block");
 						row.put("havesesion", true);
 					} else {
+						errorlog += " | 3 ";
 						Result checkTolerancia = new Result();
-						errorlog += " | Checando tolerancia para aspirante "
 						if(isTemporal == true) {
-							errorlog += " temporal "
+							errorlog += " | 4 ";
 							checkTolerancia = new UsuariosDAO().checkToleranciaTemp(object.username);
 						} else {
+							errorlog += " | 5 ";
 							checkTolerancia = new UsuariosDAO().checkTolerancia(object.username);
 						}
-						errorlog += " | Tolerancia revisada " + checkTolerancia.isSuccess().toString();
+						
 						if(checkTolerancia.isSuccess()) {
-							errorlog += " | tiene tolerancia registrada "
+							errorlog += " | 6 ";
 							tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
 						} else {
-							errorlog += " | NO tiene tolerancia registrada "
+							errorlog += " | 7 ";
 							throw new Exception("no_sesion_asignada");
 						}
 						
 						if(!tieneTolerancia) {
+							errorlog += " | 8 ";
 							additional_data.add("toler");
 							row.put("havesesion", true);
 						} else {
+							errorlog += " | 9 ";
 							row.put("havesesion", false);
 						}
 					}
 				} else {
+					errorlog += " | 10 ";
 					row.put("havesesion", false);
 				}
 				 
@@ -595,5 +603,81 @@ class LoginSesionesDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getSalidaPrueba(Long idsesion) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Map<String,Integer>> rows = new ArrayList<Map<String,Integer>>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_SESION_FECHA_SALIDA);
+			pstm.setLong(1, idsesion);
+			rs = pstm.executeQuery();
+			while (rs.next()) {
+				row = new HashMap<String,Integer>();
+				row.put("aplicacion_salida", rs.getString("aplicacion_salida"));
+				rows.add(row);
+			}
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getTerminoPrueba(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Long> rows = new ArrayList<Long>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				row = new HashMap<String,Integer>();
+				if(rs.getString("horafin_temp") != null) {
+					rows.add(rs.getTimestamp("horafin_temp").getTime());
+				} else {
+					rows.add(rs.getTimestamp("horafin").getTime());
+				}
+			}
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
 	}
 }

@@ -162,6 +162,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let url = "../API/extension/AnahuacINVPRestGet?url=bloquearAspiranteDef&p=0&c=100&username=" + _username;
 
         $http.get(url).success(function(_success){
+            debugger;
             if(_success[0]){
                 if(!$scope.terminadoexamen && $scope.contestopreguntas){
                     window.top.location.href = '/bonita/apps/aspiranteinvp/examen/';
@@ -188,6 +189,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function redirectIfNeeded() {
         let ipBonita = window.location.protocol + "//" + window.location.host;
         let url = ipBonita + $scope.properties.targetUrlOnSuccess;
+        debugger;
         window.top.location.href = url;
     }
     
@@ -450,14 +452,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if(data.data.length > 0){
                 var pos = data.data.length - 1;
                 var content = document.createElement('div');
-                let message  = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estas programado(a) para el día " + data.data[pos].aplicacion + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>";
+                let message  = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + data.data[pos].aplicacion + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>";
                 content.innerHTML = message;
                 
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
                     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                    html:"<p style='text-align: justify;'>No existe una sesión activa para este usuario, estas programado(a) para el día " + data.data[pos].aplicacion + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>", showCloseButton: false
+                    html:"<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + data.data[pos].aplicacion + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>", showCloseButton: false
                 });
             }else{
                 Swal.fire({

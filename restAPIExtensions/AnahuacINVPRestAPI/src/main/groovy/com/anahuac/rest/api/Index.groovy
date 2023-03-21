@@ -176,6 +176,7 @@ class Index implements RestApiController {
 
 				contract.put("idUsuarioInput",Long.valueOf(object.idUsuarioInput))
 				instanciaINVPInput.put("username", object.instanciaINVPInput.username);
+				contract.put("terminarExamenInput", object.terminarExamenInput);
 				contract.put("instanciaINVPInput", instanciaINVPInput);
 				errorlog+="[5] "
 				Long processId = context.getApiClient().getProcessAPI().getLatestProcessDefinitionId("Examen INVP");
@@ -388,6 +389,21 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "getExcelFileAspirantesTodos":
+				try{
+					result =  cDAO.getExcelFileAspirantesTodos(jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
+			
 			case "getExcelFileAspirantesTemporales":
 				try{
 					result =  cDAO.getExcelFileAspirantesTemporales(jsonData, context);

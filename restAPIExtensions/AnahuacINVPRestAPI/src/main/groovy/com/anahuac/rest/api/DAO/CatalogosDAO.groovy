@@ -594,6 +594,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setHoraTermino(rs.getString("salida_prueba"));
 				row.setEstatus(rs.getString("estatus"));
 				row.setAspirantes(rs.getString("registrados_prueba"));
+				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				
 				rows.add(row);
 			}
@@ -844,6 +845,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setHoraTermino(rs.getString("salida_prueba"));
 				row.setEstatus(rs.getString("estatus"));
 				row.setAspirantes(rs.getString("registrados_prueba"));
+				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				
 				rows.add(row);
 			}
@@ -944,6 +946,9 @@ public Result getCatPreguntas(String jsonData) {
 			Cell header8 = headersRow.createCell(8);
 			header8.setCellValue("Aspirantes");
 			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(9);
+			header9.setCellValue("Aspirantes no registrados");
+			header9.setCellStyle(style);
 			
 			for (int i = 0; i < lstParams.size(); ++i) {
 				Row row = sheet.createRow(++rowCount);
@@ -965,6 +970,8 @@ public Result getCatPreguntas(String jsonData) {
 				cell7.setCellValue(lstParams[i].estatus);
 				Cell cell8 = row.createCell(8);
 				cell8.setCellValue(lstParams[i].aspirantes);
+				Cell cell9 = row.createCell(9);
+				cell9.setCellValue(lstParams[i].aspirantesNoRegistrados);
 			}
 
 
@@ -1071,6 +1078,9 @@ public Result getCatPreguntas(String jsonData) {
 			Cell header8 = headersRow.createCell(8);
 			header8.setCellValue("Aspirantes");
 			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(9);
+			header9.setCellValue("Aspirantes no registrados");
+			header9.setCellStyle(style);
 			
 			for (int i = 0; i < lstParams.size(); ++i) {
 				Row row = sheet.createRow(++rowCount);
@@ -1092,6 +1102,8 @@ public Result getCatPreguntas(String jsonData) {
 				cell7.setCellValue(lstParams[i].estatus);
 				Cell cell8 = row.createCell(8);
 				cell8.setCellValue(lstParams[i].aspirantes);
+				Cell cell9 = row.createCell(9);
+				cell9.setCellValue(lstParams[i].aspirantesNoRegistrados);
 			}
 
 
@@ -1173,6 +1185,158 @@ public Result getCatPreguntas(String jsonData) {
 			Row headersRow = sheet.createRow(++rowCount);
 			
 			Cell header0 = headersRow.createCell(0);
+			header0.setCellValue("IDSIU");
+			header0.setCellStyle(style);
+			Cell header1 = headersRow.createCell(1);
+			header1.setCellValue("Id banner");
+			header1.setCellStyle(style);
+			Cell header2 = headersRow.createCell(2);
+			header2.setCellValue("Nombre");
+			header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(3);
+			header3.setCellValue("Uni.");
+			header3.setCellStyle(style);
+			Cell header4 = headersRow.createCell(4);
+			header4.setCellValue("Teléfono");
+			header4.setCellStyle(style);
+			Cell header5 = headersRow.createCell(5);
+			header5.setCellValue("Celular");
+			header5.setCellStyle(style);
+			Cell header6 = headersRow.createCell(6);
+			header6.setCellValue("Correo");
+			header6.setCellStyle(style);
+			Cell header7 = headersRow.createCell(7);
+			header7.setCellValue("Preguntas");
+			header7.setCellStyle(style);
+			Cell header8 = headersRow.createCell(8);
+			header8.setCellValue("Contestadas");
+			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(9);
+			header9.setCellValue("Inicio");
+			header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(10);
+			header10.setCellValue("Término");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(11);
+			header11.setCellValue("Tiempo");
+			header11.setCellStyle(style);
+			Cell header12 = headersRow.createCell(12);
+			header12.setCellValue("Estatus");
+			header12.setCellStyle(style);
+			Cell header13 = headersRow.createCell(13);
+			header13.setCellValue("Idioma");
+			header13.setCellStyle(style);
+			
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+				Cell cell0 = row.createCell(0);
+				cell0.setCellValue(lstParams[i].idBpm);
+				Cell cell1 = row.createCell(1);
+				cell1.setCellValue(!lstParams[i].idBanner.equals("") ? lstParams[i].idBanner : "N/A");
+				Cell cell2 = row.createCell(2);
+				cell2.setCellValue(lstParams[i].nombre);
+				Cell cell3 = row.createCell(3);
+				cell3.setCellValue(lstParams[i].uni);
+				Cell cell4 = row.createCell(4);
+				cell4.setCellValue(!lstParams[i].telefono.equals("") ? lstParams[i].telefono : "N/A");
+				Cell cell5 = row.createCell(5);
+				cell5.setCellValue(lstParams[i].celular);
+				Cell cell6 = row.createCell(6);
+				cell6.setCellValue(lstParams[i].correoElectronico);
+				Cell cell7 = row.createCell(7);
+				cell7.setCellValue(lstParams[i].preguntas);
+				Cell cell8 = row.createCell(8);
+				cell8.setCellValue(lstParams[i].contestadas);
+				Cell cell9 = row.createCell(9);
+				cell9.setCellValue(lstParams[i].inicio);
+				Cell cell10 = row.createCell(10);
+				cell10.setCellValue(lstParams[i].termino);
+				Cell cell11 = row.createCell(11);
+				cell11.setCellValue(lstParams[i].tiempo);
+				Cell cell12 = row.createCell(12);
+				cell12.setCellValue(lstParams[i].estatusINVP);
+				Cell cell13 = row.createCell(13);
+				cell13.setCellValue(lstParams[i].idioma);
+			}
+
+			for (int i = 0; i <= (20); ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			FileOutputStream outputStream = new FileOutputStream("Report.xls");
+			workbook.write(outputStream);
+
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(encodeFileToBase64Binary("Report.xls"));
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			e.printStackTrace();
+			
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
+	
+	public Result getExcelFileAspirantesTodos(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		List < Object > lstParams;
+		String errorlog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			Result dataResult = new Result();
+			int rowCount = 0;
+
+			String type = "Aspirantes";
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+
+			dataResult = new UsuariosDAO().getAspirantesTodos(jsonData, context);
+
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontro datos");
+			}
+			
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue("ASPIRANTES CON SESIÓN");
+			Cell cellFecha = titleRow.createCell(4);
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String sDate = formatter.format(date);
+			Cell cellFechaData = titleRow.createCell(5);
+			cellFechaData.setCellValue(sDate);
+			Row blank = sheet.createRow(++rowCount);
+			Cell cellusuario = blank.createCell(4);
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = blank.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			
+			Cell header0 = headersRow.createCell(0);
 			header0.setCellValue("No.");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
@@ -1220,13 +1384,13 @@ public Result getCatPreguntas(String jsonData) {
 				Cell cell0 = row.createCell(0);
 				cell0.setCellValue(lstParams[i].idBpm);
 				Cell cell1 = row.createCell(1);
-				cell1.setCellValue(lstParams[i].idBanner);
+				cell1.setCellValue((!lstParams[i].idBanner.equals("") && lstParams[i].idBanner != null )? lstParams[i].idBanner : "N/A");
 				Cell cell2 = row.createCell(2);
 				cell2.setCellValue(lstParams[i].nombre);
 				Cell cell3 = row.createCell(3);
 				cell3.setCellValue(lstParams[i].uni);
 				Cell cell4 = row.createCell(4);
-				cell4.setCellValue(lstParams[i].telefono);
+				cell4.setCellValue((!lstParams[i].telefono.equals("") && lstParams[i].telefono != null)? lstParams[i].telefono : "N/A");
 				Cell cell5 = row.createCell(5);
 				cell5.setCellValue(lstParams[i].celular);
 				Cell cell6 = row.createCell(6);
@@ -1637,6 +1801,8 @@ public Result getCatPreguntas(String jsonData) {
 			pstm.setLong(3, object.idprueba);
 			pstm.executeUpdate();
 			
+//			UPDATE  InfoAspiranteTemporal SET toleranciaentradasesion = 5000, toleranciasalidasesion = 5000 WHERE idprueba =
+			
 			con.commit();
 			
 			resultado.setSuccess(true);
@@ -1761,7 +1927,12 @@ public Result getCatPreguntas(String jsonData) {
 				pstm.setString(3, object.salida);
 				pstm.setInt(4, object.toleranciaminutos);
 				pstm.setInt(5, object.toleranciasalidaminutos);
-				pstm.setLong(6, object.idprueba);
+//				pstm.setLong(6, object.idprueba);
+				if(object.idprueba == null) {
+					pstm.setNull(6, 0);
+				} else {
+					pstm.setLong(6, object.idprueba);
+				}
 				pstm.setString(7, object.username);
 			} else {
 				pstm = con.prepareStatement(Statements.INSERT_NUEVA_CONFIG_USUARIO);
@@ -1771,7 +1942,12 @@ public Result getCatPreguntas(String jsonData) {
 				pstm.setString(4, object.salida);
 				pstm.setInt(5, object.toleranciaminutos);
 				pstm.setInt(6, object.toleranciasalidaminutos);
-				pstm.setLong(7, object.idprueba);
+				if(object.idprueba == null) {
+					pstm.setNull(7, 0);
+				} else {
+					pstm.setLong(7, object.idprueba);
+				}
+				
 			}
 			
 			pstm.executeUpdate();

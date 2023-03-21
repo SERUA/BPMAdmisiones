@@ -29,6 +29,7 @@ function ($scope, $http) {
     }
     
     function getExamenTerminado(_username){
+        debugger;
         let url = "../API/extension/AnahuacINVPRestGet?url=getExamenTerminado&p=0&c=100&username=" + _username;
         $http.get(url).success(function(_success){
             debugger;

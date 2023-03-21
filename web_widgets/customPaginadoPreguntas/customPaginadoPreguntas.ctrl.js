@@ -201,8 +201,12 @@ function($scope, $http) {
             .error(function(data, status) {
                 let mensaje = "";
 
-                if(data.error === "test_end"){
-                    mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
+                if(data){
+                    if(data.error === "test_end"){
+                        mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
+                    } else {
+                        mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                    }
                 } else {
                     mensaje = "Se perdió la conexión, por favor intenta de nuevo."
                 }
@@ -240,11 +244,16 @@ function($scope, $http) {
             .error(function(data, status) {
                 let mensaje = "";
 
-                if(data.error === "test_end"){
-                    mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
+                if(data){
+                    if(data.error === "test_end"){
+                        mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
+                    } else {
+                        mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                    }
                 } else {
                     mensaje = "Se perdió la conexión, por favor intenta de nuevo."
                 }
+                
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
