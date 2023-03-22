@@ -4049,6 +4049,71 @@ class UsuariosDAO {
 		return resultado
 	}
 	
+	public Result getUserFoto(RestAPIContext context,String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs= pstm.executeQuery();
+			if(rs.next()) {
+				SSA = rs.getString("valor")
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_USER_FOTO);
+			pstm.setString(1, object.idbanner);
+			rs = pstm.executeQuery();
+			
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+				
+				if(!bonitaRolFilter(context,rs.getString("grupobonita"))) {
+					columns.put("Error", "el aspirante no se encuentra");
+				}else if(rs.getString("aceptado") =="t" || rs.getString("estatussolicitud") == "Resultado final del comité"){
+					for (int i = 1; i <= columnCount; i++) {
+						
+						if(metaData.getColumnLabel(i).toLowerCase().equals("urlfoto")) {
+							columns.put("fotografiab64",  base64Imagen((rs.getString("urlfoto") + SSA)) );
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("primernombre")) {
+							String nombre = rs.getString(i)+" "+(rs.getString("segundonombre")=="null"?"":rs.getString("segundonombre")+" ") +rs.getString("apellidopaterno")+""+rs.getString("apellidomaterno");
+							
+						}else if(!metaData.getColumnLabel(i).toLowerCase().equals("aceptado") && !metaData.getColumnLabel(i).toLowerCase().equals("apellidopaterno") && !metaData.getColumnLabel(i).toLowerCase().equals("apellidomaterno") && !metaData.getColumnLabel(i).toLowerCase().equals("segundonombre") ){
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						}
+	
+					}
+				}else {
+					columns.put("Error", "El aspirante se encuentra en otra etapa del proceso");
+				}			
+				rows.add(columns);
+			}
+		
+			
+			//String log = bonitaRolFilter(context);
+			
+			resultado.setSuccess(true)
+			resultado.setData(rows)
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("500 Internal Server Error")
+			resultado.setError_info(e.getMessage())
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	
 	public Result getB64File(String jsonData) {
 		Boolean closeCon = false;
@@ -4138,6 +4203,19 @@ class UsuariosDAO {
 				b64 = ( "data:image/jfif;base64, "+(new FileDownload().b64Url(url)));
 			}
 		return  b64
+	}
+	
+	public Boolean bonitaRolFilter(RestAPIContext context,String groupName) {
+		Boolean valid = false; 
+		List<UserMembership> uMemberships=context.apiClient.identityAPI.getUserMemberships(context.apiSession.userId, 0, 100, UserMembershipCriterion.ROLE_NAME_ASC);
+		uMemberships.each{
+			it ->
+			if(it.groupName.toLowerCase().equals(groupName.toLowerCase()) ) {
+				valid=true
+			}
+		}
+		
+		return valid;
 	}
 
 }

@@ -2035,6 +2035,10 @@ class SecurityFilter {
 			}
 			break;
 			
+		case "getUserFoto":
+		allow=bonitaRolFilter(context,"TI SERUA")
+			if(allow){break;}
+			break;
 		}
 		return allow;
 	}
