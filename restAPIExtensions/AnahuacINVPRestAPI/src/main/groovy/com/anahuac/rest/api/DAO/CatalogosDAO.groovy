@@ -1801,7 +1801,12 @@ public Result getCatPreguntas(String jsonData) {
 			pstm.setLong(3, object.idprueba);
 			pstm.executeUpdate();
 			
-//			UPDATE  InfoAspiranteTemporal SET toleranciaentradasesion = 5000, toleranciasalidasesion = 5000 WHERE idprueba =
+			//Actualizar a tidis en la sesión
+			pstm = con.prepareStatement(Statements.UPDATE_INVP_TOLERANCIA_TEMPORALES_SESION);
+			pstm.setInt(1, Integer.valueOf(object.toleranciaminutos));
+			pstm.setInt(2, Integer.valueOf(object.toleranciasalidaminutos));
+			pstm.setLong(3, object.idprueba);
+			pstm.executeUpdate();
 			
 			con.commit();
 			

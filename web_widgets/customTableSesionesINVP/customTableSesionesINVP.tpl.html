@@ -223,11 +223,11 @@
                         </tr>
                         <tr ng-repeat="row in aspirantes" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                             <td class="text-center">
-                                <span ng-if="row.isTemporal" class="glyphicon glyphicon-user"></span>
+                                <span ng-if="row.isTemporal" class="glyphicon glyphicon-user color-purple"></span>
                                 <span ng-if="!row.isTemporal" class="glyphicon glyphicon-user color-orange"></span>
                             </td>
                             <td>
-                                <b>{{row.idBanner}}</b><br>
+                                <b>{{row.idBanner ? row.idBanner : "N/A"}}</b><br>
                                 {{row.idBpm}} 
                             </td>
                             <td>{{row.nombre}}</td>
@@ -276,6 +276,10 @@
                                 </button>
                                 <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                                     <span class="glyphicon glyphicon-lock"></span>
+                                </button>
+                                
+                                <button ng-if="row.estatusINVP === 'Examen reactivado'" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
+                                    <span class="glyphicon glyphicon-star"></span>
                                 </button>
                             </td>
                         </tr>
@@ -462,6 +466,41 @@
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" ng-click="insertUpdateConfiguracionSesion()">Guardar</button>
         </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalVerReag">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Datos de reagendación de sesión</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-6"> 
+                        Fecha: <label>{{selectedAspirante.tempfecha}}</label>
+                    </div>
+                    <div class="col-xs-6"> 
+                        Hr. Inicio:<label>{{selectedAspirante.tempentrada}}</label>
+                    </div>
+                    <div class="col-xs-6"> 
+                        Hr.fin: <label>{{selectedAspirante.tempsalida}}</label>
+                    </div>
+                    <div class="col-xs-6"> 
+                        Tolerancia entrada: <label>{{selectedAspirante.temptoleranciaentrada}} minutos</label>
+                    </div>
+                    <div class="col-xs-6"> 
+                        Tolerancia salida: <label>{{selectedAspirante.temptoleranciaSalida}} minutos</label>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+            </div>
         </div>
     </div>
 </div>

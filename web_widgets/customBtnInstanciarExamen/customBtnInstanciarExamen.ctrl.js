@@ -12,8 +12,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
-            // startProcess();
-            checkTolerancia($scope.properties.userData.user_name);
+            startProcess();
+            // checkTolerancia($scope.properties.userData.user_name);
         } else if ($scope.properties.action === 'Submit task') {
             submitTask();
         } else if ($scope.properties.action === 'Open modal') {
@@ -269,7 +269,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         });
     }
 
-     function insertterminado() {
+    function insertterminado() {
         vm.busy = true;
 
         var data = {

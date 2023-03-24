@@ -67,8 +67,8 @@ class LoginSesionesDAO {
 			errorlog = " | campus_pid " + campus_pid + " | "
 			consulta = Statements.GET_SESION_LOGIN;
 			pstm = con.prepareStatement(consulta);
-			pstm.setString(1, object.aplicacion);
-			pstm.setString(2, object.username);
+//			pstm.setString(1, object.aplicacion);
+			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {

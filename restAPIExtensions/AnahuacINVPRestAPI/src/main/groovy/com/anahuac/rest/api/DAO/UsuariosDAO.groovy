@@ -1,5 +1,7 @@
 package com.anahuac.rest.api.DAO
 
+import static org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion.DEFAULT
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -10,15 +12,20 @@ import java.text.SimpleDateFormat
 
 import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.IdentityAPI
+import org.bonitasoft.engine.api.ProcessAPI
 import org.bonitasoft.engine.bpm.flownode.ActivityInstance
+import org.bonitasoft.engine.bpm.flownode.TaskInstance
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo
+import org.bonitasoft.engine.exception.SearchException
 import org.bonitasoft.engine.identity.ContactDataCreator
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserCreator
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
+import org.bonitasoft.engine.identity.UserNotFoundException
 import org.bonitasoft.engine.identity.UserUpdater
 import org.bonitasoft.web.extension.rest.RestAPIContext
+
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -141,10 +148,7 @@ class UsuariosDAO {
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
 			creator.setProfessionalContactData(proContactDataCreator);
 			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
-			apiClient.login(username, password)
-			error_log = error_log + " | "+apiClient.login(username, password);
-			error_log = error_log + " | apiClient.login(username, password)";
-			
+			apiClient.login(username, password);
 			closeCon = validarConexion();
 			
 				try {
@@ -1595,6 +1599,7 @@ class UsuariosDAO {
 		List<Boolean> data = new ArrayList<Boolean>();
 		String errorInfo = "";
 		Boolean examenReiniciado = false;
+		Boolean puedeentrar = false;
 		
 		try {
 			closeCon = validarConexion();
@@ -1616,8 +1621,10 @@ class UsuariosDAO {
 				
 				if(rs.next()) {
 					hasTolerance = rs.getBoolean("tienetolerancia");
+//					puedeentrar =  rs.getBoolean("puedeentrar");
 				} else {
 					hasTolerance = false;
+					puedeentrar = false;
 				}
 			}
 			
@@ -1628,12 +1635,15 @@ class UsuariosDAO {
 				
 				if(rs.next()) {
 					hasTolerance = rs.getBoolean("tienetolerancia");
+//					puedeentrar = rs.getBoolean("tienetolerancia");
 				} else {
 					hasTolerance = false;
+//					puedeentrar = false;
 				}
 			}
 			
 			data.add(hasTolerance);
+//			data.add(puedeentrar);
 			resultado.setData(data);
 			resultado.setSuccess(true);
 			resultado.setError_info(errorLog);
@@ -1671,6 +1681,7 @@ class UsuariosDAO {
 			}
 			
 			data.add(hasTolerance);
+//			data.add(hasTolerance);//Para pued eentrar 
 			resultado.setData(data);
 			resultado.setSuccess(true);
 			resultado.setError_info(errorLog);
@@ -2050,7 +2061,8 @@ class UsuariosDAO {
 				row.setTempsalida(rs.getString("horafinsesion_temp"));
 				row.setTempfecha(rs.getString("fechainiciosesion_temp"));
 				row.setTempprueba(rs.getString("nombre__temp"));
-				
+				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"))
+				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
 				rows.add(row);
 			}
 			
@@ -2071,51 +2083,142 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result getUserHumanTask(Long caseid, String value, RestAPIContext context) {
+	public Result terminarTodos(Long caseid, RestAPIContext context) {
 		Result resultado = new Result();
-		String errorLog ="";
+		String errorLog = "";
 		Boolean closeCon = false, processId = false;
+		
 		try {
-			String username = "";
-			String password = "";
-			
-			List<ActivityInstance> activityInstances = [];
-			ProcessDeploymentInfo info;
-			Map<String, Serializable> datos = new HashMap<String, Serializable>();
-			List < Map < String, Serializable >> rows = new ArrayList < Map < String, Serializable >> ();
-			
-			/*-------------------------------------------------------------*/
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login(username, password)
-			
-			//org.bonitasoft.engine.api.APIClient apiClient = context.getApiClient();
-			try {
-				activityInstances = apiClient.getProcessAPI().assignAndExecuteUserTask(caseid, caseid, datos)
+			AspiranteSesionCustom row = new AspiranteSesionCustom();
+			List <?> rows = new ArrayList <?>();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_USUARIOS_A_TERMINAR_BY_IDSESION);
+			pstm.setLong(1, caseid);
+			pstm.setLong(2, caseid);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				row = new AspiranteSesionCustom();
+				row.setCaseidINVP(rs.getString("caseidinvp"));
+				row.setEstatusINVP(rs.getString("estatusinvp"));
+				row.setCorreoElectronico(rs.getString("correoelectronico"));
+				ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+				IdentityAPI identityAPI =  context.getApiClient().getIdentityAPI();
+				User user = identityAPI.getUserByUserName(rs.getString("correoelectronico"));
+				List<TaskInstance> tasks = processAPI.getAssignedHumanTaskInstances(user.getId(), 0, 100, DEFAULT);
+				TaskInstance taskToExecute = null;
 				
-				for(int i = 0; i< activityInstances?.size(); i++) {
-					datos = new HashMap<String, Serializable>();
-					datos.put("displayDescription", activityInstances[i]['displayDescription'] );
-					datos.put("executedBy", activityInstances[i]['executedBy'] );
-					datos.put("rootContainerId", activityInstances[i]['rootContainerId'] );
-					rows.add(datos);
+				for(TaskInstance task: tasks) {
+					if(task.name.equals("Examen INVP")) {
+						taskToExecute = task;
+						Map<String, Object> contract = new LinkedHashMap<String, Object>();
+						Map<String, Object> instanciaINVPInput = new LinkedHashMap<String, Object>();
+						instanciaINVPInput.put("mensajeTermino", "");
+						contract.put("instanciaINVPInput", instanciaINVPInput);
+						contract.put("terminadoFInput", true);
+						contract.put("isTerminado", true);
+						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
+						
+						con.setAutoCommit(false);
+						pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
+						pstm.setBoolean(1, true);
+						pstm.setString(2, row.getCorreoElectronico());
+						pstm.executeUpdate();
+						
+						pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET terminado = ? WHERE username = ?");
+						pstm.setBoolean(1, true);
+						pstm.setString(2, row.getCorreoElectronico());
+						pstm.executeUpdate();
+						break;
+					}
 				}
-			} catch(Exception ex) {
-				errorLog += ex;
 			}
-			
-			resultado.setData(rows)
+
+			con.commit();
+			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
 			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result terminarUsuario(String username, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false, processId = false;
+		
+		try {
+			AspiranteSesionCustom row = new AspiranteSesionCustom();
+			List <?> rows = new ArrayList <?>();
+			
+			ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+			IdentityAPI identityAPI =  context.getApiClient().getIdentityAPI();
+			User user = identityAPI.getUserByUserName(username);
+			List<TaskInstance> tasks = processAPI.getAssignedHumanTaskInstances(user.getId(), 0, 100, DEFAULT);
+			TaskInstance taskToExecute = null;
+			if(tasks.size() > 0) {
+				Boolean terminar =  false, bloquear = false, encontrado = false;
+				
+				for(TaskInstance task: tasks) {
+					if(task.name.equals("Examen INVP")) {
+						encontrado = true;
+						taskToExecute = task;
+						Map<String, Object> contract = new LinkedHashMap<String, Object>();
+						Map<String, Object> instanciaINVPInput = new LinkedHashMap<String, Object>();
+						instanciaINVPInput.put("mensajeTermino", "");
+						contract.put("instanciaINVPInput", instanciaINVPInput);
+						contract.put("terminadoFInput", true);
+						contract.put("isTerminado", true);
+						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
+						break;
+					} else if (task.name.equals("Finalizar examen")){
+						encontrado = true;
+						Map<String, Object> contract = new LinkedHashMap<String, Object>();
+						contract.put("repetirExamenInput", true);
+						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
+						break;
+					}
+					
+					if(encontrado) {
+						con.setAutoCommit(false);
+						pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET usuariobloqueado = ? WHERE username = ?")
+						pstm.setBoolean(1, bloquear);
+						pstm.setString(2, row.getCorreoElectronico());
+						pstm.executeUpdate();
+						
+						pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET terminado = ? WHERE username = ?");
+						pstm.setBoolean(1, terminar);
+						pstm.setString(2, row.getCorreoElectronico());
+						pstm.executeUpdate();
+						con.commit();
+					}
+				}
+			} else {
+				throw new Exception("No se puede realizar esta acción para este usuario.");
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
 		}
 		
 		return resultado;

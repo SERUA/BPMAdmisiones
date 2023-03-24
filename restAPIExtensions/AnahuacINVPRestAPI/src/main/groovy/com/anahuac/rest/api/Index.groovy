@@ -219,6 +219,27 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "terminarTodos":
+				String idsesion = request.getParameter "idsesion"
+				result = new UsuariosDAO().terminarTodos(Long.valueOf(idsesion), context);
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+			case "terminarUsuario":
+				String username = request.getParameter "username"
+				result = new UsuariosDAO().terminarUsuario(username, context);
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				
 			case "getUsuariosBloqueados":
 				try{
 					result =  new UsuariosDAO().getUsuariosBloqueados(jsonData);

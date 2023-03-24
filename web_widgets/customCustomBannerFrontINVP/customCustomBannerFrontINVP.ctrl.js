@@ -9,7 +9,6 @@ function ($scope, modalService, $http) {
     }
     
     $scope.action = function(){
-        $scope.properties.idioma = localStorage.getItem("idioma");
         if($scope.properties.pageToken === "examen"){
             $scope.properties.accionModal = "logout";
             modalService.open($scope.properties.idModalLogout);
@@ -17,6 +16,31 @@ function ($scope, modalService, $http) {
             $scope.logout();
         }
     };
+    
+    function getIdiomaUsuario(){
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacINVPRestGet?url=getIdiomaUsuario&p=0&c=10&username=" + $scope.properties.userData.user_name
+        };
+
+        return $http(req).success(function(data, status) {
+            if(data.data.length === 0){
+                $scope.properties.idioma = "ESP";
+            } else if(data.data[0].idioma === null){
+                $scope.properties.idioma = "ESP";
+            } else{
+                $scope.properties.idioma = data.data[0].idioma;
+            }
+        }).error(function(data, status) {
+            console.log(data);
+        });
+    }
+
+    $scope.$watch("properties.userData", function(){
+        if($scope.properties.userData){
+            getIdiomaUsuario();
+        }
+    });
     
     $scope.logout = function(){
         let url = "	/bonita/logoutservice?redirect=false";
@@ -37,6 +61,7 @@ function ($scope, modalService, $http) {
             
         });
     }
+
     $.sessionTimeout({
         title: "Tu sesión ha expirado",
         message: "Su sesión está apunto de cerrarse.",
@@ -55,9 +80,7 @@ function ($scope, modalService, $http) {
     
     $scope.$watch("properties.cerrarSesion", function(){
         
-        if($scope.properties.pageToken === "examen" || $scope.properties.pageToken === "presentar"){
-            //window.top.location.href = "/bonita/apps/invplogin/login/"; 
-            debugger;   
+        if($scope.properties.pageToken === "examen" || $scope.properties.pageToken === "presentar"){  
             updateterminado();
         }else if($scope.properties.pageToken === "termino"){
             $scope.properties.cerrarSesion = false;
@@ -74,7 +97,24 @@ function ($scope, modalService, $http) {
     $scope.quitar = false;
     
     $scope.$watch("properties.pageToken", function(){
-        $scope.properties.idioma = localStorage.getItem("idioma");
+        // $scope.properties.idioma = localStorage.getItem("idioma");MARIO
+        if($scope.properties.pageToken === "presentar"){
+            $scope.msj = "Terminar / Finish";
+            $scope.quitar = true;
+        }else if($scope.properties.pageToken === "examen"){
+            if($scope.properties.idioma === "ESP"){
+                $scope.msj = "Terminar";    
+            }else if($scope.properties.idioma === "ENG"){
+                $scope.msj = "Finish";  
+            }
+            $scope.quitar = false;
+        }else if($scope.properties.pageToken === "termino"){
+            $scope.msj = "Ir a Admisiones / Go to Admisions";
+            $scope.quitar = true;
+        }
+    })
+
+    $scope.$watch("properties.idioma", function(){
         if($scope.properties.pageToken === "presentar"){
             $scope.msj = "Terminar / Finish";
             $scope.quitar = true;
@@ -92,8 +132,6 @@ function ($scope, modalService, $http) {
     })
     
     function updateterminado() {
-        debugger;
-
         var data = {
             "terminado": true,
             "username": $scope.properties.userData.user_name
@@ -107,8 +145,6 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-        //    window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
-            // executeTask();
             getTaskInfo();
         })
         .error(function(data, status) {
@@ -127,7 +163,6 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            debugger;
             executeTask(data[0].id);
         })
         .error(function(data, status) {
@@ -139,7 +174,6 @@ function ($scope, modalService, $http) {
     }
 
     function executeTask(_taskid) {
-        debugger;
         let dataToSend = {
             "isTerminado": true,
             "instanciaINVPInput": {
@@ -156,7 +190,6 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            debugger;
            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {

@@ -515,6 +515,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "toleranciasalidaminutos": ""
             }
             mostrarModal("modalReactivar");
+        } else if (_modal === "ver"){
+            mostrarModal("modalVerReag");
         } else {
             mostrarModal("modalTerminar");
         }

@@ -324,7 +324,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.dataFromError = undefined;
             $scope.properties.navigationVar = "formSuccess";
             blockUI.stop();
-            checkBloqueado();
+            redirectIfNeeded();
+            // checkBloqueado();
             // redirectIfNeeded();
         })
         .error(function(data, status) {

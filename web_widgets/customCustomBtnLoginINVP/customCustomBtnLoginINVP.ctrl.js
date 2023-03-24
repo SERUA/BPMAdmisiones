@@ -88,6 +88,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
+        debugger;
         $scope.showLoading();
         vm.busy = true;
         let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
@@ -101,6 +102,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
+            debugger;
             $scope.properties.dataFromSuccess = data;
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromError = undefined;
@@ -213,6 +215,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     //$scope.filtroaspirante = {"tarea":"Validar Información","lstFiltro":[{"columna":"NOMBRE,EMAIL,CURP","operador":"Que contengan","valor":$scope.properties.dataToSend,"type":"aspirantes_proceso_fechas","orderby":"","orientation":"DESC","limit":20,"offset":0,"usuario":"Mario.Icedo@soaswfactory.com","estatusSolicitud":"Aspirantes en proceso","aspirantes":"regular"}
     
     function checkSesion() {
+        debugger;
         $scope.showLoading();
         vm.busy = true;
 
@@ -238,6 +241,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
+            debugger;
             if($scope.properties.datosSolicitud === 0){
                 Swal.fire({
                     title: '<strong>Atención</strong>',
@@ -300,6 +304,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
      function checkSesionActiva() {
+        debugger;
         $scope.showLoading();
         vm.busy = true;
         let entro = false;
@@ -322,6 +327,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         if(data.additional_data[0]){
                             if(data.additional_data[0] === "toler"){
                                 mensaje = 'La hora de tolerancia de entrada al examen ya ha pasado. <br> Contacta a tu aplicador.';
+                            } else if (data.additional_data[0] ==="sesion_no_iniciada"){
+                                mensaje = 'Tu sesión aún no ha iniciado.';
                             }
                         }
                         entro = true;
@@ -340,6 +347,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 if(data.additional_data[0]){
                     if(data.additional_data[0] === "toler"){
                         mensaje = 'La hora de tolerancia de entrada al examen ya ha pasado. <br> Contacta a tu aplicador.';
+                    }  else if (data.additional_data[0] ==="sesion_no_iniciada"){
+                        mensaje = 'Tu sesión aún no ha iniciado.';
                     }
                 }
                 entro = true;
@@ -348,15 +357,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     icon: 'error',
                     html: mensaje, showCloseButton: false
                 });
-            } else{
+            } else {
                checkSesion();
             }
 
-            if(!entro){
-                checkSesion();
-            }
+            // if(!entro){
+            //     checkSesion();
+            // }
         })
         .error(function(data, status) {
+            debugger;
             console.error(data);
             Swal.fire({
                 title: '<strong>Atención</strong>',
@@ -389,32 +399,34 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
         return $http(req).success(function(data, status) {
             if(data.data[0].totalPreguntas === 0){
-              $scope.contestopreguntas = false;
-            }else{
+                $scope.contestopreguntas = false;
+            } else {
                 $scope.contestopreguntas = true;
             }
-                $scope.getTerminadoExamen();
-            }).error(function(data, status) {
-                console.log(data);
-            })
-            .finally(function() {
-                //blockUI.stop();
-            });
+            $scope.getTerminadoExamen();
+        }).error(function(data, status) {
+            console.log(data);
+        })
+        .finally(function() {
+            //blockUI.stop();
+        });
             
     }
 
 
     $scope.getTerminadoExamen = function() {
+        debugger;
         var req = {
             method: "GET",
             url: "../API/extension/AnahuacINVPRestGet?url=getTerminadoExamen&p=0&c=10&username=" + $scope.properties.dataToSend.username
         };
         return $http(req).success(function(data, status) {
+            debugger;
             if(data.data.length === 0){
                $scope.terminadoexamen = false;
-            }else if(data.data[0].terminado === false){
+            } else if(data.data[0].terminado === false){
                 $scope.terminadoexamen = false;
-            }else if(data.data[0].terminado === true){
+            } else if(data.data[0].terminado === true){
                 $scope.terminadoexamen = true;
                 Swal.fire({
                     title: '<strong>Atención</strong>',
@@ -426,16 +438,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
             checkSesionActiva();
 
-            }).error(function(data, status) {
-                console.log(data);
-            })
-            .finally(function() {
-                //blockUI.stop();
-            });
+        }).error(function(data, status) {
+            console.log(data);
+        })
+        .finally(function() {
+            //blockUI.stop();
+        });
             
     }
 
      function getDatosSesion() {
+        debugger;
         vm.busy = true;
 
         let data = {
@@ -449,6 +462,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
+            debugger;
             if(data.data.length > 0){
                 var pos = data.data.length - 1;
                 var content = document.createElement('div');

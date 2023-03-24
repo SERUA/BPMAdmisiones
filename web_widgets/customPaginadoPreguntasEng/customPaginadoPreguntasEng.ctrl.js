@@ -297,16 +297,21 @@ function($scope, $http) {
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
-                    //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
                     html:mensaje, showCloseButton: false
+                }).then((result)=>{
+                    debugger;
+                    if(data.error === "test_end"){
+                        window.location.reload();
+                    }
                 });
-                
+
                 // Swal.fire({
-                //     title: '<strong>Attention</strong>',
+                //     title: '<strong>Atención</strong>',
                 //     icon: 'error',
                 //     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                //     html:'The connection was lost, please try again.', showCloseButton: false
+                //     html:mensaje, showCloseButton: false
                 // });
+                
             })
             .finally(function() {
                 //vm.busy = false;
