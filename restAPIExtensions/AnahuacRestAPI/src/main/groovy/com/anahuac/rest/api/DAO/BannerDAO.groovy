@@ -1622,6 +1622,9 @@ class BannerDAO {
 							}else if(objLstAddresses.getPostalCode().equals("null") || objLstAddresses.getPostalCode().equals("") || objLstAddresses.getPostalCode().equals(null) || objLstAddresses.getPostalCode() == null ) {
 								isEliminadoRegla = true;
 								errorLog += "isEliminadoRegla5:"+(isEliminadoRegla)
+							}else if(objLstAddresses.getPostalCode().length() < 4 ) {
+								isEliminadoRegla = true;
+								errorLog += "isEliminadoRegla7:"+(isEliminadoRegla)
 							}else if( objRow.getTypeInd().equals("null") || objRow.getTypeInd().equals("") || objRow.getTypeInd().equals(null) || objRow.getTypeInd() == null || !objRow.getTypeInd().equals("H") ) {
 								isEliminadoRegla = true;
 								errorLog += "isEliminadoRegla6:"+(isEliminadoRegla)
