@@ -25,6 +25,9 @@
                         <div ng-switch-when="telefono" >
                             <input  class="form-control" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'number', 14, 99999999999999)">
                         </div>
+                        <div ng-switch-when="correoPersonal">
+                            <input class="form-control" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'email', 50, null)">
+                        </div>
                         <div ng-switch-default>
                             <input class="form-control" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'text', 30, null)">
                         </div>

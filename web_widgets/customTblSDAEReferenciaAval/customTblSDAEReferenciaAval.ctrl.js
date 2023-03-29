@@ -63,6 +63,14 @@ function PbTableCtrl($scope) {
             if ((e.target.value.length) >= limite || !valid || (fullNumber > _max)) {
                 e.preventDefault();  
             } 
+        } else if(_type === "email"){
+            if ((e.target.value.length) >= limite || !valid) {
+                let start = e.target.selectionStart;
+                let end = e.target.selectionEnd;
+                e.target.value = e.target.value.substring(0, start) + e.target.value.substring(end);
+                e.target.setSelectionRange(start + 1, start + 1);
+                e.preventDefault();  
+            } 
         } else {
             if ((e.target.value.length) >= limite || !valid) {
                 let start = e.target.selectionStart;
