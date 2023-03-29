@@ -591,4 +591,5 @@ class Statements {
 	public static final String UPDATE_SECCION_CONTACTO_EMERGENCIA = "UPDATE [TABLA] SET nombre = ?, parentesco = ?, telefono = ?, telefonoCelular = ? WHERE caseid = ? AND catparentesco_pid = ? AND persistenceid = ?";
 	
 	public static final String GET_CORREO_BY_CLAVE = "SELECT valor FROM CatConfiguracion WHERE clave = ?";
+	public static final String GET_USER_FOTO="SELECT sda.aceptado,ds.idbanner,sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre,sda.estatussolicitud,sda.fecharegistro,gestionescolar.nombre AS programa,campus.grupobonita,periodo.descripcion AS periodo,campus.descripcion AS campus FROM SOLICITUDDEADMISION AS sda INNER JOIN DETALLESOLICITUD AS ds ON ds.CASEID::INTEGER = sda.CASEID  INNER JOIN catgestionescolar AS gestionescolar ON gestionescolar.persistenceid=sda.catgestionescolar_pid LEFT JOIN catperiodo AS periodo ON periodo.persistenceid =sda.catperiodo_pid LEFT JOIN catcampus campus ON campus.persistenceid=sda.catcampus_pid WHERE ds.idbanner = ? LIMIT 1";
 }

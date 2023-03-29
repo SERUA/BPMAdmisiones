@@ -1889,12 +1889,17 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "getUserFoto":
+				allow=bonitaRolFilter(context,"ADMISIONES")
+				if(allow){break;}
+			break;
 		  case "sendEmailPlantilla":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
 		    }
 		    break;
+			
 		}
 		return allow;
 	}
