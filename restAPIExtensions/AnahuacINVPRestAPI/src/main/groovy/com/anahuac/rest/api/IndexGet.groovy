@@ -221,6 +221,21 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+			case "updateterminado":
+				try{
+					String username =request.getParameter "username"
+					String terminado =request.getParameter "terminado"
+					result =  new LoginSesionesDAO().updateterminadoGet(username, Boolean.valueOf(terminado));
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
 			case "getcelularusuariotemporal":
 				String username =request.getParameter "username"
 				result = new LoginSesionesDAO().getcelularusuariotemporal(username)

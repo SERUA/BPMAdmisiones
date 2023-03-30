@@ -555,8 +555,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.$watch("selectedSesionString", function(){
         $scope.selectedSesion = JSON.parse($scope.selectedSesionString);
         $scope.selectedSesion.username = $scope.selectedAspirante.correoElectronico;
-        $scope.selectedSesion.toleranciaminutos = $scope.selectedSesion.toleranciaminutos != 0 ? $scope.selectedSesion.toleranciaminutos : 5 ;
-        $scope.selectedSesion.toleranciasalidaminutos =  $scope.selectedSesion.toleranciasalidaminutos != 0 ?  $scope.selectedSesion.toleranciasalidaminutos : 5;
+        $scope.selectedSesion.toleranciaminutos = $scope.selectedSesion.toleranciaminutos != 0 ? $scope.selectedSesion.toleranciaminutos : 0 ;
+        $scope.selectedSesion.toleranciasalidaminutos =  $scope.selectedSesion.toleranciasalidaminutos != 0 ?  $scope.selectedSesion.toleranciasalidaminutos : 0;
     });
 
     $scope.insertUpdateUsuarioNuevaConfig = function(){

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "APPRegistroINVP",
   "name" : "APPRegistroINVP",
-  "lastUpdate" : 1679522687605,
+  "lastUpdate" : 1680131346478,
   "rows" : [
     [
       {
@@ -814,7 +814,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Ya estas registrados(a), para iniciar con tu examen, deberás esperar a que tu asesor te asigne una sesión con la fecha y la hora en que presentaras tu examen."
+                        "value" : "Ya estás registrado(a), para iniciar con tu examen, deberás esperar a que tu asesor te asigne una sesión con la fecha y la hora en que presentarás tu examen."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -5060,7 +5060,7 @@
         "    $data.strRegistro.error = true;\r",
         "    $data.campoError = \"A cuál de las universidades de la Red Anáhuac deseas ingresar\";\r",
         "    $data.erroMessage = \"El campo ¿A cuál de las universidades de la Red Anáhuac deseas ingresar? no debe estar vacío.\";\r",
-        "} else if($data.formInput.catSolicitudDeAdmisionInput.catGestionEscolar== null){\r",
+        "} else if($data.formInput.catSolicitudDeAdmisionInput.catGestionEscolar == null){\r",
         "    validado = false;\r",
         "    $data.strRegistro.error = true;\r",
         "    $data.campoError = \"Licenciatura que deseas estudiar\";\r",
@@ -5070,7 +5070,19 @@
         "    $data.strRegistro.error = true;\r",
         "    $data.campoError = \"Periodo de ingreso\";\r",
         "    $data.erroMessage = \"El campo Periodo de ingreso no debe estar vacío.\";\r",
-        "} else if($data.strRegistro.numeroContacto == null||$data.strRegistro.numeroContacto.trim() === \"\" || $data.strRegistro.numeroContacto.trim().length < 10 ){\r",
+        "}  \r",
+        "\r",
+        "\r",
+        "else if($data.formInput.catSolicitudDeAdmisionInput.catGestionEscolar.propedeutico && !$data.formInput.catSolicitudDeAdmisionInput.catPropedeutico){\r",
+        "    validado = false;\r",
+        "    $data.strRegistro.error = true;\r",
+        "    $data.campoError = \"Propedéutico\";\r",
+        "    $data.erroMessage = \"El campo Propedéutico no debe estar vacío.\";\r",
+        "}  \r",
+        " \r",
+        " \r",
+        "\r",
+        "else if($data.strRegistro.numeroContacto == null||$data.strRegistro.numeroContacto.trim() === \"\" || $data.strRegistro.numeroContacto.trim().length < 10 ){\r",
         "    validado = false;\r",
         "    $data.strRegistro.error = true;\r",
         "    $data.campoError = \"Teléfono celular\";\r",

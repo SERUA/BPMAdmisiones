@@ -210,11 +210,16 @@ function($scope, $http) {
                 } else {
                     mensaje = "Se perdió la conexión, por favor intenta de nuevo."
                 }
+                
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
                     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
                     html:mensaje, showCloseButton: false
+                }).then((result)=>{
+                    if(data.error === "test_end"){
+                        window.location.reload();
+                    }
                 });
                 /*$scope.properties.dataFromError = data;
                 $scope.properties.responseStatusCode = status;
@@ -243,7 +248,7 @@ function($scope, $http) {
             })
             .error(function(data, status) {
                 let mensaje = "";
-
+                let error = angular.copy(data.error);
                 if(data){
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
@@ -259,7 +264,6 @@ function($scope, $http) {
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    debugger;
                     if(data.error === "test_end"){
                         window.location.reload();
                     }

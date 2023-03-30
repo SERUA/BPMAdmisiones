@@ -42,6 +42,52 @@ class LoginSesionesDAO {
 		return retorno;
 	}
 
+	public Result login(String jsonData) {
+		Result resultado = new Result();
+		String errorlog = "";
+		Result resultadoSesionLogin = new Result();
+		Result resultadoSesionActiva = new Result();
+		Result resultadoBloqueado = new Result();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			errorlog += "|1";
+			resultadoSesionLogin = getSesionLogin(jsonData);
+			
+			if(!resultadoSesionLogin.isSuccess()) {
+				errorlog += "|2";
+				resultadoSesionActiva = getSesionActiva(jsonData);
+				if(!resultadoSesionActiva.isSuccess()) {
+					errorlog += "|3";
+					resultadoBloqueado = new UsuariosDAO().checkBloqueado(object.username);
+					if(!resultadoSesionActiva.isSuccess()) {
+						errorlog += "|4";
+						resultado = resultadoSesionActiva;
+					} else {
+						errorlog += "|7";
+						resultado = resultadoSesionActiva;
+						throw new Exception(resultadoSesionActiva.error);
+					}
+				} else {
+					errorlog += "|6";
+					resultado = resultadoSesionActiva;
+					throw new Exception(resultadoSesionActiva.error);
+				}
+			} else {
+				errorlog += "|5";
+				resultado = resultadoSesionLogin;
+				throw new Exception(resultadoSesionLogin.error);
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		}
+		
+		return resultado;
+	}
+	
 	public Result getSesionLogin(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -60,18 +106,17 @@ class LoginSesionesDAO {
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {
-				errorlog = " | " + errorlog + " | "
+				errorlog += "|1";
 				campus_pid = rs.getLong("catcampus_pid");
 			}
 			
-			errorlog = " | campus_pid " + campus_pid + " | "
 			consulta = Statements.GET_SESION_LOGIN;
 			pstm = con.prepareStatement(consulta);
-//			pstm.setString(1, object.aplicacion);
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
+				errorlog += "|2";
 				row = new LoginSesion()
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
@@ -79,8 +124,10 @@ class LoginSesionesDAO {
 				row.setNombre_prueba(rs.getString("nombre_prueba"));
 				row.setId_prueba(rs.getLong("id_prueba"));
 				try {
+					errorlog += "|3";
 					row.setAplicacion(rs.getString("aplicacion"));
 				} catch (Exception e) {
+					errorlog += "|4";
 					errorlog += e.getMessage();
 				}
 				row.setEntrada(rs.getString("entrada"));
@@ -88,6 +135,7 @@ class LoginSesionesDAO {
 				row.setUsername(rs.getString("username"));
 				rows.add(row);
 			} else {
+				errorlog += "|5";
 				consulta = Statements.GET_SESION_LOGIN_TEMPORAL;
 				pstm = con.prepareStatement(consulta);
 				pstm.setString(1, object.username);
@@ -95,14 +143,17 @@ class LoginSesionesDAO {
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
+					errorlog += "|6";
 					row = new LoginSesion();
 					row.setNombre_sesion(rs.getString("nombresesion"));
 					row.setDescripcion(rs.getString("descripcionsesion"))
 					row.setNombre_prueba("(Temporal)");
 					row.setId_prueba(rs.getLong("idprueba"));
 					try {
+						errorlog += "|7";
 						row.setAplicacion(rs.getString("fechainiciosesion"));
 					} catch (Exception e) {
+						errorlog += "|8";
 						errorlog += e.getMessage();
 					}
 					row.setEntrada(rs.getString("horainiciosesion"));
@@ -116,7 +167,6 @@ class LoginSesionesDAO {
 			resultado.setData(rows);
 			resultado.setError_info(errorlog);
 		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
@@ -198,8 +248,8 @@ class LoginSesionesDAO {
 		String errorlog = "";
 		Boolean isTemporal = false;
 		Boolean examenReiniciado = false;
+		
 		try {
-			
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
@@ -679,5 +729,46 @@ class LoginSesionesDAO {
 		}
 		
 		return resultado;
+	}
+	
+	public Result updateterminadoGet(String username, Boolean terminado) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		Boolean success = false;
+		String error_log = "";
+		String success_log = "";
+		Long resultReq = 0;
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN);
+			pstm.setBoolean(1, terminado);
+			pstm.setString(2, username);
+			pstm.executeUpdate();
+			con.commit();
+			
+			success = true;
+			if(resultReq > 0) {
+				error_log = resultReq + " Exito! query UPDATE_TERMINADO_EXAMEN"
+			} else {
+				error_log = resultReq + " Error! query UPDATE_TERMINADO_EXAMEN"
+			}
+			
+			resultado.setSuccess(true)
+			resultado.setError_info(errorlog);
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 }

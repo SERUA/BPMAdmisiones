@@ -515,7 +515,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "toleranciasalidaminutos": ""
             }
             mostrarModal("modalReactivar");
-        } else if (_modal === "ver"){
+        } else if(_modal === "reagen"){
+            $scope.aplicacion = "";
+            $scope.entrada = "";
+            $scope.salida = "";
+            $scope.configUsuario = {
+                "username": _aspirante.correoElectronico,
+                "aplicacion": "",
+                "entrada": "",
+                "salida": "",
+                "toleranciaminutos": "",
+                "toleranciasalidaminutos": ""
+            }
+            mostrarModal("modalReagen");
+        }else if (_modal === "ver"){
             mostrarModal("modalVerReag");
         } else {
             mostrarModal("modalTerminar");
@@ -547,6 +560,42 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }).error(function(_error){
 
         });
+    }
+
+    $scope.reagendarAspiranteNoIniciado = function(){
+        
+        if(validarConfig()){
+            if($scope.selectedAspirante.isTemporal){
+                $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
+            }
+
+            let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
+
+            $http.post(url, $scope.configUsuario).success(function(_data){
+                let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
+                
+                $http.post(url).success(function(_data){
+                    ocultarModal("modalReagen");
+                    swal("Ok", "Usuario re agendado", "success");
+                    getAspirantesSesion($scope.selectedSesion.idSesion);
+                }).error(function(_error){
+
+                });
+            }).error(function(_error){
+                
+            });
+        }
+
+        // if(validarConfig()){
+        //     let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
+        //     $http.post(url).success(function(_data){
+        //         ocultarModal("modalReagen");
+        //         swal("Ok", "Usuario re agendado", "success");
+        //         getAspirantesSesion($scope.selectedSesion.idSesion);
+        //     }).error(function(_error){
+
+        //     });
+        // }
     }
 
     $scope.bloquearAspiranteDef = function(){
@@ -778,11 +827,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         } else if(!$scope.configUsuario.salida){
             mensajeError = "Campo 'Hora fin' no debe ir vacío";
             output = false;
-        } else if(!$scope.configUsuario.toleranciaminutos){
-            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío";
+        }  else if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
-        } else if(!$scope.configUsuario.toleranciasalidaminutos){
-            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío";
+        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
         }
 

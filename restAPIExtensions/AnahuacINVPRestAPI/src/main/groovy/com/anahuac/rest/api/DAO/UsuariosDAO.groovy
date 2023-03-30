@@ -1349,7 +1349,7 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			Result resultadoAspirantes = getAspirantes(jsonData, context);
+			Result resultadoAspirantes = getAspirantesTodos(jsonData, context);
 			
 			List<AspiranteSesionCustom> aspirantes = (List<AspiranteSesionCustom>) resultadoAspirantes.getData();
 			
@@ -1357,17 +1357,12 @@ class UsuariosDAO {
 				insertUpdateIidiomaUsuarioTodos(idioma, aspirante.getCorreoElectronico());
 			}
 			
-//			insertUpdateIidiomaUsuarioTodos
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);
-		} finally {
-//			if (closeCon) {
-//				new DBConnect().closeObj(con, stm, rs, pstm);
-//			}
 		}
 		
 		return resultado;
@@ -2152,7 +2147,7 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result terminarUsuario(String username, RestAPIContext context) {
+	public Result terminarUsuario(String username, Long caseid, RestAPIContext context) {
 		Result resultado = new Result();
 		String errorLog = "";
 		Boolean closeCon = false, processId = false;

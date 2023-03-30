@@ -216,6 +216,9 @@ function($scope, $http) {
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result) => {
+                    if(data.error === "test_end"){
+                        window.location.reload();
+                    }
                     let posicion = 0;
                     let pregunta = ($scope.objcontestada.pregunta);
                     for (var i = 0; i < $scope.properties.objPreguntasContestadas.length; i++) {
@@ -299,7 +302,6 @@ function($scope, $http) {
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    debugger;
                     if(data.error === "test_end"){
                         window.location.reload();
                     }

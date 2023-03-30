@@ -174,17 +174,29 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         if(_modal === "bloquear"){
             mostrarModal("modalBloquear");
         } else if(_modal === "reactivar" || _modal ==="reactivarTemp"){
-            $scope.aplicacion = _aspirante.tempfecha ? _aspirante.tempfecha : "";
-            $scope.entrada = _aspirante.tempentrada ? _aspirante.tempentrada : "";
-            $scope.salida = _aspirante.tempsalida ? _aspirante.tempsalida : "";
+            $scope.aplicacion = "";
+            $scope.entrada = "";
+            $scope.salida = "";
+
+            // $scope.configUsuario = {
+            //     "username": _aspirante.correoElectronico,
+            //     "aplicacion": _aspirante.tempfecha ? _aspirante.tempfecha : "",
+            //     "entrada": _aspirante.tempentrada ? _aspirante.tempentrada : "",
+            //     "salida": _aspirante.tempsalida ? _aspirante.tempsalida : "",
+            //     "toleranciaminutos": _aspirante.temptoleranciaentrada ? parseInt(_aspirante.temptoleranciaentrada) : "",
+            //     "toleranciasalidaminutos": _aspirante.temptoleranciaentrada ? parseInt(_aspirante.temptoleranciaentrada) : ""
+            // }
+
+
             $scope.configUsuario = {
                 "username": _aspirante.correoElectronico,
-                "aplicacion": _aspirante.tempfecha ? _aspirante.tempfecha : "",
-                "entrada": _aspirante.tempentrada ? _aspirante.tempentrada : "",
-                "salida": _aspirante.tempsalida ? _aspirante.tempsalida : "",
-                "toleranciaminutos": _aspirante.temptoleranciaentrada ? _aspirante.temptoleranciaentrada : "",
-                "toleranciasalidaminutos": _aspirante.temptoleranciaentrada ? _aspirante.temptoleranciaentrada : ""
+                "aplicacion": "",
+                "entrada": "",
+                "salida": "",
+                "toleranciaminutos": 0,
+                "toleranciasalidaminutos":  0
             }
+            
             let currentDate = new Date();
             $scope.fecha = (currentDate.getFullYear()) + "-" 
                 + ((currentDate.getMonth() + 1) < 10 ? "0" + (currentDate.getMonth() + 1) : (currentDate.getMonth() + 1)) + "-" 
@@ -826,11 +838,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         } else if(!$scope.configUsuario.salida){
             mensajeError = "Campo 'Hora fin' no debe ir vacío";
             output = false;
-        } else if(!$scope.configUsuario.toleranciaminutos){
-            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío";
+        } else if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
-        } else if(!$scope.configUsuario.toleranciasalidaminutos){
-            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío";
+        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
         }
 
