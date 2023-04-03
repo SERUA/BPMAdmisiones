@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAvalModificar",
   "name" : "SDAESolicitudFinanciamientoAvalModificar",
-  "lastUpdate" : 1680117920541,
+  "lastUpdate" : 1680283984909,
   "rows" : [
     [
       {
@@ -1026,7 +1026,7 @@
                                           },
                                           "label" : {
                                             "type" : "interpolation",
-                                            "value" : "% de financiamiento autorizado:"
+                                            "value" : "% de financiamiento pre-autorizado:"
                                           },
                                           "labelPosition" : {
                                             "type" : "constant",
@@ -10574,7 +10574,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"https://www.anahuac.mx/queretaro/descargables/Aval_CreditoEducativo.pdf\">Financiamiento educativo<a>"
+                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\">Financiamiento educativo<a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -11924,7 +11924,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getCatTipoAoyoByCampus&p=0&c=0&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "lstCatPorcentajeBeca" : {
@@ -15122,6 +15126,14 @@
       "value" : [
         "{\"displayValue\":\"findByCaseId [com.anahuac.SDAE.model.AutorizacionApoyo]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseId\",\"displayName\":\"findByCaseId\"},\"id\":\"com.anahuac.SDAE.model.AutorizacionApoyo\",\"filters\":[{\"name\":\"caseId\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{solicitudDeApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
+      "exposed" : false
+    },
+    "getConfiguracionCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getConfiguracionCampus&p=0&c=10&idCampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
