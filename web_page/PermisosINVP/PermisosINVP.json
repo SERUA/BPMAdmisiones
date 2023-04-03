@@ -1,0 +1,155 @@
+{
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "1.11.52",
+  "id" : "PermisosINVP",
+  "name" : "PermisosINVP",
+  "lastUpdate" : 1675186823979,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Roles y permisos"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 2"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "df5ce19e-a037-4969-824b-49e2a87b0a19",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "headers" : {
+            "type" : "constant",
+            "value" : [
+              "Pantalla",
+              "Rol"
+            ]
+          },
+          "content" : {
+            "type" : "expression",
+            "value" : "getBusinessAppMenu"
+          },
+          "columnsKey" : {
+            "type" : "constant",
+            "value" : [
+              "displayname"
+            ]
+          },
+          "selectedRow" : {
+            "type" : "variable",
+            "value" : "fila"
+          },
+          "striped" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "condensed" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "bordered" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "8f26eb29-19f0-4a1c-891a-bd5523a1dca2",
+        "hasValidationError" : false,
+        "id" : "customTablePermisosINVP"
+      }
+    ]
+  ],
+  "assets" : [
+    {
+      "id" : "132e1713-f07a-4ada-b36b-4628b45255f8",
+      "name" : "encabezados.css",
+      "type" : "css",
+      "order" : 2,
+      "external" : false
+    },
+    {
+      "id" : "b5f42e1a-29d4-4b7e-a580-955c9b7dce65",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "5f904a7a-eba4-4340-a98c-2930ac69b849",
+      "name" : "anahuac_custom_styles (2).css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "43ca03a2-5127-4422-b16b-3d463b4b6544",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    }
+  ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "getBusinessAppMenu" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacINVPRestGet?url=getBusinessAppMenu&p=0&c=999"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "fila" : {
+      "type" : "constant",
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "uuid" : "6301ec79-d83a-4998-abea-e43635a7a065",
+  "type" : "page",
+  "description" : "Page generated with Bonita UI designer"
+}
