@@ -558,7 +558,7 @@ class LoginSesionesDAO {
 			rs = pstm.executeQuery();
 			while (rs.next()) {
 				row = new HashMap<String,Integer>();
-				row.put("idbanner", rs.getInt("idbanner"))
+				row.put("idbanner", rs.getString("idbanner"));
 				row.put("telefono", rs.getString("telefono"));
 				row.put("telefonocelular", rs.getString("telefonocelular"));
 				rows.add(row)
