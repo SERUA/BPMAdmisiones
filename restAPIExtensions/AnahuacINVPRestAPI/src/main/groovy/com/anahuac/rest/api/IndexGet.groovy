@@ -121,6 +121,18 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "updateTimer":
+				String timer = request.getParameter "timer"
+				String caseid = request.getParameter "caseid"
+				String varName = "";
+				result = new UsuariosDAO().updateTimer(Long.valueOf(caseid), Long.valueOf(timer));
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
 			case "bloquearAspiranteDef":
 				String username = request.getParameter "username"
 				result = new UsuariosDAO().bloquearAspiranteDef(username)

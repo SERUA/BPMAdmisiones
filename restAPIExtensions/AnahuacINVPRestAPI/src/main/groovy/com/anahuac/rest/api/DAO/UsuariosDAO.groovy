@@ -2087,7 +2087,7 @@ class UsuariosDAO {
 			AspiranteSesionCustom row = new AspiranteSesionCustom();
 			List <?> rows = new ArrayList <?>();
 			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_USUARIOS_A_TERMINAR_BY_IDSESION);
+			pstm = con.prepareStatement(Statements.GET_USUARIOS_BY_IDSESION);
 			pstm.setLong(1, caseid);
 			pstm.setLong(2, caseid);
 			rs = pstm.executeQuery();
@@ -2178,6 +2178,22 @@ class UsuariosDAO {
 						break;
 					} else if (task.name.equals("Finalizar examen")){
 						encontrado = true;
+						
+						pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
+						pstm.setString(1, username);
+						rs = pstm.executeQuery();
+						Long timer = 0L;
+						
+						if(rs.next()) {
+							if(rs.getString("horafin_temp") != null) {
+								timer = rs.getTimestamp("horafin_temp").getTime();
+							} else {
+								timer = rs.getTimestamp("horafin").getTime();
+							}
+							
+							Result resultTimer = updateTimer(Long.valueOf(taskToExecute.getParentContainerId()), timer);
+						}
+						
 						Map<String, Object> contract = new LinkedHashMap<String, Object>();
 						contract.put("repetirExamenInput", true);
 						processAPI.assignAndExecuteUserTask(user.getId(), taskToExecute.getId(), contract);
@@ -2202,6 +2218,158 @@ class UsuariosDAO {
 				throw new Exception("No se puede realizar esta acción para este usuario.");
 			}
 			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result updateTimer(Long caseid, Long timer) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean conection = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login(username, password)
+			
+			ProcessAPI processAPI = apiClient.getProcessAPI();
+//			String variableName = "terminarExamen";
+			String variableName = "fechaTermino";
+			Date fechaTermino = new Date(timer);
+//			processAPI.updateProcessDataInstance(variableName, caseid, timer);
+			processAPI.updateProcessDataInstance(variableName, caseid, fechaTermino);
+			
+			resultado.setSuccess(true);
+			resultado.setError(errorLog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+			resultado.setError(errorLog);
+		}
+		
+		return resultado;
+	}
+	
+	public Result insertUpdateUsuarioTolerancias(String jsonData) {
+		Result resultado = new Result();
+		String errorlog = "";
+		Boolean closeCon = false;
+		Boolean existe = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.UPDATE_TOLERANCIAS_USUARIO);
+			pstm.setInt(1, object.toleranciaminutos);
+			pstm.setInt(2, object.toleranciasalidaminutos);
+			if(object.idprueba == null) {
+				pstm.setNull(3, 0);
+			} else {
+				pstm.setLong(3, object.idprueba);
+			}
+			pstm.setString(4, object.username);
+			pstm.executeUpdate();
+			con.commit();
+			
+			pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
+			pstm.setString(1, object.username);
+			rs = pstm.executeQuery();
+			Long timer = 0L;
+			
+			if(rs.next()) {
+				if(rs.getString("horafin_temp") != null) {
+					timer = rs.getTimestamp("horafin_temp").getTime();
+				} else {
+					timer = rs.getTimestamp("horafin").getTime();
+				}
+				
+				Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
+			} else {
+				throw new Exception("No timer encontrado");
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result updateTimerTodos(Long idsesion) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false, processId = false;
+		
+		try {
+			AspiranteSesionCustom row = new AspiranteSesionCustom();
+			List <AspiranteSesionCustom> rows = new ArrayList <AspiranteSesionCustom>();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_USUARIOS_BY_IDSESION);
+			pstm.setLong(1, idsesion);
+			pstm.setLong(2, idsesion);
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				row = new AspiranteSesionCustom();
+				row.setCaseidINVP(rs.getString("caseidinvp"));
+				row.setEstatusINVP(rs.getString("estatusinvp"));
+				row.setCorreoElectronico(rs.getString("correoelectronico"));
+				
+				rows.add(row);
+			}
+			
+			for(AspiranteSesionCustom aspirante: rows) {
+				pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
+				pstm.setString(1, aspirante.getCorreoElectronico());
+				rs = pstm.executeQuery();
+				Long timer = 0L;
+				
+				if(rs.next()) {
+					if(rs.getString("horafin_temp") != null) {
+						timer = rs.getTimestamp("horafin_temp").getTime();
+					} else {
+						timer = rs.getTimestamp("horafin").getTime();
+					}
+					
+					Result resultTimer = updateTimer(Long.valueOf(aspirante.getCaseidINVP()), timer);
+				}
+			}
+			
+			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {

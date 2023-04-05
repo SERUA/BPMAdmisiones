@@ -453,7 +453,20 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
-			
+			case "insertUpdateUsuarioTolerancias":
+				try{
+					result =  uDAO.insertUpdateUsuarioTolerancias(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				} catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
 			case "getSesionesToday":
 				try{
 					result =  cDAO.getSesionesToday(jsonData, context);

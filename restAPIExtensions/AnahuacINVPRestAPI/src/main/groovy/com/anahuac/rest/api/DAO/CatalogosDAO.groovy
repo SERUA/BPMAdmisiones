@@ -1801,7 +1801,7 @@ public Result getCatPreguntas(String jsonData) {
 			pstm.setLong(3, object.idprueba);
 			pstm.executeUpdate();
 			
-			//Actualizar a tidis en la sesión
+			//Actualizar a todos en la sesión
 			pstm = con.prepareStatement(Statements.UPDATE_INVP_TOLERANCIA_TEMPORALES_SESION);
 			pstm.setInt(1, Integer.valueOf(object.toleranciaminutos));
 			pstm.setInt(2, Integer.valueOf(object.toleranciasalidaminutos));
@@ -1809,6 +1809,7 @@ public Result getCatPreguntas(String jsonData) {
 			pstm.executeUpdate();
 			
 			con.commit();
+			Result resultadoTimers = new UsuariosDAO().updateTimerTodos(object.idprueba);
 			
 			resultado.setSuccess(true);
 			resultado.setError_info(errorlog);
@@ -1826,6 +1827,8 @@ public Result getCatPreguntas(String jsonData) {
 		
 		return resultado;
 	}
+	
+	
 	
 	public Result getConfiguracionSesion(Long idprueba) {
 		Result resultado = new Result();
@@ -2014,5 +2017,4 @@ public Result getCatPreguntas(String jsonData) {
 		
 		return resultado;
 	}
-	
 }

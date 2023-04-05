@@ -118,7 +118,7 @@
         </div>
        
     </div>
-    <div class="row">
+    <div class="row row-margin-in">
         <div class="col-xs-8">
             <div class="row">
                 <div class="col-xs-6">Nombre de sesión: <label>{{selectedSesion.nombreSesion}}</label><br></div>
@@ -156,8 +156,10 @@
        <hr> 
     </div>
     <div class="row">
-        <div class="col-xs-4 text-center">
-            
+        <div class="col-xs-4">
+            <button class="btn btn-primary" type="button" ng-click="refreshAspirantes()" style="margin-left: 15px;">
+                <span class="glyphicon glyphicon-refresh"></span> Actualizar 
+            </button>
         </div>
         <div class="col-xs-4 text-center">
             <h4 class="color-orange">Aspirantes en sesión</h4>
@@ -194,10 +196,10 @@
                                 <span style="cursor:pointer" ng-click="setOrderBy('correo')"> Correo <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='correo'"></i></span>
                             </th>
                             <th>
-                                <span style="cursor:pointer" ng-click="setOrderBy('preguntas')"> Preguntas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='preguntas'"></i></span>
+                                <!--<span style="cursor:pointer" ng-click="setOrderBy('preguntas')"> Preguntas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='preguntas'"></i></span>-->
                             </th>
                             <th>
-                                <span style="cursor:pointer" ng-click="setOrderBy('contestadas')"> Contestadas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='contestadas'"></i></span>
+                                <!--<span style="cursor:pointer" ng-click="setOrderBy('contestadas')"> Contestadas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='contestadas'"></i></span>-->
                             </th>
                             <th>
                                 <span style="cursor:pointer" ng-click="setOrderBy('inicio')"> Inicio <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='inicio'"></i></span> / 
@@ -258,7 +260,7 @@
                                 </button>
                             </td>    
                             <td class="text-center ">
-                                <button ng-disabled="(selectedSesion.estatus === 'Concluidas' || selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" ng-if="row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success">
@@ -343,7 +345,7 @@
         </div>
         <div class="modal-body">
             <p ng-if="selectedAspirante.idioma === 'ENG'">¿Estás seguro(a) que deseas cambiar el idioma de aspirante a <b>ESPAÑOL</b>?</p>
-            <p ng-if="selectedAspirante.idioma === 'ESP'">¿Estás seguro(a) que deseas cambiar el idioma de aspirante a <b>INGLÉS</b>.?</p>
+            <p ng-if="selectedAspirante.idioma === 'ESP'">¿Estás seguro(a) que deseas cambiar el idioma de aspirante a <b>INGLÉS</b>?</p>
             <!--<pre>{{ selectedAspirante | json }}</pre>-->
         </div>
         <div class="modal-footer">
@@ -542,16 +544,30 @@
                     <div class="col-xs-6"> 
                         Hr.fin: <label>{{selectedAspirante.tempsalida}}</label>
                     </div>
-                    <div class="col-xs-6"> 
+                    <!-- <div class="col-xs-6"> 
                         Tolerancia entrada: <label>{{selectedAspirante.temptoleranciaentrada}} minutos</label>
                     </div>
                     <div class="col-xs-6"> 
                         Tolerancia salida: <label>{{selectedAspirante.temptoleranciaSalida}} minutos</label>
+                    </div> -->
+
+                    <div class="col-xs-12">
+                        <div class="row">
+                            <div class="col-xs-6"> 
+                                <label>Nueva tolerancia entrada: (minutos)</label>
+                                <input ng-model="configUsuario.toleranciaminutos" min="0" class="form-control" type="number">
+                            </div>
+                            <div class="col-xs-6"> 
+                                <label>Nueva tolerancia salida (minutos):</label>
+                                <input ng-model="configUsuario.toleranciasalidaminutos" min="0" class="form-control" type="number">
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
+                <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
             </div>
         </div>
     </div>

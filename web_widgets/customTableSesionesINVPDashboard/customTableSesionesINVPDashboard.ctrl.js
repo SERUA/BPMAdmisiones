@@ -204,6 +204,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.fechaFutura = obtenerFechaFutura();
             mostrarModal("modalReactivar");
         } else if (_modal === "ver"){
+            $scope.configUsuario = {
+                "username": _aspirante.correoElectronico,
+                "toleranciaminutos": parseInt($scope.selectedAspirante.temptoleranciaentrada),
+                "toleranciasalidaminutos":  parseInt($scope.selectedAspirante.temptoleranciaSalida),
+                "caseid": $scope.selectedAspirante.caseidINVP
+            }
             mostrarModal("modalVerReag");
         } else {
             mostrarModal("modalTerminar");
@@ -825,6 +831,43 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     }
 
+    $scope.insertUpdateUsuarioTolerancias = function(_action){
+        if(validarConfigTol()){
+            if(_action === "temp"){
+                $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
+            }
+
+            let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioTolerancias&p=0&c=10";
+
+            $http.post(url, $scope.configUsuario).success(function(_data){
+                ocultarModal("modalVerReag");
+                swal("Ok", "Tolerancia actualizada", "success");
+                getAspirantesSesion($scope.selectedSesion.idSesion);
+            }).error(function(_error){
+                
+            });
+        }
+    }
+    
+    function validarConfigTol(){
+        let output = true;
+        let mensajeError = "";
+        
+        if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
+            output = false;
+        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
+            output = false;
+        }
+
+        if(output == false){
+            swal("¡Atención!", mensajeError, "warning");
+        }
+
+        return output;
+    }
+
     function validarConfig(){
         let output = true;
         let mensajeError = "";
@@ -866,6 +909,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         $scope.configUsuario[_type] = fecha
+    }
+
+    $scope.refreshAspirantes = function(){
+        getAspirantesSesion($scope.selectedSesion.idSesion);
     }
     
 }
