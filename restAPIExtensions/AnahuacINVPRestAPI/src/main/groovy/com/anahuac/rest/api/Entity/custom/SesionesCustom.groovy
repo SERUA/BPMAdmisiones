@@ -12,6 +12,7 @@ class SesionesCustom {
 	private String aspirantes;
 	private String idioma;
 	private String aspirantesNoRegistrados;
+	private Boolean fechaValida;
 	
 	public Long getIdSesion() {
 		return idSesion;
@@ -78,5 +79,11 @@ class SesionesCustom {
 	}
 	public void setAspirantesNoRegistrados(String aspirantesNoRegistrados) {
 		this.aspirantesNoRegistrados = aspirantesNoRegistrados;
+	}
+	public Boolean getFechaValida() {
+		return fechaValida;
+	}
+	public void setFechaValida(Boolean fechaValida) {
+		this.fechaValida = fechaValida;
 	}
 }

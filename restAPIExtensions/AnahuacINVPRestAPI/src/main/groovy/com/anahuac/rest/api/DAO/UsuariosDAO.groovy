@@ -2309,8 +2309,6 @@ class UsuariosDAO {
 				}
 				
 				Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
-			} else {
-				throw new Exception("No timer encontrado");
 			}
 			
 			resultado.setSuccess(true);

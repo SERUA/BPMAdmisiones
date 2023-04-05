@@ -196,10 +196,10 @@
                                 <span style="cursor:pointer" ng-click="setOrderBy('correo')"> Correo <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='correo'"></i></span>
                             </th>
                             <th>
-                                <!--<span style="cursor:pointer" ng-click="setOrderBy('preguntas')"> Preguntas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='preguntas'"></i></span>-->
+                                <span style="cursor:pointer" ng-click="setOrderBy('preguntas')"> Preguntas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='preguntas'"></i></span>
                             </th>
                             <th>
-                                <!--<span style="cursor:pointer" ng-click="setOrderBy('contestadas')"> Contestadas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='contestadas'"></i></span>-->
+                                <span style="cursor:pointer" ng-click="setOrderBy('contestadas')"> Contestadas <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='contestadas'"></i></span>
                             </th>
                             <th>
                                 <span style="cursor:pointer" ng-click="setOrderBy('inicio')"> Inicio <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='inicio'"></i></span> / 
@@ -518,7 +518,7 @@
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
             <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Aceptar</button>
-    
+            <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Aceptar</button>
         </div>
         </div>
     </div>
@@ -568,6 +568,7 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
+                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('temp')">Actualizar tolerancia</button>
             </div>
         </div>
     </div>

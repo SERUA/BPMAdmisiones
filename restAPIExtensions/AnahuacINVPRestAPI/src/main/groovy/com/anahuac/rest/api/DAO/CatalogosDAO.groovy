@@ -5,7 +5,9 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.util.concurrent.TimeUnit
 
 import org.apache.poi.ss.usermodel.Cell
 import org.apache.poi.ss.usermodel.CellStyle
@@ -595,6 +597,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setEstatus(rs.getString("estatus"));
 				row.setAspirantes(rs.getString("registrados_prueba"));
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
+				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
 				
 				rows.add(row);
 			}
@@ -846,6 +849,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setEstatus(rs.getString("estatus"));
 				row.setAspirantes(rs.getString("registrados_prueba"));
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
+				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
 				
 				rows.add(row);
 			}
@@ -865,6 +869,15 @@ public Result getCatPreguntas(String jsonData) {
 		}
 		
 		return resultado;
+	}
+	
+	private boolean fechaValida(String fechaInput) {
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+		Date fecha = formatter.parse(fechaInput);
+		Date hoy = new Date();
+		long diferenciaEnMs = hoy.getTime() - fecha.getTime();
+		long diasTranscurridos = diferenciaEnMs / (1000 * 60 * 60 * 24);
+		return diasTranscurridos < 3;
 	}
 	
 	public Result getExcelFileSesiones(String jsonData, RestAPIContext context) {
