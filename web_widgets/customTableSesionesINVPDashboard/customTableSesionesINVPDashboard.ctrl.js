@@ -203,6 +203,19 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 + (currentDate.getDate() < 10 ? "0" + currentDate.getDate() : currentDate.getDate());
             $scope.fechaFutura = obtenerFechaFutura();
             mostrarModal("modalReactivar");
+        } else if(_modal === "reagen"){
+            $scope.aplicacion = "";
+            $scope.entrada = "";
+            $scope.salida = "";
+            $scope.configUsuario = {
+                "username": _aspirante.correoElectronico,
+                "aplicacion": "",
+                "entrada": "",
+                "salida": "",
+                "toleranciaminutos": 0,
+                "toleranciasalidaminutos":  0
+            }
+            mostrarModal("modalReagen");
         } else if (_modal === "ver"){
             $scope.configUsuario = {
                 "username": _aspirante.correoElectronico,
@@ -823,8 +836,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
 
             $http.post(url, $scope.configUsuario).success(function(_data){
-                ocultarModal("modalAsignar");
-                $scope.terminarAspirante();
+                ocultarModal("modalReagen");
+                // $scope.terminarAspirante();
+                if($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
+                    swal("Ok", "Usuario reagendado", "success");
+                } else {
+                    $scope.terminarAspirante();
+                }
             }).error(function(_error){
                 
             });

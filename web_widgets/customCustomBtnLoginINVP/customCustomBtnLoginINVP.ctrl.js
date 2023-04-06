@@ -88,7 +88,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
-        debugger;
         $scope.showLoading();
         vm.busy = true;
         let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
@@ -189,9 +188,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
     
     function redirectIfNeeded() {
+        debugger;
         let ipBonita = window.location.protocol + "//" + window.location.host;
         let url = ipBonita + $scope.properties.targetUrlOnSuccess;
-        debugger;
         window.top.location.href = url;
     }
     
@@ -215,7 +214,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     //$scope.filtroaspirante = {"tarea":"Validar Información","lstFiltro":[{"columna":"NOMBRE,EMAIL,CURP","operador":"Que contengan","valor":$scope.properties.dataToSend,"type":"aspirantes_proceso_fechas","orderby":"","orientation":"DESC","limit":20,"offset":0,"usuario":"Mario.Icedo@soaswfactory.com","estatusSolicitud":"Aspirantes en proceso","aspirantes":"regular"}
     
     function checkSesion() {
-        debugger;
         $scope.showLoading();
         vm.busy = true;
 
@@ -304,7 +302,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
      function checkSesionActiva() {
-        debugger;
         $scope.showLoading();
         vm.busy = true;
         let entro = false;
@@ -327,7 +324,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         if(data.additional_data[0]){
                             if(data.additional_data[0] === "toler"){
                                 mensaje = 'La hora de tolerancia de entrada al examen ya ha pasado. <br> Contacta a tu aplicador.';
-                            } else if (data.additional_data[0] ==="sesion_no_iniciada"){
+                            } else if (data.additional_data[0] === "sesion_no_iniciada"){
                                 mensaje = 'Tu sesión aún no ha iniciado.';
                             }
                         }
@@ -360,30 +357,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else {
                checkSesion();
             }
-
-            // if(!entro){
-            //     checkSesion();
+        }).error(function(data, status) {
+            let mensaje = 'Existe una sesión activa con este usuario <br> Contacta a tu aplicador.';
+            // if(data.error === "no_existe_sesion"){
+            //     mensaje = 'Este usuario no tiene una sesión registrada.';
+            //     Swal.fire({
+            //         title: '<strong>Atención</strong>',
+            //         icon: 'error',
+            //         // html:'No existe una sesión activa.', showCloseButton: false
+            //         html: mensaje
+            //     });
+            // }  else if (data.error ==="fallo_tolerancia"){
+            //     // mensaje = 'La hora de tolerancia de entrada al examen ya ha pasado. <br> Contacta a tu aplicador.';
+            //     getDatosSesion();
             // }
-        })
-        .error(function(data, status) {
-            debugger;
-            console.error(data);
-            Swal.fire({
-                title: '<strong>Atención</strong>',
-                icon: 'error',
-                //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                html:'No existe una sesión activa.', showCloseButton: false
-            });
+            
             $scope.errorLoginCount ++;
             if($scope.errorLoginCount === 2){
                 $scope.renderCaptcha();
             } else if ($scope.errorLoginCount > 2){
                 $scope.resetCaptcha();
             }
-            $scope.properties.dataFromError = data;
-            $scope.properties.responseStatusCode = status;
-            $scope.properties.dataFromSuccess = undefined;
-            
+
+            getDatosSesion();
         })
         .finally(function() {
             $scope.hideLoading();
@@ -406,22 +402,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.getTerminadoExamen();
         }).error(function(data, status) {
             console.log(data);
-        })
-        .finally(function() {
+        }).finally(function() {
             //blockUI.stop();
         });
-            
     }
 
-
     $scope.getTerminadoExamen = function() {
-        debugger;
         var req = {
             method: "GET",
             url: "../API/extension/AnahuacINVPRestGet?url=getTerminadoExamen&p=0&c=10&username=" + $scope.properties.dataToSend.username
         };
         return $http(req).success(function(data, status) {
-            debugger;
             if(data.data.length === 0){
                $scope.terminadoexamen = false;
             } else if(data.data[0].terminado === false){
@@ -440,15 +431,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         }).error(function(data, status) {
             console.log(data);
-        })
-        .finally(function() {
+        }).finally(function() {
             //blockUI.stop();
         });
             
     }
 
      function getDatosSesion() {
-        debugger;
         vm.busy = true;
 
         let data = {

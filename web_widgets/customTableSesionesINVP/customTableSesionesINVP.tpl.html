@@ -266,7 +266,7 @@
                                 <!--<button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">-->
                                 <!--    <span class="glyphicon glyphicon-lock"></span>-->
                                 <!--</button>-->
-                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
@@ -287,7 +287,7 @@
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
                                 
-                                <button ng-if="row.estatusINVP === 'Examen reactivado'" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
+                                <button ng-if="row.estatusINVP === 'Examen reactivado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar') " type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
                                     <span><b>?</b></span>
                                 </button>
                             </td>
@@ -565,8 +565,8 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-                <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
-                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('temp')">Actualizar tolerancia</button>
+                <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Actualizar tolerancia</button>
+                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Actualizar tolerancia</button>
             </div>
         </div>
     </div>

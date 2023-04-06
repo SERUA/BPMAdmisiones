@@ -524,8 +524,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "aplicacion": "",
                 "entrada": "",
                 "salida": "",
-                "toleranciaminutos": "",
-                "toleranciasalidaminutos": ""
+                "toleranciaminutos": 0,
+                "toleranciasalidaminutos":  0
             }
             mostrarModal("modalReagen");
         } else if (_modal === "ver"){
@@ -812,10 +812,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
 
             $http.post(url, $scope.configUsuario).success(function(_data){
-                ocultarModal("modalAsignar");
-                $scope.terminarAspirante();
+                ocultarModal("modalReagen");
+                if($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
+                    swal("Ok", "Usuario reagendado", "success");
+                } else {
+                    $scope.terminarAspirante();
+                }
             }).error(function(_error){
-                
+                swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
         }
     }
@@ -885,12 +889,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 swal("Ok", "Tolerancia actualizada", "success");
                 getAspirantesSesion($scope.selectedSesion.idSesion);
             }).error(function(_error){
-                
+                swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
         }
     }
     
     function validarConfigTol(){
+        debugger;
         let output = true;
         let mensajeError = "";
         

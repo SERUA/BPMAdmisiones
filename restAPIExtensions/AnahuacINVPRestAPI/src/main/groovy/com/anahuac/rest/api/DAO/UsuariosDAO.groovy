@@ -2283,7 +2283,6 @@ class UsuariosDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			
 			pstm = con.prepareStatement(Statements.UPDATE_TOLERANCIAS_USUARIO);
 			pstm.setInt(1, object.toleranciaminutos);
 			pstm.setInt(2, object.toleranciasalidaminutos);
@@ -2295,20 +2294,22 @@ class UsuariosDAO {
 			pstm.setString(4, object.username);
 			pstm.executeUpdate();
 			con.commit();
-			
 			pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			Long timer = 0L;
 			
 			if(rs.next()) {
+				errorlog += " |5 ";
 				if(rs.getString("horafin_temp") != null) {
 					timer = rs.getTimestamp("horafin_temp").getTime();
 				} else {
 					timer = rs.getTimestamp("horafin").getTime();
 				}
+				if(object.caseid != null) {
+					Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
+				}
 				
-				Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
 			}
 			
 			resultado.setSuccess(true);
@@ -2316,7 +2317,69 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			errorlog = errorlog + " | " + e.getMessage();
+			errorlog += " | [ERROR]: " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	
+	public Result insertUpdateUsuarioToleranciasTemp(String jsonData) {
+		Result resultado = new Result();
+		String errorlog = "";
+		Boolean closeCon = false;
+		Boolean existe = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.UPDATE_NUEVA_CONFIG_USUARIO);
+			pstm.setString(1, object.aplicacion);
+			pstm.setString(2, object.entrada);
+			pstm.setString(3, object.salida);
+			pstm.setInt(4, object.toleranciaminutos);
+			pstm.setInt(5, object.toleranciasalidaminutos);
+			if(object.idprueba == null) {
+				pstm.setNull(6, 0);
+			} else {
+				pstm.setLong(6, object.idprueba);
+			}
+			pstm.setString(7, object.username);
+			pstm.executeUpdate();
+			
+			con.commit();
+			
+			pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
+			pstm.setString(1, object.username);
+			rs = pstm.executeQuery();
+			Long timer = 0L;
+			
+			if(rs.next()) {
+				errorlog += " |5 ";
+				if(rs.getString("horafin_temp") != null) {
+					timer = rs.getTimestamp("horafin_temp").getTime();
+				} else {
+					timer = rs.getTimestamp("horafin").getTime();
+				}
+				if(object.caseid != null) {
+					Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
+				}
+				
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog += " | [ERROR]: " + e.getMessage();
 			resultado.setError_info(errorlog);
 		} finally {
 			if (closeCon) {

@@ -4,6 +4,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
+import java.text.SimpleDateFormat
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -117,7 +118,7 @@ class LoginSesionesDAO {
 			
 			if (rs.next()) {
 				errorlog += "|2";
-				row = new LoginSesion()
+				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
 				row.setDescripcion(rs.getString("descripcion"))
@@ -160,6 +161,8 @@ class LoginSesionesDAO {
 					row.setSalida(rs.getString("horafinsesion"));
 					row.setUsername(rs.getString("username"));
 					rows.add(row);
+				} else {
+					throw new Exception("No sesión registrada");
 				}
 			}
 			
@@ -253,7 +256,7 @@ class LoginSesionesDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-			List<String> additional_data = new ArrayList<String>();
+			List<?> additional_data = new ArrayList<?>();
 			Map<String,Object> row = new HashMap<String,Object>(); 
 			closeCon = validarConexion();
 			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO);
@@ -309,7 +312,26 @@ class LoginSesionesDAO {
 					row.put("havesesion", false);
 				}
 				 
-				rows.add(row)
+				rows.add(row);
+			} else {
+				pstm = con.prepareStatement(Statements.GET_SESION_LOGIN);
+				pstm.setString(1, object.username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					Result  checkToler = new UsuariosDAO().checkTolerancia(object.username);
+					if(checkToler.isSuccess()) {
+						if(!((boolean) checkToler.getData().get(0))) {
+							additional_data.add("toler");
+							row.put("havesesion", true);
+							rows.add(row);
+						} 
+					} else {
+						throw new Exception("fallo_tolerancia");
+					}
+				} else {
+					throw new Exception("no_existe_sesion");
+				}
 			}
 			
 			resultado.setSuccess(true);

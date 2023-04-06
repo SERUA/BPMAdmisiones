@@ -260,12 +260,16 @@
                                 </button>
                             </td>    
                             <td class="text-center ">
-                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" ng-if="row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
+                                <button ng-if="(selectedSesion.estatus === 'Concluidas' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+
 
                                 <button  ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-lock"></span>
@@ -274,7 +278,7 @@
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
 
-                                <button ng-if="row.estatusINVP === 'Examen reactivado'" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
+                                <button ng-if="row.estatusINVP === 'Examen reactivado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar')" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
                                     <span><b>?</b></span>
                                 </button>
                             </td>
@@ -569,6 +573,51 @@
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
                 <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
                 <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('temp')">Actualizar tolerancia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalReagen">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Reactivar sesión para aspirante</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                
+                <!--<p>¿Estás seguro(a) que deseas <b>reactivar</b> la sesión del aspirante?.</p>-->
+                <p>Para reaactivar al aspirante tienes que llenar la siguiente información</p>
+                <div class="row">
+                    <div class="col-xs-6"> 
+                        <label>Fecha:</label>
+                        <input ng-model="aplicacion" class="form-control" type="date" ng-change="setValue(aplicacion, 'aplicacion')">
+                    </div>
+                    <div class="col-xs-3"> 
+                        <label>Hora inicio:</label>
+                        <input ng-model="entrada" class="form-control" type="time" ng-change="setValue(entrada, 'entrada')">
+                    </div>
+                    <div class="col-xs-3"> 
+                        <label>Hora fin:</label>
+                        <input ng-model="salida" class="form-control" type="time" ng-change="setValue(salida, 'salida')">
+                    </div>
+                    <div class="col-xs-6"> 
+                        <label>Tolerancia entrada: (minutos)</label>
+                        <input ng-model="configUsuario.toleranciaminutos" class="form-control" type="number">
+                    </div>
+                    <div class="col-xs-6"> 
+                        <label>Tolerancia salida (minutos):</label>
+                        <input ng-model="configUsuario.toleranciasalidaminutos" class="form-control" type="number">
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Actualizar tolerancia</button>
+                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Actualizar tolerancia</button>
             </div>
         </div>
     </div>
