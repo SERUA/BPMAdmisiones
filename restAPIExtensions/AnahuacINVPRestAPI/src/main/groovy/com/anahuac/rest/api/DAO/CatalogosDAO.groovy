@@ -933,7 +933,7 @@ public Result getCatPreguntas(String jsonData) {
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header0 = headersRow.createCell(0);
-			header0.setCellValue("No.");
+			header0.setCellValue("ID sesión");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
 			header1.setCellValue("Nombre");
@@ -1065,7 +1065,7 @@ public Result getCatPreguntas(String jsonData) {
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header0 = headersRow.createCell(0);
-			header0.setCellValue("No.");
+			header0.setCellValue("ID sesión");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
 			header1.setCellValue("Nombre");
@@ -1198,7 +1198,7 @@ public Result getCatPreguntas(String jsonData) {
 			Row headersRow = sheet.createRow(++rowCount);
 			
 			Cell header0 = headersRow.createCell(0);
-			header0.setCellValue("IDSIU");
+			header0.setCellValue("No. Caso");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
 			header1.setCellValue("Id banner");
@@ -1350,7 +1350,7 @@ public Result getCatPreguntas(String jsonData) {
 			Row headersRow = sheet.createRow(++rowCount);
 			
 			Cell header0 = headersRow.createCell(0);
-			header0.setCellValue("No.");
+			header0.setCellValue("No. Caso");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
 			header1.setCellValue("Id banner");
@@ -1502,7 +1502,7 @@ public Result getCatPreguntas(String jsonData) {
 			Row headersRow = sheet.createRow(++rowCount);
 			
 			Cell header0 = headersRow.createCell(0);
-			header0.setCellValue("No.");
+			header0.setCellValue("No. Caso");
 			header0.setCellStyle(style);
 			Cell header1 = headersRow.createCell(1);
 			header1.setCellValue("Id banner");

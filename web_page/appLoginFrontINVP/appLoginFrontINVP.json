@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appLoginFrontINVP",
   "name" : "appLoginFrontINVP",
-  "lastUpdate" : 1680804884509,
+  "lastUpdate" : 1681152219956,
   "rows" : [
     [
       {
@@ -1365,7 +1365,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Correo electrónico : <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                        "value" : "Correo electrónico: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -1616,6 +1616,66 @@
         "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&f=correoElectronico={{credentials.username}}&p=0&c=500"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "refreshLanguage" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.getIdiomaUsuario.data && getCookie()){",
+        "     if(compareLang($data.getIdiomaUsuario.data[0], getCookie())){",
+        "        document.cookie=\"BOS_Locale=\" + $data.getIdiomaUsuario[0] + \";path=/;max-age=31536000\";",
+        "        ",
+        "\t\ttry {",
+        "\t\t    debugger;",
+        "\t\t\tvar url = new URL(document.location.href);",
+        "\t\t\turl.searchParams.delete('locale');",
+        "\t\t\turl.searchParams.delete('_l');",
+        "\t\t\tdocument.location.assign(url.href);",
+        "\t\t} catch (error) {",
+        "\t\t\tdocument.location.reload();",
+        "\t\t}",
+        "    }",
+        "}",
+        "",
+        "function compareLang(_userLang, _cookieLang){",
+        "    debugger;",
+        "    let switchLang = false;",
+        "    if((_userLang === \"ESP\" && _cookieLang === \"en\") || (_userLang === \"ESP\" && _cookieLang === \"es\")){",
+        "        switchLang = true;",
+        "    }",
+        "    ",
+        "    return switchLang;",
+        "}",
+        "",
+        "function getCookie(){",
+        "    var cookieName = \"BOS_Locale\";",
+        "    var cookies = document.cookie.split(';');",
+        "    ",
+        "    for (var i = 0; i < cookies.length; i++) {",
+        "        var cookie = cookies[i].trim();",
+        "        if (cookie.indexOf(cookieName) == 0) {",
+        "            return cookie.substring(cookieName.length + 1, cookie.length);",
+        "        }",
+        "    }",
+        "    ",
+        "    return null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "getIdiomaUsuario" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacINVPRestGet?url=getIdiomaUsuario&p=0&c=100&username={{userINVP}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "userINVP" : {
+      "type" : "expression",
+      "value" : [
+        "return localStorage.getItem(\"userINVP\")"
+      ],
       "exposed" : false
     }
   },
