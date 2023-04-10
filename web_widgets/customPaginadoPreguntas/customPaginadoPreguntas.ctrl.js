@@ -1,4 +1,5 @@
 function($scope, $http) {
+
     $scope.lstPaginado = [];
     $scope.valorSeleccionado = 1;
     $scope.iniciarP = 1;
@@ -9,6 +10,7 @@ function($scope, $http) {
     $scope.contestadoanterior = false;
     $scope.objcontestada = {};
     $scope.isseleccion = false;
+    
     $scope.$watch('properties.value', function() {
         if ($scope.properties.value != undefined) {
             $scope.loadPaginado();
@@ -102,8 +104,6 @@ function($scope, $http) {
                 $scope.insertRespuesta();
             }
             $scope.isseleccion = false;
-            // $scope.properties.objPreguntasContestadas.push(contestadas);
-            // $scope.insertRespuesta();
         }
 
         let havevalor = false;
@@ -205,26 +205,21 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                        mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                     }
                 } else {
-                    mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                    mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                 }
                 
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
-                    //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
                     if(data.error === "test_end"){
                         window.location.reload();
                     }
                 });
-                /*$scope.properties.dataFromError = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromSuccess = undefined;*/
-                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
             })
             .finally(function() {
                 //vm.busy = false;
@@ -253,10 +248,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                        mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                     }
                 } else {
-                    mensaje = "Se perdió la conexión, por favor intenta de nuevo."
+                    mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                 }
                 
                 Swal.fire({
@@ -268,18 +263,6 @@ function($scope, $http) {
                         window.location.reload();
                     }
                 });
-                
-                // Swal.fire({
-                //     title: '<strong>Atención</strong>',
-                //     icon: 'error',
-                //     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                //     html:mensaje, showCloseButton: false
-                // });
-                
-                /*$scope.properties.dataFromError = data;
-                $scope.properties.responseStatusCode = status;
-                $scope.properties.dataFromSuccess = undefined;*/
-                //notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
             })
             .finally(function() {
                 //vm.busy = false;
@@ -291,23 +274,4 @@ function($scope, $http) {
             $scope.loadPaginado();
         }
     });
-
-  /*  $scope.$watch("properties.respuesta", function() {
-        debugger;
-        if ($scope.properties.respuesta !== undefined && $scope.properties.respuesta !== null) {
-            if (!$scope.isseleccion) {
-                $scope.objcontestada = angular.copy($scope.properties.objRespuesta);
-               // $scope.properties.valorSeleccionado = $scope.properties.valorSeleccionado + 1;
-
-                for (var i in $scope.lstPaginado) {
-                    if ($scope.lstPaginado[i].numero == $scope.properties.valorSeleccionado) {
-                        $scope.properties.inicio = ($scope.lstPaginado[i].numero - 1);
-                        $scope.properties.fin = $scope.lstPaginado[i].fin;
-                        $scope.valorSeleccionado = $scope.lstPaginado[i].numero +1;
-                    }
-                }
-                $scope.loadPaginado();
-            }
-        }
-    });*/
 }
