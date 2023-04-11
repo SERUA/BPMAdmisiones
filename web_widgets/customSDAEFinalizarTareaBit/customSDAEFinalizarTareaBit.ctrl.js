@@ -163,6 +163,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         if (id) {
             var params = getUserParam();
             params.assign = $scope.properties.assign;
+            debugger;
             doRequest('POST', '../API/bpm/userTask/' + getUrlParam('id') + '/execution', params).then(function () {
                 localStorageService.delete($window.location.href);
                 // let newUrl = "/portal/resource/app/aspiranteSDAE/home/content/?app=aspiranteSDAE";

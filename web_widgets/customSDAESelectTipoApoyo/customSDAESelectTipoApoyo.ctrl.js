@@ -71,7 +71,7 @@ function PbSelectCtrl($scope, $parse, $log, widgetNameFactory, $timeout, $window
                    let suma = parseInt(returnCatValue.catPorcentajeBeca.descripcion) + parseInt(returnCatValue.catPorcentajeFinanciamiento.descripcion);
                    if(suma > 100){
                        $scope.properties.catPorcentajeFinanciamientoId = null;
-                       swal("¡Atención!","La suma dle procentaje de financiamiento y de beca no debe ser mayor al 100%","warning")
+                       swal("¡Atención!", "La suma del procentaje de financiamiento educativo y de beca no debe ser mayor al 100%", "warning")
                    }
                }
            }

@@ -515,6 +515,11 @@ class SecurityFilter {
 				break;
 				case "getFileTest":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
+				case "getCatDescuentosByInfoAspirante":
+					allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
+					allow=bonitaRolFilter(context,"TI SERUA");if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE");if(allow){break;}
 				break;
 			}
 			return allow;
@@ -1275,6 +1280,26 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "BECAS");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "PreAutorizacion");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Finanzas");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Comité finanzas");
+			if (allow) {
+			  break;
+			}
 			break;
 		  case "getTestUpdate":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1298,7 +1323,11 @@ class SecurityFilter {
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
-		    }
+		    } 
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
 		    break;
 		  case "simpleSelectBonita":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1724,6 +1753,8 @@ class SecurityFilter {
 		    if (allow) {
 		      break;
 		    }
+			allow=bonitaRolFilter(context,"ASPIRANTE")
+			if(allow){break;}
 		    break;
 		  case "getPadreVencido":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1997,6 +2028,17 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "createOrUpdateBeca":
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			break;
+			
+		case "getUserFoto":
+		allow=bonitaRolFilter(context,"ADMISIONES")
+			if(allow){break;}
+			break;
 		}
 		return allow;
 	}

@@ -70,17 +70,41 @@ class Index implements RestApiController {
 					}
 				} else if(url.equals("pdfDatosAval") || url == "pdfDatosAval") {
 					String email = request.getParameter "email"
-					result = new PDFDocumentDAO().pdfDatosAval(email);
-//					result = new PDFDocumentDAO().getInfoAval(email);
+					result = new PDFDocumentDAO().pdfDatosAval(email, context);
 					
 					if(result.success) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
 					}
-				} 
-				
-				
+				}  else if(url.equals("getInfoAval") || url == "getInfoAval") {
+					String email = request.getParameter "email"
+					result = new PDFDocumentDAO().getInfoAval(email, context);
+					
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if(url.equals("getSolicitudApoyo") || url == "getSolicitudApoyo") {
+					String email = request.getParameter "email"
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().getSolicitudApoyo(email, caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if(url.equals("pdfSolicitudApoyo") || url == "pdfSolicitudApoyo") {
+					String email = request.getParameter "email"
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().pdfSolicitudApoyo(email, caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				}
 			}
 		}catch(Exception ex) {
 			jsonData = null
@@ -153,7 +177,7 @@ class Index implements RestApiController {
 		List<UserMembership> uMemberships=context.apiClient.identityAPI.getUserMemberships(context.apiSession.userId, 0, 100, UserMembershipCriterion.ROLE_NAME_ASC);
 		uMemberships.each{
 			it ->
-			if((it.roleName.equals("EXTERIOR") && it.groupName.equals("CAMPUS-PUEBLA")) || it.roleName.equals("ADMINISTRADOR") || it.roleName.equals("TI SERUA")) {
+			if((it.roleName.equals("EXTERIOR") && it.groupName.equals("CAMPUS-PUEBLA")) || it.roleName.equals("ADMINISTRADOR") || it.roleName.equals("TI SERUA") || it.roleName.equals("Becas")) {
 				valid=true
 			}
 		}

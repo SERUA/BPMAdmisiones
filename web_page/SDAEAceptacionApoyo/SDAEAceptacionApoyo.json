@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAceptacionApoyo",
   "name" : "SDAEAceptacionApoyo",
-  "lastUpdate" : 1668041708697,
+  "lastUpdate" : 1678747578437,
   "rows" : [
     [
       {
@@ -520,7 +520,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>, te agradecemos nos proporciones una respuesta a la brevedad posible para poder aplicar el  beneficio."
+                  "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>, te agradecemos nos proporciones una respuesta a la brevedad posible para poder aplicar el  beneficio.\n<br>\n<p>Tienes hasta el <b>{{ autorizacion.fechaLimitePropuesta | date:'dd/MM/yyyy'}}</b> para responder a la propuesta.</p>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -3753,15 +3753,28 @@
         "",
         "if($data.mostrarCuadro){",
         "    if($data.formOutput.varSoloBecaInput && !$data.formOutput.varBecaFinanciamientoInput){",
-        "        output = \"Estás <b>aceptando</b> el apoyo por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;",
+        "        output = \"Estás <b>aceptando</b> un apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;",
         "    } else {",
-        "        output = \"Estás <b>aceptando</b> el apoyo por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"% financiamiento educativo por \" + $data.autorizacion.porcentajeCreditoAutorizacion +  \"%\";",
+        "        output = \"Estás <b>aceptando</b> un apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> por \" + $data.autorizacion.porcentajeBecaAutorizacion + \" % y <b>Financiamiento educativo</b> por \" + $data.autorizacion.porcentajeCreditoAutorizacion +  \"%\";",
         "    }",
         "} else {",
-        "    output = \"Estás <b>Rechazando</b> el apoyo\";",
+        "    output = \"Estás <b>Rechazando</b> el apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;",
         "}",
         "",
-        "return output;"
+        "return output;",
+        "// let output = \"\";",
+        "",
+        "// if($data.mostrarCuadro){",
+        "//     if($data.formOutput.varSoloBecaInput && !$data.formOutput.varBecaFinanciamientoInput){",
+        "//         output = \"Estás <b>aceptando</b> el apoyo por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;",
+        "//     } else {",
+        "//         output = \"Estás <b>aceptando</b> el apoyo por \" + $data.autorizacion.porcentajeBecaAutorizacion + \"% financiamiento educativo por \" + $data.autorizacion.porcentajeCreditoAutorizacion +  \"%\";",
+        "//     }",
+        "// } else {",
+        "//     output = \"Estás <b>Rechazando</b> el apoyo\";",
+        "// }",
+        "",
+        "// return output;"
       ],
       "exposed" : false
     },

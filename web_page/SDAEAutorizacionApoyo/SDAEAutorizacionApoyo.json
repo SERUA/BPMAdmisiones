@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1669079417956,
+  "lastUpdate" : 1680040941995,
   "rows" : [
     [
       {
@@ -216,7 +216,7 @@
                 "getTipoAdmision" : "getTipoAdmision",
                 "formOutputTest" : "formOutputTest",
                 "tutor" : "tutor",
-                "lstCatTipoInversionesPosee" : "lstca",
+                "lstCatTipoInversionesPosee" : "lstCatTipoInversionesPosee",
                 "padre" : "padre",
                 "madre" : "madre",
                 "imagenesSocioEconomico" : "imagenesSocioEconomico",
@@ -229,7 +229,7 @@
                 "getCatTipoApoyoByCampus" : "getCatTipoApoyoByCampus",
                 "lstCatPorcentajeBeca" : "lstCatPorcentajeBeca",
                 "lstCatPorcentajeFinanciamiento" : "lstCatPorcentajeFinanciamiento",
-                "catCasaDondeVives_query" : "catCasaDondeVives_query",
+                "catCasaDondeVives_query" : "catCasaDondeVives_query.data",
                 "validar1" : "bandera",
                 "validar2" : "bandera",
                 "validar3" : "bandera",
@@ -1231,6 +1231,58 @@
           ],
           [
             {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<pre>{{ loggedUserName }}</pre>\n<pre>{{ formOutputFinal | json }}</pre> \n<pre>{{ formOutputFinalModificar | json }}</pre>\n<pre>{{ formOutputFinalRechazar | json }}</pre>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "5990f265-c630-4f7c-bc8f-c4042d175fe9",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
               "type" : "container",
               "dimension" : {
                 "xs" : 12,
@@ -1360,7 +1412,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "valor2" : {
                         "type" : "variable",
@@ -1386,6 +1438,50 @@
                     "reference" : "2a4b9306-48b8-46f4-ad3d-1295d75d783f",
                     "hasValidationError" : false,
                     "id" : "customSDAEtextEditorAJS"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "valor2" : {
+                        "type" : "variable",
+                        "value" : "formInputAprobar.autorizacionInput.motivoRechazoAutorizacionText"
+                      },
+                      "id" : {
+                        "type" : "constant",
+                        "value" : "autRec1"
+                      },
+                      "ocultarPrevisualizar" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "datosPrevisualizar" : {
+                        "type" : "variable",
+                        "value" : "previewRechazar"
+                      },
+                      "replace" : {
+                        "type" : "constant",
+                        "value" : "[RECHAZO-COMENTARIOS-DICTAMEN]"
+                      }
+                    },
+                    "reference" : "44e9165f-b3ac-4fc9-9324-7c7b181ee4c1",
+                    "hasValidationError" : false,
+                    "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
                   }
                 ],
                 [
@@ -1632,7 +1728,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "valor2" : {
                         "type" : "variable",
@@ -1658,6 +1754,50 @@
                     "reference" : "3b3d2d23-d9d6-4c1f-b912-672058edfafa",
                     "hasValidationError" : false,
                     "id" : "customSDAEtextEditorAJS"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "valor2" : {
+                        "type" : "variable",
+                        "value" : "formInputModificar.autorizacionInput.cambiosSolicitudAutorizacionText"
+                      },
+                      "id" : {
+                        "type" : "constant",
+                        "value" : "autMod1"
+                      },
+                      "ocultarPrevisualizar" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "datosPrevisualizar" : {
+                        "type" : "variable",
+                        "value" : "previewModificar"
+                      },
+                      "replace" : {
+                        "type" : "constant",
+                        "value" : "[MOTIVO-MODIFICACION]"
+                      }
+                    },
+                    "reference" : "419c3df5-0018-4fe0-bb6b-159da79d2da4",
+                    "hasValidationError" : false,
+                    "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
                   }
                 ],
                 [
@@ -2520,6 +2660,50 @@
                       "reference" : "3166a542-ee7f-4207-aee8-84df364400cf",
                       "hasValidationError" : false,
                       "id" : "customSDAEtextEditorAJS"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputAprobar.autorizacionInput.motivoRechazoAutorizacion"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "BC_RECHAZADO_APOYO"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "{\"campus\": \"CAMPUS-MNORTE\", \"correo\": getInformacionPersonal[0].correoElectronico, \"codigo\": \"BC_RECHAZADO_APOYO\", \"isEnviar\": false }"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[NOMBRE-COMPLETO]"
+                        }
+                      },
+                      "reference" : "75eab3da-5a72-41b9-b10d-f8237b7ea23d",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
                     }
                   ]
                 ]
@@ -4422,16 +4606,20 @@
                                           },
                                           "label" : {
                                             "type" : "interpolation",
-                                            "value" : "¿El apoyo contiene financiamiento educativo??"
+                                            "value" : "Con propuesta financiamiento educativo"
                                           },
                                           "value" : {
                                             "type" : "variable",
                                             "value" : "showFinanciamiento"
+                                          },
+                                          "procentajeFinanciamiento" : {
+                                            "type" : "variable",
+                                            "value" : "formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion"
                                           }
                                         },
-                                        "reference" : "af6383db-aa7e-4146-864a-42cb7f3612dd",
+                                        "reference" : "4a19d1fb-08aa-48a3-9637-d1c4b8459a06",
                                         "hasValidationError" : false,
-                                        "id" : "pbCheckbox"
+                                        "id" : "customSDAECheckboxCleanFina"
                                       }
                                     ],
                                     [
@@ -4615,7 +4803,7 @@
                                     },
                                     "disabled" : {
                                       "type" : "constant",
-                                      "value" : false
+                                      "value" : true
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -4623,7 +4811,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "¿Ya realizó el pago?"
+                                      "value" : "Inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -4654,8 +4842,8 @@
                                       "value" : false
                                     },
                                     "readOnly" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -4735,7 +4923,7 @@
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "!getConfiguracionCampus.data[0].descuentoProntoPago"
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -4780,6 +4968,74 @@
                                   "reference" : "3de2a6ea-0c4c-4d97-8a51-ae9494934a53",
                                   "hasValidationError" : false,
                                   "id" : "customSDAEInputLimitPercentage"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Fecha límite para responder la propuesta:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "formInputAprobar.autorizacionInput.fechaLimitePropuesta"
+                                    },
+                                    "dateFormat" : {
+                                      "type" : "constant",
+                                      "value" : "dd/MM/yyyy"
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Captura una fecha (dd/mm/yyyy)"
+                                    },
+                                    "showToday" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "todayLabel" : {
+                                      "type" : "interpolation",
+                                      "value" : "Today"
+                                    }
+                                  },
+                                  "reference" : "bdffac0b-1506-4ff4-9a87-e382d1a2a27b",
+                                  "hasValidationError" : false,
+                                  "id" : "pbDatePicker"
                                 }
                               ]
                             ]
@@ -5621,16 +5877,20 @@
                                           },
                                           "label" : {
                                             "type" : "interpolation",
-                                            "value" : "¿El apoyo contiene financiamiento educativo??"
+                                            "value" : "Con propuesta financiamiento educativo"
                                           },
                                           "value" : {
                                             "type" : "variable",
                                             "value" : "showFinanciamiento"
+                                          },
+                                          "procentajeFinanciamiento" : {
+                                            "type" : "variable",
+                                            "value" : "formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion"
                                           }
                                         },
-                                        "reference" : "2700fce0-3443-40d2-9ad3-3781cf3bc6f5",
+                                        "reference" : "dc0062c6-a7e0-4f33-b71e-95d758cdb8c8",
                                         "hasValidationError" : false,
-                                        "id" : "pbCheckbox"
+                                        "id" : "customSDAECheckboxCleanFina"
                                       }
                                     ],
                                     [
@@ -5657,11 +5917,11 @@
                                           },
                                           "minLength" : {
                                             "type" : "constant",
-                                            "value" : ""
+                                            "value" : 1
                                           },
                                           "maxLength" : {
                                             "type" : "constant",
-                                            "value" : 1
+                                            "value" : 3
                                           },
                                           "readOnly" : {
                                             "type" : "constant",
@@ -5814,7 +6074,7 @@
                                     },
                                     "disabled" : {
                                       "type" : "constant",
-                                      "value" : false
+                                      "value" : true
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -5822,7 +6082,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "¿Ya realizó el pago?"
+                                      "value" : "Inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -5853,8 +6113,8 @@
                                       "value" : false
                                     },
                                     "readOnly" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -5926,15 +6186,15 @@
                                     },
                                     "minLength" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : 0
                                     },
                                     "maxLength" : {
                                       "type" : "constant",
-                                      "value" : 1
+                                      "value" : 3
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "!getConfiguracionCampus.data[0].descuentoProntoPago"
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -5979,6 +6239,74 @@
                                   "reference" : "315f3eec-71cf-412b-b205-cc62cd5b2c7b",
                                   "hasValidationError" : false,
                                   "id" : "customSDAEInputLimitPercentage"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Fecha límite para responder la propuesta:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "formInputAprobar.autorizacionInput.fechaLimitePropuesta"
+                                    },
+                                    "dateFormat" : {
+                                      "type" : "constant",
+                                      "value" : "dd/MM/yyyy"
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Enter a date (mm/dd/yyyy)"
+                                    },
+                                    "showToday" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "todayLabel" : {
+                                      "type" : "interpolation",
+                                      "value" : "Today"
+                                    }
+                                  },
+                                  "reference" : "f90e6450-7773-431f-ba7c-e16649157384",
+                                  "hasValidationError" : false,
+                                  "id" : "pbDatePicker"
                                 }
                               ]
                             ]
@@ -6619,16 +6947,20 @@
                                           },
                                           "label" : {
                                             "type" : "interpolation",
-                                            "value" : "¿El apoyo contiene financiamiento educativo??"
+                                            "value" : "Con propuesta financiamiento educativo"
                                           },
                                           "value" : {
                                             "type" : "variable",
                                             "value" : "showFinanciamiento"
+                                          },
+                                          "procentajeFinanciamiento" : {
+                                            "type" : "variable",
+                                            "value" : "formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion"
                                           }
                                         },
-                                        "reference" : "f11b599f-d70b-48ba-9195-1e57313558cb",
+                                        "reference" : "b20ff02c-9881-435b-94b1-3a3b9ed55538",
                                         "hasValidationError" : false,
-                                        "id" : "pbCheckbox"
+                                        "id" : "customSDAECheckboxCleanFina"
                                       }
                                     ],
                                     [
@@ -6655,11 +6987,11 @@
                                           },
                                           "minLength" : {
                                             "type" : "constant",
-                                            "value" : ""
+                                            "value" : 1
                                           },
                                           "maxLength" : {
                                             "type" : "constant",
-                                            "value" : 1
+                                            "value" : 3
                                           },
                                           "readOnly" : {
                                             "type" : "constant",
@@ -6812,7 +7144,7 @@
                                     },
                                     "disabled" : {
                                       "type" : "constant",
-                                      "value" : false
+                                      "value" : true
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -6820,7 +7152,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "¿Ya realizó el pago?"
+                                      "value" : "Inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -6851,8 +7183,8 @@
                                       "value" : false
                                     },
                                     "readOnly" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -6924,15 +7256,15 @@
                                     },
                                     "minLength" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : 0
                                     },
                                     "maxLength" : {
                                       "type" : "constant",
-                                      "value" : 1
+                                      "value" : 3
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "!getConfiguracionCampus.data[0].descuentoProntoPago"
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -6977,6 +7309,74 @@
                                   "reference" : "afe8f80f-403e-4404-abb1-62f9c932b0f2",
                                   "hasValidationError" : false,
                                   "id" : "customSDAEInputLimitPercentage"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Fecha límite para responder la propuesta:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "formInputAprobar.autorizacionInput.fechaLimitePropuesta"
+                                    },
+                                    "dateFormat" : {
+                                      "type" : "constant",
+                                      "value" : "dd/MM/yyyy"
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Enter a date (mm/dd/yyyy)"
+                                    },
+                                    "showToday" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "todayLabel" : {
+                                      "type" : "interpolation",
+                                      "value" : "Today"
+                                    }
+                                  },
+                                  "reference" : "952a11fb-bf53-4552-b6fc-6d43831e0970",
+                                  "hasValidationError" : false,
+                                  "id" : "pbDatePicker"
                                 }
                               ]
                             ]
@@ -7978,7 +8378,8 @@
         "\t\t\"fechaPagoInscripcionAutorizacion\": null,",
         "\t\t\"isPagoRealizadoAutorizacion\":false,",
         "\t\t\"motivoRechazoAutorizacionText\":\"\",",
-        "\t\t\"cambiosSolicitudAutorizacionText\":\"\"",
+        "\t\t\"cambiosSolicitudAutorizacionText\":\"\",",
+        "\t\t\"fechaLimitePropuesta\": null",
         "\t},",
         "\t\"isModificacionAutorizcionInput\":false",
         "}"
@@ -8002,7 +8403,8 @@
         "\t\t\"fechaPagoInscripcionAutorizacion\": null,",
         "\t\t\"isPagoRealizadoAutorizacion\":false,",
         "\t\t\"motivoRechazoAutorizacionText\":\"\",",
-        "\t\t\"cambiosSolicitudAutorizacionText\":\"\"",
+        "\t\t\"cambiosSolicitudAutorizacionText\":\"\",",
+        "\t\t\"fechaLimitePropuesta\": null",
         "\t},",
         "\t\"isModificacionAutorizcionInput\":false",
         "}"
@@ -8294,7 +8696,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CATCASADONDEVIVES"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "urlDownloadFileAzure" : {
@@ -8316,7 +8722,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure={{objSolicitudDeAdmision[0].urlConstancia}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "fotoB64" : {
@@ -8464,7 +8874,7 @@
       "type" : "expression",
       "value" : [
         "let output = true;\r",
-        "\r",
+        "debugger;\r",
         "if(!$data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion){\r",
         "    $data.errorMessage = \"No puedes autorizar el apoyo sin poner valor en el campo 'Porcentaje de beca autorizado'\";\r",
         "    output = false;\r",
@@ -8477,7 +8887,12 @@
         "} else if(!$data.formInputAprobar.autorizacionInput.promedioMinimoAutorizacion){\r",
         "    $data.errorMessage = \"El campo 'Promedio mínimo para conservar el apoyo' no debe ir vacío\";\r",
         "    output = false;\r",
-        "} else if(!$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
+        "}\r",
+        "// else if(!$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
+        "//     $data.errorMessage = \"El campo 'Fecha límite de inscripción' no debe ir vacío\";\r",
+        "//     output = false;\r",
+        "// }\r",
+        " else if(!$data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion && !$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
         "    $data.errorMessage = \"El campo 'Fecha límite de inscripción' no debe ir vacío\";\r",
         "    output = false;\r",
         "}\r",
@@ -8513,6 +8928,7 @@
         "autorizacionInput.porcentajeCreditoAutorizacion = parseInt(autorizacionInput.porcentajeCreditoAutorizacion ? autorizacionInput.porcentajeCreditoAutorizacion : 0);\r",
         "autorizacionInput.porcentajeBecaAutorizacion = parseInt(autorizacionInput.porcentajeBecaAutorizacion ? autorizacionInput.porcentajeBecaAutorizacion : 0);\r",
         "autorizacionInput.caseid = parseInt($data.caseId);\r",
+        "autorizacionInput.usuarioAutoriza =  $data.loggedUserName;\r",
         "\r",
         "return {\r",
         "\t\"varAutorizadaInput\": $data.formInputAprobar.varAutorizadaInput,\r",
@@ -8529,6 +8945,7 @@
         "// autorizacionInput.porcentajeCreditoAutorizacion = parseInt(autorizacionInput.porcentajeCreditoAutorizacion ? autorizacionInput.porcentajeCreditoAutorizacion : 0);\r",
         "// autorizacionInput.porcentajeBecaAutorizacion = parseInt(autorizacionInput.porcentajeBecaAutorizacion ? autorizacionInput.porcentajeBecaAutorizacion : 0);\r",
         "autorizacionInput.caseid = parseInt($data.caseId);\r",
+        "autorizacionInput.usuarioAutoriza =  $data.loggedUserName;\r",
         "\r",
         "return {\r",
         "\t\"varAutorizadaInput\": false,\r",
@@ -8647,7 +9064,8 @@
         "\t\t\"fechaPagoInscripcionAutorizacion\": null,",
         "\t\t\"isPagoRealizadoAutorizacion\":false,",
         "\t\t\"motivoRechazoAutorizacionText\":\"\",",
-        "\t\t\"cambiosSolicitudAutorizacionText\":\"\"",
+        "\t\t\"cambiosSolicitudAutorizacionText\":\"\",",
+        "\t\t\"fechaLimitePropuesta\": null",
         "\t},",
         "\t\"isModificacionAutorizcionInput\":true",
         "}"
@@ -8661,6 +9079,7 @@
         "autorizacionInput.porcentajeCreditoAutorizacion = parseInt(autorizacionInput.porcentajeCreditoAutorizacion ? autorizacionInput.porcentajeCreditoAutorizacion : 0);\r",
         "autorizacionInput.porcentajeBecaAutorizacion = parseInt(autorizacionInput.porcentajeBecaAutorizacion ? autorizacionInput.porcentajeBecaAutorizacion : 0);\r",
         "autorizacionInput.caseid = parseInt($data.caseId);\r",
+        "autorizacionInput.usuarioAutoriza =  $data.loggedUserName;\r",
         "\r",
         "return {\r",
         "\t\"varAutorizadaInput\": $data.formInputModificar.varAutorizadaInput,\r",
@@ -8675,7 +9094,70 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getConfiguracionCampus&p=0&c=10&idCampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}"
       ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "getGestionEscolarSDAE" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getSDAEGestionEscolar&p=0&c=100&id={{objSolicitudDeAdmision[0].catGestionEscolar.persistenceId}}"
+      ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "loggedUserName" : {
+      "type" : "expression",
+      "value" : [
+        "let output = \"\";",
+        "",
+        "if($data.user){",
+        "   output = $data.user.firstname + $data.user.lastname; ",
+        "}",
+        "",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "user" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/user/{{userData.user_id}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getBannerInfo" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getBannerInfo&p=0&c=100&idcampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}&idbanner={{detalleSolicitud[0].idBanner}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "detalleSolicitud" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.model.DetalleSolicitud?q=findByCaseId&p=0&c=10&f=caseId={{objSolicitudDeAdmision[0].caseId}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "setInscripcionPagada" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.getBannerInfo){",
+        "    debugger;",
+        "    let value = $data.getBannerInfo.data[0].pago_de_inscripcion === \"SI\";",
+        "    $data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion = value;",
+        "    return value;    ",
+        "} else {",
+        "    return false;",
+        "}"
+      ],
       "exposed" : false
     }
   },

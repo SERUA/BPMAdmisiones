@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEModificarSolicitud",
   "name" : "SDAEModificarSolicitud",
-  "lastUpdate" : 1669320169647,
+  "lastUpdate" : 1680045366233,
   "rows" : [
     [
       {
@@ -85,6 +85,10 @@
           "isSolicitud" : {
             "type" : "constant",
             "value" : false
+          },
+          "modificarDocumentos" : {
+            "type" : "expression",
+            "value" : "formOutputTest.solicitudApoyoEducativoInput.modificarDocumentos"
           }
         },
         "reference" : "517a6016-b5ff-4faa-9587-de8ce46cd8bd",
@@ -1448,7 +1452,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de  apoyo educativo te apoyará en este proceso y te acompañará para mantenerte al tanto de tu solicitud. ¡Te deseamos mucha suerte!</label>"
+                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de apoyo educativo te acompañará en este proceso para mantenerte al tanto de tu solicitud.\n</label>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1568,7 +1572,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad</a>"
+                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad.</a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -1608,7 +1612,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento educativo</a> de la Universidad"
+                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento educativo</a> de la Universidad."
                         },
                         "value" : {
                           "type" : "variable",
@@ -2540,7 +2544,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getDocumentosByTipoApoyo&p=0&c=0&idTipoApoyo={{formOutputTest.solicitudApoyoEducativoInput.catTipoApoyo_id}}&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "acceptoAvisoPrivacidad" : {
@@ -3130,7 +3138,7 @@
       "type" : "expression",
       "value" : [
         "let output =  true; \r",
-        "debugger;\r",
+        "\r",
         "if(!$data.formOutputTest.solicitudApoyoEducativoInput.motivoBeca){\r",
         "    output = false;\r",
         "    $data.errorPaso3 = \"El campo 'Escribe el motivo por el cual se solicita la beca y otra información que creas que el comité de selección deba saber' no debe ir vacío.\";\r",
@@ -4158,6 +4166,14 @@
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getImagenesByTipoApoyo" : {
+      "type" : "url",
+      "value" : [
+        "{{urlIMagenesSocioEconomico}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

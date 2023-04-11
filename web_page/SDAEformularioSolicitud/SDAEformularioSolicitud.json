@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1668729952048,
+  "lastUpdate" : 1680045083260,
   "rows" : [
     [
       {
@@ -7144,7 +7144,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Ingresa la información para cada bien inmueble y/o inversión que posea:"
+                        "value" : "Ingresa la información para cada bien inmueble y/o inversión que posea: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -12464,10 +12464,10 @@
                           ]
                         },
                         {
-                          "type" : "component",
+                          "type" : "container",
                           "dimension" : {
                             "xs" : 12,
-                            "sm" : 6,
+                            "sm" : 12,
                             "md" : 6,
                             "lg" : 6
                           },
@@ -12480,187 +12480,217 @@
                               "type" : "constant",
                               "value" : false
                             },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "minLength" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : 5
-                            },
-                            "readOnly" : {
-                              "type" : "expression",
-                              "value" : "!formOutputTest.solicitudApoyoEducativoInput.pais"
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Código Postal:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "placeholder" : {
-                              "type" : "interpolation"
-                            },
-                            "value" : {
+                            "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "formOutputTest.solicitudApoyoEducativoInput.codigoPostal"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "number"
-                            },
-                            "min" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "max" : {
-                              "type" : "constant",
-                              "value" : 99999
-                            },
-                            "step" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "lstCP" : {
-                              "type" : "variable",
-                              "value" : "cpBusqueda"
+                              "value" : ""
                             }
                           },
-                          "reference" : "15dbb9e0-4b32-4b0b-bdad-a6eb67470e0e",
+                          "reference" : "8f485d73-4d9b-4d85-a355-cc0b02b6e6c9",
                           "hasValidationError" : false,
-                          "id" : "customSDAEInputLimitCP"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "expression",
-                              "value" : "formOutputTest.solicitudApoyoEducativoInput.pais !== \"México\""
-                            },
-                            "disabled" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Buscar CP"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "right"
-                            },
-                            "buttonStyle" : {
-                              "type" : "constant",
-                              "value" : "primary"
-                            },
-                            "action" : {
-                              "type" : "constant",
-                              "value" : "Open modal"
-                            },
-                            "assign" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "url" : {
-                              "type" : "interpolation"
-                            },
-                            "responseStatusCode" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "dataToSend" : {
-                              "type" : "constant"
-                            },
-                            "dataFromSuccess" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "closeOnSuccess" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "dataFromError" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "targetUrlOnSuccess" : {
-                              "type" : "interpolation"
-                            },
-                            "collectionToModify" : {
-                              "type" : "variable"
-                            },
-                            "modalId" : {
-                              "type" : "constant",
-                              "value" : "modaldatosCPModificar"
-                            },
-                            "collectionPosition" : {
-                              "type" : "constant",
-                              "value" : "Last"
-                            },
-                            "valueToAdd" : {
-                              "type" : "constant"
-                            },
-                            "removeItem" : {
-                              "type" : "variable"
-                            },
-                            "estado" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.estado"
-                            },
-                            "ciudad" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.ciudad"
-                            },
-                            "municipio" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.munucipio"
-                            },
-                            "asentamiento" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.asentamiento"
-                            },
-                            "estadoExtranjero" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.estadoExtranjero"
-                            },
-                            "cp" : {
-                              "type" : "variable",
-                              "value" : "formOutputTest.solicitudApoyoEducativoInput.codigoPostal"
-                            },
-                            "haveCiudad" : {
-                              "type" : "variable",
-                              "value" : "codigoBusqueda.haveciudad"
-                            }
-                          },
-                          "reference" : "1dbbb89c-7e8e-44bc-b0f2-b2b41cc59492",
-                          "hasValidationError" : false,
-                          "id" : "customSDAEbtnCodigoPostal"
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 6,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "minLength" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "maxLength" : {
+                                    "type" : "constant",
+                                    "value" : 5
+                                  },
+                                  "readOnly" : {
+                                    "type" : "expression",
+                                    "value" : "!formOutputTest.solicitudApoyoEducativoInput.pais"
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Código Postal:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "formOutputTest.solicitudApoyoEducativoInput.codigoPostal"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "number"
+                                  },
+                                  "min" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "max" : {
+                                    "type" : "constant",
+                                    "value" : 99999
+                                  },
+                                  "step" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "lstCP" : {
+                                    "type" : "variable",
+                                    "value" : "cpBusqueda"
+                                  }
+                                },
+                                "reference" : "15dbb9e0-4b32-4b0b-bdad-a6eb67470e0e",
+                                "hasValidationError" : false,
+                                "id" : "customSDAEInputLimitCP"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "formOutputTest.solicitudApoyoEducativoInput.pais !== \"México\""
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Buscar código postal"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "center"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "primary"
+                                  },
+                                  "action" : {
+                                    "type" : "constant",
+                                    "value" : "Open modal"
+                                  },
+                                  "assign" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "url" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "responseStatusCode" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "dataToSend" : {
+                                    "type" : "constant"
+                                  },
+                                  "dataFromSuccess" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "closeOnSuccess" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "dataFromError" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "targetUrlOnSuccess" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "collectionToModify" : {
+                                    "type" : "variable"
+                                  },
+                                  "modalId" : {
+                                    "type" : "constant",
+                                    "value" : "modaldatosCPModificar"
+                                  },
+                                  "collectionPosition" : {
+                                    "type" : "constant",
+                                    "value" : "Last"
+                                  },
+                                  "valueToAdd" : {
+                                    "type" : "constant"
+                                  },
+                                  "removeItem" : {
+                                    "type" : "variable"
+                                  },
+                                  "estado" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.estado"
+                                  },
+                                  "ciudad" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.ciudad"
+                                  },
+                                  "municipio" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.munucipio"
+                                  },
+                                  "asentamiento" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.asentamiento"
+                                  },
+                                  "estadoExtranjero" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.estadoExtranjero"
+                                  },
+                                  "cp" : {
+                                    "type" : "variable",
+                                    "value" : "formOutputTest.solicitudApoyoEducativoInput.codigoPostal"
+                                  },
+                                  "haveCiudad" : {
+                                    "type" : "variable",
+                                    "value" : "codigoBusqueda.haveciudad"
+                                  }
+                                },
+                                "reference" : "1dbbb89c-7e8e-44bc-b0f2-b2b41cc59492",
+                                "hasValidationError" : false,
+                                "id" : "customSDAEbtnCodigoPostal"
+                              }
+                            ]
+                          ]
                         }
                       ],
                       [
@@ -15096,7 +15126,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "<h4 class=\"title-table-dist\">Egresos netos ({{returnCatValue.catTipoMoneda.clave}})</h4>"
+                                    "value" : "<h4 class=\"title-table-dist\">Egresos ({{returnCatValue.catTipoMoneda.clave}})</h4>"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -18213,7 +18243,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<label >Instrucciones: Carga las fotografías solicitadas, estas deben ser tomadas en formato horizontal y en calidad media/alta.</label>"
+                        "value" : "<label >Instrucciones: Carga las fotografías solicitadas en formato JPG, PNG o PDF. Se te recomienda colocar en posición horizontal el dispositivo de captura previamente y configurado en calidad media o alta.</label>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -19994,7 +20024,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de  apoyo educativo te apoyará en este proceso y te acompañará para mantenerte al tanto de tu solicitud.</label>"
+                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de apoyo educativo te acompañará en este proceso para mantenerte al tanto de tu solicitud.\n</label>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -20114,7 +20144,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad</a>"
+                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad.</a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -20154,7 +20184,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento Educativo</a> de la Universidad"
+                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento Educativo</a> de la Universidad."
                         },
                         "value" : {
                           "type" : "variable",
@@ -23783,7 +23813,7 @@
         "\r",
         "function validateBienesRaices(){\r",
         "    let output = true;\r",
-        "\r",
+        "    \r",
         "    for(let bien of $data.formOutputTest.bienesRaicesInput){\r",
         "        if(!bien.catTipoInversionesPosee_id || !bien.descripcion || !bien.direccionBanco || !bien.valor){\r",
         "            output = false;\r",

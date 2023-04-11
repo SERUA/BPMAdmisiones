@@ -1,6 +1,7 @@
 function ($scope, $http) {
 
     var loaded = false;
+    var publicKey = "";
     $scope.formInput = {
     	"solicitudApoyoEducativoInput":{
     		"ordenPagoConekta":""
@@ -39,22 +40,46 @@ function ($scope, $http) {
             }
         });
     }
+    
+    function getConektaPublicKeyV2(){
+        debugger;
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacRestGet?url=getConektaPublicKeyV2&p=0&c=10&campus_id=" + $scope.properties.objSolicitudAdmision.catCampusEstudio.persistenceId,
+        };
+
+        return $http(req).success(function (data, status) {
+            $scope.properties.publicKey = angular.copy(data.data[0]);
+            publicKey = angular.copy(data.data[0]);
+            getConektaTokenbObject();
+        }).error(function (data, status) {
+            // $scope.properties.dataFromError = data;
+            swal("Error", "No se ha podido generar el token temporal, intente de nuevo mas tarde.", "error");
+        }).finally(function () {
+            // if ($scope.properties.tokenObject) {
+            //     setIframe();
+            // }
+        });
+    }
 
     $scope.$watch("properties.objSolicitudAdmision", () => {
         if ($scope.properties.objSolicitudAdmision) {
             if (!loaded) {
                 loaded = true;
-                getConektaTokenbObject();
+                // getConektaTokenbObject();
+                getConektaPublicKeyV2();
             }
         }
     });
 
     function setIframe() {
+        debugger;
         window.ConektaCheckoutComponents.Card({
             targetIFrame: "#conektaIframeContainer",
             allowTokenization: true,
             checkoutRequestId: $scope.properties.tokenObject.checkout.id,
-            publicKey: $scope.properties.publicKey,
+            // publicKey: $scope.properties.publicKey,
+            publicKey: publicKey,
             options: {
                 styles: {
                     inputType: 'basic', //'basic' | 'rounded' | 'line'
@@ -85,6 +110,7 @@ function ($scope, $http) {
                 }
             },
             onCreateTokenSucceeded: function (_token) {
+                debugger;
                 var scope = angular.element($("custom-conekta-iframe")).scope();
                 scope.showModal();
                 scope.$apply(function(){
@@ -152,7 +178,7 @@ function ($scope, $http) {
             
         }).error(function(error){
             $scope.hideModal();
-            swal("Error", "Algo salió mal con el proceso de pago. Revisa que los datos de la tarjeta estén correctos.", "error");
+            // swal("Error", "Algo salió mal con el proceso de pago. Revisa que los datos de la tarjeta estén correctos.", "error");
         }).finally(function(){
             $scope.hideModal();
             window.location.reload();

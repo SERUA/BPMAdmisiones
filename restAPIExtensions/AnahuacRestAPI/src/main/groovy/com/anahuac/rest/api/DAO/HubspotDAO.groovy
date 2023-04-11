@@ -77,6 +77,33 @@ class HubspotDAO {
         put("Carga y consulta de resultados","En espera de resultados");
         put("Resultado final del comité","En espera de resultados");
         put("Rechazado por comité","En espera de resultados");}};
+	
+	Map<String,String> estatusMapBecas = new HashMap<String, String>() {{
+		put("Esperando Pre-Autorización", "Envío de solicitud beca");
+		put("Correcciones realizadas", "Envío de solicitud beca");
+		put("En espera de resultado", "Validado");
+		put("Solicitud Rechazada", "Rechazo solicitud beca");
+		put("Solicitud no autorizada", "Rechazo solicitud beca");
+		put("Solicitud rechazada por comité de finanzas", "Rechazo solicitud beca");
+		put("Solicitud rechazada por finanzas", "Rechazo solicitud beca");
+		put("Pre-autorización solicita modificaciones", "Solicitud cambios");
+		put("En espera de pago", "En espera de pago");
+		put("En espera de validación de pago", "En espera de pago");
+		put("En espera de autorización", "En espera de resultado de beca");
+		put("Solicitud autorizada", "Solicitud de beca autorizada");
+	}};
+
+	Map<String,String> mapTipoBecas = new HashMap<String, String>() {{
+		put("Beca artística", "Artística");
+		put("Beca deportiva", "Deportiva");
+		put("Beca académica", "Académica");
+		put("Beca SEP(promedio mínimo 9.0)", "Académica");
+		put("Convenio", "Académica");
+		put("Beca de excelencia", "Académica");
+		put("Convenio", "Académica");
+		
+	}};
+
 	public Boolean validarConexion() {
 		  Boolean retorno=false
 		  if (con == null || con.isClosed()) {
@@ -3027,36 +3054,212 @@ class HubspotDAO {
 	  }
 	  return result;
   }
-  private void verifyAndInsertOrUpdate(String key, String value, String description) {
-	  Boolean closeCon=false;
-	  
-	  try {
-	  closeCon = validarConexion();
-	  pstm = con.prepareStatement(HubspotConfig.GET_CONFIGURACIONES_CLAVE)
-	  pstm.setString(1, key)
-	  rs = pstm.executeQuery()
-	  if (rs.next()) {
-		  pstm = con.prepareStatement(HubspotConfig.UPDATE_CONFIGURACIONES)
-		  pstm.setString(1, value)
-		  pstm.setString(2, key)
-		  pstm.executeUpdate()
-	  } else {
-		  pstm = con.prepareStatement(HubspotConfig.INSERT_CONFIGURACIONES)
-		  pstm.setString(1, key)
-		  pstm.setString(2, value)
-		  pstm.setString(3, description)
-		  pstm.executeUpdate()
-	  }
-	  
+	  private void verifyAndInsertOrUpdate(String key, String value, String description) {
+		  Boolean closeCon=false;
 		  
-	  }catch(Exception e) {
-		  throw new Exception (e.getMessage());
-	  }finally {
-		  if(closeCon) {
-			  new DBConnect().closeObj(con, stm, rs, pstm);
+		  try {
+		  closeCon = validarConexion();
+		  pstm = con.prepareStatement(HubspotConfig.GET_CONFIGURACIONES_CLAVE)
+		  pstm.setString(1, key)
+		  rs = pstm.executeQuery()
+		  if (rs.next()) {
+			  pstm = con.prepareStatement(HubspotConfig.UPDATE_CONFIGURACIONES)
+			  pstm.setString(1, value)
+			  pstm.setString(2, key)
+			  pstm.executeUpdate()
+		  } else {
+			  pstm = con.prepareStatement(HubspotConfig.INSERT_CONFIGURACIONES)
+			  pstm.setString(1, key)
+			  pstm.setString(2, value)
+			  pstm.setString(3, description)
+			  pstm.executeUpdate()
 		  }
+		  
+			  
+		  }catch(Exception e) {
+			  throw new Exception (e.getMessage());
+		  }finally {
+			  if(closeCon) {
+				  new DBConnect().closeObj(con, stm, rs, pstm);
+			  }
+		  }
+		  
+	  }
+
+	  //TO-DO
+	  public Result createOrUpdateBeca(String jsonData, RestAPIContext context) {
+	        Result resultado = new Result();
+	        Result resultadoApiKey = new Result();
+	        Boolean closeCon = false;
+//	        List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+	        List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
+	        List<String> lstValueProperties = new ArrayList<String>();
+	        Map<String, String> objHubSpotData = new HashMap<String, String>();
+	        Boolean noSol = false;
+			String msjNF = "";
+	        String strError = "";
+	        String apikeyHubspot ="";
+	        Date fecha = new Date();
+	        DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			
+	        try {
+				  
+	            def jsonSlurper = new JsonSlurper();
+	            def object = jsonSlurper.parseText(jsonData);
+	            
+				def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
+				lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(object.email, 0, 1);
+				
+	            assert object instanceof Map;
+	            strError += " | try";
+				
+				resultadoApiKey = getApikeyHubspot(lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
+				apikeyHubspot = (String) resultadoApiKey.getData().get(0);
+				ServiciosBecasDAO becas = new ServiciosBecasDAO();
+				Result resultBEcas = becas.getSolicitudApoyoByCaseId(Integer.valueOf(object.caseid), context);
+				String email = object.email;
+				strError += " | jsonData.caseid" + object.caseid;
+				
+				if(resultBEcas.isSuccess()){
+					Map < String, Object > map = new LinkedHashMap < String, Object > ();
+					map = (Map < String, Object >) resultBEcas.getData().get(0);
+//					objHubSpotData.put("email", email);
+					
+					objHubSpotData.put("beca_otorgada_bpm", "");
+					objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get(map.get("estatussolicitud")));
+					objHubSpotData.put("finan_otorgada_bpm", "");
+					objHubSpotData.put("mensaje_becas_bpm", "");
+//					objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingreso"));
+					objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca"));
+					objHubSpotData.put("porcentaje_finan_solicitado_bpm",  map.get("porcentajefinanciamiento"));
+					objHubSpotData.put("propuesta_beca_bpm", "");
+					objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
+//					objHubSpotData.put("fecha_actualizacion_becas_bpm", dfSalida.format(map.get("fechaultimamodificacion")));
+					
+					resultado = createOrUpdateHubspotBecas(email, apikeyHubspot, objHubSpotData);
+				} else {
+					strError = strError + " | ------------------------------------------";
+					strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
+					strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
+					strError = strError + " | ------------------------------------------";
+				}
+				
+	            if (!resultado.success) {
+	                String correo = "";
+	                closeCon = validarConexion();
+	                pstm = con.prepareStatement(Statements.GET_CORREO_BY_CLAVE)
+	                pstm.setString(1, "EmailRegistro")
+	                rs = pstm.executeQuery()
+	                while(rs.next()) {
+	                    correo = rs.getString("valor");
+	                }
+	            
+	                MailGunDAO mgd = new MailGunDAO();
+	                Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+	                strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
+	            }
+	
+	            if (noSol == true) {
+	                String correo = "";
+	                closeCon = validarConexion();
+	                pstm = con.prepareStatement(Statements.GET_CORREO_BY_CLAVE)
+	                pstm.setString(1, "EmailRegistro")
+	                rs = pstm.executeQuery()
+	                while(rs.next()) {
+	                    correo = rs.getString("valor");
+	                }
+					
+	                msjNF += " en el catalogo de HubSpot"
+	                MailGunDAO mgd = new MailGunDAO();
+	                Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+	                
+	                strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
+	            }
+	
+	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            
+	        } catch (Exception e) {
+	            LOGGER.error "e: "+e.getMessage();
+	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            resultado.setSuccess(false);
+	            resultado.setError(e.getMessage());
+	            e.printStackTrace();
+	            new LogDAO().insertTransactionLog("POST", "FALLIDO", "Error inesperado", "Log:"+strError, e.getMessage())
+	        } finally {
+	            if(closeCon) {
+	                new DBConnect().closeObj(con, stm, rs, pstm)
+	            }
+	        }
+			  
+			return resultado
 	  }
 	  
-  }
+	  public Result createOrUpdateHubspotBecas(String email, String apikeyHubspot, Map<String, String> objHubSpotData) {
+		  Result resultado = new Result();
+		  //String data="8b-.-.-.b0-.-.-.a-.-.-.1ac-df-.-.-.54-40-.-.-.bf-b5-.-.-.69-40-.-.-.e8-.-.-.7f-.-.-.90-.-.-.c0-.-.-.99"
+		  String targetURL = "https://api.hubapi.com/contacts/v1/contact/createOrUpdate/email/[EMAIL]/"
+//		  String jsonInputString = "{\"properties\":[{\"property\":\"firstname\",\"value\":\"java\"},{\"property\":\"nombre\",\"value\":\"Arturo\"},{\"property\":\"lastname\",\"value\":\"Zamorano\"},{\"property\":\"nombre_completo\",\"value\":\"Arturo Zamorano\"},{\"property\":\"correo_electrnico\",\"value\":\"jasz189@hotmail.com\"},{\"property\":\"date_of_birth\",\"value\":\"2020-11-30T23:51:03.309Z\"},{\"property\":\"fecha_de_nacimiento\",\"value\":\"654307200000\"},{\"property\":\"twitterhandle\",\"value\":\"arturoZCZ\"},{\"property\":\"gender\",\"value\":\"Masculino\"},{\"property\":\"country\",\"value\":\"México\"},{\"property\":\"state\",\"value\":\"Sonora\"},{\"property\":\"ciudad\",\"value\":\"Navojoa\"},{\"property\":\"city\",\"value\":\"Navojoa\"},{\"property\":\"address\",\"value\":\"Callejon 3\"},{\"property\":\"celular\",\"value\":\"6421344161\"},{\"property\":\"phone\",\"value\":\"6421344161\"},{\"property\":\"zip\",\"value\":\"85890\"},{\"property\":\"promedio\",\"value\":\"9.5\"},{\"property\":\"promedio_de_preparatoria\",\"value\":\"9.5\"},{\"property\":\"relationship_status\",\"value\":\"Casado\"},{\"property\":\"nombre_de_tutor\",\"value\":\"Arturo\"},{\"property\":\"apellido_tutor\",\"value\":\"Zamorano\"},{\"property\":\"celular_de_tutor\",\"value\":\"6421344161\"},{\"property\":\"correo_tutor\",\"value\":\"arturo.zamorano@gmail.com\"},{\"property\":\"telefono_tutor\",\"value\":\"6421344161\"},{\"property\":\"nombre_del_padre\",\"value\":\"Arturo\"},{\"property\":\"apellido_paterno\",\"value\":\"Zamorano\"},{\"property\":\"celular_del_padre\",\"value\":\"6421344161\"},{\"property\":\"correo_del_padre\",\"value\":\"arturo.zamorano@gmail.com\"},{\"property\":\"telefono_del_padre\",\"value\":\"6421344161\"},{\"property\":\"nombre_de_la_madre\",\"value\":\"Guadalupe\"},{\"property\":\"apellido_materno\",\"value\":\"Sainz\"},{\"property\":\"celular_de_la_madre\",\"value\":\"6421344161\"},{\"property\":\"correo_de_la_madre\",\"value\":\"eva.sainz@gmail.com\"},{\"property\":\"telefono_de_la_madre\",\"value\":\"6421344161\"},{\"property\":\"ua_vpd\",\"value\":\"UAM\"},{\"property\":\"campus_destino\",\"value\":\"AMAY\"},{\"property\":\"tipo_de_alumno_bpm\",\"value\":\"N\"}]}";
+		  String strError = "";
+		  
+		  CloseableHttpClient httpClient = HttpClientBuilder.create().build();
+		  
+		  JSONObject jsonItem = new JSONObject();
+		  JSONObject jsonProperties = new JSONObject();
+		  JSONArray jsonList = new JSONArray();
+		  
+		  try {
+			  strError = strError + ", INICIO";
+			  strError = strError + "| ==============================================";
+			  //strError = strError + "| apikeyHubspot: "+apikeyHubspot;
+			  strError = strError + "| ==============================================";
+			  Iterator it = objHubSpotData.entrySet().iterator();
+			  while (it.hasNext()) {
+				  Map.Entry pair = (Map.Entry)it.next();
+				  jsonItem = new JSONObject();
+				  jsonItem.put("property", pair.getKey());
+				  jsonItem.put("value", pair.getValue() == null ? "" : pair.getValue());
+				  jsonList.put(jsonItem);
+				  it.remove();
+			  }
+			  jsonProperties.put("properties", jsonList);
+			  strError = strError + "| "+jsonProperties.toString();
+			  
+			  strError = strError + "| EMAIL: "+email;
+			  targetURL = targetURL.replace("[EMAIL]", email);
+			  
+			  HttpPost request = new HttpPost(targetURL);
+			  StringEntity params = new StringEntity(jsonProperties.toString(), "UTF-8");
+			  request.setHeader("content-type", "application/json");
+			  request.setHeader("Accept-Encoding", "UTF-8");
+			  request.setHeader("Authorization", "Bearer "+apikeyHubspot);
+			  request.setEntity(params);
+			  
+			  CloseableHttpResponse response = httpClient.execute(request);
+			  strError = strError + " | "+ response.getEntity().getContentType().getName();
+			  strError = strError + " | "+ response.getEntity().getContentType().getValue();
+			  strError = strError + " | "+ EntityUtils.toString(response.getEntity(), "UTF-8");
+  
+			  strError += "| statusCode:" + response.getStatusLine().getStatusCode()
+			  
+			  if(response.getStatusLine().getStatusCode()!=200) {
+				  throw new Exception(EntityUtils.toString(response.getEntity(), "UTF-8"))
+			  }
+			  resultado.setError_info(strError);
+			  resultado.setSuccess(true);
+			  new LogDAO().insertTransactionLog("POST", "CORRECTO", targetURL, "Log:"+strError, jsonList.toString())
+		  } catch (Exception e) {
+			  String mError = "Problema detectado en el usuario: ${email} \r\nERROR: "+e.getMessage()+"\r\n"+"Log: "+strError;
+			  resultado.setError_info(mError);
+			  resultado.setSuccess(false);
+			  resultado.setError(e.getMessage());
+			  e.printStackTrace();
+			  new LogDAO().insertTransactionLog("POST", "FALLIDO", targetURL, "Log:"+strError, mError);
+			  
+			  
+		  }
+		  return resultado
+		  //"<br>" +
+	  }
+  
 }
 

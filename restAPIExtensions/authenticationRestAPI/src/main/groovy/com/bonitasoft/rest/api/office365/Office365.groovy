@@ -84,15 +84,17 @@ class Office365 implements RestApiController {
 			return buildResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"""{"error" : "BuildConfidentialClientObject", "details":"${e.message}"}""")
 		}
 		
-		def authCode = request.getParameter("authCode");
-		if (authCode == null) {
-			 return buildResponse(response, HttpServletResponse.SC_OK,"""{"redirectUrl" : "${generateUrl()}"}""")
-		}
-		
 		def redirect = request.getParameter("redirect");
-		if (authCode == null) {
+		if (redirect == null) {
 			 return buildResponse(response, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter redirect is missing"}""")
 		}
+		
+		def authCode = request.getParameter("authCode");
+		if (authCode == null) {
+			
+			 return buildResponse(response, HttpServletResponse.SC_OK,"""{"redirectUrl" : "${generateUrl()+"&redirectUrl="+redirect}"}""")
+		}
+		
 		
 		def authResult = null
 		try {
@@ -103,7 +105,7 @@ class Office365 implements RestApiController {
 			Future<IAuthenticationResult> future = app.acquireToken(authParams)
 			authResult = future.get()
 		}catch(Exception e) {
-			return buildResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"""{"error" : "AuthorizationCodeParameters", "details":"${e.message}","authCode":"${authCode}", "s":"${SECRET}","u":"${REDIRECT_URI}", "c":"${clientId}","rediruri":"${rediruri}","generatedURL":"${generateUrl()}"}""")
+			return buildResponse(response, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"""{"error" : "AuthorizationCodeParameters", "details":"${e.message}","authCode":"${authCode}", "s":"${SECRET}","u":"${REDIRECT_URI}", "c":"${clientId}","rediruri":"${redirect}","generatedURL":"${generateUrl()}"}""")
 		}
 		
 		

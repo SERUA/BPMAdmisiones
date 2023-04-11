@@ -18,6 +18,7 @@ function PbTableCtrl($scope) {
     
     $scope.action = function(row) { 
         let url = "";
+        debugger;
         if(row.name === "Confirmación de apoyo asignado"){
             url = window.location.protocol + "//" + window.location.hostname + "/portal/resource/app/aspiranteSDAE/confirmacion_apoyo/content/?_l=es&app=aspiranteSDAE&id=" + row.id;    
         } else if (row.name === "Llenado de información del aval") {

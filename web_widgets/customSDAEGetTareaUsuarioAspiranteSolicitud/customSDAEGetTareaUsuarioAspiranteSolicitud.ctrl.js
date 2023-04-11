@@ -103,18 +103,18 @@ function ($scope, $http) {
                 $scope.properties.autos = [];
             }
         }).error((err) => {
-            let auto = {
-                "persistenceId_string": "",
-                "caseId": $scope.properties.caseId + "",
-                "marca": "",
-                "modelo": "",
-                "ano": null,
-                "costoAproximado": "",
-                "catSituacionAuto_id": ""
-            };
+            // let auto = {
+            //     "persistenceId_string": "",
+            //     "caseId": $scope.properties.caseId + "",
+            //     "marca": "",
+            //     "modelo": "",
+            //     "ano": null,
+            //     "costoAproximado": "",
+            //     "catSituacionAuto_id": ""
+            // };
             
             $scope.properties.autos = [];
-            $scope.properties.autos.push(auto);
+            // $scope.properties.autos.push(auto);
             console.log("autos vacío");
         });
     }

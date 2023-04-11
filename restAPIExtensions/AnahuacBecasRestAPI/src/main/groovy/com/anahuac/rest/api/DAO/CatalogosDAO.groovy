@@ -1789,6 +1789,7 @@ class CatalogosDAO {
 			pstm.setInt(2, Integer.parseInt(object.creditosemestre.toString()));
 			pstm.setBoolean(3, Boolean.parseBoolean(object.manejaapoyo.toString()));
 			pstm.setLong(4, Long.parseLong(object.catgestionescolar_pid.toString()));
+			pstm.setBoolean(5, Boolean.parseBoolean(object.manejaprontopago.toString()));
 			pstm.executeUpdate();
 			errorLog += "Ejecuto el update || ";
 			con.commit();
@@ -1831,7 +1832,8 @@ class CatalogosDAO {
 			pstm.setString(1, object.parcialidad);
 			pstm.setInt(2, Integer.parseInt(object.creditosemestre.toString()));
 			pstm.setBoolean(3, Boolean.parseBoolean(object.manejaapoyo.toString()));
-			pstm.setLong(4, Long.parseLong(object.persistenceid.toString()));
+			pstm.setBoolean(4, Boolean.parseBoolean(object.manejaprontopago.toString()));
+			pstm.setLong(5, Long.parseLong(object.persistenceid.toString()));
 			pstm.executeUpdate();
 			
 			con.commit();
@@ -1897,16 +1899,28 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			String consulta = StatementsCatalogos.UPDATE_SDAECAT_CREDITO_GE;
+			String consultaInsert = StatementsCatalogos.INSERT_SDAECAT_CREDITO_GE;
 			closeCon = validarConexion();
 			con.setAutoCommit(false)
 			object.each{
-				pstm = con.prepareStatement(consulta);
-				pstm.setString(1, it.creditoenero);
-				pstm.setString(2, it.creditomayo);
-				pstm.setString(3, it.creditoagosto);
-				pstm.setString(4, it.creditoseptiembre);
-				pstm.setLong(5, Long.parseLong(it.persistenceid.toString()));
-				pstm.executeUpdate();
+				if(it.persistenceid) {
+					pstm = con.prepareStatement(consulta);
+					pstm.setString(1, it.creditoenero);
+					pstm.setString(2, it.creditomayo);
+					pstm.setString(3, it.creditoagosto);
+					pstm.setString(4, it.creditoseptiembre);
+					pstm.setLong(5, Long.parseLong(it.persistenceid.toString()));
+					pstm.executeUpdate();
+				} else {
+					pstm = con.prepareStatement(consultaInsert);
+					pstm.setString(1, it.creditoenero);
+					pstm.setString(2, it.creditomayo);
+					pstm.setString(3, it.creditoagosto);
+					pstm.setString(4, it.creditoseptiembre);
+					pstm.setString(5, it.fecha);
+					pstm.setLong(6, Long.parseLong(it.sdaecatgestionescolar_pid.toString()));
+					pstm.executeUpdate();
+				}
 			}
 			
 			
@@ -2081,20 +2095,19 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, SDAEGestionEscolar_pid);
 			pstm.setString(2, fecha);
-			rs = pstm.executeQuery()
+			rs = pstm.executeQuery();
 			
 			List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
 			ResultSetMetaData metaData = rs.getMetaData();
 			int columnCount = metaData.getColumnCount();
 			
 			while(rs.next()) {
+				Map<String, Object> columns = new LinkedHashMap<String, Object>();
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+				}
 				
-					Map<String, Object> columns = new LinkedHashMap<String, Object>();
-					for (int i = 1; i <= columnCount; i++) {
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
-					}
-					
-					rows.add(columns);
+				rows.add(columns);
 			}
 			
 			resultado.setSuccess(true);

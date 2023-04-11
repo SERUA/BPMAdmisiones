@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionDeportiva",
   "name" : "SDAERevisionDeportiva",
-  "lastUpdate" : 1664390133068,
+  "lastUpdate" : 1678489379580,
   "rows" : [
     [
       {
@@ -703,7 +703,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Aprobar solicitud"
+                  "value" : "Validar solicitud"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -1263,7 +1263,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Aprobar solicitud"
+                          "value" : "Validar solicitud"
                         },
                         "level" : {
                           "type" : "constant",
@@ -1509,7 +1509,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Aprobar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>validar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1537,7 +1537,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "readOnly" : {
                           "type" : "constant",
@@ -1579,6 +1579,66 @@
                       "reference" : "ac3810ab-e0eb-44ab-92c7-201fdbbae527",
                       "hasValidationError" : false,
                       "id" : "pbTextarea"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 250
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInputAprobar.solicitudApoyoEducativoInput.motivoAprobadaDeportiva"
+                        }
+                      },
+                      "reference" : "b17b34e2-3979-4f07-9ebb-eb7a7ba8ceb5",
+                      "hasValidationError" : false,
+                      "id" : "customCustomTextAreaLimit"
                     }
                   ]
                 ]
@@ -1750,7 +1810,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -1841,7 +1901,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -2875,7 +2935,7 @@
         "    }\r",
         "}\r",
         "\r",
-        "if($data.solicitudApoyoEducativo){\r",
+        "if($data.solicitudApoyoEducativo && $data.getCatTipoApoyoByCampus){\r",
         "    for(let cat of $data.getCatTipoApoyoByCampus.data){\r",
         "        if(cat.persistenceId == $data.solicitudApoyoEducativo.catTipoApoyo_id){\r",
         "            output[\"catTipoApoyo\"] =  cat;\r",

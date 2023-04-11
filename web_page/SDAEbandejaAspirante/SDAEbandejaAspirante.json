@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1668625888319,
+  "lastUpdate" : 1680116141312,
   "rows" : [
     [
       {
@@ -294,7 +294,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "archivedCases.length === 0"
+            "value" : "!archivedCases || archivedCases.length === 0"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -492,7 +492,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado === \"En espera de resultado\""
+                  "value" : "!buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\" || buildContent[0].estado === \"Propuesta rechazada por aspirante\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -670,7 +670,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado !== \"En espera de resultado\""
+                  "value" : "buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -694,7 +694,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
+                  "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión o de la reconsideración por el área de becas de la universidad.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -1133,7 +1133,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "La siguiente solicitud será creada para solicitar apoyo para ingresar al periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>, antes de iniciar, favor de indicar el tipo de moneda a utilizar durante el formulario de la solicitud."
+                          "value" : "La presente solicitud es para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Es importante seleccionar el tipo de moneda para el llenado de la misma."
                         },
                         "alignment" : {
                           "type" : "constant",
