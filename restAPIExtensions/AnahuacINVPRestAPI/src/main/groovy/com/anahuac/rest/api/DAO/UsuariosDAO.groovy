@@ -2078,7 +2078,7 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result terminarTodos(Long caseid, RestAPIContext context) {
+	public Result terminarTodos(Long idesion, RestAPIContext context) {
 		Result resultado = new Result();
 		String errorLog = "";
 		Boolean closeCon = false, processId = false;
@@ -2088,8 +2088,8 @@ class UsuariosDAO {
 			List <?> rows = new ArrayList <?>();
 			closeCon = validarConexion();
 			pstm = con.prepareStatement(Statements.GET_USUARIOS_BY_IDSESION);
-			pstm.setLong(1, caseid);
-			pstm.setLong(2, caseid);
+			pstm.setLong(1, idesion);
+			pstm.setLong(2, idesion);
 			rs = pstm.executeQuery();
 
 			while (rs.next()) {
@@ -2127,6 +2127,16 @@ class UsuariosDAO {
 						break;
 					}
 				}
+				
+				pstm = con.prepareStatement(Statements.GET_SESION_TERMINADA_EXISTE);
+				pstm.setLong(1, idesion);
+				rs = pstm.executeQuery();
+				
+				if(!rs.next()) {
+					pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
+					pstm.setLong(1, idesion);
+					pstm.executeUpdate();
+				} 
 			}
 
 			con.commit();
