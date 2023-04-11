@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appLoginFrontINVP",
   "name" : "appLoginFrontINVP",
-  "lastUpdate" : 1681152219956,
+  "lastUpdate" : 1681175738067,
   "rows" : [
     [
       {
@@ -105,6 +105,28 @@
         "reference" : "93858002-0baf-4fa0-bce7-853b11f385af",
         "hasValidationError" : false,
         "id" : "pbImage"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 10,
+          "lg" : 10
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "79433d9b-2403-4606-b02b-50cf65b6fcb8",
+        "hasValidationError" : false,
+        "id" : "customCustomLangSelectorINVP"
       }
     ],
     [
@@ -1616,51 +1638,6 @@
         "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&f=correoElectronico={{credentials.username}}&p=0&c=500"
       ],
       "advancedOptions" : { },
-      "exposed" : false
-    },
-    "refreshLanguage" : {
-      "type" : "expression",
-      "value" : [
-        "if($data.getIdiomaUsuario.data && getCookie()){",
-        "     if(compareLang($data.getIdiomaUsuario.data[0], getCookie())){",
-        "        document.cookie=\"BOS_Locale=\" + $data.getIdiomaUsuario[0] + \";path=/;max-age=31536000\";",
-        "        ",
-        "\t\ttry {",
-        "\t\t    debugger;",
-        "\t\t\tvar url = new URL(document.location.href);",
-        "\t\t\turl.searchParams.delete('locale');",
-        "\t\t\turl.searchParams.delete('_l');",
-        "\t\t\tdocument.location.assign(url.href);",
-        "\t\t} catch (error) {",
-        "\t\t\tdocument.location.reload();",
-        "\t\t}",
-        "    }",
-        "}",
-        "",
-        "function compareLang(_userLang, _cookieLang){",
-        "    debugger;",
-        "    let switchLang = false;",
-        "    if((_userLang === \"ESP\" && _cookieLang === \"en\") || (_userLang === \"ESP\" && _cookieLang === \"es\")){",
-        "        switchLang = true;",
-        "    }",
-        "    ",
-        "    return switchLang;",
-        "}",
-        "",
-        "function getCookie(){",
-        "    var cookieName = \"BOS_Locale\";",
-        "    var cookies = document.cookie.split(';');",
-        "    ",
-        "    for (var i = 0; i < cookies.length; i++) {",
-        "        var cookie = cookies[i].trim();",
-        "        if (cookie.indexOf(cookieName) == 0) {",
-        "            return cookie.substring(cookieName.length + 1, cookie.length);",
-        "        }",
-        "    }",
-        "    ",
-        "    return null;",
-        "}"
-      ],
       "exposed" : false
     },
     "getIdiomaUsuario" : {

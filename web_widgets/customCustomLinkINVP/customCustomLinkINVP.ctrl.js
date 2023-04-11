@@ -100,6 +100,6 @@ function PbLinkCtrl($scope, $location, $window, httpParamSerializer) {
     }
     
     function redirectl(){
-        document.location.assign(ctrl.getHref());
+        document.location.assign($scope.properties.targetUrl);
     }
 }
