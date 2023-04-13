@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1680567591389,
+  "lastUpdate" : 1681341838229,
   "rows" : [
     [
       {
@@ -138,12 +138,12 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "!(sesion === null || sesion === undefined || sesion === \"\")"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : "caseId"
+                        "value" : "getidbanner.data[0].idbanner ? getidbanner.data[0].idbanner : caseId"
                       },
                       "nombre" : {
                         "type" : "variable",
@@ -172,6 +172,14 @@
                       "correo" : {
                         "type" : "variable",
                         "value" : "userData.user_name"
+                      },
+                      "objetoSesion" : {
+                        "type" : "variable",
+                        "value" : "objetoSesion"
+                      },
+                      "isTemporal" : {
+                        "type" : "expression",
+                        "value" : "!getidbanner.data[0].idbanner"
                       }
                     },
                     "reference" : "7e4d0698-53c7-4c34-bb5b-87e00300858e",
@@ -252,8 +260,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "(sesion === null || sesion === undefined || sesion === \"\")"
+                        "type" : "constant",
+                        "value" : true
                       },
                       "caseId" : {
                         "type" : "variable",
@@ -837,12 +845,12 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "!(sesion === null || sesion === undefined || sesion === \"\")"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : "caseId"
+                        "value" : "getidbanner.data[0].idbanner ? getidbanner.data[0].idbanner : caseId"
                       },
                       "nombre" : {
                         "type" : "variable",
@@ -871,6 +879,14 @@
                       "correo" : {
                         "type" : "variable",
                         "value" : "userData.user_name"
+                      },
+                      "objetoSesion" : {
+                        "type" : "variable",
+                        "value" : "objetoSesion"
+                      },
+                      "isTemporal" : {
+                        "type" : "expression",
+                        "value" : "!getidbanner.data[0].idbanner"
                       }
                     },
                     "reference" : "80125a31-889a-4a65-829d-e3d68137056e",
@@ -951,8 +967,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "(sesion === null || sesion === undefined || sesion === \"\")"
+                        "type" : "constant",
+                        "value" : true
                       },
                       "caseId" : {
                         "type" : "variable",
@@ -1537,6 +1553,10 @@
           "campusSeleccionado" : {
             "type" : "variable",
             "value" : "sesion"
+          },
+          "objetoSesion" : {
+            "type" : "variable",
+            "value" : "objetoSesion"
           }
         },
         "reference" : "ee184dc0-c24d-43b6-8536-091a628b7246",
@@ -1725,6 +1745,13 @@
         "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&p=0&c=999&f=correoElectronico={{userData.user_name}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "objetoSesion" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     }
   },

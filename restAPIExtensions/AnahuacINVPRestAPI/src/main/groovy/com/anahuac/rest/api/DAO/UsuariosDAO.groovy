@@ -2123,23 +2123,23 @@ class UsuariosDAO {
 						pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET terminado = ? WHERE username = ?");
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
-						pstm.executeUpdate();
+						
+						
+						if(pstm.executeUpdate() == 0) {
+							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
+							pstm.setString(1, row.getCorreoElectronico());
+							pstm.setBoolean(2, true);
+						}
+						
 						break;
 					}
 				}
-				
-				pstm = con.prepareStatement(Statements.GET_SESION_TERMINADA_EXISTE);
-				pstm.setLong(1, idesion);
-				rs = pstm.executeQuery();
-				
-				if(!rs.next()) {
-					pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
-					pstm.setLong(1, idesion);
-					pstm.executeUpdate();
-				} 
 			}
+			
+			pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
+			pstm.setLong(1, idesion);
+			pstm.executeUpdate();
 
-			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {

@@ -1,7 +1,6 @@
 function($scope, $http) {
 
     $scope.getCommentList = function() {
-        debugger;
         let data = {
             "username" : $scope.properties.reload
         }
@@ -14,6 +13,9 @@ function($scope, $http) {
       
         return $http(req).success(function(data, status) {
             if(data.data.length > 0){
+                debugger;
+                $scope.properties.objetoSesion = angular.copy(data.data[0]);
+                
                 var today = new Date();
                 var yyyy = today.getFullYear();
                 let mm = today.getMonth() + 1; // Months start at 0!
