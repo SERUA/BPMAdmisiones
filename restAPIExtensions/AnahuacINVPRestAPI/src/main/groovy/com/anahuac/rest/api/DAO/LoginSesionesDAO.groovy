@@ -55,42 +55,49 @@ class LoginSesionesDAO {
 			Long campus_pid = 0L;
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			
-			//Paso 1: login a la plataforma para validación de contraseña
 			context.getApiClient().login(object.username, object.password);
 			errorlog += " | 1 ";
-			//Paso 2 Validar que haya sesión al entrar en el login
-			Result resultSesionLogin = getSesionLogin(jsonData);
+			Result resultadoExamenTerminado = getTerminadoExamenLogin(object.username);
 			
-			if(!resultSesionLogin.isSuccess()) {
+			if(!resultadoExamenTerminado.isSuccess()) {
 				errorlog += " | 2 ";
-				throw new Exception(resultSesionLogin.getError());	
+				throw new Exception(resultadoExamenTerminado.getError());	
 			} else {
-				//Paso 3
 				errorlog += " | 3 ";
-				Result resultadoExamenTerminado = getTerminadoExamenLogin(object.username);
-				
-				if(!resultadoExamenTerminado.isSuccess()) {
+				Result resultSesionLogin = getSesionLogin(jsonData);
+				if(!resultSesionLogin.isSuccess()) {
 					errorlog += " | 4 ";
-					throw new Exception(resultadoExamenTerminado.getError());
+					throw new Exception(resultSesionLogin.getError());
 				} else {
 					errorlog += " | 5 ";
 					Result resultSesionActiva = getSesionActivaLogin(jsonData);
 					Result resultadoSesionTerminada = getSesionTerminada(object.username);
 					
-					if(!resultSesionActiva.isSuccess() && !resultadoSesionTerminada.isSuccess()) {
-						//Paso 5
+					if(!resultSesionActiva.isSuccess()) {
 						errorlog += " | 6 ";
 						throw new Exception(resultSesionActiva.getError());
 					} else {
-						//Paso 6
 						errorlog += " | 7 ";
-						if(resultSesionActiva.isSuccess()) {
+						Result checkBloqueado = new UsuariosDAO().checkBloqueado(object.username);
+						
+						if(!checkBloqueado.isSuccess()) {
 							errorlog += " | 8 ";
-							resultado = resultSesionActiva;
+							throw new Exception(checkBloqueado.getError());
 						} else {
-							errorlog += " | 9 ";
-							resultado = resultadoSesionTerminada;
+							if((Boolean) checkBloqueado.getData().get(0)) {
+								errorlog += " | 10 ";
+								throw new Exception("usuario_bloqueado");
+							}
+							
+							errorlog += " | 11 ";
+							Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
+							if(!resultBloquear.isSuccess()) {
+								errorlog += " | 12 ";
+								throw new Exception(resultBloquear.getError());
+							} else {
+								errorlog += " | 13 ";
+								resultado = resultBloquear;
+							}
 						}
 						
 						resultado.setError_info(errorlog);
@@ -130,23 +137,17 @@ class LoginSesionesDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			LoginSesion row = new LoginSesion();
+			LoginSesion rowAdd = new LoginSesion();
 			List<LoginSesion> rows = new ArrayList<LoginSesion>();
+			List<LoginSesion> addData = new ArrayList<LoginSesion>();
 			closeCon = validarConexion();
-			String consulta = Statements.GET_CAT_CAMPUS_PID_BY_CORREO;
-			pstm = con.prepareStatement(consulta);
-			pstm.setString(1, object.username);
-			rs = pstm.executeQuery();
-			
-			if(rs.next()) {
-				campus_pid = rs.getLong("catcampus_pid");
-			}
-			
-			consulta = Statements.GET_SESION_LOGIN;
+			String consulta = Statements.GET_SESION_LOGIN_LOGIN;
 			pstm = con.prepareStatement(consulta);
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
+				
 				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
@@ -162,14 +163,26 @@ class LoginSesionesDAO {
 				row.setSalida(rs.getString("salida"));
 				row.setUsername(rs.getString("username"));
 				rows.add(row);
+				
+				if(!rs.getBoolean("sesion_iniciada")) {
+					String mensaje = rs.getString("aplicacion") + " " + rs.getString("entrada");
+					throw new Exception("sesion_no_iniciada|" + mensaje);
+				}
 			} else {
-				consulta = Statements.GET_SESION_LOGIN_TEMPORAL;
+				consulta = Statements.GET_SESION_LOGIN_TEMPORAL_LOGIN;
 				pstm = con.prepareStatement(consulta);
+//				pstm.setString(1, object.aplicacion);
 				pstm.setString(1, object.username);
-				pstm.setString(2, object.aplicacion);
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
+					if(!rs.getBoolean("sesion_iniciada") && !rs.getBoolean("sesion_finalizada")) {
+						String mensaje = rs.getString("fechainiciosesion") + " " + rs.getString("horainiciosesion");
+						throw new Exception("sesion_no_iniciada|" + mensaje);
+					} else if (rs.getBoolean("sesion_finalizada")){
+						throw new Exception("sesion_finalizada");
+					}
+					
 					row = new LoginSesion();
 					row.setNombre_sesion(rs.getString("nombresesion"));
 					row.setDescripcion(rs.getString("descripcionsesion"))
@@ -226,6 +239,12 @@ class LoginSesionesDAO {
 				isTemporal = rs.getBoolean("istemporal");
 				examenReiniciado = rs.getBoolean("examenreiniciado");
 				row = new HashMap<String,Object>();
+				
+				if(rs.getBoolean("examenreiniciado") == true && rs.getBoolean("sesion_iniciada_temp") == false) {
+					String mensaje = rs.getString("fechainicio_temp");
+					throw new Exception("sesion_no_iniciada|" + mensaje);
+				}
+				
 				Result checkBloqueado = new UsuariosDAO().checkBloqueado(object.username);
 				Boolean bloqueado = false;
 				Boolean tieneTolerancia = false;
@@ -263,6 +282,22 @@ class LoginSesionesDAO {
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
+					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
+						String mensaje = "";
+						if(!rs.getBoolean("sesion_iniciada")) {
+							mensaje = rs.getString("entradahora");
+						} else if(rs.getBoolean("sesion_iniciada_temp") == false) {
+							mensaje = rs.getString("fechainicio_temp");
+						}
+						
+						throw new Exception("sesion_no_iniciada|" + mensaje);
+					} 
+					
+//					if(!rs.getBoolean("sesion_iniciada")) {
+//						String mensaje = rs.getString("entradahora");
+//						throw new Exception("sesion_no_iniciada|" + mensaje);
+//					}
+					
 					Result  checkToler = new UsuariosDAO().checkTolerancia(object.username);
 					if(checkToler.isSuccess()) {
 						if(!((boolean) checkToler.getData().get(0))) {

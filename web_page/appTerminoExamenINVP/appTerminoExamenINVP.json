@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appTerminoExamenINVP",
   "name" : "appTerminoExamenINVP",
-  "lastUpdate" : 1680302554319,
+  "lastUpdate" : 1681409585075,
   "rows" : [
     [
       {
@@ -273,7 +273,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<p style='text-align: justify;'>Para que tu examen sea válido, debes continuar con tu proceso de admisión dando clic en el botón.\n<br>\nRecuerda que para ingresar a tu cuenta debes utilizar el usuario y contraseña que creaste antes de iniciar tu examen.</p>"
+                        "value" : "<p style='text-align: justify;'>Para que tu examen sea válido, debes continuar con tu proceso de admisión dando clic en el botón.\n<br>\nRecuerda que para ingresar a tu cuenta debes utilizar el usuario y contraseña que creaste antes de iniciar tu examen.</p><br>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -446,7 +446,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Ir a Admisiones"
+                        "value" : "Ir a activar usuario"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -488,7 +488,7 @@
                       },
                       "targetUrlOnSuccess" : {
                         "type" : "interpolation",
-                        "value" : "/bonita/apps/login/admisiones/"
+                        "value" : "{{urlActivarUsuario}}"
                       },
                       "collectionToModify" : {
                         "type" : "variable"
@@ -511,6 +511,110 @@
                     "reference" : "26b165bf-7d27-4bd5-868c-737705e2879f",
                     "hasValidationError" : false,
                     "id" : "customBtnRedireccionAdmisionesINVP"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br> Si no puedes dar clic en la liga de arriba, copia ésta y pégala en tu navegador: <br> \n<b>{{urlActivarUsuario}}</b>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "bdd9e23e-34af-46dc-966d-1a406e0cc088",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : ""
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "f7fd8fbf-38d7-4dce-9414-62d4de830c7e",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -758,7 +862,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<p style='text-align: justify;'>For your test to be valid, you must continue with your admissions process by clicking on the button.\n<br>\nRemember that to enter your account you must use the username and password you created before starting your test.</p>"
+                        "value" : "<p style='text-align: justify;'>For your test to be valid, you must continue with your admissions process by clicking on the button.\n<br>\nRemember that to enter your account you must use the username and password you created before starting your test.</p> <br>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -931,7 +1035,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Go to Admissions"
+                        "value" : "Go to activate user"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -996,6 +1100,58 @@
                     "reference" : "a92828d4-f9da-4d14-bfff-27206225d323",
                     "hasValidationError" : false,
                     "id" : "customBtnRedireccionAdmisionesINVP"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br> If you cannot click on the link above, please copy and paste this one into your browser: <br> \n<b>{{urlActivarUsuario}}</b>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "1d7336c9-2482-4568-ae8b-397126e78380",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -1508,6 +1664,16 @@
         "../API/extension/AnahuacINVPRestGet?url=getidbanner&p=0&c=10&username={{userData.user_name}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "urlActivarUsuario" : {
+      "type" : "expression",
+      "value" : [
+        "const protocol = window.location.protocol;\r",
+        "const domain = window.location.hostname;\r",
+        "const url = `${protocol}//${domain}/apps/login/activate/?correo=`;\r",
+        "return url + $data.userData.user_name;"
+      ],
       "exposed" : false
     }
   },

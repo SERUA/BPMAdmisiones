@@ -78,8 +78,102 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if (password === ""){
             Swal.fire("¡Atención!", "La Contraseña no debe ir vacía.", "warning");
         } else {
-            $scope.getTotalPreguntasContestadas();
+            // $scope.getTotalPreguntasContestadas();
+            login(username, password);
         }
+    }
+    
+    function login(_username, _password){
+        let data = {
+            "username":_username,
+            "password": _password
+        }
+        let url = "../API/extension/AnahuacINVPRestAPI?url=loginINVP&p=0&c=10";
+        
+        $http.post(url, data).success(function(_success){
+            loginPlatform();
+        }).error(function(_error){
+            let mensaje = "";
+            let idioma = "es";
+            
+            if(_error.error === "user_password_incorrect"){
+                if(idioma === "es"){
+                    mensaje = "Usuario o contraseña incorrectos.";
+                } else {
+                    mensaje = "User or password invalid.";
+                }
+            } else if(_error.error.includes("sesion_no_iniciada")){
+                let date = _error.error.split("|")[1];
+                if(idioma === "es"){
+                    mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + ", para mas información contacta a tu aplicador.</p>" ;
+                } else {
+                    mensaje = "<p style='text-align: justify;'>There is no active session fot this user, you are scheduled at " + date + ", to more information, contact your applicator.</p>";
+                }
+            } else if(_error.error === "sesion_finalizada" || _error.error === "prueba_finalizada" ){
+                if(idioma === "es"){
+                    mensaje = "Tu sesión ya ha finalizado.";
+                } else {
+                    mensaje = "Your session has ended.";
+                }
+            } else if(_error.error === "no_sesion_asignada" || _error.error === "no_existe_sesion"){
+                if(idioma === "es"){
+                    mensaje = "No existe sesión asignada, contacta con tu aplicador.";
+                } else {
+                    mensaje = "You have no assigned  session, please contact your applicator.";
+                }
+            } else if(_error.error === "fallo_tolerancia" || _error.error === "toler"){
+                if(idioma === "es"){
+                    mensaje = "La hora de tolerancia de entrada a tu examen ha pasado.<br> Contacta a tu aplicador.";
+                } else {
+                    mensaje = "The grace period for entering your exam has passed. <br> Contect your applicator.";
+                }
+            } else if(_error.error === "block"){
+                if(idioma === "es"){
+                    mensaje = "Existe una sesión activa con este usuario.<br> Contacta a tu aplicador.";
+                } else {
+                    mensaje = "There is an active session to this user. <br> Contect your applicator.";
+                }
+            } else {
+                mensaje = _error.error;
+            }
+
+            Swal.fire({
+                title: '<strong>Atención</strong>',
+                icon: 'error',
+                html:mensaje, 
+                showCloseButton: false
+            });
+        })
+    }
+
+    function loginPlatform(){
+        let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
+        let url2 = "/bonita/loginservice";
+        var req = {
+            method: "POST",
+            url: url2,
+            data: data,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+      
+        return $http(req).success(function(data, status) {
+            window.top.location.href = '/bonita/apps/aspiranteinvp/presentar/';
+        }).error(function(){
+            let mensaje = "";
+            let idioma = "es";
+            
+            if(idioma === "es"){
+                mensaje = "Usuario o contraseña incorrectos";
+            } else {
+                mensaje = "User or password invalid.";
+            }
+            Swal.fire({
+                title: '<strong>Atención</strong>',
+                icon: 'error',
+                html:mensaje, 
+                showCloseButton: false
+            });
+        });
     }
   
     /**
@@ -101,7 +195,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
-            debugger;
             $scope.properties.dataFromSuccess = data;
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromError = undefined;
@@ -163,7 +256,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let url = "../API/extension/AnahuacINVPRestGet?url=bloquearAspiranteDef&p=0&c=100&username=" + _username;
 
         $http.get(url).success(function(_success){
-            debugger;
             if(_success[0]){
                 if(!$scope.terminadoexamen && $scope.contestopreguntas){
                     window.top.location.href = '/bonita/apps/aspiranteinvp/examen/';
@@ -188,7 +280,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
     
     function redirectIfNeeded() {
-        debugger;
         let ipBonita = window.location.protocol + "//" + window.location.host;
         let url = ipBonita + $scope.properties.targetUrlOnSuccess;
         window.top.location.href = url;
@@ -239,7 +330,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
-            debugger;
             if($scope.properties.datosSolicitud === 0){
                 Swal.fire({
                     title: '<strong>Atención</strong>',
@@ -316,7 +406,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
-            debugger;
             if(data.data.length > 1){
                 for (var i = 0; data.data.length; i++) {
                     if(data.data[i].havesesion === true){
