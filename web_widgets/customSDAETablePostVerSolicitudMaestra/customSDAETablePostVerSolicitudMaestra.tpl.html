@@ -24,6 +24,7 @@
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('TIPOBECA')">Tipo Beca<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Admisiones<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Actualizado<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus SDAE <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS_ADMISION')">Estatus Admisión <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS_ADMISION'"></i></span></th>
+                <th> Asignado a </th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
                 <th> Acciones</th>     
             </tr>
@@ -36,6 +37,7 @@
                 <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
                 <td><input ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('TIPO APOYO,PROMEDIO',dynamicInput['preparatoria'])"></td>
                 <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
+                <td></td>
                 <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
                 <td></td>
             </tr>
@@ -70,6 +72,9 @@
                     <b>{{row.estatussolicitud}}</b><br>
                     {{row.aceptado}}<br>
                     <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
+                </td>
+                <td>
+                    {{getTareaByEstatus(row.estatussolicitud)}}
                 </td>
                 <td>
                     <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>

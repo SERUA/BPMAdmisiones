@@ -513,4 +513,37 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
   
     $scope.getCatCampus();
-  }
+
+    $scope.getTareaByEstatus = function(_estatus){
+        let output = "";
+        if(_estatus === "Esperando Pre-Autorización"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Correcciones realizadas"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Evaluación artística rechaza"){
+            output = "Archivo";
+        } else if(_estatus === "Evaluación deportiva rechaza"){
+            output = "Archivo";
+        } else if(_estatus === "Solicitud Rechazada"){
+            output = "Archivo";
+        } else if(_estatus === "En espera de resultado"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Esperando revisión área deportiva"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Esperando revisión área artistica"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "En espera de autorización"){
+            output = "Comité de becas";
+        } else if(_estatus === "Solicitud de apoyo en progreso"){
+            output = "Aspirante";
+        } else if(_estatus === "Solicitud de Financiamiento en Proceso"){
+            output = "Aspirante";
+        } else if(_estatus === "Pre-autorización solicita modificaciones"){
+            output = "Aspirante";
+        } else if(_estatus === "Solicitud autorizada"){
+            output = "Aspirante";
+        } 
+
+        return output;
+    };
+}
