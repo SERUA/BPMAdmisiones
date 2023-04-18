@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1681493301080,
+  "lastUpdate" : 1681845976904,
   "rows" : [
     [
       {
@@ -136,7 +136,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br>Estimado(a): <label class=\"color-orange\">{{nombreCompleto}}</label>, la Universidad Anáhuac ofrece apoyos educativos, los cuales consisten en la exención de pago total o parcial, de las cuotas de pago inicial y colegiaturas para aquellos interesados en estudiar un programa en la Universidad Anáhuac. Los apoyos pueden ser becas y/o financiamiento educativo de acuerdo con lo que ofrezca el campus de tu interés.\nTodo trámite de beca inicia cuando el interesado así lo solicite en el periodo que le corresponde, su situación socioeconómica lo amerite y la universidad cuente con los recursos financieros disponibles para otorgar este apoyo.<br>\n<br>\n<b>Los apoyos educativos se otorgan bajo diversas modalidades en razón del talento académico, deportivo, artístico-cultural y/o por la condición socioeconómica de quien los requiera. Los apoyos educativos no son transferibles.\nAntes de comenzar tu solicitud te recomendamos:</b><br>\n<br>\n<ol>\n    <li>Realizar tu proceso de admisión para poder registrarte en la plataforma de solicitud de apoyo educativo.</li>\n    <br>\n    <li>Tener a la mano tu kárdex oficial de SEP con promedio acumulado actualizado.</li>\n    <br>\n    <li>Comprobantes de ingresos de tus tutores o quien sea responsable económicamente por los pagos universitarios (en formato pdf)..</li>\n    <br>\n</ol>\n<br>\n<br>"
+                  "value" : "<br><br>Estimado(a): <label class=\"color-orange\">{{nombreCompleto}}</label>, la Universidad Anáhuac ofrece apoyos educativos, los cuales consisten en la exención de pago total o parcial, de las cuotas de pago inicial y colegiaturas para aquellos interesados en estudiar un programa en la Universidad Anáhuac. Los apoyos pueden ser becas y/o financiamiento educativo de acuerdo con lo que ofrezca el campus de tu interés.\nTodo trámite de beca inicia cuando el interesado así lo solicite en el periodo que le corresponde, su situación socioeconómica lo amerite y la universidad cuente con los recursos financieros disponibles para otorgar este apoyo.<br>\n<br>\n<b>Los apoyos educativos se otorgan bajo diversas modalidades en razón del talento académico, deportivo, artístico-cultural y/o por la condición socioeconómica de quien los requiera. Los apoyos educativos no son transferibles.\nAntes de comenzar tu solicitud te recomendamos:</b><br>\n<br>\n<ol>\n    <li>Realizar tu proceso de admisión para poder registrarte en la plataforma de solicitud de apoyo educativo.</li>\n    <br>\n    <li>Tener a la mano tu kárdex oficial de SEP con promedio acumulado actualizado.</li>\n    <br>\n    <li>Comprobantes de ingresos de tus tutores o quien sea responsable económicamente por los pagos universitarios (en formato pdf).</li>\n    <br>\n</ol>\n<br>\n<br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -492,7 +492,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\" || buildContent[0].estado === \"Propuesta rechazada por aspirante\""
+                  "value" : "!buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\"  || buildContent[0].estado === \"Propuesta rechazada por aspirante\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" || buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -670,7 +670,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\""
+                  "value" : "buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por comité de finanzas\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por finanzas\" && buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento rechazada por aspirante\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -2768,11 +2768,15 @@
         "        // \"estado\": $data.objSolicitudDeAdmision[0].catCampusEstudio.estado.descripcion",
         "        \"estado\": $data.objSolicitudApoyo[$data.objSolicitudApoyo.length - 1].estatusSolicitud,",
         "        \"pago\": $data.objSolicitudApoyo[$data.objSolicitudApoyo.length - 1].ordenPagoConekta,",
+        "        \"estatusFinanciamiento\": \"\"",
         "    }    ",
         "    ",
         "    output.push(object);",
         "}",
         "",
+        "if($data.objSolicitudFinanciamiento){",
+        "    output[0].estatusFinanciamiento = $data.objSolicitudFinanciamiento[0].estatusSolicitud;",
+        "}",
         "",
         "",
         "return output;",
@@ -3383,6 +3387,13 @@
         "}",
         "",
         "return output;"
+      ],
+      "exposed" : false
+    },
+    "objSolicitudFinanciamiento" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseIdSDAE [com.anahuac.SDAE.model.SolicitudFinanciamiento]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseIdSDAE\",\"displayName\":\"findByCaseIdSDAE\"},\"id\":\"com.anahuac.SDAE.model.SolicitudFinanciamiento\",\"filters\":[{\"name\":\"caseIdSDAE\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{objSolicitudApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
       "exposed" : false
     }

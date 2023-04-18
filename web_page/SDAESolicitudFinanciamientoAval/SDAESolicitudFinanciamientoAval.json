@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAval",
   "name" : "SDAESolicitudFinanciamientoAval",
-  "lastUpdate" : 1680116928254,
+  "lastUpdate" : 1681837902168,
   "rows" : [
     [
       {
@@ -9363,7 +9363,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"https://www.anahuac.mx/queretaro/descargables/Aval_CreditoEducativo.pdf\">Financiamiento educativo<a>"
+                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"{{getConfiguracionCampus.data[0].urlDocumentoCondicionesFinanciamiento}}\">Financiamiento educativo<a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -15411,6 +15411,14 @@
         "\t\"esPersonal\": false\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getConfiguracionCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getConfiguracionCampus&p=0&c=10&idCampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
