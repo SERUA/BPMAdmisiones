@@ -2457,4 +2457,30 @@ class UsuariosDAO {
 		
 		return resultado;
 	}
+	
+	public Result enviarRespuestas(String jsonData) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			
+			
+			
+		}  catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
 }
