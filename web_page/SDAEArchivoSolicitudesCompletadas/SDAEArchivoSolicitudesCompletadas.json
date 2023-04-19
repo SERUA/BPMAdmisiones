@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEArchivoSolicitudesCompletadas",
   "name" : "SDAEArchivoSolicitudesCompletadas",
-  "lastUpdate" : 1681927179180,
+  "lastUpdate" : 1681936941231,
   "rows" : [
     [
       {
@@ -837,10 +837,11 @@
                 },
                 "valor2" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "contratoRechazar.solicitudApoyoEducativoInput.comentariosFinal"
                 },
                 "id" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "recha11"
                 },
                 "ocultarPrevisualizar" : {
                   "type" : "constant",
@@ -848,15 +849,16 @@
                 },
                 "datosPrevisualizar" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "previewRechazar"
                 },
                 "replace" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
                 }
               },
-              "reference" : "88cacdc2-f310-42ac-86e8-666a2950d542",
+              "reference" : "8060e6fa-21fe-4880-9471-dcd3404712c9",
               "hasValidationError" : false,
-              "id" : "customSDAEtextEditorAJS"
+              "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
             }
           ],
           [
@@ -1695,6 +1697,32 @@
     },
     "taskId" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "  \"campus\": $data.selectedItem.grupobonita,",
+        "  \"correo\": $data.selectedItem.correoelectronico,",
+        "  \"codigo\": \"sdae-rechazopreautorización-becas\",",
+        "  \"isEnviar\": false,",
+        "  \"correoAspirante\": $data.selectedItem.correoelectronico",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "contratoRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"solicitudApoyoEducativoInput\":{",
+        "        \"aprobadaFinal\":false,",
+        "        \"comentariosFinal\": \"\"",
+        "    },",
+        "    \"isModificarInput\": false",
+        "}"
+      ],
       "exposed" : false
     }
   },
