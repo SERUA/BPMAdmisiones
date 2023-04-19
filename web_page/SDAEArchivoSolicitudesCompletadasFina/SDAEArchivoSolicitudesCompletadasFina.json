@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEArchivoSolicitudesCompletadasFina",
   "name" : "SDAEArchivoSolicitudesCompletadasFina",
-  "lastUpdate" : 1676499198014,
+  "lastUpdate" : 1681927145166,
   "rows" : [
     [
       {
@@ -821,7 +821,7 @@
                 },
                 "valor2" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "contratoRechazar.solicitudApoyoEducativoInput.comentariosFinal"
                 },
                 "id" : {
                   "type" : "constant"
@@ -832,15 +832,16 @@
                 },
                 "datosPrevisualizar" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "previewRechazar"
                 },
                 "replace" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
                 }
               },
-              "reference" : "566e6dea-67b4-47cd-a736-859ad4d241b2",
+              "reference" : "007a459f-d42b-40b5-b8ec-261355cf015a",
               "hasValidationError" : false,
-              "id" : "customSDAEtextEditorAJS"
+              "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
             }
           ],
           [
@@ -876,96 +877,8 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Cancelar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "info"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Close modal"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "constant"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      }
-                    },
-                    "reference" : "b49ac3eb-51e4-4a4f-b68a-1e2406dc8e5e",
-                    "hasValidationError" : false,
-                    "id" : "pbButton"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -998,7 +911,7 @@
                       },
                       "assign" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "url" : {
                         "type" : "interpolation"
@@ -1008,7 +921,8 @@
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "contratoRechazar"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -1043,15 +957,21 @@
                         "type" : "variable"
                       },
                       "objetoBitacora" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "objetoBitacora"
                       },
                       "urlBitacora" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                      },
+                      "taskId" : {
+                        "type" : "expression",
+                        "value" : "taskId"
                       }
                     },
-                    "reference" : "11d41474-5db8-4a7c-b09e-7a0ba039591f",
+                    "reference" : "eb65d803-3c5b-4e3e-ab95-c35841de7498",
                     "hasValidationError" : false,
-                    "id" : "customSDAEFinalizarTareaBit"
+                    "id" : "customSDAEFinalizarTareaBitTask"
                   }
                 ]
               ]
@@ -1679,6 +1599,32 @@
     },
     "taskId" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "contratoRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"solicitudApoyoEducativoInput\":{",
+        "        \"aprobadaFinal\":false,",
+        "        \"comentariosFinal\": \"\"",
+        "    },",
+        "    \"isModificarInput\": false",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "  \"campus\": $data.selectedItem.grupobonita,",
+        "  \"correo\": $data.selectedItem.correoelectronico,",
+        "  \"codigo\": \"sdae-rechazopreautorización-becas\",",
+        "  \"isEnviar\": false,",
+        "  \"correoAspirante\": $data.selectedItem.correoelectronico",
+        "}"
+      ],
       "exposed" : false
     }
   },

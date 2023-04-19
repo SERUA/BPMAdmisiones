@@ -88,11 +88,17 @@
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCFINA')">% de financiamiento autorizado<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PORCFINA'"></i></span></th>
-    
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última
+                    
+
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('INSCRIPCIONPROPEDEUTICO')">Inscripción al propedéutico<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INSCRIPCIONPROPEDEUTICO'"></i></span></th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('PASOPROPEDEUTICO')">Paso propedéutico<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PASOPROPEDEUTICO'"></i></span></th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('INSCRITO')">Inscrito o realizó pago<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INSCRITO'"></i></span></th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('TOMADEMATERIAS')">Toma de materias<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TOMADEMATERIAS'"></i></span></th>
+                            
+                    <!-- <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última
                             modificación<i class="glyphicon"
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
+                                ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th> -->
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
                     <th> Acciones</th>
                 </tr>
@@ -116,8 +122,12 @@
                     <td >
                         <input type="checkbox" ng-model="filtroFinanciamiento" ng-change="addFilterBecaFina()">
                     </td>
-                    <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control"
-                            ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <!-- <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td> -->
                     <td></td>
                     <td></td>
                 </tr>
@@ -151,8 +161,6 @@
                     </td>
                     <td>
                         <b>{{row.estatusfinanciamiento}}</b><br>
-                        <!-- {{row.telefonocelular}}<br> -->
-                        <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
                     </td>
                     <td>
                         <b>{{row.porcentajebecaautorizacion !== null ? row.porcentajebecaautorizacion + "%" : "N/A"}}</b><br>
@@ -160,29 +168,29 @@
                     <td>
                         <b>{{row.porcentajeautorizadofinanciaimiento !== null ? row.porcentajeautorizadofinanciaimiento + "%" : "N/A"}}</b><br>
                     </td>
+
+
                     <td>
-                        <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy'}}</b><br>
+                        <b>{{!row.bannerInfo.pago_de_propedeutico ? "N/A" : row.bannerInfo.pago_de_propedeutico }}</b>
                     </td>
+                    <td>
+                        <b>{{!row.bannerInfo.admitido_a_medicina ? "N/A" : row.bannerInfo.admitido_a_medicina }}</b>
+                    </td>
+                    <td>
+                        <b>{{!row.bannerInfo.pago_de_inscripcion ? "N/A" : row.bannerInfo.pago_de_inscripcion }}</b>
+                    </td>
+                    <td>
+                        <b>{{!row.bannerInfo.carga_de_materias ? "N/A" : row.bannerInfo.carga_de_materias }}</b>
+                    </td>
+                    <!-- <td>
+                        <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy'}}</b><br>
+                    </td> -->
                     <td>
                         <b>{{!row.infoEscolarBanner.licenciatura ? "N/A" : row.infoEscolarBanner.licenciatura }}</b><br>
                         <b>{{!row.infoEscolarBanner.periodo ? "N/A" : row.infoEscolarBanner.periodo }}</b><br>
                         <b>{{!row.infoEscolarBanner.campus ? "N/A" : row.infoEscolarBanner.campus }}</b>
                     </td> 
-                    <!--td>
-                        {{row.updateDate}}
-                    </td-->
-                    <!--<td class="text-center" >-->
-                    <!--    <button class="btn btn-default" ng-click="verSolicitud(row)" ng-show="row.estatusfinanciamiento === 'Solicitud de financiamiento completada' || row.estatusfinanciamiento === 'Solicitud de financimiento reactivada'">-->
-                    <!--        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>-->
-                    <!--    </button>-->
-                    <!--</td>-->
-
                     <td class="text-center" style="    display: inline-flex;">
-                        <!-- <button class="btn btn-default" ng-click="verSolicitud(row)"
-                            ng-show="row.estatusfinanciamiento === 'Solicitud de financiamiento completada' || row.estatusfinanciamiento === 'Solicitud de financimiento reactivada'">
-                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        </button> -->
-                        
                         <button class="btn btn-primary" ng-click="downloadFile(row.correoelectronico, row.caseid)" style="margin: 1.5px;">
                             <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
                         </button>
@@ -215,11 +223,6 @@
                                     d="M1036.898 176.091C923.562 62.677 772.859.185 612.297.114 281.43.114 12.172 269.286 12.039 600.137 12 705.896 39.633 809.13 92.156 900.13L7 1211.067l318.203-83.438c87.672 47.812 186.383 73.008 286.836 73.047h.255.003c330.812 0 600.109-269.219 600.25-600.055.055-160.343-62.328-311.108-175.649-424.53zm-424.601 923.242h-.195c-89.539-.047-177.344-24.086-253.93-69.531l-18.227-10.805-188.828 49.508 50.414-184.039-11.875-18.867c-49.945-79.414-76.312-171.188-76.273-265.422.109-274.992 223.906-498.711 499.102-498.711 133.266.055 258.516 52 352.719 146.266 94.195 94.266 146.031 219.578 145.992 352.852-.118 274.999-223.923 498.749-498.899 498.749z" />
                             </svg>
                         </a>
-                        <!--  -->
-                        
-                        <!--<button class="btn btn-primary" ng-click="downloadFile(row.correoelectronico)" style="margin: 1.5px;">-->
-                        <!--    <span class="glyphicon glyphicon-file" aria-hidden="true"></span>-->
-                        <!--</button>-->
 
                     </td>
                 </tr>
