@@ -8,6 +8,8 @@ import java.text.SimpleDateFormat
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
+import org.bonitasoft.engine.exception.BonitaException
+import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -42,51 +44,87 @@ class LoginSesionesDAO {
 		}
 		return retorno;
 	}
-
-	public Result login(String jsonData) {
+	
+	public Result loginINVP(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
+		Boolean closeCon = false;
 		String errorlog = "";
-		Result resultadoSesionLogin = new Result();
-		Result resultadoSesionActiva = new Result();
-		Result resultadoBloqueado = new Result();
+		String horafinal = "";
+		
 		try {
+			Long campus_pid = 0L;
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			errorlog += "|1";
-			resultadoSesionLogin = getSesionLogin(jsonData);
+			context.getApiClient().login(object.username, object.password);
+			errorlog += " | 1 ";
+			Result resultadoExamenTerminado = getTerminadoExamenLogin(object.username);
 			
-			if(!resultadoSesionLogin.isSuccess()) {
-				errorlog += "|2";
-				resultadoSesionActiva = getSesionActiva(jsonData);
-				if(!resultadoSesionActiva.isSuccess()) {
-					errorlog += "|3";
-					resultadoBloqueado = new UsuariosDAO().checkBloqueado(object.username);
-					if(!resultadoSesionActiva.isSuccess()) {
-						errorlog += "|4";
-						resultado = resultadoSesionActiva;
-					} else {
-						errorlog += "|7";
-						resultado = resultadoSesionActiva;
-						throw new Exception(resultadoSesionActiva.error);
-					}
-				} else {
-					errorlog += "|6";
-					resultado = resultadoSesionActiva;
-					throw new Exception(resultadoSesionActiva.error);
-				}
+			if(!resultadoExamenTerminado.isSuccess()) {
+				errorlog += " | 2 ";
+				throw new Exception(resultadoExamenTerminado.getError());	
 			} else {
-				errorlog += "|5";
-				resultado = resultadoSesionLogin;
-				throw new Exception(resultadoSesionLogin.error);
+				errorlog += " | 3 ";
+				Result resultSesionLogin = getSesionLogin(jsonData);
+				if(!resultSesionLogin.isSuccess()) {
+					errorlog += " | 4 ";
+					throw new Exception(resultSesionLogin.getError());
+				} else {
+					errorlog += " | 5 ";
+					Result resultSesionActiva = getSesionActivaLogin(jsonData);
+					Result resultadoSesionTerminada = getSesionTerminada(object.username);
+					
+					if(!resultSesionActiva.isSuccess()) {
+						errorlog += " | 6 ";
+						throw new Exception(resultSesionActiva.getError());
+					} else {
+						errorlog += " | 7 ";
+						Result checkBloqueado = new UsuariosDAO().checkBloqueado(object.username);
+						
+						if(!checkBloqueado.isSuccess()) {
+							errorlog += " | 8 ";
+							throw new Exception(checkBloqueado.getError());
+						} else {
+							if((Boolean) checkBloqueado.getData().get(0)) {
+								errorlog += " | 10 ";
+								throw new Exception("usuario_bloqueado");
+							}
+							
+							errorlog += " | 11 ";
+							Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
+							if(!resultBloquear.isSuccess()) {
+								errorlog += " | 12 ";
+								throw new Exception(resultBloquear.getError());
+							} else {
+								errorlog += " | 13 ";
+								resultado = resultBloquear;
+							}
+						}
+						
+						resultado.setError_info(errorlog);
+					}
+				}
 			}
+			
+			
+//			resultado.setData(rows);
+//			resultado.setSuccess(true);
+//			resultado.setError_info(errorlog);
+		} catch (BonitaException  e) {
+			resultado.setSuccess(false);
+			resultado.setError("user_password_incorrect");
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
 			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
 		}
-		
-		return resultado;
+		return resultado
 	}
 	
 	public Result getSesionLogin(String jsonData) {
@@ -99,25 +137,17 @@ class LoginSesionesDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			LoginSesion row = new LoginSesion();
+			LoginSesion rowAdd = new LoginSesion();
 			List<LoginSesion> rows = new ArrayList<LoginSesion>();
+			List<LoginSesion> addData = new ArrayList<LoginSesion>();
 			closeCon = validarConexion();
-			String consulta = Statements.GET_CAT_CAMPUS_PID_BY_CORREO;
-			pstm = con.prepareStatement(consulta);
-			pstm.setString(1, object.username);
-			rs = pstm.executeQuery();
-			
-			if(rs.next()) {
-				errorlog += "|1";
-				campus_pid = rs.getLong("catcampus_pid");
-			}
-			
-			consulta = Statements.GET_SESION_LOGIN;
+			String consulta = Statements.GET_SESION_LOGIN_LOGIN;
 			pstm = con.prepareStatement(consulta);
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				errorlog += "|2";
+				
 				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
@@ -125,36 +155,42 @@ class LoginSesionesDAO {
 				row.setNombre_prueba(rs.getString("nombre_prueba"));
 				row.setId_prueba(rs.getLong("id_prueba"));
 				try {
-					errorlog += "|3";
 					row.setAplicacion(rs.getString("aplicacion"));
 				} catch (Exception e) {
-					errorlog += "|4";
 					errorlog += e.getMessage();
 				}
 				row.setEntrada(rs.getString("entrada"));
 				row.setSalida(rs.getString("salida"));
 				row.setUsername(rs.getString("username"));
 				rows.add(row);
+				
+				if(!rs.getBoolean("sesion_iniciada")) {
+					String mensaje = rs.getString("aplicacion") + " " + rs.getString("entrada");
+					throw new Exception("sesion_no_iniciada|" + mensaje);
+				}
 			} else {
-				errorlog += "|5";
-				consulta = Statements.GET_SESION_LOGIN_TEMPORAL;
+				consulta = Statements.GET_SESION_LOGIN_TEMPORAL_LOGIN;
 				pstm = con.prepareStatement(consulta);
+//				pstm.setString(1, object.aplicacion);
 				pstm.setString(1, object.username);
-				pstm.setString(2, object.aplicacion);
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
-					errorlog += "|6";
+					if(!rs.getBoolean("sesion_iniciada") && !rs.getBoolean("sesion_finalizada")) {
+						String mensaje = rs.getString("fechainiciosesion") + " " + rs.getString("horainiciosesion");
+						throw new Exception("sesion_no_iniciada|" + mensaje);
+					} else if (rs.getBoolean("sesion_finalizada")){
+						throw new Exception("sesion_finalizada");
+					}
+					
 					row = new LoginSesion();
 					row.setNombre_sesion(rs.getString("nombresesion"));
 					row.setDescripcion(rs.getString("descripcionsesion"))
 					row.setNombre_prueba("(Temporal)");
 					row.setId_prueba(rs.getLong("idprueba"));
 					try {
-						errorlog += "|7";
 						row.setAplicacion(rs.getString("fechainiciosesion"));
 					} catch (Exception e) {
-						errorlog += "|8";
 						errorlog += e.getMessage();
 					}
 					row.setEntrada(rs.getString("horainiciosesion"));
@@ -173,6 +209,114 @@ class LoginSesionesDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getSesionActivaLogin(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		Boolean isTemporal = false;
+		Boolean examenReiniciado = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
+			Map<String,Object> row = new HashMap<String,Object>();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO);
+			pstm.setString(1, object.username);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				isTemporal = rs.getBoolean("istemporal");
+				examenReiniciado = rs.getBoolean("examenreiniciado");
+				row = new HashMap<String,Object>();
+				
+				if(rs.getBoolean("examenreiniciado") == true && rs.getBoolean("sesion_iniciada_temp") == false) {
+					String mensaje = rs.getString("fechainicio_temp");
+					throw new Exception("sesion_no_iniciada|" + mensaje);
+				}
+				
+				Result checkBloqueado = new UsuariosDAO().checkBloqueado(object.username);
+				Boolean bloqueado = false;
+				Boolean tieneTolerancia = false;
+				
+				if(checkBloqueado.isSuccess()) {
+					bloqueado = (Boolean) checkBloqueado.getData().get(0);
+					
+					if(bloqueado) {
+						throw new Exception("block");
+					} else {
+						Result checkSesionFinalizada = new Result();
+						
+						Result checkTolerancia = new Result();
+						
+						if(isTemporal == true) {
+							checkTolerancia = new UsuariosDAO().checkToleranciaTemp(object.username);
+						} else {
+							checkTolerancia = new UsuariosDAO().checkTolerancia(object.username);
+						}
+						
+						if(checkTolerancia.isSuccess()) {
+							tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
+						} else {
+							throw new Exception("no_sesion_asignada");
+						}
+						
+						if(!tieneTolerancia) {
+							throw new Exception("toler");
+						}
+					}
+				}
+			} else {
+				pstm = con.prepareStatement(Statements.GET_SESION_LOGIN);
+				pstm.setString(1, object.username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
+						String mensaje = "";
+						if(!rs.getBoolean("sesion_iniciada")) {
+							mensaje = rs.getString("entradahora");
+						} else if(rs.getBoolean("sesion_iniciada_temp") == false) {
+							mensaje = rs.getString("fechainicio_temp");
+						}
+						
+						throw new Exception("sesion_no_iniciada|" + mensaje);
+					} 
+					
+//					if(!rs.getBoolean("sesion_iniciada")) {
+//						String mensaje = rs.getString("entradahora");
+//						throw new Exception("sesion_no_iniciada|" + mensaje);
+//					}
+					
+					Result  checkToler = new UsuariosDAO().checkTolerancia(object.username);
+					if(checkToler.isSuccess()) {
+						if(!((boolean) checkToler.getData().get(0))) {
+							throw new Exception("toler");
+						}
+					} else {
+						throw new Exception("fallo_tolerancia");
+					}
+				} else {
+					throw new Exception("no_existe_sesion");
+				}
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
 			resultado.setError_info(errorlog);
 		} finally {
 			if (closeCon) {
@@ -350,6 +494,8 @@ class LoginSesionesDAO {
 		return resultado
 	}
 	
+	
+	
 	public Result insertterminado(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -509,6 +655,37 @@ class LoginSesionesDAO {
 		return resultado
 	}
 	
+	public Result getTerminadoExamenLogin(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Map<String,Integer>> rows = new ArrayList<Map<String,Integer>>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_TERMINADO_EXAMEN);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				if(rs.getBoolean("terminado")) {
+					throw new Exception("examen_terminado");
+				}
+			}
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	public Result getDatosSesionLogin(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -545,6 +722,11 @@ class LoginSesionesDAO {
 				row.setEntrada(rs.getString("entrada"));
 				row.setSalida(rs.getString("salida"));
 				row.setUsername(rs.getString("username"));
+				row.setAplicacion_temp(rs.getString("aplicacion_temp"));
+				row.setEntrada_temp(rs.getString("entrada_temp"));
+				row.setSalida_temp(rs.getString("salida_temp"));
+				row.setNombre_temp(rs.getString("nombre_temp"));
+
 				rows.add(row)
 			}
 			
@@ -792,5 +974,40 @@ class LoginSesionesDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getSesionTerminada(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Long> rows = new ArrayList<Long>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_SESION_FINALIZADA_BY_USERNAME);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				if(rs.getBoolean("finalizada") == true) {
+					throw new Exception("prueba_finalizada");
+				}
+			}
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
 	}
 }

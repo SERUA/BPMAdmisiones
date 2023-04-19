@@ -2030,4 +2030,146 @@ public Result getCatPreguntas(String jsonData) {
 		
 		return resultado;
 	}
+	
+	public Result insertRespuesta(String jsonData) {
+		def jsonSlurper = new JsonSlurper();
+		def object = jsonSlurper.parseText(jsonData);
+		Result resultado = new Result()
+		Boolean closeCon = false
+		String where ="",errorLog = "";
+		String idbanner = object.idbanner//"00845125"
+		String respuesta = object.respuestas//"FCCCFCFCCCF*CCFFFFCCFFFFFFFFCFFFF*FFFFFFFFCFCCCFCFCFFFCFCCFFCCCCFFCFFFFFFFCCFFCFFFCFFCFCFCCFCFCFFCFFFCFFFCFCCFFCCFCFCFFC*CFCCCFCFFCCFFFFFFCCCCFFFFFCFFCCFFCFCFFCCFCCCFFFFCFFFCFCCFCFCFFFFCCCCFFCFCFFFFCFFFCCFCCCFCCCFFFFFFFFFCCCFCFFCFCFFFFFCFCFFFCCFFFFCFFFFFCFFFFCCCCFFCCFCFCCFFFCFCFCFFFFCFFFFCCFCFCFCFFFFFFFFFFFCFFFCCFFFCFFCFFFFFFFFCCFFFCFFFFCFFCFCCFFFCCCFCFFFFCCFFCFCFFFFCFCFFFFFFFFFFCFCFFCFFCFFFFFFCFFCFCCCCFFFCFFFCFCFFFFFCFFFCCFCFFFFFFFFCCCFCCFFFFFFFFCCFCFFCCCCFFFFFCFFFFCCCFFCFCFFFFFFFFFFCFCCCFCFFFFCFFCFFFFCFFFFFFFFFCFCFCFFFFFFFCCCCFFCFFFCFFFFFCFFFCFFFFFFCCCCCFCFFF"
+		String sesiones_pid = object.id_sesion//"1"
+		List < Map < String, Object >> respuestas = new ArrayList < Map < String, Object >> ();
+		List < Map < String, String >> additionalData = new ArrayList < Map < String, String >> ();
+		List < Map < String, Integer >> rows = new ArrayList < Map < String, Integer >> ();
+		Map<String,Integer> respuestainvp= new HashMap  < String, Integer >()
+		Map<String,String> aData= new HashMap  < String, String >();
+		String caseId = "";
+		aData.put("idbanner", idbanner);
+		aData.put("respuestas",respuesta);
+		aData.put("id_sesion",sesiones_pid);
+		try {
+//			Result resultado2 = new Result();
+//			resultado2 = insertBitacoraComentarios(jsonData);
+//			errorLog = resultado2.getError();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement("SELECT persistenceid,  escala,  genero,  persistenceversion, pregunta, puntuacion, respuesta  FROM catrespuestasinvp where genero='ambos' OR genero=lower((SELECT cs.descripcion from solicituddeadmision sda inner join catsexo cs on cs.persistenceid=sda.catsexo_pid inner join detallesolicitud ds on ds.caseid::bigint=sda.caseid and sda.correoelectronico NOT LIKE '%(rechazado)%' where ds.idbanner=? )) order by pregunta asc");
+			pstm.setString(1, idbanner);
+			rs = pstm.executeQuery();
+			respuestas = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+				}
+
+				respuestas.add(columns);
+			}
+			int count = 0;
+			for (int i = 0; i < respuesta.length(); i++) {
+				if (respuesta.charAt(i) == "*") {
+					count++;
+				}
+			}
+			
+			respuestainvp.put("?", count);
+			
+			for(int i=0; i<respuestas.size(); i++) {
+				if (respuesta.charAt((Integer.parseInt(respuestas.get(i).get("pregunta"))-1)) != "*") {
+					if((respuesta.charAt(Integer.parseInt(respuestas.get(i).get("pregunta"))-1) == 'C') == (respuestas.get(i).get("respuesta") == 't')) {
+						if(respuestainvp.get(respuestas.get(i).get("escala")) == null) {
+							respuestainvp.put(respuestas.get(i).get("escala"), Integer.parseInt(respuestas.get(i).get("puntuacion")))
+						}else {
+							respuestainvp.put(respuestas.get(i).get("escala"), respuestainvp.get(respuestas.get(i).get("escala"))+Integer.parseInt(respuestas.get(0).get("puntuacion")))
+						}
+						
+					} else {
+						if(respuestainvp.get(respuestas.get(i).get("escala")) == null) {
+							respuestainvp.put(respuestas.get(i).get("escala"), 0)
+						}
+					}
+				} else {
+					if(respuestainvp.get(respuestas.get(i).get("escala")) == null) {
+						respuestainvp.put(respuestas.get(i).get("escala"), 0)
+					}
+				}
+			}
+			
+			try {
+				pstm = con.prepareStatement("SELECT ds.caseid FROM detallesolicitud as ds INNER JOIN solicitudDeAdmision as sda ON sda.caseid = ds.caseid::integer WHERE sda.correoelectronico NOT LIKE '%(rechazado)%' and  ds.idbanner = '${idbanner}' limit 1");
+				rs= pstm.executeQuery();
+				if(rs.next()) {
+					caseId = rs.getString("caseid");
+				}
+				 
+			} catch(Exception cd) {
+				errorLog+=", fallo en traer el caseid";
+				caseId = "0";
+			}
+			
+			try {
+				TimeZone tz = TimeZone.getTimeZone("UTC")
+				DateFormat df = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS"); // Quoted "Z" to indicate UTC, no timezone offset
+				df.setTimeZone(tz)
+				String nowAsISO = df.format(new Date());
+				pstm = con.prepareStatement("SELECT idbanner, escala, puntuacion FROM resultadoinvp where idbanner = ? and sesiones_pid = ?");
+				pstm.setString(1, idbanner);
+				pstm.setLong(2, Long.parseLong(sesiones_pid));
+				rs = pstm.executeQuery();
+				
+				if(!rs.next()) {
+					for (Map.Entry<String,Integer> entry: respuestainvp) {
+						pstm = con.prepareStatement("INSERT INTO resultadoinvp (idbanner,escala,puntuacion,sesiones_pid,persistenceid,persistenceversion,fecha_registro,caseId) values (?,?,?,?,case when (SELECT max(persistenceId)+1 from resultadoinvp ) is null then 1 else (SELECT max(persistenceId)+1 from resultadoinvp) end,0,?,?)")
+						pstm.setString(1, idbanner)
+						pstm.setString(2, entry.getKey())
+						pstm.setInt(3, entry.getValue())
+						pstm.setLong(4, Long.parseLong(sesiones_pid))
+						pstm.setString(5, nowAsISO)
+						pstm.setLong(6, Long.parseLong(caseId))
+						pstm.execute()
+					}
+					
+				} else {
+					resultado.setError("Error");
+					resultado.setError_info("Ya hay un aspirante con ese id_sesion")
+				}
+			} catch(Exception test) {
+				resultado.setError("Error")
+				resultado.setError_info(test.getMessage())
+			}
+			
+			/*
+			if(resultado.getError().equals("Error")){
+				resultado.setSuccess(false);
+			}else {
+				Result asistencia = asistenciaINVP(idbanner,sesiones_pid);
+				rows.add(respuestainvp)
+				additionalData.add(aData)
+				resultado.setSuccess(true)
+				resultado.setData(rows)
+				resultado.setAdditional_data(additionalData+"error:"+errorLog+" asistencia:"+asistencia.isSuccess()+"error_Asistencia:"+asistencia.getError())
+			}
+			*/
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError(e.getMessage())
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
+	
+	private Result insertRespuestasPeticion() {
+		
+		
+		return new Result();
+	}
 }

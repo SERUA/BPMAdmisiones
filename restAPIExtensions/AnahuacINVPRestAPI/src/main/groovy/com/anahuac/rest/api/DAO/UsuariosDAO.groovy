@@ -2123,23 +2123,23 @@ class UsuariosDAO {
 						pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET terminado = ? WHERE username = ?");
 						pstm.setBoolean(1, true);
 						pstm.setString(2, row.getCorreoElectronico());
-						pstm.executeUpdate();
+						
+						
+						if(pstm.executeUpdate() == 0) {
+							pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
+							pstm.setString(1, row.getCorreoElectronico());
+							pstm.setBoolean(2, true);
+						}
+						
 						break;
 					}
 				}
-				
-				pstm = con.prepareStatement(Statements.GET_SESION_TERMINADA_EXISTE);
-				pstm.setLong(1, idesion);
-				rs = pstm.executeQuery();
-				
-				if(!rs.next()) {
-					pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
-					pstm.setLong(1, idesion);
-					pstm.executeUpdate();
-				} 
 			}
+			
+			pstm = con.prepareStatement(Statements.INSERT_SESION_TERMINADA);
+			pstm.setLong(1, idesion);
+			pstm.executeUpdate();
 
-			con.commit();
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -2445,6 +2445,32 @@ class UsuariosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result enviarRespuestas(String jsonData) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			
+			
+			
+		}  catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);

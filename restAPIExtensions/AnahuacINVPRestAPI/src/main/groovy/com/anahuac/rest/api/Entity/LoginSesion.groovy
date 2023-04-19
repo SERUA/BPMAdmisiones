@@ -21,6 +21,15 @@ class LoginSesion {
 	private String nombre_sesion;
 	@XmlElement
 	private Long id_prueba;
+	@XmlElement
+	private String aplicacion_temp;
+	@XmlElement
+	private String entrada_temp;
+	@XmlElement
+	private String salida_temp;
+	@XmlElement
+	private String nombre_temp;
+	
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -74,6 +83,30 @@ class LoginSesion {
 	}
 	public void setId_prueba(Long id_prueba) {
 		this.id_prueba = id_prueba;
+	}
+	public String getAplicacion_temp() {
+		return aplicacion_temp;
+	}
+	public void setAplicacion_temp(String aplicacion_temp) {
+		this.aplicacion_temp = aplicacion_temp;
+	}
+	public String getEntrada_temp() {
+		return entrada_temp;
+	}
+	public void setEntrada_temp(String entrada_temp) {
+		this.entrada_temp = entrada_temp;
+	}
+	public String getSalida_temp() {
+		return salida_temp;
+	}
+	public void setSalida_temp(String salida_temp) {
+		this.salida_temp = salida_temp;
+	}
+	public String getNombre_temp() {
+		return nombre_temp;
+	}
+	public void setNombre_temp(String nombre_temp) {
+		this.nombre_temp = nombre_temp;
 	}
 
 

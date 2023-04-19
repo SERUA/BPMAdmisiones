@@ -1,13 +1,41 @@
 <div class="fondo" ng-if="properties.idioma === 'ENG'">
-    <p>TemporaryID: <b>{{properties.caseId}}</b> / Name: <b>{{properties.nombre}} </b> /
-    Session: <b>{{properties.sesion}}</b> / Date: <b>{{properties.fecha}}</b>
+    <p>{{ properties.isTemporal ?  "TemporaryID" : "ID banner"}}: <b>{{properties.caseId}}</b> 
+        / Name: <b>{{properties.nombre}} </b> 
+        / Session: <b>{{properties.objetoSesion.nombre_sesion ? properties.objetoSesion.nombre_sesion : properties.objetoSesion.nombre_temp }}</b> 
+        / Date: 
+            <b ng-if="properties.objetoSesion.aplicacion">{{properties.objetoSesion.aplicacion | date:'dd/MM/yyyy'}}</b> 
+            <b ng-if="!properties.objetoSesion.aplicacion">{{properties.objetoSesion.aplicacion_temp | date:'dd/MM/yyyy'}}</b> 
+        / Time: 
+            <b ng-if="properties.objetoSesion.entrada">{{properties.objetoSesion.entrada | date:'HH:mm'}}</b> 
+            <b ng-if="!properties.objetoSesion.entrada">{{properties.objetoSesion.entrada_temp | date:'HH:mm'}}</b> 
     <BR>  
      Phone number: <b>{{properties.telefono}}</b> / Cell phone number: <b>{{properties.celular}} </b> / Email address: <b>{{properties.correo}} </b></p>
 </div>
 
 <div class="fondo" ng-if="properties.idioma === 'ESP'">
-    <p>idTemporal: <b>{{properties.caseId}}</b> / Nombre: <b>{{properties.nombre}} </b> /
-    Sesión: <b>{{properties.sesion}}</b> / Fecha: <b>{{properties.fecha}}</b> 
+    <p>{{ properties.isTemporal ?  "ID temporal" : "ID banner"}}: <b>{{properties.caseId}}</b> 
+        / Nombre: <b>{{properties.nombre}} </b> 
+        / Sesión: <b>{{properties.objetoSesion.nombre_sesion ? properties.objetoSesion.nombre_sesion : properties.objetoSesion.nombre_temp }}</b> 
+        / Fecha: 
+            <b ng-if="properties.objetoSesion.aplicacion">{{properties.objetoSesion.aplicacion | date:'dd/MM/yyyy'}}</b> 
+            <b ng-if="!properties.objetoSesion.aplicacion">{{properties.objetoSesion.aplicacion_temp | date:'dd/MM/yyyy'}}</b> 
+        / Hora: 
+            <b ng-if="properties.objetoSesion.entrada">{{properties.objetoSesion.entrada | date:'HH:mm'}}</b> 
+            <b ng-if="!properties.objetoSesion.entrada">{{properties.objetoSesion.entrada_temp | date:'HH:mm'}}</b> 
      <BR> 
      Télefono: <b>{{properties.telefono}}</b> / Télefono celular: <b>{{properties.celular}} </b> / Correo eléctronico: <b>{{properties.correo}} </b></p>
 </div>
+
+<!--<div class="fondo" ng-if="properties.idioma === 'ENG'">-->
+<!--    <p>TemporaryID: <b>{{properties.caseId}}</b> / Name: <b>{{properties.nombre}} </b> /-->
+<!--    Session: <b>{{properties.sesion}}</b> / Date: <b>{{properties.fecha}}</b>-->
+<!--    <BR>  -->
+<!--     Phone number: <b>{{properties.telefono}}</b> / Cell phone number: <b>{{properties.celular}} </b> / Email address: <b>{{properties.correo}} </b></p>-->
+<!--</div>-->
+
+<!--<div class="fondo" ng-if="properties.idioma === 'ESP'">-->
+<!--    <p>idTemporal: <b>{{properties.caseId}}</b> / Nombre: <b>{{properties.nombre}} </b> /-->
+<!--    Sesión: <b>{{properties.sesion}}</b> / Fecha: <b>{{properties.fecha}}</b> -->
+<!--     <BR> -->
+<!--     Télefono: <b>{{properties.telefono}}</b> / Télefono celular: <b>{{properties.celular}} </b> / Correo eléctronico: <b>{{properties.correo}} </b></p>-->
+<!--</div>-->

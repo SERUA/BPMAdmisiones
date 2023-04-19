@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PSuYQGRNEe25vplGuJ9kyw" name="Examen INVP" author="micedo94" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.33">
+    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.34">
       <elements xmi:type="process:Lane" xmi:id="_PSuYQmRNEe25vplGuJ9kyw" name="Aspirante" actor="_VAArMGRNEe25vplGuJ9kyw">
         <elements xmi:type="process:StartEvent" xmi:id="_PSuYQ2RNEe25vplGuJ9kyw" name="Inicio1" outgoing="_PSuYWGRNEe25vplGuJ9kyw">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PSuYRGRNEe25vplGuJ9kyw" name="" content="" returnTypeFixed="true"/>
@@ -1118,9 +1118,9 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_0m3rYbJFEe2aKOpVIln2Ig" name="instanciaINVP" content="instanciaINVP" type="TYPE_VARIABLE" returnType="com.anahuac.invp.InstanciaINVP">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_09DWwLJFEe2aKOpVIln2Ig" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_0m3rYrJFEe2aKOpVIln2Ig" name="newScript()" content="if(repetirExamenInput == true){&#xD;&#xA;&#x9;return &quot;Examen reactivado&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;return &quot;Prueba finalizada&quot;;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_qMorsLJGEe2aKOpVIln2Ig" name="repetirExamenInput" type="BOOLEAN">
-                <mapping xmi:type="process:ContractInputMapping" xmi:id="_qMorsbJGEe2aKOpVIln2Ig"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_0m3rYrJFEe2aKOpVIln2Ig" name="newScript()" content="if(repetirExamenInput == true){&#xD;&#xA;&#x9;return &quot;Examen re agendado&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;return &quot;Prueba finalizada&quot;;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_5PKcoNmLEe2gru2qLPWIRg" name="repetirExamenInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_5PKcodmLEe2gru2qLPWIRg"/>
               </referencedElements>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_0m3rY7JFEe2aKOpVIln2Ig" type="JAVA_METHOD" expression="setEstatus">
