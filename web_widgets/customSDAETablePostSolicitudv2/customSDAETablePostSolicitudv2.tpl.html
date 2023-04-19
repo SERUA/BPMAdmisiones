@@ -139,29 +139,41 @@
                 <!--td>
                     {{row.updateDate}}
                 </td-->
-                <td class="text-center" style="display: inline-flex;">
-                    <button class="btn btn-default" ng-click="abrirSolicitud(row)">
-                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-default" ng-show="row.estatussolicitud == 'Solicitud Rechazada' || row.estatussolicitud == 'Propuesta rechazada por aspirante' || row.estatussolicitud == 'Solicitud no autorizada'"
-                        ng-click="abrirModalReactivarSolicitud(row)">
-                        <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-primary"
-                        ng-show="row.aceptado == 'Aceptado' && (row.estatussolicitud == 'En espera de resultado'  || row.estatussolicitud == 'Solicitud de beca académica')"
-                        ng-click="abrirModalAvanzarSolicitud(row)">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-primary"
-                        ng-show="row.aceptado == 'Aceptado' && row.estatussolicitud == 'Solicitud de Financiamiento'"
-                        ng-click="abrirModalAvanzarFinanciamiento(row)">
-                        <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                    </button>
-                    <button class="btn btn-default"
-                        ng-show="row.estatussolicitud == 'En espera de resultado' || row.estatussolicitud == 'Solicitud de Financiamiento' || row.estatussolicitud == 'Solicitud de beca académica'"
-                        ng-click="abrirModalArchivarSolicitud(row)">
-                        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                    </button>
+                <td class="text-center" >
+                    <div style="display: inline-flex;">
+                        <button class="btn btn-default" ng-click="abrirSolicitud(row)">
+                            <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-default" ng-show="row.estatussolicitud == 'Solicitud Rechazada' || row.estatussolicitud == 'Propuesta rechazada por aspirante' || row.estatussolicitud == 'Solicitud no autorizada'"
+                            ng-click="abrirModalReactivarSolicitud(row)">
+                            <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-primary"
+                            ng-show="(row.estatussolicitud == 'En espera de resultado'  || row.estatussolicitud == 'Solicitud de beca académica')"
+                            ng-click="abrirModalAvanzarSolicitud(row)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-primary"
+                            ng-show="row.estatussolicitud == 'Solicitud de Financiamiento'"
+                            ng-click="abrirModalAvanzarFinanciamiento(row)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button>
+                        <!-- <button class="btn btn-primary"
+                            ng-show="row.aceptado == 'Aceptado' && (row.estatussolicitud == 'En espera de resultado'  || row.estatussolicitud == 'Solicitud de beca académica')"
+                            ng-click="abrirModalAvanzarSolicitud(row)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button>
+                        <button class="btn btn-primary"
+                            ng-show="row.aceptado == 'Aceptado' && row.estatussolicitud == 'Solicitud de Financiamiento'"
+                            ng-click="abrirModalAvanzarFinanciamiento(row)">
+                            <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        </button> -->
+                        <button class="btn btn-default"
+                            ng-show="row.estatussolicitud == 'En espera de resultado' || row.estatussolicitud == 'Solicitud de Financiamiento' || row.estatussolicitud == 'Solicitud de beca académica'"
+                            ng-click="abrirModalArchivarSolicitud(row)">
+                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                        </button>
+                    </div>
                 </td>
             </tr>
         </tbody>
@@ -197,7 +209,7 @@
                 <h5 class="modal-title color-orange">Mensaje de confirmación</h5>
             </div>
             <div class="modal-body">
-                <p>¿Desea enviar la solicitud a pago y/o a dictamen?</p>
+                <p>¿Desea enviar la solicitud a pago y/o a Comité?</p>
             </div>
             <div class="modal-footer">
                 <div class="col-xs-6  text-left">
@@ -269,7 +281,7 @@
                 <h5 class="modal-title color-orange">Mensaje de confirmación</h5>
             </div>
             <div class="modal-body">
-                <p>¿Desea enviar la solicitud a pago y/o a financiamiento?</p>
+                <p>¿Desea enviar la solicitud a pago y/o a Financiamiento educativo?</p>
             </div>
             <div class="modal-footer">
                 <div class="col-xs-6 text-left">

@@ -207,6 +207,22 @@ class ListadoDAO {
 	
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "FECHALIMITEPROPUESTA":
+							errorlog += "FECHALIMITEPROPUESTA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(AA.fechaLimitePropuesta) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						case "# EXPEDIENTE":
 							errorlog += "SOLICITUD"
 							if (where.contains("WHERE")) {
@@ -338,9 +354,13 @@ class ListadoDAO {
 					case "FECHAULTIMAMODIFICACION":
 						orderby += "SDAE.fechaultimamodificacion";
 						break;
+					case "FECHALIMITEPROPUESTA":
+						orderby += "AA.fechaLimitePropuesta";
+						break;
 					default:
 						orderby += "SDAE.caseid"
 						break;
+						
 				}
 			}
 			orderby += " " + object.orientation;
@@ -1040,7 +1060,26 @@ class ListadoDAO {
 							}
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-	
+						case "LICENCIATURA":
+							errorlog += "LICENCIATURA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO":
+							errorlog += "PERIODO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						default:
 							break;
 					}

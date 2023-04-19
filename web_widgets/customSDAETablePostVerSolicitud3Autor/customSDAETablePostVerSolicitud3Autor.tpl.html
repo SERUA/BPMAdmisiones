@@ -78,10 +78,9 @@
                         class="glyphicon"
                         ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                         ng-show="properties.dataToSend.orderby=='ESTATUS_ADMISION'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última
-                        modificación<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHALIMITEPROPUESTA')">Fecha límite propuesta<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
+                            ng-show="properties.dataToSend.orderby=='FECHALIMITEPROPUESTA'"></i></span></th>
                     <th> Acciones</th>
                 </tr>
             </thead>
@@ -101,7 +100,7 @@
                     <td><input ng-model="dynamicInput['estatus']" class="form-control"
                             ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
                     <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control"
-                            ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                            ng-enter="filterKeyPress('FECHALIMITEPROPUESTA',dynamicInput['fechaLimitePropuesta'])"></td>
                     <td></td>
                 </tr>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)"
@@ -147,7 +146,8 @@
                         <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
                     </td>
                     <td>
-                        <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>
+                        <!--<b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>-->
+                        <b>{{ row.fechalimitepropuesta | date:'dd-MM-yyyy'}}</b>
                     </td>
                     <!--td>
                         {{row.updateDate}}

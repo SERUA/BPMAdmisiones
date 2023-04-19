@@ -7,7 +7,7 @@
                 <th>Tipo</th>
                 <th>Descripción</th>
                 <th>Ubicación</th>
-                <th>Valor ({{properties.tipoMoneda}})</th>
+                <th>Valor aproximado ({{properties.tipoMoneda}})</th>
                 <th ng-if="properties.editar">Acciones</th>
             </tr>
         </thead>
@@ -21,7 +21,7 @@
                 <!--  data-ng-change="updateSelectList()" -->
                 <td><input class="form-control" ng-disabled="!properties.editar" ng-model="row.descripcion" type="text"></td>
                 <td><input class="form-control" ng-disabled="!properties.editar" ng-model="row.direccionBanco" type="text"></td>
-                <td style="position: relative; display: inline-flex;">
+                <td style="position: relative;">
                     <label class="moneda-display2">$</label><input  ng-disabled="!properties.editar" class="form-control moneda-display2-input" ng-model="row.valor" type="number" pattern="[0-9]*" data-politespace data-grouplength="3" data-delimiter="," data-reverse>
                 </td>
                 <td ng-if="properties.editar">

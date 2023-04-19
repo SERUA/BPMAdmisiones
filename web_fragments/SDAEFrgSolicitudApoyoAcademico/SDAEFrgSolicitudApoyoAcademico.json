@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEFrgSolicitudApoyoAcademico",
   "name" : "SDAEFrgSolicitudApoyoAcademico",
-  "lastUpdate" : 1674168920820,
+  "lastUpdate" : 1681925947646,
   "rows" : [
     [
       {
@@ -11944,7 +11944,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "allowHTML" : {
                         "type" : "constant",
@@ -12018,6 +12018,78 @@
                         "type" : "constant",
                         "value" : false
                       },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "headers" : {
+                        "type" : "constant",
+                        "value" : [
+                          "Id",
+                          "Name",
+                          "Description",
+                          "Date"
+                        ]
+                      },
+                      "content" : {
+                        "type" : "expression",
+                        "value" : "formOutputTest.autosInput"
+                      },
+                      "columnsKey" : {
+                        "type" : "constant"
+                      },
+                      "selectedRow" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "striped" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "condensed" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "bordered" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "lstSituacionAuto" : {
+                        "type" : "variable",
+                        "value" : "lstAutomoviles"
+                      },
+                      "editar" : {
+                        "type" : "expression",
+                        "value" : "formOutputTest.solicitudApoyoEducativoInput.modificarInfoSocioEco"
+                      },
+                      "moneda" : {
+                        "type" : "expression",
+                        "value" : "returnCatValue.catTipoMoneda.clave"
+                      }
+                    },
+                    "reference" : "fba59b6a-ba47-455a-9cb4-ce4d374c919f",
+                    "hasValidationError" : false,
+                    "id" : "customTblSDAEinformacionAutomovilesOP"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
                       "labelHidden" : {
                         "type" : "constant",
                         "value" : true
@@ -12040,7 +12112,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Presiona “Agregar” para incluir otro automóvil que posean."
+                        "value" : "Presiona \"Agregar\" por cada automóvil que posean."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -12825,7 +12897,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<label class=\"m-mini\">Hermano:</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                          "value" : "<label class=\"m-mini\">Hermano(s):</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -13014,7 +13086,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<label class=\"m-mini\">Tío(a):</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                          "value" : "<label class=\"m-mini\">Tío(s):</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -13203,7 +13275,7 @@
                                         },
                                         "text" : {
                                           "type" : "interpolation",
-                                          "value" : "<label class=\"m-mini\">Abuelo(a):</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                          "value" : "<label class=\"m-mini\">Abuelo(s):</label>  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                         },
                                         "alignment" : {
                                           "type" : "constant",
@@ -16852,7 +16924,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<label >Instrucciones: Carga las fotografías solicitadas en formato JPG, PNG o PDF. Se te recomienda colocar en posición horizontal el dispositivo de captura previamente y configurado en calidad media o alta.</label>"
+                        "value" : "<label >Instrucciones: Carga las fotografías solicitadas en formato JPG, JPEG o PNG. Se te recomienda colocar en posición horizontal el dispositivo de captura previamente y configurado en calidad media o alta.</label>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -16999,9 +17071,9 @@
                               "type" : "constant"
                             }
                           },
-                          "reference" : "eabba872-8ee9-43b9-8e20-b38d1402ef47",
+                          "reference" : "e32452d4-5ae5-4bb9-9673-4dca7ff8d331",
                           "hasValidationError" : false,
-                          "id" : "customSDAEUploadCustomAzure"
+                          "id" : "customSDAEUploadCustomAzureLimit"
                         }
                       ]
                     ]
@@ -17115,7 +17187,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<label>Instrucciones: Carga los documentos indicados en JPG, o PDF para completar tu solicitud</label>"
+                        "value" : "<label>Instrucciones: Carga los documentos indicados en PDF para completar tu solicitud</label>"
                       },
                       "level" : {
                         "type" : "constant",
@@ -17268,9 +17340,9 @@
                               "value" : "$item.catManejoDocumentos.urlDocumentoAzure"
                             }
                           },
-                          "reference" : "6fcb902f-3583-4537-8255-0ec96ccb4297",
+                          "reference" : "3039a3f0-8579-4e24-b274-718b8b53275b",
                           "hasValidationError" : false,
-                          "id" : "customSDAEUploadCustomAzure"
+                          "id" : "customSDAEUploadCustomAzureLimit"
                         }
                       ]
                     ]

@@ -76,6 +76,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         startUploading();
         var f = evt.target.files[0];
         var reader = new FileReader(); var size = parseFloat(f.size / 1024).toFixed(2);
+        
         if(size >= 2000){
             ctrl.filename = gettextCatalog.getString('Error al subir documento');
             swal("El archivo es demasiado grande", "El tamaño máximo de la imagen es de 2MB", "error");

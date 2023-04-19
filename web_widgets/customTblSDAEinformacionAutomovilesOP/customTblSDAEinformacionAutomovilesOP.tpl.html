@@ -1,0 +1,42 @@
+<div class="table-responsive">
+    <table class="table"
+        ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <!--  class="thFont borderLines" -->
+                <th>Marca</th>
+                <th>Modelo</th>
+                <th>Año</th>
+                <th>Costo aproximado ({{properties.moneda}})</th>
+                <th>Situación del auto</th>
+                <th ng-if="properties.editar">Acciones</th>
+            </tr>
+        </thead>
+        <tbody ng-if="properties.content">
+            <tr ng-repeat="row in properties.content track by $index" style="text-align: center !important;">
+                <td>
+                    <input class="form-control" ng-model="row.marca" ng-disabled="!properties.editar" type="text">
+                </td>
+                <td>
+                    <input class="form-control" ng-model="row.modelo" ng-disabled="!properties.editar" type="text">
+                </td>
+                <td>
+                    <input class="form-control" ng-model="row.ano" ng-disabled="!properties.editar" type="number">
+                </td>
+                <td style="display: inline-flex; position: relative">
+                    <label class="moneda-display2">$</label><input class="form-control moneda-display2-input" max="99999999" ng-model="row.costoAproximado" ng-disabled="!properties.editar" type="number" pattern="[0-9]*" data-politespace data-grouplength="3" data-delimiter="," data-reverse>
+                </td>
+                <td>
+                    <select class="form-control" ng-model="row.catSituacionAuto_id" ng-options="option.persistenceId as option.descripcion for option in properties.lstSituacionAuto.data">
+                        <option value="">Seleccionar...</option>
+                    </select>
+                </td>
+                <td ng-if="properties.editar">
+                    <button class="btn btn-link" ng-click="removeItem(row)" >
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

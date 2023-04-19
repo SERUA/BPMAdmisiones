@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAvalModificar",
   "name" : "SDAESolicitudFinanciamientoAvalModificar",
-  "lastUpdate" : 1680283984909,
+  "lastUpdate" : 1681927768295,
   "rows" : [
     [
       {
@@ -1209,7 +1209,7 @@
                                     "headers" : {
                                       "type" : "constant",
                                       "value" : [
-                                        "Nombre",
+                                        "Nombre completo",
                                         "Parentesco",
                                         "Teléfono",
                                         "E-mail"
@@ -1635,7 +1635,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Nombres: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Nombre(s): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2847,7 +2847,7 @@
                                     "headers" : {
                                       "type" : "constant",
                                       "value" : [
-                                        "Nombre",
+                                        "Nombre completo",
                                         "Parentesco",
                                         "Teléfono",
                                         "E-mail"
@@ -3285,7 +3285,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -4420,7 +4420,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -5135,7 +5135,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -7592,7 +7592,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Numero de cuenta",
-                            "Saldo promedio"
+                            "Saldo promedio anual"
                           ]
                         },
                         "content" : {
@@ -7903,7 +7903,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Numero de cuenta",
-                            "Saldo promedio"
+                            "Monto mensual"
                           ]
                         },
                         "content" : {
@@ -8099,6 +8099,94 @@
                   ],
                   [
                     {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "color-orange"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "DOCUMENTACIÓN DEL AVAL"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "0d1df7a4-ad48-410d-a8b2-1017567a8162",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<b>Instrucciones: Carga los documentos indicados en PDF para completar la solicitud.\n</b>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "e2193780-a6f4-49bb-ae93-55d2d0782b52",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
@@ -8233,9 +8321,9 @@
                                 "value" : "$item.catManejoDocumentos.urlDocumentoAzure"
                               }
                             },
-                            "reference" : "1af70ba1-3616-432f-ad4e-b0c6e3ef4f64",
+                            "reference" : "9d147da8-af9c-4f07-9d90-325ad08bb3ef",
                             "hasValidationError" : false,
-                            "id" : "customSDAEUploadCustomAzure"
+                            "id" : "customSDAEUploadCustomAzureLimit"
                           }
                         ]
                       ]
@@ -10574,7 +10662,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\">Financiamiento educativo<a>"
+                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"{{getConfiguracionCampus.data[0].urlDocumentoCondicionesFinanciamiento}}\">Financiamiento educativo<a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -11080,7 +11168,7 @@
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.nombres){\r",
         "    output = false;\r",
-        "\t$data.errorMEssageInfoPersonal = \"Campo 'Nombres' no debe ir vacío\";\r",
+        "\t$data.errorMEssageInfoPersonal = \"Campo 'Nombre(s)' no debe ir vacío\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.apellidoPaterno){\r",
         "    output = false;\r",
@@ -15133,7 +15221,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getConfiguracionCampus&p=0&c=10&idCampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },
