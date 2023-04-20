@@ -917,4 +917,47 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshAspirantes = function(){
         getAspirantesSesion($scope.selectedSesion.idSesion);
     }
+	
+	
+	 $scope.enviarResultados = function(username,idbanner){
+	     if(idbanner == null){
+	         swal("Informacion", "El aspirante tiene que tener un id banner para poder enviar su resultado");
+	     }else{
+	        let dataToSend = {
+                "username": username,
+                "sesion": $scope.selectedSesion.idSesion,
+                "idbanner":idbanner
+            }
+
+            let url = "../API/extension/AnahuacINVPRestAPI?url=PostRespuestaSesion&p=0&c=10";
+            $http.post(url, dataToSend).success(function(_data){
+                swal("Ok", "Se cargaron los datos correctamente", "success");
+            }).error(function(_error){
+                swal("Warning", _error.error_info);
+            });
+	     }
+        
+    }
+	
+	$scope.enviarTodos = function(aspirantes){
+	     var dataToSend=[];
+		aspirantes.forEach((element)=>{
+			dataToSend.push({
+				"username": element.username,
+				"sesion": $scope.selectedSesion.idSesion,
+				"idbanner":element.idbanner
+			})
+		});
+
+       let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
+        $http.post(url, dataToSend).success(function(_data){
+            if(_data.success){
+                swal("Ok", "Los registros cargados correctamente fueron:"+_data.info, "success");
+            }else{
+                 swal("Warning", _data.info, "warning");
+            }
+        }).error(function(_error){
+            swal("Warning", _error.info);
+        });
+    }
 }

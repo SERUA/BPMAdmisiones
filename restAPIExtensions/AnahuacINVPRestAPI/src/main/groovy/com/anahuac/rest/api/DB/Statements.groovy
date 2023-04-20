@@ -132,4 +132,33 @@ class Statements {
 	public static final String GET_SESION_LOGIN_LOGIN = "SELECT  CONCAT(p.aplicacion, ' ', p.entrada)::timestamp <= now() AS sesion_iniciada, CONCAT(p.aplicacion, ' ', p.entrada)::timestamp <= now() AS sesion_finalizada, ses.persistenceid as idsesion, ses.nombre as nombresesion, tipo.descripcion, p.nombre as nombre_prueba, p.persistenceid as id_prueba, p.aplicacion, p.entrada, p.salida,  asps.username, CONCAT(p.aplicacion, ' ', p.entrada)::timestamp AS entradahora, now() fechaahoy  FROM SESIONES AS ses INNER JOIN SesionAspirante AS asps ON asps.sesiones_pid = ses.persistenceid  INNER JOIN pruebas AS p ON ses.persistenceid = p.sesion_pid INNER JOIN cattipoprueba AS tipo ON  tipo.persistenceid = p.cattipoprueba_pid  AND tipo.descripcion = 'Examen Psicométrico'  WHERE  asps.username = ? ";
 	
 	public static final String GET_SESION_LOGIN_TEMPORAL_LOGIN = "SELECT CONCAT(temp.fechaInicioSesion, ' ', temp.horaInicioSesion)::Timestamp <= now() AS sesion_iniciada, CONCAT(temp.fechaInicioSesion, ' ', temp.horaFinSesion)::Timestamp <= now() AS sesion_finalizada,  temp.fechainiciosesion, temp.horafinsesion, temp.horainiciosesion, temp.toleranciaentradasesion, temp.toleranciasalidasesion, temp.idprueba, temp.username, sesi.nombre AS nombresesion, sesi.descripcion AS descripcionsesion FROM InfoAspiranteTemporal AS temp LEFT JOIN Sesiones AS sesi ON sesi.persistenceid = temp.idprueba WHERE temp.username = ?;";
+	
+	public static final String INSET_BITACORA_RESPUESTAS = "INSERT INTO CatBitacoraComentarios (comentario,usuarioComentario,usuario,modulo,fechaCreacion,isEliminado,persistenceid) VALUES(?,?,?,?,?,false,case when (SELECT max(persistenceId)+1 from CatBitacoraComentarios ) is null then 1 else (SELECT max(persistenceId)+1 from CatBitacoraComentarios) end ) ";
+	
+	public static final String INSERT_PASEDELISTA = "INSERT INTO PaseLista (persistenceid,prueba_pid,username,asistencia,fecha,usuarioPaseLista) VALUES ( case when (SELECT max(persistenceId)+1 from PaseLista ) is null then 1 else (SELECT max(persistenceId)+1 from PaseLista) end,?,?,?,CAST(NOW() as varchar),?) ";
+	
+	public static final String UPDATE_PASEDELISTA = "update PaseLista set asistencia = ?, fecha = CAST(NOW() as varchar), usuarioPaseLista = ? where prueba_pid = ? and username = ?"
+	
+	public static final String GET_RESPUESTAS_INVP = "SELECT persistenceid,  escala,  genero,  persistenceversion, pregunta, puntuacion, respuesta  FROM catrespuestasinvp where genero='ambos' OR genero=lower((SELECT cs.descripcion from solicituddeadmision sda inner join catsexo cs on cs.persistenceid=sda.catsexo_pid inner join detallesolicitud ds on ds.caseid::bigint=sda.caseid and sda.correoelectronico NOT LIKE '%(rechazado)%' where ds.idbanner=? )) order by pregunta asc";
+	
+	public static final String GET_CASEID_BY_IDBANNER = "SELECT ds.caseid FROM detallesolicitud as ds INNER JOIN solicitudDeAdmision as sda ON sda.caseid = ds.caseid::integer WHERE sda.correoelectronico NOT LIKE '%(rechazado)%' and  ds.idbanner = ? limit 1";
+	
+	public static final String GET_RESULTADO_INVP = "SELECT idbanner,escala,puntuacion FROM resultadoinvp where idbanner = ? and sesiones_pid = ?";
+		
+	public static final String INSERT_RESULTADO_INVP = "INSERT INTO resultadoinvp (idbanner,escala,puntuacion,sesiones_pid,persistenceid,persistenceversion,fecha_registro,caseId) values (?,?,?,?,case when (SELECT max(persistenceId)+1 from resultadoinvp ) is null then 1 else (SELECT max(persistenceId)+1 from resultadoinvp) end,0,?,?)";
+	
+	public static final String GET_PRUEBA_CASEID_USERNAME_BY_BANNER_AND_SESION	= "Select sda.caseid, ap.prueba_pid, ap.username FROM solicituddeadmision AS SDA INNER JOIN detallesolicitud AS DS ON DS.caseid = SDA.caseid::varchar AND DS.idbanner = ? INNER JOIN aspirantespruebas AS AP ON AP.username = SDA.correoelectronico AND AP.catTipoPrueba_pid = 2 and AP.sesiones_pid = ? "
+	
+	public static final String GET_USER_REGISTRADO_EN_PRUEBA = " SELECT persistenceid FROM paselista WHERE prueba_pid = ? and username = ?"
+	
+	public static final String INSERT_ASPIRANTESPRUEBAS = "INSERT INTO ASPIRANTESPRUEBAS (persistenceid,username,PRUEBA_PID,asistencia,countRechazo,sesiones_pid,cattipoprueba_pid,responsabledisponible_pid,acreditado,caseid) VALUES ( case when (SELECT max(persistenceId)+1 from ASPIRANTESPRUEBAS ) is null then 1 else (SELECT max(persistenceId)+1 from ASPIRANTESPRUEBAS) end,?,?,?,?,?,?,?,?,?)"
+	
+	public static final String UPDATE_ASPIRANTESPRUEBAS = "UPDATE ASPIRANTESPRUEBAS set  asistencia = ?    where prueba_pid = ? and username = ?";
+	
+	public static final String UPDATE_BITACORAASPIRANTESPRUEBAS = "UPDATE CatBitacoraSesiones set  asistencia = ?  where prueba_pid = ? and username = ?";
+	
+	public static final String UPDATE_RESULTADOENVIADO = "UPDATE InstanciaINVP SET RESULTADOENVIADO = TRUE WHERE USERNAME = ?"
+	
+	
+	
 }
