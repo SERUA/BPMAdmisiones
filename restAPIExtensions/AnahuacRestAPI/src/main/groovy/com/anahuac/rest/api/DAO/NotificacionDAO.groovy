@@ -32,6 +32,8 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.text.NumberFormat
+import java.text.ParseException
 
 import org.apache.commons.codec.net.BCodec
 import org.bonitasoft.engine.bpm.document.Document
@@ -1487,16 +1489,16 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			
 			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuestasolobeca-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-finanzas") ) {
 				
-				Integer costoCredito = 0;
-				Integer creditosemestre = 0;
-				Integer parcialidad = 0;
-				Integer porcentajebecaautorizacion = 0;
-				Integer porcentajecreditoautorizacion = 0;
-				Integer descuentoanticipadoautorizacion = 0;
-				Integer inscripcionmayo = 0;
-				Integer inscripcionseptiembre = 0;
-				Integer inscripcionagosto = 0;
-				Integer inscripcionenero = 0;
+				Double costoCredito = 0;
+				Double creditosemestre = 0;
+				Double parcialidad = 0;
+				Double porcentajebecaautorizacion = 0;
+				Double porcentajecreditoautorizacion = 0;
+				Double descuentoanticipadoautorizacion = 0;
+				Double inscripcionmayo = 0;
+				Double inscripcionseptiembre = 0;
+				Double inscripcionagosto = 0;
+				Double inscripcionenero = 0;
 				String descripcionPeriodo = "";
 
 				//OBTENIENDO
@@ -1514,25 +1516,25 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 					if(rs.next()) {
 						errorlog += "| " + object.codigo + " SOLICITUD ENCONTRADA ";
 						errorlog += " | 1 credito";
-						creditosemestre = rs.getInt("creditosemestre");
+						creditosemestre = rs.getDouble("creditosemestre");
 						errorlog += " | 1 parcialidad";
-						parcialidad = rs.getInt("parcialidad");
+						parcialidad = rs.getDouble("parcialidad");
 						errorlog += " | 1 porcentaje";
-						porcentajebecaautorizacion = rs.getInt("porcentajebecaautorizacion");
-						porcentajecreditoautorizacion = rs.getInt("porcentajecreditoautorizacion");
-						descuentoanticipadoautorizacion = rs.getInt("descuentoanticipadoautorizacion");
+						porcentajebecaautorizacion = rs.getDouble("porcentajebecaautorizacion");
+						porcentajecreditoautorizacion = rs.getDouble("porcentajecreditoautorizacion");
+						descuentoanticipadoautorizacion = rs.getDouble("descuentoanticipadoautorizacion");
 						errorlog += " | 1 periodo";
 						descripcionPeriodo = rs.getString("descripcion_periodo");
-						inscripcionmayo = rs.getInt("inscripcionmayo");
-						inscripcionseptiembre = rs.getInt("inscripcionseptiembre");
-						inscripcionagosto = rs.getInt("inscripcionagosto");
-						inscripcionenero = rs.getInt("inscripcionenero");
+						inscripcionmayo = rs.getDouble("inscripcionmayo");
+						inscripcionseptiembre = rs.getDouble("inscripcionseptiembre");
+						inscripcionagosto = rs.getDouble("inscripcionagosto");
+						inscripcionenero = rs.getDouble("inscripcionenero");
 						errorlog += " | 1 descuentos";
-						Integer descuento = descuentoanticipadoautorizacion;
-						Integer porcentajeBeca_sol  = rs.getInt("porcentajebecaautorizacion");
-						Integer porcentajeFina_sol  = rs.getInt("porcentajecreditoautorizacion");
-						Integer porcentajeInteresFinanciamiento = rs.getInt("porcentajeinteresfinanciamiento");
-						Integer porcentajefinanciamientootorgado =  rs.getInt("porcentajefinanciamientootorgado");
+						Double descuento = descuentoanticipadoautorizacion;
+						Double porcentajeBeca_sol  = rs.getDouble("porcentajebecaautorizacion");
+						Double porcentajeFina_sol  = rs.getDouble("porcentajecreditoautorizacion");
+						Double porcentajeInteresFinanciamiento = rs.getDouble("porcentajeinteresfinanciamiento");
+						Double porcentajefinanciamientootorgado =  rs.getDouble("porcentajefinanciamientootorgado");
 						errorlog += " | 1 promedios";
 						String promedio = "0";
 						if(rs.getString("promediominimoautorizacion")!= null) {
@@ -1548,7 +1550,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago")) {
 							try {
 								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_sol.toString());
-								Integer suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
+								Double suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
 								plantilla = plantilla.replace("[SUMA-B-F]", suma.toString());
 							} catch(Exception e) {
 								plantilla = plantilla.replace("[SUMA-B-F]", "");
@@ -1581,30 +1583,30 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						if(rs.next()) {
 							errorlog += " | 6";
 							costoCredito = rs.getInt("CREDITOAGOSTO");
-							Integer creditosSemestre = rs.getInt("creditosemestre");
-							Integer parcialidades = rs.getInt("parcialidad");
+							Double creditosSemestre = rs.getDouble("creditosemestre");
+							Double parcialidades = rs.getDouble("parcialidad");
 							errorlog += " | 7";
-							Integer montoInscripcion = inscripcionagosto;
-							Integer montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
-							Integer montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
-							Integer montoCreditos = costoCredito;
+							Double montoInscripcion = inscripcionagosto;
+							Double montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
+							Double montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
+							Double montoCreditos = costoCredito;
 							errorlog += " | 8";
-							Integer montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
-							Integer montoColegiaturaBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoColegiaturaNormal;
-							Integer montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoColegiaturaFinanciamiento = (montoColegiaturaNormal * (porcentajeFina_sol * 0.01));
+							Double montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
+							Double montoColegiaturaBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoColegiaturaNormal;
+							Double montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoColegiaturaFinanciamiento = (montoColegiaturaNormal * (porcentajeFina_sol * 0.01));
 							errorlog += " | 9";
-							Integer montoPagoNormal = montoColegiaturaNormal / parcialidades;
-							Integer mongoPagoBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoPagoNormal;
-							Integer mongoPagoBecaFinanciamiento = montoColegiaturaBecaFinanciamiento / parcialidades;
+							Double montoPagoNormal = montoColegiaturaNormal / parcialidades;
+							Double mongoPagoBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoPagoNormal;
+							Double mongoPagoBecaFinanciamiento = montoColegiaturaBecaFinanciamiento / parcialidades;
 							errorlog += " | 10";
-							Integer montoPagototalNormal = montoInscripcion + montoColegiaturaNormal;
-							Integer mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
-							Integer mongoPagoTotalBecaFinanciamiento = montoBecaFinanciamiento + montoColegiaturaBecaFinanciamiento;
-							Integer totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
-							Integer interesSemestre = totalFinanciado * (porcentajeInteresFinanciamiento * 0.01);
-							errorlog += " | 11";
+							Double montoPagototalNormal = montoInscripcion + montoColegiaturaNormal;
+							Double mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
+							Double mongoPagoTotalBecaFinanciamiento = montoBecaFinanciamiento + montoColegiaturaBecaFinanciamiento;
+							Double totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
+							Double interesSemestre = totalFinanciado * (porcentajeInteresFinanciamiento * 0.01);
+							errorlog += " | 11 (" + totalFinanciado.toString() + "*(" + porcentajeInteresFinanciamiento.toString() + " * 0.01)";
 							plantilla = plantilla.replace("[CREDITOS]", creditosSemestre.toString());
 							plantilla = plantilla.replace("[PARCIAL]", rs.getString("parcialidad"));
 							plantilla = plantilla.replace("[PERIODO]", descripcionPeriodo);
@@ -1626,11 +1628,11 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							plantilla = plantilla.replace("[TOTAL-FINANCIADO]", formatCurrency(totalFinanciado.toString()));
 							plantilla = plantilla.replace("[INTERES-SEMESTRE]", formatCurrency(interesSemestre.toString()));
 							
-							Integer montoDescuentoFina = 0;
-							Integer montoDescuentoBeca = 0;
-							Integer montoDescuento = 0;
+							Double montoDescuentoFina = 0;
+							Double montoDescuentoBeca = 0;
+							Double montoDescuento = 0;
 							errorlog += "| descuento " + descuento.toString();
-							Integer inscripcionDescuento = 0;
+							Double inscripcionDescuento = 0;
 							if(descuento > 0) {
 								montoDescuento = montoInscripcion - (montoInscripcion * (descuento / 100));
 							}
@@ -1638,7 +1640,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							errorlog += "| montoDescuento " + montoDescuento.toString();
 							errorlog += "| montoInscripcion " + montoInscripcion.toString();
 //							montoInscripcion/montoBeca/montoBecaFinanciamiento
-							Integer inscripcionDescuentoBeca = 0;
+							Double inscripcionDescuentoBeca = 0;
 							if(porcentajeBeca_sol > 0) {
 								montoDescuentoBeca = montoBeca - (montoBeca * (descuento / 100));
 							}
@@ -1646,7 +1648,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							errorlog += "| montoBeca " + montoBeca.toString();
 							errorlog += "| montoDescuentoBeca " + montoDescuentoBeca.toString();
 							
-							Integer inscripcionDescuentoFina = 0 ;
+							Double inscripcionDescuentoFina = 0 ;
 							if(porcentajeFina_sol > 0) {
 								montoDescuentoFina = montoBecaFinanciamiento - (montoBecaFinanciamiento * (descuento / 100));
 							}
@@ -1738,8 +1740,31 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		return resultado;
 	}
 	
-	private String formatCurrency(String input) {
-		return "\$" + input + ".00";
+//	private String formatCurrency(String input) {
+//		return "\$" + input + ".00";
+//	}
+	
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+        // Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+        String numeroFormateado = null;
+        if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+            numeroFormateado = formatoMoneda.format(valor);
+        } else if (valor instanceof String) {
+            try {
+                Number numero = NumberFormat.getInstance().parse((String) valor);
+                numeroFormateado = formatoMoneda.format(numero);
+            } catch (ParseException e) {
+                // Manejar cualquier excepción de análisis aquí
+                e.printStackTrace();
+            }
+        }
+
+        // Retornar el valor formateado o una cadena vacía si no se pudo formatear
+        return numeroFormateado != null ? numeroFormateado : "";
 	}
 
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog,Boolean isEnviar) {
