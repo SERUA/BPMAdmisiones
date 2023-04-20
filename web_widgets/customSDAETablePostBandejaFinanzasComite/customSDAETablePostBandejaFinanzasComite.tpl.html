@@ -66,10 +66,9 @@
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                 ng-show="properties.dataToSend.orderby=='PORCFINA'"></i></span></th>
     
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última
-                            modificación<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Fecha límite propuesta<i class="glyphicon"
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
+                                ng-show="properties.dataToSend.orderby=='FECHALIITEPROPUESTAFINA'"></i></span></th>
                     <th> Acciones</th>
                 </tr>
             </thead>
@@ -89,7 +88,7 @@
                     <td></td>
                     <td></td>
                     <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control"
-                            ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                            ng-enter="filterKeyPress('FECHALIITEPROPUESTAFINA',dynamicInput['fechalimitepropuestafina'])"></td>
                     <td></td>
                 </tr>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)"
@@ -132,7 +131,7 @@
                         <b>{{row.porcentajeautorizadofinanciaimiento !== null ? row.porcentajeautorizadofinanciaimiento + "%" : "N/A"}}</b><br>
                     </td>
                     <td>
-                        <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy'}}</b><br>
+                        <b>{{row.fechalimitefinan | date:'dd-MM-yyyy'}}</b><br>
                     </td>
                     <!--td>
                         {{row.updateDate}}
