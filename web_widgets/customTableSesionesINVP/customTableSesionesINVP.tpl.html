@@ -165,6 +165,9 @@
             <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
                 Terminar todos <span class="glyphicon glyphicon-time"></span>
             </button>
+			<button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="enviarTodos(aspirantes)" class="button-margin btn btn-danger">
+                Enviar todos <span class="glyphicon glyphicon-check"></span>
+            </button>
             <br>
         </div>
         <div class="col-xs-12">
@@ -285,6 +288,9 @@
                                 </button>
                                 <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                                     <span class="glyphicon glyphicon-lock"></span>
+                                </button>
+								<button ng-if="!row.usuarioBloqueado" type="button" ng-click="enviarResultados(row.correoElectronico,row.idBanner)" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-send"></span>
                                 </button>
                                 
                                 <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar') " type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">

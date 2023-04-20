@@ -3,8 +3,10 @@ package com.anahuac.rest.api.DAO
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import java.sql.ResultSetMetaData
 import java.sql.Statement
-
+import java.text.DateFormat
+import java.text.SimpleDateFormat
 import org.bonitasoft.engine.bpm.process.ProcessInstance
 import org.bonitasoft.engine.identity.UserNotFoundException
 import org.bonitasoft.web.extension.rest.RestAPIContext
@@ -368,4 +370,8 @@ class RespuestasExamenDAO {
 		return iduser
 	}
 	//
+	
+	
+	
+	
 }

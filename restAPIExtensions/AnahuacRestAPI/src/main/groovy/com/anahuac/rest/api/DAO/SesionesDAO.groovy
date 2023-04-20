@@ -3172,8 +3172,8 @@ class SesionesDAO {
 				pstm.executeUpdate();
 				
 				con.commit();
-				Result dataResult = updateAspirantesPruebas(jsonData, context);
-				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData, context);
+				Result dataResult = updateAspirantesPruebas(jsonData);
+				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData);
 				
 				resultado.setSuccess(true)
 				
