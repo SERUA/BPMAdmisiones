@@ -2058,6 +2058,7 @@ class UsuariosDAO {
 				row.setTempprueba(rs.getString("nombre__temp"));
 				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"))
 				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
+				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
 				rows.add(row);
 			}
 			

@@ -79,12 +79,12 @@ class EnvioRespuestasDAO {
 					if(resultado.isSuccess()) {
 						idBannerList += idBannerList.length()>1?",":"";
 						idBannerList += it.idbanner	;
-	//					roll = true;
-	//					con.setAutoCommit(false)
-	//					pstm = con.prepareStatement(Statements.UPDATE_RESULTADOENVIADO);
-	//					pstm.setString(1, it.username)
-	//					pstm.executeUpdate();
-	//					con.commit();
+						roll = true;
+						con.setAutoCommit(false)
+						pstm = con.prepareStatement(Statements.UPDATE_RESULTADOENVIADO);
+						pstm.setString(1, it.username)
+						pstm.executeUpdate();
+						con.commit();
 					}
 				}
 				
@@ -138,14 +138,14 @@ class EnvioRespuestasDAO {
 						
 				//resultado.setSuccess(true);
 				
-				/*if(resultado.isSuccess()){
+				if(resultado.isSuccess()){
 					roll = true;
 					con.setAutoCommit(false)
 					pstm = con.prepareStatement(Statements.UPDATE_RESULTADOENVIADO);
 					pstm.setString(1, object.username)
 					pstm.executeUpdate();
 					con.commit();
-				}*/
+				}
 			}else {
 				resultado.setSuccess(false);
 				resultado.setError("El aspirante tiene que tener un id banner para poder enviar su resultado");

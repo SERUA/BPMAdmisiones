@@ -28,9 +28,16 @@ class AspiranteSesionCustom {
 	private String temptoleranciaentrada;
 	private String temptoleranciaSalida;
 	private Boolean isTemporal;
+	private Boolean resultadoEnviado;
 	
 	public Boolean getUsuarioBloqueado() {
 		return usuarioBloqueado;
+	}
+	public Boolean getResultadoEnviado() {
+		return resultadoEnviado;
+	}
+	public void setResultadoEnviado(Boolean resultadoEnviado) {
+		this.resultadoEnviado = resultadoEnviado;
 	}
 	public void setUsuarioBloqueado(Boolean usuarioBloqueado) {
 		this.usuarioBloqueado = usuarioBloqueado;
