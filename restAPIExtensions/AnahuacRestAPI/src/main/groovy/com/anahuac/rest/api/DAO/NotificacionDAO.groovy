@@ -1434,7 +1434,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
 							comentarios = motivoRechazo;
 						}
-						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", comentarios); 
+						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-DEPORTIVA]"); 
 						plantilla = plantilla.replace("[DEPORTIVA-SUGERIDA]", sugerida == null ? "" : sugerida);
 					} else if (object.codigo.equals("sdae-evaluación-artistica")){
 						String motivoAprobada = rs.getString("motivoaprobadaartistica");
@@ -1447,7 +1447,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
 							comentarios = motivoRechazo;
 						}
-						plantilla = plantilla.replace("[COMENTARIOS-ARTISTICA]", comentarios);
+						plantilla = plantilla.replace("[COMENTARIOS-ARTISTICA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-ARTISTICA]");
 						plantilla = plantilla.replace("[ARTISTICA-SUGERIDA]", sugerida == null ? "" : sugerida);
 					} else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")){
 //					    plantilla = plantilla.replace("[MOTIVOSDERECHAZO-FINANCIAMIENTO]", "");
@@ -1545,13 +1545,16 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						errorlog += " | 1 procedencia";
 						String procedencia = rs.getString("ciudadbachillerato") == null ? rs.getString("ciudadbachillerato_otro") : rs.getString("ciudadbachillerato");
 						plantilla = plantilla.replace("[PROCEDENCIA]", procedencia);
-						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_sol.toString());
+						Integer porcentajeBeca_int = rs.getInt("porcentajebecaautorizacion");
+						Integer porcentajeFina_int = 0;
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_int.toString());
 						errorlog += " | PLANTILLA LLEGO"
 						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago")) {
 							try {
-								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_sol.toString());
+								porcentajeFina_int  = rs.getInt("porcentajecreditoautorizacion");
+								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_int.toString());
 								Double suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
-								plantilla = plantilla.replace("[SUMA-B-F]", suma.toString());
+								plantilla = plantilla.replace("[SUMA-B-F]", Integer.parseInt(suma).toString());
 							} catch(Exception e) {
 								plantilla = plantilla.replace("[SUMA-B-F]", "");
 							}
