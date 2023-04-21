@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionArtistica",
   "name" : "SDAERevisionArtistica",
-  "lastUpdate" : 1681498134029,
+  "lastUpdate" : 1682038519016,
   "rows" : [
     [
       {
@@ -2290,6 +2290,50 @@
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputRechazo.solicitudApoyoEducativoInput.motivoRechazoArtistica"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "recha1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewRechazar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[COMENTARIOS-ARTISTICA]"
+                        }
+                      },
+                      "reference" : "62b980f2-daf5-4eeb-bf89-c70a28eb061e",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
+                    }
                   ]
                 ]
               }
@@ -3034,6 +3078,19 @@
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-evaluación-artistica\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
       "exposed" : false

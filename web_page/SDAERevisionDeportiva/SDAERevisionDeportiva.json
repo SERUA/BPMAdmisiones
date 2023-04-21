@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionDeportiva",
   "name" : "SDAERevisionDeportiva",
-  "lastUpdate" : 1681498140634,
+  "lastUpdate" : 1682099632273,
   "rows" : [
     [
       {
@@ -2290,6 +2290,50 @@
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputRechazo.solicitudApoyoEducativoInput.motivoRechazoDeportiva"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "recha1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewRechazar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[COMENTARIOS-DEPORTIVA]"
+                        }
+                      },
+                      "reference" : "ceca7f70-d25a-480e-952d-f148ab66c37e",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
+                    }
                   ]
                 ]
               }
@@ -3026,6 +3070,19 @@
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-evaluación-deportiva\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
       "exposed" : false
