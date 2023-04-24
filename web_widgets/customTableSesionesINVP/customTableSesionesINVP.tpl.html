@@ -73,10 +73,10 @@
                 <td>{{row.estatus}}</td>
                 <td>{{row.aspirantes}}<br>{{row.aspirantesNoRegistrados}}</td>
                 <td class="text-center">
-                    <button class="btn btn-info tooltips-info" data-tooltip="Configuración" ng-disabled="row.estatus === 'Concluidas'" ng-click="getConfiguracionINVP(row)">
+                    <button class="btn btn-info" ng-disabled="row.estatus === 'Concluidas'" ng-click="getConfiguracionINVP(row)">
                         <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
                     </button>
-                    <button class="btn btn-default tooltips-info" data-tooltip="Detalles" ng-click="verSesion(row)">
+                    <button class="btn btn-default" ng-click="verSesion(row)">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </button>
                 </td>
@@ -165,9 +165,12 @@
             <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
                 Terminar todos <span class="glyphicon glyphicon-time"></span>
             </button>
-			<button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="enviarTodos(aspirantes)" class="button-margin btn btn-danger">
+			<!-- <button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="enviarTodos(aspirantes)" class="button-margin btn btn-danger">
                 Enviar todos <span class="glyphicon glyphicon-check"></span>
-            </button>
+            </button> -->
+            <button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="generarListaEnvios(true)" class="button-margin btn btn-success">
+                Envío de resultados <span class="glyphicon glyphicon-send"></span>
+            </button> 
             <br>
         </div>
         <div class="col-xs-12">
@@ -269,11 +272,11 @@
                                 <!--<button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">-->
                                 <!--    <span class="glyphicon glyphicon-lock"></span>-->
                                 <!--</button>-->
-                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Reagendar examen">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
-                                ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && (row.estatusINVP !== 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Detalles">
+                                ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && (row.estatusINVP !== 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-if="(selectedSesion.estatus === 'Concluidas' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info">
@@ -283,17 +286,17 @@
                                 <!--    <span class="glyphicon glyphicon-time"></span>-->
                                 <!--</button>-->
 
-                                <button ng-disabled="selectedSesion.estatus ==='Por aplicar'" ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
+                                <button ng-disabled="selectedSesion.estatus ==='Por aplicar'" ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
                                 <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
-								<button ng-if="!row.usuarioBloqueado" type="button" ng-disabled="row.resultadoEnviado == true" ng-click="enviarResultados(row.correoElectronico,row.idBanner)" class="btn btn-default tooltips-info" data-tooltip="Enviar resultados">
+								<button ng-if="!row.usuarioBloqueado" type="button" ng-disabled="row.resultadoEnviado == true" ng-click="enviarResultados(row.correoElectronico,row.idBanner)" class="btn btn-default">
                                     <span class="glyphicon glyphicon-send"></span>
                                 </button>
                                 
-                                <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar') " type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-infotooltips-info" data-tooltip="Datos de la sesión">
+                                <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar') " type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info">
                                     <span><b>?</b></span>
                                 </button>
                             </td>
@@ -574,6 +577,59 @@
                 <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Actualizar tolerancia</button>
                 <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Actualizar tolerancia</button>
             </div>
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalEnviarSeleccionados">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Enviar resultados del INVP</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    Aspirantes listos para el envío de resultados
+                </div>
+                <div class="col-xs-12">
+                    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" ng-model="seleccionarTodosVar" ng-change="seleccionarTodos()"/></th>
+                                <th>id banner / id BPM</th>
+                                <th>Nombre</th>
+                                <th>Correo electrónico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in aspirantesEnvio">
+                                <td>
+                                    <input type="checkbox" ng-model="row.seleccionado" >
+                                </td>
+                                <td>
+                                    <b>{{row.idbanner ? row.idbanner : "N/A"}}</b>
+                                    <br>{{row.idBpm}} 
+                                </td> 
+                                <td>{{row.nombre}}</td>
+                                <td>
+                                    {{row.username}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" ng-click="enviarSeleccionados()">Enviar resultados</button>
+        </div>
         </div>
     </div>
 </div>

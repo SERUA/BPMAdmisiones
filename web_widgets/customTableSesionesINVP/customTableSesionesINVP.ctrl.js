@@ -2,24 +2,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     this.isArray = Array.isArray;
     $scope.idiomaTodos = "";
-    this.isClickable = function() {
+    $scope.seleccionarTodosVar = false;
+    this.isClickable = function () {
         return $scope.properties.isBound('selectedRow');
     };
-  
-    this.selectRow = function(row) {
+
+    this.selectRow = function (row) {
         if (this.isClickable()) {
             $scope.properties.selectedRow = row;
         }
     };
-  
-    this.isSelected = function(row) {
+
+    this.isSelected = function (row) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
-    
-    $scope.setNavVar = function(_value){
+
+    $scope.setNavVar = function (_value) {
         $scope.properties.navigationVar = _value;
     }
-  
+
     function doRequest(method, url, params) {
         blockUI.start();
         var req = {
@@ -28,22 +29,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             data: angular.copy($scope.properties.dataToSend),
             params: params
         };
-  
+
         return $http(req)
-        .success(function(data, status) {
-            $scope.properties.lstContenido = data.data;
-            $scope.value = data.totalRegistros;
-            $scope.loadPaginado();
-            console.log(data.data)
-        })
-        .error(function(data, status) {
-            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-        })
-        .finally(function() {
-            blockUI.stop();
-        });
+            .success(function (data, status) {
+                $scope.properties.lstContenido = data.data;
+                $scope.value = data.totalRegistros;
+                $scope.loadPaginado();
+                console.log(data.data)
+            })
+            .error(function (data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function () {
+                blockUI.stop();
+            });
     }
-    
+
 
     $scope.lstPaginadoAsp = [];
     $scope.valorSeleccionadoAsp = 1;
@@ -51,7 +52,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.finalPAsp = 10;
     $scope.valorTotalAsp = 10;
 
-    $scope.loadPaginadoAsp = function() {
+    $scope.loadPaginadoAsp = function () {
         $scope.valorTotalAsp = Math.ceil($scope.valueAsp / $scope.dataToSend.limit);
         $scope.lstPaginadoAsp = []
         if ($scope.valorSeleccionadoAsp <= 5) {
@@ -62,7 +63,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.finalPAsp = $scope.valorTotalAsp > ($scope.valorSeleccionadoAsp + 4) ? ($scope.valorSeleccionadoAsp + 4) : $scope.valorTotalAsp;
         }
         for (var i = $scope.iniciarPAsp; i <= $scope.finalPAsp; i++) {
-  
+
             var obj = {
                 "numero": i,
                 "inicio": ((i * 10) - 9),
@@ -72,8 +73,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.lstPaginadoAsp.push(obj);
         }
     }
-  
-    $scope.siguienteAsp = function() {
+
+    $scope.siguienteAsp = function () {
         var objSelected = {};
         for (var i in $scope.lstPaginadoAsp) {
             if ($scope.lstPaginadoAsp[i].seleccionado) {
@@ -87,8 +88,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         $scope.seleccionarPagina($scope.valorSeleccionadoAsp);
     }
-  
-    $scope.anteriorAsp = function() {
+
+    $scope.anteriorAsp = function () {
         var objSelected = {};
         for (var i in $scope.lstPaginadoAsp) {
             if ($scope.lstPaginadoAsp[i].seleccionado) {
@@ -102,8 +103,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         $scope.seleccionarPagina($scope.valorSeleccionadoAsp);
     }
-  
-    $scope.seleccionarPaginaAsp = function(valorSeleccionadoAsp) {
+
+    $scope.seleccionarPaginaAsp = function (valorSeleccionadoAsp) {
         var objSelected = {};
         for (var i in lstPaginadoAsp) {
             if (lstPaginadoAsp[i].numero == valorSeleccionadoAsp) {
@@ -113,7 +114,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.dataToSend.offset = ((lstPaginadoAsp[i].numero - 1) * $scope.dataToSend.limit)
             }
         }
-  
+
         doRequest("POST", $scope.properties.urlPost);
     }
 
@@ -125,7 +126,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     //         "columna":"id_sesion",
     //         "valor": _idsesion + ""
     //     }];
-        
+
     //     $http.post(url, $scope.dataToSend).success(function(_data){
     //         $scope.aspirantes = _data.data;
     //         $scope.valueAsp = _data.totalRegistros;
@@ -137,47 +138,47 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     //     })
     // }
 
-    function getAspirantesSesion(_idsesion){
+    function getAspirantesSesion(_idsesion) {
         let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
         $scope.properties.dataToSendAsp.lstFiltro = [{
-            "columna":"id_sesion",
+            "columna": "id_sesion",
             "valor": _idsesion + ""
         }];
-        
-        $http.post(url,$scope.properties.dataToSendAsp).success(function(_data){
+
+        $http.post(url, $scope.properties.dataToSendAsp).success(function (_data) {
             $scope.aspirantes = _data.data;
             $scope.valueAsp = _data.totalRegistros;
             $scope.loadPaginadoAsp();
             // $("#modalAspirantesSesion").modal("show");
             $scope.properties.navigationVar = "aspirantesEnSesion";
-        }).error(function(_err){
+        }).error(function (_err) {
             swal("Error", _err.mensajeError, "error");
         })
     }
-    
-    $scope.verSesion = function(_sesion){
+
+    $scope.verSesion = function (_sesion) {
         $scope.selectedSesion = angular.copy(_sesion);
         console.log($scope.selectedSesion);
         getAspirantesSesion(_sesion.idSesion);
     }
-  
+
     $scope.isenvelope = false;
     $scope.selectedrow = {};
     $scope.mensaje = "";
-  
-    $scope.envelope = function(row) {
+
+    $scope.envelope = function (row) {
         $scope.isenvelope = true;
         $scope.mensaje = "";
         $scope.selectedrow = row;
     }
-  
-    $scope.envelopeCancel = function() {
+
+    $scope.envelopeCancel = function () {
         $scope.isenvelope = false;
         $scope.selectedrow = {};
     }
-  
-    $scope.sendMail = function(row, mensaje) {
+
+    $scope.sendMail = function (row, mensaje) {
         if (row.catCampus.grupoBonita == undefined) {
             for (var i = 0; i < $scope.lstCampus.length; i++) {
                 if ($scope.lstCampus[i].descripcion == row.catCampus.descripcion) {
@@ -196,24 +197,24 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "mensaje": mensaje
             })
         };
-  
-        return $http(req).success(function(data, status) {
+
+        return $http(req).success(function (data, status) {
             $scope.envelopeCancel();
         })
-        .error(function(data, status) {
-            console.error(data)
-        })
-        .finally(function() {});
+            .error(function (data, status) {
+                console.error(data)
+            })
+            .finally(function () { });
     }
 
     $scope.lstCampus = [];
-  
-    $(function() {
+
+    $(function () {
         doRequest("POST", $scope.properties.urlPost);
     })
-  
-  
-    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+
+
+    $scope.$watch("properties.dataToSend", function (newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
                 doRequest("POST", $scope.properties.urlPost);
@@ -221,8 +222,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         console.log($scope.properties.dataToSend);
     });
-  
-    $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
+
+    $scope.$watch("properties.campusSeleccionado", function (newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
                 doRequest("POST", $scope.properties.urlPost);
@@ -230,8 +231,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         console.log($scope.properties.dataToSend);
     });
-  
-    $scope.setOrderBy = function(order) {
+
+    $scope.setOrderBy = function (order) {
         if ($scope.properties.dataToSend.orderby == order) {
             $scope.properties.dataToSend.orientation = ($scope.properties.dataToSend.orientation == "ASC") ? "DESC" : "ASC";
         } else {
@@ -240,10 +241,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         doRequest("POST", $scope.properties.urlPost);
     }
-    
-    $scope.filterKeyPress = function(columna, press) {
+
+    $scope.filterKeyPress = function (columna, press) {
         var aplicado = true;
-  
+
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
             if (element.columna == columna) {
@@ -251,23 +252,23 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
                 aplicado = false;
             }
-  
+
         }
         if (aplicado) {
             var obj = { "columna": columna, "operador": "Que contengan", "valor": press }
             $scope.properties.dataToSend.lstFiltro.push(obj);
         }
-  
+
         doRequest("POST", $scope.properties.urlPost);
     }
-  
+
     $scope.lstPaginado = [];
     $scope.valorSeleccionado = 1;
     $scope.iniciarP = 1;
     $scope.finalP = 10;
     $scope.valorTotal = 10;
-  
-    $scope.loadPaginado = function() {
+
+    $scope.loadPaginado = function () {
         $scope.valorTotal = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
         $scope.lstPaginado = []
         if ($scope.valorSeleccionado <= 5) {
@@ -278,7 +279,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.finalP = $scope.valorTotal > ($scope.valorSeleccionado + 4) ? ($scope.valorSeleccionado + 4) : $scope.valorTotal;
         }
         for (var i = $scope.iniciarP; i <= $scope.finalP; i++) {
-  
+
             var obj = {
                 "numero": i,
                 "inicio": ((i * 10) - 9),
@@ -288,8 +289,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.lstPaginado.push(obj);
         }
     }
-  
-    $scope.siguiente = function() {
+
+    $scope.siguiente = function () {
         var objSelected = {};
         for (var i in $scope.lstPaginado) {
             if ($scope.lstPaginado[i].seleccionado) {
@@ -303,8 +304,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         $scope.seleccionarPagina($scope.valorSeleccionado);
     }
-  
-    $scope.anterior = function() {
+
+    $scope.anterior = function () {
         var objSelected = {};
         for (var i in $scope.lstPaginado) {
             if ($scope.lstPaginado[i].seleccionado) {
@@ -318,8 +319,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         $scope.seleccionarPagina($scope.valorSeleccionado);
     }
-  
-    $scope.seleccionarPagina = function(valorSeleccionado) {
+
+    $scope.seleccionarPagina = function (valorSeleccionado) {
         var objSelected = {};
         for (var i in $scope.lstPaginado) {
             if ($scope.lstPaginado[i].numero == valorSeleccionado) {
@@ -329,11 +330,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.properties.dataToSend.offset = (($scope.lstPaginado[i].numero - 1) * $scope.properties.dataToSend.limit)
             }
         }
-  
+
         doRequest("POST", $scope.properties.urlPost);
     }
-  
-    $scope.getCampusByGrupo = function(campus) {
+
+    $scope.getCampusByGrupo = function (campus) {
         var retorno = "";
         for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
             if (campus == $scope.properties.lstCampus[i].grupoBonita) {
@@ -347,31 +348,31 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         return retorno;
     }
-  
+
     $scope.lstMembership = [];
 
-    $scope.$watch("properties.userId", function(newValue, oldValue) {
+    $scope.$watch("properties.userId", function (newValue, oldValue) {
         if (newValue !== undefined) {
             var req = {
                 method: "GET",
                 url: `/API/identity/membership?p=0&c=100&f=user_id%3d${$scope.properties.userId}&d=role_id&d=group_id`
             };
-  
+
             return $http(req)
-                .success(function(data, status) {
+                .success(function (data, status) {
                     $scope.lstMembership = data;
                     $scope.campusByUser();
                 })
-                .error(function(data, status) {
+                .error(function (data, status) {
                     console.error(data);
                 })
-                .finally(function() {});
+                .finally(function () { });
         }
     });
-  
+
     $scope.lstCampusByUser = [];
 
-    $scope.campusByUser = function() {
+    $scope.campusByUser = function () {
         var resultado = [];
         // var isSerua = true;
         resultado.push("Todos los campus")
@@ -396,7 +397,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.filtroCampus = ""
 
-    $scope.addFilter = function() {
+    $scope.addFilter = function () {
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
                 "columna": "CAMPUS",
@@ -419,7 +420,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                         encontrado = true
                     }
                 }
-  
+
                 if (!encontrado) {
                     $scope.properties.dataToSend.lstFiltro.push(filter);
                     for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
@@ -437,7 +438,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         } else {
-  
+
             if ($scope.properties.dataToSend.lstFiltro.length > 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -450,12 +451,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             } else {
                 $scope.properties.campusSeleccionado = null;
             }
-  
+
         }
-  
+
     }
 
-    $scope.sizing = function() {
+    $scope.sizing = function () {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
         $scope.iniciarP = 1;
@@ -463,20 +464,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         try {
             $scope.properties.dataToSend.limit = parseInt($scope.properties.dataToSend.limit);
         } catch (exception) {
-  
+
         }
-  
+
         doRequest("POST", $scope.properties.urlPost);
     }
-  
-    $scope.getCatCampus = function() {
+
+    $scope.getCatCampus = function () {
         var req = {
             method: "GET",
             url: "../API/bdm/businessData/com.anahuac.catalogos.CatCampus?q=find&p=0&c=100"
         };
-  
+
         return $http(req)
-            .success(function(data, status) {
+            .success(function (data, status) {
                 $scope.lstCampus = [];
                 for (var index in data) {
                     $scope.lstCampus.push({
@@ -485,24 +486,24 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                     })
                 }
             })
-            .error(function(data, status) {
+            .error(function (data, status) {
                 console.error(data);
             });
     }
 
-    $scope.isPeriodoVencido = function(periodofin) {
+    $scope.isPeriodoVencido = function (periodofin) {
         var fecha = new Date(periodofin.slice(0, 10))
         return fecha < new Date();
     }
-  
-  
+
+
     $scope.getCatCampus();
 
-    $scope.setSelectedAspirante = function(_aspirante, _modal){
+    $scope.setSelectedAspirante = function (_aspirante, _modal) {
         $scope.selectedAspirante = angular.copy(_aspirante);
-        if(_modal === "bloquear"){
+        if (_modal === "bloquear") {
             mostrarModal("modalBloquear");
-        } else if(_modal === "reactivar"){
+        } else if (_modal === "reactivar") {
             $scope.aplicacion = "";
             $scope.entrada = "";
             $scope.salida = "";
@@ -515,7 +516,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "toleranciasalidaminutos": ""
             }
             mostrarModal("modalReactivar");
-        } else if(_modal === "reagen"){
+        } else if (_modal === "reagen") {
             $scope.aplicacion = "";
             $scope.entrada = "";
             $scope.salida = "";
@@ -525,254 +526,242 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "entrada": "",
                 "salida": "",
                 "toleranciaminutos": 0,
-                "toleranciasalidaminutos":  0
+                "toleranciasalidaminutos": 0
             }
             mostrarModal("modalReagen");
-        } else if (_modal === "ver"){
+        } else if (_modal === "ver") {
             $scope.configUsuario = {
                 "username": _aspirante.correoElectronico,
                 "toleranciaminutos": parseInt($scope.selectedAspirante.temptoleranciaentrada),
-                "toleranciasalidaminutos":  parseInt($scope.selectedAspirante.temptoleranciaSalida),
+                "toleranciasalidaminutos": parseInt($scope.selectedAspirante.temptoleranciaSalida),
                 "caseid": $scope.selectedAspirante.caseidINVP
             }
             mostrarModal("modalVerReag");
-        }  else {
+        } else {
             mostrarModal("modalTerminar");
         }
 
     }
 
-    $scope.mostrarModalTodos = function(_idModal){
+    $scope.mostrarModalTodos = function (_idModal) {
         mostrarModal(_idModal)
     }
-    
-    function mostrarModal(_idModal){
+
+    function mostrarModal(_idModal) {
         $("#" + _idModal).modal("show");
     }
 
-    function ocultarModal(_idModal){
+    function ocultarModal(_idModal) {
         $("#" + _idModal).modal("hide");
     }
 
-    $scope.terminarAspirante = function(){
-        let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" 
-        +  $scope.selectedAspirante.correoElectronico + "&bloquear=" + $scope.selectedAspirante.bloqueado + "&terminar=" + !$scope.selectedAspirante.terminado;
+    $scope.terminarAspirante = function () {
+        let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username="
+            + $scope.selectedAspirante.correoElectronico + "&bloquear=" + $scope.selectedAspirante.bloqueado + "&terminar=" + !$scope.selectedAspirante.terminado;
 
-        $http.post(url).success(function(_data){
+        $http.post(url).success(function (_data) {
             getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
             // ocultarModal("modalTerminar");
             // swal("Ok", "Usuario terminado", "success");
             // getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        }).error(function (_error) {
 
         });
     }
 
-    $scope.reagendarAspiranteNoIniciado = function(){
-        
-        if(validarConfig()){
-            if($scope.selectedAspirante.isTemporal){
+    $scope.reagendarAspiranteNoIniciado = function () {
+
+        if (validarConfig()) {
+            if ($scope.selectedAspirante.isTemporal) {
                 $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
             }
 
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
 
-            $http.post(url, $scope.configUsuario).success(function(_data){
+            $http.post(url, $scope.configUsuario).success(function (_data) {
                 let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
-                
-                $http.post(url).success(function(_data){
+
+                $http.post(url).success(function (_data) {
                     ocultarModal("modalReagen");
                     swal("Ok", "Usuario re agendado", "success");
                     getAspirantesSesion($scope.selectedSesion.idSesion);
-                }).error(function(_error){
+                }).error(function (_error) {
 
                 });
-            }).error(function(_error){
-                
+            }).error(function (_error) {
+
             });
         }
-
-        // if(validarConfig()){
-        //     let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico + "&bloquear=false&terminar=false";
-        //     $http.post(url).success(function(_data){
-        //         ocultarModal("modalReagen");
-        //         swal("Ok", "Usuario re agendado", "success");
-        //         getAspirantesSesion($scope.selectedSesion.idSesion);
-        //     }).error(function(_error){
-
-        //     });
-        // }
     }
 
-    $scope.bloquearAspiranteDef = function(){
+    $scope.bloquearAspiranteDef = function () {
         let servicio = "bloquearAspiranteDef";
 
-        if($scope.selectedAspirante.usuarioBloqueado){
+        if ($scope.selectedAspirante.usuarioBloqueado) {
             servicio = "desbloquearAspiranteDef"
         }
 
         let url = "../API/extension/AnahuacINVPRestGet?url=" + servicio + "&p=0&c=10&username=" + $scope.selectedAspirante.correoElectronico;
 
-        $http.get(url).success(function(_data){
-            debugger;
+        $http.get(url).success(function (_data) {
             let mensaje = "Usuario " + ($scope.selectedAspirante.usuarioBloqueado ? "desbloqueado" : "bloqueado");
             ocultarModal("modalBloquear");
             swal("Ok", mensaje, "success");
             getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        }).error(function (_error) {
 
         });
     }
 
     $scope.idDoFor = "";
 
-    function getUserInfo(_username, _caseId){
+    function getUserInfo(_username, _caseId) {
         let url = "../API/identity/user?c=10&p=0&f=userName=" + _username;
-        
-        $http.get(url).success(function(_data){
+
+        $http.get(url).success(function (_data) {
             $scope.idDoFor = _data[0].id;
-            
+
             getTaskInfo(_caseId);
-        }).error(function(_error){
-            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
-        });
-    }
-    
-    function getTaskInfo(_caseid){
-        // let url = "../API/bpm/task?c=10&p=0&f=name=Examen%20INVP&f=caseId=" + _caseid;
-        let url = "../API/bpm/task?c=10&p=0&f=caseId=" + _caseid;
-        
-        $http.get(url).success(function(_data){
-            if(_data[0].name === "Examen INVP"){
-                executeTaskExamen(_data[0].id, $scope.idDoFor);
-            } else if (_data[0].name === "Finalizar examen"){
-                executeTaskReactivar(_data[0].id);
-            }
-        }).error(function(_error){
-            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
-        });
-    }
-    
-    function executeTaskExamen(_taskId, _userId){
-        let url = "../API/bpm/userTask/" + _taskId + "/execution?user=" + _userId;
-        
-        let dataToSend = {
-            "isTerminado": true,
-            "terminadoFInput": true,
-            "instanciaINVPInput": {
-                "mensajeTermino":""
-            }
-        }
-        
-        $http.post(url, dataToSend).success(function(_data){
-            ocultarModal("modalTerminar");
-            swal("Ok", "Usuario terminado", "success");
-            getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        }).error(function (_error) {
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
     }
 
-    function executeTaskReactivar(_taskId){
-        let url = "../API/bpm/userTask/" + _taskId + "/execution?assign=true";
-        
-        let dataToSend = {
-            "repetirExamenInput": true
-        }
-        
-        $http.post(url, dataToSend).success(function(_data){
-            ocultarModal("modalReactivar");
-            swal("Ok", "El usuario ha sido reactivado", "success");
-            getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+    function getTaskInfo(_caseid) {
+        // let url = "../API/bpm/task?c=10&p=0&f=name=Examen%20INVP&f=caseId=" + _caseid;
+        let url = "../API/bpm/task?c=10&p=0&f=caseId=" + _caseid;
+
+        $http.get(url).success(function (_data) {
+            if (_data[0].name === "Examen INVP") {
+                executeTaskExamen(_data[0].id, $scope.idDoFor);
+            } else if (_data[0].name === "Finalizar examen") {
+                executeTaskReactivar(_data[0].id);
+            }
+        }).error(function (_error) {
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
     }
-    
+
+    function executeTaskExamen(_taskId, _userId) {
+        let url = "../API/bpm/userTask/" + _taskId + "/execution?user=" + _userId;
+
+        let dataToSend = {
+            "isTerminado": true,
+            "terminadoFInput": true,
+            "instanciaINVPInput": {
+                "mensajeTermino": ""
+            }
+        }
+
+        $http.post(url, dataToSend).success(function (_data) {
+            ocultarModal("modalTerminar");
+            swal("Ok", "Usuario terminado", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }).error(function (_error) {
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
+    function executeTaskReactivar(_taskId) {
+        let url = "../API/bpm/userTask/" + _taskId + "/execution?assign=true";
+
+        let dataToSend = {
+            "repetirExamenInput": true
+        }
+
+        $http.post(url, dataToSend).success(function (_data) {
+            ocultarModal("modalReactivar");
+            swal("Ok", "El usuario ha sido reactivado", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }).error(function (_error) {
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
     // 
-    $scope.insertUpdateIidiomaUsuarioTodos = function(){
+    $scope.insertUpdateIidiomaUsuarioTodos = function () {
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
         $scope.dataToSend.lstFiltro = [{
-            "columna":"id_sesion",
+            "columna": "id_sesion",
             "valor": $scope.selectedSesion.idSesion + ""
         }];
 
         let url = "../API/extension/AnahuacINVPRestAPI?url=updateIdiomaTodos&p=0&c=10&idioma=" + $scope.idiomaTodos;
 
-        $http.post(url, $scope.dataToSend).success(function(_data){
+        $http.post(url, $scope.dataToSend).success(function (_data) {
             ocultarModal("modalIdiomaTodos");
             swal("Ok", "Idioma actualizado para todos los aspirantes", "success");
             getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        }).error(function (_error) {
 
         });
     }
 
-    function showModalConfig(){
+    function showModalConfig() {
         $("#modalConfiguraciones").modal("show");
     }
 
-    $scope.getConfiguracionINVP = function (_row){
+    $scope.getConfiguracionINVP = function (_row) {
         $scope.sesionConfiguracion = {
             "idprueba": _row.idSesion,
             "toleranciaminutos": 0,
-            "toleranciasalidaminutos" : 0
+            "toleranciasalidaminutos": 0
         };
 
         let url = "../API/extension/AnahuacINVPRestGet?url=getConfiguracionSesion&p=0&c=10&idprueba=" + _row.idSesion;
-        
-        $http.get(url).success(function(_data){
-            if(_data[0]){
+
+        $http.get(url).success(function (_data) {
+            if (_data[0]) {
                 $scope.sesionConfiguracion.toleranciaminutos = _data[0].toleranciaMinutos;
                 $scope.sesionConfiguracion.toleranciasalidaminutos = _data[0].toleranciaSalidaMinutos;
             }
-            
+
             showModalConfig();
-        }).error(function(_error){
+        }).error(function (_error) {
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
     }
 
-    $scope.insertUpdateConfiguracionSesion = function(){
-        if(validateConfig()){
+    $scope.insertUpdateConfiguracionSesion = function () {
+        if (validateConfig()) {
             $scope.dataToSend = angular.copy($scope.sesionConfiguracion);
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateConfiguracionSesion&p=0&c=10";
-    
-            $http.post(url, $scope.dataToSend).success(function(_data){
+
+            $http.post(url, $scope.dataToSend).success(function (_data) {
                 ocultarModal("modalConfiguraciones");
                 swal("Ok", "La configuración se ha guardado correctamente", "success");
                 getAspirantesSesion($scope.selectedSesion.idSesion);
-            }).error(function(_error){
+            }).error(function (_error) {
                 swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
         }
     }
-    
-    function validateConfig(){
+
+    function validateConfig() {
         let output = true;
         let mensajeError = "";
-        
-        if($scope.sesionConfiguracion.toleranciaminutos < 0 || $scope.sesionConfiguracion.toleranciaminutos === "" || $scope.sesionConfiguracion.toleranciaminutos === null){
+
+        if ($scope.sesionConfiguracion.toleranciaminutos < 0 || $scope.sesionConfiguracion.toleranciaminutos === "" || $scope.sesionConfiguracion.toleranciaminutos === null) {
             output = false;
             mensajeError = "Campo 'Tolerancia (minutos)' debe contener un valor mayor o igual a cero";
-        } else if($scope.sesionConfiguracion.toleranciaminutos < 0 || $scope.sesionConfiguracion.toleranciaminutos === "" || $scope.sesionConfiguracion.toleranciaminutos === null){
+        } else if ($scope.sesionConfiguracion.toleranciaminutos < 0 || $scope.sesionConfiguracion.toleranciaminutos === "" || $scope.sesionConfiguracion.toleranciaminutos === null) {
             output = false;
             mensajeError = "Campo 'Tolerancia (minutos)' debe contener un valor mayor o igual a cero";
         }
-        
-        if(!output){
+
+        if (!output) {
             swal("¡Atención!", mensajeError, "warning");
         }
-        
+
         return output;
     }
-    
-    $scope.cambiarIdioma = function(_aspirante, _modal){
+
+    $scope.cambiarIdioma = function (_aspirante, _modal) {
         $scope.selectedAspirante = angular.copy(_aspirante);
         mostrarModal("modalIdioma");
     }
-    
-    $scope.insertUpdateIidiomaUsuario = function(){
+
+    $scope.insertUpdateIidiomaUsuario = function () {
         let dataToSend = {
             "nombreusuario": $scope.selectedAspirante.correoElectronico,
             "idioma": $scope.selectedAspirante.idioma === "ESP" ? "ENG" : "ESP"
@@ -780,16 +769,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateIidiomaUsuario&p=0&c=10";
 
-        $http.post(url, dataToSend).success(function(_data){
+        $http.post(url, dataToSend).success(function (_data) {
             ocultarModal("modalIdioma");
             swal("Ok", "Idioma actualizado", "success");
             getAspirantesSesion($scope.selectedSesion.idSesion);
-        }).error(function(_error){
+        }).error(function (_error) {
 
         });
     }
-    
-    
+
+
     $scope.configUsuario = {
         "aplicacion": "",
         "entrada": "",
@@ -797,167 +786,224 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         "toleranciaminutos": "",
         "toleranciasalidaminutos": ""
     }
-    
+
     $scope.aplicacion = "";
     $scope.entrada = "";
     $scope.salida = "";
-    
-    $scope.insertUpdateUsuarioNuevaConfig = function(_action){
-        
-        if(validarConfig()){
-            if(_action === "temp"){
+
+    $scope.insertUpdateUsuarioNuevaConfig = function (_action) {
+
+        if (validarConfig()) {
+            if (_action === "temp") {
                 $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
             }
 
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
 
-            $http.post(url, $scope.configUsuario).success(function(_data){
+            $http.post(url, $scope.configUsuario).success(function (_data) {
                 ocultarModal("modalReagen");
-                if($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
+                if ($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar") {
                     swal("Ok", "Usuario reagendado", "success");
                 } else {
                     $scope.terminarAspirante();
                 }
-            }).error(function(_error){
+            }).error(function (_error) {
                 swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
         }
     }
 
-    function validarConfig(){
+    function validarConfig() {
         let output = true;
         let mensajeError = "";
-        
-        if(!$scope.configUsuario.aplicacion){
+
+        if (!$scope.configUsuario.aplicacion) {
             mensajeError = "Campo 'Fecha' no debe ir vacío";
             output = false;
-        } else if(!$scope.configUsuario.entrada){
+        } else if (!$scope.configUsuario.entrada) {
             mensajeError = "Campo 'Hora inicio' no debe ir vacío";
             output = false;
-        } else if(!$scope.configUsuario.salida){
+        } else if (!$scope.configUsuario.salida) {
             mensajeError = "Campo 'Hora fin' no debe ir vacío";
             output = false;
-        }  else if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+        } else if ($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0) {
             mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
-        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+        } else if ($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0) {
             mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
         }
 
-        if(output == false){
+        if (output == false) {
             swal("¡Atención!", mensajeError, "warning");
         }
 
         return output;
     }
-    
-    $scope.setValue = function(_value, _type){
+
+    $scope.setValue = function (_value, _type) {
         let fecha = new Date(_value);
-        
-        if(_type === "aplicacion"){
-            fecha = (fecha.getFullYear()) + "-" 
-                + ((fecha.getMonth() + 1) < 10 ? "0" + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)) + "-" 
+
+        if (_type === "aplicacion") {
+            fecha = (fecha.getFullYear()) + "-"
+                + ((fecha.getMonth() + 1) < 10 ? "0" + (fecha.getMonth() + 1) : (fecha.getMonth() + 1)) + "-"
                 + (fecha.getDate() < 10 ? "0" + fecha.getDate() : fecha.getDate());
         } else {
-            fecha = (fecha.getHours() < 10 ? "0"+fecha.getHours() : fecha.getHours()) + ":" 
-            + (fecha.getMinutes() < 10 ? "0" + fecha.getMinutes() : fecha.getMinutes()) + ":00";
+            fecha = (fecha.getHours() < 10 ? "0" + fecha.getHours() : fecha.getHours()) + ":"
+                + (fecha.getMinutes() < 10 ? "0" + fecha.getMinutes() : fecha.getMinutes()) + ":00";
         }
 
         $scope.configUsuario[_type] = fecha
     }
 
-    $scope.fechaMenorATresDias = function(_fecha) {
+    $scope.fechaMenorATresDias = function (_fecha) {
         var hoy = new Date();
         var fechaIngresada = new Date(_fecha);
         var diferenciaEnMilisegundos = fechaIngresada - hoy;
         var dias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
-      
+
         return (dias < 3);
     }
-    
-    $scope.insertUpdateUsuarioTolerancias = function(_action){
-        if(validarConfigTol()){
-            if(_action === "temp"){
+
+    $scope.insertUpdateUsuarioTolerancias = function (_action) {
+        if (validarConfigTol()) {
+            if (_action === "temp") {
                 $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
             }
 
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioTolerancias&p=0&c=10";
 
-            $http.post(url, $scope.configUsuario).success(function(_data){
+            $http.post(url, $scope.configUsuario).success(function (_data) {
                 ocultarModal("modalVerReag");
                 swal("Ok", "Tolerancia actualizada", "success");
                 getAspirantesSesion($scope.selectedSesion.idSesion);
-            }).error(function(_error){
+            }).error(function (_error) {
                 swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
         }
     }
-    
-    function validarConfigTol(){
-        debugger;
+
+    function validarConfigTol() {
         let output = true;
         let mensajeError = "";
-        
-        if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+
+        if ($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0) {
             mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
-        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+        } else if ($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0) {
             mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
             output = false;
         }
 
-        if(output == false){
+        if (output == false) {
             swal("¡Atención!", mensajeError, "warning");
         }
 
         return output;
     }
-    
-    $scope.refreshAspirantes = function(){
+
+    $scope.refreshAspirantes = function () {
         getAspirantesSesion($scope.selectedSesion.idSesion);
     }
-	
-	
-	 $scope.enviarResultados = function(username,idbanner){
-	     if(idbanner == null){
-	         swal("Informacion", "El aspirante tiene que tener un id banner para poder enviar su resultado");
-	     }else{
-	        let dataToSend = {
+
+
+    $scope.enviarResultados = function (username, idbanner) {
+        if (idbanner == null) {
+            swal("¡Atención!", "El aspirante tiene que tener un id banner para poder enviar su resultado", "warning");
+        } else {
+            let dataToSend = {
                 "username": username,
                 "sesion": $scope.selectedSesion.idSesion,
-                "idbanner":idbanner
+                "idbanner": idbanner
             }
 
             let url = "../API/extension/AnahuacINVPRestAPI?url=PostRespuestaSesion&p=0&c=10";
-            $http.post(url, dataToSend).success(function(_data){
-                swal("Ok", "Se cargaron los datos correctamente", "success");
-            }).error(function(_error){
-                swal("Warning", _error.error_info);
-            });
-	     }
-        
-    }
-	
-	$scope.enviarTodos = function(aspirantes){
-	     var dataToSend=[];
-		aspirantes.forEach((element)=>{
-			dataToSend.push({
-				"username": element.username,
-				"sesion": $scope.selectedSesion.idSesion,
-				"idbanner":element.idbanner
-			})
-		});
 
-       let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
-        $http.post(url, dataToSend).success(function(_data){
-            if(_data.success){
-                swal("Ok", "Los registros cargados correctamente fueron:"+_data.info, "success");
-            }else{
-                 swal("Warning", _data.info, "warning");
+            $http.post(url, dataToSend).success(function (_data) {
+                swal("Ok", "Se cargaron los datos correctamente", "success");
+            }).error(function (_error) {
+                swal("Algo ha fallado", _error.error_info, "error");
+            });
+        }
+
+    }
+
+    $scope.enviarTodos = function (aspirantes) {
+        var dataToSend = [];
+        aspirantes.forEach((element) => {
+            dataToSend.push({
+                "username": element.username,
+                "sesion": $scope.selectedSesion.idSesion,
+                "idbanner": element.idbanner
+            })
+        });
+
+        let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
+
+        $http.post(url, dataToSend).success(function (_data) {
+            if (_data.success) {
+                swal("Ok", "Los registros cargados correctamente fueron:" + _data.info, "success");
+            } else {
+                swal("Warning", _data.info, "warning");
             }
-        }).error(function(_error){
-            swal("Warning", _error.info);
+        }).error(function (_error) {
+            swal("Algo ha fallado", _error.info, "warning");
+        });
+    }
+
+    $scope.enviarSeleccionados = function () {
+        var dataToSend = [];
+        $scope.aspirantesEnvio.forEach((element) => {
+            if (element.seleccionado) {
+                dataToSend.push({
+                    "username": element.username,
+                    "sesion": $scope.selectedSesion.idSesion,
+                    "idbanner": element.idbanner
+                });
+            }
+        });
+
+        let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
+
+        $http.post(url, dataToSend).success(function (_data) {
+            if (_data.success) {
+                swal("Ok", "Los registros cargados correctamente fueron:" + _data.info, "success");
+            } else {
+                swal("Algo ha fallado", _data.info, "error");
+            }
+        }).error(function (_error) {
+            swal("Algo ha fallado", _error.info, "error");
+        });
+    }
+
+
+    $scope.generarListaEnvios = function () {
+        $scope.aspirantesEnvio = [];
+        $scope.aspirantes.forEach((element) => {
+            if (element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador")) {
+                $scope.aspirantesEnvio.push({
+                    "username": element.correoElectronico,
+                    "sesion": $scope.selectedSesion.idSesion,
+                    "idbanner": element.idBanner,
+                    "nombre": element.nombre,
+                    "idBpm": element.idBpm
+                });
+            }
+        });
+        $scope.showModalEnviarSeleccionados(true);
+    }
+
+    $scope.showModalEnviarSeleccionados = function (_show) {
+        if (_show) {
+            $("#modalEnviarSeleccionados").modal("show");
+        } else {
+            $("#modalEnviarSeleccionados").modal("hide");
+        }
+    }
+
+    $scope.seleccionarTodos = function () {
+        $scope.aspirantesEnvio.forEach((element) => {
+            element.seleccionado = $scope.seleccionarTodosVar;
         });
     }
 }
