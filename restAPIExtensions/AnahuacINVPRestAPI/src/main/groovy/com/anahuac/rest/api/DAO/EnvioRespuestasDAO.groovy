@@ -215,7 +215,7 @@ class EnvioRespuestasDAO {
 			respuestainvp.put("?",count);
 			
 			for(int i=0; i<respuestas.size(); i++) {
-				if(respuestas.size() > respuesta.length()) {continue;}
+				if(i > respuesta.length()) {continue;}
 				if (respuesta.charAt((Integer.parseInt(respuestas.get(i).get("pregunta"))-1)) != "*") {
 					if((respuesta.charAt(Integer.parseInt(respuestas.get(i).get("pregunta"))-1)=='C')==(respuestas.get(i).get("respuesta")=='t')) {
 						if(respuestainvp.get(respuestas.get(i).get("escala"))==null) {
