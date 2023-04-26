@@ -708,8 +708,8 @@ class LoginSesionesDAO {
 			//pstm.setLong(3, campus_pid);
 			rs = pstm.executeQuery();
 			while (rs.next()) {
-				errorlog += " dentro de la consulta " + " | "
-				row = new LoginSesion()
+				errorlog += " dentro de la consulta " + " | ";
+				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
 				
@@ -718,10 +718,10 @@ class LoginSesionesDAO {
 				row.setNombre_prueba(rs.getString("nombre_prueba"));
 				row.setId_prueba(rs.getLong("id_prueba"));
 				try {
-					row.setAplicacion(rs.getString("aplicacion"))
+					row.setAplicacion(rs.getString("aplicacion"));
 				} catch (Exception e) {
 					LOGGER.error "[ERROR] " + e.getMessage();
-					errorlog += e.getMessage()
+					errorlog += e.getMessage();
 				}
 				row.setEntrada(rs.getString("entrada"));
 				row.setSalida(rs.getString("salida"));
@@ -730,6 +730,7 @@ class LoginSesionesDAO {
 				row.setEntrada_temp(rs.getString("entrada_temp"));
 				row.setSalida_temp(rs.getString("salida_temp"));
 				row.setNombre_temp(rs.getString("nombre_temp"));
+				row.setIdsesion_temp(rs.getLong("idsesion_temp"));
 
 				rows.add(row)
 			}

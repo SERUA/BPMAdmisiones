@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1682458490694,
+  "lastUpdate" : 1682539526700,
   "rows" : [
     [
       {
@@ -1597,8 +1597,23 @@
         "return {",
         "\t\"idUsuarioInput\": $data.userData.user_id,",
         "\t\"instanciaINVPInput\":{",
-        "\t    \"username\": $data.userData.user_name",
+        "\t    \"username\": $data.userData.user_name,",
+        "\t    \"idsesion\": getidsesion()",
         "\t}",
+        "}",
+        "",
+        "",
+        "function getidsesion(){",
+        "    let output = 0;",
+        "    if($data.objetoSesion){",
+        "        if($data.objetoSesion.persistenceId && $data.objetoSesion.persistenceId !== 0){",
+        "            output =  $data.objetoSesion.persistenceId;",
+        "        } else if ($data.objetoSesion.idsesion_temp){",
+        "            output = $data.objetoSesion.idsesion_temp;",
+        "        }",
+        "    }",
+        "    ",
+        "    return output;",
         "}"
       ],
       "exposed" : false

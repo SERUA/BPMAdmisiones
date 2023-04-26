@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PSuYQGRNEe25vplGuJ9kyw" name="Examen INVP" author="micedo94" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.34">
+    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.35">
       <elements xmi:type="process:Lane" xmi:id="_PSuYQmRNEe25vplGuJ9kyw" name="Aspirante" actor="_VAArMGRNEe25vplGuJ9kyw">
         <elements xmi:type="process:StartEvent" xmi:id="_PSuYQ2RNEe25vplGuJ9kyw" name="Inicio1" outgoing="_PSuYWGRNEe25vplGuJ9kyw">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PSuYRGRNEe25vplGuJ9kyw" name="" content="" returnTypeFixed="true"/>
@@ -1187,8 +1187,8 @@
         <defaultValue xmi:type="expression:Expression" xmi:id="_nDHPgbFVEe2nOrtpT7vKAQ" name="init_regresarExamen()" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_IniUQLINEe2zC4b6cCk0Lw" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_wIaHYLIWEe2aKOpVIln2Ig" name="initInstanciaINVP()" content="def instanciaINVPVar = new com.anahuac.invp.InstanciaINVP()&#xD;&#xA;instanciaINVPVar.username = instanciaINVPInput?.username&#xD;&#xA;return instanciaINVPVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.invp.InstanciaINVP">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_wIaHYbIWEe2aKOpVIln2Ig" name="instanciaINVPInput" type="COMPLEX"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_wIaHYLIWEe2aKOpVIln2Ig" name="initInstanciaINVP()" content="def instanciaINVPVar = new com.anahuac.invp.InstanciaINVP()&#xD;&#xA;instanciaINVPVar.username = instanciaINVPInput?.username&#xD;&#xA;instanciaINVPVar.idsesion = instanciaINVPInput?.idsesion &#xD;&#xA;return instanciaINVPVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.invp.InstanciaINVP">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_fZgiAORnEe2Il9MTam0DSQ" name="instanciaINVPInput" type="COMPLEX"/>
         </defaultValue>
       </data>
       <data xmi:type="process:Data" xmi:id="_MX65ALI2Ee2aKOpVIln2Ig" name="terminadoF" dataType="_PSuYbGRNEe25vplGuJ9kyw">
@@ -1373,6 +1373,9 @@
         </inputs>
         <inputs xmi:type="process:ContractInput" xmi:id="_wINTELIWEe2aKOpVIln2Ig" name="instanciaINVPInput" type="COMPLEX" dataReference="instanciaINVP">
           <inputs xmi:type="process:ContractInput" xmi:id="_wIN6ILIWEe2aKOpVIln2Ig" name="username"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_vuQYUORmEe2Il9MTam0DSQ" name="idsesion" type="LONG">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_vuQYUeRmEe2Il9MTam0DSQ"/>
+          </inputs>
         </inputs>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_PSuYXWRNEe25vplGuJ9kyw">

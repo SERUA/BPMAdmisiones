@@ -29,6 +29,8 @@ class LoginSesion {
 	private String salida_temp;
 	@XmlElement
 	private String nombre_temp;
+	@XmlElement
+	private Long idsesion_temp;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -108,6 +110,10 @@ class LoginSesion {
 	public void setNombre_temp(String nombre_temp) {
 		this.nombre_temp = nombre_temp;
 	}
-
-
+	public Long getIdsesion_temp() {
+		return idsesion_temp;
+	}
+	public void setIdsesion_temp(Long idsesion_temp) {
+		this.idsesion_temp = idsesion_temp;
+	}
 }
