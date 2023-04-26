@@ -77,8 +77,8 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
-				case "insertRespuesta":
-					result = new CatalogosDAO().insertRespuesta(jsonData)
+				case "insertRespuestaFinal":
+					result = new CatalogosDAO().insertRespuestaFinal(jsonData)
 					responseBuilder.withMediaType("application/json")
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -132,6 +132,21 @@ class Index implements RestApiController {
 				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 			}
 			break;
+			case "generarRespuestasArchivo":
+				try{
+					result =  rexa.generarRespuestasArchivo(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
+			
 			case "getCatRespuestasExamenbyUsuariocaso":
 			try{
 				result =  rexa.getCatRespuestasExamenbyUsuariocaso(jsonData);

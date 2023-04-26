@@ -286,11 +286,15 @@ class LoginSesionesDAO {
 						String mensaje = "";
 						if(!rs.getBoolean("sesion_iniciada")) {
 							mensaje = rs.getString("entradahora");
-						} else if(rs.getBoolean("sesion_iniciada_temp") == false) {
-							mensaje = rs.getString("fechainicio_temp");
+							throw new Exception("sesion_no_iniciada|" + mensaje);
+						} else if(rs.getObject("sesion_iniciada_temp") != null) {
+							if(!rs.wasNull()) {
+								mensaje = rs.getString("entradahora");
+								throw new Exception("sesion_no_iniciada|" + mensaje);
+							} 
 						}
 						
-						throw new Exception("sesion_no_iniciada|" + mensaje);
+//						throw new Exception("sesion_no_iniciada|" + mensaje);
 					} 
 					
 //					if(!rs.getBoolean("sesion_iniciada")) {

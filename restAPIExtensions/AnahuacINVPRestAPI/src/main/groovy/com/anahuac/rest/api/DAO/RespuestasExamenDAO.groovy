@@ -373,5 +373,57 @@ class RespuestasExamenDAO {
 	
 	
 	
+	public Result generarRespuestasArchivo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String respuestas = "";
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			respuestas = object.respuestas;
+			errorLog += "1"
+			String[] respuestasArray = new String[respuestas.length()];
+			for (int i = 0; i < respuestas.length(); i++) {
+				respuestasArray[i] = String.valueOf(respuestas.charAt(i));
+			}
+			errorLog += "|2"
+			
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement("SELECT orden, persistenceid, pregunta, question FROM CatPReguntas ORDER BY orden ASC");
+			rs = pstm.executeQuery();
+			errorLog += "|3"
+			
+			while(rs.next()) {
+				errorLog += "|4[" + respuestasArray[rs.getInt("orden") - 1] + "]";
+				if(!respuestasArray[rs.getInt("orden") - 1].equals("*")) {
+					pstm = con.prepareStatement(Statements.INSERT_RESPUESTA_EXAMEN, Statement.RETURN_GENERATED_KEYS)
+					pstm.setInt(1, rs.getInt("orden"));
+					pstm.setBoolean(2, respuestasArray[rs.getInt("orden") - 1].equals("C"));
+					pstm.setLong(3, Long.valueOf(object.caseid));
+					pstm.setLong(4, Long.valueOf(object.idusuario));
+					pstm.setString(5, object.username);
+					pstm.executeUpdate();
+					errorLog += "|5[" + respuestasArray[rs.getInt("orden") - 1] + "]";
+				} else {
+					errorLog += "|6[" + respuestasArray[rs.getInt("orden") - 1] + "]";
+				}
+			}
+		} catch (Exception e) {
+			String es = e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(es);
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
 	
 }

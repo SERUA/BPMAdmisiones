@@ -2031,7 +2031,7 @@ public Result getCatPreguntas(String jsonData) {
 		return resultado;
 	}
 	
-	public Result insertRespuesta(String jsonData) {
+	public Result insertRespuestaFinal(String jsonData) {
 		def jsonSlurper = new JsonSlurper();
 		def object = jsonSlurper.parseText(jsonData);
 		Result resultado = new Result()
