@@ -2464,7 +2464,6 @@ class ListadoDAO {
 		String errorLog = "";
 		
 		try {
-			errorLog += " | Entro al metodo ";
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 	
@@ -2475,16 +2474,13 @@ class ListadoDAO {
 			int rowCount = 0;
 			List < Object > lstParams;
 			String type = object.type;
-			errorLog += " | Se genera e archivo ";
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(type);
 			CellStyle style = workbook.createCellStyle();
 			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
 			font.setBold(true);
 			style.setFont(font);
-			errorLog += " | se buscó la lista de elementos";
 			dataResult = selectSolicitudesApoyo(parameterP,parameterC, jsonData, context);
-			errorLog += " | Se obtuvo la lista de elementos ";
 			
             if (dataResult.success) {
                 lstParams = dataResult.getData();
@@ -2606,7 +2602,8 @@ class ListadoDAO {
 			resultado.setError_info(errorLog);
 			e.printStackTrace();
 		}
-return resultado;
+		
+		return resultado;
 	}
 	
 	private String encodeFileToBase64Binary(String fileName)
@@ -2660,5 +2657,152 @@ return resultado;
 		}
 		return retorno
 	}
+	
+	public Result getExcelFileCierre(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = new Result();
+			
+			
+			int rowCount = 0;
+			List < Object > lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+//			dataResult = selectSolicitudesApoyo(parameterP,parameterC, jsonData, context);
+			dataResult = selectSolicitudesApoyoCompletadas(parameterP, parameterC, jsonData, context);
+			resultado = dataResult;
+			
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontro datos");
+			}
 
+			
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue(title);
+			Cell cellFecha = titleRow.createCell(4);
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
+			String sDate = formatter.format(date);
+			Cell cellFechaData = titleRow.createCell(5);
+			cellFechaData.setCellValue(sDate);
+
+			Row blank = sheet.createRow(++rowCount);
+			Cell cellusuario = blank.createCell(4);
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = blank.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("ID Banner / ID BPM");
+			header1.setCellStyle(style);
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("Nombre / Email / CURP");
+			header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Programa / Período de ingreso / Campus ingreso");
+			header3.setCellStyle(style);
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("Tipo Beca / Promedio / Promedio Actualizado");
+			header4.setCellStyle(style);
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("Beca");
+			header5.setCellStyle(style);
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Financiamiento");
+			header6.setCellStyle(style);
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Financiamiento en trámite");
+			header7.setCellStyle(style);
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Inscripción al propedéutico");
+			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Paso propedéutico");
+			header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Inscrito o realizó pago");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(9);
+			header11.setCellValue("Toma de materias");
+			header11.setCellStyle(style);
+
+			//FORMATO DE LAS FECHAS
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			Date fechaCreacion = new Date();
+			DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams[i].idbanner + " / " + lstParams[i].caseid);
+				String nombre = lstParams[i].apellidopaterno + " " + lstParams[i].apellidomaterno + " " + lstParams[i].primernombre + " " + lstParams[i].segundonombre;
+				Cell cell2 = row.createCell(1);
+				cell2.setCellValue(nombre + " / " + lstParams[i].correoelectronico + " / " + lstParams[i].curp);
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams[i].licenciatura + " / " + lstParams[i].ingreso + " / " + lstParams[i].campusestudio);
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams[i].tipoapoyo + " / " + lstParams[i].promediogeneral + " / " + (lstParams[i].nuevopromedioprepa == null ? 'N/A':lstParams[i].nuevopromedioprepa));
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams[i].porcentajebecaautorizacion);
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue(lstParams[i].porcentajeautorizadofinanciaimiento);
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue(lstParams[i].financiamientoentramite);
+				Cell cell8 = row.createCell(7);
+				cell8.setCellValue(lstParams[i].inscripcionPropedeutico);
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams[i].pasoPropedeutico);
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams[i].inscrito);
+				Cell cell11 = row.createCell(9);
+				cell11.setCellValue(lstParams[i].tomaMaterias);
+			}
+			
+			for (int i = 0; i <= rowCount + 3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			
+			FileOutputStream outputStream = new FileOutputStream("ReporteBecasCompletadas.xls");
+			workbook.write(outputStream);
+	
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(encodeFileToBase64Binary("ReporteBecasCompletadas.xls"));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
 }
