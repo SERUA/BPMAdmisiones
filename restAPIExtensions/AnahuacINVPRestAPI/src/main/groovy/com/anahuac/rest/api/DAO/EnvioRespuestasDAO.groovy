@@ -54,6 +54,8 @@ class EnvioRespuestasDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		boolean roll = false;
+		String errorLog = "";
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -75,14 +77,15 @@ class EnvioRespuestasDAO {
 					def str = "{\"respuestas\":\"${respuestas}\",\"idbanner\":\"${it.idbanner}\",\"id_sesion\":${it.sesion} }";
 					
 					resultado = insertRespuesta(str);
-					
+					errorLog += " | 1: " + it.idbanner; 
 					if(resultado.isSuccess()) {
-						idBannerList += idBannerList.length()>1?",":"";
+						idBannerList += idBannerList.length()>1?", ":"";
 						idBannerList += it.idbanner	;
 						roll = true;
-						con.setAutoCommit(false)
+						con.setAutoCommit(false);
+						errorLog += " | 2: " + it.username;
 						pstm = con.prepareStatement(Statements.UPDATE_RESULTADOENVIADO);
-						pstm.setString(1, it.username)
+						pstm.setString(1, it.username);
 						pstm.executeUpdate();
 						con.commit();
 					}
@@ -92,13 +95,10 @@ class EnvioRespuestasDAO {
 			if(idBannerList.length() == 0) {
 				resultado.setSuccess(false);
 				resultado.setInfo("No se encontraron aspirante para guardar");
-			}else {
+			} else {
 				resultado.setSuccess(true);
 				resultado.setInfo(idBannerList);
 			}
-			
-			
-			
 		} catch (Exception e) {
 			String es = e.getMessage();
 			resultado.setSuccess(false);

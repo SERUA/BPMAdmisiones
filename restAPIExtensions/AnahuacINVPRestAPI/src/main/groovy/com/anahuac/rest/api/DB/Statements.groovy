@@ -128,7 +128,7 @@ class Statements {
 	
 	public static final String GET_SESION_FINALIZADA_BY_USERNAME = "SELECT * FROM CatRegistro AS creg INNER JOIN SesionAspirante AS seas ON seas.username = creg.correoelectronico LEFT JOIN SesionesFinalizadas AS sefi ON sefi.idsesion = seas.sesiones_pid  WHERE creg.correoelectronico = ?;";
 	
-	public static final String GET_RESULTADOS_INVP_BY_USERNAME = "SELECT string_agg(CASE WHEN resp.respuesta IS NULL THEN '*' WHEN resp.respuesta= true THEN 'C' WHEN resp.respuesta = false THEN 'F' END,  '') AS resultados FROM CatPReguntas AS cpre  LEFT JOIN RespuestaINVP AS resp ON resp.pregunta = cpre.orden  AND (resp.username = ? AND resp.pregunta <> 0);";
+	public static final String GET_RESULTADOS_INVP_BY_USERNAME = "SELECT string_agg(CASE WHEN respuesta IS NULL THEN '*' WHEN respuesta= true THEN 'C' WHEN respuesta = false THEN 'F' END,  '') AS resultados FROM ( SELECT cpre.orden, resp.respuesta  FROM  CatPReguntas AS cpre  LEFT JOIN RespuestaINVP AS resp ON resp.pregunta = cpre.orden  AND (resp.username = ? AND resp.pregunta <> 0) ORDER BY cpre.orden ASC ) results_query ";
 	
 	public static final String GET_SESION_LOGIN_LOGIN = "SELECT  CONCAT(p.aplicacion, ' ', p.entrada)::timestamp <= now() AS sesion_iniciada, CONCAT(p.aplicacion, ' ', p.entrada)::timestamp <= now() AS sesion_finalizada, ses.persistenceid as idsesion, ses.nombre as nombresesion, tipo.descripcion, p.nombre as nombre_prueba, p.persistenceid as id_prueba, p.aplicacion, p.entrada, p.salida,  asps.username, CONCAT(p.aplicacion, ' ', p.entrada)::timestamp AS entradahora, now() fechaahoy  FROM SESIONES AS ses INNER JOIN SesionAspirante AS asps ON asps.sesiones_pid = ses.persistenceid  INNER JOIN pruebas AS p ON ses.persistenceid = p.sesion_pid INNER JOIN cattipoprueba AS tipo ON  tipo.persistenceid = p.cattipoprueba_pid  AND tipo.descripcion = 'Examen Psicométrico'  WHERE  asps.username = ? ";
 	
@@ -158,7 +158,7 @@ class Statements {
 	
 	public static final String UPDATE_BITACORAASPIRANTESPRUEBAS = "UPDATE CatBitacoraSesiones set  asistencia = ?  where prueba_pid = ? and username = ?";
 	
-	public static final String UPDATE_RESULTADOENVIADO = "UPDATE InstanciaINVP SET RESULTADOENVIADO = TRUE WHERE USERNAME = ?"
+	public static final String UPDATE_RESULTADOENVIADO = "UPDATE InstanciaINVP SET resultadoenviado = true  WHERE USERNAME = ?;";
 	
 	
 	

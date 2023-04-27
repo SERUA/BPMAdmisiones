@@ -942,7 +942,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         $http.post(url, dataToSend).success(function (_data) {
             if (_data.success) {
-                swal("Ok", "Los registros cargados correctamente fueron:" + _data.info, "success");
+                swal("Ok", "Los resultados seleccionados fueron enviados correctamente: " + _data.info, "success");
             } else {
                 swal("Warning", _data.info, "warning");
             }
@@ -967,7 +967,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         $http.post(url, dataToSend).success(function (_data) {
             if (_data.success) {
-                swal("Ok", "Los registros cargados correctamente fueron:" + _data.info, "success");
+                $scope.refreshAspirantes();
+                swal("Ok", "Los resultados seleccionados fueron enviados correctamente: " + _data.info, "success");
+                $scope.showModalEnviarSeleccionados(false);
             } else {
                 swal("Algo ha fallado", _data.info, "error");
             }
@@ -978,9 +980,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
 
     $scope.generarListaEnvios = function () {
+        cargarLista();
+        $scope.showModalEnviarSeleccionados(true);
+    }
+
+    function cargarLista(){
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
-            if (element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador")) {
+            if (element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
                 $scope.aspirantesEnvio.push({
                     "username": element.correoElectronico,
                     "sesion": $scope.selectedSesion.idSesion,
@@ -990,7 +997,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 });
             }
         });
-        $scope.showModalEnviarSeleccionados(true);
     }
 
     $scope.showModalEnviarSeleccionados = function (_show) {
