@@ -158,17 +158,17 @@
             <h4 class="color-orange">Aspirantes en sesión</h4>
         </div>
         <div class="col-xs-4 text-right" style="padding-right: 30px;">
-            <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">
+            <button ng-hide="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">
                 Cambiar idioma para todos
             </button>
             &nbsp;
-            <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
+            <button ng-hide="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
                 Terminar todos <span class="glyphicon glyphicon-time"></span>
             </button>
 			<!-- <button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="enviarTodos(aspirantes)" class="button-margin btn btn-danger">
                 Enviar todos <span class="glyphicon glyphicon-check"></span>
             </button> -->
-            <button ng-disabled="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="generarListaEnvios(true)" class="button-margin btn btn-success">
+            <button ng-hide="selectedSesion.estatus != 'Concluidas'" type="button" ng-click="generarListaEnvios(true)" class="button-margin btn btn-success">
                 Envío de resultados <span class="glyphicon glyphicon-send"></span>
             </button> 
             <br>

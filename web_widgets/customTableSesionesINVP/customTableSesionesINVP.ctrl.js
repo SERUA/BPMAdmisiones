@@ -804,6 +804,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 ocultarModal("modalReagen");
                 if ($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar") {
                     swal("Ok", "Usuario reagendado", "success");
+                    $scope.refreshAspirantes();
                 } else {
                     $scope.terminarAspirante();
                 }

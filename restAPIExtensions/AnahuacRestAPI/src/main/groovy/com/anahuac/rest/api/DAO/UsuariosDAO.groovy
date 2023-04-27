@@ -555,7 +555,8 @@ class UsuariosDAO {
 				
 				resultado = enviarTarea(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
-			}else {
+			} else {
+				resultado = enviarTarea(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
 			}
 			resultado.setSuccess(true);

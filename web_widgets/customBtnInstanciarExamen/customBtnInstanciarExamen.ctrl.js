@@ -5,6 +5,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
+        vm.busy = true;
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
             closeModal($scope.properties.closeOnSuccess);
@@ -119,24 +120,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function startProcess() {
         var prom = doRequest('POST', '../API/extension/AnahuacINVPRestAPI?url=instantiation&p=0&c=10', getUserParam()).then(function() {
-                //$scope.properties.inicioexamen = true;
 
-                //localStorageService.delete($window.location.href);
-            });
-        //../API/extension/AnahuacINVPRestAPI?url=insertRespuesta&p=0&c=10
-        //var id = getUrlParam('id');
-        /*var id = $scope.properties.ProcessId;
-        if (id) {
-            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.ProcessId + '/instantiation', getUserParam()).then(function() {
-                debugger;
-                $scope.properties.inicioexamen = true;
-
-                //localStorageService.delete($window.location.href);
-            });
-
-        } else {
-            $log.log('Impossible to retrieve the process definition id value from the URL');
-        }*/
+        });
     }
 
     /**

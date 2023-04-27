@@ -29,6 +29,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"EXTERIOR")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
 				break;
 				case "getIdiomaByUsername":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}

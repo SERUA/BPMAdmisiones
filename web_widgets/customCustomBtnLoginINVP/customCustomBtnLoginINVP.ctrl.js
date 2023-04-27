@@ -94,7 +94,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             loginPlatform();
         }).error(function(_error){
             let mensaje = "";
-            let idioma = "es";
+            let idioma = getCookieValue("BOS_Locale");
             
             if(_error.error === "user_password_incorrect"){
                 if(idioma === "es"){
@@ -133,6 +133,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else {
                     mensaje = "There is an active session to this user. <br> Contect your applicator.";
                 }
+            } else if(_error.error === "examen_terminado"){
+                if(idioma === "es"){
+                    mensaje = "Tu examen ha concluido, si tienes dudas contacta a tu asesor.";
+                } else {
+                    mensaje = "Your exam has finished, if you have any questions, please contact your advisor.";
+                }
             } else {
                 mensaje = _error.error;
             }
@@ -160,7 +166,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             window.top.location.href = '/bonita/apps/aspiranteinvp/presentar/';
         }).error(function(){
             let mensaje = "";
-            let idioma = "es";
+            let idioma = getCookieValue("BOS_Locale");
             
             if(idioma === "es"){
                 mensaje = "Usuario o contraseña incorrectos";
@@ -580,5 +586,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         const mes = (fecha.getMonth() + 1).toString().padStart(2, '0');
         const anio = fecha.getFullYear().toString();
         return `${dia}/${mes}/${anio}`;
+    }
+
+    function getCookieValue(name) {
+        var cookies = document.cookie.split(';');
+        for(var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if(cookie.indexOf(name + '=') === 0) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+    
+        return "es";
     }
 }
