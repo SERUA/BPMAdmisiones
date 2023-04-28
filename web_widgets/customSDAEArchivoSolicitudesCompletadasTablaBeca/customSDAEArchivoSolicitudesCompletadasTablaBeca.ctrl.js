@@ -692,4 +692,9 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             
         });
     }
+
+    $scope.abrirSolicitud = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verSolicitud/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
 }

@@ -17,11 +17,9 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     function getTaskInfo(_caseId){
         let url = "../API/bpm/humanTask?c=100&p=0&f=parentCaseId=" + _caseId;
         $http.get(url).success(function(data){
-            debugger;
             $scope.task = data[0];
             $scope.properties.taskId = data[0].id;
         }).error(function(err){
-            debugger;
             console.log(err);
         });
     }
@@ -62,7 +60,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
         
         return $http(req).success(function(data, status) {
-            debugger;
             _rowData.taskId = data[0].id;
             _rowData.taskName = data[0].name;
             _rowData.processId = data[0].processId;
@@ -676,4 +673,9 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.getCatCampus();
+
+    $scope.abrirSolicitud = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verSolicitud/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
 }
