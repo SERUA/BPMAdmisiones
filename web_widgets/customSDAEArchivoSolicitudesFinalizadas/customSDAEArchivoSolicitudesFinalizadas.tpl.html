@@ -136,10 +136,26 @@
                         <b>{{!row.infoEscolarBanner.periodo ? "N/A" : row.infoEscolarBanner.periodo }}</b><br>
                         <b>{{!row.infoEscolarBanner.campus ? "N/A" : row.infoEscolarBanner.campus }}</b>
                     </td>
-                    <td class="text-center">
-                        <button class="btn btn-default" ng-click="abrirSolicitud(row)">
+                    <td>
+                        <!-- <button class="btn btn-default" ng-click="abrirSolicitud(row)">
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                        </button>
+                        </button> -->
+                        <div  style="display: inline-flex;">
+                            <button class="btn btn-primary" ng-click="downloadFile(row.correoelectronico, row.caseid)" style="margin: 1.5px;">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                            </button>
+                            <button class="btn btn-default" ng-click="abrirSolicitud(row)" style="margin: 1.5px;">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            </button>
+                        </div>
+                        <div style="display: inline-flex;">
+                            <button ng-if="row.porcentajeautorizadofinanciaimiento !== null" class="btn btn-success" ng-click="downloadFileF(row.correoelectronico)" style="margin: 1.5px;">
+                                <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+                            </button>
+                            <button ng-if="row.porcentajeautorizadofinanciaimiento !== null" class="btn btn-default" ng-click="abrirSolicitudF(row)" style="margin: 1.5px;">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            </button>
+                        </div>
                     </td>
                 </tr>
             </tbody>

@@ -11,7 +11,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
     this.selectRow = function(row) {
         $scope.properties.selectedRow = row;
-        getTaskInfo(row.caseid);
+        // getTaskInfo(row.caseid);
     };
     
     function getTaskInfo(_caseId){
@@ -674,8 +674,65 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
     $scope.getCatCampus();
 
+    
+    function downloadFile(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "solicitud_de_apoyo_educativo.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+    
+    
+    $scope.downloadFile = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfSolicitudApoyo&p=0&c=1&email=" + _email + "&caseid=" + _caseId;
+        $http.post(url, {}).success(function(success){
+            downloadFile(success.data[0]); 
+        }).error(function(err){
+           swal("Error", "No se ha podido generar el archivo, intentelo de nuevo mas tarde.", "error");
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
+    function downloadFileF(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "Información del aval.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+
+    $scope.downloadFileF = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfDatosAval&p=0&c=1&email=" + _email;
+        $http.post(url, {}).success(function(success){
+            downloadFileF(success.data[0]); 
+        }).error(function(err){
+            
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
     $scope.abrirSolicitud = function(_rowData){
         var url = "/bonita/portal/resource/app/sdae/verSolicitud/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
+    
+    $scope.abrirSolicitudF = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verFinanciamiento/content/?app=sdae&caseId="+ _rowData.caseid;
         window.open(url, '_blank');
     }
 }

@@ -698,6 +698,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     // }
 
     function downloadFile(_document) {
+        blockUI.start();
         const linkSource = "data:application/pdf; base64,"+ _document;
         const downloadLink = document.createElement("a");
     
@@ -706,19 +707,24 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
+        blockUI.stop();
     }
     
     
     $scope.downloadFile = function(_email, _caseId){
+        blockUI.start();
         let url = "../API/extension/DocAPI?pdf=pdfSolicitudApoyo&p=0&c=1&email=" + _email + "&caseid=" + _caseId;
         $http.post(url, {}).success(function(success){
             downloadFile(success.data[0]); 
         }).error(function(err){
            swal("Error", "No se ha podido generar el archivo, intentelo de nuevo mas tarde.", "error");
+        }).finally(function(){
+            blockUI.stop();
         });
     }
 
     function downloadFileF(_document) {
+        blockUI.start();
         const linkSource = "data:application/pdf; base64,"+ _document;
         const downloadLink = document.createElement("a");
     
@@ -727,14 +733,18 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
+        blockUI.stop();
     }
 
     $scope.downloadFileF = function(_email, _caseId){
+        blockUI.start();
         let url = "../API/extension/DocAPI?pdf=pdfDatosAval&p=0&c=1&email=" + _email;
         $http.post(url, {}).success(function(success){
             downloadFileF(success.data[0]); 
         }).error(function(err){
             
+        }).finally(function(){
+            blockUI.stop();
         });
     }
 
