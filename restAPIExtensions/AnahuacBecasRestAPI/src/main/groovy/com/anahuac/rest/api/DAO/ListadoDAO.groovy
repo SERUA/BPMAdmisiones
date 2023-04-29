@@ -665,6 +665,21 @@ class ListadoDAO {
 	
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "T-BECA":
+							errorlog += "T-BECA"
+							String addWhere = "";
+							if (where.contains("WHERE")) {
+								addWhere += " AND "
+							} else {
+								addWhere += " WHERE "
+							}
+							
+							if((Boolean) filtro.get("valor")) {
+								addWhere += " (AA.porcentajeBecaAutorizacion IS NOT NULL) ";
+								where += addWhere;
+							}
+							
+							break;
 						case "P-FINAN":
 							errorlog += "P-FINAN"
 							if (where.contains("WHERE")) {
@@ -680,6 +695,22 @@ class ListadoDAO {
 							}
 	
 							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "T-FINAN":
+							errorlog += "T-FINAN"
+							String addWhere = "";
+							
+							if (where.contains("WHERE")) {
+								addWhere += " AND "
+							} else {
+								addWhere += " WHERE "
+							}
+							
+							if((Boolean) filtro.get("valor")) {
+								addWhere += " (SF.porcComite IS NOT NULL) ";
+								where += addWhere;
+							}
+							
 							break;
 						case "F-TRAMITE":
 							errorlog += "F-TRAMITE"
@@ -2323,7 +2354,105 @@ class ListadoDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
+					case "P-BECA":
+						errorlog += "P-BECA"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(AA.porcentajeBecaAutorizacion::varchar(255)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
 
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "T-BECA":
+						errorlog += "T-BECA"
+						String addWhere = "";
+						if (where.contains("WHERE")) {
+							addWhere += " AND "
+						} else {
+							addWhere += " WHERE "
+						}
+						
+						if((Boolean) filtro.get("valor")) {
+							addWhere += " (AA.porcentajeBecaAutorizacion IS NOT NULL) ";
+							where += addWhere;
+						}
+						
+						break;
+					case "P-FINAN":
+						errorlog += "P-FINAN"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(SF.porcComite::varchar(255)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "T-FINAN":
+						errorlog += "T-FINAN"
+						String addWhere = "";
+						
+						if (where.contains("WHERE")) {
+							addWhere += " AND "
+						} else {
+							addWhere += " WHERE "
+						}
+						
+						if((Boolean) filtro.get("valor")) {
+							addWhere += " (SF.porcComite IS NOT NULL) ";
+							where += addWhere;
+						}
+						
+						break;
+					case "F-TRAMITE":
+						errorlog += "F-TRAMITE"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER( CASE SF.finalizada WHEN 't' THEN 'Concluido' WHEN 'f' THEN 'En proceso' ELSE 'N/A' END ) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "LICENCIATURA":
+						errorlog += "LICENCIATURA"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERIODO":
+						errorlog += "PERIODO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
 					default:
 						break;
 				}

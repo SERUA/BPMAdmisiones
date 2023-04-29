@@ -609,6 +609,77 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
         }
     }
+    
+    $scope.addFilterBecaFina = function() {
+        if ($scope.filtroBeca) {
+            var filter = {
+                "columna": "T-BECA",
+                "operador": "Que contengan",
+                "valor": $scope.filtroBeca
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-BECA") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroBeca;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            var encontrado = false;
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-BECA") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+
+        if ($scope.filtroFinanciamiento) {
+            var filter = {
+                "columna": "T-FINAN",
+                "operador": "Que contengan",
+                "valor": $scope.filtroFinanciamiento
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-FINAN") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroFinanciamiento;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-FINAN") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+    }
 
     $scope.sizing = function() {
         $scope.lstPaginado = [];
