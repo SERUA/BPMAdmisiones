@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
 
     'use strict';
   
@@ -53,11 +53,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     this.action = function action() {
         if($scope.errorLoginCount === 2){
             let captchaResponse = grecaptcha.getResponse();
-            
+            let idioma = getCookieValue("BOS_Locale");
+
             if(captchaResponse !== ""){
                 $scope.validateForm();
             } else {
-                Swal.fire("¡Atención!", "Captcha inválido.", "warning");
+                Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", idioma === "es" ? "Captcha inválido.":"Invalid captcha", "warning");
                 $scope.resetCaptcha();
             }
         } else {
@@ -71,12 +72,35 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
   
         const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         
+        let idioma = getCookieValue("BOS_Locale");
+        let mensaje = "";
+        if(idioma === "es"){
+            mensaje = "Usuario o contraseña incorrectos.";
+        } else {
+            mensaje = "User or password invalid.";
+        }
+
         if(username  === ""){
-            Swal.fire("¡Atención!", "El Correo electrónico no debe ir vacío.", "warning");
+            if(idioma === "es"){
+               mensaje = "El Correo electrónico no debe ir vacío."; 
+            } else {
+                mensaje = "Username must not me empty."; 
+            }
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
         } else if (!re.test(String(username))){
-            Swal.fire("¡Atención!", "El formato de correo electrónico es inválido.", "warning");
+            if(idioma === "es"){
+                mensaje = "El formato de correo electrónico es inválido."; 
+            } else {
+                mensaje = "Email format is not valid."; 
+            }
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
         } else if (password === ""){
-            Swal.fire("¡Atención!", "La Contraseña no debe ir vacía.", "warning");
+            if(idioma === "es"){
+                mensaje = "La Contraseña no debe ir vacía."; 
+            } else {
+                mensaje = "Password must not be empty"; 
+            }
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
         } else {
             // $scope.getTotalPreguntasContestadas();
             login(username, password);
@@ -84,6 +108,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
     
     function login(_username, _password){
+        blockUU.start();
         let data = {
             "username":_username,
             "password": _password
@@ -91,11 +116,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let url = "../API/extension/AnahuacINVPRestAPI?url=loginINVP&p=0&c=10";
         
         $http.post(url, data).success(function(_success){
+            blockUU.stop();
             loginPlatform();
         }).error(function(_error){
+            blockUU.stop();
             let mensaje = "";
             let idioma = getCookieValue("BOS_Locale");
-            
+
             if(_error.error === "user_password_incorrect"){
                 if(idioma === "es"){
                     mensaje = "Usuario o contraseña incorrectos.";
@@ -144,15 +171,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
 
             Swal.fire({
-                title: '<strong>Atención</strong>',
+                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Warning!",
                 icon: 'error',
-                html:mensaje, 
+                html: mensaje, 
                 showCloseButton: false
             });
         })
     }
 
     function loginPlatform(){
+        blockUU.start();
         let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
         let url2 = "/bonita/loginservice";
         var req = {
@@ -163,18 +191,20 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
+            blockUU.stop();
             window.top.location.href = '/bonita/apps/aspiranteinvp/presentar/';
         }).error(function(){
+            blockUU.stop();
             let mensaje = "";
             let idioma = getCookieValue("BOS_Locale");
-            
+
             if(idioma === "es"){
                 mensaje = "Usuario o contraseña incorrectos";
             } else {
                 mensaje = "User or password invalid.";
             }
             Swal.fire({
-                title: '<strong>Atención</strong>',
+                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Warning!",
                 icon: 'error',
                 html:mensaje, 
                 showCloseButton: false
@@ -213,7 +243,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             // }
         })
         .error(function(data, status) {
-            console.error(data);
+            let idioma = getCookieValue("BOS_Locale");
+
             Swal.fire({
                 title: '<strong>Atención</strong>',
                 icon: 'error',
@@ -546,7 +577,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
-            debugger;
             if(data.data.length > 0){
                 var pos = data.data.length - 1;
                 var content = document.createElement('div');
