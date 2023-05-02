@@ -702,4 +702,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshAspirantes = function(){
         getAspirantesSesion($scope.selectedSesion.idSesion);
     }
+    
+    $scope.refreshSesiones = function(){
+        doRequest("POST", $scope.properties.urlPost);
+    }
 }
