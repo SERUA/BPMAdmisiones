@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
 
     'use strict';
   
@@ -108,7 +108,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
     
     function login(_username, _password){
-        blockUU.start();
+        $("#loading").modal("show");
         let data = {
             "username":_username,
             "password": _password
@@ -116,10 +116,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let url = "../API/extension/AnahuacINVPRestAPI?url=loginINVP&p=0&c=10";
         
         $http.post(url, data).success(function(_success){
-            blockUU.stop();
+            $("#loading").modal("hide");
             loginPlatform();
         }).error(function(_error){
-            blockUU.stop();
+            $("#loading").modal("hide");
             let mensaje = "";
             let idioma = getCookieValue("BOS_Locale");
 
@@ -180,7 +180,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function loginPlatform(){
-        blockUU.start();
+        $("#loading").modal("show");
         let data = "redirect=false&username=" + $scope.properties.dataToSend.username + "&password=" + $scope.properties.dataToSend.password;
         let url2 = "/bonita/loginservice";
         var req = {
@@ -191,10 +191,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
       
         return $http(req).success(function(data, status) {
-            blockUU.stop();
+            $("#loading").modal("hide");
             window.top.location.href = '/bonita/apps/aspiranteinvp/presentar/';
         }).error(function(){
-            blockUU.stop();
+            $("#loading").modal("hide");
             let mensaje = "";
             let idioma = getCookieValue("BOS_Locale");
 

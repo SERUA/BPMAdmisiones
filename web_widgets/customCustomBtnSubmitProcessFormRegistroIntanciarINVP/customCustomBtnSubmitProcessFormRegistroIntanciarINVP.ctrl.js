@@ -56,7 +56,15 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     $scope.properties.getUserBonita = data.data;
                     if ($scope.properties.getUserBonita !== undefined) {
                         if ($scope.properties.getUserBonita.length > 0) {
-                            swal("Error", "Este correo electrónico ya está registrado.", "error");
+                            let idioma = getCookieValue("BOS_Locale");
+                            let mensaje = "";
+
+                            if(idioma === "es"){
+                                mensaje = "El correo electrónico ya está registrado";
+                            } else {
+                                mensaje = "Email is already registered";
+                            }
+                            swal("Error", mensaje, "error");
                             blockUI.stop();
                         } else {
                             startProcess();
@@ -174,11 +182,26 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             //}
         })
         .error(function(data, status) {
+            let idioma = getCookieValue("BOS_Locale");
             if (data.error.includes("A user with name")) {
-                swal("Error", "Este correo electrónico ya está registrado.", "error");
+                let mensaje = "";
+
+                if(idioma === "es"){
+                    mensaje = "El correo electrónico ya está registrado";
+                } else {
+                    mensaje = "Email is already registered";
+                }
+                swal("Error", mensaje, "error");
                 blockUI.stop();
             } else {
-                swal("Error", "Ha ocurrido un error inesperado. Inténtalo de nuevo mas tarde.", "error");
+                let mensaje = "";
+
+                if(idioma === "es"){
+                    mensaje = "Ha ocurrido un error inesperado. Inténtalo de nuevo mas tarde.";
+                } else {
+                    mensaje = "Unexpected error. Please try again later.";
+                }
+                swal("Error", mensaje, "error");
                 blockUI.stop();
             }
             // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
@@ -444,4 +467,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
         });
     }
+
+    function getCookieValue(name) {
+        var cookies = document.cookie.split(';');
+        for(var i = 0; i < cookies.length; i++) {
+            var cookie = cookies[i].trim();
+            if(cookie.indexOf(name + '=') === 0) {
+                return cookie.substring(name.length + 1);
+            }
+        }
+    
+        return "es";
+    }    
 }
