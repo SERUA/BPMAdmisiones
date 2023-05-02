@@ -11,7 +11,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
     this.selectRow = function(row) {
         $scope.properties.selectedRow = row;
-        // getTaskInfo(row.caseid);
+        getTaskInfo(row.caseid);
     };
     
     function getTaskInfo(_caseId){
@@ -52,6 +52,37 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.verSolicitud = function(_rowData, _action) {
+        $scope.properties.selectedRow = _rowData;
+        
+        var req = {
+            method: "GET",
+            url: `/API/bpm/task?p=0&c=10&f=caseId%3d${_rowData.caseid}&f=isFailed%3dfalse`
+        };
+        
+        return $http(req).success(function(data, status) {
+            _rowData.taskId = data[0].id;
+            _rowData.taskName = data[0].name;
+            _rowData.processId = data[0].processId;
+            
+            if(_action === "rechazar" || _action === "aceptar" || _action === "modificar"){
+                $scope.properties.navVar = _action;
+                // getTaskInfo(_rowData,caseId);
+                // showModal($scope.properties.idModalRechazar);
+            } else {
+                let taskId = data[0].id;
+                var url = "/bonita/portal/resource/app/sdae/preAutorizacion/content/?app=sdae&id=" + taskId + "&caseId=" + _rowData.caseid;
+                window.open(url, '_blank'); 
+            }
+        })
+        .error(function(data, status) {
+            console.error(data);
+        })
+        .finally(function() {
+            
+        });
+    }
+
+    $scope.verSolicitudF = function(_rowData, _action) {
         $scope.properties.selectedRow = _rowData;
         
         var req = {
@@ -180,33 +211,34 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.sendMail = function(row, mensaje) {
-        if (row.catCampus.grupoBonita == undefined) {
+        if (row.grupobonita == undefined) {
             for (var i = 0; i < $scope.lstCampus.length; i++) {
-                if ($scope.lstCampus[i].descripcion == row.catCampus.descripcion) {
-                    row.catCampus.grupoBonita = $scope.lstCampus[i].valor;
+                if ($scope.lstCampus[i].descripcion == row.campusestudio) {
+                    row.grupobonita = $scope.lstCampus[i].valor;
                 }
             }
         }
+        
         var req = {
             method: "POST",
             url: "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10",
-            data: angular.copy({
-                "campus": row.catCampus.grupoBonita,
-                "correo": row.correoElectronico,
+            data: {
+                "campus": row.grupobonita,
+                "correo": row.correoelectronico,
                 "codigo": "recordatorio",
                 "isEnviar": true,
                 "mensaje": mensaje
-            })
+            }
         };
   
         return $http(req).success(function(data, status) {
-  
-                $scope.envelopeCancel();
-            })
-            .error(function(data, status) {
-                console.error(data)
-            })
-            .finally(function() {});
+            swal("Ok", "Recordatorio enviado", "success");
+            $scope.envelopeCancel();
+        })
+        .error(function(data, status) {
+            console.error(data)
+        })
+        .finally(function() {});
     }
 
     $scope.lstCampus = [];
@@ -404,64 +436,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
     $scope.filtroCampus = "";
 
-    /*$scope.addFilter = function() {
-        if ($scope.filtroCampus != "Todos los campus") {
-            var filter = {
-                "columna": "CAMPUS",
-                "operador": "Igual a",
-                "valor": $scope.filtroCampus
-            };
-
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-                var encontrado = false;
-                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-                    const element = $scope.properties.dataToSend.lstFiltro[index];
-                    if (element.columna == "CAMPUS") {
-                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
-                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
-                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
-                        for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                            if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                                $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                            }
-                        }
-                        encontrado = true
-                    }
-                }
-  
-                if (!encontrado) {
-                    $scope.properties.dataToSend.lstFiltro.push(filter);
-                    for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                        if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                            $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                        }
-                    }
-                }
-            } else {
-                $scope.properties.dataToSend.lstFiltro.push(filter);
-                for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                    if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                        $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                    }
-                }
-            }
-        } else {
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-                var encontrado = false;
-                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-                    const element = $scope.properties.dataToSend.lstFiltro[index];
-                    if (element.columna == "CAMPUS") {
-                        $scope.properties.dataToSend.lstFiltro.splice(index, 1);
-                        $scope.properties.campusSeleccionado = null;
-                    }
-                }
-            } else {
-                $scope.properties.campusSeleccionado = null;
-            }
-        }
-  
-    }*/
-
     $scope.addFilter = function() {
         if ($scope.filtroCampus != "Todos los campus") {
             $scope.licenciaturas = [];
@@ -540,6 +514,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
   
         return $http(req).success(function(data, status) {
+            debugger;
             $scope.licenciaturas = data;
             $scope.periodos
             // window.open(url, '_blank');
@@ -560,6 +535,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
   
         return $http(req).success(function(data, status) {
+            debugger;
             $scope.periodos  = data.data;
             // window.open(url, '_blank');
         })
@@ -573,6 +549,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
 
     $scope.addFilterLicenciatura = function() {
+        debugger;
         if ($scope.filtroLicenciatura) {
             var filter = {
                 "columna": "LICENCIATURA",
@@ -603,6 +580,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     $scope.addFilterPeriodo = function() {
+        debugger;
         if ($scope.filtroPeriodo) {
             var filter = {
                 "columna": "PERIODO",
@@ -744,7 +722,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.getCatCampus();
-
     
     function downloadFile(_document) {
         blockUI.start();
@@ -756,6 +733,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
+
         blockUI.stop();
     }
     

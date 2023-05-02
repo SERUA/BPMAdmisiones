@@ -16,10 +16,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      */
     function doRequest(method, url, params) {
         vm.busy = true;
+        let data = angular.copy($scope.properties.dataToSend)
+        data.limit = 999999;
+        
         var req = {
             method: method,
             url: url,
-            data: angular.copy($scope.properties.dataToSend),
+            data: data,
             params: params
         };
   

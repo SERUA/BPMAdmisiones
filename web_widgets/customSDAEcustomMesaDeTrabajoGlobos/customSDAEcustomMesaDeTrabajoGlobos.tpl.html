@@ -1,17 +1,18 @@
-<!--<pre>{{-->
-<!--    "Preautorizacion: " + isPreautorizacion + " | " +-->
-<!--    "Becas: " + isBecas + " | " +-->
-<!--    "Comite de becas: " + isComiteBecas + " | " +-->
-<!--    "Artistica: " + isAreaArtistica + " | " +-->
-<!--    "Deportiva: " + isAreDeportiva + " | " +-->
-<!--    "financiamiento: " + isFinanciamiento + " | " +-->
-<!--    "comite financiamiento: " + isComiteFinanzas + " | " +-->
-<!--    "ti campus: " + isTiCampus + " | " +-->
-<!--    "ti serua: " + isTiSerua + " | " +-->
-<!--    "serua: " + isSerua-->
-<!-- }}</pre>-->
 <div class="row" ng-show="hasRole()">
     <div class="col-xs-12 text-center dashboard-baloon-container">
+        
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}" ng-click="redirect('vistageneral', '')" >
+            <div class="text-center">
+                <div class="img-center-widget">
+                    <img class="img-limited" ng-if="(isTiSerua || isSerua || isPreautorizacion)" src="assets/img/Solicitudes vista general.png">
+                    <img class="img-limited" ng-if="!(isTiSerua || isSerua || isPreautorizacion)" src="assets/img/Solicitudes vista general gris.png">
+                </div>
+                <div class="title">
+                    <h4 ng-class="{'color-orange':(isTiSerua || isSerua || isPreautorizacion),'color-gray-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}">Solicitudes vista general</h4>
+                </div>
+            </div>
+        </div>
+
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}" ng-click="redirect('progreso', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -31,7 +32,7 @@
                     <img class="img-limited" ng-if="!(isTiSerua || isSerua || isPreautorizacion)" src="assets/img/solicitud pre autoriza gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isPreautorizacion),'color-gray-disabled' :  !( isTiSerua || isSerua || isPreautorizacion)}">Solicitudes en pre-autorización</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isPreautorizacion),'color-gray-disabled' :  !( isTiSerua || isSerua || isPreautorizacion)}">Solicitudes en pre-autorización (becas)</h4>
                 </div>
             </div>
         </div>
@@ -122,7 +123,7 @@
                     <img class="img-limited" ng-if="!( isTiSerua || isSerua || isFinanciamiento)" src="assets/img/solicitudes archivadas 2 gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isSerua || isFinanciamiento)}">Solicitudes en financiamiento educativo</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isSerua || isFinanciamiento)}">Solicitudes en pre-autorización (financiamiento educativo)</h4>
                 </div>
             </div>
         </div>
@@ -157,6 +158,18 @@
                 </div>
                 <div class="title">
                     <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento)}">Solicitudes en cierre (Financiamiento educativo)</h4>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas),'balloon-container-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas)}" ng-click="redirect('apoyosotorgados', '')" >
+            <div class="text-center">
+                <div class="img-center-widget">
+                    <img class="img-limited" ng-if="( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas)" src="assets/img/Apoyos otorgados.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas)" src="assets/img/Apoyos otorgados gris.png">
+                </div>
+                <div class="title">
+                    <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas),'color-gray-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas)}">Apoyos educativos otorgados</h4>
                 </div>
             </div>
         </div>

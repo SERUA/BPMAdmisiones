@@ -46,7 +46,15 @@ function($scope, $http, blockUI) {
 
     $scope.redirect = function (_param, filtro) {
 
-        if (_param === "progreso") {
+        if (_param === "vistageneral") {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
+                window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaMaestra/";
+            }
+        } else if (_param === "apoyosotorgados") {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
+                window.top.location.href = "/bonita/apps/administrativo/bandejaFinalizadas/";
+            }
+        } else if (_param === "progreso") {
             if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
                 window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaEnProgreso/";
             }
@@ -99,7 +107,7 @@ function($scope, $http, blockUI) {
             if ($scope.isComiteFinanzas || $scope.isFinanciamiento || $scope.isTiSerua || $scope.isSerua) {
                 window.top.location.href = "/bonita/apps/administrativo/archivoSolicitudesCompletadasFin/";
             }
-        } 
+        }
     };
 
 
