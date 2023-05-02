@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEArchivoSolicitudesCompletadas",
   "name" : "SDAEArchivoSolicitudesCompletadas",
-  "lastUpdate" : 1682625473794,
+  "lastUpdate" : 1683046137164,
   "rows" : [
     [
       {
@@ -437,7 +437,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<br>Aprobar solicitud<hr>"
+                        "value" : "<br>Enviar a Apoyos educativos otorgados<hr>"
                       },
                       "level" : {
                         "type" : "constant",
@@ -493,7 +493,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<br>\n¿Deseas <b>aprobar</b> la solicitud \n<br>\n<br>"
+                        "value" : "<br>\n¿Deseas <b>enviar</b> la solicitud \n<br>\n<br>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -606,7 +606,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Aprobar solicitud"
+                              "value" : "Enviar solicitud"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -775,13 +775,65 @@
                   "type" : "constant",
                   "value" : false
                 },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Escribe a continuación la razón por la cual vas a Rechazar la solicitud de <b>{{getNombre}}</b> (Máximo 250 caracteres):"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "13a47eee-84dc-4db7-9774-dc7a6ed7c2bd",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
                 "disabled" : {
                   "type" : "constant",
                   "value" : false
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Cancelar"
+                  "value" : "Regresar"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -886,96 +938,8 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Cancelar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "info"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Close modal"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "constant"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      }
-                    },
-                    "reference" : "71239150-a8ca-48cb-9124-abe25c8b2d21",
-                    "hasValidationError" : false,
-                    "id" : "pbButton"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1008,7 +972,7 @@
                       },
                       "assign" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "url" : {
                         "type" : "interpolation"
@@ -1018,7 +982,8 @@
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "contratoRechazar"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -1053,15 +1018,21 @@
                         "type" : "variable"
                       },
                       "objetoBitacora" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "objetoBitacora"
                       },
                       "urlBitacora" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                      },
+                      "taskId" : {
+                        "type" : "expression",
+                        "value" : "taskId"
                       }
                     },
-                    "reference" : "376ae5e1-baf4-4d2d-9aa1-59b8e1fcdde0",
+                    "reference" : "c7d7fbac-6ecd-42bf-80d4-3f914cbe5a10",
                     "hasValidationError" : false,
-                    "id" : "customSDAEFinalizarTareaBit"
+                    "id" : "customSDAEFinalizarTareaBitTask"
                   }
                 ]
               ]
@@ -1721,6 +1692,22 @@
         "    },",
         "    \"isModificarInput\": false",
         "}"
+      ],
+      "exposed" : false
+    },
+    "getNombre" : {
+      "type" : "expression",
+      "value" : [
+        "let output = \"\";",
+        "",
+        "if($data.selectedItem){",
+        "    output += ($data.selectedItem.primernombre + \" \");",
+        "    $data.selectedItem.segundonombre ? output += ($data.selectedItem.segundonombre + \" \") : output += ($data.selectedItem.segundonombre + \" \");",
+        "    output += ($data.selectedItem.apellidopaterno + \" \");",
+        "    $data.selectedItem.apellidomaterno ? output += ($data.selectedItem.apellidomaterno) : output += ($data.selectedItem.apellidomaterno);",
+        "}",
+        "",
+        "return output;"
       ],
       "exposed" : false
     }
