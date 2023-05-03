@@ -75,7 +75,7 @@
                 <td>{{row.fecha | date:'dd/MM/yyyy'}}</td>
                 <td>{{row.horaInicio | date:'HH:mm'}}</td>
                 <td>{{row.horaTermino | date:'HH:mm'}}</td>
-                <td>{{row.estatus}}</td>
+                <td>{{row.estatus + (row.finalizada ? " por administrador" : "") }}</td>
                 <td>{{row.aspirantes}}<br>{{row.aspirantesNoRegistrados}}</td>
                 <td class="text-center">
                     <button class="btn btn-info" ng-disabled="row.estatus === 'Concluidas'" ng-click="getConfiguracionINVP(row)">
@@ -586,8 +586,6 @@
         </div>
     </div>
 </div>
-
-
 
 <div class="modal" tabindex="-1" role="dialog" id="modalEnviarSeleccionados">
     <div class="modal-dialog modal-lg" role="document">

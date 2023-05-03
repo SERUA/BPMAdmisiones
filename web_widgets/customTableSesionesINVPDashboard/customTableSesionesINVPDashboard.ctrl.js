@@ -788,6 +788,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateConfiguracionSesion&p=0&c=10";
     
             $http.post(url, $scope.dataToSend).success(function(_data){
+                $scope.refreshAspirantes();
                 ocultarModal("modalConfiguraciones");
                 swal("Ok", "La configuración se ha guardado correctamente", "success");
             }).error(function(_error){
@@ -838,6 +839,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $http.post(url, $scope.configUsuario).success(function(_data){
                 ocultarModal("modalReagen");
                 // $scope.terminarAspirante();
+                $scope.refreshAspirantes();
                 if($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
                     swal("Ok", "Usuario reagendado", "success");
                 } else {

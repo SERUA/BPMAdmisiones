@@ -598,6 +598,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setAspirantes(rs.getString("registrados_prueba"));
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
+				row.setFinalizada(rs.getBoolean("finalizada"));
 				
 				rows.add(row);
 			}
@@ -850,6 +851,7 @@ public Result getCatPreguntas(String jsonData) {
 				row.setAspirantes(rs.getString("registrados_prueba"));
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
+				row.setFinalizada(rs.getBoolean("finalizada"));
 				
 				rows.add(row);
 			}

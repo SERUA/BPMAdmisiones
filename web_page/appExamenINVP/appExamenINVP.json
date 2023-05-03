@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appExamenINVP",
   "name" : "appExamenINVP",
-  "lastUpdate" : 1681169050252,
+  "lastUpdate" : 1683073755426,
   "rows" : [
     [
       {
@@ -218,6 +218,18 @@
                       "correo" : {
                         "type" : "variable",
                         "value" : "userData.user_name"
+                      },
+                      "objetoSesion" : {
+                        "type" : "variable",
+                        "value" : "objetoSesion"
+                      },
+                      "isTemporal" : {
+                        "type" : "expression",
+                        "value" : "!getidbanner.data[0].idbanner"
+                      },
+                      "idbanner" : {
+                        "type" : "expression",
+                        "value" : "getidbanner.data[0].idbanner"
                       }
                     },
                     "reference" : "7ffa54c1-1801-4b4c-bc35-590d065a1692",
@@ -1330,6 +1342,18 @@
                       "correo" : {
                         "type" : "variable",
                         "value" : "userData.user_name"
+                      },
+                      "objetoSesion" : {
+                        "type" : "variable",
+                        "value" : "objetoSesion"
+                      },
+                      "isTemporal" : {
+                        "type" : "expression",
+                        "value" : "!(getidbanner.data[0].idbanner)"
+                      },
+                      "idbanner" : {
+                        "type" : "expression",
+                        "value" : "getidbanner.data[0].idbanner"
                       }
                     },
                     "reference" : "74180830-176f-459a-9660-2855d13c0e52",
@@ -2435,6 +2459,10 @@
           "campusSeleccionado" : {
             "type" : "variable",
             "value" : "sesion"
+          },
+          "objetoSesion" : {
+            "type" : "variable",
+            "value" : "objetoSesion"
           }
         },
         "reference" : "48f32032-1963-4b42-8c3f-6306b5ea93b5",
@@ -2805,6 +2833,13 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "objetoSesion" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     }
   },

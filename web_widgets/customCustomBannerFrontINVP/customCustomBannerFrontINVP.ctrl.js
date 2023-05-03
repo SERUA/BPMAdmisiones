@@ -81,7 +81,8 @@ function ($scope, modalService, $http) {
     $scope.$watch("properties.cerrarSesion", function(){
         
         if($scope.properties.pageToken === "examen" || $scope.properties.pageToken === "presentar"){  
-            updateterminado();
+            // updateterminado();
+            getTaskInfo();
         }else if($scope.properties.pageToken === "termino"){
             $scope.properties.cerrarSesion = false;
             modalService.close();
@@ -145,7 +146,8 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            getTaskInfo();
+            // getTaskInfo();
+            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
            
@@ -158,15 +160,24 @@ function ($scope, modalService, $http) {
     function getTaskInfo(){
         var req = {
             method: "GET",
-            url: "../API/bpm/task?c=1&p=0&f=assigned_id=" + $scope.properties.userData.user_id
+            url: "../API/bpm/task?c=1&p=0&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
         };
 
         return $http(req)
         .success(function(data, status) {
-            executeTask(data[0].id);
+            let taskid = ""
+            for(let reg of data){
+                debugger;
+                if(reg.assigned_id === $scope.properties.userData.user_id){
+                    taskid = reg.id;
+                    break;
+                }
+            }
+
+            executeTask(taskid);
         })
         .error(function(data, status) {
-           
+            swal("Error", "Ocurrio un problema al obtener los datos de la tarea", "error");
         })
         .finally(function() {
 
@@ -187,13 +198,15 @@ function ($scope, modalService, $http) {
             url: "../API/bpm/userTask/" + _taskid + "/execution",
             data: dataToSend
         };
+        debugger;
 
         return $http(req)
         .success(function(data, status) {
-           window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+            updateterminado()
+            // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
-           
+            swal("Error", "Error al ejecutar la tarea: " + status, "error");
         })
         .finally(function() {
 
