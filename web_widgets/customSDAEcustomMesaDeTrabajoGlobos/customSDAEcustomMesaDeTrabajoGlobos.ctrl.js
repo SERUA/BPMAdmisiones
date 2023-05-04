@@ -1,8 +1,4 @@
 function($scope, $http, blockUI) {
-    // $scope.isBecas = false;
-    // $scope.isPsicologoSup = false;
-    // $scope.isPsicologo = false;
-    // $scope.isPaseDeLista = false;
     $scope.isPreautorizacion = false;
     $scope.isBecas = false;
     $scope.isComiteBecas = false;
@@ -10,10 +6,17 @@ function($scope, $http, blockUI) {
     $scope.isAreDeportiva = false;
     $scope.isFinanciamiento = false;
     $scope.isComiteFinanzas = false;
-
     $scope.isTiCampus = false;
     $scope.isTiSerua = false;
     $scope.isSerua = false;
+
+    $scope.countPreautorizacion = 0;
+    $scope.countArtistica = 0;
+    $scope.countDeportiva = 0;
+    $scope.countComiteBecas = 0;
+    $scope.countCierreBecas = 0;
+    $scope.countPreAutoFina = 0;
+    $scope.countComiteFinanzas = 0;
     
     $scope.hasRole = function(){
         let output = false;
@@ -206,4 +209,74 @@ function($scope, $http, blockUI) {
         })
     }
     $scope.initializeDatosProceso();
+
+    function getDatosPreauto() {
+        let data = {
+            "estatusSolicitud": "'Esperando Pre-Autorización', 'Correcciones realizadas', 'Evaluación artística rechaza', 'Evaluación deportiva rechaza'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countPreautorizacion = _data.totalRegistros;
+            getDatosArtsistica();
+        })
+    }
+
+    getDatosPreauto();
+
+    function getDatosArtsistica() {
+        let data = {
+            "estatusSolicitud": "'Esperando revisión área artistica'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countArtistica =  _data.totalRegistros;
+            getDatosDeportiva()
+        })
+    }
+
+    function getDatosDeportiva() {
+        let data = {
+            "estatusSolicitud": "'Esperando revisión área deportiva'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countDeportiva =  _data.totalRegistros;
+            getDatosComiteBecas();
+        })
+    }
+
+    function getDatosComiteBecas() {
+        let data = {
+            "estatusSolicitud": "'En espera de autorización'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countComiteBecas =  _data.totalRegistros;
+            getDatosCierreBecas();
+        })
+    }
+
+    function getDatosCierreBecas() {
+        let data = {
+            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countCierreBecas =  _data.totalRegistros;
+            getDatosPreautoFina();
+        })
+    }
+
+    function getDatosPreautoFina() {
+        let data = {
+            "estatusSolicitud": "'Solicitud de financiamiento completada', 'Solicitud de financimiento reactivada',  'Modificaciones realizadas'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countPreAutoFina =  _data.totalRegistros;
+            getDatosComiteFinanzas();
+        })
+    }
+    function getDatosComiteFinanzas() {
+        let data = {
+            "estatusSolicitud": "'Solicitud de financiamiento en autorización', 'Solicitud validada por finanzas'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countComiteFinanzas =  _data.totalRegistros;
+        })
+    }
 }

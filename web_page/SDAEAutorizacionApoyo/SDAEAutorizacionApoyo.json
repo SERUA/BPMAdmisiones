@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1682099390575,
+  "lastUpdate" : 1683148501363,
   "rows" : [
     [
       {
@@ -5050,7 +5050,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Inscripción pagada"
+                                      "value" : "Propedéutico o inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -5077,8 +5077,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
@@ -5094,7 +5094,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Fecha límite de inscripción:"
+                                      "value" : "Fecha límite de inscripción o pago de propedéutico:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -5145,8 +5145,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -5162,7 +5162,7 @@
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\"  || objSolicitudDeAdmision[0].catGestionEscolar.isMedicina"
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -6404,7 +6404,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Inscripción pagada"
+                                      "value" : "Propedéutico o inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -6431,8 +6431,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
@@ -6448,7 +6448,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Fecha límite de inscripción:"
+                                      "value" : "Fecha límite de inscripción o pago de propedéutico:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -6499,8 +6499,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -6516,7 +6516,7 @@
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\"  || objSolicitudDeAdmision[0].catGestionEscolar.isMedicina"
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -7557,7 +7557,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Inscripción pagada"
+                                      "value" : "Propedéutico o inscripción pagada"
                                     },
                                     "value" : {
                                       "type" : "variable",
@@ -7584,8 +7584,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
@@ -7601,7 +7601,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Fecha límite de inscripción:"
+                                      "value" : "Fecha límite de inscripción o pago de propedéutico:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -7652,8 +7652,8 @@
                                       "value" : ""
                                     },
                                     "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
+                                      "type" : "expression",
+                                      "value" : "setInscripcionPagada"
                                     },
                                     "required" : {
                                       "type" : "constant",
@@ -7669,7 +7669,7 @@
                                     },
                                     "readOnly" : {
                                       "type" : "expression",
-                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\""
+                                      "value" : "getGestionEscolarSDAE[0].manejaprontopago === \"f\"  || objSolicitudDeAdmision[0].catGestionEscolar.isMedicina"
                                     },
                                     "labelHidden" : {
                                       "type" : "constant",
@@ -9279,7 +9279,7 @@
       "type" : "expression",
       "value" : [
         "let output = true;\r",
-        "debugger;\r",
+        "\r",
         "if(!$data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion){\r",
         "    $data.errorMessage = \"No puedes autorizar el apoyo sin poner valor en el campo 'Porcentaje de beca autorizado'\";\r",
         "    output = false;\r",
@@ -9292,12 +9292,7 @@
         "} else if(!$data.formInputAprobar.autorizacionInput.promedioMinimoAutorizacion){\r",
         "    $data.errorMessage = \"El campo 'Promedio mínimo para conservar el apoyo' no debe ir vacío\";\r",
         "    output = false;\r",
-        "}\r",
-        "// else if(!$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
-        "//     $data.errorMessage = \"El campo 'Fecha límite de inscripción' no debe ir vacío\";\r",
-        "//     output = false;\r",
-        "// }\r",
-        " else if(!$data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion && !$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
+        "} else if(!$data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion && !$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
         "    $data.errorMessage = \"El campo 'Fecha límite de inscripción' no debe ir vacío\";\r",
         "    output = false;\r",
         "}\r",
@@ -9554,9 +9549,14 @@
     "setInscripcionPagada" : {
       "type" : "expression",
       "value" : [
-        "if($data.getBannerInfo){",
-        "    debugger;",
-        "    let value = $data.getBannerInfo.data[0].pago_de_inscripcion === \"SI\";",
+        "if($data.getBannerInfo && $data.objSolicitudDeAdmision){",
+        "    let value = false;",
+        "    if($data.objSolicitudDeAdmision[0].catGestionEscolar.isMedicina){",
+        "        value = $data.getBannerInfo.data[0].pago_de_propedeutico === \"SI\";",
+        "    } else {",
+        "        value = $data.getBannerInfo.data[0].pago_de_inscripcion === \"SI\";",
+        "    }",
+        "    ",
         "    $data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion = value;",
         "    return value;    ",
         "} else {",
