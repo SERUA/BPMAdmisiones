@@ -1601,44 +1601,52 @@ class UsuariosDAO {
 			pstm = con.prepareStatement(Statements.GET_INVP_INSTANCIA);
 			pstm.setString(1, username);
 			rs = pstm.executeQuery();
-			
+			errorLog += "| 1 ";
 			if(rs.next()) {
 				examenReiniciado = rs.getBoolean("examenReiniciado");
+				errorLog += "| 2 " +  rs.getString("examenReiniciado");
 			} else {
+				errorLog += "| 3 ";
 				examenReiniciado = false;
 			}
 			
 			if(examenReiniciado != true) {
+				errorLog += "| 4 ";
 				closeCon = validarConexion();
 				pstm = con.prepareStatement(Statements.GET_TOLERANCIA_BY_USERNAME);
 				pstm.setString(1, username);
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
+					errorLog += "| 5 ";
 					hasTolerance = rs.getBoolean("tienetolerancia");
-//					puedeentrar =  rs.getBoolean("puedeentrar");
 				} else {
+					errorLog += "| 6 ";
 					hasTolerance = false;
 					puedeentrar = false;
 				}
+			} else {
+				errorLog += "| 7 ";
 			}
 			
 			if(hasTolerance != true || examenReiniciado == true) {
+				errorLog += "| 8 ";
 				pstm = con.prepareStatement(Statements.GET_TOLERANCIATEMP_BY_USERNAME);
 				pstm.setString(1, username);
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
+					errorLog += "| 9 ";
 					hasTolerance = rs.getBoolean("tienetolerancia");
-//					puedeentrar = rs.getBoolean("tienetolerancia");
 				} else {
+					errorLog += "| 10 ";
 					hasTolerance = false;
-//					puedeentrar = false;
 				}
 			}
 			
+			errorLog += "| 11 ";
+			
 			data.add(hasTolerance);
-//			data.add(puedeentrar);
 			resultado.setData(data);
 			resultado.setSuccess(true);
 			resultado.setError_info(errorLog);
