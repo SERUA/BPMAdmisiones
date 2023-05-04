@@ -783,8 +783,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         "aplicacion": "",
         "entrada": "",
         "salida": "",
-        "toleranciaminutos": "",
-        "toleranciasalidaminutos": ""
+        "toleranciaminutos": 0,
+        "toleranciasalidaminutos": 0
     }
 
     $scope.aplicacion = "";
@@ -802,7 +802,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
             $http.post(url, $scope.configUsuario).success(function (_data) {
                 ocultarModal("modalReagen");
-                if ($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar") {
+                if ($scope.selectedSesion.estatus === "Concluida" && $scope.selectedAspirante.estatusINVP === "Por iniciar") {
                     swal("Ok", "Usuario reagendado", "success");
                     $scope.refreshAspirantes();
                 } else {
@@ -972,7 +972,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.post(url, dataToSend).success(function (_data) {
             if (_data.success) {
                 $scope.refreshAspirantes();
-                swal("Ok", "Los resultados seleccionados fueron enviados correctamente: " + _data.info, "success");
+                swal("Ok", "Los resultados seleccionados fueron enviados correctamente" , "success");
                 $scope.showModalEnviarSeleccionados(false);
             } else {
                 swal("Algo ha fallado", _data.info, "error");
@@ -1016,4 +1016,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             element.seleccionado = $scope.seleccionarTodosVar;
         });
     }
+    
+    $scope.validarEstatus = function(_enviado, _estatus){
+        let output = ""; 
+        if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
+            output = "Enviado"
+        } else {
+            output = _estatus;
+        }
+
+        return  output;
+    }
+    
 }
