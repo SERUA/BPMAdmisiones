@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1681925958667,
+  "lastUpdate" : 1682725907857,
   "rows" : [
     [
       {
@@ -379,7 +379,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 6,
                         "md" : 6,
                         "lg" : 6
@@ -467,7 +467,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 6,
                         "md" : 6,
                         "lg" : 6
@@ -571,6 +571,9 @@
                         "urlBitacora" : {
                           "type" : "constant",
                           "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                        },
+                        "urlSolicitud" : {
+                          "type" : "constant"
                         }
                       },
                       "reference" : "76c6b091-4ab3-407e-88b7-58275c6f5c36",
@@ -1386,7 +1389,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -1458,7 +1461,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -5319,12 +5322,12 @@
               "rows" : [
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -5335,146 +5338,176 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Anterior"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "info"
-                      },
-                      "wizardLength" : {
-                        "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Anterior"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "errorMessage" : {
-                        "type" : "constant"
-                      },
-                      "messageTitle" : {
-                        "type" : "constant"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "caseId" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
                       }
                     },
-                    "reference" : "fc1eccea-41d2-4950-ad5d-89bddf982b91",
+                    "reference" : "b9f47311-b548-46ee-a75f-2b584fe79ca7",
                     "hasValidationError" : false,
-                    "id" : "customSDAEcustomBtnWizardValidation"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Siguiente"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "wizardLength" : {
-                        "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Siguiente"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : "validar2"
-                      },
-                      "errorMessage" : {
-                        "type" : "expression",
-                        "value" : "errorPaso2"
-                      },
-                      "messageTitle" : {
-                        "type" : "expression",
-                        "value" : "tituloErrorPaso2"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : "formOutputTest"
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : "taskId"
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : "reloadTask"
-                      },
-                      "caseId" : {
-                        "type" : "variable",
-                        "value" : "caseId"
-                      },
-                      "userId" : {
-                        "type" : "expression",
-                        "value" : "userData.user_id"
-                      }
-                    },
-                    "reference" : "f89e5169-7311-4531-bcf7-040c9be6a3b9",
-                    "hasValidationError" : false,
-                    "id" : "customSDAEcustomBtnWizardValidationTask"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 6,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Anterior"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "info"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Anterior"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "errorMessage" : {
+                              "type" : "constant"
+                            },
+                            "messageTitle" : {
+                              "type" : "constant"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "fc1eccea-41d2-4950-ad5d-89bddf982b91",
+                          "hasValidationError" : false,
+                          "id" : "customSDAEcustomBtnWizardValidation"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 6,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Siguiente"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Siguiente"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : "validar2"
+                            },
+                            "errorMessage" : {
+                              "type" : "expression",
+                              "value" : "errorPaso2"
+                            },
+                            "messageTitle" : {
+                              "type" : "expression",
+                              "value" : "tituloErrorPaso2"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : "formOutputTest"
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : "taskId"
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : "reloadTask"
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : "caseId"
+                            },
+                            "userId" : {
+                              "type" : "expression",
+                              "value" : "userData.user_id"
+                            }
+                          },
+                          "reference" : "f89e5169-7311-4531-bcf7-040c9be6a3b9",
+                          "hasValidationError" : false,
+                          "id" : "customSDAEcustomBtnWizardValidationTask"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
@@ -10424,9 +10457,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -10503,9 +10536,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -10617,9 +10650,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -10693,9 +10726,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -11417,9 +11450,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -11496,9 +11529,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -11610,9 +11643,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -11686,9 +11719,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -17698,9 +17731,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -17777,9 +17810,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -17927,9 +17960,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 5,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -18003,9 +18036,9 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
-                      "md" : 6,
+                      "md" : 7,
                       "lg" : 6
                     },
                     "propertyValues" : {
@@ -20230,9 +20263,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 5,
                         "lg" : 6
                       },
                       "propertyValues" : {
@@ -20318,9 +20351,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 7,
                         "lg" : 6
                       },
                       "propertyValues" : {
@@ -21071,9 +21104,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 5,
                         "lg" : 6
                       },
                       "propertyValues" : {
@@ -21159,9 +21192,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 7,
                         "lg" : 6
                       },
                       "propertyValues" : {
@@ -22245,9 +22278,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 5,
                         "lg" : 6
                       },
                       "propertyValues" : {
@@ -22333,9 +22366,9 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 7,
                         "lg" : 6
                       },
                       "propertyValues" : {
