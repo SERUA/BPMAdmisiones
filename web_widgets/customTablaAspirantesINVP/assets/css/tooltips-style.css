@@ -1,12 +1,3 @@
-.hidden{
-    height: 0px;
-}
-
-.row-margin-in{
-    margin-left: 2px !important;
-    margin-right: 2px !important;
-}
-
 button.tooltips-info[data-tooltip] {
   position: relative;
 }
@@ -17,7 +8,7 @@ button.tooltips-info[data-tooltip]::before {
   top: -30px;
   left: 50%;
   transform: translateX(-50%);
-  background-color: #CDB9EF;
+  background-color: #CDB9EF !important;
   color: black;
   padding: 5px 10px;
   font-size: 10px;
@@ -28,6 +19,7 @@ button.tooltips-info[data-tooltip]::before {
   visibility: hidden;
   opacity: 0;
   transition: visibility 0s, opacity 0.3s ease-in-out;
+  z-index: 9999;
 }
 
 button.tooltips-info[data-tooltip]:hover::before {
@@ -51,8 +43,10 @@ button.tooltips-info[data-tooltip]::after {
 button.tooltips-info[data-tooltip]:hover::after {
   visibility: visible;
   opacity: 1;
-} 
+}
 
-.btn.disabled[data-tooltip]:after {
-  display: none;
+.tooltip {
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
