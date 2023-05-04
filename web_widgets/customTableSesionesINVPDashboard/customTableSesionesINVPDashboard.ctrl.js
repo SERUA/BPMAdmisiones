@@ -1,5 +1,5 @@
 function PbTableCtrl($scope, $http, $window, blockUI) {
-
+    
     $scope.navVar = "main";
     $scope.idiomaTodos = "";
     
@@ -938,4 +938,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshSesiones = function(){
         doRequest("POST", $scope.properties.urlPost);
     }
+    
+    
+    
 }
