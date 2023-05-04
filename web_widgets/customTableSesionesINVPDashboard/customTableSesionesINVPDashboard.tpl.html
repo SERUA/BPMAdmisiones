@@ -80,12 +80,12 @@
                 <!--<td>{{row.idioma}}</td>-->
                 <td class="text-center">
                     <button class="btn btn-info"
-        ng-class="{'tooltips-info': row.estatus !== 'Concluidas'}"
-        ng-attr-data-tooltip="{{row.estatus !== 'Concluidas' ? 'Configuración' : ''}}"
-        ng-disabled="row.estatus === 'Concluidas'"
-        ng-click="getConfiguracionINVP(row)">
-  <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-</button>
+                        ng-class="{'tooltips-info': row.estatus !== 'Concluida'}"
+                        ng-attr-data-tooltip="{{row.estatus !== 'Concluida' ? 'Configuración' : ''}}"
+                        ng-disabled="row.estatus === 'Concluida'"
+                        ng-click="getConfiguracionINVP(row)">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
                     <button class="btn btn-default tooltips-info" data-tooltip="Detalles" ng-click="verSesion(row)">
                         <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                     </button>
@@ -128,7 +128,7 @@
        
     </div>
     <div class="row row-margin-in">
-        <div class="col-xs-8">
+        <div class="col-xs-12">
             <div class="row">
                 <div class="col-xs-6">Nombre de sesión: <label>{{selectedSesion.nombreSesion}}</label><br></div>
                 <div class="col-xs-6">Descripción: <label>{{selectedSesion.sesion}}</label><br></div>
@@ -138,32 +138,15 @@
                 <div class="col-xs-6">Aspirantes: <label>{{selectedSesion.aspirantes}}</label><br></div>
             </div>
             <div class="row">
-                <div class="col-xs-6">Fecha y hora de inicio: <label>{{selectedSesion.fecha | date:'dd/MM/yyyy'}} {{selectedSesion.horaInicio}}</label><br></div>
-                <div class="col-xs-6">Estatus sesión: <label>{{selectedSesion.estatus === 'Concluidas' ? 'Concluida' : selectedSesion.estatus}}</label><br></div>
+                <div class="col-xs-6">
+                    Fecha y hora de inicio: <label>{{selectedSesion.fecha | date:'dd/MM/yyyy'}} {{selectedSesion.horaInicio}}</label><br>
+                    Finaliza a las: <label>{{ selectedSesion.horaTermino }}</label>
+                </div>
+                <div class="col-xs-6">Estatus sesión: <label>{{ selectedSesion.estatus }}</label><br></div>
 
             </div>
         </div>
-        <div class="col-xs-4">
-            <div class="row">
-                <div class="col-xs-6">
-                    <button type="button"  class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
-                        <span class="glyphicon glyphicon-time " ></span>
-                    </button> &nbsp; <br> 
-                    <button type="button" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
-                        <span class="glyphicon glyphicon-time"></span>
-                    </button> &nbsp; 
-                </div>
-                <div class="col-xs-6">
-                    <button type="button" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
-                        <span class="glyphicon glyphicon-lock"></span>
-                    </button> &nbsp; <br> 
-                    <button type="button" disabled class="btn btn-default">
-                        <span class="glyphicon glyphicon-lock"></span>
-                    </button> &nbsp; 
-                </div>
-            </div>
-        </div>
-       <hr> 
+        <hr> 
     </div>
     <div class="row">
         <div class="col-xs-4">
@@ -175,13 +158,16 @@
             <h4 class="color-orange">Aspirantes en sesión</h4>
         </div>
         <div class="col-xs-4 text-right" style="padding-right: 30px;">
-            <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">
+            <button ng-hide="selectedSesion.estatus === 'Concluida'" type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">
                 Cambiar idioma para todos
             </button>
             &nbsp;
-            <button ng-disabled="selectedSesion.estatus === 'Concluidas'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
+            <button ng-hide="selectedSesion.estatus === 'Concluida'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
                 Terminar todos <span class="glyphicon glyphicon-time"></span>
             </button>
+            <button ng-hide="selectedSesion.estatus != 'Concluida'" type="button" ng-click="generarListaEnvios(true)" class="button-margin btn btn-success">
+                Envío de resultados <span class="glyphicon glyphicon-send"></span>
+            </button> 
             <br>
         </div>
         <div class="col-xs-12">
@@ -263,28 +249,31 @@
                                 {{row.termino | date:'dd/MM/yyyy hh:mm'}}<br>
                                 {{row.tiempo}}
                             </td>
-                            <td>{{row.estatusINVP}}</td>
+                            <!-- <td>{{row.estatusINVP}}</td> -->
+                            <td>{{ validarEstatus(row.resultadoEnviado, row.estatusINVP) }}</td>
                             <td>
-                                <button ng-disabled="selectedSesion.estatus === 'Concluidas' && row.estatusINVP === 'Prueba finalizada'"  type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
+                                <button ng-if="!row.resultadoEnviado" ng-disabled="selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Prueba finalizada'"  type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
                                     <label>{{row.idioma}}</label>
                                 </button>
                             </td>    
                             <td class="text-center ">
-                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  
+                                    ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-                                <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" ng-if="row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada'" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
+                                <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
+                                    ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-                                <button ng-if="(selectedSesion.estatus === 'Concluidas' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
+                                <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
 
 
-                                <button  ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
+                                <button  ng-if="row.usuarioBloqueado && !row.resultadoEnviado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
-                                <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
+                                <button ng-if="!row.usuarioBloqueado || row.resultadoEnviado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
 
@@ -360,7 +349,6 @@
         <div class="modal-body">
             <p ng-if="selectedAspirante.idioma === 'ENG'">¿Estás seguro(a) que deseas cambiar el idioma de aspirante a <b>ESPAÑOL</b>?</p>
             <p ng-if="selectedAspirante.idioma === 'ESP'">¿Estás seguro(a) que deseas cambiar el idioma de aspirante a <b>INGLÉS</b>?</p>
-            <!--<pre>{{ selectedAspirante | json }}</pre>-->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
@@ -380,7 +368,6 @@
             </button>
         </div>
         <div class="modal-body">
-            <!--<p>¿Estás seguro(a) que deseas <b>reactivar</b> la sesión del aspirante?.</p>-->
             <p>Para reaactivar al aspirante tienes que llenar la siguiente información</p>
             <div class="row">
                 <div class="col-xs-6"> 
@@ -430,7 +417,6 @@
                 <option value="ESP">Español</option>
                 <option value="ENG">Inglés</option>
             </select>
-            <!--<pre>{{ selectedAspirante | json }}</pre>-->
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
@@ -504,7 +490,6 @@
             </button>
         </div>
         <div class="modal-body">
-            <!--<p>¿Estás seguro(a) que deseas <b>reactivar</b> la sesión del aspirante?.</p>-->
             <p>Para reaactivar al aspirante tienes que llenar la siguiente información</p>
             <div class="row">
                 <div class="col-xs-6"> 
@@ -558,13 +543,6 @@
                     <div class="col-xs-6"> 
                         Hr.fin: <label>{{selectedAspirante.tempsalida}}</label>
                     </div>
-                    <!-- <div class="col-xs-6"> 
-                        Tolerancia entrada: <label>{{selectedAspirante.temptoleranciaentrada}} minutos</label>
-                    </div>
-                    <div class="col-xs-6"> 
-                        Tolerancia salida: <label>{{selectedAspirante.temptoleranciaSalida}} minutos</label>
-                    </div> -->
-
                     <div class="col-xs-12">
                         <div class="row">
                             <div class="col-xs-6"> 
@@ -629,6 +607,57 @@
                 <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Actualizar tolerancia</button>
                 <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Actualizar tolerancia</button>
             </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modalEnviarSeleccionados">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">Enviar resultados del INVP</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-xs-12 text-center">
+                    Aspirantes listos para el envío de resultados
+                </div>
+                <div class="col-xs-12">
+                    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+                        <thead>
+                            <tr>
+                                <th><input type="checkbox" ng-model="seleccionarTodosVar" ng-change="seleccionarTodos()"/></th>
+                                <th>Id Banner</th>
+                                <th>Nombre</th>
+                                <th>Correo electrónico</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="row in aspirantesEnvio">
+                                <td>
+                                    <input type="checkbox" ng-model="row.seleccionado" >
+                                </td>
+                                <td>
+                                    <b>{{row.idbanner ? row.idbanner : "N/A"}}</b>
+                                    <br>{{row.idBpm}} 
+                                </td> 
+                                <td>{{row.nombre}}</td>
+                                <td>
+                                    {{row.username}}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+            <button type="button" class="btn btn-primary" ng-click="enviarSeleccionados()">Enviar resultados</button>
+        </div>
         </div>
     </div>
 </div>

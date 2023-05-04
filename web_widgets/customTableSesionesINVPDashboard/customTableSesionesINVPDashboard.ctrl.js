@@ -788,7 +788,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateConfiguracionSesion&p=0&c=10";
     
             $http.post(url, $scope.dataToSend).success(function(_data){
-                $scope.refreshAspirantes();
+                // $scope.refreshAspirantes();
                 ocultarModal("modalConfiguraciones");
                 swal("Ok", "La configuración se ha guardado correctamente", "success");
             }).error(function(_error){
@@ -820,8 +820,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         "aplicacion": "",
         "entrada": "",
         "salida": "",
-        "toleranciaminutos": "",
-        "toleranciasalidaminutos": ""
+        "toleranciaminutos": 0,
+        "toleranciasalidaminutos": 0
     }
     
     $scope.aplicacion = "";
@@ -840,7 +840,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 ocultarModal("modalReagen");
                 // $scope.terminarAspirante();
                 $scope.refreshAspirantes();
-                if($scope.selectedSesion.estatus === "Concluidas" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
+                if($scope.selectedSesion.estatus === "Concluida" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
                     swal("Ok", "Usuario reagendado", "success");
                 } else {
                     $scope.terminarAspirante();
@@ -938,7 +938,77 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshSesiones = function(){
         doRequest("POST", $scope.properties.urlPost);
     }
-    
-    
-    
+
+    $scope.enviarSeleccionados = function () {
+        var dataToSend = [];
+        $scope.aspirantesEnvio.forEach((element) => {
+            if (element.seleccionado) {
+                dataToSend.push({
+                    "username": element.username,
+                    "sesion": $scope.selectedSesion.idSesion,
+                    "idbanner": element.idbanner
+                });
+            }
+        });
+
+        let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
+
+        $http.post(url, dataToSend).success(function (_data) {
+            if (_data.success) {
+                $scope.refreshAspirantes();
+                swal("Ok", "Los resultados seleccionados fueron enviados correctamente.", "success");
+                $scope.showModalEnviarSeleccionados(false);
+            } else {
+                swal("Algo ha fallado", _data.info, "error");
+            }
+        }).error(function (_error) {
+            swal("Algo ha fallado", _error.info, "error");
+        });
+    }
+
+
+    $scope.generarListaEnvios = function () {
+        cargarLista();
+        $scope.showModalEnviarSeleccionados(true);
+    }
+
+    function cargarLista(){
+        $scope.aspirantesEnvio = [];
+        $scope.aspirantes.forEach((element) => {
+            if (element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
+                $scope.aspirantesEnvio.push({
+                    "username": element.correoElectronico,
+                    "sesion": $scope.selectedSesion.idSesion,
+                    "idbanner": element.idBanner,
+                    "nombre": element.nombre,
+                    "idBpm": element.idBpm
+                });
+            }
+        });
+    }
+
+    $scope.showModalEnviarSeleccionados = function (_show) {
+        if (_show) {
+            $("#modalEnviarSeleccionados").modal("show");
+        } else {
+            $("#modalEnviarSeleccionados").modal("hide");
+        }
+    }
+
+    $scope.seleccionarTodos = function () {
+        $scope.aspirantesEnvio.forEach((element) => {
+            element.seleccionado = $scope.seleccionarTodosVar;
+        });
+    }
+
+    $scope.validarEstatus = function(_enviado, _estatus){
+        let output = ""; 
+        if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
+            output = "Enviado"
+        } else {
+            output = _estatus;
+        }
+
+        return  output;
+    }
 }
