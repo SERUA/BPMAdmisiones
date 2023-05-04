@@ -147,7 +147,6 @@ class LoginSesionesDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				
 				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
 				row.setNombre_sesion(rs.getString("nombresesion"));
