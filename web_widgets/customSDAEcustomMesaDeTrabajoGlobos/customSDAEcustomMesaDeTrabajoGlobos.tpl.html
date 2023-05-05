@@ -1,6 +1,5 @@
 <div class="row" ng-show="hasRole()">
     <div class="col-xs-12 text-center dashboard-baloon-container">
-        
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}" ng-click="redirect('vistageneral', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -12,7 +11,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}" ng-click="redirect('progreso', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -24,7 +22,6 @@
                 </div>
             </div>
         </div>
-        
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isSerua || isPreautorizacion)}" ng-click="redirect('preauto', '')" >
             <div class="text-center position-relative">
                 <div class="img-center-widget">
@@ -40,7 +37,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':( isTiSerua || isSerua || isAreaArtistica),'balloon-container-disabled' :  !( isTiSerua || isSerua || isAreaArtistica)}" ng-click="redirect('artistica', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -71,7 +67,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':( isTiSerua || isSerua || isBecas),'balloon-container-disabled' :  !( isTiSerua || isSerua || isBecas)}" ng-click="redirect('esperapago', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -124,7 +119,6 @@
                 </div>
             </div>
         </div>
-
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isSerua || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isSerua || isFinanciamiento)}" ng-click="redirect('iniciadasaval', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -177,19 +171,20 @@
                 </div>
             </div>
         </div>
-        
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento)}" ng-click="redirect('cierrefinan', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
                     <img class="img-limited" ng-if="( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento)" src="assets/img/solicitudes en cierre financia.png">
                     <img class="img-limited" ng-if="!( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento)" src="assets/img/solicitudes en cierre financia gris.png">
+                    <div class="notification-container">
+                        <p ng-if="( isTiSerua || isSerua || isComiteFinanzas)" ng-class="{'text-light':countCierreFinanzas > 0}" class="text-baloon">{{countCierreFinanzas}}</p>
+                    </div>
                 </div>
                 <div class="title">
                     <h4 ng-class="{'color-orange':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento)}">Solicitudes en cierre (Financiamiento educativo)</h4>
                 </div>
             </div>
         </div>
-
         <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas),'balloon-container-disabled' :  !( isTiSerua || isSerua || isComiteFinanzas || isFinanciamiento || isBecas)}" ng-click="redirect('apoyosotorgados', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
@@ -201,6 +196,5 @@
                 </div>
             </div>
         </div>
-        
     </div>
 </div>

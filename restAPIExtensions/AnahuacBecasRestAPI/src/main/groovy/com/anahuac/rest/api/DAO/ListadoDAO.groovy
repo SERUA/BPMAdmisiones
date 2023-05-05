@@ -3028,4 +3028,43 @@ class ListadoDAO {
 
 		return resultado;
 	}
+	
+	
+	public Result getPAAByIdBanner(String idbanner, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		Map <String, Object> row = new HashMap <String, Object>();
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER);
+			pstm.setString(1, idbanner);
+			
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				row = new HashMap <String, Object>();
+				
+				row.put("paan", rs.getString("paan"));
+				row.put("paav", rs.getString("paav"));
+				row.put("para", rs.getString("para"));
+				row.put("total", rs.getString("total"));
+				
+				rows.add(row);
+			} 
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	} 
 }

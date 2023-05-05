@@ -17,6 +17,7 @@ function($scope, $http, blockUI) {
     $scope.countCierreBecas = 0;
     $scope.countPreAutoFina = 0;
     $scope.countComiteFinanzas = 0;
+    $scope.countCierreFinanzas = 0;
     
     $scope.hasRole = function(){
         let output = false;
@@ -271,12 +272,23 @@ function($scope, $http, blockUI) {
             getDatosComiteFinanzas();
         })
     }
+
     function getDatosComiteFinanzas() {
         let data = {
             "estatusSolicitud": "'Solicitud de financiamiento en autorización', 'Solicitud validada por finanzas'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
             $scope.countComiteFinanzas =  _data.totalRegistros;
+            getDatosCierreFinanzas();
+        })
+    }
+
+    function getDatosCierreFinanzas() {
+        let data = {
+            "estatusSolicitud": "'Propuesta financiamiento aceptada por aspirante'"
+        };
+        doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            $scope.countCierreFinanzas =  _data.totalRegistros;
         })
     }
 }

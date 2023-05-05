@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1683148501363,
+  "lastUpdate" : 1683321826405,
   "rows" : [
     [
       {
@@ -712,6 +712,10 @@
                 "isArtisticaOrDeportiva" : {
                   "type" : "constant",
                   "value" : false
+                },
+                "getPAA" : {
+                  "type" : "expression",
+                  "value" : "getPAA[0]"
                 }
               },
               "reference" : "e6a2e377-66f1-4435-8878-67bf51e351dc",
@@ -9563,6 +9567,14 @@
         "    return false;",
         "}"
       ],
+      "exposed" : false
+    },
+    "getPAA" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getPAAByIdBanner&p=0&c=10&idbanner={{getDatosSolicitante[0].idAlumno}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

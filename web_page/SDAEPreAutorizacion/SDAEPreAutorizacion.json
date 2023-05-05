@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEPreAutorizacion",
   "name" : "SDAEPreAutorizacion",
-  "lastUpdate" : 1682615795437,
+  "lastUpdate" : 1683162426279,
   "rows" : [
     [
       {
@@ -525,6 +525,10 @@
                 "isArtisticaOrDeportiva" : {
                   "type" : "constant",
                   "value" : false
+                },
+                "getPAA" : {
+                  "type" : "expression",
+                  "value" : "getPAA[0]"
                 }
               },
               "reference" : "2b3e84f1-1deb-49a1-99bc-ac7fbe14445e",
@@ -6728,6 +6732,14 @@
         "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getPAA" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getPAAByIdBanner&p=0&c=10&idbanner={{getDatosSolicitante[0].idAlumno}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
