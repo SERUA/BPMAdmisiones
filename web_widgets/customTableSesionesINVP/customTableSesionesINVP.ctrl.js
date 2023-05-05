@@ -118,26 +118,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest("POST", $scope.properties.urlPost);
     }
 
-
-    // function getAspirantesSesion(_idsesion){
-    //     let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantes&p=0&c=10";
-    //     $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
-    //     $scope.dataToSend.lstFiltro = [{
-    //         "columna":"id_sesion",
-    //         "valor": _idsesion + ""
-    //     }];
-
-    //     $http.post(url, $scope.dataToSend).success(function(_data){
-    //         $scope.aspirantes = _data.data;
-    //         $scope.valueAsp = _data.totalRegistros;
-    //         $scope.loadPaginadoAsp();
-    //         // $("#modalAspirantesSesion").modal("show");
-    //         $scope.properties.navigationVar = "aspirantesEnSesion";
-    //     }).error(function(_err){
-    //         swal("Error", _err.mensajeError, "error");
-    //     })
-    // }
-
     function getAspirantesSesion(_idsesion) {
         let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
@@ -150,7 +130,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.aspirantes = _data.data;
             $scope.valueAsp = _data.totalRegistros;
             $scope.loadPaginadoAsp();
-            // $("#modalAspirantesSesion").modal("show");
             $scope.properties.navigationVar = "aspirantesEnSesion";
         }).error(function (_err) {
             swal("Error", _err.mensajeError, "error");
@@ -374,7 +353,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.campusByUser = function () {
         var resultado = [];
-        // var isSerua = true;
         resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
@@ -389,9 +367,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         }
-        // if(isSerua){
-        //     resultado.push("Todos los campus")
-        // }
+
         $scope.lstCampusByUser = resultado;
     }
 
@@ -561,9 +537,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         $http.post(url).success(function (_data) {
             getUserInfo($scope.selectedAspirante.correoElectronico, $scope.selectedAspirante.caseidINVP);
-            // ocultarModal("modalTerminar");
-            // swal("Ok", "Usuario terminado", "success");
-            // getAspirantesSesion($scope.selectedSesion.idSesion);
         }).error(function (_error) {
 
         });
@@ -628,7 +601,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function getTaskInfo(_caseid) {
-        // let url = "../API/bpm/task?c=10&p=0&f=name=Examen%20INVP&f=caseId=" + _caseid;
         let url = "../API/bpm/task?c=10&p=0&f=caseId=" + _caseid;
 
         $http.get(url).success(function (_data) {
@@ -678,7 +650,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         });
     }
 
-    // 
     $scope.insertUpdateIidiomaUsuarioTodos = function () {
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
         $scope.dataToSend.lstFiltro = [{
@@ -792,7 +763,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.salida = "";
 
     $scope.insertUpdateUsuarioNuevaConfig = function (_action) {
-
         if (validarConfig()) {
             if (_action === "temp") {
                 $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
@@ -1027,5 +997,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return  output;
     }
-    
+
+    $scope.terminarAspiranteTodos = function(){
+        let url = "../API/extension/AnahuacINVPRestAPI?url=terminarTodos&p=0&c=10&idsesion=" + $scope.selectedSesion.idSesion;
+        $http.post(url).success(function(_data){
+            ocultarModal("modalTerminarTodos");
+            swal("Ok", "La sesión ha terminado para todos los usuarios.", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }).error(function(_error){
+            swal("Algo ha fallado", "Ha ocurrido un error al terminar la sesión para todos los aspirantes en proceso. Intente de nuevo mas tarde", "error");
+        });
+    }
 }

@@ -309,19 +309,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }).error(function(_error){
             swal("Algo ha fallado", "Ha ocurrido un error al terminar la sesión para todos los aspirantes en proceso. Intente de nuevo mas tarde", "error");
         });
-
-        // let aspirantes = angular.copy($scope.aspirantes);
-        // for(let aspirante of aspirantes){
-        //     if(aspirante.estatusINVP === "Examen iniciado" || aspirante.estatusINVP === "Examen reactivado"){
-        //         let url = "../API/extension/AnahuacINVPRestAPI?url=bloquearAspirante&p=0&c=10&username=" + aspirante.correoElectronico;
-
-        //         $http.post(url).success(function(_data){
-        //             getUserInfo(aspirante.correoElectronico, aspirante.caseidINVP);
-        //         }).error(function(_error){
-
-        //         });
-        //     }
-        // }
     }
 
     $scope.isenvelope = false;
