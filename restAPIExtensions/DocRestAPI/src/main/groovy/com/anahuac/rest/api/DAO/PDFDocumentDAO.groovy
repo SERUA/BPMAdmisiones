@@ -11,6 +11,8 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.time.LocalDate
 import java.time.Period
+import java.text.NumberFormat
+import java.text.ParseException
 
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
@@ -939,12 +941,12 @@ class PDFDocumentDAO {
 				columns.put("parentescoAval", "");
 				columns.put("telefonoAval", rs.getString("avaltelefono"));
 				columns.put("emailPersonalAval", rs.getString("avalemail"));
-				columns.put("ingresoMensual", rs.getString("ingresomensual"));
+				columns.put("ingresoMensual", formatCurrency(rs.getString("ingresomensual")));
 				columns.put("provenienteDe", rs.getString("provenientede"));
-				columns.put("otroIngreso", rs.getString("otroingreso"));
-				columns.put("ingresoMensualTotal", rs.getString("ingresomensualtotal"));
-				columns.put("egresoMensualTotal", rs.getString("egresomensualtotal"));
-				columns.put("saldoMensual", rs.getString("saldomensual"));
+				columns.put("otroIngreso", formatCurrency(rs.getString("otroingreso")));
+				columns.put("ingresoMensualTotal", formatCurrency(rs.getString("ingresomensualtotal")));
+				columns.put("egresoMensualTotal", formatCurrency(rs.getString("egresomensualtotal")));
+				columns.put("saldoMensual", formatCurrency(rs.getString("saldomensual")));
 				columns.put("paisDomicilioAval", rs.getString("avaldomiciliopais"));
 				columns.put("cpDomicilioAval", rs.getString("avaldomiciliocp"));
 				columns.put("estadoDomicilioAval", rs.getString("avaldomicilioestado"));
@@ -1054,7 +1056,7 @@ class PDFDocumentDAO {
 				referenciaBancariaAval.put("banco", rs.getString("banco"));
 				referenciaBancariaAval.put("tipoCuenta", rs.getString("tipocuenta"));
 				referenciaBancariaAval.put("numeroCuenta", rs.getString("numerocuenta"));
-				referenciaBancariaAval.put("saldoPromedio", rs.getString("saldopromedio"));
+				referenciaBancariaAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
 				lstReferenciasBancariasAval.add(referenciaBancariaAval);
 			}
 			JRBeanCollectionDataSource referenciasBancarias = new JRBeanCollectionDataSource(lstReferenciasBancariasAval);
@@ -1073,7 +1075,7 @@ class PDFDocumentDAO {
 				referenciaCreditoAval.put("banco", rs.getString("banco"));
 				referenciaCreditoAval.put("tipoCuenta", rs.getString("tipocuenta"));
 				referenciaCreditoAval.put("numeroCuenta", rs.getString("numerocuenta"));
-				referenciaCreditoAval.put("saldoPromedio", rs.getString("saldopromedio"));
+				referenciaCreditoAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
 				lstReferenciasCreditoAval.add(referenciaCreditoAval);
 			}
 			JRBeanCollectionDataSource referenciasCredito = new JRBeanCollectionDataSource(lstReferenciasCreditoAval);
@@ -1345,6 +1347,8 @@ class PDFDocumentDAO {
 				columns.put("casaDondeVives", rs.getString("casadondevives"));
 				columns.put("valorAproxCasa", formatCurrency(rs.getString("valoraproxcasa")));
 				columns.put("construccionM2Casa", rs.getString("contruccionm2casa"));
+				columns.put("motivoBeca", rs.getString("motivoBeca"));
+				columns.put("cantMensualPagarUni", formatCurrency(rs.getString("cantMensualPagarUni")));
 				columns.put("ingresoPadre", formatCurrency(rs.getString("ingresopadre")));
 				columns.put("ingresoMadre", formatCurrency(rs.getString("ingresomadre")));
 				columns.put("ingresoHermano", formatCurrency(rs.getString("ingresohermano")));
@@ -1419,7 +1423,7 @@ class PDFDocumentDAO {
 				hermano.put("apellidos", rs.getString("apellidos"));
 				hermano.put("edad", rs.getString("edad"));
 				hermano.put("isestudia", rs.getBoolean("isestudia") ? "Sí": "No");
-				hermano.put("colegiaturamensual", rs.getString("colegiaturamensual"));
+				hermano.put("colegiaturamensual", formatCurrency(rs.getString("colegiaturamensual")));
 				hermano.put("institucion", rs.getString("institucion"));
 				hermano.put("istienebeca", rs.getBoolean("istienebeca") ? "Sí": "No");
 				hermano.put("porcentajebecaasignado", rs.getString("porcentajebecaasignado"));
@@ -1511,11 +1515,33 @@ class PDFDocumentDAO {
 		return resultado
 	}
 	
-	private String formatCurrency(String input) {
+	/*private String formatCurrency(String input) {
 		if(input.equals("")) {
 			return "";
 		} else {
 			return "\$ " + input + ".00";
 		}
+	}*/
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+		NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+		// Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+		String numeroFormateado = null;
+		if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+			numeroFormateado = formatoMoneda.format(valor);
+		} else if (valor instanceof String) {
+			try {
+				Number numero = NumberFormat.getInstance().parse((String) valor);
+				numeroFormateado = formatoMoneda.format(numero);
+			} catch (ParseException e) {
+				// Manejar cualquier excepción de análisis aquí
+				e.printStackTrace();
+			}
+		}
+
+		// Retornar el valor formateado o una cadena vacía si no se pudo formatear
+		return numeroFormateado != null ? numeroFormateado : "";
 	}
 }
