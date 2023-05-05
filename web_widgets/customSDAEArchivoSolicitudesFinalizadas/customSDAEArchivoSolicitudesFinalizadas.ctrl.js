@@ -11,17 +11,15 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
     this.selectRow = function(row) {
         $scope.properties.selectedRow = row;
-        getTaskInfo(row.caseid);
+        // getTaskInfo(row.caseid);
     };
     
     function getTaskInfo(_caseId){
         let url = "../API/bpm/humanTask?c=100&p=0&f=parentCaseId=" + _caseId;
         $http.get(url).success(function(data){
-            debugger;
             $scope.task = data[0];
             $scope.properties.taskId = data[0].id;
         }).error(function(err){
-            debugger;
             console.log(err);
         });
     }
@@ -62,7 +60,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
         
         return $http(req).success(function(data, status) {
-            debugger;
             _rowData.taskId = data[0].id;
             _rowData.taskName = data[0].name;
             _rowData.processId = data[0].processId;
@@ -634,6 +631,77 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
         }
     }
+    
+    $scope.addFilterBecaFina = function() {
+        if ($scope.filtroBeca) {
+            var filter = {
+                "columna": "T-BECA",
+                "operador": "Que contengan",
+                "valor": $scope.filtroBeca
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-BECA") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroBeca;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            var encontrado = false;
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-BECA") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+
+        if ($scope.filtroFinanciamiento) {
+            var filter = {
+                "columna": "T-FINAN",
+                "operador": "Que contengan",
+                "valor": $scope.filtroFinanciamiento
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-FINAN") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroFinanciamiento;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-FINAN") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+    }
 
     $scope.sizing = function() {
         $scope.lstPaginado = [];
@@ -676,4 +744,66 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.getCatCampus();
+
+    
+    function downloadFile(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "solicitud_de_apoyo_educativo.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+    
+    
+    $scope.downloadFile = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfSolicitudApoyo&p=0&c=1&email=" + _email + "&caseid=" + _caseId;
+        $http.post(url, {}).success(function(success){
+            downloadFile(success.data[0]); 
+        }).error(function(err){
+           swal("Error", "No se ha podido generar el archivo, intentelo de nuevo mas tarde.", "error");
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
+    function downloadFileF(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "Información del aval.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+
+    $scope.downloadFileF = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfDatosAval&p=0&c=1&email=" + _email;
+        $http.post(url, {}).success(function(success){
+            downloadFileF(success.data[0]); 
+        }).error(function(err){
+            
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
+    $scope.abrirSolicitud = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verSolicitud/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
+    
+    $scope.abrirSolicitudF = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verFinanciamiento/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
 }
