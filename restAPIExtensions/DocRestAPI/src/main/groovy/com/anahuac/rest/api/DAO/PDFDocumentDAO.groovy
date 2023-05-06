@@ -1229,8 +1229,11 @@ class PDFDocumentDAO {
 			pstm.setString(1, email);
 			rs = pstm.executeQuery();
 			Map < String, Object > columns = new HashMap < String, Object > ();
-			
+			Boolean tienePAA = false;
+			String resultadoPAA = "";
 			while (rs.next()) {
+				tienePAA = rs.getBoolean("tienepaa");
+				resultadoPAA = rs.getString("resultadopaa");
 				String urlFoto = rs.getString("urlfoto");
 				String nombre = rs.getString("primernombre");
 				String preparatoria = rs.getString("preparatoria")// ? rs.getString("preparatoria") : rs.getString("otraprepa");
@@ -1491,6 +1494,11 @@ class PDFDocumentDAO {
 				columns.put("n", rs.getString("paan"));
 				columns.put("rj", rs.getString("para"));
 				columns.put("total", rs.getString("total"));
+			} else  if(tienePAA){
+				columns.put("v", "-");
+				columns.put("n", "-");
+				columns.put("rj", "-");
+				columns.put("total", resultadoPAA);
 			} else {
 				columns.put("v", "P/A");
 				columns.put("n", "P/A");
