@@ -123,7 +123,7 @@
     <div class="row row-margin-in">
         <div class="col-xs-12">
             <div class="row">
-                <div class="col-xs-6">Nombre de sesión: <label>{{selectedSesion.nombreSesion}}</label><br></div>
+                <div class="col-xs-6">Sesión: <label>{{selectedSesion.idSesion}} - {{selectedSesion.nombreSesion}}</label><br></div>
                 <div class="col-xs-6">Descripción: <label>{{selectedSesion.sesion}}</label><br></div>
             </div>
             <div class="row">
@@ -246,26 +246,33 @@
                             </td>
                             <td>{{ validarEstatus(row.resultadoEnviado, row.estatusINVP) }}</td>
                             <td>
-                                <button ng-if="row.estatusINVP !== 'Enviado' && (selectedSesion.estatus !== 'Concluida' || row.estatusINVP !== 'Prueba finalizada') " ng-disabled="selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Prueba finalizada'" type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
-                                    <label>{{row.idioma}}</label>
+                                <button ng-disabled="!(!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada'))" 
+                                    type="button" 
+                                    ng-click="cambiarIdioma(row, 'idioma')" 
+                                    class="btn" 
+                                    ng-class="{'btn-default': (row.resultadoEnviado || !(selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'btn-warning': (!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'tooltips-info': !row.resultadoEnviado}" 
+                                    data-tooltip="{{row.resultadoEnviado ? '' : 'Cambiar idioma'}}">
+                                    <span>{{row.idioma}}</span>
                                 </button>
                             </td>    
                             <td class="text-center ">
-                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada' && row.estatusINVP !== 'Por iniciar'" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  
+                                    ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
-                                ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && (row.estatusINVP !== 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
+                                    ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-                                <button ng-if="(selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
+                                <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
 
-                                <button  ng-if="row.usuarioBloqueado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
+
+                                <button  ng-if="row.usuarioBloqueado && !row.resultadoEnviado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
-                                <button ng-if="!row.usuarioBloqueado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
+                                <button ng-if="!row.usuarioBloqueado || row.resultadoEnviado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                                     <span class="glyphicon glyphicon-lock"></span>
                                 </button>
 
@@ -620,7 +627,7 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" ng-model="seleccionarTodosVar" ng-change="seleccionarTodos()"/></th>
-                                <th>ID Banner</th>
+                                <th>ID Banner / ID BPM</th>
                                 <th>Nombre</th>
                                 <th>Correo electrónico</th>
                             </tr>

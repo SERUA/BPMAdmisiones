@@ -988,6 +988,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.validarEstatus = function(_enviado, _estatus){
+        debugger;
         let output = ""; 
         if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
             output = "Enviado"

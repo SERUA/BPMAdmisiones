@@ -130,7 +130,7 @@
     <div class="row row-margin-in">
         <div class="col-xs-12">
             <div class="row">
-                <div class="col-xs-6">Nombre de sesión: <label>{{selectedSesion.nombreSesion}}</label><br></div>
+                <div class="col-xs-6">Sesión: <label>{{selectedSesion.idSesion}} - {{selectedSesion.nombreSesion}}</label><br></div>
                 <div class="col-xs-6">Descripción: <label>{{selectedSesion.sesion}}</label><br></div>
             </div>
             <div class="row">
@@ -254,8 +254,13 @@
                             <!-- <td>{{row.estatusINVP}}</td> -->
                             <td>{{ validarEstatus(row.resultadoEnviado, row.estatusINVP) }}</td>
                             <td>
-                                <button ng-if="!row.resultadoEnviado" ng-disabled="selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Prueba finalizada'"  type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
-                                    <label>{{row.idioma}}</label>
+                                <button ng-disabled="!(!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada'))" 
+                                    type="button" 
+                                    ng-click="cambiarIdioma(row, 'idioma')" 
+                                    class="btn" 
+                                    ng-class="{'btn-default': (row.resultadoEnviado || !(selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'btn-warning': (!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'tooltips-info': !row.resultadoEnviado}" 
+                                    data-tooltip="{{row.resultadoEnviado ? '' : 'Cambiar idioma'}}">
+                                    <span>{{row.idioma}}</span>
                                 </button>
                             </td>    
                             <td class="text-center ">
@@ -632,7 +637,7 @@
                         <thead>
                             <tr>
                                 <th><input type="checkbox" ng-model="seleccionarTodosVar" ng-change="seleccionarTodos()"/></th>
-                                <th>Id Banner</th>
+                                <th>ID Banner / ID BPM </th>
                                 <th>Nombre</th>
                                 <th>Correo electrónico</th>
                             </tr>
