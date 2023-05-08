@@ -160,7 +160,7 @@ function ($scope, modalService, $http) {
     function getTaskInfo(){
         var req = {
             method: "GET",
-            url: "../API/bpm/task?c=1&p=0&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
+            url: "../API/bpm/task?c=100&p=0&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
         };
 
         return $http(req)
