@@ -1148,8 +1148,6 @@ class PDFDocumentDAO {
 			Result solicitud = getSolicitudApoyo(email, caseid, context);
 			List<?> info = solicitud.getData();
 			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
-			errorLog += " | Ontuvo info del aval ";
-			errorLog += " | " + solicitud.getError_info();
 			
             if(info != null){
                 if(info.size() < 1) {
@@ -1252,7 +1250,7 @@ class PDFDocumentDAO {
 				columns.put("correoAsp", email);
 				columns.put("carrera", rs.getString("carrera"));
 				columns.put("periodo", rs.getString("periodo"));
-				columns.put("edadAsp", getAge(fechaNac).toString());
+				columns.put("edadAsp", (getAge(fechaNac).toString() + " años"));
 				columns.put("preparatoria", preparatoria);
 				columns.put("paisPreparatoria", rs.getString("paisprepa"));//PENDING
 				columns.put("ciudadPreparatoria", rs.getString("estadoprepa"));//PENDING
@@ -1390,6 +1388,8 @@ class PDFDocumentDAO {
 				columns.put("fecha", fechaAutoriza);
 				columns.put("autoriza", rs.getString("usuarioautoriza"));
 				columns.put("comentarioComite", rs.getString("cambiosSolicitudAutorizacionText"));
+				columns.put("tipoMoneda", rs.getString("tipomoneda"));
+				columns.put("tipoMonedaCompleto", rs.getString("tipomonedacompleto"));
 			}
 			
 			pstm = con.prepareStatement(Statements.GET_BIENES_RAICES_BY_CASEID);
@@ -1408,6 +1408,18 @@ class PDFDocumentDAO {
 				bienRaiz.put("tipo", rs.getString("tipo"));
 				lstBienesRaices.add(bienRaiz);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstBienesRaices.size() < 1) {
+				mostrarBienesRaices = true;
+				bienRaiz = new LinkedHashMap < String, Object > ();
+				bienRaiz.put("descripcion", "");
+				bienRaiz.put("direccionbanco", "");
+				bienRaiz.put("valor", "");
+				bienRaiz.put("tipo", "");
+				lstBienesRaices.add(bienRaiz);
+			}
+			
 			JRBeanCollectionDataSource bienesRaices = new JRBeanCollectionDataSource(lstBienesRaices);
 			columns.put("bienesRaices", bienesRaices);
 			columns.put("mostrarBienesRaices", mostrarBienesRaices);
@@ -1435,6 +1447,26 @@ class PDFDocumentDAO {
 				hermano.put("ingresomensual", formatCurrency(rs.getString("ingresomensual")));
 				lstHermanos.add(hermano);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if(lstHermanos.size() < 1){
+				mostrarHermanos = true;
+				hermano = new LinkedHashMap < String, Object > ();
+				hermano.put("nombres", "");
+				hermano.put("apellidos", "");
+				hermano.put("edad", "");
+				hermano.put("isestudia", "");
+				hermano.put("colegiaturamensual", "");
+				hermano.put("institucion", "");
+				hermano.put("istienebeca", "");
+				hermano.put("porcentajebecaasignado", "");
+				hermano.put("istrabaja", "");
+				hermano.put("empresa", "");
+				hermano.put("ingresomensual", "");
+				
+				lstHermanos.add(hermano);
+			}
+			
 			JRBeanCollectionDataSource hermanos = new JRBeanCollectionDataSource(lstHermanos);
 			columns.put("hermanos", hermanos);
 			columns.put("mostrarHermanos", mostrarHermanos);
@@ -1453,8 +1485,22 @@ class PDFDocumentDAO {
 				auto.put("modelo", rs.getString("modelo"));
 				auto.put("ano", rs.getString("ano"));
 				auto.put("situacion", rs.getString("situacion"));
+				auto.put("valorAproximado", formatCurrency(rs.getString("costoaproximado")));
 				lstAutos.add(auto);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstAutos.size() < 1) {
+				mostrarAutos = true;
+				auto = new LinkedHashMap < String, Object > ();
+				auto.put("marca", "");
+				auto.put("modelo", "");
+				auto.put("ano", "");
+				auto.put("situacion", "");
+				auto.put("valorAproximado", "");
+				lstAutos.add(auto);
+			}
+			
 			JRBeanCollectionDataSource autos = new JRBeanCollectionDataSource(lstAutos);
 			columns.put("autos", autos);
 			columns.put("mostrarAutos", mostrarAutos);
@@ -1482,13 +1528,13 @@ class PDFDocumentDAO {
 			}
 			JRBeanCollectionDataSource imagenes = new JRBeanCollectionDataSource(lstImagenes);
 			columns.put("imagenes", imagenes);
-			columns.put("mostrarImagenes", mostrarImagenes);
+//			columns.put("mostrarImagenes", mostrarImagenes);
+			columns.put("mostrarImagenes", true);
 			
 			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER_SIN_PERSISTENCE);
 			pstm.setString(1, idbanner);
 			rs = pstm.executeQuery();
 			
-			//Puntuaciones
 			if(rs.next()) {
 				columns.put("v", rs.getString("paav"));
 				columns.put("n", rs.getString("paan"));

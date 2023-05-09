@@ -9,6 +9,7 @@ function($scope, $http, blockUI) {
     $scope.isTiCampus = false;
     $scope.isTiSerua = false;
     $scope.isSerua = false;
+    $scope.isCrisp = false;
 
     $scope.countPreautorizacion = 0;
     $scope.countArtistica = 0;
@@ -40,10 +41,9 @@ function($scope, $http, blockUI) {
             output = true;
         } else if($scope.isTiSerua){
             output = true;
-        } else if($scope.isSerua){
+        } else if($scope.isCrisp){
             output = true;
         }
-        
         return output;
     }
 
@@ -154,6 +154,9 @@ function($scope, $http, blockUI) {
                         } else if ($scope.lstMembership[i].role_id.displayName === "SERUA") {
                             $scope.isSerua = true;
                             console.log("isSerua " + $scope.isSerua);
+                        } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
+                            $scope.isCrisp = true;
+                            console.log("isSerua " + $scope.isCrisp);
                         }
                     }
 
