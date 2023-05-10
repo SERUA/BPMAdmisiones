@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEVerSolicitud",
   "name" : "SDAEVerSolicitud",
-  "lastUpdate" : 1681769201064,
+  "lastUpdate" : 1683676689685,
   "rows" : [
     [
       {
@@ -24,7 +24,7 @@
           },
           "url" : {
             "type" : "expression",
-            "value" : "\"../API/bpm/humanTask?c=1&f=state=ready&p=0&f=caseId=\" + caseId"
+            "value" : "url"
           },
           "reloadTask" : {
             "type" : "variable",
@@ -1421,6 +1421,13 @@
         "/API/extension/AnahuacBecasRestGET?url=getImagenesByCaseId&c=0&p=0&caseId={{caseId}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "url" : {
+      "type" : "expression",
+      "value" : [
+        "return \"../API/bpm/humanTask?c=1&f=state=ready&p=0&f=caseId=\" + $data.caseId"
+      ],
       "exposed" : false
     }
   },

@@ -6,12 +6,21 @@ function PbButtonCtrl($scope, $http) {
     });
     
     function validarPeriodoVencido(_solicitud){
-        debugger;
-        swal({
-            title: "¡Atención!",
-            text: "Tu solicitud de admisión está registrada para un periodo vencido. Es necesario que te comuniques con el área de admisiones del campus para actualizarlo y puedas continuar con tu solicitud de apoyo educativo.",
-            icon: "info"
-        })
+        var fecha = new Date(_solicitud.catPeriodo.fechaFin.slice(0, 10));
+        if(fecha < new Date()){
+            // swal("¡Periodo vencido!", "Tu solicitud de admisión está registrada para un periodo vencido. Es necesario que te comuniques con el área de admisiones del campus para actualizarlo y puedas continuar con tu solicitud de apoyo educativo.", "warning");
+            
+            var content = document.createElement('div');
+            let message  = "<p style='text-align: justify;'>Tu solicitud de admisión está registrada para un periodo vencido. "
+                + "<br> Es necesario que te comuniques con el área de admisiones del campus para actualizarlo y puedas continuar con tu solicitud de apoyo educativo.</p>"
+            content.innerHTML = message;
+        
+            swal({
+                title: "¡Periodo vencido!",
+                content: content,
+                icon: "warning"
+            });
+        }
     }
     
     function getCampusBloqueado(){
