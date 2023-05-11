@@ -1,13 +1,17 @@
 function PbDatePickerCtrl($scope, $log, widgetNameFactory, $element, $locale, $bsDatepicker) {
 
-  'use strict';
+    'use strict';
 
-  this.name = widgetNameFactory.getName('pbDatepicker');
-  this.firstDayOfWeek = ($locale && $locale.DATETIME_FORMATS && $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK) || 0;
+    this.name = widgetNameFactory.getName('pbDatepicker');
+    this.firstDayOfWeek = ($locale && $locale.DATETIME_FORMATS && $locale.DATETIME_FORMATS.FIRSTDAYOFWEEK) || 0;
+  
+    var today = new Date();
+    today.setDate(today.getDate() + 1);
+    $scope.minDate = today.toISOString().split("T")[0];
+    
+    $bsDatepicker.defaults.keyboard = false;
 
-  $bsDatepicker.defaults.keyboard = false;
-
-  this.setDateToToday = function() {
+    this.setDateToToday = function() {
     var today = new Date();
     if(today.getDay() !== today.getUTCDay()) {
       //we need to add this offset for the displayed date to be correct

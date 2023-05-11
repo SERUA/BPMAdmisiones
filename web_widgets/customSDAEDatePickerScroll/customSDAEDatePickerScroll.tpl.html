@@ -14,6 +14,7 @@
             class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
             <p class="input-group">
                 <input 
+                    min="{{minDate}}"
                     class="form-control date-to-scroll"
                        name="{{ctrl.name}}"
                        type="text"
@@ -29,7 +30,6 @@
                        date-format="{{properties.dateFormat | uiTranslate}}"
                        data-trigger="focus"
                        data-start-week="{{ctrl.firstDayOfWeek}}">
-
                 <span class="input-group-btn">
                     <button ng-if="properties.showToday"
                             type="button"

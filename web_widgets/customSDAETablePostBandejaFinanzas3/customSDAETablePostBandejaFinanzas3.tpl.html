@@ -55,9 +55,12 @@
                                 class="glyphicon"
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                 ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus SDAE<i class="glyphicon"
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span></th>
+                                ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> /
+                        <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus Admisiones<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última
                             modificación<i class="glyphicon"
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -112,7 +115,7 @@
                     </td>
                     <td>
                         <b>{{row.estatusfinanciamiento}}</b><br>
-                        {{row.telefonocelular}}<br>
+                        {{row.aceptado}}<br>
                         <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
                     </td>
                     <td>
