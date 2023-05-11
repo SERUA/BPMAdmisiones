@@ -959,9 +959,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function cargarLista(){
+        debugger;
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
-            if (element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
+            debugger;
+            if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
                 $scope.aspirantesEnvio.push({
                     "username": element.correoElectronico,
                     "sesion": $scope.selectedSesion.idSesion,

@@ -707,7 +707,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest("POST", $scope.properties.urlPost);
     }   
     
-    
+    $scope.validarEstatus = function(_enviado, _estatus){
+        let output = ""; 
+        if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
+            output = "Enviado"
+        } else {
+            output = _estatus;
+        }
+
+        return  output;
+    }
   
-    
 }

@@ -793,6 +793,7 @@ class UsuariosDAO {
 				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
 				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
+				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
 				
 				rows.add(row);
 			}
