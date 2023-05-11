@@ -1803,11 +1803,12 @@ class CatalogosDAO {
 			errorLog += "Termino ejecución || ";
 			resultado.setSuccess(true);
 			resultado.setData(info);
+			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
 			errorLog += " error || " + e.getMessage() + " || ";
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
 			con.rollback();
 		} finally {
 			if (closeCon) {
@@ -1821,6 +1822,8 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;;
 		String where = "";
+		String errorLog = "";
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -1834,15 +1837,18 @@ class CatalogosDAO {
 			pstm.setBoolean(3, Boolean.parseBoolean(object.manejaapoyo.toString()));
 			pstm.setBoolean(4, Boolean.parseBoolean(object.manejaprontopago.toString()));
 			pstm.setLong(5, Long.parseLong(object.persistenceid.toString()));
+			errorLog += consulta;
+			errorLog += "| "
 			pstm.executeUpdate();
 			
 			con.commit();
-			resultado.setSuccess(true);
-		} catch (Exception e) {
 			
-			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
 			con.rollback();
 		} finally {
 			if (closeCon) {
@@ -1856,13 +1862,16 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;;
 		String where = "";
+		String errorLog = "";
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			String consulta = StatementsCatalogos.INSERT_SDAECAT_CREDITO_GE;
 			closeCon = validarConexion();
-			con.setAutoCommit(false)
+			con.setAutoCommit(true);
 			
+			String sdaecatgestionescolar_pid = "";
 			object.each{
 				pstm = con.prepareStatement(consulta);
 				pstm.setString(1, it.creditoenero);
@@ -1870,19 +1879,18 @@ class CatalogosDAO {
 				pstm.setString(3, it.creditoagosto);
 				pstm.setString(4, it.creditoseptiembre);
 				pstm.setString(5, it.fecha);
-				pstm.setLong(6, Long.parseLong(it.sdaecatgestionescolar_pid.toString()));
+				sdaecatgestionescolar_pid = it.sdaecatgestionescolar_pid != null ? it.sdaecatgestionescolar_pid : sdaecatgestionescolar_pid;
+				pstm.setLong(6, Long.parseLong(sdaecatgestionescolar_pid.toString()));
+				
 				pstm.executeUpdate();
 			}
 			
-			
-			con.commit();
 			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			
-			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			resultado.setError_info(errorLog);
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -1895,13 +1903,14 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;;
 		String where = "";
+		String errorLog = "";
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			String consulta = StatementsCatalogos.UPDATE_SDAECAT_CREDITO_GE;
 			String consultaInsert = StatementsCatalogos.INSERT_SDAECAT_CREDITO_GE;
 			closeCon = validarConexion();
-			con.setAutoCommit(false)
+			con.setAutoCommit(true);
 			object.each{
 				if(it.persistenceid) {
 					pstm = con.prepareStatement(consulta);
@@ -1910,6 +1919,14 @@ class CatalogosDAO {
 					pstm.setString(3, it.creditoagosto);
 					pstm.setString(4, it.creditoseptiembre);
 					pstm.setLong(5, Long.parseLong(it.persistenceid.toString()));
+					
+					errorLog += " | [UPDATE] ";
+					errorLog += (" | " + it.creditoenero + "::" 
+						+ it.creditomayo + "::" 
+						+ it.creditoagosto + "::" 
+						+ it.creditoseptiembre + "::" 
+						+ it.persistenceid);
+					
 					pstm.executeUpdate();
 				} else {
 					pstm = con.prepareStatement(consultaInsert);
@@ -1919,19 +1936,24 @@ class CatalogosDAO {
 					pstm.setString(4, it.creditoseptiembre);
 					pstm.setString(5, it.fecha);
 					pstm.setLong(6, Long.parseLong(it.sdaecatgestionescolar_pid.toString()));
+					
+					errorLog += " | [INSERT] ";
+					errorLog += (" | " + it.creditoenero + "::"
+						+ it.creditomayo + "::"
+						+ it.creditoagosto + "::"
+						+ it.creditoseptiembre + "::"
+						+ it.persistenceid);
+					
 					pstm.executeUpdate();
 				}
 			}
 			
-			
-			con.commit();
 			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			
-			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			resultado.setError_info(errorLog);
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)

@@ -69,26 +69,27 @@
                                 ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                 ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('TIPOBECA')">Tipo Beca<i class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span> / <span
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span> / <span
                             style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio<i class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span
                             style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Actualizado<i
-                                class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span></th>
+                            class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
 
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCBECA')">% de beca autorizado<i class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='PORCBECA'"></i></span></th>
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PORCBECA'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCFINA')">% de financiamiento autorizado<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PORCFINA'"></i></span></th>
-                    
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus financiamiento<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus SDAE<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span></th>
 
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('INSCRIPCIONPROPEDEUTICO')">Pago de propedéutico<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INSCRIPCIONPROPEDEUTICO'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PASOPROPEDEUTICO')">Admitido a Medicina<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PASOPROPEDEUTICO'"></i></span></th>
@@ -114,15 +115,14 @@
                             ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
                     <td><input ng-model="dynamicInput['preparatoria']" class="form-control"
                             ng-enter="filterKeyPress('TIPO APOYO,PROMEDIO',dynamicInput['preparatoria'])"></td>
-                    <td><input ng-model="dynamicInput['estatus']" class="form-control"
-                            ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
                     <td >
                         <input type="checkbox" ng-model="filtroBeca" ng-change="addFilterBecaFina()">
                     </td>
                     <td >
                         <input type="checkbox" ng-model="filtroFinanciamiento" ng-change="addFilterBecaFina()">
                     </td>
-
+                    <td><input ng-model="dynamicInput['estatus']" class="form-control"
+                        ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -160,15 +160,15 @@
                         {{row.nuevopromedioprepa == null?'N/A':row.nuevopromedioprepa}}
                     </td>
                     <td>
-                        <b>{{row.estatusfinanciamiento}}</b><br>
-                    </td>
-                    <td>
                         <b>{{row.porcentajebecaautorizacion !== null ? row.porcentajebecaautorizacion + "%" : "N/A"}}</b><br>
                     </td>
                     <td>
                         <b>{{row.porcentajeautorizadofinanciaimiento !== null ? row.porcentajeautorizadofinanciaimiento + "%" : "N/A"}}</b><br>
                     </td>
-
+                    <td>
+                        <b>{{row.estatusfinanciamiento}}</b><br>
+                        {{row.aceptado}}<br>
+                    </td>
 
                     <td>
                         <b>{{!row.bannerInfo.pago_de_propedeutico ? "N/A" : row.bannerInfo.pago_de_propedeutico }}</b>
@@ -226,10 +226,10 @@
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                             </button>
 
-                            <button class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')">
+                            <button class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
-                            <button class="btn btn-primary" ng-click="verSolicitud(row, 'aceptar')">
+                            <button class="btn btn-primary" ng-click="verSolicitud(row, 'aceptar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </button>
                         </div>

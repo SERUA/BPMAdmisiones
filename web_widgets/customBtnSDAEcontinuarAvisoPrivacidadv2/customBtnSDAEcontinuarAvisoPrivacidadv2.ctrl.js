@@ -23,7 +23,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else if ($scope.properties.aceptado === false){
                 swal("Atención", "No puedes solicitar un apoyo educativo por que tu soicitud de admisión fué rechazada", "warning");
             } else if (!validarEstatus($scope.properties.estatusSolicitud)){
-                swal("Atención", "Aun no se cuenta con la información suficiente para iniciar tu solicitud de apoyo educativo, es necesario que concluyas el llenado de la autodescripción en tu proceso de admisión.", "warning");
+                swal("Atención", "Aun no se cuenta con la información suficiente para iniciar la solicitud de apoyo educativo, es necesario que concluyas el llenado de la autodescripción en tu proceso de admisión.", "warning");
             } else {
                 if ($scope.properties.aceptoAvisoPrivacidad === true) {
                     startProcess();
@@ -126,7 +126,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function () {
-                debugger;
                 vm.busy = false;
                 insertBitacora();
                 // window.location.reload();
@@ -134,17 +133,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function insertBitacora(){
-        debugger;
         let url = $scope.properties.urlBitacora;
         let dataToSend = angular.copy($scope.properties.objetoBitacora);
         dataToSend.caseid = caseid;
-        debugger;
         $http.post(url, dataToSend).success(function(){
             
         }).error(function(){
             
         }).finally(function(){
-            debugger;
             window.location.replace($scope.properties.urlSolicitud);
         });
     }

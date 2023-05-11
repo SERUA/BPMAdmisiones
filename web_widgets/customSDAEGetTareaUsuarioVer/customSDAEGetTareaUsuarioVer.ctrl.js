@@ -9,12 +9,21 @@ function ($scope, $http) {
                 getCurrentContext();
             }
         }).error((err) => {
-            console.log("Error al obtener las tareas asignadas al usuario" + JSON.stringify(err));
+            debugger;
+            task = false;
+            getModelSolicitudApoyoEducativoAlt("../API/bdm/businessData/com.anahuac.SDAE.model.SolicitudApoyoEducativo?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
+            getModelAutos("../API/bdm/businessData/com.anahuac.SDAE.model.AutosSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
+            getModelHermanos("../API/bdm/businessData/com.anahuac.SDAE.model.HermanosSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
+            getModelBienesRaices("../API/bdm/businessData/com.anahuac.SDAE.model.BienesRaicesSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
+            getModelDocumentosNoTask("../API/extension/AnahuacBecasRestGET?url=getDocumentosByCaseId&c=0&p=0&caseId=" + $scope.properties.caseId);
+            getModelImagenesSocioEcoNoTask("../API/extension/AnahuacBecasRestGET?url=getImagenesByCaseId&c=0&p=0&caseId=" + $scope.properties.caseId);
         });
     }
 
     function getCurrentContext() {
+        debugger;
         $http.get($scope.properties.urlContext).success((data) => {
+            debugger;
             task = true;
             if (data.solicitudApoyoEducativo_ref) {
                 getModelSolicitudApoyoEducativo("../" + data.solicitudApoyoEducativo_ref.link);
@@ -43,6 +52,7 @@ function ($scope, $http) {
                     $scope.properties.lstDocumentos = lstDoc;
                 }
             } else {
+                debugger;
                 task = false;
                 getModelSolicitudApoyoEducativoAlt("../API/bdm/businessData/com.anahuac.SDAE.model.SolicitudApoyoEducativo?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
                 getModelAutos("../API/bdm/businessData/com.anahuac.SDAE.model.AutosSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
@@ -52,6 +62,7 @@ function ($scope, $http) {
                 getModelImagenesSocioEcoNoTask("../API/extension/AnahuacBecasRestGET?url=getImagenesByCaseId&c=0&p=0&caseId=" + $scope.properties.caseId);
             }
         }).error((err) => {
+            debugger;
             task = false;
             getModelSolicitudApoyoEducativoAlt("../API/bdm/businessData/com.anahuac.SDAE.model.SolicitudApoyoEducativo?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
             getModelAutos("../API/bdm/businessData/com.anahuac.SDAE.model.AutosSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
@@ -98,6 +109,7 @@ function ($scope, $http) {
     }
 
     function getModelSolicitudApoyoEducativoAlt(url) {
+        debugger;
         $http.get(url).success((data) => {
             if (data) {
                 $scope.properties.solicitudApoyoEducativo = [];

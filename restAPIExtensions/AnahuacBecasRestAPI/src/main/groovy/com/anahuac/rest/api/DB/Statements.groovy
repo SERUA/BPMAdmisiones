@@ -41,4 +41,6 @@ class Statements {
 	
 	public static final String INSERT_BITACORA_SDAE = "INSERT INTO BITACORASDAE (persistenceid, persistenceversion, beca, comentario, correo, estatus, fecha, financiamiento, idbanner, usuarios, caseid, tipoapoyo) VALUES ( (SELECT CASE WHEN max(PERSISTENCEID) IS NULL THEN 1 ELSE max(PERSISTENCEID)+1 END FROM BITACORASDAE), 1, ?, ?, ?, ?, now(), ?, ?, ?, ?, ?) ";
 	
+	public static final String GET_PAA_BY_IDBANNER = "SELECT * FROM IMPORTACIONPAA  WHERE idbanner = ?;";
+	
 }

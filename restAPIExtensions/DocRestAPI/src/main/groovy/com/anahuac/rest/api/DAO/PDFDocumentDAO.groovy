@@ -11,6 +11,8 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.time.LocalDate
 import java.time.Period
+import java.text.NumberFormat
+import java.text.ParseException
 
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
@@ -939,12 +941,12 @@ class PDFDocumentDAO {
 				columns.put("parentescoAval", "");
 				columns.put("telefonoAval", rs.getString("avaltelefono"));
 				columns.put("emailPersonalAval", rs.getString("avalemail"));
-				columns.put("ingresoMensual", rs.getString("ingresomensual"));
+				columns.put("ingresoMensual", formatCurrency(rs.getString("ingresomensual")));
 				columns.put("provenienteDe", rs.getString("provenientede"));
-				columns.put("otroIngreso", rs.getString("otroingreso"));
-				columns.put("ingresoMensualTotal", rs.getString("ingresomensualtotal"));
-				columns.put("egresoMensualTotal", rs.getString("egresomensualtotal"));
-				columns.put("saldoMensual", rs.getString("saldomensual"));
+				columns.put("otroIngreso", formatCurrency(rs.getString("otroingreso")));
+				columns.put("ingresoMensualTotal", formatCurrency(rs.getString("ingresomensualtotal")));
+				columns.put("egresoMensualTotal", formatCurrency(rs.getString("egresomensualtotal")));
+				columns.put("saldoMensual", formatCurrency(rs.getString("saldomensual")));
 				columns.put("paisDomicilioAval", rs.getString("avaldomiciliopais"));
 				columns.put("cpDomicilioAval", rs.getString("avaldomiciliocp"));
 				columns.put("estadoDomicilioAval", rs.getString("avaldomicilioestado"));
@@ -1054,7 +1056,7 @@ class PDFDocumentDAO {
 				referenciaBancariaAval.put("banco", rs.getString("banco"));
 				referenciaBancariaAval.put("tipoCuenta", rs.getString("tipocuenta"));
 				referenciaBancariaAval.put("numeroCuenta", rs.getString("numerocuenta"));
-				referenciaBancariaAval.put("saldoPromedio", rs.getString("saldopromedio"));
+				referenciaBancariaAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
 				lstReferenciasBancariasAval.add(referenciaBancariaAval);
 			}
 			JRBeanCollectionDataSource referenciasBancarias = new JRBeanCollectionDataSource(lstReferenciasBancariasAval);
@@ -1073,7 +1075,7 @@ class PDFDocumentDAO {
 				referenciaCreditoAval.put("banco", rs.getString("banco"));
 				referenciaCreditoAval.put("tipoCuenta", rs.getString("tipocuenta"));
 				referenciaCreditoAval.put("numeroCuenta", rs.getString("numerocuenta"));
-				referenciaCreditoAval.put("saldoPromedio", rs.getString("saldopromedio"));
+				referenciaCreditoAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
 				lstReferenciasCreditoAval.add(referenciaCreditoAval);
 			}
 			JRBeanCollectionDataSource referenciasCredito = new JRBeanCollectionDataSource(lstReferenciasCreditoAval);
@@ -1146,8 +1148,6 @@ class PDFDocumentDAO {
 			Result solicitud = getSolicitudApoyo(email, caseid, context);
 			List<?> info = solicitud.getData();
 			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
-			errorLog += " | Ontuvo info del aval ";
-			errorLog += " | " + solicitud.getError_info();
 			
             if(info != null){
                 if(info.size() < 1) {
@@ -1227,8 +1227,11 @@ class PDFDocumentDAO {
 			pstm.setString(1, email);
 			rs = pstm.executeQuery();
 			Map < String, Object > columns = new HashMap < String, Object > ();
-			
+			Boolean tienePAA = false;
+			String resultadoPAA = "";
 			while (rs.next()) {
+				tienePAA = rs.getBoolean("tienepaa");
+				resultadoPAA = rs.getString("resultadopaa");
 				String urlFoto = rs.getString("urlfoto");
 				String nombre = rs.getString("primernombre");
 				String preparatoria = rs.getString("preparatoria")// ? rs.getString("preparatoria") : rs.getString("otraprepa");
@@ -1247,7 +1250,7 @@ class PDFDocumentDAO {
 				columns.put("correoAsp", email);
 				columns.put("carrera", rs.getString("carrera"));
 				columns.put("periodo", rs.getString("periodo"));
-				columns.put("edadAsp", getAge(fechaNac).toString());
+				columns.put("edadAsp", (getAge(fechaNac).toString() + " años"));
 				columns.put("preparatoria", preparatoria);
 				columns.put("paisPreparatoria", rs.getString("paisprepa"));//PENDING
 				columns.put("ciudadPreparatoria", rs.getString("estadoprepa"));//PENDING
@@ -1345,6 +1348,8 @@ class PDFDocumentDAO {
 				columns.put("casaDondeVives", rs.getString("casadondevives"));
 				columns.put("valorAproxCasa", formatCurrency(rs.getString("valoraproxcasa")));
 				columns.put("construccionM2Casa", rs.getString("contruccionm2casa"));
+				columns.put("motivoBeca", rs.getString("motivoBeca"));
+				columns.put("cantMensualPagarUni", formatCurrency(rs.getString("cantMensualPagarUni")));
 				columns.put("ingresoPadre", formatCurrency(rs.getString("ingresopadre")));
 				columns.put("ingresoMadre", formatCurrency(rs.getString("ingresomadre")));
 				columns.put("ingresoHermano", formatCurrency(rs.getString("ingresohermano")));
@@ -1383,6 +1388,8 @@ class PDFDocumentDAO {
 				columns.put("fecha", fechaAutoriza);
 				columns.put("autoriza", rs.getString("usuarioautoriza"));
 				columns.put("comentarioComite", rs.getString("cambiosSolicitudAutorizacionText"));
+				columns.put("tipoMoneda", rs.getString("tipomoneda"));
+				columns.put("tipoMonedaCompleto", rs.getString("tipomonedacompleto"));
 			}
 			
 			pstm = con.prepareStatement(Statements.GET_BIENES_RAICES_BY_CASEID);
@@ -1401,6 +1408,18 @@ class PDFDocumentDAO {
 				bienRaiz.put("tipo", rs.getString("tipo"));
 				lstBienesRaices.add(bienRaiz);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstBienesRaices.size() < 1) {
+				mostrarBienesRaices = true;
+				bienRaiz = new LinkedHashMap < String, Object > ();
+				bienRaiz.put("descripcion", "");
+				bienRaiz.put("direccionbanco", "");
+				bienRaiz.put("valor", "");
+				bienRaiz.put("tipo", "");
+				lstBienesRaices.add(bienRaiz);
+			}
+			
 			JRBeanCollectionDataSource bienesRaices = new JRBeanCollectionDataSource(lstBienesRaices);
 			columns.put("bienesRaices", bienesRaices);
 			columns.put("mostrarBienesRaices", mostrarBienesRaices);
@@ -1419,7 +1438,7 @@ class PDFDocumentDAO {
 				hermano.put("apellidos", rs.getString("apellidos"));
 				hermano.put("edad", rs.getString("edad"));
 				hermano.put("isestudia", rs.getBoolean("isestudia") ? "Sí": "No");
-				hermano.put("colegiaturamensual", rs.getString("colegiaturamensual"));
+				hermano.put("colegiaturamensual", formatCurrency(rs.getString("colegiaturamensual")));
 				hermano.put("institucion", rs.getString("institucion"));
 				hermano.put("istienebeca", rs.getBoolean("istienebeca") ? "Sí": "No");
 				hermano.put("porcentajebecaasignado", rs.getString("porcentajebecaasignado"));
@@ -1428,6 +1447,26 @@ class PDFDocumentDAO {
 				hermano.put("ingresomensual", formatCurrency(rs.getString("ingresomensual")));
 				lstHermanos.add(hermano);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if(lstHermanos.size() < 1){
+				mostrarHermanos = true;
+				hermano = new LinkedHashMap < String, Object > ();
+				hermano.put("nombres", "");
+				hermano.put("apellidos", "");
+				hermano.put("edad", "");
+				hermano.put("isestudia", "");
+				hermano.put("colegiaturamensual", "");
+				hermano.put("institucion", "");
+				hermano.put("istienebeca", "");
+				hermano.put("porcentajebecaasignado", "");
+				hermano.put("istrabaja", "");
+				hermano.put("empresa", "");
+				hermano.put("ingresomensual", "");
+				
+				lstHermanos.add(hermano);
+			}
+			
 			JRBeanCollectionDataSource hermanos = new JRBeanCollectionDataSource(lstHermanos);
 			columns.put("hermanos", hermanos);
 			columns.put("mostrarHermanos", mostrarHermanos);
@@ -1446,8 +1485,22 @@ class PDFDocumentDAO {
 				auto.put("modelo", rs.getString("modelo"));
 				auto.put("ano", rs.getString("ano"));
 				auto.put("situacion", rs.getString("situacion"));
+				auto.put("valorAproximado", formatCurrency(rs.getString("costoaproximado")));
 				lstAutos.add(auto);
 			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstAutos.size() < 1) {
+				mostrarAutos = true;
+				auto = new LinkedHashMap < String, Object > ();
+				auto.put("marca", "");
+				auto.put("modelo", "");
+				auto.put("ano", "");
+				auto.put("situacion", "");
+				auto.put("valorAproximado", "");
+				lstAutos.add(auto);
+			}
+			
 			JRBeanCollectionDataSource autos = new JRBeanCollectionDataSource(lstAutos);
 			columns.put("autos", autos);
 			columns.put("mostrarAutos", mostrarAutos);
@@ -1475,18 +1528,23 @@ class PDFDocumentDAO {
 			}
 			JRBeanCollectionDataSource imagenes = new JRBeanCollectionDataSource(lstImagenes);
 			columns.put("imagenes", imagenes);
-			columns.put("mostrarImagenes", mostrarImagenes);
+//			columns.put("mostrarImagenes", mostrarImagenes);
+			columns.put("mostrarImagenes", true);
 			
 			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER_SIN_PERSISTENCE);
 			pstm.setString(1, idbanner);
 			rs = pstm.executeQuery();
 			
-			//Puntuaciones
 			if(rs.next()) {
 				columns.put("v", rs.getString("paav"));
 				columns.put("n", rs.getString("paan"));
 				columns.put("rj", rs.getString("para"));
 				columns.put("total", rs.getString("total"));
+			} else  if(tienePAA){
+				columns.put("v", "-");
+				columns.put("n", "-");
+				columns.put("rj", "-");
+				columns.put("total", resultadoPAA);
 			} else {
 				columns.put("v", "P/A");
 				columns.put("n", "P/A");
@@ -1511,11 +1569,33 @@ class PDFDocumentDAO {
 		return resultado
 	}
 	
-	private String formatCurrency(String input) {
+	/*private String formatCurrency(String input) {
 		if(input.equals("")) {
 			return "";
 		} else {
 			return "\$ " + input + ".00";
 		}
+	}*/
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+		NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+		// Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+		String numeroFormateado = null;
+		if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+			numeroFormateado = formatoMoneda.format(valor);
+		} else if (valor instanceof String) {
+			try {
+				Number numero = NumberFormat.getInstance().parse((String) valor);
+				numeroFormateado = formatoMoneda.format(numero);
+			} catch (ParseException e) {
+				// Manejar cualquier excepción de análisis aquí
+				e.printStackTrace();
+			}
+		}
+
+		// Retornar el valor formateado o una cadena vacía si no se pudo formatear
+		return numeroFormateado != null ? numeroFormateado : "";
 	}
 }

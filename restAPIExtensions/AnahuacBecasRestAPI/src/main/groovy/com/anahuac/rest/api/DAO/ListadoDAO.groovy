@@ -2953,4 +2953,118 @@ class ListadoDAO {
 		
 		return resultado;
 	}
+	
+	public Result countSolicitudesDeApoyoByEstatus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List<String> lstGrupo = new ArrayList<String>();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map <String, String> objGrupoCampus = new HashMap <String, String> ();
+		List<String> lstEstatus = new ArrayList<String>();
+
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+			userLogged = context.getApiSession().getUserId();
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			
+			if (object.caseId == null) {
+				if (lstGrupo.size() > 0) {
+					where += " AND ("
+				}
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+			}
+
+			List<Map<String, Object>> rows = new ArrayList<Map<String, Object>> ();
+			closeCon = validarConexion();
+			
+			Map <String, Object> row = new HashMap <String, Object>();
+			pstm = con.prepareStatement(Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS.replace("[WHERE]", where));
+			
+			rs = pstm.executeQuery();
+
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"));
+			} else {
+				resultado.setTotalRegistros(0);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(new ArrayList<String>());
+		} catch (Exception e) {
+			resultado.setError_info(errorlog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	}
+	
+	
+	public Result getPAAByIdBanner(String idbanner, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		Map <String, Object> row = new HashMap <String, Object>();
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER);
+			pstm.setString(1, idbanner);
+			
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				row = new HashMap <String, Object>();
+				
+				row.put("paan", rs.getString("paan"));
+				row.put("paav", rs.getString("paav"));
+				row.put("para", rs.getString("para"));
+				row.put("total", rs.getString("total"));
+				
+				rows.add(row);
+			} 
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	} 
 }

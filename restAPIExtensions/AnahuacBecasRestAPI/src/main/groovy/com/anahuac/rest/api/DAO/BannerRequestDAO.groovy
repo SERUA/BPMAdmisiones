@@ -36,6 +36,7 @@ class BannerRequestDAO {
 		Result result = new Result();
 		Boolean closeCon = false;
 		List<BannerWSInfo> lstResult = new ArrayList<BannerWSInfo>();
+		String errorLog = "";
 		try {
 			closeCon = validarConexion();
 			pstm = con.prepareStatement(Statements.GET_BANNER_API_INFO);
@@ -52,8 +53,9 @@ class BannerRequestDAO {
 				HttpClient httpClient = HttpClientBuilder.create().build();
 				String credentials = usuariobannersdae + ":" + pwBannerSDAE;
 				byte[] bytes = credentials.getBytes();
-				Base64.getEncoder().encode(bytes);
+//				Base64.getEncoder().encode(bytes);
 				String encoding = Base64.getEncoder().encodeToString(bytes);
+				
 				HttpPost post = new HttpPost(urltokenbannersdae);
 				post.addHeader("Authorization", "Basic " + encoding);
 				List<NameValuePair> formparams = new ArrayList<NameValuePair>();
@@ -65,6 +67,7 @@ class BannerRequestDAO {
 				HttpEntity entityPost = responsepost.getEntity();
 				String response = EntityUtils.toString(entityPost);
 				JsonObject jsonObject = new JsonParser().parse(response).getAsJsonObject();
+				
 				HttpGet get = new HttpGet(urlbannersdae + idbanner);
 				String token = jsonObject.get("access_token").toString().replaceAll("\"", "");
 				get.addHeader("Authorization", "Bearer " + token);
@@ -94,10 +97,12 @@ class BannerRequestDAO {
 			result.setSuccess(false);
 			result.setError(e.getMessage());
 			result.setData(new ArrayList<?>());
+			result.setError_info(errorLog);
 		} catch(Exception e){
 			result.setSuccess(false);
 			result.setError(e.getMessage());
 			result.setData(new ArrayList<?>());
+			result.setError_info(errorLog);
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
