@@ -137,12 +137,14 @@
                         <b>{{row.porcentajebecaautorizacion}}%</b>
                     </td>
                     <td>
-                        <b>{{row.porcentajeautorizadofinanciaimiento ? row.porcentajeautorizadofinanciaimiento + "%" : "N/A"}}</b>
+                        <b>{{row.porcentajefinaautorizacion ? row.porcentajefinaautorizacion + "%" : "N/A"}}</b>
                     </td>
 
                     <td>
                         <b>{{row.estatussolicitud}}</b><br>
                         {{row.aceptado}}<br>
+                        <b ng-if="row.periodovencido" class="blink_me">Período vencido</b>
+                        <b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b>
                         <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
                     </td>
                     <td>

@@ -123,7 +123,17 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
 					break;
-					
+				case "updateTransferidoSolicitud":
+					String caseIdAdmisiones = request.getParameter "caseIdAdmisiones"
+					String transferido = request.getParameter "transferido"
+					result = new SolicitudDeAdmisionDAO().updateTransferidoSolicitud(Boolean.valueOf(transferido), Long.valueOf(caseIdAdmisiones));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;	
 				case "getDocumentosByTipoApoyo":
 					String campus = request.getParameter "campus"
 					String idTipoApoyo = request.getParameter "idTipoApoyo"

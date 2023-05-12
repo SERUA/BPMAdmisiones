@@ -1553,8 +1553,8 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							try {
 								porcentajeFina_int  = rs.getInt("porcentajecreditoautorizacion");
 								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_int.toString());
-								Double suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
-								plantilla = plantilla.replace("[SUMA-B-F]", Integer.parseInt(suma).toString());
+								Integer suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
+								plantilla = plantilla.replace("[SUMA-B-F]", suma.toString());
 							} catch(Exception e) {
 								plantilla = plantilla.replace("[SUMA-B-F]", "");
 							}
@@ -1586,7 +1586,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						if(rs.next()) {
 							errorlog += " | 6";
 							costoCredito = rs.getInt("CREDITOAGOSTO");
-							Double creditosSemestre = rs.getDouble("creditosemestre");
+							Integer creditosSemestre = rs.getInt("creditosemestre");
 							Double parcialidades = rs.getDouble("parcialidad");
 							errorlog += " | 7";
 							Double montoInscripcion = inscripcionagosto;

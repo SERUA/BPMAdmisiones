@@ -719,4 +719,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return output;
     };
+
+    $scope.abrirSolicitudF = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verFinanciamiento/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
 }
