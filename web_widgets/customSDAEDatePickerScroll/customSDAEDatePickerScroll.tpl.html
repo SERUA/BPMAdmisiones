@@ -9,27 +9,45 @@
             class="control-label col-xs-{{ !properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 12 }}"
             ng-bind-html="properties.label | uiTranslate">
         </label>
-
-        <div
-            class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
-            <p class="input-group">
+        <hr> 
+        <div class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
+            <input 
+                min="{{minDate}}"
+                class="form-control date-to-scroll"
+                name="{{ctrl.name}}"
+                type="date"
+                placeholder="{{properties.placeholder | uiTranslate}}"
+                ng-model="properties.value"
+                ng-readonly="properties.readOnly"
+            >
+            <!-- <p class="input-group">
                 <input 
                     min="{{minDate}}"
                     class="form-control date-to-scroll"
-                       name="{{ctrl.name}}"
-                       type="text"
-                       placeholder="{{properties.placeholder | uiTranslate}}"
-                       autocomplete="off"
-                       ng-model="properties.value"
-                       ng-readonly="properties.readOnly"
-                       ng-required="properties.required"
-                       bs-datepicker
-                       data-container="body"
-                       data-autoclose="1"
-                       data-timezone="UTC"
-                       date-format="{{properties.dateFormat | uiTranslate}}"
-                       data-trigger="focus"
-                       data-start-week="{{ctrl.firstDayOfWeek}}">
+                    name="{{ctrl.name}}"
+                    type="date"
+                    placeholder="{{properties.placeholder | uiTranslate}}"
+                    ng-model="properties.value"
+                    ng-readonly="properties.readOnly"
+                >
+                <input 
+                    min="{{minDate}}"
+                    class="form-control date-to-scroll"
+                    name="{{ctrl.name}}"
+                    type="text"
+                    placeholder="{{properties.placeholder | uiTranslate}}"
+                    autocomplete="off"
+                    ng-model="properties.value"
+                    ng-readonly="properties.readOnly"
+                    ng-required="properties.required"
+                    bs-datepicker
+                    data-container="body"
+                    data-autoclose="1"
+                    data-timezone="UTC"
+                    date-format="{{properties.dateFormat | uiTranslate}}"
+                    data-trigger="focus"
+                    data-start-week="{{ctrl.firstDayOfWeek}}"
+                > 
                 <span class="input-group-btn">
                     <button ng-if="properties.showToday"
                             type="button"
@@ -49,7 +67,7 @@
                         <i class="glyphicon glyphicon-calendar"></i>
                     </button>
                 </span>
-            </p>
+            </p>-->
             <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error "
                  ng-messages-include="forms-generic-errors.html" role="alert">
                 <div ng-message="parse" ng-if="!environment || !environment.editor" class="text-danger">

@@ -453,6 +453,34 @@ class SolicitudDeAdmisionDAO {
 		return resultado
 	}
 	
+	public Result updateTransferidoSolicitud(Boolean transferido, Long caseIdAdmisiones) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false)
+			
+			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERIDO_SDAE);
+			pstm.setBoolean(1, transferido);
+			pstm.setLong(2, caseIdAdmisiones);
+			pstm.executeUpdate();
+			
+			con.commit();
+			resultado.setSuccess(true)
+		} catch(Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			con.rollback();
+		} finally{
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
 	public Result getB64CurriculumByCaseId(int caseId) {
 		Boolean closeCon = false;
 		String errorLog = "";

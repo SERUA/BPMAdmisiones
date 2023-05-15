@@ -61,10 +61,10 @@
                             class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='ESTATUS_ADMISION'"></i></span></th>
-                <th> <span style="cursor:pointer" ng-click="setOrderBy('RESPUESTA')">Fecha y Respuesta de la evaluación
+                <!-- <th> <span style="cursor:pointer" ng-click="setOrderBy('RESPUESTA')">Fecha y Respuesta de la evaluación
                         <i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='RESPUESTA'"></i></span></th>
+                            ng-show="properties.dataToSend.orderby=='RESPUESTA'"></i></span></th> -->
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i
                             class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -85,7 +85,7 @@
                         ng-enter="filterKeyPress('TIPO APOYO,PROMEDIO',dynamicInput['preparatoria'])"></td>
                 <td><input ng-model="dynamicInput['estatus']" class="form-control"
                         ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
-                <td></td>
+                <!-- <td></td> -->
                 <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control"
                         ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
                 <td></td>
@@ -121,9 +121,10 @@
                 <td>
                     <b>{{row.estatussolicitud}}</b><br>
                     {{row.aceptado}}<br>
-                    <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
+                    <b ng-if="row.periodovencido" class="text-danger blink_me">Período vencido</b>
+                    <b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b>
                 </td>
-                <td>
+                <!-- <td>
                     <b>{{row.fecharespuestaarea | date:'dd-MM-yyyy HH:mm'}}</b><br>
                     {{row.porrecareadeportiva}}
                     {{row.procrecareaartistica}}
@@ -132,13 +133,10 @@
                     {{row.motivorechazodeportiva}}
                     {{row.motivorechazoartistica}}
                     {{row.motivoaprobadaartistica}}
-                </td>
+                </td> -->
                 <td>
                     <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>
                 </td>
-                <!--td>
-                    {{row.updateDate}}
-                </td-->
                 <td class="text-center" >
                     <div style="display: inline-flex;">
                         <button class="btn btn-default" ng-click="abrirSolicitud(row)">
@@ -233,12 +231,6 @@
                 <br>
                 <label>Mensaje para usuario</label>
                 <textarea row="5" class="form-control" style="resize:none" ng-model="mensaje" ng-model="motivoRechazo"></textarea>
-                <!-- <br>
-                <div class="col-xs-12 text-center">
-                    <button type="button" class="btn btn-primary" ng-click="sendMail(mensaje,true)" data-dismiss="modal">Correo rechazo admisión</button>
-                </div>
-                <br>
-                <br>-->
                 <br> 
                 <br>
                 <br>

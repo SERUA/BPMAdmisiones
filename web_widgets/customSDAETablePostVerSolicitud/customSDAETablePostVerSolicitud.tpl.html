@@ -69,7 +69,8 @@
                 <td>
                     <b>{{row.estatussolicitud}}</b><br>
                     {{row.aceptado}}<br>
-                    <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
+                    <b ng-if="row.periodovencido" class="text-danger blink_me">Período vencido</b>
+                    <b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b>
                 </td>
                 <td>
                     <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>

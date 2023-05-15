@@ -288,8 +288,9 @@ function($scope, $http, blockUI) {
 
     function getDatosCierreFinanzas() {
         let data = {
-            "estatusSolicitud": "'Propuesta financiamiento aceptada por aspirante'"
+            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada'"
         };
+        
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
             $scope.countCierreFinanzas =  _data.totalRegistros;
         })
