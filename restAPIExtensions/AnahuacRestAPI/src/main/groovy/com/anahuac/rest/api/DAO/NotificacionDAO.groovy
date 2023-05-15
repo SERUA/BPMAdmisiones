@@ -1413,13 +1413,21 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						porcentajecredito_sol = rs.getString("porcentajecredito_sol");
 					} else if (object.codigo.equals("sdae-rechazodictamen-becas")){
 						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-DICTAMEN]", rs.getString("motivoRechazoAutorizacionText")==null?"[COMENTARIOS-CAMBIO-PREAUTORIZACION]": (object.isEnviar)?rs.getString("motivoRechazoAutorizacionText"):"[RECHAZO-COMENTARIOS-DICTAMEN]")
-					} else if (object.codigo.equals("sdae-rechazopreautorización-becas")){
-						String comentarios = rs.getString("motivorechazopreautorizacion");
-//						rs.getString("motivorechazopreautorizacion") == null ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? rs.getString("motivorechazopreautorizacion") : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
-						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
-						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
-						porcentajebeca_sol = rs.getString("porcentajebeca_sol");
-						porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+					} else if (object.codigo.equals("sdae-rechazopreautorización-becas") ){
+						String comentarios = "";
+						if( !rs.getString("estatussolicitud").equals("Esperando Pre-Autorización") || !rs.getString("estatussolicitud").equals("Rechazada por Pre-autorización")) {
+							comentarios = rs.getString("comentariosfinal");
+							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+						} else {
+							comentarios = rs.getString("motivorechazopreautorizacion");
+							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+						}
 					} else if (object.codigo.equals("sdae-modificacióndictamen-becas")){
 						plantilla=plantilla.replace("[MOTIVO-MODIFICACION]", rs.getString("cambiossolicitudautorizaciontext")==null?"[MOTIVO-MODIFICACION]": (object.isEnviar)?rs.getString("cambiossolicitudautorizaciontext"):"[MOTIVO-MODIFICACION]")
 					} else if (object.codigo.equals("sdae-preautorizaciónpago-becas")){
