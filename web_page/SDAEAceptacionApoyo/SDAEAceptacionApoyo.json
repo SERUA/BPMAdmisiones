@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAceptacionApoyo",
   "name" : "SDAEAceptacionApoyo",
-  "lastUpdate" : 1683759296815,
+  "lastUpdate" : 1684190665168,
   "rows" : [
     [
       {
@@ -3743,11 +3743,11 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "\t\"beca\": $data.autorizacion.porcentajeBecaAutorizacion,\r",
+        "\t\"beca\": $data.autorizacion.porcentajeBecaAutorizacion + \"\",\r",
         "  \t\"comentario\": getEstatus(\"comentario\"),\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": getEstatus(\"estatus\"),\r",
-        "  \t\"financiamiento\": $data.autorizacion.porcentajeCreditoAutorizacion ? $data.autorizacion.porcentajeCreditoAutorizacion : \"N/A\",\r",
+        "  \t\"financiamiento\": $data.autorizacion.porcentajeCreditoAutorizacion ? $data.autorizacion.porcentajeCreditoAutorizacion + \"\" : \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",

@@ -224,9 +224,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let dataToSend = angular.copy($scope.properties.objetoBitacora);
 
         $http.post(url, dataToSend).success(function () {
-            debugger;
+            
         }).error(function () {
-            debugger;
+           
         }).finally(function () {
             // $window.close();
             window.location.reload();

@@ -12,6 +12,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     ];
 
     var caseid = 0;
+    $scope.caseid = 0;
 
     this.action = function action() {
         let url = "../API/extension/AnahuacBecasRestGET?url=getPRomedioMinimoByCampus&p=0&c=0&idCampus=" + $scope.properties.idCampus;
@@ -109,7 +110,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
             .success(function (data, status) {
+                debugger;
                 caseid = data.caseId;
+                $scope.caseid = data.caseId;
                 $scope.properties.dataFromSuccess = data;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromError = undefined;
@@ -133,9 +136,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function insertBitacora(){
+        debugger;
         let url = $scope.properties.urlBitacora;
         let dataToSend = angular.copy($scope.properties.objetoBitacora);
-        dataToSend.caseid = caseid;
+        dataToSend.caseid = $scope.caseid;
         $http.post(url, dataToSend).success(function(){
             
         }).error(function(){

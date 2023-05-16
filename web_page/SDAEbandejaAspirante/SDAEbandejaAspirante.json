@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1683934431367,
+  "lastUpdate" : 1684198508714,
   "rows" : [
     [
       {
@@ -572,7 +572,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\"  || buildContent[0].estado === \"Propuesta rechazada por aspirante\" || buildContent[0].estado === \"Propuesta aceptada por aspirante\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" || buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"|| buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\""
+                  "value" : "mostratTabla"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -750,7 +750,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\" && buildContent[0].estado !== \"Propuesta aceptada por aspirante\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por comité de finanzas\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por finanzas\" && buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento aceptada por aspirante\"&& buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento rechazada por aspirante\""
+                  "value" : "!mostratTabla"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -3430,7 +3430,7 @@
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.userData.user_name,\r",
-        "  \t\"estatus\": \"Solicitud iniciada\",\r",
+        "  \t\"estatus\": \"Solicitud de apoyo educativo iniciada\",\r",
         "  \t\"financiamiento\": \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
@@ -3472,6 +3472,30 @@
       "type" : "businessdata",
       "value" : [
         "{\"displayValue\":\"findByCaseIdSDAE [com.anahuac.SDAE.model.SolicitudFinanciamiento]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseIdSDAE\",\"displayName\":\"findByCaseIdSDAE\"},\"id\":\"com.anahuac.SDAE.model.SolicitudFinanciamiento\",\"filters\":[{\"name\":\"caseIdSDAE\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{objSolicitudApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "mostratTabla" : {
+      "type" : "expression",
+      "value" : [
+        "return (",
+        "    !$data.buildContent ",
+        "    || $data.buildContent[0].estado === \"En espera de resultado\" ",
+        "    || $data.buildContent[0].estado === \"Solicitud Rechazada\"  ",
+        "    || $data.buildContent[0].estado === \"Propuesta rechazada por aspirante\" ",
+        "    || ($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" ",
+        "        && ($data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\" )",
+        "    )",
+        "    || $data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" ",
+        "    || $data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" ",
+        "    || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"  ",
+        "    || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" ",
+        "    // || ($data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" && $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"  )",
+        "    // || ($data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" && $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" ) ",
+        ")",
+        "",
+        "// !buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\"  || buildContent[0].estado === \"Propuesta rechazada por aspirante\" || buildContent[0].estado === \"Propuesta aceptada por aspirante\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" || buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"|| buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\"",
+        "// buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\" && buildContent[0].estado !== \"Propuesta aceptada por aspirante\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por comité de finanzas\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por finanzas\" && buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento aceptada por aspirante\"&& buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento rechazada por aspirante\""
       ],
       "exposed" : false
     }

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEArchivoSolicitudesCompletadasFina",
   "name" : "SDAEArchivoSolicitudesCompletadasFina",
-  "lastUpdate" : 1683927359967,
+  "lastUpdate" : 1684192211105,
   "rows" : [
     [
       {
@@ -1487,7 +1487,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\": \"'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada'\",\r",
+        "    \"estatusSolicitud\": \"'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada', 'Propuesta de financiamiento aceptada por aspirante'\",\r",
         "    \"tarea\": \"Validar Información\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"type\": \"nuevas_solicitudes\",\r",
@@ -1496,6 +1496,7 @@
         "    \"orientation\": \"DESC\",\r",
         "    \"limit\": 20,\r",
         "    \"offset\": 0,\r",
+        "    \"isCompletadas\": true,\r",
         "    \"campus\": $data.getCampus != null ? ($data.getCampus+\"\") : $data.getCampus\r",
         "};\r"
       ],
@@ -1566,12 +1567,12 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "\t\"beca\": $data.autorizacion.porcentajeBecaAutorizacion,\r",
+        "\t\"beca\": $data.autorizacion.porcentajeBecaAutorizacion + \"\",\r",
         "  \t\"comentario\": getEstatus(\"comentario\"),\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": getEstatus(\"estatus\"),\r",
-        "  \t\"financiamiento\": $data.autorizacion.porcentajeCreditoAutorizacion ? $data.autorizacion.porcentajeCreditoAutorizacion : \"N/A\",\r",
-        "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
+        "  \t\"financiamiento\": $data.autorizacion.porcentajeCreditoAutorizacion ? $data.autorizacion.porcentajeCreditoAutorizacion  + \"\" : \"N/A\",\r",
+        "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno  + \"\",\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
