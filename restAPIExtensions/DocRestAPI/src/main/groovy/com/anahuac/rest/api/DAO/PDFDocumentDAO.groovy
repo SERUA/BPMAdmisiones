@@ -931,7 +931,8 @@ class PDFDocumentDAO {
 				columns.put("periodo", rs.getString("periodo"));
 				columns.put("apellidoPaterno", rs.getString("apellidopaterno"));
 				columns.put("apellidoMaterno", rs.getString("apellidomaterno") != null ? rs.getString("apellidomaterno") : "");
-				columns.put("porcFinSolicitado", rs.getString("porcentajefinanciamientosolicitado") + "%");
+//				columns.put("porcFinSolicitado", rs.getString("porcentajefinanciamientosolicitado") + "%");
+				columns.put("porcFinSolicitado", rs.getString("porccomite") + "%");
 				columns.put("porcFinPrea", rs.getString("porcentajefinanciamientopreautorizado"));
 				columns.put("nombresAval", rs.getString("avalnombres"));
 				columns.put("apellidoPaternoAval", rs.getString("avalapellido_p"));

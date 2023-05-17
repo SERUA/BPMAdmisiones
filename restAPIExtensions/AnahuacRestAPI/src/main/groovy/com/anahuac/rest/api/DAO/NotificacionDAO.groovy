@@ -1568,7 +1568,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							}
 						} else if(object.codigo.equals("sdae-propuesta-finanzas")){
 							errorlog += " | [PORCENTAJE-FINANCIAMIENTO-DICTAMEN] " + porcentajefinanciamientootorgado.toString();
-							plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajefinanciamientootorgado.toString());
+							plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajefinanciamientootorgado.toInteger().toString());
 						}
 						
 						errorlog += " | 1";
@@ -1668,7 +1668,8 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							errorlog += "| montoFinanciamiento " + montoFinanciamiento.toString();
 							errorlog += "| montoDescuentoFina " + montoDescuentoFina.toString();
 							
-							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toString());
+//							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toString());
+							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toInteger().toString());
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO]", formatCurrency(inscripcionDescuento.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA]", formatCurrency(inscripcionDescuentoBeca.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA-PORCENTAJEFINANCIAMIENTO]", formatCurrency(inscripcionDescuentoFina.toString()));
