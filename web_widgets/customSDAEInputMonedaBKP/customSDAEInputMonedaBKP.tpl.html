@@ -1,0 +1,127 @@
+<div ng-class="{
+    'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,
+    'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden
+    }">
+    <div class="form-group">
+        <label
+            ng-if="!properties.labelHidden"
+            ng-class="{ 'control-label--required': properties.required }"
+            class="control-label col-xs-{{ !properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 12 }}" ng-bind-html="properties.label | uiTranslate">
+        </label>
+        <div class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}" style="display: inline-flex; position: relative;">
+            <label class="moneda-display">$</label>
+            <input
+                id="{{id}}"
+                type="test"
+                pattern="[0-9]*"
+                class="form-control"
+                placeholder="{{ properties.placeholder | uiTranslate }}"
+                name="{{ctrl.name}}"
+                ng-required="properties.required"
+                ng-minlength="properties.minLength"
+                maxlength="properties.maxLength"
+                min="{{properties.min}}"
+                max="{{properties.max}}"
+                step="{{properties.step}}"
+                ng-readonly="properties.readOnly"
+                style="padding-left: 35px;"
+                onkeypress="force($event)"
+                ng-keypress="forceKeyPressUppercase($event)"
+            >
+            
+            <button type="button" class="currency-clear" ng-click="clean()" ng-if="!properties.readOnly"> 
+                <i class="glyphicon glyphicon-remove-circle"></i>
+                <span class="hide" translate>Close</span>
+            </button>
+            
+            
+            <input
+                id="number"
+                type="number"
+                class="form-control"
+                placeholder="{{ properties.placeholder | uiTranslate }}"
+                ng-model="properties.value"
+                ng-model-options="{ allowInvalid: true }"
+                name="{{ctrl.name}}"
+                ng-required="properties.required"
+                ng-minlength="properties.minLength"
+                maxlength="properties.maxLength"
+                min="{{properties.min}}"
+                max="{{properties.max}}"
+                step="{{properties.step}}"
+                ng-readonly="properties.readOnly"
+                style="padding-left: 35px; display: none;"
+                ng-keypress="forceKeyPressUppercase($event)"
+            >
+            
+            <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
+        </div>
+    </div>
+</div>
+
+<!--PARA DESACTIVAR ELBAKCSPACE -->
+<script>
+    function force(event){
+        if (event.which == 8 || event.which == 46) { 
+            event.preventDefault();
+        } 
+    }
+</script>
+  
+<style>
+    /*input {*/
+    /*  font-family: monospace;*/
+    /*}*/
+    /*label {*/
+    /*  display: block;*/
+    /*}*/
+    form > div {
+      margin: 0 0 1rem 0;
+    }
+        /*! politespace - v0.1.20 - 2016-09-26
+        Politely add spaces to input values to increase readability (credit card numbers, phone numbers, etc).
+         * https://github.com/filamentgroup/politespace
+         * Copyright (c) 2016 Filament Group (@filamentgroup)
+         * MIT License */
+        
+        .politespace-proxy {
+          position: relative;
+          overflow: hidden; /* clearfix for floating siblings */
+          display: inline-block;
+        }
+    .politespace-proxy-val {
+      display: none;
+    }
+    .politespace-proxy.active.notempty > .politespace-proxy-val {
+      display: block;
+      position: absolute;
+      left: 0;
+      top: 0;
+      pointer-events: none;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      -webkit-box-sizing: border-box;
+      -moz-box-sizing: border-box;
+      box-sizing: border-box;
+      z-index: 1;
+    }
+    /* Safari 9 has a weird top/bottom margin on form elements inside of politespace proxies */
+    /* This caused issues with proxy positioning.
+    .politespace-proxy > input {
+      margin-top: 0;
+      margin-bottom: 0;
+    }*/
+    .politespace-proxy.active.notempty input {
+      -webkit-text-fill-color: transparent;
+      color: transparent;
+    }
+    .politespace-proxy.active.notempty input[type=number] {
+      -moz-appearance: textfield;
+    }
+    .politespace-proxy.active.notempty input[type=number]::-webkit-inner-spin-button,
+    .politespace-proxy.active.notempty input[type=number]::-webkit-outer-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+</style>

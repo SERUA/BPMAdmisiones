@@ -97,7 +97,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         vm.busy = true;
         var req = {
             method: method,
-            url: url,
+            url: $scope.properties.urlPost,
             data: angular.copy($scope.properties.dataToSend),
             params: params
         };

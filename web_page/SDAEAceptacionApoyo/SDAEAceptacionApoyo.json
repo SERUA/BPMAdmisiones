@@ -1,0 +1,3778 @@
+{
+  "modelVersion" : "2.2",
+  "id" : "SDAEAceptacionApoyo",
+  "name" : "SDAEAceptacionApoyo",
+  "lastUpdate" : 1684190665168,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "url" : {
+            "type" : "expression",
+            "value" : "\"../API/bpm/humanTask?c=50&f=state=ready&f=assigned_id=\"+userData.user_id+\"&f=name=Confirmación de notificación de apoyo&p=0\""
+          },
+          "reloadTask" : {
+            "type" : "variable",
+            "value" : "reloadTask"
+          },
+          "taskId" : {
+            "type" : "variable",
+            "value" : "taskId"
+          },
+          "caseId" : {
+            "type" : "variable",
+            "value" : "caseId"
+          },
+          "urlContext" : {
+            "type" : "expression",
+            "value" : "\"../API/bpm/userTask/\"+taskId+\"/context\""
+          },
+          "solicitudApoyoEducativo" : {
+            "type" : "variable",
+            "value" : "formOutputTest.solicitudApoyoEducativoInput"
+          },
+          "hermanos" : {
+            "type" : "variable",
+            "value" : "formOutputTest.hermanosInput"
+          },
+          "lstDocumentos" : {
+            "type" : "variable",
+            "value" : "formOutputTest.lstDocumentosDocumentInput"
+          },
+          "autos" : {
+            "type" : "variable",
+            "value" : "formOutputTest.autosInput"
+          },
+          "bienesRaices" : {
+            "type" : "variable",
+            "value" : "formOutputTest.bienesRaicesInput"
+          },
+          "fotoCalleCasa" : {
+            "type" : "variable",
+            "value" : "formOutputTest.fotoCalleCasaDocumentInput"
+          },
+          "fotoComedorCasa" : {
+            "type" : "variable",
+            "value" : "formOutputTest.fotoComedorCasaDocumentInput"
+          },
+          "fotoFachadaCasa" : {
+            "type" : "variable",
+            "value" : "formOutputTest.fotoFachadaCasaDocumentInput"
+          },
+          "fotoSalaCasa" : {
+            "type" : "variable",
+            "value" : "formOutputTest.fotoSalaCasaDocumentInput"
+          },
+          "documentos" : {
+            "type" : "variable",
+            "value" : "formOutputTest.documentosSolicitanteInput"
+          },
+          "imagenesSocioEco" : {
+            "type" : "variable",
+            "value" : "formOutputTest.imagenesSocEcoSolicitanteInput"
+          },
+          "lstDocumentosByTipoApoyo" : {
+            "type" : "variable",
+            "value" : "getDocumentosByTipoApoyo.data"
+          },
+          "lstImagenesByTipoApoyo" : {
+            "type" : "variable",
+            "value" : "imagenesSocioEconomico.data"
+          },
+          "selectedIndex" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "isSolicitud" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "0f866b1d-6c96-4509-b899-d5b85dd32240",
+        "hasValidationError" : false,
+        "id" : "customSDAEGetTareaUsuario"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "color-orange"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Propuesta de apoyo educativo"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 3"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "1870a6d4-e9ab-4434-97de-0499270a06ae",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 1,
+          "md" : 1,
+          "lg" : 1
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "e14ee87d-f110-442e-b10a-66f6785bbc24",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 10,
+          "lg" : 10
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "8d2a524e-cdc1-4efc-96a6-8b8595c6f850",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "fragment",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                }
+              },
+              "reference" : "bc4438eb-165c-473b-abfe-658afbf03c4d",
+              "hasValidationError" : false,
+              "id" : "SDAEFrgSolicitudApoyoAcademico",
+              "binding" : {
+                "objSolicitudDeAdmision" : "objSolicitudDeAdmision",
+                "rutaFotoUsuario" : "rutaFotoUsuario",
+                "getTipoAdmision" : "getTipoAdmision",
+                "formOutputTest" : "formOutputTest",
+                "getInformacionEscolar" : "getInformacionEscolar",
+                "tutor" : "tutor",
+                "lstCatTipoInversionesPosee" : "lstCatTipoInversionesPosee",
+                "padre" : "padre",
+                "madre" : "madre",
+                "imagenesSocioEconomico" : "imagenesSocioEconomico",
+                "getDocumentosByTipoApoyo" : "getDocumentosByTipoApoyo",
+                "returnCatValue" : "returnCatValue",
+                "wizardContent" : "wizardContent",
+                "selectedIndex" : "selectedIndex",
+                "siNoOpciones" : "siNoOpciones",
+                "lstCatContoBecaPreparatoria" : "lstCatContoBecaPreparatoria",
+                "catSexo" : "catSexo",
+                "lstCatProvienenIngresos" : "lstCatProvienenIngresos",
+                "lstCatSDAEEstadoCivilPadres" : "lstCatSDAEEstadoCivilPadres",
+                "lstCatTienesHermanos" : "lstCatTienesHermanos",
+                "getCatTipoApoyoByCampus" : "getCatTipoApoyoByCampus",
+                "lstCatPorcentajeBeca" : "lstCatPorcentajeBeca",
+                "lstCatPorcentajeFinanciamiento" : "lstCatPorcentajeFinanciamiento",
+                "catCasaDondeVives_query" : "catCasaDondeVives_query.data",
+                "validar1" : "validar1",
+                "validar2" : "validar2",
+                "validar3" : "validar3",
+                "validar4" : "validar4",
+                "validar5" : "validar5",
+                "tituloErrorPaso1" : "tituloErrorPaso1",
+                "tituloErrorPaso2" : "tituloErrorPaso2",
+                "tituloErrorPaso3" : "tituloErrorPaso3",
+                "tituloErrorPaso4" : "tituloErrorPaso4",
+                "tituloErrorPaso5" : "tituloErrorPaso5",
+                "errorPaso1" : "errorPaso1",
+                "errorPaso2" : "errorPaso2",
+                "errorPaso3" : "errorPaso3",
+                "errorPaso4" : "errorPaso4",
+                "errorPaso5" : "errorPaso5",
+                "urlDownloadFileAzure" : "urlDonwnloadAzureUrl",
+                "taskid" : "taskId",
+                "reload" : "reloadTask",
+                "caseId" : "caseId",
+                "reloadTask" : "reloadTask",
+                "isModificar" : "true",
+                "constancia" : "constacia",
+                "fotoB64" : "fotoB64",
+                "userDataEmail" : "userDataEmail",
+                "selectedFile" : "selectedFile",
+                "getAutodescripcion" : "getAutodescripcion",
+                "objPadresTutor" : "",
+                "returnCurriculumInfo" : "returnCurriculumInfo",
+                "lstAutomoviles" : "lstCatSituacionAuto",
+                "getDatosSolicitante" : "getDatosSolicitante",
+                "codigoBusqueda" : "",
+                "lstCatSituacionAuto" : "",
+                "lstTipoMoneda" : "",
+                "getConfiguracionCampus" : ""
+              }
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "selectedIndex !== 4"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Enviar solicitud"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "wizardLength" : {
+                  "type" : "variable",
+                  "value" : "wizardContent.length"
+                },
+                "selectedIndex" : {
+                  "type" : "variable",
+                  "value" : "selectedIndex"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Siguiente"
+                },
+                "isValidStep" : {
+                  "type" : "variable",
+                  "value" : "validar5"
+                },
+                "errorMessage" : {
+                  "type" : "expression",
+                  "value" : "errorPaso5"
+                },
+                "messageTitle" : {
+                  "type" : "expression",
+                  "value" : "tituloErrorPaso5"
+                },
+                "formOutput" : {
+                  "type" : "variable",
+                  "value" : "formOutputTest"
+                },
+                "taskId" : {
+                  "type" : "variable",
+                  "value" : "taskId"
+                },
+                "reloadTask" : {
+                  "type" : "variable",
+                  "value" : "reloadTask"
+                },
+                "caseId" : {
+                  "type" : "variable",
+                  "value" : "caseId"
+                },
+                "urlBitacora" : {
+                  "type" : "constant"
+                },
+                "objetoBitacora" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "3cef562e-3659-42e0-bdcb-67dcee0a83da",
+              "hasValidationError" : false,
+              "id" : "customSDAEcustomBtnWizardFinalizar"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br>\n<br>\n<br>\n<br>\n<br>\n<br>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "49c64f51-2400-41c0-be4c-cfedb8cd408a",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 2,
+          "lg" : 2
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "c1690070-667a-4ef6-8e44-64238cb1d93b",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 8,
+          "lg" : 8
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "885d2c77-7613-4455-920c-0f9b40658703",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Tienes hasta el <b>{{ autorizacion.fechaLimitePropuesta | date:'dd/MM/yyyy'}}</b> para responder a la propuesta. <br> En caso de no responder la propuesta en tiempo tu solicitud se archivará automáticamente,. Para reactivarla ponte en contacto con el área de becas del campus.</p>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "7fa019f6-51a0-4abc-ba2e-3e4a70ce7f82",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Tipo de apoyo seleccionado: <b class=\"color-orange\">{{returnCatValue.catTipoApoyo.descripcion}}</b>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "bde5e52b-4085-43ae-86b5-7346f2a0b692",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿Aceptas la propuesta de apoyo?"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "inline" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "setOpciones"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : "value"
+                },
+                "selectedValue" : {
+                  "type" : "variable",
+                  "value" : "formOutput"
+                }
+              },
+              "reference" : "61c84c64-85df-4e65-a48e-49337c7be276",
+              "hasValidationError" : false,
+              "id" : "pbRadioButtons"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "mostrarCuadro"
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Explica tus motivos:"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "motivoRechazo"
+                }
+              },
+              "reference" : "57ba8969-caae-46c9-a66b-dcbc24da74ee",
+              "hasValidationError" : false,
+              "id" : "customCustomTextAreaLimit"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<hr>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "ae5e9f23-b732-428b-a49c-a562b0d7864f",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Siguiente"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Open modal"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : "modalConfirmar"
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "c5cf29a5-d448-487c-ac48-53a81329dbeb",
+              "hasValidationError" : false,
+              "id" : "pbButton"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modalConfirmar"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "e2144182-79b9-42b1-a334-4b9e704414d8",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "4c2b671b-f486-4d36-b507-41e457930556",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "6bfaf322-1e84-4616-b18e-bc717aec63a0",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "color-orange"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Apoyo educativo"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "da374801-7dc7-4153-b38a-dda50d2967c7",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "10c44563-4e60-40c2-8780-1117e7dbb580",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{mensajeConfirmacion}}"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "7baef82d-9c6a-4556-b972-921630eeab79",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "4cda4ca8-9522-4164-a92a-c1e6bf6ba912",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Cancelar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "info"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "00f9dc9c-2439-42f5-a692-d86fd11db04f",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Enviar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Submit task"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "formOutputFinal"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation",
+                          "value" : ""
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "objetoBitacora" : {
+                          "type" : "expression",
+                          "value" : "objetoBitacora"
+                        },
+                        "urlBitacora" : {
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                        }
+                      },
+                      "reference" : "ef509096-5267-4cde-8ba0-4c7b13d8c40a",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEFinalizarTareaBit"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modalDocumentoPV"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "6cacbb46-39f9-4fed-81ef-99133851d62a",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "bc188f6f-e36f-4d47-9aed-de0c3133c2b8",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "6d298cef-30f2-4109-8790-945d606ce67d",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "{{ selectedFile.fileName}}"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "cd24d3da-4039-4de2-b7de-72a76f47a965",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "e298118d-9e80-4569-b073-2783c0822f62",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.extension === \".pdf\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<img  src=\"{{selectedFile.linkSource}}\"  style=\"max-width: 100%;\" class=\"miniatura-pic\">"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "45788c67-5569-45b0-831a-ff5d0ffa93a3",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.extension !== \".pdf\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<embed style=\"max-width: 100%;\"\n src=\"{{selectedFile.linkSource}}\"\n type=\"application/pdf\"/>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "52ef4be3-a7b4-40bf-bb1c-3e7a8bd5a960",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.extension !== \".pdf\""
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "url" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.linkSource.trim()"
+                        },
+                        "document" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "showPreview" : {
+                          "type" : "constant",
+                          "value" : true
+                        }
+                      },
+                      "reference" : "a730adc1-e331-40a7-b439-25ae2c59b605",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEFileViewer"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "7bd21f6e-305f-4b5f-ac67-c5abd9572588",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Cerrar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "info"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "cffe008c-9706-4e40-b8c0-e7e35d1e1ae8",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    ]
+  ],
+  "assets" : [
+    {
+      "id" : "aa1925de-c8eb-4ea7-9b3b-e05793cc2248",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "a4ad3290-d3c5-4fd4-b787-c07118ce6ed1",
+      "name" : "noimageavailabledoc.png",
+      "type" : "img",
+      "order" : 5,
+      "external" : false
+    },
+    {
+      "id" : "9c30b688-d94b-4832-aad6-efaa11efe357",
+      "name" : "sweetalert.min.js",
+      "type" : "js",
+      "order" : 3,
+      "external" : false
+    },
+    {
+      "id" : "17c9795f-a9fc-4ea3-bf33-aa50f12a1275",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "0f48e1a5-4f3c-4435-89ff-97388f870c0b",
+      "name" : "pdf.png",
+      "type" : "img",
+      "order" : 4,
+      "external" : false
+    },
+    {
+      "id" : "18807b4a-3a9f-474b-b86a-da2b67642929",
+      "name" : "anahuac_custom_styles.css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "c495c618-a5c5-47cc-bb7e-d3cb5ba43b58",
+      "name" : "aviso_privacidad.pdf",
+      "type" : "img",
+      "order" : 2,
+      "external" : false
+    }
+  ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "wizardContent" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "    {\r",
+        "        \"title\" : \"Información personal\",\r",
+        "        \"value\" : \"personalInfo\",\r",
+        "        \"isValid\": true\r",
+        "    },\r",
+        "    {\r",
+        "        \"title\" : \"Información familiar\",\r",
+        "        \"value\" : \"familiarInfo\",\r",
+        "        \"isValid\": true\r",
+        "    },\r",
+        "    {\r",
+        "        \"title\" : \"Motivos\",\r",
+        "        \"value\" : \"motivosInfo\",\r",
+        "        \"isValid\": true\r",
+        "    },\r",
+        "    {\r",
+        "        \"title\" : \"Información económica\",\r",
+        "        \"value\" : \"economicaInfo\",\r",
+        "        \"isValid\": true\r",
+        "    },\r",
+        "    {\r",
+        "        \"title\" : \"Documentos\",\r",
+        "        \"value\" : \"documentosInfo\",\r",
+        "        \"isValid\": true\r",
+        "    }\r",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "selectedIndex" : {
+      "type" : "constant",
+      "value" : [
+        "1"
+      ],
+      "exposed" : false
+    },
+    "vista" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "deshabilitarSiguiente" : {
+      "type" : "expression",
+      "value" : [
+        "let correcto= false;",
+        " correcto = $data.selectedIndex >= $data.wizardContent.length-1? true: false;",
+        "return correcto;"
+      ],
+      "exposed" : false
+    },
+    "datosUsuario" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    ",
+        "    \"catTieneHijos\": {",
+        "    \"persistenceId\":2,",
+        "    \"descripcion\":\"No\",",
+        "    \"clave\":\"\"",
+        "    },",
+        "    \"catBecaPreparatoria\":{",
+        "    \"persistenceId\":2,",
+        "    \"descripcion\":\"No\",",
+        "    \"clave\":\"\"",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "userDataEmail" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/user?p=0&c=10&f=id={{userData.user_id}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "usuario" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&p=0&c=10&f=correoElectronico={{userDataEmail[0].userName}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "lstInversionesAspirante" : {
+      "type" : "json",
+      "value" : [
+        "[",
+        " {",
+        "  \"tipo\":0,",
+        "  \"descripcion\":\"\",",
+        "  \"direccion_banco\":\"\",",
+        "  \"valor\":\"\"",
+        " },",
+        "  {",
+        "  \"tipo\":0,",
+        "  \"descripcion\":\"\",",
+        "  \"direccion_banco\":\"\",",
+        "  \"valor\":\"\"",
+        " }",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "lstHermanos" : {
+      "type" : "json",
+      "value" : [
+        "[]\r"
+      ],
+      "exposed" : false
+    },
+    "azureTempKeyRes" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacRestGet?url=getTempKeyAzure&p=0&c=10"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "rutaFotoUsuario" : {
+      "type" : "expression",
+      "value" : [
+        "// return $data.usuario[0].foto;",
+        "",
+        "let url = \"\";",
+        "",
+        "if($data.usuario !==  undefined && $data.azureTempKeyRes !== undefined){",
+        "    url = $data.usuario[0].urlFoto  + $data.azureTempKeyRes.data[0] ",
+        "}",
+        "",
+        "return url;"
+      ],
+      "exposed" : false
+    },
+    "objSolicitudDeAdmision" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCorreoElectronico&p=0&c=10&f=correoElectronico={{userData.user_name}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "objPadre" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "objMadre" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "ligaApiGetCatalogos" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo="
+      ],
+      "exposed" : false
+    },
+    "lstCatPorcentajeBeca" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatPorcentajeBeca"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "lstCatPorcentajeFinanciamiento" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatPorcentajeFinanciamiento"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstCatProvienenIngresos" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatProvienenIngresos"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstCatTipoApoyo" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatTipoApoyo"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstCatTipoInversionesPosee" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatTipoInversionesPosee"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "lstCatTienesHermanos" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatTienesHermanos"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "lstCatContoBecaPreparatoria" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatContoBecaPreparatoria"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "objPadresTutor" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.model.PadresTutor?q=findByCaseId&p=0&c=10&f=caseId={{objSolicitudDeAdmision[0].caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "objTutor" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "lstCatSDAEEstadoCivilPadres" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatSDAEEstadoCivilPadres"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstAutomoviles" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        " {\r",
+        "    \"persistenceId\": \"1\",\r",
+        "    \"descripcion\": \"Excelente\"\r",
+        " },\r",
+        " {\r",
+        "    \"persistenceId\": \"2\",\r",
+        "    \"descripcion\": \"Bueno\"\r",
+        " },\r",
+        " {\r",
+        "    \"persistenceId\": \"3\",\r",
+        "    \"descripcion\": \"Malo\"\r",
+        " }\r",
+        "]\r"
+      ],
+      "exposed" : false
+    },
+    "objAutos" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "ingresosMensuales" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "    \"Padre\":0,\r",
+        "    \"Madre\":0,\r",
+        "    \"Hermano\":0,\r",
+        "    \"Tio\":0,\r",
+        "    \"Abuelo\":0,\r",
+        "    \"Aspirante\":0\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "totalIngresos" : {
+      "type" : "expression",
+      "value" : [
+        "var suma = 0;\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.ingresoOtro !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.ingresoOtro;\r",
+        "}\r",
+        "\r",
+        "$data.formOutputTest.solicitudApoyoEducativoInput.ingresoTotal = suma;\r",
+        "\r",
+        "return suma;"
+      ],
+      "exposed" : false
+    },
+    "egresosMensuales" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "    \"Renta\":0,\r",
+        "    \"Servicios\":0,\r",
+        "    \"Educacion\":0,\r",
+        "    \"GastosMedicos\":0,\r",
+        "    \"Alimentacion\":0,\r",
+        "    \"Vestido\":0,\r",
+        "    \"Seguros\":0,\r",
+        "    \"Diversion\":0,\r",
+        "    \"Ahorro\":0,\r",
+        "    \"Creditos\":0,\r",
+        "    \"Otros\":0\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "totalEgresos" : {
+      "type" : "expression",
+      "value" : [
+        "var suma = 0;\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoServicios !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoServicios;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoEducacion !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoEducacion;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoGastosMedicos !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoGastosMedicos;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoAlimentacion !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoAlimentacion;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoVestido !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoVestido;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoSeguro !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoSeguro;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoDiversion !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoDiversion;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoAhorro !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoAhorro;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos;\r",
+        "}\r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros !== null){\r",
+        "    suma = suma + $data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros;\r",
+        "}\r",
+        "\r",
+        "$data.formOutputTest.solicitudApoyoEducativoInput.egresoTotal = suma;\r",
+        "\r",
+        "return suma;"
+      ],
+      "exposed" : false
+    },
+    "getDatosSolicitante" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getSolicitudDeAdmision&p=0&c=100&email={{userData.user_name}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getDatosPadres" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "  {\r",
+        "    \"persistenceId\": 717627,\r",
+        "    \"persistenceId_string\": \"717627\",\r",
+        "    \"persistenceVersion\": 0,\r",
+        "    \"persistenceVersion_string\": \"0\",\r",
+        "    \"catTitulo\": {\r",
+        "      \"persistenceId\": 145225,\r",
+        "      \"persistenceId_string\": \"145225\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"LIC\",\r",
+        "      \"descripcion\": \"Lic.\",\r",
+        "      \"fechaCreacion\": \"2021-03-29T13:39:53.538884\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"orden\": 4\r",
+        "    },\r",
+        "    \"catParentezco\": {\r",
+        "      \"persistenceId\": 145999,\r",
+        "      \"persistenceId_string\": \"145999\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"P\",\r",
+        "      \"descripcion\": \"Padre\",\r",
+        "      \"fechaCreacion\": \"2021-03-31T19:09:20.814573\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"id\": \"4a3f5eec-0b3a-4177-862c-240050f3af77\"\r",
+        "    },\r",
+        "    \"nombre\": \"Alfonso\",\r",
+        "    \"apellidos\": \"Gerardo\",\r",
+        "    \"correoElectronico\": \"mantcep@hotmail.com\",\r",
+        "    \"catEscolaridad\": {\r",
+        "      \"persistenceId\": 145267,\r",
+        "      \"persistenceId_string\": \"145267\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"G\",\r",
+        "      \"descripcion\": \"Grado Técnico\",\r",
+        "      \"fechaCreacion\": \"2021-03-29T13:58:17.35403\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false\r",
+        "    },\r",
+        "    \"catEgresoAnahuac\": {\r",
+        "      \"persistenceId\": 77,\r",
+        "      \"persistenceId_string\": \"77\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"descripcion\": \"No\",\r",
+        "      \"clave\": \"no\",\r",
+        "      \"fechaCreacion\": \"2020-11-17T22:40:00\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false\r",
+        "    },\r",
+        "    \"catCampusEgreso\": null,\r",
+        "    \"catTrabaja\": {\r",
+        "      \"persistenceId\": 49,\r",
+        "      \"persistenceId_string\": \"49\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"descripcion\": \"No\",\r",
+        "      \"fechaCreacion\": \"2020-11-17T22:40:00\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"usuarioBanner\": \"Administrador\",\r",
+        "      \"fechaImplementacion\": null,\r",
+        "      \"clave\": \"no\",\r",
+        "      \"isEnable\": null\r",
+        "    },\r",
+        "    \"empresaTrabaja\": \"\",\r",
+        "    \"giroEmpresa\": \"\",\r",
+        "    \"puesto\": \"\",\r",
+        "    \"isTutor\": true,\r",
+        "    \"vive\": null,\r",
+        "    \"calle\": \"Dfdsfd\",\r",
+        "    \"catPais\": {\r",
+        "      \"persistenceId\": 145306,\r",
+        "      \"persistenceId_string\": \"145306\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"99\",\r",
+        "      \"descripcion\": \"México\",\r",
+        "      \"fechaCreacion\": \"2021-03-29T16:28:50.680679\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"orden\": 1,\r",
+        "      \"caseId\": null,\r",
+        "      \"id\": null\r",
+        "    },\r",
+        "    \"numeroExterior\": \"dsfdsf\",\r",
+        "    \"numeroInterior\": \"\",\r",
+        "    \"catEstado\": {\r",
+        "      \"persistenceId\": 145599,\r",
+        "      \"persistenceId_string\": \"145599\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"M26\",\r",
+        "      \"descripcion\": \"Sonora\",\r",
+        "      \"fechaCreacion\": \"2021-03-29T17:01:08.884438\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"pais\": \"México\",\r",
+        "      \"orden\": 26,\r",
+        "      \"caseId\": \"58\"\r",
+        "    },\r",
+        "    \"ciudad\": \"Navojoa\",\r",
+        "    \"colonia\": \"Santa Bárbara\",\r",
+        "    \"telefono\": \"6421197077\",\r",
+        "    \"codigoPostal\": \"85870\",\r",
+        "    \"viveContigo\": true,\r",
+        "    \"otroParentesco\": \"\",\r",
+        "    \"caseId\": 47032,\r",
+        "    \"caseId_string\": \"47032\",\r",
+        "    \"desconozcoDatosPadres\": null,\r",
+        "    \"delegacionMunicipio\": \"Navojoa\",\r",
+        "    \"estadoExtranjero\": \"\",\r",
+        "    \"vencido\": null,\r",
+        "    \"countIntento\": null\r",
+        "  },\r",
+        "  {\r",
+        "    \"persistenceId\": 717628,\r",
+        "    \"persistenceId_string\": \"717628\",\r",
+        "    \"persistenceVersion\": 0,\r",
+        "    \"persistenceVersion_string\": \"0\",\r",
+        "    \"catTitulo\": null,\r",
+        "    \"catParentezco\": {\r",
+        "      \"persistenceId\": 145996,\r",
+        "      \"persistenceId_string\": \"145996\",\r",
+        "      \"persistenceVersion\": 0,\r",
+        "      \"persistenceVersion_string\": \"0\",\r",
+        "      \"clave\": \"M\",\r",
+        "      \"descripcion\": \"Madre\",\r",
+        "      \"fechaCreacion\": \"2021-03-31T19:08:53.82906\",\r",
+        "      \"usuarioCreacion\": \"Administrador\",\r",
+        "      \"isEliminado\": false,\r",
+        "      \"id\": \"9cfff8d0-5c53-4090-9cc6-4d22ddd9eb01\"\r",
+        "    },\r",
+        "    \"nombre\": \"\",\r",
+        "    \"apellidos\": \"\",\r",
+        "    \"correoElectronico\": \"\",\r",
+        "    \"catEscolaridad\": null,\r",
+        "    \"catEgresoAnahuac\": null,\r",
+        "    \"catCampusEgreso\": null,\r",
+        "    \"catTrabaja\": null,\r",
+        "    \"empresaTrabaja\": \"\",\r",
+        "    \"giroEmpresa\": \"\",\r",
+        "    \"puesto\": \"\",\r",
+        "    \"isTutor\": false,\r",
+        "    \"vive\": null,\r",
+        "    \"calle\": \"\",\r",
+        "    \"catPais\": null,\r",
+        "    \"numeroExterior\": \"\",\r",
+        "    \"numeroInterior\": \"\",\r",
+        "    \"catEstado\": null,\r",
+        "    \"ciudad\": \"\",\r",
+        "    \"colonia\": \"\",\r",
+        "    \"telefono\": \"\",\r",
+        "    \"codigoPostal\": \"\",\r",
+        "    \"viveContigo\": false,\r",
+        "    \"otroParentesco\": null,\r",
+        "    \"caseId\": 47032,\r",
+        "    \"caseId_string\": \"47032\",\r",
+        "    \"desconozcoDatosPadres\": true,\r",
+        "    \"delegacionMunicipio\": \"\",\r",
+        "    \"estadoExtranjero\": \"\",\r",
+        "    \"vencido\": null,\r",
+        "    \"countIntento\": 1\r",
+        "  }\r",
+        "\r",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "getDocumentosByTipoApoyo" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getDocumentosByTipoApoyo&p=0&c=0&idTipoApoyo={{formOutputTest.solicitudApoyoEducativoInput.catTipoApoyo_id}}&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "acceptoAvisoPrivacidad" : {
+      "type" : "constant",
+      "value" : [
+        "false"
+      ],
+      "exposed" : false
+    },
+    "getInformacionEscolar" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "  {\r",
+        "    \"promedio\": \"10\",\r",
+        "    \"preparatoria\": \"LICEO JUAN PABLO II\",\r",
+        "    \"certificado\": \"https://bpmintegra.blob.core.windows.net/privado/47028/v-1%20Kar_47028.png\",\r",
+        "    \"costoMensual\": \"\",\r",
+        "    \"clave\": \"53dd3e7f-2ece-4cb7-a844-2477e138ab84\",\r",
+        "    \"estado\": \"Michoacán\",\r",
+        "    \"pais\": \"México\",\r",
+        "    \"ciudad\": \"Sahuayo\"\r",
+        "  }\r",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "autosSolicitante_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.SDAE.model.AutosSolicitante?q=find&p=0&c=99"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "bienesRaicesSolicitante_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.SDAE.model.BienesRaicesSolicitante?q=find&p=0&c=99"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catCasaDondeVives_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CATCASADONDEVIVES"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catPorcentajeBeca_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CatPorcentajeBeca"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catPorcentajeFinanciamiento_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CatPorcentajeFinanciamiento"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catProvienenIngresos_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CatProvienenIngresos"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catTienesHijos_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatTienesHijos&p=0&c=0"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "catTipoApoyo_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CatTipoApoyo"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "hermanosSolicitante_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.SDAE.model.HermanosSolicitante?q=find&p=0&c=99"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "context" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}/context"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "task" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "taskId" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.assignedTask){",
+        "    return $data.assignedTask[0].id;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "formOutput" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "submit_errors_list" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.formOutput && $data.formOutput._submitError && $data.formOutput._submitError.explanations){",
+        "\tconst liElements = $data.formOutput._submitError.explanations",
+        "\t\t.filter(cause => cause !== null)",
+        "\t\t.map(cause => \"<li>\" + cause + \"</li>\")",
+        "\t\t.join('');",
+        "\tif(liElements){",
+        "\t\treturn \"<ul>\" + liElements + \"</ul>\";",
+        "\t}",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_autos" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'autos'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_bienesRaices" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'bienesRaices'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catCasaDondeVives" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catCasaDondeVives'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catPorcentajeBeca" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catPorcentajeBeca'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catPorcentajeFinanciamiento" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catPorcentajeFinanciamiento'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catProvienenIngresos" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catProvienenIngresos'}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catTienesHijos" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catTienesHijos'}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_catTipoApoyo" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'catTipoApoyo'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudApoyoEducativo_hermanos" : {
+      "type" : "url",
+      "value" : [
+        "{{solicitudApoyoEducativo|lazyRef:'hermanos'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "idProceso" : {
+      "type" : "constant",
+      "value" : [
+        "7752384505362323139"
+      ],
+      "exposed" : false
+    },
+    "validar1" : {
+      "type" : "expression",
+      "value" : [
+        "let output =  true; \r",
+        "\r",
+        "if($data.formOutputTest.solicitudApoyoEducativoInput.tieneHijos === null){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Debes  seleccionar un valor en el campo '¿Tienes hijos?'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información personal\";\r",
+        "} else if($data.formOutputTest.solicitudApoyoEducativoInput.tieneHijos && !$data.formOutputTest.solicitudApoyoEducativoInput.cuantosHijosTienes){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Si seleccionaste 'Sí' en el campo '¿Tienes hijos?' debes llenar el campo '¿Cuántos hijos tienes?'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información personal\";\r",
+        "} else if($data.formOutputTest.solicitudApoyoEducativoInput.tieneHijos && !$data.formOutputTest.solicitudApoyoEducativoInput.edadHijos){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Si seleccionaste 'Sí' en el campo '¿Tienes hijos?' debes llenar el campo 'Edad de los hijos'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información personal\";\r",
+        "} if(!$data.formOutputTest.solicitudApoyoEducativoInput.costoMensualColegiatura){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"El campo 'Costo mensual de colegiatura' no debe ir vacío y debe contener un valor numérico.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información Escolar\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.catBecaPreparatoria_id){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Debes  seleccionar un valor en el campo '¿Contó con beca en la preparatoria anterior?'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información Escolar\";\r",
+        "}  else if($data.returnCatValue.catBecaPreparatoria.descripcion === \"Sí\" && !$data.formOutputTest.solicitudApoyoEducativoInput.porcentajeBecaPrepa){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Si seleccionaste 'Sí' en el campo '¿Contó con beca en la preparatoria anterior?' debes llenar el campo 'Indica el porcentaje de beca:'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información Escolar\";\r",
+        "} else if($data.formOutputTest.solicitudApoyoEducativoInput.nuevoKardex && (!$data.formOutputTest.solicitudApoyoEducativoInput.urlAzureNuevoKardex)){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Si seleccionaste el campo 'Este es el documento que proporcionaste en la solicitud de admisión, ¿Deseas actualizarlo?' debe subir un nuevo kardex.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información Escolar\";\r",
+        "} else if($data.formOutputTest.solicitudApoyoEducativoInput.nuevoKardex && (!$data.formOutputTest.solicitudApoyoEducativoInput.nuevoPromedioPrepa)){\r",
+        "    output = false;\r",
+        "    $data.errorPaso1 = \"Si seleccionaste el campo 'Este es el documento que proporcionaste en la solicitud de admisión, ¿Deseas actualizarlo?' debes llenar el campo 'Captura el promedio del nuevo kardex'.\";\r",
+        "    $data.tituloErrorPaso1 = \"Información Escolar\";\r",
+        "}\r",
+        "\r",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "errorPaso1" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : false
+    },
+    "tituloErrorPaso1" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "reloadTask" : {
+      "type" : "constant",
+      "value" : [
+        "true"
+      ],
+      "exposed" : false
+    },
+    "errorPaso2" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "tituloErrorPaso2" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "validar2" : {
+      "type" : "expression",
+      "value" : [
+        "let output =  true; \r",
+        "\r",
+        "if(!$data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasaTutor){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaTutor){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de oficina' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.catSexTutor_id){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"Debes  seleccionar un valor en el campo 'Sexo del tutor'.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoMensualNetoTutor){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Ingreso mensual neto' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.catProvienenIngresos_id){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Ingreso mensual neto' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
+        "} else if(!validateBienesRaices()){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"Si  agregaste un valor a la tabla de bienes raices, todos los datos de este deben ser llenados.\";\r",
+        "    $data.tituloErrorPaso2 = \"Menciona los bienes raíces o las inversiones que posea:\";\r",
+        "} else if($data.padre.vive === \"Sí\" && !$data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaPadre){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de oficina' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de padre\";\r",
+        "} else if($data.padre.vive === \"Sí\" && !$data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasanaPadre){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de padre\";\r",
+        "} else if($data.madre.vive === \"Sí\" && !$data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaMadre){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de oficina' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de madre\";\r",
+        "} else if($data.madre.vive === \"Sí\" && !$data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasanaMadre){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso2 = \"Información de madre\";\r",
+        "} else if (!validateHermanos()){\r",
+        "    output = false;\r",
+        "    $data.errorPaso2 = \"Si  agregaste un valor a la tabla de hermanos, todos los datos de este deben ser llenados.\";\r",
+        "    $data.tituloErrorPaso2 = \"Hermanos:\";\r",
+        "}\r",
+        "\r",
+        "\r",
+        "return output;\r",
+        "\r",
+        "\r",
+        "function validateBienesRaices(){\r",
+        "    let output = true;\r",
+        "\r",
+        "    for(let bien of $data.formOutputTest.bienesRaicesInput){\r",
+        "        if(!bien.catTipoInversionesPosee_id || !bien.descripcion || !bien.direccionBanco || !bien.valor){\r",
+        "            output = false;\r",
+        "            break;   \r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "}\r",
+        "\r",
+        "function validateHermanos(){\r",
+        "    let output = true;\r",
+        "    \r",
+        "    for(let hermano of $data.formOutputTest.hermanosInput){\r",
+        "        if(!hermano.nombres || !hermano.apellidos || !hermano.edad || \r",
+        "            (hermano.isEstudia && (!hermano.institucion || !hermano.colegiaturaMensual))  ||\r",
+        "            (hermano.isTieneBeca && !hermano.porcentajeBecaAsignado)  ||\r",
+        "            (hermano.isTrabaja && (!hermano.empresa || !hermano.ingresoMensual))\r",
+        "        ){\r",
+        "            output = false;\r",
+        "            break;   \r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "errorPaso3" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "tituloErrorPaso3" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "validar3" : {
+      "type" : "expression",
+      "value" : [
+        "let output =  true; \r",
+        "\r",
+        "if(!$data.formOutputTest.solicitudApoyoEducativoInput.motivoBeca){\r",
+        "    output = false;\r",
+        "    $data.errorPaso3 = \"El campo 'Escribe el motivo por el cual se solicita la beca y otra información que creas que el comité de selección deba saber' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso3 = \"Motivo de solicitud de beca\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.catTipoApoyo_id){\r",
+        "    output = false;\r",
+        "    $data.errorPaso3 = \"El campo 'Tipo de apoyo solicitado' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso3 = \"Motivo de solicitud de beca\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.cantMensualPagarUni){\r",
+        "    output = false;\r",
+        "    $data.errorPaso3 = \"El campo '¿Qué cantidad mensual puedes pagar por la universidad?' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso3 = \"Motivo de solicitud de beca\";\r",
+        "} \r",
+        "\r",
+        "return output;\r"
+      ],
+      "exposed" : false
+    },
+    "errorPaso4" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "tituloErrorPaso4" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "validar4" : {
+      "type" : "expression",
+      "value" : [
+        "let output =  true; \r",
+        "\r",
+        "if(!$data.formOutputTest.solicitudApoyoEducativoInput.catCasaDondeVives_id){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'La casa donde vives es' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.contruccionM2Casa){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Construcción de m2 de su casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.terrenoM2Casa){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Terreno m2 de tu casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.valorAproxCasa){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Valor aproximado de su casa' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.calle){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Calle' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.delegacionCiudad){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Delegación/Municipio/Ciudad' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "}else if(!$data.formOutputTest.solicitudApoyoEducativoInput.numExterior){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Núm. Exterior' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.pais){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'País' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.colonia){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Colonia' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.estado){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Estado' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.codigoPostal){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Código postal' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Información Socio-Económica\";\r",
+        "} else if (!validateAutomoviles()){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"Si  agregaste un valor a la tabla de automóviles, todos los datos de este deben ser llenados.\";\r",
+        "    $data.tituloErrorPaso4 = \"Automóviles\";\r",
+        "} \r",
+        "\r",
+        "else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de padre' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de la madre' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de hermano' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Tio(a)' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de abuelo(a)' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de aspirante' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta && $data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Renta o Hipoteca' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoServicios && $data.formOutputTest.solicitudApoyoEducativoInput.egresoServicios !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Servicios: Agua, luz, tel. Otros' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoEducacion && $data.formOutputTest.solicitudApoyoEducativoInput.egresoEducacion !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Educación' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoGastosMedicos && $data.formOutputTest.solicitudApoyoEducativoInput.egresoGastosMedicos !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Gastos médicos' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoAlimentacion && $data.formOutputTest.solicitudApoyoEducativoInput.egresoAlimentacion !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Alimentación' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoVestido && $data.formOutputTest.solicitudApoyoEducativoInput.egresoVestido !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Vestido' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\"; \r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoSeguro && $data.formOutputTest.solicitudApoyoEducativoInput.egresoSeguro !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Seguros' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoDiversion && $data.formOutputTest.solicitudApoyoEducativoInput.egresoDiversion !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Diversión' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoAhorro && $data.formOutputTest.solicitudApoyoEducativoInput.egresoAhorro !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Ahorro' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos && $data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Créditos/impuestos' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros && $data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros !== 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Otros' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} \r",
+        "\r",
+        "\r",
+        "return output;\r",
+        "\r",
+        "\r",
+        "function validateAutomoviles(){\r",
+        "    let output = true;\r",
+        "\r",
+        "    for(let auto of $data.formOutputTest.autosInput){\r",
+        "        if(!auto.marca || !auto.modelo || !auto.ano || !auto.costoAproximado  || !auto.catSituacionAuto_id){\r",
+        "            output = false;\r",
+        "            break;   \r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "errorPaso5" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "tituloErrorPaso5" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "validar5" : {
+      "type" : "expression",
+      "value" : [
+        "let output =  true; \r",
+        "\r",
+        "if (!validarImagenes()){\r",
+        "    output = false;\r",
+        "    $data.errorPaso5 = \"Debes subir todas las imagenes dle estudio socio económico\";\r",
+        "    $data.tituloErrorPaso5 = \"Carga de documentos\";\r",
+        "} else if (!validarDocumentos()){\r",
+        "    output = false;\r",
+        "    $data.errorPaso5 = \"Debes subir todos  los documentos  marcados como obligatorios\";\r",
+        "    $data.tituloErrorPaso5 = \"Carga de documentos\";\r",
+        "} else if ($data.returnCatValue.catTipoApoyo.requiereVideo && !$data.formOutputTest.solicitudApoyoEducativoInput.urlVideoYouTube){\r",
+        "    output = false;\r",
+        "    $data.errorPaso5 = \"Debes subir todos  los documentos  marcados como obligatorios\";\r",
+        "    $data.tituloErrorPaso5 = \"Video e habilidades\";\r",
+        "}\r",
+        "\r",
+        "return output;\r",
+        "\r",
+        "\r",
+        "function validarDocumentos(){\r",
+        "    let output = true;\r",
+        "\r",
+        "    for(let document  of $data.formOutputTest.documentosSolicitanteInput){\r",
+        "            if(!document.urlDocumento && document.catManejoDocumentos.isObligatorioDoc){\r",
+        "                output = false;\r",
+        "                break;   \r",
+        "            }\r",
+        "        }\r",
+        "\r",
+        "    return output;\r",
+        "}\r",
+        "\r",
+        "function validarImagenes(){\r",
+        "    let output = true;\r",
+        "\r",
+        "    for(let imagen  of $data.formOutputTest.imagenesSocEcoSolicitanteInput){\r",
+        "        if(!imagen.urlImagen){\r",
+        "            output = false;\r",
+        "            break;   \r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "caseId" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.assignedTask){ return $data.assignedTask[0].caseId; }"
+      ],
+      "exposed" : false
+    },
+    "formOutputReal" : {
+      "type" : "expression",
+      "value" : [
+        "\r",
+        "// let formOutput = {};\r",
+        "// if($data.solicitudApoyoEducativo){\r",
+        "//     $data.solicitudApoyoEducativo.catTienesHijos = $data.solicitudApoyoEducativo_catTienesHijos;\r",
+        "//     $data.solicitudApoyoEducativo.catProvienenIngresos = $data.solicitudApoyoEducativo_catProvienenIngresos;\r",
+        "//     $data.solicitudApoyoEducativo.bienesRaices = $data.solicitudApoyoEducativo_bienesRaices;\r",
+        "//     $data.solicitudApoyoEducativo.hermanos = $data.solicitudApoyoEducativo_hermanos;\r",
+        "//     $data.solicitudApoyoEducativo.catTipoApoyo = $data.solicitudApoyoEducativo_catTipoApoyo;\r",
+        "//     $data.solicitudApoyoEducativo.catPorcentajeBeca = $data.solicitudApoyoEducativo_catPorcentajeBeca;\r",
+        "//     $data.solicitudApoyoEducativo.catPorcentajeFinanciamiento = $data.solicitudApoyoEducativo_catPorcentajeFinanciamiento;\r",
+        "//     $data.solicitudApoyoEducativo.catCasaDondeVives = $data.solicitudApoyoEducativo_catCasaDondeVives;\r",
+        "//     $data.solicitudApoyoEducativo.autos = $data.solicitudApoyoEducativo_autos;\r",
+        "\r",
+        "//     formOutput = $data.solicitudApoyoEducativo;\r",
+        "// } else {\r",
+        "//     formOutput.catTienesHijos = $data.solicitudApoyoEducativo_catTienesHijos;\r",
+        "//     formOutput.catProvienenIngresos = $data.solicitudApoyoEducativo_catProvienenIngresos;\r",
+        "//     formOutput.bienesRaices = $data.solicitudApoyoEducativo_bienesRaices;\r",
+        "//     formOutput.hermanos = $data.solicitudApoyoEducativo_hermanos;\r",
+        "//     formOutput.catTipoApoyo = $data.solicitudApoyoEducativo_catTipoApoyo;\r",
+        "//     formOutput.catPorcentajeBeca = $data.solicitudApoyoEducativo_catPorcentajeBeca;\r",
+        "//     formOutput.catPorcentajeFinanciamiento = $data.solicitudApoyoEducativo_catPorcentajeFinanciamiento;\r",
+        "//     formOutput.catCasaDondeVives = $data.solicitudApoyoEducativo_catCasaDondeVives;\r",
+        "//     formOutput.autos = $data.solicitudApoyoEducativo_autos;\r",
+        "// }\r",
+        "\r",
+        "// formOutput.caseId = formOutput.caseId !== undefined ? formOutput.caseId : null;\r",
+        "// formOutput.isEliminado = formOutput.isEliminado !== undefined ? formOutput.isEliminado : null;\r",
+        "// formOutput.pageIndex = formOutput.pageIndex !== undefined ? formOutput.pageIndex : null;\r",
+        "// formOutput.costoMensualColegiatura = formOutput.costoMensualColegiatura !== undefined ? formOutput.costoMensualColegiatura : null;\r",
+        "// formOutput.catTienesHijos = formOutput.catTienesHijos ? {\r",
+        "//     persistenceId_string: formOutput.catTienesHijos.persistenceId_string !== undefined ? formOutput.catTienesHijos.persistenceId_string : null\r",
+        "// } : null;\r",
+        "// formOutput.calificacionOficialPreparatoria = formOutput.calificacionOficialPreparatoria !== undefined ? formOutput.calificacionOficialPreparatoria : null;\r",
+        "// formOutput.nombreTutor = formOutput.nombreTutor !== undefined ? formOutput.nombreTutor : null,\r",
+        "// formOutput.telefonoCasaTutor = formOutput.telefonoCasaTutor !== undefined ? formOutput.telefonoCasaTutor : null,\r",
+        "// formOutput.telefonoOficinaTutor = formOutput.telefonoOficinaTutor !== undefined ? formOutput.telefonoOficinaTutor : null,\r",
+        "// formOutput.telefonoCelularTutor = formOutput.telefonoCelularTutor !== undefined ? formOutput.telefonoCelularTutor : null,\r",
+        "// formOutput.parentescoTutor = formOutput.parentescoTutor !== undefined ? formOutput.parentescoTutor : null,\r",
+        "// formOutput.correoElectronicoTutor = formOutput.correoElectronicoTutor !== undefined ? formOutput.correoElectronicoTutor : null,\r",
+        "// formOutput.viveMismoDocimicilioAlumnoTutor = formOutput.viveMismoDocimicilioAlumnoTutor !== undefined ? formOutput.viveMismoDocimicilioAlumnoTutor : null,\r",
+        "// formOutput.maximoNivelEstudiosTutor = formOutput.maximoNivelEstudiosTutor !== undefined ? formOutput.maximoNivelEstudiosTutor : null,\r",
+        "// formOutput.ocupacionTutor = formOutput.ocupacionTutor !== undefined ? formOutput.ocupacionTutor : null,\r",
+        "// formOutput.catProvienenIngresos = formOutput.catProvienenIngresos ? {\r",
+        "//     persistenceId_string : formOutput.catProvienenIngresos.persistenceId_string !== undefined ? formOutput.catProvienenIngresos.persistenceId_string : null\r",
+        "// } : null,\r",
+        "// formOutput.ingresoMensualNetoTutor = formOutput.ingresoMensualNetoTutor !== undefined ? formOutput.ingresoMensualNetoTutor : null,\r",
+        "// formOutput.empresaTutor = formOutput.empresaTutor !== undefined ? formOutput.empresaTutor : null,\r",
+        "// formOutput.puestoTutor = formOutput.puestoTutor !== undefined ? formOutput.puestoTutor : null,\r",
+        "// formOutput.bienesRaices = formOutput.bienesRaices.map( it => ({\r",
+        "//     persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null\r",
+        "// })),\r",
+        "// formOutput.tieneHermanos = formOutput.tieneHermanos !== undefined ? formOutput.tieneHermanos : null,\r",
+        "// formOutput.hermanos = formOutput.hermanos.map( it => ({\r",
+        "//     persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null\r",
+        "// })),\r",
+        "// formOutput.motivoBeca = formOutput.motivoBeca !== undefined ? formOutput.motivoBeca : null,\r",
+        "// formOutput.catTipoApoyo = formOutput.catTipoApoyo ? {\r",
+        "//     persistenceId_string : formOutput.catTipoApoyo.persistenceId_string !== undefined ? formOutput.catTipoApoyo.persistenceId_string : null\r",
+        "// } : null,\r",
+        "// formOutput.catPorcentajeBeca = formOutput.catPorcentajeBeca ? {\r",
+        "//     persistenceId_string : formOutput.catPorcentajeBeca.persistenceId_string !== undefined ? formOutput.catPorcentajeBeca.persistenceId_string : null\r",
+        "// } : null,\r",
+        "// formOutput.catPorcentajeFinanciamiento = formOutput.catPorcentajeFinanciamiento ? {\r",
+        "//     persistenceId_string : formOutput.catPorcentajeFinanciamiento.persistenceId_string !== undefined ? formOutput.catPorcentajeFinanciamiento.persistenceId_string : null\r",
+        "// } : null,\r",
+        "// formOutput.cantMensualPagarUni = formOutput.cantMensualPagarUni !== undefined ? formOutput.cantMensualPagarUni : null,\r",
+        "// formOutput.catCasaDondeVives = formOutput.catCasaDondeVives ? {\r",
+        "//     persistenceId_string : formOutput.catCasaDondeVives.persistenceId_string !== undefined ? formOutput.catCasaDondeVives.persistenceId_string : null\r",
+        "// } : null,\r",
+        "// formOutput.contruccionM2Casa = formOutput.contruccionM2Casa !== undefined ? formOutput.contruccionM2Casa : null,\r",
+        "// formOutput.terrenoM2Casa = formOutput.terrenoM2Casa !== undefined ? formOutput.terrenoM2Casa : null,\r",
+        "// formOutput.valorAproxCasa = formOutput.valorAproxCasa !== undefined ? formOutput.valorAproxCasa : null,\r",
+        "// formOutput.calle = formOutput.calle !== undefined ? formOutput.calle : null,\r",
+        "// formOutput.delegacionCiudad = formOutput.delegacionCiudad !== undefined ? formOutput.delegacionCiudad : null,\r",
+        "// formOutput.numExterior = formOutput.numExterior !== undefined ? formOutput.numExterior : null,\r",
+        "// formOutput.numInterior = formOutput.numInterior !== undefined ? formOutput.numInterior : null,\r",
+        "// formOutput.pais = formOutput.pais !== undefined ? formOutput.pais : null,\r",
+        "// formOutput.colonia = formOutput.colonia !== undefined ? formOutput.colonia : null,\r",
+        "// formOutput.estado = formOutput.estado !== undefined ? formOutput.estado : null,\r",
+        "// formOutput.codigoPostal = formOutput.codigoPostal !== undefined ? formOutput.codigoPostal : null,\r",
+        "// formOutput.autos = formOutput.autos.map( it => ({\r",
+        "//     persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null\r",
+        "// })),\r",
+        "// formOutput.ingresoPadre = formOutput.ingresoPadre !== undefined ? formOutput.ingresoPadre : null,\r",
+        "// formOutput.ingresoMadre = formOutput.ingresoMadre !== undefined ? formOutput.ingresoMadre : null,\r",
+        "// formOutput.ingresoHermano = formOutput.ingresoHermano !== undefined ? formOutput.ingresoHermano : null,\r",
+        "// formOutput.ingresoTio = formOutput.ingresoTio !== undefined ? formOutput.ingresoTio : null,\r",
+        "// formOutput.ingresoAbuelo = formOutput.ingresoAbuelo !== undefined ? formOutput.ingresoAbuelo : null,\r",
+        "// formOutput.ingresoAspirante = formOutput.ingresoAspirante !== undefined ? formOutput.ingresoAspirante : null,\r",
+        "// formOutput.ingresoTotal = formOutput.ingresoTotal !== undefined ? formOutput.ingresoTotal : null,\r",
+        "// formOutput.egresoRenta = formOutput.egresoRenta !== undefined ? formOutput.egresoRenta : null,\r",
+        "// formOutput.egresoServicios = formOutput.egresoServicios !== undefined ? formOutput.egresoServicios : null,\r",
+        "// formOutput.egresoEducacion = formOutput.egresoEducacion !== undefined ? formOutput.egresoEducacion : null,\r",
+        "// formOutput.egresoGastosMedicos = formOutput.egresoGastosMedicos !== undefined ? formOutput.egresoGastosMedicos : null,\r",
+        "// formOutput.egresoAlimentacion = formOutput.egresoAlimentacion !== undefined ? formOutput.egresoAlimentacion : null,\r",
+        "// formOutput.egresoVestido = formOutput.egresoVestido !== undefined ? formOutput.egresoVestido : null,\r",
+        "// formOutput.egresoSeguro = formOutput.egresoSeguro !== undefined ? formOutput.egresoSeguro : null,\r",
+        "// formOutput.egresoDiversion = formOutput.egresoDiversion !== undefined ? formOutput.egresoDiversion : null,\r",
+        "// formOutput.egresoAhorro = formOutput.egresoAhorro !== undefined ? formOutput.egresoAhorro : null,\r",
+        "// formOutput.egresoCreditos = formOutput.egresoCreditos !== undefined ? formOutput.egresoCreditos : null,\r",
+        "// formOutput.egresoOtros = formOutput.egresoOtros !== undefined ? formOutput.egresoOtros : null,\r",
+        "// formOutput.egresoTotal = formOutput.egresoTotal !== undefined ? formOutput.egresoTotal : null,\r",
+        "// formOutput.urlVideoYouTube = formOutput.urlVideoYouTube !== undefined ? formOutput.urlVideoYouTube : null,\r",
+        "// formOutput.isSolDeportivaAprobada = formOutput.isSolDeportivaAprobada !== undefined ? formOutput.isSolDeportivaAprobada : null,\r",
+        "// formOutput.motivoRechazoDeportiva = formOutput.motivoRechazoDeportiva !== undefined ? formOutput.motivoRechazoDeportiva : null,\r",
+        "// formOutput.motivoAprobadaDeportiva = formOutput.motivoAprobadaDeportiva !== undefined ? formOutput.motivoAprobadaDeportiva : null,\r",
+        "// formOutput.isSolArtisticaAprobada = formOutput.isSolArtisticaAprobada !== undefined ? formOutput.isSolArtisticaAprobada : null,\r",
+        "// formOutput.motivoRechazoArtistica = formOutput.motivoRechazoArtistica !== undefined ? formOutput.motivoRechazoArtistica : null,\r",
+        "// formOutput.motivoAprobadaArtistica = formOutput.motivoAprobadaArtistica !== undefined ? formOutput.motivoAprobadaArtistica : null \r",
+        "\r",
+        "// let output = {\r",
+        "//     solicitudApoyoEducativoInput:formOutput,\r",
+        "//     isFinalizadaInput: false\r",
+        "// };\r",
+        "\r",
+        "// return  output;\r"
+      ],
+      "exposed" : false
+    },
+    "pruebaContrato" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "    \t\"solicitudApoyoEducativoInput\":{\r",
+        "    \r",
+        "    \t\t\"caseId\":\"1\",\r",
+        "    \t\t\"pageIndex\":\"\",\r",
+        "    \t\t\"costoMensualColegiatura\":\"4000\",\r",
+        "    \t\t\"catTienesHijos\":{\"persistenceId_string\":\"1\"},\r",
+        "    \t\t\"calificacionOficialPreparatoria\":\"9\",\r",
+        "    \t\t\"nombreTutor\":\"Jose\",\r",
+        "    \t\t\"telefonoCasaTutor\":\"23452345\",\r",
+        "    \t\t\"telefonoOficinaTutor\":\"23452345\",\r",
+        "    \t\t\"telefonoCelularTutor\":\"23452345\",\r",
+        "    \t\t\"parentescoTutor\":\"2345\",\r",
+        "    \t\t\"correoElectronicoTutor\":\"2345\",\r",
+        "    \t\t\"viveMismoDocimicilioAlumnoTutor\":\"2345\",\r",
+        "    \t\t\"maximoNivelEstudiosTutor\":\"234\",\r",
+        "    \t\t\"ocupacionTutor\":\"2345\",\r",
+        "    \t\t\"catProvienenIngresos\":null,\r",
+        "    \t\t\"ingresoMensualNetoTutor\":\"2345\",\r",
+        "    \t\t\"empresaTutor\":\"2345\",\r",
+        "    \t\t\"puestoTutor\":\"2345\",\r",
+        "    \t\t\"bienesRaices\":[],\r",
+        "    \t\t\"tieneHermanos\":false,\r",
+        "    \t\t\"hermanos\":[],\r",
+        "    \t\t\"motivoBeca\":\"2345234523452345\",\r",
+        "    \t\t\"catTipoApoyo\":null,\r",
+        "    \t\t\"catPorcentajeBeca\":null,\r",
+        "    \t\t\"catPorcentajeFinanciamiento\":null,\r",
+        "    \t\t\"cantMensualPagarUni\":0,\r",
+        "    \t\t\"catCasaDondeVives\":null,\r",
+        "    \t\t\"contruccionM2Casa\":0,\r",
+        "    \t\t\"terrenoM2Casa\":0,\r",
+        "    \t\t\"valorAproxCasa\":0,\r",
+        "    \t\t\"calle\":\"23452345\",\r",
+        "    \t\t\"delegacionCiudad\":\"23452345\",\r",
+        "    \t\t\"numExterior\":\"23452345\",\r",
+        "    \t\t\"numInterior\":\"3245321453245\",\r",
+        "    \t\t\"pais\":\"\",\r",
+        "    \t\t\"colonia\":\"\",\r",
+        "    \t\t\"estado\":\"\",\r",
+        "    \t\t\"codigoPostal\":\"\",\r",
+        "    \t\t\"autos\":[],\r",
+        "    \t\t\"ingresoPadre\":0,\r",
+        "    \t\t\"ingresoMadre\":0,\r",
+        "    \t\t\"ingresoHermano\":0,\r",
+        "    \t\t\"ingresoTio\":0,\r",
+        "    \t\t\"ingresoAbuelo\":0,\r",
+        "    \t\t\"ingresoAspirante\":0,\r",
+        "    \t\t\"ingresoTotal\":0,\r",
+        "    \t\t\"egresoRenta\":0,\r",
+        "    \t\t\"egresoServicios\":0,\r",
+        "    \t\t\"egresoEducacion\":0,\r",
+        "    \t\t\"egresoGastosMedicos\":0,\r",
+        "    \t\t\"egresoAlimentacion\":0,\r",
+        "    \t\t\"egresoVestido\":0,\r",
+        "    \t\t\"egresoSeguro\":0,\r",
+        "    \t\t\"egresoDiversion\":0,\r",
+        "    \t\t\"egresoAhorro\":0,\r",
+        "    \t\t\"egresoCreditos\":0,\r",
+        "    \t\t\"egresoOtros\":0,\r",
+        "    \t\t\"egresoTotal\":0,\r",
+        "    \t\t\"urlVideoYouTube\":\"\",\r",
+        "    \t\t\"caseIdAdmisiones\":0,\r",
+        "    \t\t\"eliminado\": false\r",
+        "    \t},\r",
+        "    \t\"isFinalizadaInput\":false\r",
+        "    }"
+      ],
+      "exposed" : false
+    },
+    "formOutputTest" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "getProcessId" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getUserProcessApoyoEducativo&c=0&p=0"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "processStartContract" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"solicitudApoyoEducativoInput\":{",
+        "        \"eliminado\": false,",
+        "        \"catTipoMoneda_id\": $data.tipoMonedaParam,",
+        "        \"aceptoAvisoPrivacidad\": $data.acceptoAvisoPrivacidad",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "returnFormOutput" : {
+      "type" : "expression",
+      "value" : [
+        "// let output = $data.formOutputTest;",
+        "// output.solicitudApoyoEducativoInput.pageIndex = $data.selectedIndex;",
+        "// output.solicitudApoyoEducativoInput.caseId = $data.caseId;",
+        "// output.solicitudApoyoEducativoInput.caseIdAdmisiones = $data.objSolicitudDeAdmision[0].caseId;",
+        "// // output.solicitudApoyoEducativoInput.hermanos = [];",
+        "",
+        "// if(!output.lstDocumentosDocumentInput){",
+        "//     output.lstDocumentosDocumentInput = [];",
+        "// }",
+        "",
+        "// output.fotoCalleCasaDocumentInput  = $data.formOutputTest.fotoCalleCasaDocumentInput;",
+        "// output.fotoFachadaCasaDocumentInput = $data.formOutputTest.fotoFachadaCasaDocumentInput;",
+        "// output.fotoSalaCasaDocumentInput = $data.formOutputTest.fotoSalaCasaDocumentInput;",
+        "// output.fotoComedorCasaDocumentInput =  $data.formOutputTest.fotoComedorCasaDocumentInput;",
+        "",
+        "",
+        "// return output;"
+      ],
+      "exposed" : false
+    },
+    "lstDocumentosDocument" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "nuevoBienesRaices" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"persistenceId_string\": \"\",",
+        "    \"caseId\": $data.caseId,",
+        "    \"catTipoInversionesPosee\": \"\",",
+        "    \"descripcion\": \"\",",
+        "    \"direccionBanco\": \"\",",
+        "    \"valor\": null",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "lstCatTienesHijos" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatTienesHijos"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getTipoAdmision" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.objSolicitudDeAdmision.admisionAnahuac ? \"Admisión Anáhuac\" : \"Admisión normal\""
+      ],
+      "exposed" : false
+    },
+    "setTutores" : {
+      "type" : "expression",
+      "value" : [
+        "for(let objectTutor of $data.objPadresTutor){\r",
+        "    if(objectTutor.isTutor){\r",
+        "        $data.tutor = objectTutor;\r",
+        "    }\r",
+        "    \r",
+        "    if (objectTutor.catParentezco.descripcion === \"Padre\"){\r",
+        "        $data.padre = objectTutor;\r",
+        "    } \r",
+        "    \r",
+        "    if(objectTutor.catParentezco.descripcion === \"Madre\"){\r",
+        "        $data.madre = objectTutor;\r",
+        "    }\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "tutor" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "padre" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "madre" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "documentos" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "returnCatValue" : {
+      "type" : "expression",
+      "value" : [
+        "let output = {\r",
+        "    \"catTienesHijos\": null,\r",
+        "    \"catBecaPreparatoria\": null,\r",
+        "    \"catTipoApoyo\": null,\r",
+        "    \"catTipoMoneda\": null,\r",
+        "    \"catTienesHermanos\": null,\r",
+        "    \"catPorcentajeBeca\": null,\r",
+        "    \"catPorcentajeFinanciamiento\": null,\r",
+        "    \"catProvienenIngresos\":null\r",
+        "};\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catTienesHermanos_id && $data.lstCatTienesHermanos){\r",
+        "    for(let cat of $data.lstCatTienesHermanos.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catTienesHermanos_id){\r",
+        "            output[\"catTienesHermanos\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catBecaPreparatoria_id && $data.lstCatContoBecaPreparatoria){\r",
+        "    for(let cat of $data.lstCatContoBecaPreparatoria.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catBecaPreparatoria_id){\r",
+        "            output[\"catBecaPreparatoria\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catTipoApoyo_id && $data.getCatTipoApoyoByCampus){\r",
+        "    for(let cat of $data.getCatTipoApoyoByCampus.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catTipoApoyo_id){\r",
+        "            output[\"catTipoApoyo\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catTipoMoneda_id && $data.lstTipoMoneda){\r",
+        "    for(let cat of $data.lstTipoMoneda.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catTipoMoneda_id){\r",
+        "            output[\"catTipoMoneda\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catPorcentajeBeca_id && $data.lstCatPorcentajeBeca){\r",
+        "    for(let cat of $data.lstCatPorcentajeBeca.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catPorcentajeBeca_id){\r",
+        "            output[\"catPorcentajeBeca\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catPorcentajeFinanciamiento_id && $data.lstCatPorcentajeFinanciamiento){\r",
+        "    for(let cat of $data.lstCatPorcentajeFinanciamiento.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catPorcentajeFinanciamiento_id){\r",
+        "            output[\"catPorcentajeFinanciamiento\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "if($data.solicitudDeApoyoEducativo.catProvienenIngresos_id && $data.lstCatProvienenIngresos){\r",
+        "    for(let cat of $data.lstCatProvienenIngresos.data){\r",
+        "        if(cat.persistenceId == $data.solicitudDeApoyoEducativo.catProvienenIngresos_id){\r",
+        "            output[\"catProvienenIngresos\"] =  cat;\r",
+        "            break;\r",
+        "        }    \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "\r",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "siNoOpciones" : {
+      "type" : "json",
+      "value" : [
+        "[",
+        "    {",
+        "        \"clave\": \"Sí\",",
+        "        \"valor\": false",
+        "    }, ",
+        "    {",
+        "        \"clave\": \"No\",",
+        "        \"valor\": false",
+        "    }",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "getAutodescripcion" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.model.AutodescripcionV2?q=findByCaseId&p=0&c=10&f=caseId={{objSolicitudDeAdmision[0].caseId}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "tipoMonedaParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "tipoMoneda"
+      ],
+      "exposed" : false
+    },
+    "lstTipoMoneda" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatalogosGenericos&p=0&c=0&catalogo=CATTIPOMONEDA"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "imagenesSocioEconomico" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "urlIMagenesSocioEconomico" : {
+      "type" : "expression",
+      "value" : [
+        "return \"../API/extension/AnahuacBecasRest?url=getImagenesByTipoApoyo&p=0&c=0&campus=\" + $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita;"
+      ],
+      "exposed" : false
+    },
+    "catSexo" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"getCatSexo [com.anahuac.catalogos.CatSexo]\",\"businessObjectName\":\"CatSexo\",\"query\":{\"name\":\"getCatSexo\",\"displayName\":\"getCatSexo\"},\"id\":\"com.anahuac.catalogos.CatSexo\",\"filters\":[],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "getCatTipoApoyoByCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getCatTipoAoyoByCampus&p=0&c=0&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "preAutorizacion_ref" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.preAutorizacion_ref.link}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "urlDownloadFileAzure" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getB64FileByPersistenceId&p=0&c=100&persistenceId="
+      ],
+      "exposed" : false
+    },
+    "fotoB64" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure={{objSolicitudDeAdmision[0].urlFoto}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "constacia" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure={{objSolicitudDeAdmision[0].urlConstancia}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "selectedFile" : {
+      "type" : "json",
+      "value" : [
+        "{ \"linkSource\": \"\", \"fileName\": \"\", \"extension\": \"\" }"
+      ],
+      "exposed" : false
+    },
+    "returnCurriculumInfo" : {
+      "type" : "expression",
+      "value" : [
+        "let output = {",
+        "    \"documentName\":\"\",",
+        "    \"documentDescription\":\"\"",
+        "};",
+        "if($data.returnCatValue.catTipoApoyo.isArtistica){",
+        "    output = {",
+        "        \"documentName\":\"Curriculum Artistico\",",
+        "        \"documentDescription\":\"\"",
+        "    }",
+        "} else if ($data.returnCatValue.catTipoApoyo.isDeportiva){",
+        "    output = {",
+        "        \"documentName\":\"Curriculum deportivo\",",
+        "        \"documentDescription\":\"\"",
+        "    }",
+        "}",
+        "",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "lstCatSituacionAuto" : {
+      "type" : "url",
+      "value" : [
+        "{{ligaApiGetCatalogos}}CatSituacionAuto"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "urlDonwnloadAzureUrl" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
+      ],
+      "exposed" : false
+    },
+    "setOpciones" : {
+      "type" : "expression",
+      "value" : [
+        "let output = [];\r",
+        "\r",
+        "if($data.autorizacion.porcentajeCreditoAutorizacion){\r",
+        "    output = [\r",
+        "        {\r",
+        "            \"text\": \"Beca autorizada \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\",\r",
+        "            \"value\": {\r",
+        "                \"varFinanaciamientoInput\": false,\r",
+        "                \"varSoloBecaInput\": true,\r",
+        "                \"varBecaFinanciamientoInput\": false\r",
+        "            }\r",
+        "        }, \r",
+        "        {\r",
+        "            \"text\": \"Beca autorizada del \" + $data.autorizacion.porcentajeBecaAutorizacion + \"% y un \" +  $data.autorizacion.porcentajeCreditoAutorizacion + \"% de financiamiento pre-autorizado, (sujeto a revisión de la información de tu aval y dictamen del comité de financiamiento educativo).\",\r",
+        "            \"value\": {\r",
+        "                \"varFinanaciamientoInput\": false,\r",
+        "                \"varSoloBecaInput\": false,\r",
+        "                \"varBecaFinanciamientoInput\": true\r",
+        "            }\r",
+        "        },\r",
+        "        {\r",
+        "            \"text\": \"Ninguna.\",\r",
+        "            \"value\": {\r",
+        "                \"varFinanaciamientoInput\": false,\r",
+        "                \"varSoloBecaInput\": false,\r",
+        "                \"varBecaFinanciamientoInput\": false\r",
+        "            }\r",
+        "        }\r",
+        "    ]\r",
+        "} else {\r",
+        "    output = [\r",
+        "        {\r",
+        "            \"text\": \"Beca autorizada  \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\",\r",
+        "            \"value\": {\r",
+        "                \"varFinanaciamientoInput\": false,\r",
+        "                \"varSoloBecaInput\": true,\r",
+        "                \"varBecaFinanciamientoInput\": false\r",
+        "            }\r",
+        "        },\r",
+        "        {\r",
+        "            \"text\": \"Ninguna.\",\r",
+        "            \"value\": {\r",
+        "                \"varFinanaciamientoInput\": false,\r",
+        "                \"varSoloBecaInput\": false,\r",
+        "                \"varBecaFinanciamientoInput\": false\r",
+        "            }\r",
+        "        }\r",
+        "    ]\r",
+        "}\r",
+        "\r",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "formOutputFinal" : {
+      "type" : "expression",
+      "value" : [
+        "let output = $data.formOutput;",
+        "output[\"solicitudApoyoEducativoInput\"] = {",
+        "    \"motivoRechazoAspirante\": $data.motivoRechazo ? $data.motivoRechazo: \"\" ",
+        "};",
+        "",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "motivoRechazo" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "assignedTask" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/humanTask?c=50&f=state=ready&f=assigned_id={{userData.user_id}}&f=name=Confirmación de notificación de apoyo&p=0"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "autorizacion" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.autorizacion_ref.link}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "mostrarCuadro" : {
+      "type" : "expression",
+      "value" : [
+        "let hide = true;",
+        "",
+        "if($data.formOutput){",
+        "    if($data.formOutput.varFinanaciamientoInput === undefined  && $data.formOutput.varSoloBecaInput  === undefined  && $data.formOutput.varBecaFinanciamientoInput === undefined){",
+        "        hide = true;",
+        "    } else if(!$data.formOutput.varFinanaciamientoInput && !$data.formOutput.varSoloBecaInput && !$data.formOutput.varBecaFinanciamientoInput){",
+        "        hide = false;",
+        "    } else {",
+        "        hide = true;",
+        "    }",
+        "} else {",
+        "    hide = true;",
+        "}",
+        "",
+        "return hide;"
+      ],
+      "exposed" : false
+    },
+    "nombreCompletoAspirante" : {
+      "type" : "expression",
+      "value" : [
+        "let output = \"\";",
+        "output += $data.objSolicitudDeAdmision[0].primerNombre;",
+        "if($data.objSolicitudDeAdmision[0].segundoNombre){",
+        "    output += (\" \" + $data.objSolicitudDeAdmision[0].segundoNombre)",
+        "}",
+        "",
+        "output += (\" \" + $data.objSolicitudDeAdmision[0].apellidoPaterno);",
+        "",
+        "if($data.objSolicitudDeAdmision[0].apellidoMaterno){",
+        "    output += (\" \" + $data.objSolicitudDeAdmision[0].apellidoMaterno)",
+        "}",
+        "",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "mensajeConfirmacion" : {
+      "type" : "expression",
+      "value" : [
+        "let output = \"\";\r",
+        "\r",
+        "if($data.mostrarCuadro){\r",
+        "    if($data.formOutput.varSoloBecaInput && !$data.formOutput.varBecaFinanciamientoInput){\r",
+        "        output = \"Estás <b>Aceptando</b> un apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> del \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;\r",
+        "    } else {\r",
+        "        output = \"Estás <b>Aceptando</b> un apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> del \" + $data.autorizacion.porcentajeBecaAutorizacion + \" % y <b>Financiamiento educativo</b> pre-autorizado del \" + $data.autorizacion.porcentajeCreditoAutorizacion +  \"%\";\r",
+        "    }\r",
+        "} else {\r",
+        "    output = \"Estás <b>Rechazando</b> el apoyo de <b>\" + $data.returnCatValue.catTipoApoyo.descripcion + \"</b> del \" + $data.autorizacion.porcentajeBecaAutorizacion + \"%\" ;\r",
+        "}\r",
+        "\r",
+        "return output;"
+      ],
+      "exposed" : false
+    },
+    "solicitudDeApoyoEducativo" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.solicitudApoyoEducativo_ref.link}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "objetoBitacora" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "\t\"beca\": $data.autorizacion.porcentajeBecaAutorizacion + \"\",\r",
+        "  \t\"comentario\": getEstatus(\"comentario\"),\r",
+        "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \t\"estatus\": getEstatus(\"estatus\"),\r",
+        "  \t\"financiamiento\": $data.autorizacion.porcentajeCreditoAutorizacion ? $data.autorizacion.porcentajeCreditoAutorizacion + \"\" : \"N/A\",\r",
+        "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
+        "  \t\"usuarios\": $data.userData.user_name,\r",
+        "  \t\"caseid\": parseInt($data.caseId),\r",
+        "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}\r",
+        "\r",
+        "function getEstatus(_type){\r",
+        "    let output;\r",
+        "    \r",
+        "    if($data.formOutput.varSoloBecaInput){\r",
+        "        output = _type === \"estatus\" ? \"Propuesta aceptada por aspirante\" : \"Beca\";\r",
+        "    } else if ($data.formOutput.varBecaFinanciamientoInput){\r",
+        "        output = _type === \"estatus\" ? \"Propuesta aceptada por aspirante\" : \"Beca y financiamiento\";\r",
+        "    } else {\r",
+        "        output = _type === \"estatus\" ? \"Propuesta rechazada por aspirante\" : \"\";\r",
+        "    }\r",
+        "    \r",
+        "    return output;\r",
+        "}"
+      ],
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "uuid" : "4b4dd57f-0df8-442b-a5ec-70995d462851",
+  "type" : "page",
+  "description" : "Page generated with Bonita UI designer"
+}

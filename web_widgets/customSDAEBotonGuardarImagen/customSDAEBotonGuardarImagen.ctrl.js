@@ -108,8 +108,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     redirectIfNeeded();
                 }
                 
-                debugger;
+                $scope.properties.dataToSend = angular.copy($scope.properties.resetImagen);
                 $scope.properties.reloadTable = true;
+                
+                
+                // nuevaImagen.descripcion
+                $scope.properties.dataToSend.descripcion = "";
                 swal("¡Ok!","Documento guardado exitósamente.","success");
                 closeModal($scope.properties.closeOnSuccess);
             })

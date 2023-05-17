@@ -1,6 +1,6 @@
 <div ng-class="col-lg-12">
     <div class="form-group">
-        <div class="col-xs-10">
+        <div class="col-xs-12">
             <input
                 type="{{properties.type}}"
                 class="form-control"
@@ -18,14 +18,19 @@
             <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
         </div>
     </div>
-    <div class="col-xs-2">
+    <!-- <div class="col-xs-2">
         <button type="button" class="btn btn-primary" ng-click="cargarVideo()">Cargar</button>
-    </div>
+    </div> -->
 </div>
 <div class="col-xs-12">
     <br>
 </div>
-<div class="col-lg-12 video-responsive">
-     <br>
-    <iframe ng-src="{{currentProjectUrl}}" frameborder="0" allowfullscreen></iframe>
+<div class="col-lg-12 video-responsive" ng-hide="!properties.value">
+    <br>
+    <div class="row">
+        <div class="col-lg-2 col-md-3 col-sm-2" ></div>
+        <div class="col-lg-8 col-md-6 col-sm-8">
+            <iframe ng-src="{{currentProjectUrl}}" frameborder="0" allowfullscreen></iframe>
+        </div>
+    </div>
 </div>

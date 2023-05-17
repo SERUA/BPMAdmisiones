@@ -7,7 +7,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     this.action = function action() {
         let nuevoItem = {
             "persistenceId_string": "",
-            "caseId": "",
+            "caseId": $scope.properties.caseId + "",
             "marca": "",
             "modelo": "",
             "ano": null,

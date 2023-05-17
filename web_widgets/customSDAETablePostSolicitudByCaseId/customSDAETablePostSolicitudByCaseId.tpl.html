@@ -1,0 +1,54 @@
+<div class="table-responsive col-xs-12">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th><span style="cursor:pointer"># Banner / Expediente</span></th>
+                <th> <span style="cursor:pointer">Nombre</span> / <span style="cursor:pointer">Email</span> / <span style="cursor:pointer">Curp</span> </th>
+                <th> <span style="cursor:pointer">Programa</span> / <span style="cursor:pointer">Período de ingreso</span> / <span style="cursor:pointer">Campus ingreso</span> </th>
+                <th> <span style="cursor:pointer">Tipo Beca</span> / <span style="cursor:pointer">Promedio</span></th>
+                <th> <span style="cursor:pointer">Estatus SDAE / Estatus Admisión</span></th>
+                <th> <span style="cursor:pointer">Última modificación</span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td>
+                    <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
+                </td>
+                <td>
+                    <b>{{row.idbanner}}</b><br>
+                    {{row.caseid}}
+                </td>
+                <td>
+                   <b>{{row.apellidopaterno}} {{row.apellidomaterno}} {{row.primernombre}} {{row.segundonombre}}</b><br>
+                   {{row.correoelectronico}}<br>
+                   
+                   {{row.curp}}
+                </td>
+                <td>
+                    <b>{{row.licenciatura}}</b><br>
+                    {{row.ingreso}}<br>
+                    {{row.campus}}
+                </td>
+                <td>
+                    <b>{{row.tipoapoyo}}</b>
+                    <br>
+                    {{row.promediogeneral}}
+                </td>
+                <td>
+                    <b>{{row.estatussolicitud}}</b><br>
+                    {{row.aceptado}}<br>
+                    <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
+                </td>
+                <td>
+                    <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>
+                </td>
+                <!--td>
+                    {{row.updateDate}}
+                </td-->
+            </tr>
+        </tbody>
+    </table>
+</div>
+

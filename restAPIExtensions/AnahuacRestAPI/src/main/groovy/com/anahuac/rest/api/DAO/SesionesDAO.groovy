@@ -6333,7 +6333,7 @@ class SesionesDAO {
 			}
 			resultado.setSuccess(true)
 			resultado.setData(rows)
-			resultado.setError_info(errorlog)
+			resultado.setError_info(consulta)
 		} catch (Exception e) {
 			resultado.setSuccess(false)
 			//resultado.setError("500 Internal Server Error")

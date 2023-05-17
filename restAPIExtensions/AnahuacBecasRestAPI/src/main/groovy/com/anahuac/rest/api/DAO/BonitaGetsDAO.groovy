@@ -39,6 +39,7 @@ import com.anahuac.rest.api.Utilities.LoadParametros
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
 
+import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
@@ -864,48 +865,12 @@ class BonitaGetsDAO {
 			
 			List<ProcessDeploymentInfo> map = [];
 			ProcessDeploymentInfo info;
-			
-			/*-------------------------------------------------------------*/
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			
-			errorLog += objProperties.toString();
-			
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			/*-------------------------------------------------------------*/
-			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login(username, password)
-			
-			//org.bonitasoft.engine.api.APIClient apiClient = context.getApiClient();
-//			try {
-//				closeCon = validarConexionBonita()
-//				pstm = con.prepareStatement(" SELECT processid FROM process_definition WHERE NAME = 'Solicitud de apoyo educativo' and activationstate = 'ENABLED' ");
-//				rs = pstm.executeQuery();
-//				if(rs.next()) {
-//					info = apiClient.getProcessAPI().getProcessDeploymentInfo(rs.getLong("processid"));
-//				}
-//			}catch(Exception ex) {
-//				errorLog += ex;
-//			}
-			
-			
-			SearchOptionsBuilder searchProcessBuilder = new SearchOptionsBuilder(0, 1);
-			searchProcessBuilder.filter(ProcessDeploymentInfoSearchDescriptor.NAME, "Solicitud de apoyo educativo");
-			searchProcessBuilder.filter(ProcessDeploymentInfoSearchDescriptor.ACTIVATION_STATE, ActivationState.ENABLED.name());
-			searchProcessBuilder.sort(ProcessDeploymentInfoSearchDescriptor.VERSION, Order.DESC);
-			final SearchResult<ProcessDeploymentInfo> searchRes = apiClient.getProcessAPI().searchProcessDeploymentInfos(searchProcessBuilder.done());
-			info = searchRes;
-			
-//			Long id = searchRes.result.get(0).processId;
-			
+			Map<String, Object> mapResult = new HashMap<String, Object>();
+			mapResult = getProcessId(context);
+			List<String> data2 = new ArrayList<String>();
+			data2.add(mapResult.get("processIdString").toString());
+			resultado.setData(data2);
 			resultado.setSuccess(true);
-//			map.add(info);
-			map.add(searchRes);
-			
-			resultado.setData(map);
-			
 			resultado.setError(errorLog);
 			
 		} catch (Exception e) {
@@ -922,5 +887,37 @@ class BonitaGetsDAO {
 		}
 		
 		return resultado;
+	}
+	
+	private Map<String, Object> getProcessId(RestAPIContext context) {
+		Map<String,Object> result = new HashMap<>();
+		
+		try {
+		
+		SearchOptionsBuilder searchProcessBuilder = new SearchOptionsBuilder(0,100);
+		searchProcessBuilder.filter(ProcessDeploymentInfoSearchDescriptor.NAME, "Solicitud de apoyo educativo");
+		searchProcessBuilder.filter(ProcessDeploymentInfoSearchDescriptor.ACTIVATION_STATE, ActivationState.ENABLED.name());
+		searchProcessBuilder.sort(ProcessDeploymentInfoSearchDescriptor.VERSION, Order.DESC);
+		
+		ProcessDeploymentInfo procDepInfo = context.getApiClient().getProcessAPI().searchProcessDeploymentInfos(searchProcessBuilder.done()).getResult().get(0);
+			result.put("success",true);
+			result.put("error",null);
+			result.put("errorInfo", null);
+			result.put("processIdString", procDepInfo.getProcessId().toString());
+			result.put("processIdLong", procDepInfo.getProcessId());
+		} catch (Exception e) {
+			result.put("success",false);
+			result.put("error", e.getMessage());
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			e.printStackTrace(pw);
+			result.put("errorInfo", sw.toString());
+			sw.close();
+			pw.close();
+			result.put("processIdString", null);
+			result.put("processIdLong", -1L);
+		}
+		
+		return result;
 	}
 }

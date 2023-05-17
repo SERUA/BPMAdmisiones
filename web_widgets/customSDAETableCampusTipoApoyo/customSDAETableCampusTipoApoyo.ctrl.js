@@ -37,6 +37,11 @@ function PbTableCtrl($scope, $http, modalService) {
         $scope.properties.accion = "agregar";
     };
     
+    $scope.redireccionarCatDocumentos = function(row) {
+        var url = "/bonita/portal/resource/app/sdae/catControlDocumental/content/?app=sdae&idApoyo=" + $scope.properties.dataToFilter.persistenceId + "&campus=" + row.descripcion;
+        window.open(url, '_blank');
+    };
+    
     $scope.setOrderBy= function(order){
         if($scope.properties.dataToFilter.orderby == order){
             $scope.properties.dataToFilter.orientation = ($scope.properties.dataToFilter.orientation=="ASC")?"DESC":"ASC";
@@ -61,9 +66,13 @@ function PbTableCtrl($scope, $http, modalService) {
         }).then((value) => {
             if(value){
                 row.isDeleted = true;
-                debugger;
-                doRequest('POST', "../API/extension/AnahuacBecasRest?url=switchCampusTipoApoyo&p=0&c=0", row);
-                $scope.properties.accion = 'tabla';
+                let dataToSend = {
+                    "idTipoApoyo": $scope.properties.dataToFilter.persistenceId,
+                    "idCampus": row.persistenceId,
+                    "isDelete": true
+                }
+                doRequest('POST', "../API/extension/AnahuacBecasRest?url=switchCampusTipoApoyo&p=0&c=0", dataToSend);
+                // $scope.properties.accion = 'tabla';
             }
         }); 
     };

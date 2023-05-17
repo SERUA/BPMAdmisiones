@@ -1,12 +1,33 @@
 function($scope, $http, blockUI) {
-  $scope.isAdmisiones = false;
-  $scope.isPsicologoSup = false;
-  $scope.isPsicologo = false;
-  $scope.isPaseDeLista = false;
-  $scope.isTiCampus = false;
-  $scope.isTiSerua = false;
-  $scope.isSerua = false;
-
+    $scope.isAdmisiones = false;
+    $scope.isPsicologoSup = false;
+    $scope.isPsicologo = false;
+    $scope.isPaseDeLista = false;
+    $scope.isTiCampus = false;
+    $scope.isTiSerua = false;
+    $scope.isSerua = false;
+  
+    $scope.hasRole = function(){
+        let output = false;
+        if($scope.isAdmisiones){
+            output = true;  
+        } else if($scope.isPsicologoSup){
+            output = true;  
+        } else if($scope.isPsicologo){
+            output = true;  
+        } else if($scope.isPaseDeLista){
+            output = true;  
+        } else if($scope.isTiCampus){
+            output = true;  
+        } else if($scope.isTiSerua){
+            output = true;  
+        } else if($scope.isSerua){
+            output = true;  
+        }
+        
+        return output;
+    }
+  
   $scope.redirect = function (_param, filtro) {
 
       if (_param === "progreso") {

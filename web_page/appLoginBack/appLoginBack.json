@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appLoginBack",
   "name" : "appLoginBack",
-  "lastUpdate" : 1639508638752,
+  "lastUpdate" : 1683827871280,
   "rows" : [
     [
       {
@@ -150,7 +150,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== \"login\""
+                  "value" : "navigationVar !== \"login\" || msal =='true'"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -617,6 +617,96 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
+                              "value" : "office_365"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Office 365"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "default"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "GET"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "constant"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "1e47a027-7102-4d25-95ac-a580a7b14c08",
+                          "hasValidationError" : false,
+                          "id" : "pbButton"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
                               "value" : "btn-facebook btn-login-function"
                             },
                             "hidden" : {
@@ -786,6 +876,72 @@
                         }
                       ]
                     ]
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "msal !='true'"
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "22dd7bed-80b0-4f95-b604-c7c1fd5977a9",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Bienvenido Office 365"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 2"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "64e3debe-a8c4-4f6b-95bb-3181968500b5",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
                   }
                 ]
               ]
@@ -1323,10 +1479,45 @@
       "external" : false
     },
     {
+      "id" : "68ea84e5-9aa2-499c-ad77-77af9ea948b7",
+      "name" : "graphConfig.js",
+      "type" : "js",
+      "order" : 10,
+      "external" : false
+    },
+    {
       "id" : "479f51d5-4938-463f-9d71-beee3aa8527d",
       "name" : "Fondo completo.png",
       "type" : "img",
       "order" : 4,
+      "external" : false
+    },
+    {
+      "id" : "d2a8b466-ca6a-4337-86d6-ec9fbac2f2f3",
+      "name" : "sweetalert2@10.js",
+      "type" : "js",
+      "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "c68f6f3d-7a6d-4a04-8dc8-45f0b1607aa6",
+      "name" : "authPopup.js",
+      "type" : "js",
+      "order" : 12,
+      "external" : false
+    },
+    {
+      "id" : "0ce70f01-f3a3-4c16-970b-b6a7418b57a6",
+      "name" : "authConfig.js",
+      "type" : "js",
+      "order" : 9,
+      "external" : false
+    },
+    {
+      "id" : "f6c19985-eed4-4896-af25-d6ebc392fb21",
+      "name" : "graph.js",
+      "type" : "js",
+      "order" : 13,
       "external" : false
     },
     {
@@ -1344,10 +1535,17 @@
       "external" : false
     },
     {
-      "id" : "d2a8b466-ca6a-4337-86d6-ec9fbac2f2f3",
-      "name" : "sweetalert2@10.js",
+      "id" : "7395aff2-1adc-45c6-9745-ed2f6114d35a",
+      "name" : "https://alcdn.msauth.net/browser/2.30.0/js/msal-browser.js",
       "type" : "js",
-      "order" : 7,
+      "order" : 8,
+      "external" : true
+    },
+    {
+      "id" : "6ead37e6-8e7e-4c23-a0d8-61bc11d28c3c",
+      "name" : "ui.js",
+      "type" : "js",
+      "order" : 11,
       "external" : false
     },
     {
@@ -1421,6 +1619,70 @@
       "type" : "json",
       "value" : [
         "{ \"email\": \"\", \"password\": \"\" }"
+      ],
+      "exposed" : false
+    },
+    "office365" : {
+      "type" : "urlparameter",
+      "value" : [
+        "msal"
+      ],
+      "exposed" : false
+    },
+    "buttonClickEvent" : {
+      "type" : "expression",
+      "value" : [
+        "// const props = {\r",
+        "//     getParameterByName:(name, url = window.location.href)=>{\r",
+        "//         name = name.replace(/[\\[\\]]/g, '\\\\$&');\r",
+        "//     const regex = new RegExp('[?&]' + name + '(=([^&#]*)|&|#|$)'),\r",
+        "//         results = regex.exec(url);\r",
+        "//     if (!results) return null;\r",
+        "//     if (!results[2]) return '';\r",
+        "//     return decodeURIComponent(results[2].replace(/\\+/g, ' '))\r",
+        "//     }\r",
+        "// }\r",
+        "\r",
+        "// const url = window.top.location.href;\r",
+        "// if(!url.includes(\"/portal/resource/app/login/administrativo/content/\")){\r",
+        "//     sessionStorage.setItem('redirectUrl', props.getParameterByName(\"redirectUrl\"));\r",
+        "//     setTimeout(()=>{\r",
+        "       \r",
+        "//       window.top.location.href=`/portal/resource/app/login/administrativo/content/?redirectUrl=${props.getParameterByName(\"redirectUrl\")}`\r",
+        "       \r",
+        "//     },100)\r",
+        "    \r",
+        "// }else{\r",
+        "//     if(props.getParameterByName(\"code\") ==null || props.getParameterByName(\"code\") ==undefined){\r",
+        "//           (async () => {\r",
+        "// \t    const response = await fetch(`/bonita/API/extension/authenticationRestAPI?redirect=${sessionStorage.getItem(\"redirectUrl\")}`);\r",
+        "//         const json = await response.json();\r",
+        "//             window.top.location.href = json.redirectUrl;\r",
+        "//         })();\r",
+        "//     }else{\r",
+        "//         window.location.href=`/bonita/API/extension/authenticationRestAPI?authCode=${props.getParameterByName(\"code\")}&redirect=${sessionStorage.getItem(\"redirectUrl\")}`\r",
+        "//     }\r",
+        "  \r",
+        "// }\r",
+        "\r",
+        "\r",
+        "\r",
+        "\r",
+        "// setTimeout(()=>{\r",
+        "//     if(props.getParameterByName(\"code\") ==null || props.getParameterByName(\"code\") ==undefined){\r",
+        "//         const button = document.querySelector(\".office_365> pb-button> div> button\");\r",
+        "//         button.onclick = async () => {\r",
+        "//             const response = await fetch(\"/bonita/API/extension/authenticationRestAPI\");\r",
+        "//             const json = await response.json();\r",
+        "//             window.location.href = json.redirectUrl;\r",
+        "//         }\r",
+        "//     }else{\r",
+        "//         window.location.href=`/bonita/API/extension/authenticationRestAPI?authCode=${props.getParameterByName(\"code\")}&redirect=${sessionStorage.getItem(\"redirectUrl\")}`\r",
+        "//     }\r",
+        "// },500)\r",
+        "\r",
+        "\r",
+        "// return \"ready\";"
       ],
       "exposed" : false
     }

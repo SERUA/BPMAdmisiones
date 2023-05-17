@@ -280,7 +280,15 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
             "mensaje": data.mensaje,
             "isEnviar": false
         }
-        doRequest("POST", "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10", {}, dataToSend, function(data) {
+        
+        debugger;
+        let url = "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10";
+
+        if(dataToSend.codigo.toLowerCase().includes("sdae")){
+            url  = "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10";
+        }
+
+        doRequest("POST", url, {}, dataToSend, function(data) {
             $scope.firma = angular.copy(data.data)
             var value = data.data;
             var element = document.getElementById("firma");
@@ -326,6 +334,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
             doRequestGet();
         }
     });
+
     $scope.sendMail = function(data) {
         Swal.fire({
             title: `¿Está seguro que desea reenviar email?`,
@@ -342,10 +351,27 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
                     "correo": data.para,
                     "codigo": data.codigo,
                     "isEnviar": true
+                };
+
+                let url = "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10";
+                
+                if(dataToSend.codigo.toLowerCase().includes("sdae")){
+                    url = "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10";
                 }
-                doRequest("POST", "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10", {}, dataToSend, function(data) {
+
+                doRequest("POST", url, {}, dataToSend, function(data) {
                     Swal.fire("Enviado", "Correo enviado correctamente", "success");
-                })
+                });
+
+                // if(){
+                //     doRequest("POST", "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10", {}, dataToSend, function(data) {
+                //         Swal.fire("Enviado", "Correo enviado correctamente", "success");
+                //     })
+                // } else {
+                //     doRequest("POST", "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10", {}, dataToSend, function(data) {
+                //         Swal.fire("Enviado", "Correo enviado correctamente", "success");
+                //     })
+                // }
 
             } else {
 

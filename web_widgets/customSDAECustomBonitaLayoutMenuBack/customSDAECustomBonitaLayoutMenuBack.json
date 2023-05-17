@@ -1,0 +1,166 @@
+{
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "1.10.12",
+  "properties" : [
+    {
+      "label" : "URL targeted by the menu",
+      "name" : "targetUrl",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "Username",
+      "name" : "userName",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Current session modal Id",
+      "name" : "currentSessionModalId",
+      "type" : "text",
+      "bond" : "interpolation"
+    },
+    {
+      "label" : "App selection modal Id",
+      "name" : "appSelectionModalId",
+      "type" : "text",
+      "bond" : "constant"
+    },
+    {
+      "label" : "Application",
+      "name" : "application",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Page token",
+      "name" : "pageToken",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "User id",
+      "name" : "userId",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Home page token",
+      "name" : "homePageToken",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "Is logged in user Guest",
+      "name" : "isGuestUser",
+      "help" : "Boolean indicating of the session is a guest session",
+      "type" : "boolean",
+      "defaultValue" : false,
+      "bond" : "expression"
+    },
+    {
+      "label" : "logout URL",
+      "name" : "logoutURL",
+      "caption" : "",
+      "help" : "URL used to logout when the login link is active (Guest session)",
+      "type" : "text",
+      "defaultValue" : "../../../logoutservice",
+      "bond" : "interpolation"
+    },
+    {
+      "label" : "Successful logout response value",
+      "name" : "successfulLogoutResponse",
+      "help" : "Can be used to specify the behavior after a successful logout",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "Flag to indicate if menu is closed",
+      "name" : "menuClosed",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "Flag to indicate if a case is started",
+      "name" : "isCaseStarted",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "Name of the current task if it exists",
+      "name" : "currentTaskName",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "Flag to knof if case is finished",
+      "name" : "isCaseFinished",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "idModalConfirmacionAD",
+      "name" : "idModalConfirmacionAD",
+      "type" : "text",
+      "bond" : "expression"
+    },
+    {
+      "label" : "cambiarPagina",
+      "name" : "cambiarPagina",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "accionModal",
+      "name" : "accionModal",
+      "type" : "text",
+      "bond" : "variable"
+    },
+    {
+      "label" : "currentToken",
+      "name" : "currentToken",
+      "type" : "text",
+      "bond" : "variable"
+    }
+  ],
+  "id" : "customSDAECustomBonitaLayoutMenuBack",
+  "name" : "SDAECustomBonitaLayoutMenuBack",
+  "lastUpdate" : 1649721294493,
+  "template" : "@customSDAECustomBonitaLayoutMenuBack.tpl.html",
+  "controller" : "@customSDAECustomBonitaLayoutMenuBack.ctrl.js",
+  "description" : "This is the default bonita portal menu.",
+  "custom" : true,
+  "assets" : [
+    {
+      "id" : "b566d5f3-6ee0-4874-a0c6-a3ab37504f7c",
+      "name" : "ui-bootstrap-tpls-0.13.0.min.js",
+      "type" : "js",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "44cb1989-1338-4d4c-9160-bb311e7dff6c",
+      "name" : "config-html5.js",
+      "type" : "js",
+      "order" : 2,
+      "external" : false
+    },
+    {
+      "id" : "6e0f00f6-66ff-41ca-b85f-3b205a037557",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 3,
+      "external" : false
+    }
+  ],
+  "requiredModules" : [
+    "ui.bootstrap"
+  ],
+  "authRules" : [
+    "GET|living/application",
+    "GET|living/application-menu",
+    "GET|living/application-page"
+  ],
+  "type" : "widget",
+  "hasHelp" : false
+}

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "Reportes",
   "name" : "Reportes",
-  "lastUpdate" : 1657058955551,
+  "lastUpdate" : 1674177546157,
   "rows" : [
     [
       {
@@ -720,8 +720,8 @@
                     "value" : ""
                   },
                   "hidden" : {
-                    "type" : "constant",
-                    "value" : false
+                    "type" : "expression",
+                    "value" : "rptSelected == \"Informacion aspirante\""
                   },
                   "required" : {
                     "type" : "constant",
@@ -1281,8 +1281,8 @@
                     "value" : ""
                   },
                   "hidden" : {
-                    "type" : "constant",
-                    "value" : false
+                    "type" : "expression",
+                    "value" : "rptSelected == \"Informacion aspirante\""
                   },
                   "disabled" : {
                     "type" : "constant",
@@ -1605,6 +1605,92 @@
                 "rows" : [
                   [ ]
                 ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 2,
+                  "lg" : 2
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "rptSelected!=\"Informacion aspirante\""
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "cacb2a78-7a20-4ecf-901e-b7b98653e4a9",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [ ]
+                ]
+              },
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 3,
+                  "lg" : 3
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "rptSelected!=\"Informacion aspirante\""
+                  },
+                  "srcType" : {
+                    "type" : "constant",
+                    "value" : "Asset"
+                  },
+                  "url" : {
+                    "type" : "constant"
+                  },
+                  "assetName" : {
+                    "type" : "constant",
+                    "value" : "excel.svg"
+                  },
+                  "alt" : {
+                    "type" : "interpolation"
+                  },
+                  "fileExtension" : {
+                    "type" : "constant",
+                    "value" : "xls"
+                  },
+                  "dataToSend" : {
+                    "type" : "variable",
+                    "value" : "lstFiltro"
+                  },
+                  "reporte" : {
+                    "type" : "expression",
+                    "value" : "rptSelected"
+                  },
+                  "ruaname" : {
+                    "type" : "constant"
+                  },
+                  "lstSesiones" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "5a92ccae-c1dd-4fbb-89c5-202acdf6b4e5",
+                "hasValidationError" : false,
+                "id" : "customGenerarReporte"
               }
             ],
             [
@@ -2071,7 +2157,7 @@
     "lstReportes" : {
       "type" : "json",
       "value" : [
-        "[{\"reporte\":\"Lexium\"}]"
+        "[{\"reporte\":\"Lexium\"},{\"reporte\":\"Informacion aspirante\"}]"
       ],
       "exposed" : false
     },

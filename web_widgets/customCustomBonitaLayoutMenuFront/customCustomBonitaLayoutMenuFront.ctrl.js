@@ -83,6 +83,18 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
             )
         ) {
             return false;
+        } else if (name === "Solicitud de apoyo educativo" &&
+            (
+                taskName === "Pase de lista Prueba 1" ||
+                taskName === "Pase de lista Prueba 2" ||
+                taskName === "Pase de lista Prueba 3" ||
+                taskName === "Generar credencial" ||
+                taskName === "Carga y consulta de resultados" ||
+                taskName === "Resultado final de comité" ||
+                taskName === "Resultado"
+            )
+        ) {
+            return false;
         } else {
             return true;
         }
@@ -282,7 +294,12 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
             $scope.properties.currentTaskName === "Resultado"
         ) {
             ctrl.pageToken = "Resultado";
-        } else {
+        } /* AQUI VAN A IR LAS TAREAS DE SOLICITUD DE APOYO
+        else if (
+            $scope.properties.currentTaskName === "Generar credencial"
+        ) {
+            ctrl.pageToken = "nueva_solicitud_SDAE";
+        }*/else {
             ctrl.pageToken = $scope.properties.pageToken;
         }
 

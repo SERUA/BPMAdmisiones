@@ -1,0 +1,41 @@
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <!-- <th ng-repeat="header in properties.headers">
+                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
+                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                </th> -->
+                <th>ID BPM</th>
+                <th>Id banner</th>
+                <th>Correo aspirante</th>
+                <th>Estatus</th>
+                <!--<th>Comentario</th>-->
+                <th>%Beca</th>
+                <th>%Financiamiento</th>
+                <th>Usuario</th>
+                <th>Fecha</th>
+                <th>Comentarios</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr ng-repeat="row in properties.content"  ng-class="{'info': ctrl.isSelected(row)}">
+                <td>{{ row.caseid }}</td>
+                <td>{{ row.idbanner }}</td>
+                <td>{{ row.correo }}</td>
+                <td>{{ row.estatus }}</td>
+                <!--<td>{{ row.comentario }}</td>-->
+                <td>{{ row.beca === "N/A" ? row.beca : row.beca + "%" }}</td>
+                <td>{{ row.financiamiento === "N/A" ? row.financiamiento : row.financiamiento + "%" }}</td>
+                <td>{{ row.usuarios }}</td>
+                <td>{{ row.fecha | date:'dd/MM/yyyy mm:ss' }}</td>
+                <!--<td>{{ row.fecha }}</td>-->
+                <td>
+                    <button ng-if="row.comentario" type="button" class="btn btn-default" ng-click="ctrl.selectRow(row)">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -153,7 +153,80 @@ class MailGunDAO {
 	}
 	
 	
-	
+	public Result sendEmailSDAE(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result()
+		ProcessDefinition objProcessDefinition
+		Long procesoid = 0L
+		List<String> lstResultado = new ArrayList<String>()
+		
+		String casoString = "";
+		String campus = "";
+		
+		Map<String, String> objGrupoSelected = new HashMap<String, String>();
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		
+		try {
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+			def correocopia = ""
+			
+			assert object instanceof Map
+			if(object.lstCopia != null) {
+				assert object.lstCopia instanceof List
+			}
+			
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			lstGrupoCampus = new ArrayList<Map<String, String>>();
+			for(CatCampus objCatCampus : lstCatCampus) {
+				objGrupoCampus = new HashMap<String, String>();
+				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
+				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				lstGrupoCampus.add(objGrupoCampus);
+			}
+			
+			campus =  String.valueOf(object.campus);
+			casoString = String.valueOf(object.idcaso)
+			procesoid = Long.valueOf(casoString)
+			
+			for(Map<String, String> row : lstGrupoCampus) {
+				if(row.get("descripcion").equals(campus)) {
+					objGrupoSelected = row;
+				}
+			}
+			
+			EstructuraMailGun estructura = new EstructuraMailGun()
+			estructura.setTo(object.to)
+			for(def row: object.lstCopia) {
+				if(correocopia == "") {
+					correocopia = row
+				} else {
+					correocopia = correocopia + ";" + row
+				}
+			}
+			
+			//estructura.setCc(correocopia);
+			estructura.setSubject(object.subject)
+			estructura.setBody(object.body)
+			
+			LOGGER.error "estructura para correo "+ estructura
+			
+			
+			JsonNode jsonNode = sendSimpleMessage(estructura)
+			LOGGER.error "================================="
+			LOGGER.error jsonNode.toString()
+			lstResultado.add(jsonNode.toString())
+			resultado.setData(lstResultado)
+			resultado.setSuccess(true)
+		}catch(Exception ex) {
+			LOGGER.error ex.getMessage()
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		}
+		
+		return resultado
+	}
 	
 	public Result sendEmailRecuperacion(String nombreusuario, String password) {
 		Result resultado = new Result()
@@ -269,8 +342,84 @@ class MailGunDAO {
 		return resultado
 	}
 	
-	
-	
+	public Result sendEmailPlantillaSDAE(String correo, String asunto, String body, String cc, String campus,RestAPIContext context ) {
+		Result resultado = new Result();
+		ProcessDefinition objProcessDefinition;
+		Long procesoid = 0L;
+		List<String> lstResultado = new ArrayList<String>();
+		Map<String, String> objGrupoSelected = new HashMap<String, String>();
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		String errorlog = "";
+
+		try {
+			def correocopia = "";
+			errorlog += "Constructor EstructuraMailGun";
+			EstructuraMailGun estructura = new EstructuraMailGun();
+			estructura.setTo(correo);
+			estructura.setCc(cc);
+			estructura.setSubject(asunto);
+			estructura.setBody(body);
+			errorlog += ", get lstCatApikey";
+
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List<CatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			lstGrupoCampus = new ArrayList<Map<String, String>>();
+
+			for(CatCampus objCatCampus : lstCatCampus) {
+				objGrupoCampus = new HashMap<String, String>();
+				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
+				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				lstGrupoCampus.add(objGrupoCampus);
+				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupoBonita();
+			}
+			
+			errorlog += ", for Comparar  "  + lstGrupoCampus.size() + campus;
+
+			for(Map<String, String> row : lstGrupoCampus) {
+				errorlog += row.get("valor") + campus;
+				if(row.get("valor").equals(campus)) {
+					objGrupoSelected = row;
+					errorlog += " OBJGRUPOSELECTED " + row;
+				}
+			}
+
+			String correoDe = "";
+			def daoCatApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class);
+
+			for(CatApiKey ca : daoCatApiKey.find(0,9999)) {
+//				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor");
+				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("descripcion") + "CA = " + ca.getCampus().getDescripcion();
+				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
+					estructura.setSandBox(ca.getMailgunDominioSDAE());
+					estructura.setApiKey(ca.getMailgunSDAE());
+					errorlog += " estructura.sandbox= " + estructura.getSandBox();
+					errorlog += ", estructura.MailgunDominio= " + ca.getMailgunDominioSDAE();
+					errorlog += ", estructura.getMailgun= " + ca.getMailgunSDAE();
+					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgunCorreoSDAE();
+					correoDe = ca.getMailgunCorreoSDAE();
+				}
+			}
+
+			List<String> ad = new ArrayList<String>()
+			ad.add(correoDe);
+			resultado.setAdditional_data(ad);
+			JsonNode jsonNode = sendSimpleMessage(estructura);
+			errorlog += ",jsonNode";
+			lstResultado.add(jsonNode.toString())
+			errorlog += ",jsonNode.toString()= "+jsonNode.toString()
+			resultado.setData(lstResultado)
+			resultado.setSuccess(true)
+			resultado.setInfo(errorlog);
+		}catch(Exception ex) {
+			resultado.setInfo(errorlog);
+			LOGGER.error ex.getMessage()
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		}
+		
+		return resultado
+	}
 	
 	public static JsonNode sendSimpleMessage(EstructuraMailGun estructura) throws UnirestException {
 				HttpResponse<JsonNode> request = (estructura.getCc().equals(""))?Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")

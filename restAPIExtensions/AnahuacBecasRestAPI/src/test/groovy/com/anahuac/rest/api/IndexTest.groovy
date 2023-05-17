@@ -48,7 +48,7 @@ class IndexTest extends Specification {
 		then: "A JSON representation is returned in response body"
 		def jsonResponse = new JsonSlurper().parseText(apiResponse.response)
 		Result result = new Result()
-		result.setSuccess(jsonResponse.success)
+		result.setSuccess(jsonResponse.success != null ? jsonResponse.success : false)
 		result.setError(jsonResponse.error)
 		result.setError_info(jsonResponse.error_info)
 		// Validate returned response

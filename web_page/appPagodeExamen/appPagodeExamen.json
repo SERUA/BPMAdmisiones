@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appPagodeExamen",
   "name" : "appPagodeExamen",
-  "lastUpdate" : 1664302067485,
+  "lastUpdate" : 1674002506789,
   "rows" : [
     [
       {
@@ -240,7 +240,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "objectPagoExamen.deshabilitarPagoDeExamenDeAdmision !== false || (pagoCubierto === true || pagoCubierto === \"true\")"
+                  "value" : "objectPagoExamen.deshabilitarPagoDeExamenDeAdmision !== false || (pagoCubierto === true || pagoCubierto === \"true\") || descuentoPrepa100"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -991,7 +991,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "objectPagoExamen.deshabilitarPagoDeExamenDeAdmision !== true  || (pagoCubierto === true || pagoCubierto === \"true\")"
+                  "value" : "objectPagoExamen.deshabilitarPagoDeExamenDeAdmision !== true  || (pagoCubierto === true || pagoCubierto === \"true\") || descuentoPrepa100"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -1181,7 +1181,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "(pagoCubierto !== true && pagoCubierto !== \"true\")"
+                  "value" : "(pagoCubierto !== true && pagoCubierto !== \"true\") || descuentoPrepa100"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -1348,6 +1348,232 @@
                       }
                     },
                     "reference" : "edaca1f2-d3de-4c0e-8833-904b04b8b5de",
+                    "hasValidationError" : false,
+                    "id" : "customCustomButtonExecuteTask2"
+                  }
+                ]
+              ]
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "!descuentoPrepa100"
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "631d77bd-3035-4c6b-bf25-9040a34166b8",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "color-orange"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Descuento 100%"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 3"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "aac4ec08-9c1f-4b40-94ce-6e70cddbec8a",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Has obtenido un descuento del 100%  en el costo de tu examen de admisión.  Da clic en continuar para seguir con tu proceso."
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "48b0522b-4409-405d-b461-6e177960bd7a",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Continuar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "expression",
+                        "value" : "construidContratoDescuentoPrepa100"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation",
+                        "value" : "/bonita/apps/aspirante/autodescripcion"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable"
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "Last"
+                      },
+                      "valueToAdd" : {
+                        "type" : "constant"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      },
+                      "taskId" : {
+                        "type" : "expression",
+                        "value" : "taskId"
+                      },
+                      "userId" : {
+                        "type" : "expression",
+                        "value" : "user.id"
+                      },
+                      "urlDireccion" : {
+                        "type" : "expression",
+                        "value" : "urlDireccion"
+                      },
+                      "catSolicitudDeAdmision" : {
+                        "type" : "expression",
+                        "value" : "objectSolicitud"
+                      }
+                    },
+                    "reference" : "ee7473ed-8f9d-4ec0-99da-69caa731b87d",
                     "hasValidationError" : false,
                     "id" : "customCustomButtonExecuteTask2"
                   }
@@ -1814,7 +2040,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -2270,102 +2496,168 @@
                           "hasValidationError" : false,
                           "id" : "pbImage"
                         }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Pagar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Open modal"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "constant"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : "confirmarPagoTarjeta"
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "677b62b5-dec8-42cb-8c92-7052ed5f5502",
+                          "hasValidationError" : false,
+                          "id" : "pbButton",
+                          "description" : "aqui va el boton de pagar"
+                        }
                       ]
                     ]
                   }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "tokenObject" : {
+                        "type" : "variable",
+                        "value" : "tokenObject"
+                      },
+                      "objSolicitudAdmision" : {
+                        "type" : "variable",
+                        "value" : "objectSolicitud"
+                      },
+                      "objectCard" : {
+                        "type" : "variable",
+                        "value" : "objectCard"
+                      },
+                      "configuracionesPago" : {
+                        "type" : "variable",
+                        "value" : "configuracionesPago"
+                      },
+                      "idBanner" : {
+                        "type" : "expression",
+                        "value" : "objectDetalleSolicitud.idBanner"
+                      },
+                      "taskId" : {
+                        "type" : "expression",
+                        "value" : "taskId"
+                      },
+                      "solicitudApoyoEducativo" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "objetoBitacora" : {
+                        "type" : "constant"
+                      },
+                      "publicKey" : {
+                        "type" : "constant"
+                      },
+                      "userId" : {
+                        "type" : "expression",
+                        "value" : "user.id"
+                      },
+                      "loadedOrder" : {
+                        "type" : "variable",
+                        "value" : "loadedOrder"
+                      }
+                    },
+                    "reference" : "3bd009d2-90f5-4a22-981b-5ce0b4b8a7e0",
+                    "hasValidationError" : false,
+                    "id" : "customConektaIframeAdmisiones"
+                  }
                 ]
               ]
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Pagar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "center"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "primary"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Open modal"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "constant"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : "confirmarPagoTarjeta"
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                }
-              },
-              "reference" : "677b62b5-dec8-42cb-8c92-7052ed5f5502",
-              "hasValidationError" : false,
-              "id" : "pbButton",
-              "description" : "aqui va el boton de pagar"
             }
           ],
           [
@@ -7373,7 +7665,7 @@
         "\r",
         "function getMontoByTipoEstudiante(){\r",
         "    let output = \"\";\r",
-        "    debugger;\r",
+        "    \r",
         "    if($data.catTipoResidencia.descripcion === \"Local\"){\r",
         "        output = parseFloat($data.objectPagoExamen.montoAspiranteLocal).toFixed(2);\r",
         "    } else if($data.catTipoResidencia.descripcion === \"Foráneo\"){\r",
@@ -7597,7 +7889,7 @@
         "            }",
         "        }",
         "    }",
-        "}",
+        "} ",
         "",
         "return output;"
       ],
@@ -7836,6 +8128,63 @@
       "type" : "json",
       "value" : [
         "{ \"isVencido\":false }"
+      ],
+      "exposed" : false
+    },
+    "configuracionesPago" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"monto\": $data.montoParcial.montoTotal,",
+        "    \"descripcion\": \"Pago de examen de admisión\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "tokenObject" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "getCatDescuentosByInfoAspirante" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacRestGet?url=getCatDescuentosByInfoAspirante&p=0&c=100&campus={{objectSolicitud.catCampusEstudio.grupoBonita}}&idbachillerato={{objectSolicitud.catBachilleratos.persistenceId}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "construidContratoDescuentoPrepa100" : {
+      "type" : "expression",
+      "value" : [
+        "let contrato = {",
+        "    \"conIsPagoValidado\" : true, ",
+        "    \"isPagoTarjeta\" : true ,",
+        "    \"detalleSolicitudInput\" : {",
+        "        \"ordenPago\" : \"\"",
+        "    },",
+        "    \"isPagoCondonado\": false,",
+        "    \"isDescuento100\": true    ",
+        "};",
+        "",
+        "return contrato"
+      ],
+      "exposed" : false
+    },
+    "descuentoPrepa100" : {
+      "type" : "expression",
+      "value" : [
+        "let output = false;",
+        "",
+        "if($data.getCatDescuentosByInfoAspirante.data){",
+        "    debugger;",
+        "    let descuentoPrepa = parseInt($data.getCatDescuentosByInfoAspirante.data[0].descuento);",
+        "    output = descuentoPrepa === 100;",
+        "}",
+        "",
+        "return output;"
       ],
       "exposed" : false
     }

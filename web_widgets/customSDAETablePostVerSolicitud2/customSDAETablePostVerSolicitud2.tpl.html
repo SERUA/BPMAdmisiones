@@ -1,0 +1,116 @@
+<div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
+    <select class="form-control" ng-model="filtroCampus"
+        ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
+        ng-change="addFilter()">
+        <option style="display:none" value="">
+            Seleccionar campus
+        </option>
+    </select>
+</div>
+    <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
+        <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
+        <option ng-value="20">20</option>
+        <option ng-value="40">40</option>
+        <option ng-value="100">100</option>
+    </select>
+    </div>
+<div class="table-responsive col-xs-12" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th>Foto</th>
+                <th><span style="cursor:pointer" ng-click="setOrderBy('SOLICITUD')">ID Banner / ID BPM<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EXPEDIENTE'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">Nombre<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CURP')">CURP<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CURP'"></i></span> </th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('TIPOBECA')">Tipo Beca<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Admisiones<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Actualizado<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus SDAE <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS_ADMISION')">Estatus Admisión <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS_ADMISION'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
+                <th> Acciones</th>     
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td><input ng-model="dynamicInput['solicitud']" class="form-control" ng-enter="filterKeyPress('# EXPEDIENTE',dynamicInput['solicitud'])"></td>
+                <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
+                <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
+                <td><input ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('TIPO APOYO,PROMEDIO',dynamicInput['preparatoria'])"></td>
+                <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
+                <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                <td></td>
+            </tr>
+            <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td>
+                    <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
+                </td>
+                <td>
+                   <b>{{row.idbanner}}</b><br>
+                    {{row.caseid}}
+
+                </td>
+                <td>
+                   <b>{{row.apellidopaterno}} {{row.apellidomaterno}} {{row.primernombre}} {{row.segundonombre}}</b><br>
+                   {{row.correoelectronico}}<br>
+                   
+                   {{row.curp}}
+                </td>
+                <td>
+                    <b>{{row.licenciatura}}</b><br>
+                    {{row.ingreso}}<br>
+                    {{row.campusestudio}}
+                </td>
+                <td>
+                    <b>{{row.tipoapoyo}}</b>
+                    <br>
+                    {{row.promediogeneral}}
+                    <br>
+                    {{row.nuevopromedioprepa == null?'N/A':row.nuevopromedioprepa}}
+                </td>
+                <td>
+                    <b>{{row.estatussolicitud}}</b><br>
+                    {{row.aceptado}}<br>
+                    <!--<label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>-->
+                </td>
+                <td>
+                    <b>{{row.fechaultimamodificacion | date:'dd-MM-yyyy HH:mm'}}</b><br>
+                </td>
+                <!--td>
+                    {{row.updateDate}}
+                </td-->
+                <td class="text-center">
+                    <button class="btn btn-default" ng-click="abrirSolicitud(row)">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+        <div class="col-xs-5">
+            <div class="dataTables_info">Mostrando {{properties.dataToSend.offset+1}} a {{((properties.dataToSend.limit*valorSeleccionado)>value)?value:properties.dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
+        </div>
+        <div class="col-xs-7 text-center">
+    <div role="toolbar" aria-label="Toolbar with button groups">
+        <div class="btn-group" role="group" aria-label="First group">
+            <button type="button" class="btn btn-default" ng-click="anterior()">Anterior
+            </button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Second group">
+            <button ng-repeat="row in lstPaginado" ng-class="row.seleccionado?'btn-primary':'btn-default'" type="button" class="btn" ng-click="seleccionarPagina(row.numero)">{{row.numero}}
+            </button>
+        </div>
+        <div class="btn-group" role="group" aria-label="Third group">
+            <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente
+            </button>
+        </div>
+    </div>
+</div>
+</div>
+<div ng-show="isenvelope">
+    <label>Mensaje de recordatorio para usuario</label>
+    <textarea row="5" class="form-control" style="resize:none" ng-model="mensaje"></textarea>
+    <br>
+    <div class="col-md-12">
+        <div class="col-md-6"><button class="btn btn-danger" ng-click="envelopeCancel()">Cancelar</button></div>
+        <div class="col-md-6"><button class="btn btn-info" ng-click="sendMail(selectedrow,mensaje)">Enviar recordatorio</button></div>
+    </div>
+</div>
