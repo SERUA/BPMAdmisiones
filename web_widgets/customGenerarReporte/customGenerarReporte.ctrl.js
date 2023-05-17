@@ -14,7 +14,9 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteDatosFamiliares&p=0&c=9999"
         } else if ($scope.properties.reporte == "Relación de aspirantes") {
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteRelacionAspirantes&p=0&c=9999"
-        } else {
+        }else if ($scope.properties.reporte == "Informacion aspirante") {
+            url = "/bonita/API/extension/AnahuacRest?url=generarReportePerfilAspirante&p=0&c=9999"
+        }  else {
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteResultadosExamenes&p=0&c=9999"
         }
         doRequest("POST", url, null, $scope.properties.dataToSend, function(data) {

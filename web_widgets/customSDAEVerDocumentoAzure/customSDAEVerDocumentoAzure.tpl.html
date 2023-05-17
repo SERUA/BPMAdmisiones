@@ -1,0 +1,23 @@
+<div class="col-12 document-card-kardex">
+    <label>{{properties.documentName}}</label> <button type="button" class="btn btn-link" ng-show="properties.requiereEjemplo" ng-click="descargarEjemplo()"> Descargar ejemplo</button>
+    <div class="">
+        <div ng-class="{
+            'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,
+            'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden
+            }">
+            <div class="form-group">
+                
+                <div class="col-xs-12 text-center " style="height: 436px;">
+                    <!--<div class="col-xs-12 text-left" style="height: 10px; margin-bottom: 10px;">-->
+                    <!--    <p class="upload-file-customized-text2" ng-bind-html="properties.documentDescription | uiTranslate"></p>-->
+                    <!--</div>-->
+                    <img ng-if="!extension" class="miniatura-pic" src="widgets/customSDAEUploadCustomAzure/assets/img/noimageavailabledoc.png" style="max-width: 100%; max-height: 210px; height: auto; width: auto;">
+                    
+                    <img ng-if="extension !== '.pdf'" ng-click="openModalFile()" class="miniatura-pic" src="{{linkSource}}" style="max-width: 100%; max-height: 436px; height: auto; width: auto;">
+                    <img ng-if="extension === '.pdf'" ng-click="openModalFile()" class="miniatura-pic" src="widgets/customSDAEUploadCustomAzure/assets/img/pdf.png" style="max-width: 100%; max-height: 436px; height: auto; width: auto;">
+                    
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

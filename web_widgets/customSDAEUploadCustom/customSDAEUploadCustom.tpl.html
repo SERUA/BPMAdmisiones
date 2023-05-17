@@ -1,14 +1,16 @@
-<div class="file-show-container">
-    <div class="upload-file-customized-header">
-        {{$scope.properties.documentName}}
+<div class="file-show-container2">
+    <div class="upload-file-customized-header2">
+        <label class="upload-file-customized-header-text2">{{properties.documentName}}</label>
     </div>
-    <div class="upload-file-customized-body">
-        {{$scope.properties.documentDescription}}
-        <div class="file-show-icon">
-            <span class="glyphicon glyphicon-cloud-upload icon-centeted"></span>
+    <div class="upload-file-customized-body2">
+        <div class="upload-file-customized-text-container2">
+            <p class="upload-file-customized-text2" ng-bind-html="properties.documentDescription | uiTranslate"></p>
+        </div>
+        <div class="file-show-icon2">
+            <span class="glyphicon glyphicon-cloud-upload icon-centeted2"></span>
         </div>
     </div>
-    <div class="upload-file-customized-footer">
+    <div class="upload-file-customized-footer2">
         <div ng-class="{
             'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,
             'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden
@@ -51,6 +53,11 @@
                 </div>
             </div>
         </div>
-
+        <div class="col-12 text-center obligatorio" ng-if="properties.isObligatorio">
+            <label>Obligatorio</label>
+        </div>
+        <div class="col-12 text-center no-obligatorio" ng-if="!properties.isObligatorio">
+            
+        </div>
     </div>
 </div>

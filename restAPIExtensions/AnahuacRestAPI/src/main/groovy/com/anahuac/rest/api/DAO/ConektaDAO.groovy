@@ -1,18 +1,30 @@
 package com.anahuac.rest.api.DAO
 
 import org.bonitasoft.engine.api.APIClient
+import org.bonitasoft.engine.api.ProcessAPI;
+import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance;
+import org.bonitasoft.engine.session.APISession;
+//import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+
 import org.bonitasoft.engine.bdm.BDMQueryUtil
-import org.bonitasoft.engine.bpm.process.ProcessDefinition
+//import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
+//import org.bonitasoft.engine.bpm.process.ProcessDefinition
+//import org.bonitasoft.engine.session.APISession
 import org.hamcrest.core.IsNull
 import org.json.JSONObject
+//import org.json.simple.parser.JSONParser
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.anahuac.SDAE.model.SolicitudApoyoEducativo
+import com.anahuac.SDAE.model.SolicitudApoyoEducativoDAO
 import com.anahuac.catalogos.CatApiKey
 import com.anahuac.catalogos.CatApiKeyDAO
 import com.anahuac.catalogos.CatCampus
 import com.anahuac.model.DetalleSolicitud
 import com.anahuac.model.DetalleSolicitudDAO
+import com.anahuac.model.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.ConektaOxxo
@@ -21,7 +33,10 @@ import com.anahuac.rest.api.Entity.OrdenBitacora
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Utilities.LoadParametros
+//import com.bonitasoft.engine.api.ProcessAPI
 import com.bonitasoft.web.extension.rest.RestAPIContext
+import com.fasterxml.jackson.databind.ObjectMapper
+
 import groovy.json.JsonSlurper
 import io.conekta.Charge
 import io.conekta.Conekta
@@ -32,12 +47,38 @@ import io.conekta.OxxoPayment
 import io.conekta.PaymentMethod
 import io.conekta.SpeiPayment
 
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpException
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost
+import org.apache.http.entity.StringEntity
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.http.util.EntityUtils;
+
+import org.apache.http.client.methods.CloseableHttpResponse;
+//import org.apache.http.client.methods.HttpPost;
+//import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+//import org.apache.http.util.EntityUtils;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+
+import javax.servlet.ServletException
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
 
 class ConektaDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(ConektaDAO.class);
@@ -647,11 +688,38 @@ class ConektaDAO {
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			def objDetalleSolicitudDAO = context.getApiClient().getDAO(DetalleSolicitudDAO.class);
 			List<DetalleSolicitud> detalleSolicitud = objDetalleSolicitudDAO.findByOrdenPago(id, 0, 1);
+			def objSolicitudAdmisionDAO = context.getApiClient().getDAO(SolicitudApoyoEducativoDAO.class);
+			List<DetalleSolicitud> solicitudApoyo = objSolicitudAdmisionDAO.findByOrdenPagoConekta(id, 0, 1);
 			apiClient.login(username, password);
-			String caseId = detalleSolicitud.get(0).caseId;
+			String caseId = "";
+			String taskName = "";
+			
+			if(detalleSolicitud.size() > 0) {
+				caseId = detalleSolicitud.get(0).caseId;
+				taskName = "Esperar pago";
+				def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
+				apiClient.processAPI.executeFlowNode(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), taskName, 0, 1).get(0).getId());
+				resultado.setSuccess(true);
+			} else if(solicitudApoyo.size() > 0){
+				caseId = solicitudApoyo.get(0).caseId;
+				taskName = "Esperar pago de estudio socio-económico";
+				def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
+				Map<String, Object> contract = new LinkedHashMap<String, Object>();
+				contract.put("isPagoValidadoInput", true);
+				apiClient.processAPI.assignAndExecuteUserTask(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), taskName, 0, 1).get(0).getId(), contract);
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("La orden no está relacionada a ningín caso");
+			}
+			
+			
+			
+			/*
+			 String caseId = detalleSolicitud.get(0).caseId;
 			def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
 			apiClient.processAPI.executeFlowNode(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), "Esperar pago", 0, 1).get(0).getId());
 			resultado.setSuccess(true);
+			 */
 		} catch (Exception ex) {
 			LOGGER.error "[ERROR] " + ex.getMessage();
 			resultado.setSuccess(false)
@@ -661,6 +729,8 @@ class ConektaDAO {
 		
 		return resultado;
 	}
+	
+	
 	
 	public Result getOrdersByCampus(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
 		Result resultado = new Result();
@@ -1008,5 +1078,508 @@ class ConektaDAO {
 			}
 		}
 		return resultado
+	}
+	
+	
+	public Result pagoOxxoCashBecas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		List < ConektaOxxo > lstResultado = new ArrayList < ConektaOxxo > ();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Integer start = 0;
+		Integer end = 99999;
+		Boolean isFound = true;
+		String nombreCandidato = "";
+		Long nowUnixTimestamp = System.currentTimeMillis();
+		Long thirtyDaysFromNowUnixTimestamp = (nowUnixTimestamp + 30L * 24 * 60 * 60 * 1000)/ 1000L;
+		String thirtyDaysFromNow = thirtyDaysFromNowUnixTimestamp.toString();
+		String token = "";
+		String name = "";
+		String email = "";
+		String phone = "";
+		String street1 = "";
+		String postal_code = "";
+		String country = "";
+		String unit_price = "";
+		String campus_id = "";
+		String campus = "";
+		String concepto = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			name = object.name;
+			email = object.email;
+			phone = object.phone;
+			unit_price = object.unit_price;
+			campus_id = object.campus_id;
+			caseId = Long.valueOf(object.caseId);
+			campus = object.campus;
+			concepto = object.concepto;
+			
+			Result resultApiKey = getApiKeyByCampus(context, campus_id);
+			
+			if(resultApiKey.success) {
+				Conekta.setApiKey(resultApiKey.getData().get(0));
+			} else {
+				throw new Exception("Error inesperado");
+			}
+			
+			Order order = Order.create(
+				new JSONObject("{"
+					+ "'line_items': [{"
+						+ "'name': '" + concepto + "',"
+						+ "'unit_price': " + unit_price + ","
+						+ "'quantity': 1"
+					+ "}],"
+					+ "'currency': 'MXN',"
+					+ "'customer_info': {"
+						+ "'name': '" + name + "',"
+						+ "'email': '" + email + "',"
+						+ "'phone': '" + phone + "'"
+					+ "},"
+					 +"'metadata': {'description': 'Pago de estudio socio-económico' , 'reference' : '1334523452345'},"
+					+ "'charges':[{"
+						  + "'payment_method': {"
+						  + "'type': 'oxxo_cash',"
+							+ "'expires_at': " + thirtyDaysFromNow
+						+ "}"
+					+ "}]"
+				+ "}")
+			);
+			
+			
+			LineItems line_item = (LineItems) order.line_items.get(0);
+			Charge charge = (Charge) order.charges.get(0);
+			OxxoPayment oxxoPayment = (OxxoPayment) charge.payment_method;
+
+			double amount = order.amount / 100;
+			DecimalFormat twoPlaces = new DecimalFormat("0.00");
+			
+			lstResultado.add(new ConektaOxxo(
+				order.id,
+				"\$" + twoPlaces.format(amount).toString() + " " + order.currency,
+				line_item.quantity + " - " + line_item.name + " - " + (line_item.unit_price / 100),
+				oxxoPayment.reference)
+			);
+			
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Oxxo Pay. Referencia: " + oxxoPayment.reference);
+			ordenBit.setEstatus("Pago pendiente");
+			ordenBit.setObservaciones("Pago de estudio socio-económico");
+			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(name);
+			ordenBit.setCampus(campus);
+
+			crearRegistroPago(ordenBit);
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
+								
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (io.conekta.ErrorList error) {
+			LOGGER.error error.details.get(0).message
+			resultado.setSuccess(false);
+			resultado.setError(error.details.get(0).message);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		
+		return resultado
+	}
+	
+	public Result pagoTarjetaBecas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		List<ConektaPaymentResponse> lstResultado = new ArrayList<ConektaPaymentResponse>();
+		String token = "";
+		String name = "";
+		String email = "";
+		String phone = "";
+		String street1 = "";
+		String postal_code = "";
+		String country = "";
+		String unit_price = "";
+		String campus_id = "";
+		double amount;
+		DecimalFormat twoPlaces = new DecimalFormat("0.00");
+		String order_id = "";
+		String cardEnd = "";
+		String cardBrand = "";
+		Long caseId = 0L;
+		String campus = "";
+		String nombrePago = "";
+		String concepto = "";
+		
+		try{
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			token = object.idToken;
+			email = object.email;
+			phone = object.phone;
+			name = object.name;
+			unit_price = object.unit_price;
+			campus_id = object.campus_id;
+			cardEnd = object.last4;
+			cardBrand = object.cardBrand;
+			caseId = Long.valueOf(object.caseId);
+			nombrePago = object.nombrePago;
+			campus = object.campus;
+			concepto = object.concepto;
+			
+			Result resultApiKey = getApiKeyByCampus(context, campus_id);
+			
+			if(resultApiKey.success) {
+				Conekta.setApiKey(resultApiKey.getData().get(0));
+			} else {
+				throw new Exception("Error inesperado");
+			}
+			
+			Customer customer = Customer.create(new JSONObject("{"
+				+ "'name': '" + name + "',"
+				+ "'email': '" + email + "',"
+				+ "'phone': '" + phone + "',"
+				+ "'metadata': {'description': 'Pago de estudio socio-económico' , 'reference' : '1334523452345'},"
+				+ "'payment_sources':[{"
+					+ "'type': 'card',"
+					+ "'token_id': '" + token + "'"
+				+ "}]"
+			+ "}"
+			));
+
+			Order order = Order.create(new JSONObject("{"
+				+ "'currency': 'MXN', "
+				+ "'customer_info': {"
+					+ "'customer_id': '" + customer.getId() + "'"
+				+ "},"
+				+ "'line_items': [{"
+					+ "'name': '" + concepto + "',"
+					+ "'unit_price': " + unit_price + ","
+					+ "'quantity': 1"
+				+ "}],"
+				+ "'charges': [{"
+					+ "'payment_method': {"
+						+ "'type': 'default'"
+					+ "}"
+				+ "}]"
+			+ "}"
+			));
+		
+			LineItems line_item = (LineItems)order.line_items.get(0);
+			Charge charge = (Charge) order.charges.get(0);
+			PaymentMethod payment_method = (PaymentMethod) charge.payment_method;
+			order_id = order.id;
+			amount = order.amount / 100;
+			
+			lstResultado.add(new ConektaPaymentResponse(order.id, "" + (order.amount/100) + order.currency, line_item.quantity + " - "
+				+ line_item.name + " - "
+				+ (line_item.unit_price/100), payment_method.getVal("auth_code")+"", payment_method.getVal("name") + " - "
+				+ payment_method.getVal("last4") + " - "
+				+ payment_method.getVal("brand") + " - "
+				+ payment_method.getVal("type")));
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			/*OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Tarjeta " + payment_method.getVal("brand") + " que termina en " +  payment_method.getVal("last4"));
+			ordenBit.setEstatus("Pago aceptado");
+			ordenBit.setObservaciones("Pago de estudio socio-económico");
+			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(nombrePago);
+			ordenBit.setCampus(campus);
+			
+			crearRegistroPago(ordenBit);*/
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
+			resultado.setData(lstResultado)
+			resultado.setSuccess(true)
+		  
+		} catch (io.conekta.ErrorList error) {
+			LOGGER.error error.details.get(0).message;
+			String errorMessage =  error.details.get(0).message;
+			
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order_id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + unit_price.toString() + "MXN");
+			ordenBit.setMedioPago("Tarjeta " + cardBrand + " que termina en " +  cardEnd);
+			ordenBit.setEstatus("Pago rechazado");
+			ordenBit.setObservaciones(error.details.get(0).message);
+			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(nombrePago);
+			ordenBit.setCampus(campus);
+			
+			crearRegistroPago(ordenBit);
+			
+			resultado.setSuccess(false);
+			resultado.setError(error.details.get(0).message);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	public Result pagoSPEIBecas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		
+		Result resultado = new Result();
+		List<Map<String, String>> lstResultado = new ArrayList<Map<String, String>>();
+		Long caseId = 0L;
+		Long nowUnixTimestamp = System.currentTimeMillis();
+		Long thirtyDaysFromNowUnixTimestamp =  (nowUnixTimestamp + 30L * 24 * 60 * 60 * 1000) / 1000L;
+		String thirtyDaysFromNow = thirtyDaysFromNowUnixTimestamp.toString();
+		String token = "";
+		String name = "";
+		String email = "";
+		String phone = "";
+		String unit_price = "";
+		String campus_id = "";
+		String campus = "";
+//		String idbanner = "idbanner";
+		String concepto = "";
+		
+		try{
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			name = object.name;
+			email = object.email;
+			phone = object.phone;
+			unit_price = object.unit_price;
+			campus_id = object.campus_id;
+			caseId = Long.valueOf(object.caseId);
+			campus = object.campus;
+//			idbanner = object.idbanner;
+			concepto = object.concepto;
+			
+			Result resultApiKey = getApiKeyByCampus(context, campus_id);
+			
+			if(resultApiKey.success) {
+				Conekta.setApiKey(resultApiKey.getData().get(0));
+			} else {
+				throw new Exception("Error inesperado");
+			}
+			
+			Order order = Order.create(
+				new JSONObject("{"
+					+ "'line_items': [{"
+						+ "'name': '" + concepto + "',"
+						+ "'unit_price': " + unit_price + ","
+						+ "'quantity': 1"
+					+ "}],"
+					+ "'currency': 'MXN',"
+					+ "'customer_info': {"
+						+ "'name': '" + name + "',"
+						+ "'email': '" + email + "',"
+						+ "'phone': '" + phone + "'"
+					+ "},"
+					 +"'metadata': {'description': 'Pago de estudio socio-económico' , 'reference' : '1334523452345'},"
+					+ "'charges':[{"
+						  + "'payment_method': {"
+						  + "'type': 'spei',"
+							+ "'expires_at': " + thirtyDaysFromNow
+						+ "}"
+					+ "}]"
+				+ "}")
+			);
+			
+			LineItems line_item = (LineItems) order.line_items.get(0);
+			Charge charge = (Charge) order.charges.get(0);
+			SpeiPayment speiPayment = (SpeiPayment) charge.payment_method;
+			Map<String, String> mapResultado = new HashMap<String, String>();
+			mapResultado.put("speiBank", speiPayment.bank);
+			mapResultado.put("CLABE", speiPayment.clabe);
+			double amount = order.amount / 100;
+			DecimalFormat twoPlaces = new DecimalFormat("0.00");
+			mapResultado.put("amount", "\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			mapResultado.put("id", order.id);
+			
+			//--------------------PARA LA BITACORA DE PAGOS---------------------------
+			OrdenBitacora ordenBit = new OrdenBitacora();
+			ordenBit.setNoTransaccion(order.id);
+			ordenBit.setUsuarioAspirante(email);
+			ordenBit.setFechaMovimiento(new SimpleDateFormat("yyyy-MM-dd'T'hh:mm:00.000'Z'").format(new Date()));
+			ordenBit.setMonto("\$" + twoPlaces.format(amount).toString() + " " + order.currency);
+			ordenBit.setMedioPago("Pago SPEI. CLABE: " + speiPayment.clabe + ". Banco: " + speiPayment.bank);
+			ordenBit.setEstatus("Pago pendiente");
+			ordenBit.setObservaciones("Pago de estudio socio-económico");
+			ordenBit.setCaseId(caseId);
+			ordenBit.setNombrePago(name);
+			ordenBit.setCampus(campus);
+
+			crearRegistroPago(ordenBit);
+			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
+			
+			lstResultado.add(mapResultado);
+			
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (io.conekta.ErrorList error) {
+			LOGGER.error error.details.get(0).message
+			resultado.setSuccess(false);
+			resultado.setError(error.details.get(0).message);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public Result ejecutarEsperarPagoBecas(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		Result resultado = new Result();
+		List<DetalleSolicitud> lstResultado = new ArrayList<DetalleSolicitud>();
+		Boolean closeCon = false;
+		try {
+			String username = "";
+			String password = "";
+			
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+						
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			String id = object.data.object.id;
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			def objSolicitudDeApoyo = context.getApiClient().getDAO(SolicitudApoyoEducativoDAO.class);
+			List<SolicitudApoyoEducativo> SDAE = objSolicitudDeApoyo.findByOrdenPagoConekta(id, 0, 1);
+			apiClient.login(username, password);
+			String caseId = SDAE.get(0).caseId;
+			def startedBy = apiClient.getProcessAPI().getProcessInstance(Integer.parseInt(caseId)).startedBy;
+			apiClient.processAPI.executeFlowNode(startedBy, apiClient.processAPI.getHumanTaskInstances(Long.valueOf(caseId), "Esperar pago de estudio socio-económico", 0, 1).get(0).getId());
+			resultado.setSuccess(true);
+		} catch (Exception ex) {
+			LOGGER.error "[ERROR] " + ex.getMessage();
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		}
+		
+		
+		return resultado;
+	}
+	
+	public Result getConektaPublicKeyV2(String campus_id, RestAPIContext context) {
+		Result resultado = new Result();
+		List<String> lstResultado = new ArrayList<String>();
+		String apiKey = "";
+		String apiKeyCrypted = "";
+		try{
+			def objApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class);
+			List<CatApiKey> lstApiKey = objApiKey.find(0, 999);
+			
+			for(int i = 0; i < lstApiKey.size(); i++) {
+				if(campus_id == lstApiKey.get(i).getCampus().getPersistenceId().toString()) {
+					apiKey = lstApiKey.get(i).getConektaPublicKey();
+					apiKeyCrypted = Base64.getEncoder().encodeToString(lstApiKey.get(i).getConekta().getBytes());
+					break;
+				}
+			}
+			
+			lstResultado.add(apiKey);
+			lstResultado.add(apiKeyCrypted);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+			
+			resultado.toString();
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+
+		return resultado;
+	}
+	
+	public Result createToken(String campus_id, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "Entro al metodo ";
+		StringBuilder restest = new StringBuilder();
+		try {
+			String cryptedKey = "";
+			Result resultApikey = getConektaPublicKeyV2(campus_id, context);
+			if(resultApikey.isSuccess() != true) {
+				throw new Exception(resultApikey.getError());
+			} else {
+				cryptedKey = resultApikey.getData().get(1);
+			}
+			
+			List <Map<String, Object>  >  list = new ArrayList<Map<String, Object> >();
+			StringBuilder json = new StringBuilder();
+			json.append("{");
+			json.append("\"checkout\":");
+			json.append("{");
+			json.append("\"returns_control_on\" : \"Token\"");
+			json.append("}");
+			json.append("}");
+
+			ObjectMapper mapper = new ObjectMapper();
+			Map<String, Object> map = mapper.readValue(sendPOST("https://api.conekta.io/tokens", cryptedKey, json), Map.class);
+			list.add(map);
+			resultado.setData(list);
+			resultado.setSuccess(true);
+		} catch(Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog );
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} catch (HttpException ex) {
+			LOGGER.error "[ERROR] " + ex.message;
+			resultado.setError_info(errorLog );
+			resultado.setSuccess(false);
+			resultado.setError(ex.getMessage());
+			ex.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	private static String sendPOST(String url, String cryptedKey, StringBuilder json) throws IOException {
+		
+		String result = "";
+		HttpPost post = new HttpPost(url);
+		post.addHeader("Authorization", "Basic " + cryptedKey);
+		post.addHeader("Accept", "application/vnd.conekta-v2.0.0+json");
+		post.addHeader("Accept-Language", "es");
+		post.addHeader("content-type", "application/json");
+
+		// send a JSON data
+		post.setEntity(new StringEntity(json.toString()));
+
+		try {
+			 CloseableHttpClient httpClient = HttpClients.createDefault();
+			 CloseableHttpResponse response = httpClient.execute(post)
+			 result = EntityUtils.toString(response.getEntity());
+		} catch (IOException e) {
+            e.printStackTrace();
+        }
+
+		return result;
 	}
 }

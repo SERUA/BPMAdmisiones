@@ -5,26 +5,16 @@
                 <th ng-repeat="header in properties.headers"  class="middle-td text-center">
                     <span style="cursor:pointer" ng-click="setOrderBy(header)">{{ header | uiTranslate }}<i class="" ng-class="(properties.dataToFilter.orientation=='ASC')?'glyphicon glyphicon-arrow-up':'glyphicon glyphicon-arrow-down'" ng-show="properties.dataToFilter.orderby==header.toUpperCase()"></i></span>
                 </th>
-                <th  class="middle-td text-center">
-                    Acciones
+                <th  class="middle-td text-center" style="width: 110px;">
+                    Solicitud
                 </th>
-            </tr>
-            <!--<tr>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                <th  class="middle-td text-center" style="width: 110px;">
+                    Pago
                 </th>
+                <!-- <th  class="middle-td text-center" style="width: 110px;">
+                    Aval
+                </th> -->
             </tr>
-              <tr ng-show="properties.keyPressFilter">
-                <td  class="middle-td text-center">
-                    
-                </td>
-                <td ng-repeat="header in properties.headers"  class="middle-td text-center">
-                    <input ng-model="dynamicInput[header]" class="form-control" ng-enter="filterKeyPress(header,dynamicInput[header])">
-                    
-                </td>
-            </tr> -->
-            
         </thead>
         <tbody>
             <tr ng-repeat="row in properties.contenido" ng-class="{'info': ctrl.isSelected(row)}">
@@ -35,31 +25,25 @@
                 <td class="middle-td" ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
                     <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
                 </td>
-                <td class="middle-td" style="align-items: center">
-                    <!--ng-click="ctrl.selectRow(row)"-->
-                                <button class="btn btn-success" >
-                                    <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
-                                </button>
-                    <!--<table>-->
-                    <!--    <tr>-->
-                    <!--        <td>-->
-                               
-                    <!--        </td>-->
-                    <!--    </tr>-->
-                    <!--</table>-->
+                <td class="middle-td" style="align-items: center;">
+                    <button class="btn btn-default" ng-click="openModal()">
+                        <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                    </button>
                 </td>
+                <td class="middle-td" style="align-items: center;">
+                    <button ng-if="row.pago" class="btn btn-default" ng-click="verPago(row)">
+                        <span class="glyphicon glyphicon-usd" aria-hidden="true"></span>
+                    </button>
+                    <label ng-if="!row.pago">-</label>
+                </td>
+                <!-- <td class="middle-td" style="align-items: center;">
+                    <button class="btn btn-default">
+                        <span class="glyphicon glyphicon-eye" aria-hidden="true"></span>
+                    </button>
+                    <label>N/A</label>
+                </td> -->
             </tr>
         </tbody>
-       <!-- <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    {{ $eval(column, row) | uiTranslate }}
-                </td>
-                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
-                </td>
-            </tr>
-        </tbody> -->
         <tbody ng-if="ctrl.isArray(properties.contenido) && !ctrl.isArray(properties.columnsKey)">
             <tr ng-repeat="row in properties.contenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>

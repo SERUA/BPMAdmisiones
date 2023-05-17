@@ -16,6 +16,7 @@ class SecurityFilter {
 				valid=true
 			}
 		}
+		
 		return valid;
 	} 
 	
@@ -31,6 +32,16 @@ class SecurityFilter {
 				break;
 				case "getIdiomaByUsername":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
+				break;
+				case "getConektaPublicKeyV2":
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+				break;
+				case "createToken":
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){
+						break;
+					}
 				break;
 				case "getDescuentosCiudadBachillerato":
 				allow=bonitaRolFilter(context,"ADMISIONES")
@@ -56,6 +67,18 @@ class SecurityFilter {
 				case "getCartasNotificaciones":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
+				case "getCartasNotificacionesByEstatus":
+					allow = bonitaRolFilter(context,"ADMISIONES");
+					if(allow){
+						break;
+					}
+				break;
+				case "getCartasNotificacionesSDAE":
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){
+						break;
+					}
+				break;
 				case "getCatTitulo":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
@@ -70,20 +93,22 @@ class SecurityFilter {
 				if(allow){break;}
 				break;
 				case "getMenuAdministrativo":
-				allow=bonitaRolFilter(context,"ADMISIONES")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"SERUA")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Becas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Artistica")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Deportiva")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Finanzas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Comite de Finanzas")
-				if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
 				break;
 				case "getUniversidadSmartCampus":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -490,6 +515,11 @@ class SecurityFilter {
 				break;
 				case "getFileTest":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
+				case "getCatDescuentosByInfoAspirante":
+					allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
+					allow=bonitaRolFilter(context,"TI SERUA");if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE");if(allow){break;}
 				break;
 			}
 			return allow;
@@ -622,6 +652,9 @@ class SecurityFilter {
 			allow=bonitaRolFilter(context,"Becas")
 			if(allow){break;}
 		    break;
+			allow=bonitaRolFilter(context,"PreAutorizacion")
+			if(allow){break;}
+			break;
 		  case "selectAspirantesEnRed":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1098,6 +1131,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		case "pagoOxxoCashBecas":
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "pagoTarjeta":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1108,6 +1147,16 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "pagoTarjetaBecas":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "pagoSPEI":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1118,6 +1167,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		case "pagoSPEIBecas":
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "RegistrarUsuario":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1216,6 +1271,36 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "generateHtmlSDAE":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "BECAS");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "PreAutorizacion");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Finanzas");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Comité finanzas");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "getTestUpdate":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1238,7 +1323,11 @@ class SecurityFilter {
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
-		    }
+		    } 
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
 		    break;
 		  case "simpleSelectBonita":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1511,6 +1600,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "updateCatNotificacionesSDAE":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "transferirAspirante":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1658,6 +1753,8 @@ class SecurityFilter {
 		    if (allow) {
 		      break;
 		    }
+			allow=bonitaRolFilter(context,"ASPIRANTE")
+			if(allow){break;}
 		    break;
 		  case "getPadreVencido":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1783,6 +1880,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		case "generarReportePerfilAspirante":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "getSesionesINVP":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1925,6 +2028,17 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		  case "createOrUpdateBeca":
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			break;
+			
+		case "getUserFoto":
+		allow=bonitaRolFilter(context,"ADMISIONES")
+			if(allow){break;}
+			break;
 		}
 		return allow;
 	}

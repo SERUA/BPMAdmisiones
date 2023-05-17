@@ -26,11 +26,14 @@ import groovy.json.JsonSlurper
 import javax.imageio.ImageIO
 import java.awt.Graphics2D
 import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.text.NumberFormat
+import java.text.ParseException
 
 import org.apache.commons.codec.net.BCodec
 import org.bonitasoft.engine.bpm.document.Document
@@ -519,9 +522,9 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 	
 					}
 				}
-			}else if(object.codigo.equals("registrar") && object.isEnviar) {
+			} else if(object.codigo.equals("registrar") && object.isEnviar) {
 				plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + object.correo + "");	
-			}else if (object.codigo.equals("transferencia")) {
+			} else if (object.codigo.equals("transferencia")) {
 				try {
 					closeCon = validarConexion();
 					pstm = con.prepareStatement(Statements.GET_ASPIRANTE_TRANSFERENCIA)
@@ -568,7 +571,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				}
 					
 				}
-			}else if(object.codigo.equals("carta-aceptar") || object.codigo.equals("carta-rechazo") || object.codigo.equals("carta-pdu")|| object.codigo.equals("carta-informacion") || object.codigo.equals("carta-propedeutico")) {
+			} else if(object.codigo.equals("carta-aceptar") || object.codigo.equals("carta-rechazo") || object.codigo.equals("carta-pdu")|| object.codigo.equals("carta-informacion") || object.codigo.equals("carta-propedeutico")) {
 				try {
 					CatDocumentosTextos dt = new CatDocumentosTextos();
 					/*def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
@@ -909,6 +912,112 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				}
 					
 				}
+			} else if(object.codigo.equals("BC_SOLICITUD_BECASYFINAN_AUTORIZADA")) {
+				errorlog += "| PLANTILLA :: BC_SOLICITUD_BECASYFINAN_AUTORIZADA  ";
+				Integer costoCredito = 0;
+				Integer creditosemestre = 0;
+				Integer parcialidad = 0;
+				Integer porcentajebecaautorizacion = 0;
+				Integer porcentajecreditoautorizacion = 0;
+				Integer descuentoanticipadoautorizacion = 0;
+				Integer inscripcionmayo = 0;
+				Integer inscripcionseptiembre = 0;
+				Integer inscripcionagosto = 0;
+				Integer inscripcionenero = 0;
+				String descripcionPeriodo = "";
+
+				//OBTENIENDO
+				try {
+					closeCon = validarConexion();
+					pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_BY_CORREOELECTRONICO);
+					pstm.setString(1, object.correo);
+					rs = pstm.executeQuery();
+					if(rs.next()) {
+						errorlog += "| BC_SOLICITUD_BECASYFINAN_AUTORIZADA SOLICITUD ENCONTRADA ";
+						creditosemestre = rs.getInt("creditosemestre");
+						parcialidad = rs.getInt("parcialidad");
+						porcentajebecaautorizacion = rs.getInt("porcentajebecaautorizacion");
+						porcentajecreditoautorizacion = rs.getInt("porcentajecreditoautorizacion");
+						descuentoanticipadoautorizacion = rs.getInt("descuentoanticipadoautorizacion");
+						descripcionPeriodo = rs.getString("descripcion");
+						inscripcionmayo = rs.getInt("inscripcionmayo");
+						inscripcionseptiembre = rs.getInt("inscripcionseptiembre");
+						inscripcionagosto = rs.getInt("inscripcionagosto");
+						inscripcionenero = rs.getInt("inscripcionenero");
+						Long sdaecatgestionescolar_pid = rs.getLong("sdaecatgestionescolar_pid");
+						//OBTENCION De LOS CREDITOS
+						closeCon = validarConexion();
+						pstm = con.prepareStatement(Statements.GET_SDAECAT_CREDITO_GE);
+						pstm.setLong(1, sdaecatgestionescolar_pid);
+						pstm.setString(2, descripcionPeriodo.split(" ")[1]);
+						rs = pstm.executeQuery();
+						errorlog += 
+							" | " + Statements.GET_SDAECAT_CREDITO_GE + 
+							" | " + sdaecatgestionescolar_pid +
+							(" | " + descripcionPeriodo.split(" ")[1]
+						);
+						if(rs.next()) {
+							costoCredito = rs.getInt("CREDITOAGOSTO");
+							errorlog += "| BC_SOLICITUD_BECASYFINAN_AUTORIZADA  DATOS DEL PERIODO ENCONTRADOS  ";
+							Integer montoInscripcion = inscripcionagosto;
+							Integer montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
+							Integer montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Integer montoFinanciamiento = (inscripcionagosto - (inscripcionagosto * (porcentajecreditoautorizacion * 0.01)));
+							Integer montoCreditos = costoCredito;
+							Integer montoColegiaturaNormal = montoCreditos * 48; //48 para el ejemplo en pantalla
+							Integer montoColegiaturaBeca = montoColegiaturaNormal - (montoCreditos * ((porcentajebecaautorizacion * 0.01)));
+							Integer montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Integer montoColegiaturaFinanciamiento = montoColegiaturaNormal - (montoCreditos * ((porcentajebecaautorizacion * 0.01)));
+							Integer montoPagototalNormal =  montoInscripcion + montoColegiaturaNormal;
+							Integer mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
+							Integer mongoPagoTotalBecaFinanciamiento = montoBeca + montoColegiaturaBeca;
+							Integer totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
+							Integer interesSemestre = totalFinanciado * 0.035;
+							
+							plantilla = plantilla.replace("[PERIODO]", descripcionPeriodo);
+							plantilla = plantilla.replace("[MONTO-INSCRIPCION]", formatCurrency(montoInscripcion.toString()));
+							plantilla = plantilla.replace("[MONTO-BECA]", formatCurrency(montoBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-BECA-FINANCIAMIENTO]", formatCurrency(montoBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-FINANCIAMIENTO]", formatCurrency(montoFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-CREDITOS]", formatCurrency(montoCreditos.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-NORMAL]", formatCurrency(montoColegiaturaNormal.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA]", formatCurrency(montoColegiaturaBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-NORMAL]", formatCurrency((montoPagototalNormal / 4).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-BECA]", formatCurrency((montoPagototalNormal / 4).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-BECA-FINANCIAMIENTO]", formatCurrency((mongoPagoTotalBeca / 4).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-NORMAL]", formatCurrency(montoPagototalNormal.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA]", formatCurrency(mongoPagoTotalBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA-FINANCIAMIENTO]", formatCurrency(mongoPagoTotalBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[TOTAL-FINANCIADO]", formatCurrency(totalFinanciado.toString()));
+							plantilla = plantilla.replace("[INTERES-SEMESTRE]", formatCurrency(interesSemestre.toString()));
+						}
+					}
+				} catch (Exception e) {
+					errorlog += "| TRANSFERENCIA " + e.getMessage()
+				} finally {
+					if(closeCon) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
+				}
+            } else if (object.codigo.equals("BC_MODIFICACION_AUTORIZACION")){
+				//OBTENIENDO
+				try {
+					closeCon = validarConexion();
+					pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_BY_CORREOELECTRONICO);
+					pstm.setString(1, object.correoAspirante);
+					rs = pstm.executeQuery();
+					if(rs.next()) {
+						plantilla = plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("cambiosSolicitudAutorizacionText"));
+					}
+				} catch (Exception e) {
+					errorlog += "| TRANSFERENCIA " + e.getMessage()
+				} finally {
+					if(closeCon) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
+				}
 			}
 			
 			try {
@@ -964,6 +1073,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				insertCatBitacoraCorreos(catBitacoraCorreo)
 			}
 			
+			resultado.setError_info(errorlog);
 			resultado.setSuccess(true)
 		} catch (Exception e) {
 			resultado.setSuccess(false);
@@ -974,8 +1084,702 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		
 		return resultado;
 	}
+	
+	public Result generateHtmlSDAE(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		
+		Long userLogged = 0L;
+		Long caseId=0L;
+		String encoded = "";
+		String errorlog = "";
+		
+		String idioma = "";
+		String plantilla ="";
+		String correo="",  asunto="",  body="",  cc="";
+		Boolean cartaenviar=false;
+		try {
+		
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			plantilla = prop.getProperty("plantilla")
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			/*-------------------------------------------------------------*/
 
-			private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog,Boolean isEnviar) {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			assert object instanceof Map;
+			Boolean closeConPlantilla=false;
+			
+			userLogged = context.getApiSession().getUserId();
+			errorlog += "| Se obtuvo el usuario " + userLogged;
+			CatNotificaciones catNotificaciones= null;
+			ProcesoCaso procesoCaso = new ProcesoCaso()
+			CatNotificaciones cn = new CatNotificaciones()
+			try {
+				def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
+				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
+				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
+				def catNotificacionesDAO = context.getApiClient().getDAO(CatNotificacionesDAO.class);
+				catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
+				cn=catNotificaciones
+				if(cn == null) {
+					errorlog += "| Forzar a bsucar en la BD ";
+					throw new Exception("Forzar a bsucar en la BD");
+				}
+			} catch (Exception e) {
+				Boolean closeCon2=false;
+				try {
+					closeCon2 = validarConexion();
+					String ordenpago = ""
+					String campus_id =""
+					
+					errorlog += "| CONSULTA:" + Statements.GET_CAT_NOTIFICACIONES_CAMPUS_PROCESO_CODIGO;
+					pstm = con.prepareStatement(Statements.GET_CAT_NOTIFICACIONES_CAMPUS_PROCESO_CODIGO);
+					pstm.setString(1, object.campus);
+					pstm.setString(2, object.codigo);
+					errorlog += "| CAMPUS: " + object.campus;
+					errorlog += "| CODIGO: " + object.codigo;
+					rs = pstm.executeQuery();
+					
+					if (rs.next()) {
+						errorlog += "| ENCONTRADO EN LA BD  ";
+						catNotificaciones = new CatNotificaciones();
+						catNotificaciones.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
+						catNotificaciones.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
+						catNotificaciones.setAsunto(rs.getString("asunto"))
+						catNotificaciones.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
+						catNotificaciones.setCaseId(rs.getString("caseId"))
+						catNotificaciones.setCodigo(rs.getString("codigo"))
+						catNotificaciones.setComentarioLeon(rs.getString("comentarioLeon"))
+						catNotificaciones.setContenido(rs.getString("contenido"))
+						catNotificaciones.setContenidoCorreo(rs.getString("contenidoCorreo"))
+						catNotificaciones.setContenidoLeonel(rs.getString("contenidoLeonel"))
+						catNotificaciones.setDescripcion(rs.getString("descripcion"))
+						catNotificaciones.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
+						catNotificaciones.setEnlaceBanner(rs.getString("enlaceBanner"))
+						catNotificaciones.setEnlaceContacto(rs.getString("enlaceContacto"))
+						catNotificaciones.setEnlaceFacebook(rs.getString("enlaceFacebook"))
+						catNotificaciones.setEnlaceFooter(rs.getString("enlaceFooter"))
+						catNotificaciones.setEnlaceInstagram(rs.getString("enlaceInstagram"))
+						catNotificaciones.setEnlaceTwitter(rs.getString("enlaceTwitter"))
+						catNotificaciones.setInformacionLic(rs.getBoolean("informacionLic"))
+						catNotificaciones.setIsEliminado(rs.getBoolean("isEliminado"))
+						catNotificaciones.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
+						catNotificaciones.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
+						catNotificaciones.setPersistenceId(rs.getLong("persistenceId"))
+						catNotificaciones.setPersistenceVersion(rs.getLong("persistenceVersion"))
+						catNotificaciones.setTextoFooter(rs.getString("textoFooter"))
+						catNotificaciones.setTipoCorreo(rs.getString("tipoCorreo"))
+						catNotificaciones.setTitulo(rs.getString("titulo"))
+						catNotificaciones.setLstCorreoCopia(new ArrayList<String>())
+						catNotificaciones.setLstVariableNotificacion(new ArrayList<String>())
+						procesoCaso.setCaseId(rs.getString("caseId"));
+						errorlog +=" | Se lleno el objeto 1  ";
+						cn = new CatNotificaciones();
+						cn.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
+						cn.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
+						cn.setAsunto(rs.getString("asunto"))
+						cn.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
+						cn.setCaseId(rs.getString("caseId"))
+						cn.setCodigo(rs.getString("codigo"))
+						cn.setComentarioLeon(rs.getString("comentarioLeon"))
+						cn.setContenido(rs.getString("contenido"))
+						cn.setContenidoCorreo(rs.getString("contenidoCorreo"))
+						cn.setContenidoLeonel(rs.getString("contenidoLeonel"))
+						cn.setDescripcion(rs.getString("descripcion"))
+						cn.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
+						cn.setEnlaceBanner(rs.getString("enlaceBanner"))
+						cn.setEnlaceContacto(rs.getString("enlaceContacto"))
+						cn.setEnlaceFacebook(rs.getString("enlaceFacebook"))
+						cn.setEnlaceFooter(rs.getString("enlaceFooter"))
+						cn.setEnlaceInstagram(rs.getString("enlaceInstagram"))
+						cn.setEnlaceTwitter(rs.getString("enlaceTwitter"))
+						cn.setInformacionLic(rs.getBoolean("informacionLic"))
+						cn.setIsEliminado(rs.getBoolean("isEliminado"))
+						cn.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
+						cn.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
+						cn.setPersistenceId(rs.getLong("persistenceId"))
+						cn.setPersistenceVersion(rs.getLong("persistenceVersion"))
+						cn.setTextoFooter(rs.getString("textoFooter"))
+						cn.setTipoCorreo(rs.getString("tipoCorreo"))
+						cn.setTitulo(rs.getString("titulo"))
+						errorlog +=" | Se lleno el objeto 2  ";
+					}
+				} catch(Exception ex) {
+					errorlog +=", consulta custom " + ex.getMessage();
+				} finally {
+					if(closeCon2) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
+				}
+			}
+			
+			plantilla=plantilla.replace("[banner-href]", cn.getEnlaceBanner());
+			plantilla=plantilla.replace("[titulo]",cn.getTitulo());
+			
+			Calendar cal = Calendar.getInstance();
+			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
+			
+			String dayOfMonthStr = String.valueOf(dayOfMonth);
+			Integer mes = cal.get(Calendar.MONTH);
+			String annio = Integer.toString(cal.get(Calendar.YEAR));
+			String hora = (cal.get(Calendar.HOUR_OF_DAY)<10)?"0"+Integer.toString(cal.get(Calendar.HOUR_OF_DAY)):Integer.toString(cal.get(Calendar.HOUR_OF_DAY));
+			String minuto = (cal.get(Calendar.MINUTE)<10)?"0"+Integer.toString(cal.get(Calendar.MINUTE)):Integer.toString(cal.get(Calendar.MINUTE));
+			String[] Month = ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'];
+			
+			if(!cn.getContenidoCorreo().equals("")) {
+				plantilla=plantilla.replace("<!--[CONTENIDO]-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td class=\"col-12\"style=\"font-size: initial; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [contenido]</td> </tr> </tbody> </table>")
+				plantilla=plantilla.replace("[contenido]", cn.getContenidoCorreo())
+				plantilla=plantilla.replace("[HOST]", objProperties.getUrlHost());
+				
+				if(object.mensaje != null) {
+					errorlog += "| mensaje " + object.mensaje
+					plantilla = plantilla.replace("[MENSAJE]", object.mensaje);
+				}
+			}
+			
+			if(idioma == "ENG") {
+				String[] MonthEng = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+				plantilla=plantilla.replace("[DAY] / [MONTH] / [YEAR] | [HOUR]:[MIN]","[MONTH] / [DAY] / [YEAR] | [HOUR]:[MIN]");
+				plantilla=plantilla.replace("[MONTH]",MonthEng[mes])
+				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
+				plantilla=plantilla.replace("[YEAR]",annio)
+				plantilla=plantilla.replace("[HOUR]",hora)
+				plantilla=plantilla.replace("[MIN]",minuto)
+			} else {
+				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
+				plantilla=plantilla.replace("[MONTH]",Month[mes])
+				plantilla=plantilla.replace("[YEAR]",annio)
+				plantilla=plantilla.replace("[HOUR]",hora)
+				plantilla=plantilla.replace("[MIN]",minuto)
+			}
+			
+			String tablaUsuario= ""
+			String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave] </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px; \"> [valor] </span> </font> </td> </tr>"
+			correo=object.correo;
+			asunto=cn.getAsunto();
+			
+			if(cn.getLstCorreoCopia().size()>0) {
+				for(String row: cn.getLstCorreoCopia()) {
+					if(cc == "") {
+						cc = row
+					}else {
+						cc = cc + ";" + row
+					}
+				}
+			}
+			
+			Boolean closeCon=false;
+			
+			try {
+				closeCon = validarConexion();
+				String ordenpago = ""
+				String campus_id =""
+				pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD)
+				pstm.setString(1, object.correo)
+				rs = pstm.executeQuery();
+				errorlog += "| DETALLE DE SOLICITUD "
+				if (rs.next()) {
+					plantilla = plantilla.replace("[IDBANNER]", rs.getString("IdBanner") == null ? "" : rs.getString("IdBanner"));
+					if(object.isEnviar) {
+//						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS]", rs.getString("ObservacionesRechazo") == null ? "[RECHAZO-COMENTARIOS]" : (object.isEnviar) ? rs.getString("ObservacionesRechazo") : "[RECHAZO-COMENTARIOS]")
+						errorlog += "| Variable15.3"
+//						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
+						errorlog += "| Variable15.3"
+//						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
+					}
+					
+					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
+					
+					if(!ordenpago.equals("")) {
+						pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE);
+						pstm.setString(1, object.campus);
+						rs = pstm.executeQuery();
+						
+						if(rs.next()) {
+							campus_id = rs.getString("campus_id")==null?"": rs.getString("campus_id")
+							errorlog += "| se obtuvo el campusid"+campus_id
+							resultado = new ConektaDAO().getOrderDetails(0, 999, "{\"order_id\":\""+ordenpago+"\", \"campus_id\":\""+campus_id+"\"}", context)
+							errorlog += "| se va castear map string string por data"
+							Map<String, String> conektaData =(Map<String, String>) resultado.getData().get(0)
+							errorlog += "| casteo exitoso"
+							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
+							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
+							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
+						}
+					}
+				}
+			} catch(Exception ex) {
+				errorlog +=", consulta custom " + ex.getMessage();
+			} finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm);
+				}
+			}
+//			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar);
+//			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
+			if(!object.correoAspirante.equals("") && object.correoAspirante != null) {
+				plantilla = DataUsuarioAdmision(plantilla, context, object.correoAspirante, cn, errorlog, object.isEnviar);
+				plantilla = DataUsuarioRegistro(plantilla, context, object.correoAspirante, cn, errorlog);
+			} else {
+				plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar);
+				plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
+			}
+			
+			
+			
+			String tablaPasos="";
+			String plantillaPasos="<tr> <td class= \"col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center aling-middle backgroundOrange color-index number-table \"> [numero]</td> <td class= \"col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center aling-middle backgroundDGray \"> <div class= \"row \"> <div class= \"col-12 form-group color-titulo \"> <img src= \"[imagen] \"> </div> <div class= \"col-12 color-index sub-img \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [titulo] </div> </div> </td> <td class= \"col-xs-7 col-sm-7 col-md-7 col-lg-7 col-7 text-justify aling-middle backgroundLGray \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [descripcion] </td> </tr>"
+			
+			try {
+				def catImageNotificacion = context.apiClient.getDAO(CatImageNotificacionDAO.class);
+				List<CatImageNotificacion> lci = catImageNotificacion.findByCaseId(Long.valueOf(procesoCaso.getCaseId()), 0, 999)
+				Integer numero= 0;
+				
+				if(lci.size()>0) {
+					plantilla= plantilla.replace("<!--[PASOS]-->", "<table class=\"table table-bordered\"> <tbody> [pasos] </tbody> </table>")
+					for(CatImageNotificacion ci: lci) {
+						if(ci.getCodigo().equals(cn.getCodigo())) {
+						numero++;
+						String imagen= "";
+						if(docEtapaProceso.size()>0) {
+							for(Document doc:docEtapaProceso) {
+									errorlog += "| Variable10.1 doc=" + ci.getDescripcion()+"= doc.getName()="+ doc.getContentFileName()
+									if(doc.getContentFileName().equals(ci.getDescripcion())) {
+										imagen ="data:image/png;base64, "+ Base64.getEncoder().encodeToString(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId))
+									}
+								}
+								tablaPasos += plantillaPasos.replace("[imagen]", imagen).replace("[numero]", numero+"").replace("[titulo]", ci.getTitulo()).replace("[descripcion]", ci.getTexto())
+							}
+						}
+					}
+				}
+			} catch (Exception e) {
+				errorlog += "| Fallo al momento de obtener los pasos"
+			}
+			
+			plantilla=plantilla.replace("[pasos]", tablaPasos);
+			if(!cn.getContenidoLeonel().equals("") ) {
+				plantilla=plantilla.replace("<!--Leonel-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td width=\"25%\" style=\"text-align: right;\"> <img style=\"width: 145px;\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Leoneldmnisiones_Mesa%20de%20trabajo%201.png\"> </td> <td class=\"col-6\"> <div class=\"arrow_box\" style=\"position: relative; background: #ff5900; border: 4px solid #ff5900;border-radius: 50px;\"> <h6 class=\"logo\" style=\"font-size: 12px; padding: 10px; color: white; font-weight: 500;font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [leonel]</h6> </div> </td> </tr> </tbody> </table>"+"<hr>")
+				plantilla=plantilla.replace("[leonel]", cn.getContenidoLeonel())
+			}
+			
+			encoded = "";
+			
+			//Se obtiene toda la información de SDAE 
+			try {
+				errorlog += " | OBTENIENDO APOYO DATOS ";
+				closeCon = validarConexion();
+				pstm = con.prepareStatement(Statements.GET_SOLICITD_APOYO_BY_CORREOELECTRONICO);
+				if(!object.correoAspirante.equals("") && object.correoAspirante != null)  {
+					pstm.setString(1, object.correoAspirante);
+				} else {
+					pstm.setString(1, object.correo);
+				}
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					errorlog += " | PLANTILLA " + object.codigo;
+					String porcentajebeca_sol = "", porcentajecredito_sol = "", tipoapoyo = "";
+					tipoapoyo = rs.getString("tipoapoyo");
+					String promedio = rs.getString("promedio");
+					String nuevoPromedio = rs.getString("nuevopromedioprepa");
+					String promedioReplace = "";
+					
+					if(nuevoPromedio == null || nuevoPromedio.equals("")) {
+						promedioReplace = promedio;
+					} else {
+						promedioReplace = nuevoPromedio;
+					}
+					
+					plantilla = plantilla.replace("[TIPO-BECA]", tipoapoyo != null ? tipoapoyo : "N/A");
+					plantilla = plantilla.replace("[NUEVO-PROMEDIO]", promedioReplace);
+					
+					if (object.codigo.equals("sdae-solicitudmodifcación-validación")){
+						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO-PREAUTORIZACION]", rs.getString("cambiossolicitudpreautorizacion")==null?"[COMENTARIOS-CAMBIO-PREAUTORIZACION]": (object.isEnviar)?rs.getString("cambiossolicitudpreautorizacion"):"[COMENTARIOS-CAMBIO-PREAUTORIZACION]")
+						porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+						porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+					} else if (object.codigo.equals("sdae-rechazodictamen-becas")){
+						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-DICTAMEN]", rs.getString("motivoRechazoAutorizacionText")==null?"[COMENTARIOS-CAMBIO-PREAUTORIZACION]": (object.isEnviar)?rs.getString("motivoRechazoAutorizacionText"):"[RECHAZO-COMENTARIOS-DICTAMEN]")
+					} else if (object.codigo.equals("sdae-rechazopreautorización-becas") ){
+						String comentarios = "";
+						if( !rs.getString("estatussolicitud").equals("Esperando Pre-Autorización") || !rs.getString("estatussolicitud").equals("Rechazada por Pre-autorización")) {
+							comentarios = rs.getString("comentariosfinal");
+							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+						} else {
+							comentarios = rs.getString("motivorechazopreautorizacion");
+							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+						}
+					} else if (object.codigo.equals("sdae-modificacióndictamen-becas")){
+						plantilla=plantilla.replace("[MOTIVO-MODIFICACION]", rs.getString("cambiossolicitudautorizaciontext")==null?"[MOTIVO-MODIFICACION]": (object.isEnviar)?rs.getString("cambiossolicitudautorizaciontext"):"[MOTIVO-MODIFICACION]")
+					} else if (object.codigo.equals("sdae-preautorizaciónpago-becas")){
+						plantilla = plantilla.replace("[COSTO-ESTUDIO-SOCIOECONOMICO]", ("\$" + rs.getString("pagoestudiosocioeco") + ".00 MXN")); 
+					} else if (object.codigo.equals("sdae-evaluación-deportiva")){
+						String motivoAprobada = rs.getString("motivoaprobadadeportiva");
+						String motivoRechazo = rs.getString("motivorechazodeportiva");
+						String sugerida = rs.getString("porrecareadeportiva");
+						String comentarios = "";
+						if(motivoAprobada != null && !motivoAprobada.equals("")) {
+							comentarios = motivoAprobada;
+						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
+							comentarios = motivoRechazo;
+						}
+						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-DEPORTIVA]"); 
+						plantilla = plantilla.replace("[DEPORTIVA-SUGERIDA]", sugerida == null ? "" : sugerida);
+					} else if (object.codigo.equals("sdae-evaluación-artistica")){
+						String motivoAprobada = rs.getString("motivoaprobadaartistica");
+						String motivoRechazo = rs.getString("motivorechazoartistica");
+						String sugerida = rs.getString("procrecareaartistica");
+						String comentarios = "";
+						errorlog += " | motivoRechazo " + motivoRechazo +" | EXISTe" + (motivoRechazo != null && !motivoRechazo.equals(""));
+						if(motivoAprobada != null && !motivoAprobada.equals("")) {
+							comentarios = motivoAprobada;
+						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
+							comentarios = motivoRechazo;
+						}
+						plantilla = plantilla.replace("[COMENTARIOS-ARTISTICA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-ARTISTICA]");
+						plantilla = plantilla.replace("[ARTISTICA-SUGERIDA]", sugerida == null ? "" : sugerida);
+					} else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")){
+//					    plantilla = plantilla.replace("[MOTIVOSDERECHAZO-FINANCIAMIENTO]", "");
+						String motivoRechazoFina = "";
+						if(rs.getString("motivo_rechazo_fina") !== null) {
+							motivoRechazoFina = rs.getString("motivo_rechazo_fina");
+						}
+						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", motivoRechazoFina);
+					} else if (object.codigo.equals("sdae-solicitudmodifcación-validaciónfinanzas")){
+					    plantilla = plantilla.replace("[COMENTARIOS-CAMBIO-AVAL]", rs.getString("observaciones_finanzas_fina"));
+					} else if (object.codigo.equals("sdae-solicitudrechaza-finanzas")){
+					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
+					} else if (object.codigo.equals("sdae-propuestarechazada-becas")) {
+						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
+					} else if (object.codigo.equals("sdae-solicitudrechaza-comitéfinanzas")) {
+						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", rs.getString("observaciones_comite_fina"));
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
+					}  else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")) {
+						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
+					} 
+
+					plantilla = plantilla.replace("[PORCENTAJE-BECA]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
+					plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO]", porcentajecredito_sol != null ? porcentajecredito_sol : "N/A");
+					plantilla = plantilla.replace("[PROMEDIO-MINIMO]", rs.getString("promediominimoautorizacion"));
+					plantilla = plantilla.replace("[FECHALIMITE-PAGO]", rs.getString("fechapagoinscripcionautorizacion"));
+					errorlog += " | ANTES DEL PORCENTAJE D EFINA  "
+					plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-OTORGADO]", rs.getString("porcentajefinanciamientootorgado"));
+					
+				}
+			} catch (Exception e) {
+				errorlog += " | CARTA BECAS " + e.getMessage()
+			} finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm);
+				}
+			}
+			
+			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuestasolobeca-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-finanzas") ) {
+				
+				Double costoCredito = 0;
+				Double creditosemestre = 0;
+				Double parcialidad = 0;
+				Double porcentajebecaautorizacion = 0;
+				Double porcentajecreditoautorizacion = 0;
+				Double descuentoanticipadoautorizacion = 0;
+				Double inscripcionmayo = 0;
+				Double inscripcionseptiembre = 0;
+				Double inscripcionagosto = 0;
+				Double inscripcionenero = 0;
+				String descripcionPeriodo = "";
+
+				//OBTENIENDO
+				try {
+					closeCon = validarConexion();
+					pstm = con.prepareStatement(Statements.GET_SOLICITD_APOYO_BY_CORREOELECTRONICO_PROPUESTA);
+//					pstm.setString(1, object.correo);
+					if(!object.correoAspirante.equals("") && object.correoAspirante != null)  {
+						pstm.setString(1, object.correoAspirante);
+					} else {
+						pstm.setString(1, object.correo);
+					}
+					
+					rs = pstm.executeQuery();
+					if(rs.next()) {
+						errorlog += "| " + object.codigo + " SOLICITUD ENCONTRADA ";
+						errorlog += " | 1 credito";
+						creditosemestre = rs.getDouble("creditosemestre");
+						errorlog += " | 1 parcialidad";
+						parcialidad = rs.getDouble("parcialidad");
+						errorlog += " | 1 porcentaje";
+						porcentajebecaautorizacion = rs.getDouble("porcentajebecaautorizacion");
+						porcentajecreditoautorizacion = rs.getDouble("porcentajecreditoautorizacion");
+						descuentoanticipadoautorizacion = rs.getDouble("descuentoanticipadoautorizacion");
+						errorlog += " | 1 periodo";
+						descripcionPeriodo = rs.getString("descripcion_periodo");
+						inscripcionmayo = rs.getDouble("inscripcionmayo");
+						inscripcionseptiembre = rs.getDouble("inscripcionseptiembre");
+						inscripcionagosto = rs.getDouble("inscripcionagosto");
+						inscripcionenero = rs.getDouble("inscripcionenero");
+						errorlog += " | 1 descuentos";
+						Double descuento = descuentoanticipadoautorizacion;
+						Double porcentajeBeca_sol  = rs.getDouble("porcentajebecaautorizacion");
+						Double porcentajeFina_sol  = rs.getDouble("porcentajecreditoautorizacion");
+						Double porcentajeInteresFinanciamiento = rs.getDouble("porcentajeinteresfinanciamiento");
+						Double porcentajefinanciamientootorgado =  rs.getDouble("porcentajefinanciamientootorgado");
+						errorlog += " | 1 promedios";
+						String promedio = "0";
+						if(rs.getString("promediominimoautorizacion")!= null) {
+							promedio = rs.getString("promediominimoautorizacion");
+						}
+						plantilla = plantilla.replace("[PROMEDIO-MINIMO]", promedio);
+						plantilla = plantilla.replace("[TIPO-BECA]", rs.getString("tipoapoyo"));
+						errorlog += " | 1 procedencia";
+						String procedencia = rs.getString("ciudadbachillerato") == null ? rs.getString("ciudadbachillerato_otro") : rs.getString("ciudadbachillerato");
+						plantilla = plantilla.replace("[PROCEDENCIA]", procedencia);
+						Integer porcentajeBeca_int = rs.getInt("porcentajebecaautorizacion");
+						Integer porcentajeFina_int = 0;
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_int.toString());
+						errorlog += " | PLANTILLA LLEGO"
+						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago")) {
+							try {
+								porcentajeFina_int  = rs.getInt("porcentajecreditoautorizacion");
+								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_int.toString());
+								Integer suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
+								plantilla = plantilla.replace("[SUMA-B-F]", suma.toString());
+							} catch(Exception e) {
+								plantilla = plantilla.replace("[SUMA-B-F]", "");
+							}
+						} else if(object.codigo.equals("sdae-propuesta-finanzas")){
+							errorlog += " | [PORCENTAJE-FINANCIAMIENTO-DICTAMEN] " + porcentajefinanciamientootorgado.toString();
+							plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajefinanciamientootorgado.toInteger().toString());
+						}
+						
+						errorlog += " | 1";
+						String[] fechaParcial = rs.getString("fechapagoinscripcionautorizacion").split("-");
+						errorlog += " | 2";
+						plantilla = plantilla.replace("[FECHALIMITE-INSCRIPCION]", fechaParcial[2] + "/" + fechaParcial[1] + "/" + fechaParcial[0]);
+						errorlog += " | 3";
+						plantilla = plantilla.replace("[DESCUENTO-INSCRIPCION]", rs.getString("descuentoanticipado"));
+						errorlog += " | 4";
+						Long sdaecatgestionescolar_pid = rs.getLong("sdaecatgestionescolar_pid");
+						errorlog += " | 5";
+						//OBTENCION De LOS CREDITOS
+						closeCon = validarConexion();
+						pstm = con.prepareStatement(Statements.GET_SDAECAT_CREDITO_GE);
+						errorlog += " | sdaecatgestionescolar_pid:" +  sdaecatgestionescolar_pid.toString();
+						errorlog += " | descripcionPeriodo:" +  descripcionPeriodo;
+						String[] periodoArray = descripcionPeriodo.split(" ");
+						errorlog += " | periodoArray:" +  periodoArray[1];
+						pstm.setLong(1, sdaecatgestionescolar_pid);
+						pstm.setString(2, periodoArray[1].toString());
+						rs = pstm.executeQuery();
+						
+						if(rs.next()) {
+							errorlog += " | 6";
+							costoCredito = rs.getInt("CREDITOAGOSTO");
+							Integer creditosSemestre = rs.getInt("creditosemestre");
+							Double parcialidades = rs.getDouble("parcialidad");
+							errorlog += " | 7";
+							Double montoInscripcion = inscripcionagosto;
+							Double montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
+							Double montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
+							Double montoCreditos = costoCredito;
+							errorlog += " | 8";
+							Double montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
+							Double montoColegiaturaBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoColegiaturaNormal;
+							Double montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoColegiaturaFinanciamiento = (montoColegiaturaNormal * (porcentajeFina_sol * 0.01));
+							errorlog += " | 9";
+							Double montoPagoNormal = montoColegiaturaNormal / parcialidades;
+							Double mongoPagoBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoPagoNormal;
+							Double mongoPagoBecaFinanciamiento = montoColegiaturaBecaFinanciamiento / parcialidades;
+							errorlog += " | 10";
+							Double montoPagototalNormal = montoInscripcion + montoColegiaturaNormal;
+							Double mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
+							Double mongoPagoTotalBecaFinanciamiento = montoBecaFinanciamiento + montoColegiaturaBecaFinanciamiento;
+							Double totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
+							Double interesSemestre = totalFinanciado * (porcentajeInteresFinanciamiento * 0.01);
+							errorlog += " | 11 (" + totalFinanciado.toString() + "*(" + porcentajeInteresFinanciamiento.toString() + " * 0.01)";
+							plantilla = plantilla.replace("[CREDITOS]", creditosSemestre.toString());
+							plantilla = plantilla.replace("[PARCIAL]", rs.getString("parcialidad"));
+							plantilla = plantilla.replace("[PERIODO]", descripcionPeriodo);
+							plantilla = plantilla.replace("[MONTO-INSCRIPCION]", formatCurrency(montoInscripcion.toString()));
+							plantilla = plantilla.replace("[MONTO-BECA]", formatCurrency(montoBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-BECA-FINANCIAMIENTO]", formatCurrency(montoBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-FINANCIAMIENTO]", formatCurrency(montoFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-CREDITOS]", formatCurrency(montoCreditos.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-NORMAL]", formatCurrency(montoColegiaturaNormal.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA]", formatCurrency(montoColegiaturaBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-COLEGIATURA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-NORMAL]", formatCurrency((montoPagoNormal).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-BECA]", formatCurrency((mongoPagoBeca).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOS-BECA-FINANCIAMIENTO]", formatCurrency((mongoPagoBecaFinanciamiento).toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-NORMAL]", formatCurrency(montoPagototalNormal.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA]", formatCurrency(mongoPagoTotalBeca.toString()));
+							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA-FINANCIAMIENTO]", formatCurrency(mongoPagoTotalBecaFinanciamiento.toString()));
+							plantilla = plantilla.replace("[TOTAL-FINANCIADO]", formatCurrency(totalFinanciado.toString()));
+							plantilla = plantilla.replace("[INTERES-SEMESTRE]", formatCurrency(interesSemestre.toString()));
+							
+							Double montoDescuentoFina = 0;
+							Double montoDescuentoBeca = 0;
+							Double montoDescuento = 0;
+							errorlog += "| descuento " + descuento.toString();
+							Double inscripcionDescuento = 0;
+							if(descuento > 0) {
+								montoDescuento = montoInscripcion - (montoInscripcion * (descuento / 100));
+							}
+							inscripcionDescuento  = montoInscripcion - (montoInscripcion - montoDescuento);
+							errorlog += "| montoDescuento " + montoDescuento.toString();
+							errorlog += "| montoInscripcion " + montoInscripcion.toString();
+//							montoInscripcion/montoBeca/montoBecaFinanciamiento
+							Double inscripcionDescuentoBeca = 0;
+							if(porcentajeBeca_sol > 0) {
+								montoDescuentoBeca = montoBeca - (montoBeca * (descuento / 100));
+							}
+							inscripcionDescuentoBeca = montoBeca - (montoBeca - montoDescuentoBeca);
+							errorlog += "| montoBeca " + montoBeca.toString();
+							errorlog += "| montoDescuentoBeca " + montoDescuentoBeca.toString();
+							
+							Double inscripcionDescuentoFina = 0 ;
+							if(porcentajeFina_sol > 0) {
+								montoDescuentoFina = montoBecaFinanciamiento - (montoBecaFinanciamiento * (descuento / 100));
+							}
+							
+							inscripcionDescuentoFina = montoBecaFinanciamiento - (montoBecaFinanciamiento - montoDescuentoFina);
+							errorlog += "| montoFinanciamiento " + montoFinanciamiento.toString();
+							errorlog += "| montoDescuentoFina " + montoDescuentoFina.toString();
+							
+//							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toString());
+							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toInteger().toString());
+							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO]", formatCurrency(inscripcionDescuento.toString()));
+							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA]", formatCurrency(inscripcionDescuentoBeca.toString()));
+							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA-PORCENTAJEFINANCIAMIENTO]", formatCurrency(inscripcionDescuentoFina.toString()));
+						}
+					}
+				} catch (Exception e) {
+					errorlog += "| PROPUESTA-FINA " + e.getLocalizedMessage();
+				} finally {
+					if(closeCon) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
+				}
+			} 
+			
+			try {
+				Result hffc = new Result()
+				hffc = getCatNotificacionesCampusCodigoCampus(object.codigo, object.campus);
+				if(hffc.getData().size() > 0) {
+					CatNotificacionesCampus catHffc = (CatNotificacionesCampus) hffc.getData().get(0);
+					plantilla=plantilla.replace("[HEADER-IMG]", catHffc.getHeader());
+					plantilla=plantilla.replace("[TEXTO-FOOTER]", catHffc.getFooter());
+					cc=catHffc.getCopia();
+					
+					try {
+						plantilla=plantilla.replace("[firma]", generarFirma(catHffc.getCatnotificacionesfirma_pid().toString()))
+						Result rfirma = getFirma("{\"estatusSolicitud\":\"Solicitud en progreso\",\"tarea\":\"Llenar solicitud\",\"lstFiltro\":[{\"columna\":\"PERSISTENCEID\",\"operador\":\"Igual a\",\"valor\":\""+catHffc.getCatnotificacionesfirma_pid().toString()+"\"}],\"type\":\"solicitudes_progreso\",\"usuario\":0,\"orderby\":\"NOMBRECOMPLETO\",\"orientation\":\"ASC\",\"limit\":20,\"offset\":0}")
+						
+						plantilla=plantilla.replace("(CONTACTO DE CAMPUS DESTINO)", rfirma.data.get(0).nombreCompleto + " " +rfirma.data.get(0).apellido);
+					} catch (Exception e) {
+						plantilla=plantilla.replace("[firma]", "")
+					}
+				}
+			} catch (Exception e) {
+				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAnguloImagenHeader())
+				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTextoFooter())
+				plantilla=plantilla.replace("[firma]", "")
+			}
+			   
+			plantilla=plantilla.replace("[header-href]", cn.getEnlaceBanner())
+			plantilla=plantilla.replace("[footer-href]", cn.getEnlaceFooter())
+			List<String> lstData = new ArrayList();
+			List<String> lstAdditionalData = new ArrayList();
+			lstData.add(plantilla);
+			resultado.setData(lstData);
+			
+			errorlog += "| Variable 16.04";
+			MailGunDAO mgd = new MailGunDAO();
+			lstAdditionalData.add("correo="+correo);
+			lstAdditionalData.add("asunto="+asunto);
+			lstAdditionalData.add("cc="+cc);
+			
+			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
+				resultado = mgd.sendEmailPlantillaSDAE(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context);
+				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
+				catBitacoraCorreo.setCodigo(object.codigo)
+				catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0))
+				catBitacoraCorreo.setMensaje(object.mensaje)
+				catBitacoraCorreo.setPara(object.correo)
+				catBitacoraCorreo.setCampus(object.campus)
+				
+				if(resultado.success) {
+					catBitacoraCorreo.setEstatus("Enviado a Mailgun")
+				}else {
+					catBitacoraCorreo.setEstatus("Fallido")
+				}
+				
+				insertCatBitacoraCorreos(catBitacoraCorreo);
+			}
+			
+			resultado.setError_info(errorlog);
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setError_info(errorlog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage())
+			
+			e.printStackTrace()
+		}
+		
+		return resultado;
+	}
+	
+//	private String formatCurrency(String input) {
+//		return "\$" + input + ".00";
+//	}
+	
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+        // Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+        String numeroFormateado = null;
+        if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+            numeroFormateado = formatoMoneda.format(valor);
+        } else if (valor instanceof String) {
+            try {
+                Number numero = NumberFormat.getInstance().parse((String) valor);
+                numeroFormateado = formatoMoneda.format(numero);
+            } catch (ParseException e) {
+                // Manejar cualquier excepción de análisis aquí
+                e.printStackTrace();
+            }
+        }
+
+        // Retornar el valor formateado o una cadena vacía si no se pudo formatear
+        return numeroFormateado != null ? numeroFormateado : "";
+	}
+
+	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog,Boolean isEnviar) {
 			//8 Seccion table atributos usuario
 		    errorlog += ", Variable8"
 			String tablaUsuario= ""
@@ -1638,6 +2442,50 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		}
 		return resultado
 	}
+	
+	public Result simpleSelectBonita(Integer parameterP, Integer parameterC, String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			assert object instanceof List;
+			
+				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+				closeCon = validarConexionBonita();
+				for(def row: object) {
+				pstm = con.prepareStatement(row)
+				
+				
+				rs = pstm.executeQuery()
+				rows = new ArrayList<Map<String, Object>>();
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				while(rs.next()) {
+					Map<String, Object> columns = new LinkedHashMap<String, Object>();
+	
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					}
+	
+					rows.add(columns);
+				}
+				resultado.setSuccess(true)
+				
+				resultado.setData(rows)
+				}
+			} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 	public Result getFirma(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -2032,50 +2880,58 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		}
 		return resultado
 	}
+	
 	public Result updateCatNotificaciones(CatNotificaciones catNotificaciones) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
+		String errorLog = "";
+		
 		try {
-				List<CatNotificacionesFirma> rows = new ArrayList<CatNotificacionesFirma>();
-				closeCon = validarConexion();
-				if(catNotificaciones.persistenceId>0) {
-					pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES)
-				}else {
-					pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES)
-				}
-				
-				pstm.setString(1, catNotificaciones.anguloImagenFooter);
-				pstm.setString(2, catNotificaciones.anguloImagenHeader);
-				pstm.setString(3, catNotificaciones.asunto);
-				pstm.setString(4, catNotificaciones.comentarioLeon);
-				pstm.setString(5, catNotificaciones.contenido);
-				pstm.setString(6, catNotificaciones.contenidoCorreo);
-				pstm.setString(7, catNotificaciones.contenidoLeonel);
-				pstm.setString(8, catNotificaciones.descripcion);
-				pstm.setString(9, catNotificaciones.docGuiaEstudio);
-				pstm.setString(10, catNotificaciones.enlaceBanner);
-				pstm.setString( 11,catNotificaciones.enlaceContacto);
-				pstm.setString( 12,catNotificaciones.enlaceFacebook);
-				pstm.setString( 13,catNotificaciones.enlaceFooter);
-				pstm.setString( 14,catNotificaciones.enlaceInstagram);
-				pstm.setString( 15,catNotificaciones.enlaceTwitter);
-				pstm.setString( 16,catNotificaciones.nombreImagenFooter);
-				pstm.setString( 17,catNotificaciones.textoFooter);
-				pstm.setString( 18,catNotificaciones.tipoCorreo);
-				pstm.setString( 19,catNotificaciones.titulo);
-				pstm.setString( 20,catNotificaciones.urlImgFooter);
-				pstm.setString( 21,catNotificaciones.urlImgHeader);
-				pstm.setString( 22,catNotificaciones.codigo);
-				pstm.setString( 23,catNotificaciones.caseId);
-				
-				
-				pstm.execute()
-				
-				resultado.setSuccess(true)
-				rows.add(catNotificaciones)
-				resultado.setData(rows)
-				
-			} catch (Exception e) {
+			List<CatNotificacionesFirma> rows = new ArrayList<CatNotificacionesFirma>();
+			closeCon = validarConexion();
+			errorLog += " | catNotificaciones.persistenceId = " + catNotificaciones.persistenceId;
+			
+			if(catNotificaciones.persistenceId != null) {
+				errorLog += " | UPDATE ";
+				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES);
+			} else {
+				errorLog += " | INSERT ";
+				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES);
+			}
+			
+			pstm.setString(1, catNotificaciones.anguloImagenFooter);
+			pstm.setString(2, catNotificaciones.anguloImagenHeader);
+			pstm.setString(3, catNotificaciones.asunto);
+			pstm.setString(4, catNotificaciones.comentarioLeon);
+			pstm.setString(5, catNotificaciones.contenido);
+			pstm.setString(6, catNotificaciones.contenidoCorreo);
+			pstm.setString(7, catNotificaciones.contenidoLeonel);
+			pstm.setString(8, catNotificaciones.descripcion);
+			pstm.setString(9, catNotificaciones.docGuiaEstudio);
+			pstm.setString(10, catNotificaciones.enlaceBanner);
+			pstm.setString(11, catNotificaciones.enlaceContacto);
+			pstm.setString(12, catNotificaciones.enlaceFacebook);
+			pstm.setString(13, catNotificaciones.enlaceFooter);
+			pstm.setString(14, catNotificaciones.enlaceInstagram);
+			pstm.setString(15, catNotificaciones.enlaceTwitter);
+			pstm.setString(16, catNotificaciones.nombreImagenFooter);
+			pstm.setString(17, catNotificaciones.textoFooter);
+			pstm.setString(18, catNotificaciones.tipoCorreo);
+			pstm.setString(19, catNotificaciones.titulo);
+			pstm.setString(20, catNotificaciones.urlImgFooter);
+			pstm.setString(21, catNotificaciones.urlImgHeader);
+			pstm.setString(22, catNotificaciones.codigo);
+			pstm.setString(23, catNotificaciones.caseId);
+			
+			pstm.execute();
+			
+			resultado.setSuccess(true);
+			rows.add(catNotificaciones);
+			resultado.setError_info(errorLog);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			errorLog += " | " + e.getMessage();
+			resultado.setError_info(errorLog);
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		}finally {
@@ -2083,7 +2939,91 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
-		return resultado
+		return resultado;
+	}
+	
+	public Result updateCatNotificacionesSDAE(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			List<?> rows = new ArrayList<?>();
+			closeCon = validarConexion();
+			
+			if(object.persistenceId != null) {
+				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES_SDAE);
+				pstm.setString(1, object.anguloImagenFooter);
+				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentarioLeon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(7, object.contenidoLeonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.docGuiaEstudio);
+				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(11, object.enlaceContacto);
+				pstm.setString(12, object.enlaceFacebook);
+				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(14, object.enlaceInstagram);
+				pstm.setString(15, object.enlaceTwitter);
+				pstm.setString(16, object.nombreImagenFooter);
+				pstm.setString(17, object.textoFooter);
+				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
+				pstm.setLong(22, Long.valueOf(object.persistenceId));
+				
+			} else {
+				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
+				
+				pstm.setString(1, object.anguloImagenFooter);
+				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentarioLeon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(7, object.contenidoLeonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.docGuiaEstudio);
+				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(11, object.enlaceContacto);
+				pstm.setString(12, object.enlaceFacebook);
+				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(14, object.enlaceInstagram);
+				pstm.setString(15, object.enlaceTwitter);
+				pstm.setString(16, object.nombreImagenFooter);
+				pstm.setString(17, object.textoFooter);
+				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
+				pstm.setString(22, object.codigo);
+				pstm.setString(23, object.caseId);
+			}
+			
+			pstm.execute();
+			
+			resultado.setSuccess(true);
+			rows.add(object);
+			resultado.setError_info(errorLog);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			errorLog += " | " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
 	}
 	
 	public Boolean validarConexion() {
@@ -2185,6 +3125,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			return ""
 		}
 	}
+	
 	public Result getCatNotificacionesCampus(String grupoBonita) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -2268,7 +3209,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			CatNotificaciones row = new CatNotificaciones()
 			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
 			closeCon = validarConexion();
-			String consulta = Statements.GET_CARTAS_NOTIFICACIONES
+			String consulta = Statements.GET_CARTAS_NOTIFICACIONES;
 			pstm = con.prepareStatement(consulta)
 			pstm.setString(1, campus)
 			rs = pstm.executeQuery()
@@ -2312,12 +3253,70 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		return resultado
 	}
 	
+	public Result getCartasNotificacionesByEstatus(String campus, String filtroEstatus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+			CatNotificaciones row = new CatNotificaciones();
+			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
+			String url = java.net.URLDecoder.decode(filtroEstatus, StandardCharsets.UTF_8.name());
+			String consulta = Statements.GET_CARTAS_NOTIFICACIONES_ESTATUS.replace("[ESTATUS]", url);
+			errorLog += " campus :: " + campus;
+			errorLog += " consulta :: " + consulta;
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(consulta);
+			pstm.setString(1, campus);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new CatNotificaciones();
+				row.anguloImagenFooter = rs.getString("anguloImagenFooter");
+				row.anguloImagenHeader = rs.getString("anguloImagenHeader");
+				row.asunto = rs.getString("asunto");
+				row.caseId = rs.getString("caseId");
+				row.codigo = rs.getString("codigo");
+				row.comentarioLeon = rs.getString("comentarioLeon");
+				row.contenido  = rs.getString("contenido");
+				row.contenidoCorreo = rs.getString("contenidoCorreo");
+				row.contenidoLeonel = rs.getString("contenidoLeonel");
+				row.descripcion = rs.getString("descripcion");
+				row.docGuiaEstudio = rs.getString("docGuiaEstudio");
+				row.enlaceBanner = rs.getString("enlaceBanner");
+				row.enlaceContacto = rs.getString("enlaceContacto");
+				row.enlaceFacebook = rs.getString("enlaceFacebook");
+				row.enlaceFooter = rs.getString("enlaceFooter");
+				row.enlaceInstagram = rs.getString("enlaceInstagram");
+				row.enlaceTwitter = rs.getString("enlaceTwitter");
+				row.nombreImagenFooter = rs.getString("nombreImagenFooter");
+				row.textoFooter  = rs.getString("textoFooter");
+				row.tipoCorreo = rs.getString("tipoCorreo");
+				row.titulo = rs.getString("titulo");
+				row.urlImgFooter = rs.getString("urlImgFooter");
+				row.urlImgHeader = rs.getString("urlImgHeader");
+				rows.add(row);
+			}
+			
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
 	public Result insertCatNotificacionesCampus(CatNotificacionesCampus row) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		try {
-
-			
 			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
 			closeCon = validarConexion();
 			String consulta = CatNotificacionesCampus.GET_CATNOTIFICACIONESCAMPUS_CODIGO_CAMPUS

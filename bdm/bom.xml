@@ -1,6 +1,37 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <businessObjectModel xmlns="http://documentation.bonitasoft.com/bdm-xml-schema/1.0" modelVersion="1.0" productVersion="7.13.4">
     <businessObjects>
+        <businessObject qualifiedName="com.anahuac.SDAE.bitacora.BitacoraComentariosSDAE">
+            <fields>
+                <field type="TEXT" length="255" name="comentario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="modulo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioComentario" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.bitacora.BitacoraSDAE">
+            <fields>
+                <field type="STRING" length="255" name="idBanner" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="comentario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="beca" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="financiamiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarios" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipoApoyo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.SDAE.bitacora.BitacoraSolicitudApoyo">
             <fields>
                 <field type="STRING" length="255" name="evento" nullable="true" collection="false"/>
@@ -19,6 +50,20 @@
                 <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.catalogos.CatConfiguracionPago">
+            <fields>
+                <field type="LONG" length="255" name="idCampus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="instruccionesPago" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="monto" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="deshabilitarPagoEstudioSocioEconomico" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -62,6 +107,8 @@
                 <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="descripcionDocumento" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isObligatorioDoc" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="requiereEjemplo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isAval" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -191,13 +238,90 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.catalogos.ConfiguracionesCampus">
+            <fields>
+                <field type="LONG" length="255" name="idCampus" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tieneFinanciamiento" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="porcentajeInteresFinanciamiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlReglamento" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="interesInscripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="interesColegiatura" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="descuentoProntoPago" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="promedioMinimo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlAvisoPrivacidadBecas" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlDocumentoCondicionesFinanciamiento" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.catalogos.PromedioEquivalencias">
+            <fields>
+                <field type="STRING" length="255" name="valor" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="promedioEquivalente" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.SDAE.catalogos.RelacionCampusTipoApoyo">
+            <description></description>
             <fields>
                 <field type="LONG" length="255" name="idCampus" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="idTypoApoyo" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="requiereVideo" nullable="true" collection="false"/>
                 <field type="TEXT" length="255" name="conicionesVideo" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="esSocioEconomico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlEjemploCurriculum" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="requiereCurriculum" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="requierePromedioMinimo" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="promedioMinimo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.catalogos.SDAECatCreditoGE">
+            <fields>
+                <field type="STRING" length="255" name="creditoEnero" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="creditoMayo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="creditoAgosto" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="creditoSeptiembre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="fecha" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.SDAECatGestionEscolar" fetchType="LAZY" name="sdaeCatGestionEscolar" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.catalogos.SDAECatGestionEscolar">
+            <fields>
+                <field type="STRING" length="255" name="parcialidad" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="creditoSemestre" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="manejaApoyo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatGestionEscolar" fetchType="LAZY" name="catGestionEscolar" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="manejaProntoPago" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.AutorizacionApoyo">
+            <fields>
+                <field type="BOOLEAN" length="255" name="isAutorizada" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="promedioMinimoBeca" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="porcentajeCreditoAutorizacion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="porcentajeBecaAutorizacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="promedioMinimoAutorizacion" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="descuentoAnticipadoAutorizacion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaPagoInscripcionAutorizacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isPagoRealizadoAutorizacion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoRechazoAutorizacionText" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="cambiosSolicitudAutorizacionText" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaAutorizacion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaLimitePropuesta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioAutoriza" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -233,6 +357,22 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.AvalInfoNotarial">
+            <fields>
+                <field type="STRING" length="255" name="notario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numeroNotaria" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numeroEscritura" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="volumen" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="libro" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugarDeEscrituracion" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="caseidSolicitud" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.SDAE.model.AvalInfoPersonal">
             <fields>
                 <field type="STRING" length="255" name="nombres" nullable="true" collection="false"/>
@@ -255,6 +395,9 @@
                 <field type="STRING" length="255" name="empresaCiudad" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="empresaEstado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="empresaPais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="empresaExtensionTelefono" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="empresaFechaIngreso" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="empresaCorreoElectronico" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ingresoMensual" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="provenienteDe" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ingresoMensualTotal" nullable="true" collection="false"/>
@@ -265,6 +408,8 @@
                 <field type="STRING" length="255" name="otroIngreso" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="rfc" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlDocumentoFirmado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="otroIngresoEspecificar" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -276,12 +421,29 @@
                 <field type="STRING" length="255" name="volumen" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="seccion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="lugarEscrituracion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="folio" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="libro" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="partida" nullable="true" collection="false"/>
-                <field type="LOCALDATETIME" length="255" name="fechaRegistro" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseidSolicitud" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="notario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="noNotaria" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaNotaria" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="folio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaRegistro" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tomo" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="libro" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.AvalModificarInfo">
+            <fields>
+                <field type="BOOLEAN" length="255" name="modificarInfoPersonalAval" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="modificarDomicilioAval" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="modificarDatosTrabajoAval" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="modificarDatosInmuebleAval" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="modificarRegistroPublicoPropiedadAval" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="modificarReferenciasAval" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -293,6 +455,21 @@
                 <field type="STRING" length="255" name="tipoCuenta" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="numeroCuenta" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="saldoPromedio" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="esBancaria" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.AvalReferenciasPersonales">
+            <fields>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correoPersonal" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="parentesco" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="esPersonal" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -306,6 +483,40 @@
                 <field type="STRING" length="255" name="direccionBanco" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="valor" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="catTipoInversionesPosee_id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.CierreSolicitud">
+            <fields>
+                <field type="BOOLEAN" length="255" name="inscripcionPropedeutico" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="pasoPropedeutico" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="inscritoPagoRealizado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tomaMaterias" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.DocumentosAval">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.CatManejoDocumentos" fetchType="LAZY" name="catManejoDocumentos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlDocumento" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="catManejoDocumentos_id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.DocumentosSolicitante">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.CatManejoDocumentos" fetchType="LAZY" name="catManejoDocumentos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlDocumento" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="catManejoDocumentos_id" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -330,11 +541,22 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.ImagenesSocioEcoSolicitante">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.CatImagenesSocioEconomico" fetchType="LAZY" name="imagenSocioEconomico" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlImagen" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="imagenSocioEconomico_id" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.SDAE.model.PreAutorizacion">
             <fields>
                 <field type="BOOLEAN" length="255" name="isPreautorizada" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="cambiosSolicitudPreAutorizacion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="motivoRechazoPreAutorizacion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="cambiosSolicitudPreAutorizacion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoRechazoPreAutorizacion" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="porcentajeCreditoPreAutorizacion" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="porcentajeBeca" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="porcentajeCredito" nullable="true" collection="false"/>
@@ -342,6 +564,18 @@
                 <field type="LOCALDATE" length="255" name="fechaPagoInscripcion" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isPagoRealizado" nullable="true" collection="false"/>
                 <field type="DOUBLE" length="255" name="descuentoAnticipado" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.PropuestaComite">
+            <fields>
+                <field type="STRING" length="255" name="porcentajeFinanciamiento" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observaciones" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoRechazoSolicitud" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="cambiosSolicitados" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -365,7 +599,7 @@
                 <field type="STRING" length="255" name="empresaTutor" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="puestoTutor" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="tieneHermanos" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="motivoBeca" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoBeca" nullable="true" collection="false"/>
                 <field type="DOUBLE" length="255" name="cantMensualPagarUni" nullable="true" collection="false"/>
                 <field type="DOUBLE" length="255" name="contruccionM2Casa" nullable="true" collection="false"/>
                 <field type="DOUBLE" length="255" name="terrenoM2Casa" nullable="true" collection="false"/>
@@ -432,8 +666,51 @@
                 <field type="BOOLEAN" length="255" name="modificarMotivoSol" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="modificarInfoSocioEco" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="modificarDocumentos" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.CatImagenesSocioEconomico" fetchType="LAZY" name="imagenesSocioEconomico" nullable="true" collection="true"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.SDAE.catalogos.CatTipoApoyo" fetchType="LAZY" name="catTipoApoyoCAT" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="catEstadoCivilPadres_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlAzureNuevoKardex" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="nuevoKardex" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nuevoPromedioPrepa" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="ingresoOtro" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="porRecAreaDeportiva" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="observacionesDeportiva" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="procRecAreaArtistica" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="observacionesArtistica" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="ingresoTrabajoAspirante" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaEnvioArea" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaRespuestaArea" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlCurriculum" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoRechazoAspirante" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="otroIngresoDescripcion" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="otroEgresoDescripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ordenPagoConekta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="extensionTelefonoTrabajoTutor" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="extensionTelefonoTrabajoPadre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="extensionTelefonoTrabajoMadre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="otroIngresoTutorDescripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="aprobadaFinal" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="comentariosFinal" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaLimiteAceptaPropuesta" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="transferidoAdmisiones" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.SDAE.model.SolicitudFinanciamiento">
+            <fields>
+                <field type="LONG" length="255" name="caseIdSDAE" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="finalizada" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatusSolicitud" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaRegistro" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaUltimaModificacion" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="porcComite" nullable="true" collection="false"/>
+                <field type="DOUBLE" length="255" name="porcFinanzas" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="motivoRechazoSolicitud" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesFinanzas" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="observacionesComite" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaLimiteAceptaPropuesta" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -447,6 +724,7 @@
                 <field type="STRING" length="255" name="modulo" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
                 <field type="STRING" length="512" name="usuarioComentario" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -641,6 +919,13 @@
                 <field type="STRING" length="255" name="conektaPublicKey" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="tokenBanner" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="hubspotKey" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="mailgunSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="mailgunDominioSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="mailgunCorreoSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlBannerSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioBannerSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlTokenBannerSDAE" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="pwBannerSDAE" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -2009,7 +2294,7 @@
                 <query name="getCatNotificacionesBecas" content="SELECT c &#13;&#10;FROM CatNotificaciones c &#13;&#10;WHERE  c.codigo like ('%BC_%')&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatNotificaciones">
                     <queryParameters/>
                 </query>
-                <query name="findByCaseIdTipoCorreo" content="SELECT c &#13;&#10;FROM CatNotificaciones c &#13;&#10;WHERE  c.tipoCorreo in ('Notificaciones Admisiones' ,'Cartas Admisiones&quot;')&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatNotificaciones">
+                <query name="findByCaseIdTipoCorreo" content="SELECT c &#13;&#10;FROM CatNotificaciones c &#13;&#10;WHERE  c.tipoCorreo in ('Notificaciones Admisiones' ,'Cartas Admisiones','Notificación de admisiones' ,'Carta de admisiones')&#13;&#10;AND c.caseId = :caseId&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.catalogos.CatNotificaciones">
                     <queryParameters>
                         <queryParameter name="caseId" className="java.lang.String"/>
                     </queryParameters>

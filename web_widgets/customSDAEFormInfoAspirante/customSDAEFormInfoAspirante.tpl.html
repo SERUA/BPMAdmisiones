@@ -1,0 +1,136 @@
+<div class="">
+    <div class="row">
+        <div class="col-xs-12 ">
+            <div class="form-group col-xs-4 col-xs-offset-8">
+            <label class="control-label col-xs-12">Fecha de envío:</label>
+            <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                <input type="text" disabled class="form-control"  ng-model="properties.lstContenido[0].fecharegistro ? (properties.lstContenido[0].fecharegistro | date:'dd/MM/yyyy'): 'N/A'">
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xs-4 text-center">
+            <div class="col-xs-12 text-center">
+                <img  class="miniatura-pic" ng-src="{{properties.lstContenido[0].fotografiab64}}">
+            </div>
+            <div class="col-xs-12">
+                <br>
+                <h4>Fotografía</h4>
+                <br>
+                <label>ID Banner: </label>
+                <label class="color-orange">{{properties.lstContenido[0].idbanner}}</label>
+            </div>
+        </div>
+        <div class="col-xs-8">
+            <div class="form-group col-xs-12">
+                <label class="control-label col-xs-12">Nombre completo:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" 
+                    value="{{
+                        properties.lstContenido[0].apellidopaterno + ' ' 
+                        + properties.lstContenido[0].apellidomaterno + ' '
+                        + properties.lstContenido[0].primernombre + ' '
+                        + properties.lstContenido[0].segundonombre }}"
+                    >
+                </div>
+            </div>
+            <div class="form-group col-xs-6">
+                <label class="control-label col-xs-12">Correo electrónico:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="properties.lstContenido[0].correoelectronico">
+                </div>
+            </div>
+            <div class="form-group col-xs-6">
+                <label class="control-label col-xs-12">Periodo:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="properties.lstContenido[0].ingreso">
+                </div>
+            </div>
+            
+            <div class="form-group col-xs-12">
+                <label class="control-label col-xs-12">Programa:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="properties.lstContenido[0].licenciatura">
+                </div>
+            </div>
+            <div class="form-group col-xs-12">
+                <label class="control-label col-xs-12">Propedéutico:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.solicitudDeAdmision[0].catPropedeutico.descripcion ? properties.solicitudDeAdmision[0].catPropedeutico.descripcion : 'N/A'}}">
+                </div>
+            </div>
+            <div class="form-group col-xs-12" ng-hide="properties.isArtisticaOrDeportiva">
+                <label class="control-label col-xs-12">Estatus de admisión:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.solicitudDeAdmision[0].aceptado ? 'Aceptado' : 'En proceso'}}">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row" >
+        <div class="col-xs-12">
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Preparatoria:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" 
+                    ng-model="!properties.solicitudDeAdmision[0].bachillerato ? properties.solicitudDeAdmision[0].catBachilleratos.descripcion : properties.solicitudDeAdmision[0].bachillerato">
+                </div>
+            </div>
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Tipo de apoyo:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="properties.lstContenido[0].tipoapoyo">
+                </div>
+            </div>
+            <div class="form-group col-xs-4" ng-show="properties.porcentajeBeca">
+                <label class="control-label col-xs-12" >Porcentaje solicitado:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.porcentajeBeca ? properties.porcentajeBeca : 'N/A'}}">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Pertenece a la red:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.solicitudDeAdmision[0].catBachilleratos.perteneceRed ? 'Sí' : 'No'}}">
+                </div>
+            </div>
+            <div class="form-group col-xs-4" ng-show="properties.porcentajeBeca">
+                <label class="control-label col-xs-12" >Financiamiento educativo:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.porcentajeFinanciamiento ? 'Sí' : 'No'}}">
+                </div>
+            </div>
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Porcentaje solicitado:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.porcentajeFinanciamiento ? properties.porcentajeFinanciamiento : 'N/A'}}">
+                </div>
+            </div>
+        </div>
+
+        <div class="col-xs-12">
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Procedencia:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model="properties.sdae.estado">
+                </div>
+            </div>
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12" ng-hide="properties.isArtisticaOrDeportiva">Puntuación PAA:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;" ng-hide="properties.isArtisticaOrDeportiva">
+                    <input type="text" disabled="disabled" class="form-control" value="{{ properties.getPAA.total ? properties.getPAA.total : (properties.solicitudDeAdmision[0].resultadoPAA ? properties.solicitudDeAdmision[0].resultadoPAA : 'N/A')}}">
+                </div>
+            </div>
+            <div class="form-group col-xs-4">
+                <label class="control-label col-xs-12">Promedio:</label>
+                <div class="col-xs-12" style="display: inline-flex; position: relative;">
+                    <input type="text" disabled="disabled" class="form-control" ng-model=" properties.sdae.nuevoPromedioPrepa ? properties.sdae.nuevoPromedioPrepa : properties.lstContenido[0].promediogeneral ">
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

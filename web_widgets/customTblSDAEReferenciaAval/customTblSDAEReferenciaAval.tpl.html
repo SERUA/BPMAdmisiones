@@ -1,0 +1,44 @@
+<div class="table-responsive">
+    <table class="table"
+        ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th ng-repeat="header in properties.headers">
+                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
+                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                  	 <!--<span ng-if="!properties.allowHTML">{{ header == "Saldo promedio" ? header + " (" + properties.moneda + ")" : header | uiTranslate }}</span>-->
+                </th>
+                <th ng-if="properties.editar">Acciones</th>
+            </tr>
+        </thead>
+        <tbody ng-if="properties.content">
+            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" >
+                <td ng-repeat= "info in properties.columnsKey" >
+                    <div ng-switch="info">
+                        <div ng-switch-when="saldoPromedio"  style = "position: relative; display: inline-flex">
+                            <label class="moneda-display2">$</label>
+                            <input style="padding-left: 35px;" placeholder="{{properties.moneda}}"  class="form-control responsive-tbl" ng-keypress="forceKeyPressUppercase($event, 'number', 8, 99999999)" ng-disabled="!properties.editar" ng-model="row[info]" type="number" pattern="[0-9]*" data-politespace data-grouplength="3" data-delimiter="," data-reverse >
+                        </div>
+                        <div ng-switch-when="numeroCuenta" >
+                            <input  class="form-control responsive-tbl" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'number', 15, 999999999999999)">
+                        </div>
+                        <div ng-switch-when="telefono" >
+                            <input  class="form-control responsive-tbl" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'number', 14, 99999999999999)">
+                        </div>
+                        <div ng-switch-when="correoPersonal">
+                            <input class="form-control responsive-tbl" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'email', 50, null)">
+                        </div>
+                        <div ng-switch-default>
+                            <input class="form-control responsive-tbl" ng-disabled="!properties.editar" ng-model="row[info]" type="text" ng-keypress="forceKeyPressUppercase($event, 'text', 30, null)">
+                        </div>
+                    </div>
+                </td>
+                <td ng-if="properties.editar">
+                    <button class="btn btn-link" ng-click="removeItem(row)">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </button>
+                </td>    
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -526,6 +526,7 @@ class BannerDAO {
 							objEducationalInstitutions.setNationCode("");
 							objEducationalInstitutions.setStateCode("");
 							objEducationalInstitutions.setCountyCode("");
+							//objEducationalInstitutions.setPostalCode("");
 							
 							errorLog = errorLog + " | " + "objEducationalInstitutions.setCountyCode";
 							
@@ -636,6 +637,7 @@ class BannerDAO {
 												objAddresses.setNationCode(objJsonAddressExtended.get("nationCode").toString().equals("null") ? null : (objJsonAddressExtended.get("nationCode").toString()));
 												objAddresses.setStateCode(objJsonAddressExtended.get("stateCode").toString().equals("null") ? null : (objJsonAddressExtended.get("stateCode").toString()));
 												objAddresses.setCountyCode(objJsonAddressExtended.get("countyCode").toString().equals("null") ? null : (objJsonAddressExtended.get("countyCode").toString()));
+												objAddresses.setPostalCode(objJsonAddressExtended.get("postalCode").toString().equals("null") ? null : (objJsonAddressExtended.get("postalCode").toString()));
 											}
 											Iterator < JSONObject > iteratoreducationalInstitutionsExtended = lstEducationalInstitutionsExtended.iterator();
 											while(iteratoreducationalInstitutionsExtended.hasNext()) {
@@ -694,7 +696,9 @@ class BannerDAO {
 						objAddresses.setIdDireccion(objJsonContent.get("id").toString());
 
 						objAddresses.setOperation(objJson.get("operation").toString());
-						objAddresses.setPostalCode(objJsonCountry.get("postalCode").toString())
+						//if(!objJsonCountry.get("postalCode").toString().equals("null")){
+							//objAddresses.setPostalCode(objJsonCountry.get("postalCode").toString())
+						//}
 						
 						if (objJsonCountry.get("title").toString().equals("México")) {
 							objAddresses.setPais(objJsonCountry.get("title").toString());
@@ -726,6 +730,7 @@ class BannerDAO {
 							objAddresses.setNationCode(objJsonAddressExtended.get("nationCode").toString().equals("null") ? null : (objJsonAddressExtended.get("nationCode").toString()));
 							objAddresses.setStateCode(objJsonAddressExtended.get("stateCode").toString().equals("null") ? null : (objJsonAddressExtended.get("stateCode").toString()));
 							objAddresses.setCountyCode(objJsonAddressExtended.get("countyCode").toString().equals("null") ? null : (objJsonAddressExtended.get("countyCode").toString()));
+							objAddresses.setPostalCode(objJsonAddressExtended.get("postalCode").toString().equals("null") ? null : (objJsonAddressExtended.get("postalCode").toString()));
 						}
 						Iterator < JSONObject > iteratoreducationalInstitutionsExtended = lstEducationalInstitutionsExtended.iterator();
 						while(iteratoreducationalInstitutionsExtended.hasNext()) {
@@ -1622,6 +1627,9 @@ class BannerDAO {
 							}else if(objLstAddresses.getPostalCode().equals("null") || objLstAddresses.getPostalCode().equals("") || objLstAddresses.getPostalCode().equals(null) || objLstAddresses.getPostalCode() == null ) {
 								isEliminadoRegla = true;
 								errorLog += "isEliminadoRegla5:"+(isEliminadoRegla)
+							}else if(objLstAddresses.getPostalCode().length() < 4 ) {
+								isEliminadoRegla = true;
+								errorLog += "isEliminadoRegla7:"+(isEliminadoRegla)
 							}else if( objRow.getTypeInd().equals("null") || objRow.getTypeInd().equals("") || objRow.getTypeInd().equals(null) || objRow.getTypeInd() == null || !objRow.getTypeInd().equals("H") ) {
 								isEliminadoRegla = true;
 								errorLog += "isEliminadoRegla6:"+(isEliminadoRegla)
@@ -2183,6 +2191,7 @@ class BannerDAO {
 			resultPersonsCredentials = personsCredentials(tokenMatchPerson, idBanner)
 			def personsCredentials = jsonSlurper.parseText(resultPersonsCredentials)
 			assert personsCredentials instanceof List<Map>;
+			
 			if(personsCredentials.size()==0) {
 				throw new Exception("No se encontró aspirante con idBanner: " + idBanner)
 			}

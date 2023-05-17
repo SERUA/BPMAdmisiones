@@ -8,24 +8,22 @@ import java.sql.RowId
 import java.sql.Statement
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import com.anahuac.rest.api.DB.Statements
 
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.xssf.usermodel.XSSFSheet
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.bonitasoft.engine.bpm.data.DataDefinition
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstanceSearchDescriptor
-import org.bonitasoft.engine.bpm.process.ProcessDefinition
-import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfo
-import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor
-import org.bonitasoft.engine.bpm.process.ProcessInstance
-import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.engine.search.Order
-import org.bonitasoft.engine.search.SearchOptions
-import org.bonitasoft.engine.search.SearchOptionsBuilder
-import org.bonitasoft.engine.search.SearchResult
 import org.bonitasoft.engine.search.impl.SearchFilter
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
@@ -37,6 +35,7 @@ import com.anahuac.model.DetalleSolicitudDAO
 import com.anahuac.model.ProcesoCasoDAO
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
+import com.anahuac.rest.api.DB.BannerWSInfo
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.catalogos.CatBachilleratosDAO
@@ -56,6 +55,1334 @@ class ListadoDAO {
 	Statement stm;
 	ResultSet rs;
 	PreparedStatement pstm;
+	
+	public Result selectSolicitudesApoyo(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List < String > lstGrupo = new ArrayList < String > ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false "
+			
+			if (object.estatusSolicitud != null) {
+				where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+			}
+			
+			if (object.caseId != null) {
+				where += " AND SDAE.caseId = "+object.caseId +" "
+			}
+			
+			if (object.caseId == null) {
+				if (lstGrupo.size() > 0) {
+					where += " AND ("
+				}
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+			}
+
+
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS
+
+			errorlog = consulta + " 2";
+			
+			if (object.caseId == null) {
+				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+					errorlog = consulta + " 1";
+					switch (filtro.get("columna")) {
+	
+						case "NOMBRE,EMAIL,CURP":
+							errorlog += "NOMBRE,EMAIL,CURP"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+	
+						case "PROGRAMA,INGRESO,CAMPUS":
+							errorlog += "PROGRAMA,INGRESO,CAMPUS"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							break;
+	
+						case "TIPO APOYO,PROMEDIO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(tipoapoyo.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "CAMPUS":
+							errorlog += "CAMPUS"
+							where += " AND LOWER(campus.DESCRIPCION) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ULTIMA MODIFICACION":
+							errorlog += "FECHAULTIMAMODIFICACION"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SDAE.fechaultimamodificacion) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "FECHALIMITEPROPUESTA":
+							errorlog += "FECHALIMITEPROPUESTA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(AA.fechaLimitePropuesta) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "FECHALIITEPROPUESTAFINA":
+							errorlog += "FECHALIITEPROPUESTAFINA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SF.fechaLimiteAceptaPropuesta) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "# EXPEDIENTE":
+							errorlog += "SOLICITUD"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							//where += " LOWER(CAST(SDAE.caseid AS varchar)) ";
+							where += " LOWER(CAST(da.idBanner AS varchar)) ";
+							
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ESTATUS":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(SDAE.estatusSolicitud) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
+							} else {
+								where += "LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "P-BECA":
+							errorlog += "P-BECA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(AA.porcentajeBecaAutorizacion::varchar(255)) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "P-FINAN":
+							errorlog += "P-FINAN"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SF.porcComite::varchar(255)) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "F-TRAMITE":
+							errorlog += "F-TRAMITE"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER( CASE SF.finalizada WHEN 't' THEN 'Concluido' WHEN 'f' THEN 'En proceso' ELSE 'N/A' END ) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "LICENCIATURA":
+							errorlog += "LICENCIATURA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO":
+							errorlog += "PERIODO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						default:
+							break;
+					}
+				}
+			}	
+			errorlog = consulta + " 2";
+			if (object.caseId != null) {
+				orderby = "";
+			}else {
+				switch (object.orderby) {
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "sda.fechaultimamodificacion";
+						break;
+					case "NOMBRE":
+						orderby += "sda.apellidopaterno";
+						break;
+					case "EMAIL":
+						orderby += "sda.correoelectronico";
+						break;
+					case "CURP":
+						orderby += "sda.curp";
+						break;
+					case "CAMPUS":
+						orderby += "campus.DESCRIPCION"
+						break;
+					case "PREPARATORIA":
+						orderby += "prepa.DESCRIPCION"
+						break;
+					case "PROGRAMA":
+						orderby += "gestionescolar.NOMBRE"
+						break;
+					case "INGRESO":
+						orderby += "periodo.DESCRIPCION"
+						break;
+					case "PROMEDIO":
+						orderby += "sda.PROMEDIOGENERAL";
+						break;
+					case "ESTATUS":
+						orderby += "SDAE.estatusSolicitud";
+						break;
+					case "TIPOBECA":
+						orderby += "tipoapoyo.descripcion";
+						break;
+					case "EXPEDIENTE":
+						//orderby += "sda.caseid::INTEGER";
+						orderby += "da.idBanner::INTEGER";
+						break;
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "SDAE.fechaultimamodificacion";
+						break;
+					case "FECHALIMITEPROPUESTA":
+						orderby += "AA.fechaLimitePropuesta";
+						break;
+					default:
+						orderby += "SDAE.caseid"
+						break;
+						
+				}
+			}
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[WHERE]", where);
+			consultaCount = consultaCount.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consultaCount)
+			//errorlog = consultaCount + " 6";
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorlog = consulta + " 7";
+
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			rs = pstm.executeQuery()
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorlog = consulta + " 8";
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+
+							/*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+								columns.put("fotografiab64", encoded);
+							} */
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			errorlog = consulta + " 9";
+			resultado.setSuccess(true)
+
+			resultado.setError_info(errorlog);
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result selectSolicitudesApoyoCompletadas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List < String > lstGrupo = new ArrayList < String > ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false "
+			
+			
+			
+			if(object.isCompletadas == true) {
+				if (object.estatusSolicitud != null) {
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') )"
+				}
+			} else {
+				if (object.estatusSolicitud != null) {
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+				}
+			}
+			
+			if (object.caseId != null) {
+				where += " AND SDAE.caseId = "+object.caseId +" "
+			}
+			
+			if (object.caseId == null) {
+				if (lstGrupo.size() > 0) {
+					where += " AND ("
+				}
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+			}
+
+
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS
+
+			errorlog = consulta + " 2";
+			
+			if (object.caseId == null) {
+				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+					errorlog = consulta + " 1";
+					switch (filtro.get("columna")) {
+	
+						case "NOMBRE,EMAIL,CURP":
+							errorlog += "NOMBRE,EMAIL,CURP"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+	
+						case "PROGRAMA,INGRESO,CAMPUS":
+							errorlog += "PROGRAMA,INGRESO,CAMPUS"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							break;
+	
+						case "TIPO APOYO,PROMEDIO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(tipoapoyo.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "CAMPUS":
+							errorlog += "CAMPUS"
+							where += " AND LOWER(campus.DESCRIPCION) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ULTIMA MODIFICACION":
+							errorlog += "FECHAULTIMAMODIFICACION"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SDAE.fechaultimamodificacion) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "# EXPEDIENTE":
+							errorlog += "SOLICITUD"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							//where += " LOWER(CAST(SDAE.caseid AS varchar)) ";
+							where += " LOWER(CAST(da.idBanner AS varchar)) ";
+							
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ESTATUS":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(SDAE.estatusSolicitud) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
+							} else {
+								where += "LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "P-BECA":
+							errorlog += "P-BECA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(AA.porcentajeBecaAutorizacion::varchar(255)) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "T-BECA":
+							errorlog += "T-BECA"
+							String addWhere = "";
+							if (where.contains("WHERE")) {
+								addWhere += " AND "
+							} else {
+								addWhere += " WHERE "
+							}
+							
+							if((Boolean) filtro.get("valor")) {
+								addWhere += " (AA.porcentajeBecaAutorizacion IS NOT NULL) ";
+								where += addWhere;
+							}
+							
+							break;
+						case "P-FINAN":
+							errorlog += "P-FINAN"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SF.porcComite::varchar(255)) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "T-FINAN":
+							errorlog += "T-FINAN"
+							String addWhere = "";
+							
+							if (where.contains("WHERE")) {
+								addWhere += " AND "
+							} else {
+								addWhere += " WHERE "
+							}
+							
+							if((Boolean) filtro.get("valor")) {
+								addWhere += " (SF.porcComite IS NOT NULL) ";
+								where += addWhere;
+							}
+							
+							break;
+						case "F-TRAMITE":
+							errorlog += "F-TRAMITE"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER( CASE SF.finalizada WHEN 't' THEN 'Concluido' WHEN 'f' THEN 'En proceso' ELSE 'N/A' END ) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "LICENCIATURA":
+							errorlog += "LICENCIATURA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO":
+							errorlog += "PERIODO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						default:
+							break;
+					}
+	
+				}
+			}
+			errorlog = consulta + " 2";
+			if (object.caseId != null) {
+				orderby = "";
+			}else {
+				switch (object.orderby) {
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "sda.fechaultimamodificacion";
+						break;
+					case "NOMBRE":
+						orderby += "sda.apellidopaterno";
+						break;
+					case "EMAIL":
+						orderby += "sda.correoelectronico";
+						break;
+					case "CURP":
+						orderby += "sda.curp";
+						break;
+					case "CAMPUS":
+						orderby += "campus.DESCRIPCION"
+						break;
+					case "PREPARATORIA":
+						orderby += "prepa.DESCRIPCION"
+						break;
+					case "PROGRAMA":
+						orderby += "gestionescolar.NOMBRE"
+						break;
+					case "INGRESO":
+						orderby += "periodo.DESCRIPCION"
+						break;
+					case "PROMEDIO":
+						orderby += "sda.PROMEDIOGENERAL";
+						break;
+					case "ESTATUS":
+						orderby += "SDAE.estatusSolicitud";
+						break;
+					case "TIPOBECA":
+						orderby += "tipoapoyo.descripcion";
+						break;
+					case "EXPEDIENTE":
+						//orderby += "sda.caseid::INTEGER";
+						orderby += "da.idBanner::INTEGER";
+						break;
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "SDAE.fechaultimamodificacion";
+						break;
+					default:
+						orderby += "SDAE.caseid"
+						break;
+				}
+			}
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[WHERE]", where);
+			consultaCount = consultaCount.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consultaCount)
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorlog = consulta + " 7";
+
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			rs = pstm.executeQuery()
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorlog = "8";
+			
+			while (rs.next()) {
+				BannerRequestDAO bannerRequestDAO = new BannerRequestDAO();
+				Result getBannerObject = bannerRequestDAO.getBannerInfo(rs.getString("idcampus"), rs.getString("idBanner"));
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+				errorlog += " | Resultado de banner";
+				if(getBannerObject.isSuccess()) {
+					errorlog += " | Banner encontrado ";
+					columns.put("bannerInfo", getBannerObject.getData().get(0));
+					BannerWSInfo bannerInfo = (BannerWSInfo) getBannerObject.getData().get(0);
+					errorlog += " | bannerInfo ";
+					String infoEscolar = bannerInfo.getPrograma_periodo_campus();
+					errorlog += " | infoEscolar ";
+					String[] infoEscolarArray;
+					Map < String, Object > infoEscolarBanner = new LinkedHashMap < String, Object > ();
+					if(infoEscolar != null && !infoEscolar.equals("") && !infoEscolar.equals("null")) {
+						errorlog += " | infoEscolar.split ";
+						infoEscolarArray = infoEscolar.split("/");
+						if(infoEscolarArray.length > 0) {
+							infoEscolarBanner.put("licenciatura", infoEscolarArray[0]);
+							errorlog += " | infoEscolar " + infoEscolarArray[0];
+							infoEscolarBanner.put("periodo", infoEscolarArray[1]);
+							errorlog += " | infoEscolar " + infoEscolarArray[1];
+							infoEscolarBanner.put("campus", infoEscolarArray[2]);
+							errorlog += " | infoEscolar " + infoEscolarArray[2];
+						} else {
+							infoEscolarBanner.put("licenciatura", "");
+							infoEscolarBanner.put("periodo", "");
+							infoEscolarBanner.put("campus", "");
+						}
+						columns.put("infoEscolarBanner", infoEscolarBanner);
+					} else {
+						infoEscolarBanner.put("licenciatura", "");
+						infoEscolarBanner.put("periodo", "");
+						infoEscolarBanner.put("campus", "");
+						columns.put("infoEscolarBanner", infoEscolarBanner);
+					}
+				} else {
+					errorlog += " | Banner no encontrado ";
+					errorlog += " | " + getBannerObject.error;
+					errorlog += " | " + getBannerObject.error_info;
+				}
+				
+				errorlog += " | Columnas iteradas ";
+				for (int i = 1; i <= columnCount; i++) {
+					errorlog += " | Columnas index  " +  String.valueOf(i);
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			errorlog = consulta + " 9";
+			resultado.setSuccess(true)
+
+			resultado.setError_info(errorlog);
+			resultado.setData(rows)
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result selectBandejaMaestra(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List < String > lstGrupo = new ArrayList < String > ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false "
+			
+			//if (object.estatusSolicitud != null) {
+				//where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+			//}
+			
+			if (object.caseId != null) {
+				where += " AND SDAE.caseId = "+object.caseId +" "
+			}
+			
+			if (object.caseId == null) {
+				if (lstGrupo.size() > 0) {
+					where += " AND ("
+				}
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+			}
+
+
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS
+
+			errorlog = consulta + " 2";
+			
+			if (object.caseId == null) {
+				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+					errorlog = consulta + " 1";
+					switch (filtro.get("columna")) {
+	
+						case "NOMBRE,EMAIL,CURP":
+							errorlog += "NOMBRE,EMAIL,CURP"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+	
+						case "PROGRAMA,INGRESO,CAMPUS":
+							errorlog += "PROGRAMA,INGRESO,CAMPUS"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							break;
+	
+						case "TIPO APOYO,PROMEDIO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(tipoapoyo.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "CAMPUS":
+							errorlog += "CAMPUS"
+							where += " AND LOWER(campus.DESCRIPCION) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ULTIMA MODIFICACION":
+							errorlog += "FECHAULTIMAMODIFICACION"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " (LOWER(SDAE.fechaultimamodificacion) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "# EXPEDIENTE":
+							errorlog += "SOLICITUD"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							//where += " LOWER(CAST(SDAE.caseid AS varchar)) ";
+							where += " LOWER(CAST(da.idBanner AS varchar)) ";
+							
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "ESTATUS":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(SDAE.estatusSolicitud) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%') OF LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%')"
+							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "LICENCIATURA":
+							errorlog += "LICENCIATURA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO":
+							errorlog += "PERIODO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						default:
+							break;
+					}
+	
+				}
+			}
+			errorlog = consulta + " 2";
+			if (object.caseId != null) {
+				orderby = "";
+			}else {
+				switch (object.orderby) {
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "sda.fechaultimamodificacion";
+						break;
+					case "NOMBRE":
+						orderby += "sda.apellidopaterno";
+						break;
+					case "EMAIL":
+						orderby += "sda.correoelectronico";
+						break;
+					case "CURP":
+						orderby += "sda.curp";
+						break;
+					case "CAMPUS":
+						orderby += "campus.DESCRIPCION"
+						break;
+					case "PREPARATORIA":
+						orderby += "prepa.DESCRIPCION"
+						break;
+					case "PROGRAMA":
+						orderby += "gestionescolar.NOMBRE"
+						break;
+					case "INGRESO":
+						orderby += "periodo.DESCRIPCION"
+						break;
+					case "PROMEDIO":
+						orderby += "sda.PROMEDIOGENERAL";
+						break;
+					case "ESTATUS":
+						orderby += "SDAE.estatusSolicitud";
+						break;
+					case "TIPOBECA":
+						orderby += "tipoapoyo.descripcion";
+						break;
+					case "EXPEDIENTE":
+						//orderby += "sda.caseid::INTEGER";
+						orderby += "da.idBanner::INTEGER";
+						break;
+					case "FECHAULTIMAMODIFICACION":
+						orderby += "SDAE.fechaultimamodificacion";
+						break;
+					default:
+						orderby += "SDAE.caseid"
+						break;
+				}
+			}
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[WHERE]", where);
+			consultaCount = consultaCount.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consultaCount)
+			//errorlog = consultaCount + " 6";
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorlog = consulta + " 7";
+
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			rs = pstm.executeQuery()
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorlog = consulta + " 8";
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+
+							/*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+								columns.put("fotografiab64", encoded);
+							} */
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			errorlog = consulta + " 9";
+			resultado.setSuccess(true)
+
+			resultado.setError_info(errorlog);
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	
+	public Result getSolicitudApoyoByCaseId(int caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = ""
+		
+		try {
+		
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+	
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+	
+			pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_BY_CASE_ID)
+			pstm.setInt(1, caseid)
+				
+			rs = pstm.executeQuery()
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+
+							/*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+								columns.put("fotografiab64", encoded);
+							} */
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			resultado.setSuccess(true)
+
+			resultado.setError_info(errorlog);
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	
 	public Result selectAspirantesEnproceso(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
@@ -877,5 +2204,875 @@ class ListadoDAO {
 		}
 		return resultado
 	}
+	
+	public Result selectSolicitudesApoyoFinanzas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List < String > lstGrupo = new ArrayList < String > ();
 
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false "
+				
+			if (object.estatusSolicitud != null) {
+				where += " AND SF.estatusSolicitud IN ("+object.estatusSolicitud+") "
+			}
+			
+			if (object.caseId != null) {
+				where += " AND SDAE.caseId = "+object.caseId +" "
+			}
+			
+			if (lstGrupo.size() > 0) {
+				where += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				where += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					where += ") "
+				} else {
+					where += " OR "
+				}
+			}
+			
+
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS;
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS;
+
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				errorlog = consulta + " 1";
+				switch (filtro.get("columna")) {
+
+					case "NOMBRE,EMAIL,CURP":
+						errorlog += "NOMBRE,EMAIL,CURP"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "PROGRAMA,INGRESO,CAMPUS":
+						errorlog += "PROGRAMA,INGRESO,CAMPUS"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						break;
+
+					case "TIPO APOYO,PROMEDIO":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(tipoapoyo.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "CAMPUS":
+						errorlog += "CAMPUS"
+						where += " AND LOWER(campus.DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "ULTIMA MODIFICACION":
+						errorlog += "FECHAULTIMAMODIFICACION"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(SDAE.fechaultimamodificacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "# EXPEDIENTE":
+						errorlog += "SOLICITUD"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(CAST(SDAE.caseid AS varchar)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+					case "ESTATUS":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(SF.estatusSolicitud) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "P-BECA":
+						errorlog += "P-BECA"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(AA.porcentajeBecaAutorizacion::varchar(255)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "T-BECA":
+						errorlog += "T-BECA"
+						String addWhere = "";
+						if (where.contains("WHERE")) {
+							addWhere += " AND "
+						} else {
+							addWhere += " WHERE "
+						}
+						
+						if((Boolean) filtro.get("valor")) {
+							addWhere += " (AA.porcentajeBecaAutorizacion IS NOT NULL) ";
+							where += addWhere;
+						}
+						
+						break;
+					case "P-FINAN":
+						errorlog += "P-FINAN"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(SF.porcComite::varchar(255)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "T-FINAN":
+						errorlog += "T-FINAN"
+						String addWhere = "";
+						
+						if (where.contains("WHERE")) {
+							addWhere += " AND "
+						} else {
+							addWhere += " WHERE "
+						}
+						
+						if((Boolean) filtro.get("valor")) {
+							addWhere += " (SF.porcComite IS NOT NULL) ";
+							where += addWhere;
+						}
+						
+						break;
+					case "F-TRAMITE":
+						errorlog += "F-TRAMITE"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER( CASE SF.finalizada WHEN 't' THEN 'Concluido' WHEN 'f' THEN 'En proceso' ELSE 'N/A' END ) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%'))"
+						}
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "LICENCIATURA":
+						errorlog += "LICENCIATURA"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERIODO":
+						errorlog += "PERIODO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					default:
+						break;
+				}
+
+			}
+			errorlog = consulta + " 2";
+			switch (object.orderby) {
+				case "FECHAULTIMAMODIFICACION":
+					orderby += "sda.fechaultimamodificacion";
+					break;
+				case "NOMBRE":
+					orderby += "sda.apellidopaterno";
+					break;
+				case "EMAIL":
+					orderby += "sda.correoelectronico";
+					break;
+				case "CURP":
+					orderby += "sda.curp";
+					break;
+				case "CAMPUS":
+					orderby += "campus.DESCRIPCION"
+					break;
+				case "PREPARATORIA":
+					orderby += "prepa.DESCRIPCION"
+					break;
+				case "PROGRAMA":
+					orderby += "gestionescolar.NOMBRE"
+					break;
+				case "INGRESO":
+					orderby += "periodo.DESCRIPCION"
+					break;
+				case "PROMEDIO":
+					orderby += "sda.PROMEDIOGENERAL";
+					break;
+				case "ESTATUS":
+					orderby += "SDAE.estatusSolicitud";
+					break;
+				case "TIPOBECA":
+					orderby += "tipoapoyo.descripcion";
+					break;
+				case "EXPEDIENTE":
+					orderby += "sda.caseid::INTEGER";
+					break;
+				case "FECHAULTIMAMODIFICACION":
+					orderby += "SDAE.fechaultimamodificacion";
+					break;
+				default:
+					orderby += "SDAE.caseid"
+					break;
+			}
+			
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[WHERE]", where);
+			consultaCount = consultaCount.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consultaCount)
+			//errorlog = consultaCount + " 6";
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorlog = consulta + " 7";
+
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			rs = pstm.executeQuery()
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorlog = consulta + " 8";
+			
+			errorlog += where;
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			errorlog = consulta + " 9";
+			resultado.setSuccess(true)
+
+			resultado.setError_info(errorlog);
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getExcelFile(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = new Result();
+			dataResult = selectSolicitudesApoyo(parameterP,parameterC, jsonData, context);
+			resultado = dataResult;
+			
+			int rowCount = 0;
+			List < Object > lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+			dataResult = selectSolicitudesApoyo(parameterP,parameterC, jsonData, context);
+			
+            if (dataResult.success) {
+                lstParams = dataResult.getData();
+            } else {
+                throw new Exception("No encontro datos");
+            }
+
+			
+            String title = object.estatussolicitud;
+            Row titleRow = sheet.createRow(++rowCount);
+            Cell cellReporte = titleRow.createCell(1);
+            cellReporte.setCellValue("Reporte:");
+            cellReporte.setCellStyle(style);
+            Cell cellTitle = titleRow.createCell(2);
+            cellTitle.setCellValue(title);
+            Cell cellFecha = titleRow.createCell(4);
+            cellFecha.setCellValue("Fecha:");
+            cellFecha.setCellStyle(style);
+
+            Calendar cal = Calendar.getInstance();
+            cal.add(Calendar.HOUR_OF_DAY, -7);
+            Date date = cal.getTime();
+            SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
+            String sDate = formatter.format(date);
+            Cell cellFechaData = titleRow.createCell(5);
+            cellFechaData.setCellValue(sDate);
+
+            Row blank = sheet.createRow(++rowCount);
+            Cell cellusuario = blank.createCell(4);
+            cellusuario.setCellValue("Usuario:");
+            cellusuario.setCellStyle(style);
+            Cell cellusuarioData = blank.createCell(5);
+            cellusuarioData.setCellValue(object.usuario);
+            Row espacio = sheet.createRow(++rowCount);
+            Row headersRow = sheet.createRow(++rowCount);
+            Cell header1 = headersRow.createCell(0);
+            header1.setCellValue("ID Banner / ID BPM");
+            header1.setCellStyle(style);
+            Cell header2 = headersRow.createCell(1);
+            header2.setCellValue("Nombre / Email / CURP");
+            header2.setCellStyle(style);
+            Cell header3 = headersRow.createCell(2);
+            header3.setCellValue("Programa / Período de ingreso / Campus ingreso");
+            header3.setCellStyle(style);
+            Cell header4 = headersRow.createCell(3);
+            header4.setCellValue("Tipo Beca / Promedio / Promedio Actualizado");
+            header4.setCellStyle(style);
+            Cell header5 = headersRow.createCell(4);
+            header5.setCellValue("Beca");
+            header5.setCellStyle(style);
+            Cell header6 = headersRow.createCell(5);
+            header6.setCellValue("Financiamiento");
+            header6.setCellStyle(style);
+            Cell header7 = headersRow.createCell(6);
+            header7.setCellValue("Financiamiento en trámite");
+            header7.setCellStyle(style);
+            Cell header8 = headersRow.createCell(7);
+            header8.setCellValue("Inscripción al propedéutico");
+            header8.setCellStyle(style);
+            Cell header9 = headersRow.createCell(8);
+            header9.setCellValue("Paso propedéutico");
+            header9.setCellStyle(style);
+            Cell header10 = headersRow.createCell(9);
+            header10.setCellValue("Inscrito o realizó pago");
+            header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(9);
+			header11.setCellValue("Toma de materias");
+			header11.setCellStyle(style);
+
+            //FORMATO DE LAS FECHAS
+            DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+            Date fechaCreacion = new Date();
+            DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+            for (int i = 0; i < lstParams.size(); ++i) {
+                Row row = sheet.createRow(++rowCount);
+                Cell cell1 = row.createCell(0);
+                cell1.setCellValue(lstParams[i].idbanner + " / " + lstParams[i].caseid);
+				String nombre = lstParams[i].apellidopaterno + " " + lstParams[i].apellidomaterno + " " + lstParams[i].primernombre + " " + lstParams[i].segundonombre;
+                Cell cell2 = row.createCell(1);
+                cell2.setCellValue(nombre + " / " + lstParams[i].correoelectronico + " / " + lstParams[i].curp);
+                Cell cell3 = row.createCell(2);
+                cell3.setCellValue(lstParams[i].licenciatura + " / " + lstParams[i].ingreso + " / " + lstParams[i].campusestudio);
+                Cell cell4 = row.createCell(3);
+                cell4.setCellValue(lstParams[i].tipoapoyo + " / " + lstParams[i].promediogeneral + " / " + (lstParams[i].nuevopromedioprepa == null ? 'N/A':lstParams[i].nuevopromedioprepa));
+                Cell cell5 = row.createCell(4);
+                cell5.setCellValue(lstParams[i].porcentajebecaautorizacion);
+                Cell cell6 = row.createCell(5);
+                cell6.setCellValue(lstParams[i].porcentajeautorizadofinanciaimiento);
+                Cell cell7 = row.createCell(6);
+                cell7.setCellValue(lstParams[i].financiamientoentramite);
+                Cell cell8 = row.createCell(7);
+                cell8.setCellValue(lstParams[i].inscripcionPropedeutico);
+                Cell cell9 = row.createCell(8);
+                cell9.setCellValue(lstParams[i].pasoPropedeutico);
+                Cell cell10 = row.createCell(9);
+                cell10.setCellValue(lstParams[i].inscrito);
+				Cell cell11 = row.createCell(9);
+				cell11.setCellValue(lstParams[i].tomaMaterias);
+            }
+			
+			for (int i = 0; i <= rowCount + 3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			
+			FileOutputStream outputStream = new FileOutputStream("ReporteBecasCompletadas.xls");
+			workbook.write(outputStream);
+	
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(encodeFileToBase64Binary("ReporteBecasCompletadas.xls"));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	private String encodeFileToBase64Binary(String fileName)
+	throws IOException {
+
+		File file = new File(fileName);
+		byte[] bytes = loadFile(file);
+		byte[] encoded = Base64.encoder.encode(bytes);
+		String encodedString = new String(encoded);
+
+		return encodedString;
+	}
+
+	private static byte[] loadFile(File file) throws IOException {
+		InputStream is = new FileInputStream(file);
+
+		long length = file.length();
+		if (length > Integer.MAX_VALUE) {
+			// File is too large
+		}
+		byte[] bytes = new byte[(int) length];
+
+		int offset = 0;
+		int numRead = 0;
+		while (offset < bytes.length && (numRead = is.read(bytes, offset, bytes.length - offset)) >= 0) {
+			offset += numRead;
+		}
+
+		if (offset < bytes.length) {
+			throw new IOException("Could not completely read file " + file.getName());
+		}
+
+		is.close();
+		return bytes;
+	}
+	
+	public Boolean validarConexion() {
+		Boolean retorno = false
+		if (con == null || con.isClosed()) {
+			con = new DBConnect().getConnection();
+			retorno = true
+		}
+		return retorno
+	}
+	
+	public Boolean validarConexionBonita() {
+		Boolean retorno = false
+		if (con == null || con.isClosed()) {
+			con = new DBConnect().getConnectionBonita();
+			retorno = true
+		}
+		return retorno
+	}
+	
+	public Result getExcelFileCierre(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = new Result();
+			
+			
+			int rowCount = 0;
+			List < Object > lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+//			dataResult = selectSolicitudesApoyo(parameterP,parameterC, jsonData, context);
+			dataResult = selectSolicitudesApoyoCompletadas(parameterP, parameterC, jsonData, context);
+			resultado = dataResult;
+			
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontro datos");
+			}
+
+			
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue(title);
+			Cell cellFecha = titleRow.createCell(4);
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy  HH:mm:ss");
+			String sDate = formatter.format(date);
+			Cell cellFechaData = titleRow.createCell(5);
+			cellFechaData.setCellValue(sDate);
+
+			Row blank = sheet.createRow(++rowCount);
+			Cell cellusuario = blank.createCell(4);
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = blank.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("ID Banner / ID BPM");
+			header1.setCellStyle(style);
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("Nombre / Email / CURP");
+			header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Programa / Período de ingreso / Campus ingreso");
+			header3.setCellStyle(style);
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("Tipo Beca / Promedio / Promedio Actualizado");
+			header4.setCellStyle(style);
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("Beca");
+			header5.setCellStyle(style);
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Financiamiento");
+			header6.setCellStyle(style);
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Financiamiento en trámite");
+			header7.setCellStyle(style);
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Inscripción al propedéutico");
+			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Paso propedéutico");
+			header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Inscrito o realizó pago");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(9);
+			header11.setCellValue("Toma de materias");
+			header11.setCellStyle(style);
+
+			//FORMATO DE LAS FECHAS
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+			Date fechaCreacion = new Date();
+			DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams[i].idbanner + " / " + lstParams[i].caseid);
+				String nombre = lstParams[i].apellidopaterno + " " + lstParams[i].apellidomaterno + " " + lstParams[i].primernombre + " " + lstParams[i].segundonombre;
+				Cell cell2 = row.createCell(1);
+				cell2.setCellValue(nombre + " / " + lstParams[i].correoelectronico + " / " + lstParams[i].curp);
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams[i].licenciatura + " / " + lstParams[i].ingreso + " / " + lstParams[i].campusestudio);
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams[i].tipoapoyo + " / " + lstParams[i].promediogeneral + " / " + (lstParams[i].nuevopromedioprepa == null ? 'N/A':lstParams[i].nuevopromedioprepa));
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams[i].porcentajebecaautorizacion);
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue(lstParams[i].porcentajeautorizadofinanciaimiento);
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue(lstParams[i].financiamientoentramite);
+				Cell cell8 = row.createCell(7);
+				cell8.setCellValue(lstParams[i].inscripcionPropedeutico);
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams[i].pasoPropedeutico);
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams[i].inscrito);
+				Cell cell11 = row.createCell(9);
+				cell11.setCellValue(lstParams[i].tomaMaterias);
+			}
+			
+			for (int i = 0; i <= rowCount + 3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+			
+			FileOutputStream outputStream = new FileOutputStream("ReporteBecasCompletadas.xls");
+			workbook.write(outputStream);
+	
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(encodeFileToBase64Binary("ReporteBecasCompletadas.xls"));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}
+		
+		return resultado;
+	}
+	
+	public Result countSolicitudesDeApoyoByEstatus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		List<String> lstGrupo = new ArrayList<String>();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map <String, String> objGrupoCampus = new HashMap <String, String> ();
+		List<String> lstEstatus = new ArrayList<String>();
+
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+			userLogged = context.getApiSession().getUserId();
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			
+			if (object.caseId == null) {
+				if (lstGrupo.size() > 0) {
+					where += " AND ("
+				}
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					where += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						where += ") "
+					} else {
+						where += " OR "
+					}
+				}
+			}
+
+			List<Map<String, Object>> rows = new ArrayList<Map<String, Object>> ();
+			closeCon = validarConexion();
+			
+			Map <String, Object> row = new HashMap <String, Object>();
+			pstm = con.prepareStatement(Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS.replace("[WHERE]", where));
+			
+			rs = pstm.executeQuery();
+
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"));
+			} else {
+				resultado.setTotalRegistros(0);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(new ArrayList<String>());
+		} catch (Exception e) {
+			resultado.setError_info(errorlog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	}
+	
+	
+	public Result getPAAByIdBanner(String idbanner, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		Map <String, Object> row = new HashMap <String, Object>();
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER);
+			pstm.setString(1, idbanner);
+			
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				row = new HashMap <String, Object>();
+				
+				row.put("paan", rs.getString("paan"));
+				row.put("paav", rs.getString("paav"));
+				row.put("para", rs.getString("para"));
+				row.put("total", rs.getString("total"));
+				
+				rows.add(row);
+			} 
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	} 
 }

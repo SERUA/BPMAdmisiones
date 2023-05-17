@@ -133,19 +133,19 @@ function ($scope, $http, modalService) {
         }
     });
     
-    $scope.$watch("properties.paymentInfoCard", function(){
-        if($scope.properties.paymentInfoCard !== undefined){
-            if($scope.properties.paymentInfoCard.success){
-                $scope.formInput.isPagoTarjeta = true;
-                $scope.formInput.detalleSolicitudInput.ordenPago = $scope.properties.paymentInfoCard.data[0].id;
-                if($scope.properties.isCorrectTask){
-                    // $scope.newNavValue = "cardPaid";
-                    $scope.isPagoTarjeta = true;
-                    $scope.unassignTask();
-                }
-            }
-        }
-    });
+    // $scope.$watch("properties.paymentInfoCard", function(){
+    //     if($scope.properties.paymentInfoCard !== undefined){
+    //         if($scope.properties.paymentInfoCard.success){
+    //             $scope.formInput.isPagoTarjeta = true;
+    //             $scope.formInput.detalleSolicitudInput.ordenPago = $scope.properties.paymentInfoCard.data[0].id;
+    //             if($scope.properties.isCorrectTask){
+    //                 // $scope.newNavValue = "cardPaid";
+    //                 $scope.isPagoTarjeta = true;
+    //                 $scope.unassignTask();
+    //             }
+    //         }
+    //     }
+    // });
     
     $scope.getOrderInformation = function(){
         let url = "/bonita/API/extension/AnahuacRest?url=getOrderDetails&p=0&c=10";

@@ -61,9 +61,9 @@ function PbTableCtrl($scope, $http, modalService) {
         }).then((value) => {
             if(value){
                 row.isDeleted = true;
-                debugger;
-                doRequest('POST', "../API/extension/AnahuacBecasRest?url=deleteCatTipoApoyo&p=0&c=0", row);
-                $scope.properties.accion = 'tabla';
+                
+                doRequest('POST', "../API/extension/AnahuacBecasRest?url=deleteCatTipoApoyo&p=0&c=0&id=" + row.persistenceId, row);
+                // $scope.properties.accion = 'tabla';
             }
         }); 
     };
@@ -75,10 +75,9 @@ function PbTableCtrl($scope, $http, modalService) {
             data: datos,
             params: params
         };
-        debugger;
+        
         return $http(req) .success(function(data, status) {
-            debugger;
-            $scope.properties.accion = "tabla";
+            // $scope.properties.accion = "tabla";
             getRegistrosCatalogo();
             
             swal("!Correcto!", "Se actualizaron los datos correctamente.", "success");

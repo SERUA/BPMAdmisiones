@@ -1,6 +1,6 @@
 package com.anahuac.rest.api.Entity.db
 
-class CatImagenesSocioAcademico {
+class CatImagenesSocioEconomico {
 	private Long persistenceId;
 	private String descripcion;
 	private String urlAzure;

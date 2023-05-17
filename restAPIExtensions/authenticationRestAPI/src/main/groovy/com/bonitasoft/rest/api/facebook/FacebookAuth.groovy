@@ -1,0 +1,176 @@
+package com.bonitasoft.rest.api.facebook
+
+import java.security.GeneralSecurityException
+
+import javax.servlet.http.HttpServletRequest
+import javax.servlet.http.HttpServletResponse
+import javax.servlet.http.HttpSession
+
+import org.bonitasoft.console.common.server.login.LoginFailedException
+import org.bonitasoft.console.common.server.utils.PermissionsBuilder
+import org.bonitasoft.console.common.server.utils.PermissionsBuilderAccessor
+import org.bonitasoft.console.common.server.utils.SessionUtil
+import org.bonitasoft.engine.identity.ContactDataCreator
+import org.bonitasoft.engine.identity.User
+import org.bonitasoft.engine.identity.UserCreator
+import org.bonitasoft.engine.identity.UserNotFoundException
+import org.bonitasoft.engine.platform.LoginException
+import org.bonitasoft.engine.platform.UnknownUserException
+import org.bonitasoft.engine.profile.Profile
+import org.bonitasoft.engine.profile.ProfileMemberCreator
+import org.bonitasoft.engine.profile.ProfileSearchDescriptor
+import org.bonitasoft.engine.search.SearchOptionsBuilder
+import org.bonitasoft.engine.search.SearchResult
+import org.bonitasoft.engine.session.APISession
+import org.bonitasoft.web.extension.ResourceProvider
+import org.bonitasoft.web.extension.rest.RestApiResponse
+import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
+
+import org.bonitasoft.engine.api.IdentityAPI
+import org.bonitasoft.engine.api.LoginAPI
+import org.bonitasoft.engine.api.ProfileAPI
+import org.bonitasoft.web.extension.rest.RestAPIContext
+import org.bonitasoft.web.extension.rest.RestApiController
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdTokenVerifier
+import com.google.api.client.googleapis.auth.oauth2.GoogleIdToken.Payload
+import com.google.api.client.http.javanet.NetHttpTransport
+import com.google.api.client.json.jackson2.JacksonFactory
+
+import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
+
+
+class FacebookAuth implements RestApiController {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(FacebookAuth.class);
+
+	private static Properties props = null;
+	
+	private static final String PWD_PREFIX = "pWdSocPre_"
+	
+	private static final String PROFILE="User";
+	
+	@Override
+	RestApiResponse doHandle(HttpServletRequest request, RestApiResponseBuilder responseBuilder, RestAPIContext context) {
+		if (props==null) {
+			props = loadProperties("configuration.properties", context.resourceProvider);
+		}
+
+		def authCode = request.getParameter("authCode");
+		if (authCode == null) {
+			 return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter authCode is missing"}""")
+		}
+		def redirect = request.getParameter("redirect");
+		try {
+			def is_valid=true
+			try{
+			 def jsonText = new URL("https://graph.facebook.com/debug_token?input_token="+props.get("facebookAppId")+"&access_token="+authCode).getText();
+			 
+			 def json = new JsonSlurper().parseText(jsonText);
+			 if(json.data.is_valid){
+				is_valid=true
+				 
+			 }else{
+				is_valid=true
+			 }
+			}catch(Exception e){
+				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"{/\"error\" : \" "+e1.getMessage()+"\"}")
+			}
+			
+			if(is_valid){
+				String jsonData = request.reader.readLines().join("\n")
+				def json = new JsonSlurper().parseText(jsonData);
+
+				
+				String email = json.email;
+				String familyName = json.last_name
+				String givenName = json.first_name
+				
+				IdentityAPI identityApi = context.getApiClient().getIdentityAPI();
+				ProfileAPI profileApi = context.getApiClient().getProfileAPI();
+				LoginAPI loginAPI = context.getApiClient().getLoginAPI();
+				try {
+					User u = identityApi.getUserByUserName(email);
+				} catch(UserNotFoundException e) {
+					//user doesn't exist we create him
+					try {
+					UserCreator uc = new UserCreator(email, generatePwd(email, givenName))
+					uc.setFirstName(givenName)
+					uc.setLastName(familyName)
+					uc.setEnabled(true)
+					ContactDataCreator creator = new ContactDataCreator()
+					creator.setEmail(email)
+					uc.setPersonalContactData(creator)
+					User user = identityApi.createUser(uc);
+					
+					SearchOptionsBuilder searchOptionsBuilder = new SearchOptionsBuilder(0,1);
+					searchOptionsBuilder.filter(ProfileSearchDescriptor.NAME, PROFILE);
+					SearchResult<Profile> searchResultProfile = profileApi.searchProfiles(searchOptionsBuilder.done());
+					
+					ProfileMemberCreator profileMemberCreator = new ProfileMemberCreator( searchResultProfile.getResult().get(0).getId() );
+					profileMemberCreator.setUserId( user.getId() );
+					profileApi.createProfileMember(profileMemberCreator);
+					}
+					catch(Exception e1) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,"{/\"error\" : \" "+e1.getMessage()+"\"}")
+					}
+				}
+				
+				
+				HttpSession httpSession = request.getSession();
+				
+				APISession userApiSession = loginAPI.login(email, generatePwd(email, givenName));
+				httpSession.setAttribute(SessionUtil.API_SESSION_PARAM_KEY, userApiSession);
+				PermissionsBuilder permissionsBuilder = PermissionsBuilderAccessor.createPermissionBuilder(userApiSession);
+				def permissions = permissionsBuilder.getPermissions();
+				httpSession.setAttribute(SessionUtil.PERMISSIONS_SESSION_PARAM_KEY, permissions);
+		
+				def result=["status":"ok", "userId" : userApiSession.getUserId(), "redirect" : "private"]
+			
+				if (redirect != null) {
+					return responseBuilder.with {
+						withResponseStatus(HttpServletResponse.SC_MOVED_TEMPORARILY)
+						withResponse(new JsonBuilder(result).toString())
+						withAdditionalHeader("Location", redirect)
+						build()
+					}
+				}
+				return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+			}else{
+				return buildResponse(responseBuilder, HttpServletResponse.SC_UNAUTHORIZED,"""{"error" : "Invalid credentials"}""")
+			}
+		} catch(IOException | GeneralSecurityException e) {
+			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "Facebook login failed"}""")
+		}
+		catch (LoginException | UnknownUserException | LoginFailedException e) {
+			return buildResponse(responseBuilder, HttpServletResponse.SC_UNAUTHORIZED,"""{"error" : "Invalid credentials"}""")
+		}
+
+	}
+	
+	private String generatePwd(String email, String lastname) {
+		return ""+(PWD_PREFIX+email+lastname).hashCode();
+	}
+	
+	RestApiResponse buildResponse(RestApiResponseBuilder responseBuilder, int httpStatus, Serializable body) {
+		return responseBuilder.with {
+			withResponseStatus(httpStatus)
+			withResponse(body)
+			build()
+		}
+	}
+
+	/**
+	 * Load a property file into a java.util.Properties
+	 */
+	Properties loadProperties(String fileName, ResourceProvider resourceProvider) {
+		Properties props = new Properties()
+		resourceProvider.getResourceAsStream(fileName).withStream { InputStream s ->
+			props.load s
+		}
+		props
+	}
+}

@@ -59,7 +59,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
             .then((value) => {
                 if(value){
                     doRequest('POST', '../API/extension/AnahuacBecasRest?url=deleteCatManejoDocumentos&p=0&c=0', row );
-                    $scope.properties.accion = 'tabla';
+                    // $scope.properties.accion = 'tabla';
                 }
             }); 
     };

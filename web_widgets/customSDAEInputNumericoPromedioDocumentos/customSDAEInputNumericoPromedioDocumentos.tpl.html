@@ -1,0 +1,54 @@
+<div class="row">
+    <div class="col-xs-6">
+        <input type="checkbox" ng-model="properties.requierePromedioMinimo" ng-change="updateTipoApoyoVideocase()">
+        ¿Requier epromedio mínimo?
+    </div>
+    <div class="col-xs-6">
+        <div ng-class="{
+        'form-horizontal': properties.labelPosition === 'left' && !properties.labelHidden,
+        'row': properties.labelPosition === 'top' && !properties.labelHidden || properties.labelHidden
+        }">
+            <div class="form-group" ng-show="properties.requierePromedioMinimo">
+                <label
+                    ng-if="!properties.labelHidden"
+                    ng-class="{ 'control-label--required': properties.required }"
+                    class="control-label col-xs-{{ !properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 12 }}" ng-bind-html="properties.label | uiTranslate">
+                </label>
+                <div class="col-xs-{{ 12 - (!properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 0) }}">
+                   <!-- <input ng-if="properties.preparatoriaSeleccionada!='México'"
+                        type="text"
+                        class="form-control"
+                        placeholder="{{ properties.placeholder | uiTranslate }}"
+                        ng-model="otroPais.pais"
+                        ng-model-options="{ allowInvalid: true }"
+                        name="{{ctrl.name}}"
+                        ng-required="properties.required"
+                        min="1"
+                        max="2"
+                        step="{{properties.step}}"
+                        ng-readonly="properties.readOnly"
+                        ng-keypress="forceKeyPressUppercase($event)"
+                        id="numericinput"> -->
+                       <!--<input ng-if="properties.preparatoriaSeleccionada=='México'"-->
+                       <input
+                        type="{{properties.type}}"
+                        class="form-control"
+                        placeholder="{{ properties.placeholder | uiTranslate }}"
+                        ng-model="properties.value"
+                        ng-model-options="{ allowInvalid: true }"
+                        name="texting"
+                        ng-required="properties.required"
+                        min="{{properties.min}}"
+                        max="{{properties.max}}"
+                        step="{{properties.step}}"
+                        ng-readonly="properties.readOnly"
+                        ng-keypress="forceKeyPressUppercase($event)"
+                        id="numericinput2" 
+                        ng-blur="updateTipoApoyoVideocase()">
+                    <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
+                </div>
+            </div>
+        </div>
+    
+    </div>
+</div>

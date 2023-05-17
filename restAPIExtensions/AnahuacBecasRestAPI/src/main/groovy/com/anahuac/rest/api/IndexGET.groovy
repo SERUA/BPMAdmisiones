@@ -12,11 +12,16 @@ import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.anahuac.rest.api.DAO.BannerRequestDAO
+import com.anahuac.rest.api.DAO.BitacoraDAO
+import com.anahuac.rest.api.DAO.BitacoraSDAEDAO
 import com.anahuac.rest.api.DAO.BonitaGetsDAO
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Security.SecurityFilter
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
@@ -42,6 +47,11 @@ class IndexGET implements RestApiController {
         if (url == null) {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
+		
+//		SecurityFilter security = new SecurityFilter();
+//		if(!security.allowedUrl(context,url)){
+//			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
+//		}
 		
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);
@@ -73,6 +83,26 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getBitacoraSDAEByCaseId":
+					String caseId = request.getParameter "caseId"
+					result = new BitacoraSDAEDAO().getBitacoraSDAEByCaseId(Long.valueOf(caseId), context);
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getSDAEGestionEscolarByCarrera":
+					String idCarrera =request.getParameter "idCarrera"
+					result = new CatalogosDAO().getSDAEGestionEscolarByCarrera(Long.valueOf(idCarrera));
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "getCatTipoAoyoByCampus":
 					String campus = request.getParameter "campus"
 					result = new CatalogosDAO().getCatTipoAoyoByCampus(campus, jsonData, context);
@@ -83,15 +113,48 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
 					break;
+				case "getPromedioMinimoApoyoByCampus":
+					String idCampus = request.getParameter "idCampus"
+					result = new CatalogosDAO().getPromedioMinimoApoyoByCampus(Long.valueOf(idCampus));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "updateTransferidoSolicitud":
+					String caseIdAdmisiones = request.getParameter "caseIdAdmisiones"
+					String transferido = request.getParameter "transferido"
+					result = new SolicitudDeAdmisionDAO().updateTransferidoSolicitud(Boolean.valueOf(transferido), Long.valueOf(caseIdAdmisiones));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;	
 				case "getDocumentosByTipoApoyo":
 					String campus = request.getParameter "campus"
 					String idTipoApoyo = request.getParameter "idTipoApoyo"
-					result = new CatalogosDAO().getDocumentosByTipoApoyo(campus, idTipoApoyo, context);
+					String isAvalString = request.getParameter "isAval"
+					Boolean isAval = isAvalString.equals("true");
+					result = new CatalogosDAO().getDocumentosByTipoApoyo(campus, idTipoApoyo, isAval, context);
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "getInfoBitacora":
+					String caseId =request.getParameter "caseId"
+					result = new CatalogosDAO().getInfoBitacora(Long.valueOf(caseId));
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
 				case "getCartasNotificaciones":
@@ -104,7 +167,6 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					
 				case "getSolicitudDeAdmision":
 					String email = request.getParameter "email"
 					result = new SolicitudDeAdmisionDAO().getSolicitudDeAdmision(email);
@@ -147,6 +209,251 @@ class IndexGET implements RestApiController {
 					
 				case "getUserProcessApoyoEducativo":
 					result = new BonitaGetsDAO().getUserProcessApoyoEducativo(context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+				case "getSolicitudByCaseid":
+					String caseid = request.getParameter "caseid"
+					result = new ListadoDAO().getSolicitudApoyoByCaseId(Integer.parseInt(caseid), context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getPAAByIdBanner":
+					String idbanner = request.getParameter "idbanner"
+					result = new ListadoDAO().getPAAByIdBanner(idbanner, context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
+				case "getLinkDescarga":
+					String linkAzure = request.getParameter "linkAzure"
+					result = new SolicitudDeAdmisionDAO().getLinkAzureDescarga(linkAzure, context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getBitacoraSDAEByCaseId":
+					String caseId = request.getParameter "caseId"
+					result = new BitacoraSDAEDAO().getBitacoraSDAEByCaseId(Long.valueOf(caseId), context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getB64FileByPersistenceId":
+					String persistenceId = request.getParameter "persistenceId"
+					result = new SolicitudDeAdmisionDAO().getB64FileByPersistenceId(Integer.parseInt(persistenceId));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getComentariosByCaseid":
+					String caseId = request.getParameter "caseId"
+					result = new BitacoraDAO().getComentariosByCaseid(Long.valueOf(caseId));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				case"getImagenesByCaseId":
+					String caseId = request.getParameter "caseId"
+					result = new CatalogosDAO().getImagenesByCaseId(Long.valueOf(caseId));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				case"getDocumentosByCaseId":
+					String caseId = request.getParameter "caseId"
+					result = new CatalogosDAO().getDocumentosByCaseId(Long.valueOf(caseId));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				case"getBannerInfo":
+					String idbanner = request.getParameter "idbanner"
+					String idcampus = request.getParameter "idcampus"
+					result = new BannerRequestDAO().getBannerInfo(idcampus, idbanner);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				case "getB64FileByUrlAzure":
+					String urlAzure = request.getParameter "urlAzure"
+					result = new SolicitudDeAdmisionDAO().getB64FileByUrlAzure(urlAzure);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getExisteSDAEGestionEscolar":
+					String pid = request.getParameter "id"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getExisteSDAEGestionEscolar(id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getExisteSDAECreditoGE":
+					String pid = request.getParameter "sdaeGE"
+					String fecha = request.getParameter "fecha"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getExisteSDAECreditoGE(id,fecha);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getSDAEGestionEscolar":
+					String pid = request.getParameter "id"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getSDAEGestionEscolar(id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getSDAEGestionEscolarByCarrera":
+					String pid = request.getParameter "id"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getSDAEGestionEscolarByCarrera(id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCreditoGE":
+					String pid = request.getParameter "sdaeGE"
+					String fecha = request.getParameter "fecha"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getCreditoGE(id,fecha);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getYear":
+					result = new CatalogosDAO().getFechaServidor();
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getConfiguracionCampus":
+					String idCampus = request.getParameter "idCampus"
+					result = new CatalogosDAO().getConfiguracionCampus(Long.valueOf(idCampus));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "getConfiguracionPagoEstudioSocEco":
+					String idCampus = request.getParameter "idCampus"
+					result = new CatalogosDAO().getConfiguracionPagoEstudioSocEco(Long.valueOf(idCampus));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "getConfiguracionPagoEstudioSocEcoAspirante":
+					String idCampus = request.getParameter "idCampus"
+					result = new CatalogosDAO().getConfiguracionPagoEstudioSocEcoAspirante(Long.valueOf(idCampus));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "getPRomedioMinimoByCampus":
+					String idCampus = request.getParameter "idCampus"
+					result = new CatalogosDAO().getPRomedioMinimoByCampus(Long.valueOf(idCampus));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;
+				case "updateEstatusSolicitud":
+					String caseId = request.getParameter "caseId"
+					String estatus = request.getParameter "estatus"
+					result = new SolicitudDeAdmisionDAO().updateEstatusSolicitud(estatus, Long.valueOf(caseId));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getB64CurriculumByCaseId":
+					String caseId = request.getParameter "caseId"
+					result = new SolicitudDeAdmisionDAO().getB64CurriculumByCaseId(Integer.parseInt(caseId));
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
