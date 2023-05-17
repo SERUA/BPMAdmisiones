@@ -35,6 +35,9 @@ function loadLstInformacionAdicionalCtrl($scope, $http) {
                         $scope.properties.lstInformacionEscolarMod[index].estadoString=$scope.properties.objectSolicitud.estadoBachillerato;
                         $scope.properties.lstInformacionEscolarMod[index].ciudad=$scope.properties.objectSolicitud.ciudadBachillerato;
                     }
+                    else{
+                        $scope.properties.lstInformacionEscolarMod[index].paisBachillerato=$scope.properties.objectSolicitud.paisBachillerato;
+                    }
                 }
             } else {
                 $scope.objInformacionEscolarInput = {

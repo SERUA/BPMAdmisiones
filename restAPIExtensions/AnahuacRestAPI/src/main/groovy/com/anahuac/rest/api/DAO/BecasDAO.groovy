@@ -294,13 +294,13 @@ class BecasDAO {
 			//lstResultado.add(encodeFileToBase64Binary(nameFile));
 			resultado.setSuccess(true);
 			//resultado.setData(lstResultado);
-			resultado.setError_info(errorLog);
+			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			resultado.setError_info(errorLog);
+			
 			e.printStackTrace();
 		}
 		
@@ -394,13 +394,13 @@ class BecasDAO {
 			
 			
 			resultado.setSuccess(true);
-			resultado.setError_info(errorLog);
+			
 			
 		}catch(Exception e) {
 			e.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			resultado.setError_info(errorLog);
+			
 			e.printStackTrace();
 		}
 		
@@ -460,13 +460,13 @@ class BecasDAO {
 			
 			
 			resultado.setSuccess(true);
-			resultado.setError_info(errorLog);
+			
 			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(ex.getMessage());
-			resultado.setError_info(errorLog);
+			
 			ex.printStackTrace();
 		} finally {
 			try {
@@ -736,13 +736,13 @@ class BecasDAO {
 			
 			
 			resultado.setSuccess(true);
-			resultado.setError_info(errorLog);
+			
 			
 		} catch (IOException ex) {
 			ex.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(ex.getMessage());
-			resultado.setError_info(errorLog);
+			
 			ex.printStackTrace();
 		} finally {
 			try {
