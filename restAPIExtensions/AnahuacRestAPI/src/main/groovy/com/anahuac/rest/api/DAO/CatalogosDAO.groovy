@@ -7227,34 +7227,34 @@ class CatalogosDAO {
 
                 headersRow.setRowStyle(style);
 
-                CatPaisCustomFiltro objCatPaisCustomFiltro = new CatPaisCustomFiltro();
+                //CatPaisCustomFiltro objCatPaisCustomFiltro = new CatPaisCustomFiltro();
 
                 for (int i = 0; i < lstParams.size(); ++i) {
-                    objCatPaisCustomFiltro = new CatPaisCustomFiltro();
-                    objCatPaisCustomFiltro = (CatPaisCustomFiltro) lstParams.get(i);
+                   // objCatPaisCustomFiltro = new CatPaisCustomFiltro();
+                    //objCatPaisCustomFiltro = (CatPaisCustomFiltro) lstParams.get(i);
 
                     Row row = sheet.createRow(++rowCount);
                     int count2 = 0;
                     if (object.isOrden) {
                         Cell cell1 = row.createCell(count2);
-                        cell1.setCellValue(objCatPaisCustomFiltro.getOrden());
+                        cell1.setCellValue(lstParams[i].orden);
                         count2++;
                     }
 
                     Cell cell2 = row.createCell(count2);
-                    cell2.setCellValue(objCatPaisCustomFiltro.getClave());
+                    cell2.setCellValue(lstParams[i].clave);
                     count2++;
 
                     Cell cell3 = row.createCell(count2);
-                    cell3.setCellValue(objCatPaisCustomFiltro.getDescripcion());
+                    cell3.setCellValue(lstParams[i].descripcion);
                     count2++;
 
                     Cell cell4 = row.createCell(count2);
-                    cell4.setCellValue(objCatPaisCustomFiltro.getUsuarioCreacion());
+                    cell4.setCellValue(lstParams[i].usuarioCreacion);
                     count2++;
 
                     Cell cell5 = row.createCell(count2);
-                    cell5.setCellValue(objCatPaisCustomFiltro.getFechaCreacion().toString()[0..9]);
+                    cell5.setCellValue(lstParams[i].fechaCreacion?.toString()[0..9]);
                     count2++;
                 }
             }

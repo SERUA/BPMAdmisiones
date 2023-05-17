@@ -362,6 +362,8 @@ class CatalogoBachilleratoDAO {
 					resultado.setSuccess(true)
 					resultado.setData(rows)
 					resultado.setError_info(errorLog)
+				} catch (Exception e) {
+					resultado.setError_info(errorLog)
 			} catch (Exception e) {
 				resultado.setError_info(errorLog)
 				resultado.setSuccess(false);
