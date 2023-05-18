@@ -107,6 +107,17 @@ class IndexGet implements RestApiController {
 				}
 				break;
 				
+				case "enviarTareaRest":
+					String username =request.getParameter "username"
+					result = new UsuariosDAO().enviarTareaRest(username, context);
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				
 				case "getIdiomaByUsername":
 				String username =request.getParameter "username"
 				result = new UsuariosDAO().getIdiomaByUsername(username);

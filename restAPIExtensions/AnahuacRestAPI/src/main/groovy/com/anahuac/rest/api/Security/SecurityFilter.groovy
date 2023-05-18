@@ -30,6 +30,14 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"EXTERIOR")
 					if(allow){break;}
 				break;
+				case "enviarTareaRest":
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"EXTERIOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"GUEST")
+					if(allow){break;}
+				break; 
 				case "getIdiomaByUsername":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
