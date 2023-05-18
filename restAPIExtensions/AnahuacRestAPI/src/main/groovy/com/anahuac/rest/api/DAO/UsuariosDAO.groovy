@@ -4278,6 +4278,4 @@ class UsuariosDAO {
 		
 		return valid;
 	}
-
-		} catch (Exception e) {
 }

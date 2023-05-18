@@ -548,1515 +548,1510 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 			break;
-			case "test":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getNuevasSolicitudes":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateInformacionAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelFile":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfFile":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelFileCatalogo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getInformacionResultado":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "clearInfoCartaTemporal":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectInfoCartaTemporal":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectInfoCartaTemporalNoResultados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "enviarCartas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectConsultaDeResultados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "seleccionarCarta":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfFileCatalogo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelFileCatalogosAD":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfFileCatalogoAD":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantesProceso":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesEnproceso":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"SERUA")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Becas")
-				if(allow){break;}
-				break;
-				allow=bonitaRolFilter(context,"PreAutorizacion")
-				if(allow){break;}
-				break;
-			case "selectAspirantesEnRed":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesMigrados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesEnprocesoFechas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectBitacoraPago":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatCampus":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"Becas")
-				if(allow){break;}
-				break;
-			case "getCatPais":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatCiudad":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCodigoPostalRepetido":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatPropedeuticoGral":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatPropedeuticoRelacionTipo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatCiudadExcel":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatCiudadPdf":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatEstados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatCiudad":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatBachillerato":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatFiltradoCalalogosAdMisiones":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatEscolaridad":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatSexo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatParentesco":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatNacionalidad":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatDescuentos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatGenerico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatParentescoA":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatEstadoG":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesCalendarizadas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getLastFechaExamenByUsername":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "callSesiones":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesAspirantes":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesCalendarizadasPasadas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesAspirantesPasados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertPaseLista":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updatePrepaSolicitudDeAdmision":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updatePaseLista":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelPaseLista":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfPaseLista":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelSesionesCalendarizadas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfSesionesCalendarizadas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesAspirantesReporte":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantes3Asistencias":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatGestionEscolar":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"Becas")
-				if(allow){break;}
-				break;
-			case "getExcelGenerico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPdfGenerico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateAceptado":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "activarDesactivarLugarExamen":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getBitacorasComentarios":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getComentariosValidacion":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getComentariosValidacion":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getRegistrosBecas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postExcelBecas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesCalendarizadasPsicologoSupervisor":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesPsicologoAdministradorAspirantes":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postGuardarUsuario":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "subirDatosBannerEthos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postValidarUsuarioImportacionPAA":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantesSinPAA":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postListaAspirantePAA":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "bitacoraIntegracionEAC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatEscalaEAC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postGuardarBitacoraErrores":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postValidarUsuarioImportacionRC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postValidarUsuarioCantidadIntento":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantesSinRC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postGuardarUsuarioRC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postListaAspiranteRC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postExcelAspirantesPAA":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postEliminarResultado":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postUpdateLicenciaturaPeriodo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateAspirantesPruebas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertAspirantesPruebas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postBitacoraSesiones":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postAspiranteSesionesByUsername":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postAsistenciaProceso":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatNacionalidadNew":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatPeriodo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectSolicitudesEnProceso":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantesByStatus":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getDocumentoTest":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoOxxoCash":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoOxxoCashBecas":
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoTarjeta":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoTarjetaBecas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoSPEI":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "pagoSPEIBecas":
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "RegistrarUsuario":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "EXTERIOR");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getOrderPaymentMethod":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getOrderDetails":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getConektaPublicKey":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"ASPIRANTE")
-				if(allow){break;}
-				break;
-			case "ejecutarEsperarPago":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "encode":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "decode":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getAspirantesByStatusTemprano":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "recuparaPassword":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "EXTERIOR");
-				if (allow) {
-				break;
-				}
-				break;
-			case "recuperarPasswordAdministrativo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "EXTERIOR");
-				if (allow) {
-				break;
-				}
-				break;
-			case "sendEmail":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generateHtml":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generateHtmlSDAE":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ADMINISTRADOR");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "BECAS");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "PreAutorizacion");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Finanzas");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Comité finanzas");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getTestUpdate":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertLicenciatura":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertLicenciaturaBonita":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "simpleSelect":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				} 
-				allow = bonitaRolFilter(context, "TI SERUA");
-				if (allow) {
-				break;
-				}
-				break;
-			case "simpleSelectBonita":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertBachillerato":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertCatBitacoraComentario":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateBachillerato":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updatePerteneceRed":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getBachillerato":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "deleteFirma":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertFirma":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertBachilleratoLog":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertCatNotificacionesCampus":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertAzureConfig":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertSesion":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesCalendario":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesCalendarioAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"ASPIRANTE")
-				if(allow){break;}
-				break;
-			case "insertSesionAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateFirma":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateBusinessAppMenu":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertDocumentosTextos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "enviarTarea":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "recoveryData":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getApiCrispChat":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "EXTERIOR");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateRegistro":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateEnviada":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateModificar":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateUsuariosRegistrados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateValidar":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateRechazoLRoja":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertUpdatePsicometrico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertUpdatePsicometricoV2":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "cambiosBannerPreparatoria":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesPsicometrico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesConPsicometrico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesConPsicometricoRechazados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateRestaurarRechazoLRoja":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdatePago":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateAutodescripcion":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateSeleccionoFechaExamen":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateGenerarCredencial":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateEsperaResultado":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateNoAsistioPruebas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "reagendarExamen":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "ASPIRANTE");
-				if (allow) {
-				break;
-				}
-			
-				break;
-			case "updateCatNotificaciones":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateCatNotificacionesSDAE":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "transferirAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateTransferirAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectBitacoraTransferencias":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getCatPaisExcel":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsuariosRegistrados":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateUsuarioRegistrado":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesEnLaRed":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesSmartCampus":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "B64File":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateCorreoElectronico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postExcelINVPIndividual":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getExcelTransferencias":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsuariosRechazadosComite":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "reactivarAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "nuevoCasoSolicitud":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "RealizarRespaldo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectAspirantesRechazadosRespaldo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getInformacionReporteSolicitudRespaldo":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "guardarTutorIntento":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "respaldoUsuario":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsuariosConSolicitudVencida":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsuariosConSolicitudAbandonada":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getPadresTutorVencido":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postUpdatePeriodoVencido":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow=bonitaRolFilter(context,"ASPIRANTE")
-				if(allow){break;}
-				break;
-			case "getPadreVencido":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getMadreVencido":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUserByCaseIdINVP":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getContactoEmergencia":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getHermanosVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getInformacionEscolarVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUniviersidadesVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getIdiomaVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getTerapiaVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getGrupoSocialVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getParienteEgresadoVencidos":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "selectConsultaDeResultadosManual":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "updateViewDownloadSolicitud":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getActiveProcess":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "reAssignTask":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReporte":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReporteResultadosExamenes":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReporteAdmitidosPropedeutico":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReporteDatosFamiliares":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReporteRelacionAspirantes":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "generarReportePerfilAspirante":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesINVP":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesINVPTabla":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesionesINVPTablaProcesadas":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsersByPrueba":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getUsersByPrueba2":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postResultadosINVPIndividuales":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertRespuesta":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postSelectAspirantePrueba":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postGetIdSesionByIdBanner":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "postGetIdSesionByCaseId":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "PostUpdateDeleteCatEscalaINVP":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Usuario Auxiliar");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "PostUpdateDeleteCatEscalaEAC":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "getSesiones":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				allow = bonitaRolFilter(context, "Proveedor");
-				if (allow) {
-				break;
-				}
-				break;
-			case "insertEmailHubspotConfig":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "sendEmailPlantilla":
-				allow = bonitaRolFilter(context, "ADMISIONES");
-				if (allow) {
-				break;
-				}
-				break;
-			case "createOrUpdateBeca":
-				allow = bonitaRolFilter(context, "TI SERUA");
-				if (allow) {
-				break;
-				}
-				break;
-				
-			case "getUserFoto":
-			allow=bonitaRolFilter(context,"ADMISIONES")
-				if(allow){break;}
-				break;
-
-			case "updateSesionesCaseId":
-				allow=bonitaRolFilter(context,"ADMISIONES")
-				if(allow){break;}
-				break;
+		  case "test":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getNuevasSolicitudes":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateInformacionAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getExcelFile":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfFile":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getExcelFileCatalogo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getInformacionResultado":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "clearInfoCartaTemporal":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectInfoCartaTemporal":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectInfoCartaTemporalNoResultados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "enviarCartas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectConsultaDeResultados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "seleccionarCarta":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfFileCatalogo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getExcelFileCatalogosAD":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfFileCatalogoAD":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantesProceso":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesEnproceso":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"SERUA")
+			if(allow){break;}
+			allow=bonitaRolFilter(context,"Becas")
+			if(allow){break;}
+		    break;
+			allow=bonitaRolFilter(context,"PreAutorizacion")
+			if(allow){break;}
+			break;
+		  case "selectAspirantesEnRed":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesMigrados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesEnprocesoFechas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectBitacoraPago":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatCampus":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"Becas")
+			if(allow){break;}
+		    break;
+		  case "getCatPais":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatCiudad":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCodigoPostalRepetido":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatPropedeuticoGral":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatPropedeuticoRelacionTipo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatCiudadExcel":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatCiudadPdf":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatEstados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatCiudad":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatBachillerato":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatFiltradoCalalogosAdMisiones":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatEscolaridad":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatSexo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatParentesco":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatNacionalidad":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatDescuentos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatGenerico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatParentescoA":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatEstadoG":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesCalendarizadas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getLastFechaExamenByUsername":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "callSesiones":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesAspirantes":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesCalendarizadasPasadas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesAspirantesPasados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertPaseLista":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updatePrepaSolicitudDeAdmision":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updatePaseLista":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getExcelPaseLista":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfPaseLista":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getExcelSesionesCalendarizadas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfSesionesCalendarizadas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesAspirantesReporte":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantes3Asistencias":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatGestionEscolar":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"Becas")
+			if(allow){break;}
+		    break;
+		  case "getExcelGenerico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPdfGenerico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateAceptado":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "activarDesactivarLugarExamen":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getBitacorasComentarios":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getComentariosValidacion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getComentariosValidacion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getRegistrosBecas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postExcelBecas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesCalendarizadasPsicologoSupervisor":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesPsicologoAdministradorAspirantes":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postGuardarUsuario":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "subirDatosBannerEthos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postValidarUsuarioImportacionPAA":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantesSinPAA":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postListaAspirantePAA":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "bitacoraIntegracionEAC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatEscalaEAC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postGuardarBitacoraErrores":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postValidarUsuarioImportacionRC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postValidarUsuarioCantidadIntento":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantesSinRC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postGuardarUsuarioRC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postListaAspiranteRC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postExcelAspirantesPAA":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postEliminarResultado":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postUpdateLicenciaturaPeriodo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateAspirantesPruebas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertAspirantesPruebas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postBitacoraSesiones":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postAspiranteSesionesByUsername":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postAsistenciaProceso":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatNacionalidadNew":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatPeriodo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectSolicitudesEnProceso":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantesByStatus":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getDocumentoTest":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "pagoOxxoCash":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "pagoOxxoCashBecas":
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
 			}
+			break;
+		  case "pagoTarjeta":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "pagoTarjetaBecas":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "pagoSPEI":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "pagoSPEIBecas":
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "RegistrarUsuario":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "EXTERIOR");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getOrderPaymentMethod":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getOrderDetails":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getConektaPublicKey":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"ASPIRANTE")
+			if(allow){break;}
+		    break;
+		  case "ejecutarEsperarPago":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "encode":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "decode":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getAspirantesByStatusTemprano":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "recuparaPassword":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "EXTERIOR");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "recuperarPasswordAdministrativo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "EXTERIOR");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "sendEmail":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generateHtml":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generateHtmlSDAE":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "BECAS");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "PreAutorizacion");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Finanzas");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Comité finanzas");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "getTestUpdate":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertLicenciatura":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertLicenciaturaBonita":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "simpleSelect":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    } 
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "simpleSelectBonita":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertBachillerato":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertCatBitacoraComentario":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateBachillerato":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updatePerteneceRed":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getBachillerato":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "deleteFirma":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertFirma":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertBachilleratoLog":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertCatNotificacionesCampus":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertAzureConfig":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertSesion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesCalendario":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesionesCalendarioAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"ASPIRANTE")
+			if(allow){break;}
+		    break;
+		  case "insertSesionAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateFirma":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateBusinessAppMenu":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertDocumentosTextos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "enviarTarea":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "recoveryData":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getApiCrispChat":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "EXTERIOR");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateRegistro":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateEnviada":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateModificar":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateUsuariosRegistrados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateValidar":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateRechazoLRoja":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertUpdatePsicometrico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "insertUpdatePsicometricoV2":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "cambiosBannerPreparatoria":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesPsicometrico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesConPsicometrico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesConPsicometricoRechazados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateRestaurarRechazoLRoja":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdatePago":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateAutodescripcion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateSeleccionoFechaExamen":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateGenerarCredencial":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateEsperaResultado":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateNoAsistioPruebas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "reagendarExamen":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    allow = bonitaRolFilter(context, "ASPIRANTE");
+		    if (allow) {
+		      break;
+		    }
+		
+		    break;
+		  case "updateCatNotificaciones":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateCatNotificacionesSDAE":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "transferirAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateTransferirAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectBitacoraTransferencias":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getCatPaisExcel":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUsuariosRegistrados":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateUsuarioRegistrado":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesEnLaRed":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesSmartCampus":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "B64File":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateCorreoElectronico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postExcelINVPIndividual":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "getExcelTransferencias":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUsuariosRechazadosComite":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "reactivarAspirante":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "nuevoCasoSolicitud":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "RealizarRespaldo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectAspirantesRechazadosRespaldo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getInformacionReporteSolicitudRespaldo":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "guardarTutorIntento":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "respaldoUsuario":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUsuariosConSolicitudVencida":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUsuariosConSolicitudAbandonada":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getPadresTutorVencido":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postUpdatePeriodoVencido":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow=bonitaRolFilter(context,"ASPIRANTE")
+			if(allow){break;}
+		    break;
+		  case "getPadreVencido":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getMadreVencido":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "getUserByCaseIdINVP":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "getContactoEmergencia":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getHermanosVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getInformacionEscolarVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUniviersidadesVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getIdiomaVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getTerapiaVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getGrupoSocialVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getParienteEgresadoVencidos":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectConsultaDeResultadosManual":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "updateViewDownloadSolicitud":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getActiveProcess":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "reAssignTask":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generarReporte":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generarReporteResultadosExamenes":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generarReporteAdmitidosPropedeutico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generarReporteDatosFamiliares":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "generarReporteRelacionAspirantes":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "generarReportePerfilAspirante":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "getSesionesINVP":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "getSesionesINVPTabla":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "getSesionesINVPTablaProcesadas":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "getUsersByPrueba":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getUsersByPrueba2":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postResultadosINVPIndividuales":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "insertRespuesta":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "postSelectAspirantePrueba":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "postGetIdSesionByIdBanner":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "postGetIdSesionByCaseId":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "PostUpdateDeleteCatEscalaINVP":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Usuario Auxiliar");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "PostUpdateDeleteCatEscalaEAC":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "getSesiones":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "Proveedor");
+			if (allow) {
+			  break;
+			}
+		    break;
+		  case "insertEmailHubspotConfig":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "sendEmailPlantilla":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "createOrUpdateBeca":
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			break;
+			
+		  case "getUserFoto":
+		  allow=bonitaRolFilter(context,"ADMISIONES")
+			if(allow){break;}
+			break;
+		}
 		
 		return allow;
 	}
