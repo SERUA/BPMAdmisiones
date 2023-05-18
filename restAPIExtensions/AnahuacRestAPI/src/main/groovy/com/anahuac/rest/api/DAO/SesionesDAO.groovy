@@ -7695,28 +7695,31 @@ class SesionesDAO {
 	public Result correcionNuevoCampoSesion() {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		String errorLog = "", username = "", sesion = "";
+		String errorLog = "", persistenceid = "", caseid = "";
 		try {	
 				closeCon = validarConexion();
 				
-				pstm = con.prepareStatement("select distinct(username) as username from aspirantespruebas where  caseid is null ")
+				pstm = con.prepareStatement("select ap.persistenceid,sda.caseid from aspirantespruebas as ap inner join solicitudDeAdmision as sda ON ap.username = sda.correoelectronico where  ap.caseid is null")
 				rs = pstm.executeQuery();
 				
 				con.setAutoCommit(false)
 				while(rs.next()) { 
-					username = rs.getString("username");
-					errorLog += username+', ';
-					pstm = con.prepareStatement("UPDATE aspirantespruebas SET caseid = sda.caseid  FROM (SELECT caseid FROM solicitudDeAdmision WHERE solicituddeadmision.correoelectronico = '${username}' ) as sda WHERE aspirantespruebas.username = '${username}' ")
+					persistenceid = rs.getString("persistenceid");
+					caseid  = rs.getString("caseid");
+					errorLog +=" ${persistenceid}|${caseid}, ";
+
+					pstm = con.prepareStatement("UPDATE aspirantespruebas SET caseid = ${caseid}   WHERE persistenceid = ${persistenceid}")
 					pstm.executeUpdate();
 				}
 				errorLog += " |termino los usuarios| ";
-				pstm = con.prepareStatement("select distinct(username) as username, sesiones_pid as sesion from sesionaspirante where  caseid is null ")
+				pstm = con.prepareStatement("select sa.persistenceid,sda.caseid from sesionaspirante as sa inner join solicitudDeAdmision as sda ON sa.username = sda.correoelectronico where  sa.caseid is null")
 				rs = pstm.executeQuery();
 				while(rs.next()) {
-					username = rs.getString("username");
-					sesion  = rs.getString("sesion");
-					errorLog +=" ${username}|${sesion}, ";
-					pstm = con.prepareStatement("UPDATE sesionaspirante SET caseid = ap.caseid  FROM (SELECT caseid FROM aspirantespruebas WHERE aspirantespruebas.username like '%${username}%' AND aspirantespruebas.sesiones_pid = ${sesion}  ) as ap WHERE sesionaspirante.username = '${username}' AND sesionaspirante.sesiones_pid = ${sesion} ")
+					persistenceid = rs.getString("persistenceid");
+					caseid  = rs.getString("caseid");
+					errorLog +=" ${persistenceid}|${caseid}, ";
+
+					pstm = con.prepareStatement("UPDATE sesionaspirante SET caseid = ${caseid}  WHERE persistenceid = ${persistenceid} ")
 					pstm.executeUpdate();
 				}
 				con.commit();

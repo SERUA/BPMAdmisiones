@@ -529,6 +529,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
 					allow=bonitaRolFilter(context,"ASPIRANTE");if(allow){break;}
 				break;
+				
+				case "updateSesionesCaseId":
+				  	allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
+				break;
 			}
 			return allow;
 	}
@@ -2043,11 +2047,12 @@ class SecurityFilter {
 			}
 			break;
 			
-		case "getUserFoto":
-		allow=bonitaRolFilter(context,"ADMISIONES")
+		  case "getUserFoto":
+		  allow=bonitaRolFilter(context,"ADMISIONES")
 			if(allow){break;}
 			break;
 		}
+		
 		return allow;
 	}
 }
