@@ -517,8 +517,16 @@ class ListadoDAO {
 			assert object instanceof Map;
 			where += " WHERE SDAE.eliminado = false "
 			
-			if (object.estatusSolicitud != null) {
-				where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+			
+			
+			if(object.isCompletadas == true) {
+				if (object.estatusSolicitud != null) {
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') )"
+				}
+			} else {
+				if (object.estatusSolicitud != null) {
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+				}
 			}
 			
 			if (object.caseId != null) {

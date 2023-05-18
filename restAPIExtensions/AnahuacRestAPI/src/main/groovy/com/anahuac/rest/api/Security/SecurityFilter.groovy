@@ -32,6 +32,14 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"ASPIRANTE")
 					if(allow){break;}
 				break;
+				case "enviarTareaRest":
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"EXTERIOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"GUEST")
+					if(allow){break;}
+				break; 
 				case "getIdiomaByUsername":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
@@ -522,6 +530,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"TI SERUA");if(allow){break;}
 					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
 					allow=bonitaRolFilter(context,"ASPIRANTE");if(allow){break;}
+				break;
+				
+				case "updateSesionesCaseId":
+				  	allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
 				break;
 			}
 			return allow;
@@ -2037,11 +2049,12 @@ class SecurityFilter {
 			}
 			break;
 			
-		case "getUserFoto":
-		allow=bonitaRolFilter(context,"ADMISIONES")
+		  case "getUserFoto":
+		  allow=bonitaRolFilter(context,"ADMISIONES")
 			if(allow){break;}
 			break;
 		}
+		
 		return allow;
 	}
 }

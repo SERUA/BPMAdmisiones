@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1683934431367,
+  "lastUpdate" : 1684282337150,
   "rows" : [
     [
       {
@@ -572,7 +572,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "!buildContent || buildContent[0].estado === \"En espera de resultado\" || buildContent[0].estado === \"Solicitud Rechazada\"  || buildContent[0].estado === \"Propuesta rechazada por aspirante\" || buildContent[0].estado === \"Propuesta aceptada por aspirante\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" || buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" || buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"|| buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\""
+                  "value" : "ocultarTabla"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -736,7 +736,7 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -750,40 +750,122 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado !== \"En espera de resultado\" && buildContent[0].estado !== \"Solicitud Rechazada\" && buildContent[0].estado !== \"Propuesta rechazada por aspirante\" && buildContent[0].estado !== \"Propuesta aceptada por aspirante\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por comité de finanzas\" && buildContent[0].estatusFinanciamiento !== \"Solicitud rechazada por finanzas\" && buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento aceptada por aspirante\"&& buildContent[0].estatusFinanciamiento !== \"Propuesta de financiamiento rechazada por aspirante\""
+                  "value" : "!ocultarTabla"
                 },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión o de la reconsideración por el área de becas de la universidad.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
-              "reference" : "2ce5be9f-3a30-4302-84b9-a175ff78b414",
+              "reference" : "59bf6d6c-1fda-49e4-927e-a9a46f9b392d",
               "hasValidationError" : false,
-              "id" : "pbText"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!mostratMensaje"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión o de la reconsideración por el área de becas de la universidad.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "2ce5be9f-3a30-4302-84b9-a175ff78b414",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "mostratMensaje"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<b>¡Buen día!</b><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br>\nHas concluido con el proceso de apoyo educativo en la licenciatura de <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catGestionEscolar.nombre}}</b> para el periodo <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>.\n<br><br>\nRecuerda realizar el pago de inscripción para hacer valido tu apoyo educativo.<br><br>\nSi tienes alguna duda, contáctanos.\n<br><br>\n¡Estaremos pendientes!"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "a24d2ffb-e5eb-402b-bca7-6efff81504be",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
+              ]
             }
           ],
           [
@@ -1035,6 +1117,58 @@
                   }
                 ]
               ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<pre>{{ ocultarTabla }}</pre>\n<pre>{{ buildContent | json }}</pre>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "663c2c8a-c0d4-48e0-b211-de867b9f1388",
+              "hasValidationError" : false,
+              "id" : "pbText"
             }
           ]
         ]
@@ -3430,7 +3564,7 @@
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.userData.user_name,\r",
-        "  \t\"estatus\": \"Solicitud iniciada\",\r",
+        "  \t\"estatus\": \"Solicitud de apoyo educativo iniciada\",\r",
         "  \t\"financiamiento\": \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
@@ -3472,6 +3606,75 @@
       "type" : "businessdata",
       "value" : [
         "{\"displayValue\":\"findByCaseIdSDAE [com.anahuac.SDAE.model.SolicitudFinanciamiento]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseIdSDAE\",\"displayName\":\"findByCaseIdSDAE\"},\"id\":\"com.anahuac.SDAE.model.SolicitudFinanciamiento\",\"filters\":[{\"name\":\"caseIdSDAE\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{objSolicitudApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "mostratMensaje" : {
+      "type" : "expression",
+      "value" : [
+        "// return !(\r",
+        "//     $data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// ) || (\r",
+        "//     buildContent[0].estado === \"Propuesta aceptada por aspirante\" \r",
+        "//     && !buildContent[0].estatusFinanciamiento \r",
+        "// ) || (\r",
+        "//     buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// ) || !(\r",
+        "//     buildContent[0].estado === \"Solicitud Rechazada\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// )\r",
+        "return !($data.buildContent[0].estado !== \"Solicitud Rechazada\" \r",
+        "    || ($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" && $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\")\r",
+        "    || ($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" && !$data.buildContent[0].estatusFinanciamiento )\r",
+        "    || ($data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" && !$data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\" )\r",
+        ")\r"
+      ],
+      "exposed" : false
+    },
+    "ocultarTabla" : {
+      "type" : "expression",
+      "value" : [
+        "if(!$data.assignedTask){\r",
+        "    \r",
+        "    let valEstatus = validarEstatus();\r",
+        "    debugger;\r",
+        "    return false && !valEstatus;\r",
+        "} else {\r",
+        "    console.log(\"Validando contenido de la tabla\");\r",
+        "    if(!$data.buildContent){\r",
+        "        console.log(\"   No hay Solicitudes\");\r",
+        "        return true;\r",
+        "    } else {\r",
+        "        console.log(\"   Existe solicitud\");\r",
+        "        console.log(\"       Estatus:\" + $data.buildContent[0].estado);\r",
+        "        console.log(\"       Estatus:\" + $data.buildContent[0].estatusFinanciamiento);\r",
+        "        debugger;\r",
+        "        validarEstatus();\r",
+        "        \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "function validarEstatus (){\r",
+        "    if($data.buildContent[0].estado === \"En espera de resultado\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta rechazada por aspirante\"){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" || $data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\"){\r",
+        "        if($data.buildContent[0].estatusFinanciamiento === \"\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"){\r",
+        "            return false;\r",
+        "        } else {\r",
+        "            return true;\r",
+        "        }\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" ){\r",
+        "        return false;\r",
+        "    } else {\r",
+        "        return true;\r",
+        "    }\r",
+        "}"
       ],
       "exposed" : false
     }

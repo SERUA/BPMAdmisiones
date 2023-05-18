@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAval",
   "name" : "SDAESolicitudFinanciamientoAval",
-  "lastUpdate" : 1682640418120,
+  "lastUpdate" : 1684281774500,
   "rows" : [
     [
       {
@@ -106,6 +106,108 @@
         "reference" : "bbc1cb89-3cf3-4000-9430-39f38474e22c",
         "hasValidationError" : false,
         "id" : "customSDAEGetTareaUsuario"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "url" : {
+            "type" : "constant"
+          },
+          "reloadTask" : {
+            "type" : "variable",
+            "value" : true
+          },
+          "taskId" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "caseId" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "urlContext" : {
+            "type" : "constant"
+          },
+          "solicitudApoyoEducativo" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "hermanos" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "lstDocumentos" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "autos" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "bienesRaices" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "documentos" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "imagenesSocioEco" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "lstDocumentosByTipoApoyo" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "lstImagenesByTipoApoyo" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "selectedIndex" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "isSolicitud" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "lstReferenciasBancarias" : {
+            "type" : "variable",
+            "value" : "avalReferenciasBancariasModel"
+          },
+          "lstReferenciasCredito" : {
+            "type" : "variable",
+            "value" : "avalReferenciaCreditoModel"
+          },
+          "datosAval" : {
+            "type" : "variable",
+            "value" : "avalInfoPersonalModel"
+          },
+          "infoNotarial" : {
+            "type" : "variable",
+            "value" : "avalInfoNotarial"
+          }
+        },
+        "reference" : "354347fa-b946-4307-9ba5-3524f7eb4703",
+        "hasValidationError" : false,
+        "id" : "customSDAEGetTareaUsuarioAVAL"
       }
     ],
     [
@@ -15245,7 +15347,7 @@
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": \"Finalizado llenado de datos del aval\",\r",
-        "  \t\"financiamiento\":  $data.returnCatValue.catPorcentajeFinanciamiento.descripcion ? $data.returnCatValue.catPorcentajeFinanciamiento.descripcion : \"N/A\",\r",
+        "  \t\"financiamiento\":  $data.returnCatValue.catPorcentajeFinanciamiento.descripcion ? $data.returnCatValue.catPorcentajeFinanciamiento.descripcion + \"\" : \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
@@ -15269,25 +15371,17 @@
     "solicitanteReferenciasPersonalesInput" : {
       "type" : "url",
       "value" : [
-        "../{{context.solicitanteReferenciasPersonalesInput_ref.link}}"
+        "../{{context.solicitanteReferenciasPersonales_ref.link}}"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "avalReferenciasPersonalesInput" : {
       "type" : "url",
       "value" : [
-        "../{{context.avalReferenciasPersonalesInput_ref.link}}"
+        "../{{context.avalReferenciasPersonales_ref.link}}"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "validarSolicitanteReferenciasPersonales" : {

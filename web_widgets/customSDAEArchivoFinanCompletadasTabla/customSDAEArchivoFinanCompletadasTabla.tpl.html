@@ -168,7 +168,7 @@
                     <td>
                         <b>{{row.estatusfinanciamiento}}</b><br>
                         {{row.aceptado}}<br>
-                        <b ng-if="row.periodovencido" class="blink_me">Período vencido</b>
+                        <b ng-if="row.periodovencido === 't'" class="text-danger blink_me">Período vencido</b>
                         <b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b>
                     </td>
 
@@ -228,12 +228,12 @@
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                             </button>
 
-                            <button class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
-                                <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                            </button>
-                            <button class="btn btn-primary" ng-click="verSolicitud(row, 'aceptar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
-                            </button>
+                            <!--<button class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">-->
+                            <!--    <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>-->
+                            <!--</button>-->
+                            <!--<button class="btn btn-primary" ng-click="verSolicitud(row, 'aceptar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">-->
+                            <!--    <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>-->
+                            <!--</button>-->
                         </div>
 
                     </td>

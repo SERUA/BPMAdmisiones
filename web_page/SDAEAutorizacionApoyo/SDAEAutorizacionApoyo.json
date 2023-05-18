@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1683930274263,
+  "lastUpdate" : 1684191275696,
   "rows" : [
     [
       {
@@ -2571,11 +2571,30 @@
                         },
                         "removeItem" : {
                           "type" : "variable"
+                        },
+                        "isAutorizada" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "isModificar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "caseid" : {
+                          "type" : "constant"
+                        },
+                        "objetoBitacora" : {
+                          "type" : "expression",
+                          "value" : "bitacoraAceptar"
+                        },
+                        "urlBitacora" : {
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
                         }
                       },
-                      "reference" : "ed221fa7-d5a5-46ed-9063-eba408f00a89",
+                      "reference" : "100d1a20-0de1-444b-aab2-f829a6752435",
                       "hasValidationError" : false,
-                      "id" : "customSDAEButtonCloseWindow"
+                      "id" : "customSDAEButtonCloseWindowAutorizacion"
                     }
                   ]
                 ]
@@ -9371,11 +9390,11 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "\t\"beca\": $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion : \"N/A\",\r",
+        "\t\"beca\": $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion + \"\" : \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": \"Solicitud aprobada\",\r",
-        "  \t\"financiamiento\": $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion : \"N/A\",\r",
+        "  \t\"financiamiento\": $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion  + \"\" : \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",

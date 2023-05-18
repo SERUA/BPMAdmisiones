@@ -174,7 +174,7 @@ function ($scope, $http) {
     function insertBitacora(){
         let url = "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10";
         
-        $http.post(url, $scope.formInput).success(function(data){
+        $http.post(url, $scope.properties.objetoBitacora).success(function(data){
             
         }).error(function(error){
             $scope.hideModal();

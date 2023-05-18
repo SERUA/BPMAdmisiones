@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAvalModificar",
   "name" : "SDAESolicitudFinanciamientoAvalModificar",
-  "lastUpdate" : 1682643365048,
+  "lastUpdate" : 1684196070882,
   "rows" : [
     [
       {
@@ -10863,10 +10863,12 @@
                           "value" : "caseId"
                         },
                         "objetoBitacora" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "objetoBitacora"
                         },
                         "urlBitacora" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
                         }
                       },
                       "reference" : "ecffa998-b6d9-4149-8132-02dbcecbae09",
@@ -15016,13 +15018,13 @@
         "return {\r",
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
-        "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
-        "  \t\"estatus\": \"Solicitud aprobada\",\r",
-        "  \t\"financiamiento\":  $data.returnCatValue.catPorcentajeFinanciamiento.descripcion ? $data.returnCatValue.catPorcentajeFinanciamiento.descripcion : \"N/A\",\r",
+        "  \t\"correo\": $data.userData.user_name,\r",
+        "  \t\"estatus\": \"Información de aval modificada\",\r",
+        "  \t\"financiamiento\":  $data.autorizacion[0].porcentajeCreditoAutorizacion ? $data.autorizacion[0].porcentajeCreditoAutorizacion + \"\" : \"N/A\", \r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
-        "  \t\"caseid\": parseInt($data.caseId),\r",
-        "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "  \t\"caseid\": parseInt($data.caseId ? $data.caseId : \"0\"),\r",
+        "  \t\"tipoapoyo\": \"Financiamiento educativo\"\r",
         "}"
       ],
       "exposed" : false

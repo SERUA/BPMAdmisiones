@@ -16,7 +16,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 var agregar = true;
                 for(var index in $scope.properties.lstInformacionEscolarMod){
                     if($scope.properties.lstInformacionEscolarMod[index].escuela.descripcion === $scope.properties.objNuevoInformacionEscolar.escuela.descripcion){
-                        agregar = false;
+                        if($scope.properties.lstInformacionEscolarMod[index].escuela.descripcion != "Otro"){
+                            agregar = false;
+                        }else{
+                            if($scope.properties.lstInformacionEscolarMod[index].otraEscuela == $scope.properties.objNuevoInformacionEscolar.otraEscuela){
+                                agregar = false;    
+                            }
+                        }
+                        
                     }
                 }
 

@@ -524,6 +524,66 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
+	public Result enviarTareaRest(String correo, RestAPIContext context) {
+		Result resultado = new Result();
+		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+		CatRegistro objCatRegistro = new CatRegistro();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			errorLog = errorLog + "";
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
+			lstCatRegistro = catRegistroDAO.findByCorreoelectronico(correo, 0, 1);
+			
+			if(lstCatRegistro.size() == 0) {
+				errorLog += "[-1] ";
+				throw new Exception ("No registro encontrado");
+			}
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.ROOT_PROCESS_INSTANCE_ID, lstCatRegistro.get(0).getCaseId());
+			final SearchOptions searchOptions = searchBuilder.done();
+			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
+			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
+			
+			if(lstHumanTaskInstanceSearch.size() == 0) {
+				errorLog += "[-2] ";
+				throw new Exception ("No tarea  activa ");
+			} 
+			
+			errorLog += "[1] ";
+			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				errorLog += "[2] ";
+				apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
+				errorLog += "[3] ";
+				apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
+				errorLog += "[4] ";
+				break;
+			}
+			
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
 	public Result getHabilitarUsaurio(Integer parameterP,Integer parameterC, String correo, RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
@@ -553,11 +613,15 @@ class UsuariosDAO {
 				update_user.setEnabled(true);
 				final User user_update= identityAPI.updateUser(user.getId(), update_user);
 				
-				resultado = enviarTarea(correo, context);
+//				resultado = enviarTarea(correo, context);
+				Result resultadoTarea = enviarTareaRest(correo, context);
+				
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
+				// resultado.setError_info(resultadoTarea.error_info);
 			} else {
-				resultado = enviarTarea(correo, context);
+				Result resultadoTarea = enviarTareaRest(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
+				// resultado.setError_info(resultadoTarea.error_info);
 			}
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -646,7 +710,6 @@ class UsuariosDAO {
 						}else {
 							where+="=[valor]"
 						}
-						
 					}else {
 						where+="=[valor]"
 					}
@@ -1664,7 +1727,7 @@ class UsuariosDAO {
 				}
 			}
 			HubspotDAO hDAO = new HubspotDAO()
-			Result hResultado = hDAO.createOrUpdateUsuarioRegistrado(jsonData)
+			Result hResultado = hDAO.createOrUpdateUsuarioRegistrado(jsonData,context)
 			
 			if(!hResultado.success) {
 				resultado.setError("hubspot: "+hResultado.error + " | " + hResultado.error_info)
@@ -1748,7 +1811,7 @@ class UsuariosDAO {
 			
 		}catch(Exception ex){
 			LOGGER.error "[ERROR] " + ex.getMessage();
-			resultado.setError_info(errorLog);
+			
 			resultado.setSuccess(false);
 			resultado.setError(ex.getMessage());
 			con.rollback();
@@ -4000,10 +4063,9 @@ class UsuariosDAO {
 
 			
 			resultado.setData(rows)
-
-		} catch (Exception e) {
+			resultado.setError(errorlog)
+			} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
-			
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
@@ -4013,7 +4075,6 @@ class UsuariosDAO {
 		}
 		return resultado
 	}
-	
 	public Result getUniversidadSmartCampus() {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -4179,7 +4240,6 @@ class UsuariosDAO {
 			resultado.setSuccess(true)
 			resultado.setData(rows)
 			resultado.setAdditional_data(tipo);
-		} catch (Exception e) {
 			resultado.setSuccess(false)
 			resultado.setError("500 Internal Server Error")
 			resultado.setError_info(e.getMessage())
@@ -4218,5 +4278,4 @@ class UsuariosDAO {
 		
 		return valid;
 	}
-
 }

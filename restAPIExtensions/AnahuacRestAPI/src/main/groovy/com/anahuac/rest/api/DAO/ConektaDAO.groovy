@@ -1,5 +1,6 @@
 package com.anahuac.rest.api.DAO
 
+
 import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.ProcessAPI;
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance;
@@ -1430,7 +1431,6 @@ class ConektaDAO {
 			
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
-		} catch (io.conekta.ErrorList error) {
 			LOGGER.error error.details.get(0).message
 			resultado.setSuccess(false);
 			resultado.setError(error.details.get(0).message);
