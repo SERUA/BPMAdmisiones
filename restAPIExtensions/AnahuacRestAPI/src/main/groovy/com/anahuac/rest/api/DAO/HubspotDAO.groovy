@@ -56,7 +56,8 @@ class HubspotDAO {
 	Statement stm;
 	ResultSet rs;
 	PreparedStatement pstm;
-	Map<String,String> estatusMap = new HashMap<String, String>() {{put("Registro","Registro");
+	Map<String,String> estatusMap = new HashMap<String, String>() {{
+		put("Registro","Registro");
         put("Solicitud enviada","Envío de solicitud");
         put("Solicitud a modificar","Solicitud cambios");
         put("Solicitud rechazada","Solicitud rechazada");
@@ -176,7 +177,7 @@ class HubspotDAO {
 						if(!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
 //							lstValueProperties = getLstValueProperties("carrera");
-							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
@@ -193,16 +194,16 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
 								objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
 							}else{
 								nffp = true;
 								if(nfcarrera){
-									msjNF = msjNF + ", periodo_propedeutico_bpm";	
+									msjNF = msjNF + ", periodo_propedeutico_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";	
+									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";
 								}
 							}
 						}
@@ -213,7 +214,7 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
 								strError = strError + " | entro al if";
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
@@ -221,9 +222,9 @@ class HubspotDAO {
 							}else{
 								nffi = true;
 								if(nfcarrera || nffp){
-									msjNF = msjNF + ", periodo_de_ingreso_bpm";	
+									msjNF = msjNF + ", periodo_de_ingreso_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";	
+									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";
 								}
 							}
 						}
@@ -280,9 +281,9 @@ class HubspotDAO {
 			
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context).getData().get(0)
+				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context).getData().get(0)
 			}
 
 			if (nfcarrera || nffp || nffi) {
@@ -298,7 +299,7 @@ class HubspotDAO {
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				msjNF += " en el catalogo de HubSpot"
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
 			}
@@ -358,7 +359,7 @@ class HubspotDAO {
 			resultadoApiKey = getApikeyHubspot(lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			strError = strError + " | try 3";
-			List < HubspotProperties > lstHubspotProperties = getLstHubspotProperties2("importacion_estados", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+			List < HubspotProperties > lstHubspotProperties = getLstHubspotProperties2("importacion_estados", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 	
 			//Date out = Date.from(ldt.atZone(ZoneId.systemDefault()).toInstant());
 			Date fechaNacimiento = new Date();
@@ -379,7 +380,7 @@ class HubspotDAO {
 						strError = strError + " | ";
 						if (!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
 							strError = strError + " | !vacio";
-							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							//strError = strError + " | "+lstValueProperties.join("--");
 							if (lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): " + lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
@@ -397,16 +398,16 @@ class HubspotDAO {
 						if (lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): " + lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if (lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): " + lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
 								objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
 							}else{
 								nffp = true;
 								if(nfcarrera){
-									msjNF = msjNF + ", periodo_propedeutico_bpm";	
+									msjNF = msjNF + ", periodo_propedeutico_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";	
+									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";
 								}
 							}
 						}
@@ -417,7 +418,7 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
 								strError = strError + " | entro al if";
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
@@ -425,9 +426,9 @@ class HubspotDAO {
 							}else{
 								nffi = true;
 								if(nfcarrera || nffp){
-									msjNF = msjNF + ", periodo_de_ingreso_bpm";	
+									msjNF = msjNF + ", periodo_de_ingreso_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";	
+									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";
 								}
 							}
 						}
@@ -438,7 +439,7 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatEstado().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
-							lstValueProperties = getLstValueProperties2("importacion_estados", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("importacion_estados", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatEstado().getClave())) {
 								strError = strError + " | entro al if";
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
@@ -537,7 +538,7 @@ class HubspotDAO {
 					for(Map<String,Object> contactoEmergencias:lstContactoEmergencias) {
 						objHubSpotData.put("nombre_contacto_emergencia_bpm", contactoEmergencias.get("nombre"));
 						objHubSpotData.put("numero_contacto_emergencia_bpm", contactoEmergencias.get("telefonocelular"));
-					}	
+					}
 					objHubSpotData.put("genero_bpm",lstSolicitudDeAdmision.get(0).getCatSexo().clave)
 					//AQUI TERMINO LO QUE HA AGREGADO JUSQUER
 					objHubSpotData.put("municipio_bpm", lstSolicitudDeAdmision.get(0).getCiudad());
@@ -593,9 +594,9 @@ class HubspotDAO {
 			
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Solicitud enviada Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Solicitud enviada Error", resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context).getData().get(0)
+				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context).getData().get(0)
 			}
 
 			if (nfcarrera || nffp || nffi) {
@@ -611,7 +612,7 @@ class HubspotDAO {
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				msjNF += " en el catalogo de HubSpot"
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Solicitud enviada Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Solicitud enviada Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
 			}
@@ -1442,7 +1443,7 @@ class HubspotDAO {
 							}
 						}
 						
-						strError = strError + " | fechaE " + fechaE + " | fechaAA " + fechaAA + " | fechaPSString " + fechaPS;			
+						strError = strError + " | fechaE " + fechaE + " | fechaAA " + fechaAA + " | fechaPSString " + fechaPS;
 					}
 					
 					
@@ -1733,7 +1734,7 @@ class HubspotDAO {
 						strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave():------- "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
 						if(!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
-							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
@@ -1750,16 +1751,16 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
 								objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
 							}else{
 								nffp = true;
 								if(nfcarrera){
-									msjNF = msjNF + ", periodo_propedeutico_bpm";	
+									msjNF = msjNF + ", periodo_propedeutico_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";	
+									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";
 								}
 							}
 						}
@@ -1770,7 +1771,7 @@ class HubspotDAO {
 						if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
 							strError = strError + " | tiene clave";
 							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
-							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
 								strError = strError + " | entro al if";
 								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
@@ -1778,9 +1779,9 @@ class HubspotDAO {
 							}else{
 								nffi = true;
 								if(nfcarrera || nffp){
-									msjNF = msjNF + ", periodo_de_ingreso_bpm";	
+									msjNF = msjNF + ", periodo_de_ingreso_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";	
+									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";
 								}
 							}
 						}
@@ -1800,7 +1801,6 @@ class HubspotDAO {
 					//objHubSpotData.put("estatus_admision_bpm", "Registro");
 					objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
 					objHubSpotData.put("fecha_nacimiento_bpm", dfSalida.format(fechaNacimiento));
-					
 //					objHubSpotData.put("promedio_bpm", lstSolicitudDeAdmision.get(0).getPromedioGeneral() == null ? "" : lstSolicitudDeAdmision.get(0).getPromedioGeneral());
 					objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
 					objHubSpotData.put("tipo_de_alumno_bpm", lstDetalleSolicitud.get(0).getCatTipoAlumno().getClave());
@@ -1853,9 +1853,9 @@ class HubspotDAO {
 			
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context).getData().get(0)
+				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context).getData().get(0)
 			}
 
 			if (nfcarrera || nffp || nffi) {
@@ -1871,7 +1871,7 @@ class HubspotDAO {
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				msjNF += " en el catalogo de HubSpot"
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
 			}
@@ -2043,7 +2043,7 @@ class HubspotDAO {
 		  resultado = mgd.sendEmailPlantilla(correo, titulo, msjNF + "<br><br>" + Error, "",campus, context)
 	  } catch (Exception e) {
 		  resultado.setSuccess(false);
-		  resultado.setError(e.getMessage());		  
+		  resultado.setError(e.getMessage());
 	  }finally {
 		  if(closeCon) {
 			  new DBConnect().closeObj(con, stm, rs, pstm)
@@ -2261,7 +2261,7 @@ class HubspotDAO {
 	  
 	  return resultado;
   }
-  public Result createOrUpdateUsuarioRegistrado(String jsonData) {
+  public Result createOrUpdateUsuarioRegistrado(String jsonData,RestAPIContext context) {
 	  Result resultado = new Result();
 	  Result resultadoApiKey = new Result();
 
@@ -2288,10 +2288,12 @@ class HubspotDAO {
 	  
 	  DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 	  DateFormat dfSalidaFN = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      Date fechaCreacion = new Date();
-      DateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+	  Date fechaCreacion = new Date();
+	  DateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
 	  
 	  try {
+		  
+
 		  def jsonSlurper = new JsonSlurper();
 		  def object = jsonSlurper.parseText(jsonData);
 		  
@@ -2301,6 +2303,10 @@ class HubspotDAO {
 		  strError+="apikeyhubspot";
 		  apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 		  strError+="si apikeyhubspot";
+
+		  
+		  def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
+		  lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(object.correoelectronico, 0, 1);
 		  
 		  objHubSpotData.put("firstname", object.primernombre + (object.segundonombre?.toString().trim()==""?"":" "+object.segundonombre?.toString().trim()) );
 		  objHubSpotData.put("lastname", object.apellidopaterno + (object.apellidomaterno?.toString().trim()==""?"":" "+object.apellidomaterno?.toString().trim()) );
@@ -2310,7 +2316,7 @@ class HubspotDAO {
 		  
 		  if(object.catGestionEscolar != null) {
 			  if(!object.catGestionEscolar.clave.equals("")) {
-				  lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+				  lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 				  strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
 				  if(lstValueProperties.contains(object.catGestionEscolar.clave)) {
 					  objHubSpotData.put("carrera", object.catGestionEscolar.clave);
@@ -2324,7 +2330,7 @@ class HubspotDAO {
 		  //objHubSpotData.put("carrera",object.catGestionEscolar.clave);
 		  
 		  if(object.catPeriodo != null) {
-			  lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+			  lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 			  strError+= " | lstValueProperties:"+lstValueProperties
 			  if(lstValueProperties.contains(object.catPeriodo.clave)) {
 				  strError = strError + " | entro al if";
@@ -2337,15 +2343,15 @@ class HubspotDAO {
 		  //objHubSpotData.put("periodo_de_ingreso_bpm",object.catPeriodo.clave);
 		  
 		  if(object.catPropedeutico !=null && object.propedeutico != null) {
-			  lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
+			  lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 			  if(lstValueProperties.contains(object.catPropedeutico.clave)) {
 				  objHubSpotData.put("periodo_propedeutico_bpm", object.catPropedeutico.clave);
 			  }else{
 					nffp = true;
 				if(nfcarrera){
-					msjNF = msjNF + ", periodo_propedeutico_bpm";	
+					msjNF = msjNF + ", periodo_propedeutico_bpm";
 				}else{
-					msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";	
+					msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";
 				}
 			}
 		  }
@@ -2393,9 +2399,9 @@ class HubspotDAO {
 		  
 			  //List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 			  MailGunDAO mgd = new MailGunDAO();
-			  Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Usuario registrado Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+			  Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Usuario registrado Error", resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 			  strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-			  //resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context).getData().get(0)
+			  //resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context).getData().get(0)
 		  }
 
 		  if (nfcarrera || nffp || nffi) {
@@ -2411,7 +2417,7 @@ class HubspotDAO {
 			  //List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 			  msjNF += " en el catalogo de HubSpot"
 			  MailGunDAO mgd = new MailGunDAO();
-			  Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Usuario registrado Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+			  Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Usuario registrado Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 			  
 			  strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
 		  }
@@ -2429,463 +2435,463 @@ class HubspotDAO {
 	  return resultado
   }
  public Result createOrUpdateTransferirAspirante(String valorcambio, String valororginal, String correoElectronico,  RestAPIContext context) {
-      Result resultado = new Result();
-      Result resultadoApiKeyCambio = new Result();
-      Result resultadoApiKeyOriginal = new Result();
-      Result resultadoCDAO = new Result();
-      
-      List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
-      List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
-      List < PadresTutor > lstPadresTutor = new ArrayList < PadresTutor > ();
-      List<DetalleSolicitud> lstDetalleSolicitud = new ArrayList<DetalleSolicitud>();
-      List<Map<String, String>> lstOrderDetails = new ArrayList<Map<String, String>>();
-      
-      List<String> lstValueProperties = new ArrayList<String>();
-      
-      Map<String, String> objHubSpotData = new HashMap<String, String>();
-      List<Map<String, String>> data = new ArrayList<Map<String, String>>();
-      String strError = "";
-      String nombreCompleto = "";
-      String catLugarExamenDescripcion = "";
-      String lugarExamen = "";
-      String estadoExamen = "";
-      String ciudadExamen ="";
-      String apikeyHubspotCambio ="";
-      String apikeyHubspotOriginal ="";
-      String residencia = "";
-      String tipoAdmision = "";
-      String descuento = "";
-      String catDescuento = ""
-      String claveCambio=""
-      String claveOriginal=""
-      String jsonPago = "{\"order_id\":\"[ORDERID]\",\"campus_id\":\"[CAMPUSID]\"}";
-      Boolean closeCon=false
-      Date fecha = new Date();
-      Date fechaNacimiento = new Date();
-      DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-      dfSalida.setTimeZone(TimeZone.getTimeZone("America/Mexico_City"));
-      DateFormat dfSalidaFN = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
-      dfSalidaFN.setTimeZone(TimeZone.getTimeZone("America/Mexico_City"));
-      Date fechaCreacion = new Date();
-      DateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
-      DateFormat dfEntradaConekta = new SimpleDateFormat("dd/MM/yyyy");
-      Date fechaConekta = new Date();
-      ConektaDAO cDAO = new ConektaDAO();
-      DecimalFormat df = new DecimalFormat("0");
+	  Result resultado = new Result();
+	  Result resultadoApiKeyCambio = new Result();
+	  Result resultadoApiKeyOriginal = new Result();
+	  Result resultadoCDAO = new Result();
+	  
+	  List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+	  List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
+	  List < PadresTutor > lstPadresTutor = new ArrayList < PadresTutor > ();
+	  List<DetalleSolicitud> lstDetalleSolicitud = new ArrayList<DetalleSolicitud>();
+	  List<Map<String, String>> lstOrderDetails = new ArrayList<Map<String, String>>();
+	  
+	  List<String> lstValueProperties = new ArrayList<String>();
+	  
+	  Map<String, String> objHubSpotData = new HashMap<String, String>();
+	  List<Map<String, String>> data = new ArrayList<Map<String, String>>();
+	  String strError = "";
+	  String nombreCompleto = "";
+	  String catLugarExamenDescripcion = "";
+	  String lugarExamen = "";
+	  String estadoExamen = "";
+	  String ciudadExamen ="";
+	  String apikeyHubspotCambio ="";
+	  String apikeyHubspotOriginal ="";
+	  String residencia = "";
+	  String tipoAdmision = "";
+	  String descuento = "";
+	  String catDescuento = ""
+	  String claveCambio=""
+	  String claveOriginal=""
+	  String jsonPago = "{\"order_id\":\"[ORDERID]\",\"campus_id\":\"[CAMPUSID]\"}";
+	  Boolean closeCon=false
+	  Date fecha = new Date();
+	  Date fechaNacimiento = new Date();
+	  DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+	  dfSalida.setTimeZone(TimeZone.getTimeZone("America/Mexico_City"));
+	  DateFormat dfSalidaFN = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	  dfSalidaFN.setTimeZone(TimeZone.getTimeZone("America/Mexico_City"));
+	  Date fechaCreacion = new Date();
+	  DateFormat dformat = new SimpleDateFormat("yyyy-MM-dd");
+	  DateFormat dfEntradaConekta = new SimpleDateFormat("dd/MM/yyyy");
+	  Date fechaConekta = new Date();
+	  ConektaDAO cDAO = new ConektaDAO();
+	  DecimalFormat df = new DecimalFormat("0");
 	  Boolean nfcarrera = false;
 	  Boolean nffp = false;
 	  Boolean nffi = false;
 	  String msjNF = "";
-      try {
-          def jsonSlurper = new JsonSlurper();
-          def objectCambio = jsonSlurper.parseText(valorcambio);
-          def objectOriginal = jsonSlurper.parseText(valororginal);
-          
-          assert objectCambio instanceof Map;
-          assert objectOriginal instanceof Map;
-          closeCon = validarConexion()
-          String consulta="SELECT clave FROM catcampus where descripcion=? and iseliminado=false"
-          pstm=con.prepareStatement(consulta)
-          pstm.setString(1, objectCambio.campus)
-          rs=pstm.executeQuery()
-          if(rs.next()) {
-              claveCambio=rs.getString("clave")
-          }
-          
-          pstm=con.prepareStatement(consulta)
-          pstm.setString(1, objectOriginal.campus)
-          rs=pstm.executeQuery()
-          if(rs.next()) {
-              claveOriginal=rs.getString("clave")
-          }
-          strError +=" | 1._ clave campos por descripcion = " + claveCambio + ", " + claveOriginal
-          
-          resultadoApiKeyCambio = getApikeyHubspot(claveCambio);
-          apikeyHubspotCambio = (String) resultadoApiKeyCambio.getData().get(0);
-          
-          resultadoApiKeyOriginal = getApikeyHubspot(claveOriginal);
-          apikeyHubspotOriginal = (String) resultadoApiKeyOriginal.getData().get(0);
-          
-          objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-          objHubSpotData.put("fecha_transferencia_bpm",dfSalida.format(fecha));
-          objHubSpotData.put("origen_vpd_bpm", claveOriginal);
-          objHubSpotData.put("destino_vpd_bpm", claveCambio);
-          objHubSpotData.put("estatus_admision_bpm","Transferencia a otro campus")
-          strError += "| 2._ Hubspot original " + objHubSpotData.toString()
-          resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspotOriginal, objHubSpotData);
-          
-          def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
-          def objCatRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
-          def objPadresTutorDAO = context.apiClient.getDAO(PadresTutorDAO.class);
-          def objDetalleSolicitudDAO = context.apiClient.getDAO(DetalleSolicitudDAO.class);
-          
-          lstCatRegistro = objCatRegistroDAO.findByCorreoelectronico(correoElectronico, 0, 1);
-          lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(correoElectronico, 0, 1);
-          
-          if(lstCatRegistro != null) {
-              //TODO
-              Date fechaFF = null;
-              Date fechaE = null;
-              Date fechaAA = null;
-              Date fechaPS = null;
-              DateFormat dfSalidaNT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-              
-              DateFormat dfSalidaFF = new SimpleDateFormat("yyyy-MM-dd");
-              dfSalida.setTimeZone(TimeZone.getTimeZone("GMT"));
-              strError += "| 3._ lstCatRegistro"
-                
-                strError = strError + " | lstSolicitudDeAdmision.size: "+lstSolicitudDeAdmision.size();
-                strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
-                strError = strError + " | lstCatRegistro.size: "+lstCatRegistro.size();
-                strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
+	  try {
+		  def jsonSlurper = new JsonSlurper();
+		  def objectCambio = jsonSlurper.parseText(valorcambio);
+		  def objectOriginal = jsonSlurper.parseText(valororginal);
+		  
+		  assert objectCambio instanceof Map;
+		  assert objectOriginal instanceof Map;
+		  closeCon = validarConexion()
+		  String consulta="SELECT clave FROM catcampus where descripcion=? and iseliminado=false"
+		  pstm=con.prepareStatement(consulta)
+		  pstm.setString(1, objectCambio.campus)
+		  rs=pstm.executeQuery()
+		  if(rs.next()) {
+			  claveCambio=rs.getString("clave")
+		  }
+		  
+		  pstm=con.prepareStatement(consulta)
+		  pstm.setString(1, objectOriginal.campus)
+		  rs=pstm.executeQuery()
+		  if(rs.next()) {
+			  claveOriginal=rs.getString("clave")
+		  }
+		  strError +=" | 1._ clave campos por descripcion = " + claveCambio + ", " + claveOriginal
+		  
+		  resultadoApiKeyCambio = getApikeyHubspot(claveCambio);
+		  apikeyHubspotCambio = (String) resultadoApiKeyCambio.getData().get(0);
+		  
+		  resultadoApiKeyOriginal = getApikeyHubspot(claveOriginal);
+		  apikeyHubspotOriginal = (String) resultadoApiKeyOriginal.getData().get(0);
+		  
+		  objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+		  objHubSpotData.put("fecha_transferencia_bpm",dfSalida.format(fecha));
+		  objHubSpotData.put("origen_vpd_bpm", claveOriginal);
+		  objHubSpotData.put("destino_vpd_bpm", claveCambio);
+		  objHubSpotData.put("estatus_admision_bpm","Transferencia a otro campus")
+		  strError += "| 2._ Hubspot original " + objHubSpotData.toString()
+		  resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspotOriginal, objHubSpotData);
+		  
+		  def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
+		  def objCatRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
+		  def objPadresTutorDAO = context.apiClient.getDAO(PadresTutorDAO.class);
+		  def objDetalleSolicitudDAO = context.apiClient.getDAO(DetalleSolicitudDAO.class);
+		  
+		  lstCatRegistro = objCatRegistroDAO.findByCorreoelectronico(correoElectronico, 0, 1);
+		  lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(correoElectronico, 0, 1);
+		  
+		  if(lstCatRegistro != null) {
+			  //TODO
+			  Date fechaFF = null;
+			  Date fechaE = null;
+			  Date fechaAA = null;
+			  Date fechaPS = null;
+			  DateFormat dfSalidaNT = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+			  
+			  DateFormat dfSalidaFF = new SimpleDateFormat("yyyy-MM-dd");
+			  dfSalida.setTimeZone(TimeZone.getTimeZone("GMT"));
+			  strError += "| 3._ lstCatRegistro"
+				
+				strError = strError + " | lstSolicitudDeAdmision.size: "+lstSolicitudDeAdmision.size();
+				strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
+				strError = strError + " | lstCatRegistro.size: "+lstCatRegistro.size();
+				strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
 
-                
-                if(!lstCatRegistro.empty && !lstSolicitudDeAdmision.empty) {
-                    
-                    //AQUI EMPIEZA LO QUE HIZO JUSQUER
-                    List<Map<String, Object>> lstContactoEmergencias = new ArrayList<Map<String, Object>>();
-                    pstm = con.prepareStatement("SELECT * FROM contactoEmergencias where caseid=?");
-                    pstm.setLong(1, lstSolicitudDeAdmision.get(0).getCaseId())
-                    rs= pstm.executeQuery();
-                    
-                    
-                    ResultSetMetaData metaData = rs.getMetaData();
-                    int columnCount = metaData.getColumnCount();
-                    
-                    while(rs.next()) {
-                        Map<String, Object> columns = new LinkedHashMap<String, Object>();
-        
-                        for (int i = 1; i <= columnCount; i++) {
-                            columns.put(metaData.getColumnLabel(i), rs.getString(i));
-                        }
-                        lstContactoEmergencias.add(columns)
-                    }
-                    for(Map<String,Object> contactoEmergencias:lstContactoEmergencias) {
-                        objHubSpotData.put("nombre_contacto_emergencia_bpm", contactoEmergencias.get("nombre"));
-                        objHubSpotData.put("numero_contacto_emergencia_bpm", contactoEmergencias.get("telefonocelular"));
-                    }
-                    objHubSpotData.put("genero_bpm",lstSolicitudDeAdmision.get(0).getCatSexo().clave)
-                    if(lstSolicitudDeAdmision.get(0).getEstatusSolicitud().equals("Transferido")) {
-                        pstm = con.prepareStatement("SELECT * from CATBITACORATRANSFERENCIAS where correoaspirante=? order by persistenceid desc limit 1  ");
-                        pstm.setString(1, lstSolicitudDeAdmision.get(0).getCorreoElectronico())
-                        rs= pstm.executeQuery();
-                        if(rs.next()) {
-                            objHubSpotData.put("estatus_admision_bpm",estatusMap.get(rs.getString("estatus")))
-                            pstm = con.prepareStatement("UPDATE solicituddeadmision set estatussolicitud=? where correoelectronico=?")
-                            pstm.setString(1,rs.getString("estatus"))
-                            pstm.setString(2,lstSolicitudDeAdmision.get(0).getCorreoElectronico())
-                            pstm.executeUpdate()
-                        }
-                    }else {
-                        objHubSpotData.put("estatus_admision_bpm",estatusMap.get(lstSolicitudDeAdmision.get(0).getEstatusSolicitud()))
-                    }
-                    
-                    Result resultadoFirstFecha = new Result();
-                    Result resultadoFechasSesiones = new Result();
-                    List<Map<String, Object>> lstResultadoFF = new ArrayList<Map<String, Object>>();
-                    List<Map<String, Object>> lstResultadoFS = new ArrayList<Map<String, Object>>();
-                    resultadoFechasSesiones = new SesionesDAO().getDatosSesionUsername(correoElectronico);
-                    strError = strError + " | resultadoFechasSesiones.getError_info: "+resultadoFechasSesiones.getError_info();
-                    lstResultadoFS = (List<Map<String, Object>>)resultadoFechasSesiones.getData();
-                    if(lstResultadoFS.size()>0) {
-                        for(Map<String, Object> fechassesiones : lstResultadoFS) {
-                            strError = strError + " " + fechassesiones.get("descripcion");
-                            strError = strError + " " + fechassesiones.get("aplicacion");
-                            String fechaobj = String.valueOf(fechassesiones.get("aplicacion"));
-                            strError = strError + " " + fechaobj;
-                            if(fechassesiones.get("descripcion").equals("Entrevista")) {
-                                fechaE = dfSalida.parse(fechaobj + " 00:00");
-                            }else if(fechassesiones.get("descripcion").equals("Examen de aptitudes y conocimientos")) {
-                                fechaAA = dfSalida.parse(fechaobj+ " 00:00");
-                            }else if(fechassesiones.get("descripcion").equals("Examen Psicométrico")) {
-                                fechaPS  = dfSalida.parse(fechaobj + " 00:00");
-                            }
-                        }
-                        if(fechaE != null) {
-                            objHubSpotData.put("fecha_entrevista_bpm", fechaE.getTime());
-                        }
-                        if(fechaAA != null) {
-                            objHubSpotData.put("fecha_de_examen_bpm", fechaAA.getTime());
-                        }
-                        if(fechaPS != null) {
-                            objHubSpotData.put("fecha_psicometrico_bpm", fechaPS.getTime());
-                        }
-                        strError = strError + " | fechaE " + fechaE + " | fechaAA " + fechaAA + " | fechaPSString " + fechaPS;
-                    }
-                    
-                    //AQUI TERMINO LO QUE HA AGREGADO JUSQUER
-                    objHubSpotData.put("campus_admision_bpm", lstSolicitudDeAdmision.get(0).getCatCampusEstudio().getClave());
-                    
-                    if(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave() != null) {
-                        strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave():------- "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
-                        if(!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
-                            strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
+				
+				if(!lstCatRegistro.empty && !lstSolicitudDeAdmision.empty) {
+					
+					//AQUI EMPIEZA LO QUE HIZO JUSQUER
+					List<Map<String, Object>> lstContactoEmergencias = new ArrayList<Map<String, Object>>();
+					pstm = con.prepareStatement("SELECT * FROM contactoEmergencias where caseid=?");
+					pstm.setLong(1, lstSolicitudDeAdmision.get(0).getCaseId())
+					rs= pstm.executeQuery();
+					
+					
+					ResultSetMetaData metaData = rs.getMetaData();
+					int columnCount = metaData.getColumnCount();
+					
+					while(rs.next()) {
+						Map<String, Object> columns = new LinkedHashMap<String, Object>();
+		
+						for (int i = 1; i <= columnCount; i++) {
+							columns.put(metaData.getColumnLabel(i), rs.getString(i));
+						}
+						lstContactoEmergencias.add(columns)
+					}
+					for(Map<String,Object> contactoEmergencias:lstContactoEmergencias) {
+						objHubSpotData.put("nombre_contacto_emergencia_bpm", contactoEmergencias.get("nombre"));
+						objHubSpotData.put("numero_contacto_emergencia_bpm", contactoEmergencias.get("telefonocelular"));
+					}
+					objHubSpotData.put("genero_bpm",lstSolicitudDeAdmision.get(0).getCatSexo().clave)
+					if(lstSolicitudDeAdmision.get(0).getEstatusSolicitud().equals("Transferido")) {
+						pstm = con.prepareStatement("SELECT * from CATBITACORATRANSFERENCIAS where correoaspirante=? order by persistenceid desc limit 1  ");
+						pstm.setString(1, lstSolicitudDeAdmision.get(0).getCorreoElectronico())
+						rs= pstm.executeQuery();
+						if(rs.next()) {
+							objHubSpotData.put("estatus_admision_bpm",estatusMap.get(rs.getString("estatus")))
+							pstm = con.prepareStatement("UPDATE solicituddeadmision set estatussolicitud=? where correoelectronico=?")
+							pstm.setString(1,rs.getString("estatus"))
+							pstm.setString(2,lstSolicitudDeAdmision.get(0).getCorreoElectronico())
+							pstm.executeUpdate()
+						}
+					}else {
+						objHubSpotData.put("estatus_admision_bpm",estatusMap.get(lstSolicitudDeAdmision.get(0).getEstatusSolicitud()))
+					}
+					
+					Result resultadoFirstFecha = new Result();
+					Result resultadoFechasSesiones = new Result();
+					List<Map<String, Object>> lstResultadoFF = new ArrayList<Map<String, Object>>();
+					List<Map<String, Object>> lstResultadoFS = new ArrayList<Map<String, Object>>();
+					resultadoFechasSesiones = new SesionesDAO().getDatosSesionUsername(correoElectronico);
+					strError = strError + " | resultadoFechasSesiones.getError_info: "+resultadoFechasSesiones.getError_info();
+					lstResultadoFS = (List<Map<String, Object>>)resultadoFechasSesiones.getData();
+					if(lstResultadoFS.size()>0) {
+						for(Map<String, Object> fechassesiones : lstResultadoFS) {
+							strError = strError + " " + fechassesiones.get("descripcion");
+							strError = strError + " " + fechassesiones.get("aplicacion");
+							String fechaobj = String.valueOf(fechassesiones.get("aplicacion"));
+							strError = strError + " " + fechaobj;
+							if(fechassesiones.get("descripcion").equals("Entrevista")) {
+								fechaE = dfSalida.parse(fechaobj + " 00:00");
+							}else if(fechassesiones.get("descripcion").equals("Examen de aptitudes y conocimientos")) {
+								fechaAA = dfSalida.parse(fechaobj+ " 00:00");
+							}else if(fechassesiones.get("descripcion").equals("Examen Psicométrico")) {
+								fechaPS  = dfSalida.parse(fechaobj + " 00:00");
+							}
+						}
+						if(fechaE != null) {
+							objHubSpotData.put("fecha_entrevista_bpm", fechaE.getTime());
+						}
+						if(fechaAA != null) {
+							objHubSpotData.put("fecha_de_examen_bpm", fechaAA.getTime());
+						}
+						if(fechaPS != null) {
+							objHubSpotData.put("fecha_psicometrico_bpm", fechaPS.getTime());
+						}
+						strError = strError + " | fechaE " + fechaE + " | fechaAA " + fechaAA + " | fechaPSString " + fechaPS;
+					}
+					
+					//AQUI TERMINO LO QUE HA AGREGADO JUSQUER
+					objHubSpotData.put("campus_admision_bpm", lstSolicitudDeAdmision.get(0).getCatCampusEstudio().getClave());
+					
+					if(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave() != null) {
+						strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave():------- "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
+						if(!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
+							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
 //                          lstValueProperties = getLstValueProperties("carrera");
-                            lstValueProperties = getLstValueProperties2("carrera", apikeyHubspotOriginal,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
-                            strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
-                            if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
-                                strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
-                                objHubSpotData.put("carrera", lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave());
-                            }else{
+							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspotOriginal,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
+							strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
+							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
+								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
+								objHubSpotData.put("carrera", lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave());
+							}else{
 								nfcarrera = true;
 								msjNF = "No se encontro la propiedad carrera";
 							}
-                        }
-                    }
-                    
-                    if(lstSolicitudDeAdmision.get(0).getCatPropedeutico() != null) {
-                        strError = strError + " | tiene propedeutico";
-                        if(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
-                            strError = strError + " | tiene clave";
-                            strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
-                            lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspotOriginal,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
-                            if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
-                                strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
-                                objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
-                            }else{
+						}
+					}
+					
+					if(lstSolicitudDeAdmision.get(0).getCatPropedeutico() != null) {
+						strError = strError + " | tiene propedeutico";
+						if(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
+							strError = strError + " | tiene clave";
+							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
+							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspotOriginal,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
+							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
+								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
+								objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
+							}else{
 								nffp = true;
 								if(nfcarrera){
-									msjNF = msjNF + ", periodo_propedeutico_bpm";	
+									msjNF = msjNF + ", periodo_propedeutico_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";	
+									msjNF = "No se encontro la propiedad periodo_propedeutico_bpm";
 								}
 							}
-                        }
-                    }
-                    
-                    if(lstSolicitudDeAdmision.get(0).getCatPeriodo() != null) {
-                        strError = strError + " | tiene periodo";
-                        if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
-                            strError = strError + " | tiene clave";
-                            strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
-                            lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspotOriginal,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
-                            if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
-                                strError = strError + " | entro al if";
-                                strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
-                                objHubSpotData.put("periodo_de_ingreso_bpm", lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave());
-                            }else{
+						}
+					}
+					
+					if(lstSolicitudDeAdmision.get(0).getCatPeriodo() != null) {
+						strError = strError + " | tiene periodo";
+						if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
+							strError = strError + " | tiene clave";
+							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
+							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspotOriginal,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
+							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
+								strError = strError + " | entro al if";
+								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
+								objHubSpotData.put("periodo_de_ingreso_bpm", lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave());
+							}else{
 								nffi = true;
 								if(nfcarrera || nffp){
-									msjNF = msjNF + ", periodo_de_ingreso_bpm";	
+									msjNF = msjNF + ", periodo_de_ingreso_bpm";
 								}else{
-									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";	
+									msjNF = "No se encontro la propiedad periodo_de_ingreso_bpm";
 								}
 							}
-                        }
-                    }
-                    
-                    
-                    
-                    
-                    
-                    
-                    catLugarExamenDescripcion = lstSolicitudDeAdmision.get(0).getCatLugarExamen().descripcion;
-                    
-                    if(catLugarExamenDescripcion.equals("En un estado")){
-                        lugarExamen = "México, "+lstSolicitudDeAdmision.get(0).getCatEstadoExamen().getDescripcion()+", "+lstSolicitudDeAdmision.get(0).getCiudadExamen().getDescripcion();
-                    }
-                    if(catLugarExamenDescripcion.equals("En el extranjero (solo si vives fuera de México)")){
-                        lugarExamen = lstSolicitudDeAdmision.get(0).getCatPaisExamen().getDescripcion()+", "+lstSolicitudDeAdmision.get(0).getCiudadExamenPais().getDescripcion();
-                    }
-                    if(catLugarExamenDescripcion.equals("En el mismo campus en donde realizaré mi licenciatura")){
-                        lugarExamen = lstSolicitudDeAdmision.get(0).getCatCampus().getDescripcion();
-                    }
-                    
-                     if (lstSolicitudDeAdmision.get(0).getCatEstado() != null) {
-                    strError = strError + " | tiene estado";
-                    if(lstSolicitudDeAdmision.get(0).getCatEstado().getClave() != null) {
-                        strError = strError + " | tiene clave";
-                        strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
-                        lstValueProperties = getLstValueProperties2("importacion_estados", apikeyHubspotOriginal,lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context);
-                        if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatEstado().getClave())) {
-                            strError = strError + " | entro al if";
-                            strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
-                            objHubSpotData.put("importacion_estados", lstSolicitudDeAdmision.get(0).getCatEstado().getClave());
-                        }
-                    }
-                }
-                
-                lstPadresTutor = objPadresTutorDAO.findByCaseId(lstSolicitudDeAdmision.get(0).getCaseId(), 0, 999);
-                if (lstPadresTutor != null) {
-                    if (!lstPadresTutor.empty) {
-                        for (PadresTutor objPadresTutor: lstPadresTutor) {
-                            if (objPadresTutor.isIsTutor()) {
-                                strError = strError + "| ENTRO A TUTOR"
-                                objHubSpotData.put("correo_tutor", objPadresTutor.getCorreoElectronico() == null ? "" : objPadresTutor.getCorreoElectronico());
-                                objHubSpotData.put("nombre_de_tutor", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
-                                objHubSpotData.put("telefono_tutor", objPadresTutor.getTelefono());
+						}
+					}
+					
+					
+					
+					
+					
+					
+					catLugarExamenDescripcion = lstSolicitudDeAdmision.get(0).getCatLugarExamen().descripcion;
+					
+					if(catLugarExamenDescripcion.equals("En un estado")){
+						lugarExamen = "México, "+lstSolicitudDeAdmision.get(0).getCatEstadoExamen().getDescripcion()+", "+lstSolicitudDeAdmision.get(0).getCiudadExamen().getDescripcion();
+					}
+					if(catLugarExamenDescripcion.equals("En el extranjero (solo si vives fuera de México)")){
+						lugarExamen = lstSolicitudDeAdmision.get(0).getCatPaisExamen().getDescripcion()+", "+lstSolicitudDeAdmision.get(0).getCiudadExamenPais().getDescripcion();
+					}
+					if(catLugarExamenDescripcion.equals("En el mismo campus en donde realizaré mi licenciatura")){
+						lugarExamen = lstSolicitudDeAdmision.get(0).getCatCampus().getDescripcion();
+					}
+					
+					 if (lstSolicitudDeAdmision.get(0).getCatEstado() != null) {
+					strError = strError + " | tiene estado";
+					if(lstSolicitudDeAdmision.get(0).getCatEstado().getClave() != null) {
+						strError = strError + " | tiene clave";
+						strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
+						lstValueProperties = getLstValueProperties2("importacion_estados", apikeyHubspotOriginal,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
+						if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatEstado().getClave())) {
+							strError = strError + " | entro al if";
+							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatEstado().getClave(): "+lstSolicitudDeAdmision.get(0).getCatEstado().getClave();
+							objHubSpotData.put("importacion_estados", lstSolicitudDeAdmision.get(0).getCatEstado().getClave());
+						}
+					}
+				}
+				
+				lstPadresTutor = objPadresTutorDAO.findByCaseId(lstSolicitudDeAdmision.get(0).getCaseId(), 0, 999);
+				if (lstPadresTutor != null) {
+					if (!lstPadresTutor.empty) {
+						for (PadresTutor objPadresTutor: lstPadresTutor) {
+							if (objPadresTutor.isIsTutor()) {
+								strError = strError + "| ENTRO A TUTOR"
+								objHubSpotData.put("correo_tutor", objPadresTutor.getCorreoElectronico() == null ? "" : objPadresTutor.getCorreoElectronico());
+								objHubSpotData.put("nombre_de_tutor", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
+								objHubSpotData.put("telefono_tutor", objPadresTutor.getTelefono());
 
-                            }
-                            if (objPadresTutor.getCatParentezco().getDescripcion().equals("Padre")) {
-                                objHubSpotData.put("nombre_del_padre", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
-                                objHubSpotData.put("correo_del_padre", objPadresTutor.getCorreoElectronico());
-                                objHubSpotData.put("telefono_del_padre", objPadresTutor.getTelefono());
-                            }
-                            if (objPadresTutor.getCatParentezco().getDescripcion().equals("Madre")) {
-                                objHubSpotData.put("nombre_de_la_madre", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
-                                objHubSpotData.put("correo_de_la_madre", objPadresTutor.getCorreoElectronico());
-                                objHubSpotData.put("telefono_de_la_madre", objPadresTutor.getTelefono());
-                            }
-                        }
-                    }
-                }
+							}
+							if (objPadresTutor.getCatParentezco().getDescripcion().equals("Padre")) {
+								objHubSpotData.put("nombre_del_padre", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
+								objHubSpotData.put("correo_del_padre", objPadresTutor.getCorreoElectronico());
+								objHubSpotData.put("telefono_del_padre", objPadresTutor.getTelefono());
+							}
+							if (objPadresTutor.getCatParentezco().getDescripcion().equals("Madre")) {
+								objHubSpotData.put("nombre_de_la_madre", (objPadresTutor.getNombre() == null ? "" : objPadresTutor.getNombre()) + (objPadresTutor.getApellidos() == null ? "" : " " + objPadresTutor.getApellidos()));
+								objHubSpotData.put("correo_de_la_madre", objPadresTutor.getCorreoElectronico());
+								objHubSpotData.put("telefono_de_la_madre", objPadresTutor.getTelefono());
+							}
+						}
+					}
+				}
 
-                catLugarExamenDescripcion = lstSolicitudDeAdmision.get(0).getCatLugarExamen().descripcion;
+				catLugarExamenDescripcion = lstSolicitudDeAdmision.get(0).getCatLugarExamen().descripcion;
 
-                if (catLugarExamenDescripcion.equals("En un estado")) {
-                    lugarExamen = "México, " + (lstSolicitudDeAdmision.get(0).getCatEstadoExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCatEstadoExamen().getDescripcion() + ", ") + (lstSolicitudDeAdmision.get(0).getCiudadExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCiudadExamen().getDescripcion());
-                    strError = strError + " | lugarExamen: " + lugarExamen;
-                }
-                if (catLugarExamenDescripcion.equals("En el extranjero (solo si vives fuera de México)")) {
-                    lugarExamen = (lstSolicitudDeAdmision.get(0).getCatPaisExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCatPaisExamen().getDescripcion() + ", ") + (lstSolicitudDeAdmision.get(0).getCiudadExamenPais() == null ? "" : lstSolicitudDeAdmision.get(0).getCiudadExamenPais().getDescripcion());
-                    strError = strError + " | lugarExamen: " + lugarExamen;
-                }
-                if (catLugarExamenDescripcion.equals("En el mismo campus en donde realizaré mi licenciatura")) {
-                    lugarExamen = lstSolicitudDeAdmision.get(0).getCatCampus() == null ? "" : lstSolicitudDeAdmision.get(0).getCatCampus().getDescripcion();
-                    strError = strError + " | lugarExamen: " + lugarExamen;
-                }
-                //getLstValueProperties("importacion_estados")
-                strError = strError + " | catLugarExamenDescripcion: " + catLugarExamenDescripcion;
-                strError = strError + " | lugarExamen: " + lugarExamen;
+				if (catLugarExamenDescripcion.equals("En un estado")) {
+					lugarExamen = "México, " + (lstSolicitudDeAdmision.get(0).getCatEstadoExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCatEstadoExamen().getDescripcion() + ", ") + (lstSolicitudDeAdmision.get(0).getCiudadExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCiudadExamen().getDescripcion());
+					strError = strError + " | lugarExamen: " + lugarExamen;
+				}
+				if (catLugarExamenDescripcion.equals("En el extranjero (solo si vives fuera de México)")) {
+					lugarExamen = (lstSolicitudDeAdmision.get(0).getCatPaisExamen() == null ? "" : lstSolicitudDeAdmision.get(0).getCatPaisExamen().getDescripcion() + ", ") + (lstSolicitudDeAdmision.get(0).getCiudadExamenPais() == null ? "" : lstSolicitudDeAdmision.get(0).getCiudadExamenPais().getDescripcion());
+					strError = strError + " | lugarExamen: " + lugarExamen;
+				}
+				if (catLugarExamenDescripcion.equals("En el mismo campus en donde realizaré mi licenciatura")) {
+					lugarExamen = lstSolicitudDeAdmision.get(0).getCatCampus() == null ? "" : lstSolicitudDeAdmision.get(0).getCatCampus().getDescripcion();
+					strError = strError + " | lugarExamen: " + lugarExamen;
+				}
+				//getLstValueProperties("importacion_estados")
+				strError = strError + " | catLugarExamenDescripcion: " + catLugarExamenDescripcion;
+				strError = strError + " | lugarExamen: " + lugarExamen;
 
-                objHubSpotData.put("lugar_de_examen_bpm", lugarExamen);
-                fechaNacimiento = Date.from(lstSolicitudDeAdmision.get(0).getFechaNacimiento().atZone(ZoneId.systemDefault()).toInstant());
+				objHubSpotData.put("lugar_de_examen_bpm", lugarExamen);
+				fechaNacimiento = Date.from(lstSolicitudDeAdmision.get(0).getFechaNacimiento().atZone(ZoneId.systemDefault()).toInstant());
 
-                objHubSpotData.put("pais", lstSolicitudDeAdmision.get(0).getCatPais().getDescripcion())
-                objHubSpotData.put("municipio_bpm", lstSolicitudDeAdmision.get(0).getCiudad());
-                strError = strError + " | ----------------------------- ";
-                
-                objHubSpotData.put("campus_admision_bpm", lstSolicitudDeAdmision.get(0).getCatCampusEstudio().getClave());
-                //objHubSpotData.put("periodo_de_ingreso_bpm", lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave());
-                objHubSpotData.put("campus_vpd_bpm", lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
-                objHubSpotData.put("firstname", lstSolicitudDeAdmision.get(0).getPrimerNombre() + " " + (lstSolicitudDeAdmision.get(0).getSegundoNombre() == null ? "" : lstSolicitudDeAdmision.get(0).getSegundoNombre()));
-                objHubSpotData.put("lastname", lstSolicitudDeAdmision.get(0).getApellidoPaterno() + " " + lstSolicitudDeAdmision.get(0).getApellidoMaterno());
-                objHubSpotData.put("fecha_nacimiento_bpm", dformat.format(fechaNacimiento));
-                //objHubSpotData.put("gender", lstSolicitudDeAdmision.get(0).getCatSexo().getClave() == null ? "" : lstSolicitudDeAdmision.get(0).getCatSexo().getClave());
-                objHubSpotData.put("promedio_bpm", lstSolicitudDeAdmision.get(0).getPromedioGeneral() == null ? "" : lstSolicitudDeAdmision.get(0).getPromedioGeneral());
-                    
-                    
-                    
-                                        
-                objHubSpotData.put("lugar_de_examen_bpm", lugarExamen);
-                
-                objHubSpotData.put("campus_vpd_bpm", lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
-                objHubSpotData.put("firstname", lstCatRegistro.get(0).getPrimernombre()+" "+(lstCatRegistro.get(0).getSegundonombre() == null ? "" : lstCatRegistro.get(0).getSegundonombre()));
-                objHubSpotData.put("lastname", lstCatRegistro.get(0).getApellidopaterno()+" "+lstCatRegistro.get(0).getApellidomaterno());
-                objHubSpotData.put("email", correoElectronico);
-                
-                objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-                objHubSpotData.put("apoyo_ov_bpm", lstSolicitudDeAdmision.get(0).isNecesitoAyuda());
-                objHubSpotData.put("phone", lstCatRegistro.get(0).getNumeroContacto());
-                
-                if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
-                    objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
-                }
-                else {
-                    objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
-                }
-                lstDetalleSolicitud = objDetalleSolicitudDAO.findByCaseId(String.valueOf(lstCatRegistro.get(0).getCaseId()), 0, 1);
-                
-                strError = strError + " | lstDetalleSolicitud.empty: "+lstDetalleSolicitud.empty;
-                strError = strError + " | lstDetalleSolicitud.size: "+lstDetalleSolicitud.size();
-                
-                if(lstDetalleSolicitud != null) {
-                    if(!lstDetalleSolicitud.empty) {
-                        residencia = lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("F") ? "F" : (lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("R") ? "R" : "E");
-                        tipoAdmision = lstDetalleSolicitud.get(0).getCatTipoAdmision().getClave();
-                        
-                        strError = strError + " | residencia: "+residencia;
-                        strError = strError + " | tipoAdmision: "+tipoAdmision;
-                        strError = strError + " | getDescuento: "+lstDetalleSolicitud.get(0).getDescuento();
-                        
-                        descuento = ""+lstDetalleSolicitud.get(0).getDescuento();
-                        catDescuento = ""+(lstDetalleSolicitud.get(0).getCatDescuentos()== null ? "" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento());
-                        
-                        strError = strError + " | descuento: "+descuento;
-                        strError = strError + " | catDescuento: "+catDescuento;
-                        
-                        objHubSpotData.put("tipo_de_alumno_bpm", lstDetalleSolicitud.get(0).getCatTipoAlumno().getClave());
-                        objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
-                        objHubSpotData.put("id_banner_bpm", lstDetalleSolicitud.get(0).getIdBanner());
-                        objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-                        objHubSpotData.put("tipo_de_admision_bpm", tipoAdmision);
-                        objHubSpotData.put("residencia_bpm", residencia);
-                        
-                        
-                        objHubSpotData.put("mensaje_bpm", lstDetalleSolicitud.get(0).getObservacionesCambio());
-                        objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-                        descuento = ""+lstDetalleSolicitud.get(0).getDescuento();
-                        catDescuento = ""+(lstDetalleSolicitud.get(0).getCatDescuentos()== null ? "" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento());
-                        
-                        strError = strError + " | descuento: "+"descuento.toString()";
-                        strError = strError + " | getOrdenPago: "+lstDetalleSolicitud.get(0).getOrdenPago()//lstDetalleSolicitud.size()>0 ? (lstDetalleSolicitud.get(0).getOrdenPago() == null ? "NULO OP" : "lstDetalleSolicitud.get(0).getOrdenPago()") : "NULL";
-                        strError = strError + " | getCatCampus().getPersistenceId: " + lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId()
-                        strError = strError + " | jsonPago: " +jsonPago.replace("[ORDERID]", String.valueOf(lstDetalleSolicitud.get(0).getOrdenPago())).replace("[CAMPUSID]", String.valueOf(lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId()));
-                        if(lstDetalleSolicitud.get(0).getOrdenPago() == null || lstDetalleSolicitud.get(0).getOrdenPago() == "") {
-                            
-                        }else {
-                            resultadoCDAO = cDAO.getOrderDetails(0, 999, jsonPago.replace("[ORDERID]", String.valueOf(lstDetalleSolicitud.get(0).getOrdenPago())).replace("[CAMPUSID]", String.valueOf(lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId())), context);
-                            if(resultadoCDAO.isSuccess()) {
-                                lstOrderDetails = (List<Map<String, String>>) resultadoCDAO.getData();
-                                strError = strError + " | speiBank: " +lstOrderDetails.get(0).get("speiBank");
-                                strError = strError + " | CLABE: " +lstOrderDetails.get(0).get("CLABE");
-                                strError = strError + " | amount: " +lstOrderDetails.get(0).get("amount");
-                                strError = strError + " | id: " +lstOrderDetails.get(0).get("id");
-                                strError = strError + " | createdAtDate: " +lstOrderDetails.get(0).get("createdAtDate");
-                                strError = strError + " | createdAtTime: " +lstOrderDetails.get(0).get("createdAtTime");
-                                strError = strError + " | type: " +lstOrderDetails.get(0).get("type");
-                                strError = strError + " | referencia: " +lstOrderDetails.get(0).get("referencia");
-                                strError = strError + " | cardNumber: " +lstOrderDetails.get(0).get("cardNumber");
-                                strError = strError + " | authorizationCode: " +lstOrderDetails.get(0).get("authorizationCode");
-                                strError = strError + " | name: " +lstOrderDetails.get(0).get("name");
-                                
-                                strError = strError + " | lstDetalleSolicitud.size: "+lstDetalleSolicitud.size();
-                                
-                                if(lstOrderDetails.get(0).get("createdAtDate") != null) {
-                                    fechaConekta = dfEntradaConekta.parse(lstOrderDetails.get(0).get("createdAtDate"));
-                                    objHubSpotData.put("monto_pago_bpm", dfSalida.format(fechaConekta));
-                                }
-                                if(lstOrderDetails.get(0).get("amount") != null) {
-                                    Float monto=Float.parseFloat(lstOrderDetails.get(0).get("amount").toString().replace(pesoSigno, "").replace(" MXN", "").replace("MXN", ""));
-                                    
-                                    objHubSpotData.put("monto_pago_bpm", df.format(monto));
-                                }
-                                objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
-                                objHubSpotData.put("pago_examen_bpm", dfSalida.format(fecha));
-                                objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-                                
-                                strError = strError + (resultado.getError_info() == null ? "NULL INFO" : "|" + resultado.getError_info() + "|");
-                            }
-                            else {
-                                //throw new Exception(resultadoCDAO.getError());
-                            }
-                        }
-                        
-                    }
-                }
-                }
-                else {
-                    strError = strError + " | ------------------------------------------";
-                    strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
-                    strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
-                    strError = strError + " | ------------------------------------------";
-                }
-                
-            }
-            pstm = con.prepareStatement("select to_char(now(), 'YYYY-MM-DD HH24:MI') fechahoraservidor")
-            rs = pstm.executeQuery();
-            if(rs.next()){
-                fecha = dfSalida.parse(rs.getString("fechahoraservidor"))
-            }
-            objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
-            objHubSpotData.put("fecha_transferencia_bpm",dfSalida.format(fecha));
-            objHubSpotData.put("origen_vpd_bpm",  claveOriginal);
-            objHubSpotData.put("destino_vpd_bpm", claveCambio);
-            Map<String, String> objHubSpotDataPreview = new HashMap<String, String>(objHubSpotData)
-            data.add(objHubSpotDataPreview)
-        
-            resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspotCambio, objHubSpotData);
-            
+				objHubSpotData.put("pais", lstSolicitudDeAdmision.get(0).getCatPais().getDescripcion())
+				objHubSpotData.put("municipio_bpm", lstSolicitudDeAdmision.get(0).getCiudad());
+				strError = strError + " | ----------------------------- ";
+				
+				objHubSpotData.put("campus_admision_bpm", lstSolicitudDeAdmision.get(0).getCatCampusEstudio().getClave());
+				//objHubSpotData.put("periodo_de_ingreso_bpm", lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave());
+				objHubSpotData.put("campus_vpd_bpm", lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
+				objHubSpotData.put("firstname", lstSolicitudDeAdmision.get(0).getPrimerNombre() + " " + (lstSolicitudDeAdmision.get(0).getSegundoNombre() == null ? "" : lstSolicitudDeAdmision.get(0).getSegundoNombre()));
+				objHubSpotData.put("lastname", lstSolicitudDeAdmision.get(0).getApellidoPaterno() + " " + lstSolicitudDeAdmision.get(0).getApellidoMaterno());
+				objHubSpotData.put("fecha_nacimiento_bpm", dformat.format(fechaNacimiento));
+				//objHubSpotData.put("gender", lstSolicitudDeAdmision.get(0).getCatSexo().getClave() == null ? "" : lstSolicitudDeAdmision.get(0).getCatSexo().getClave());
+				objHubSpotData.put("promedio_bpm", lstSolicitudDeAdmision.get(0).getPromedioGeneral() == null ? "" : lstSolicitudDeAdmision.get(0).getPromedioGeneral());
+					
+					
+					
+										
+				objHubSpotData.put("lugar_de_examen_bpm", lugarExamen);
+				
+				objHubSpotData.put("campus_vpd_bpm", lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
+				objHubSpotData.put("firstname", lstCatRegistro.get(0).getPrimernombre()+" "+(lstCatRegistro.get(0).getSegundonombre() == null ? "" : lstCatRegistro.get(0).getSegundonombre()));
+				objHubSpotData.put("lastname", lstCatRegistro.get(0).getApellidopaterno()+" "+lstCatRegistro.get(0).getApellidomaterno());
+				objHubSpotData.put("email", correoElectronico);
+				
+				objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+				objHubSpotData.put("apoyo_ov_bpm", lstSolicitudDeAdmision.get(0).isNecesitoAyuda());
+				objHubSpotData.put("phone", lstCatRegistro.get(0).getNumeroContacto());
+				
+				if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
+					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+				}
+				else {
+					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
+				}
+				lstDetalleSolicitud = objDetalleSolicitudDAO.findByCaseId(String.valueOf(lstCatRegistro.get(0).getCaseId()), 0, 1);
+				
+				strError = strError + " | lstDetalleSolicitud.empty: "+lstDetalleSolicitud.empty;
+				strError = strError + " | lstDetalleSolicitud.size: "+lstDetalleSolicitud.size();
+				
+				if(lstDetalleSolicitud != null) {
+					if(!lstDetalleSolicitud.empty) {
+						residencia = lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("F") ? "F" : (lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("R") ? "R" : "E");
+						tipoAdmision = lstDetalleSolicitud.get(0).getCatTipoAdmision().getClave();
+						
+						strError = strError + " | residencia: "+residencia;
+						strError = strError + " | tipoAdmision: "+tipoAdmision;
+						strError = strError + " | getDescuento: "+lstDetalleSolicitud.get(0).getDescuento();
+						
+						descuento = ""+lstDetalleSolicitud.get(0).getDescuento();
+						catDescuento = ""+(lstDetalleSolicitud.get(0).getCatDescuentos()== null ? "" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento());
+						
+						strError = strError + " | descuento: "+descuento;
+						strError = strError + " | catDescuento: "+catDescuento;
+						
+						objHubSpotData.put("tipo_de_alumno_bpm", lstDetalleSolicitud.get(0).getCatTipoAlumno().getClave());
+						objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
+						objHubSpotData.put("id_banner_bpm", lstDetalleSolicitud.get(0).getIdBanner());
+						objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+						objHubSpotData.put("tipo_de_admision_bpm", tipoAdmision);
+						objHubSpotData.put("residencia_bpm", residencia);
+						
+						
+						objHubSpotData.put("mensaje_bpm", lstDetalleSolicitud.get(0).getObservacionesCambio());
+						objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+						descuento = ""+lstDetalleSolicitud.get(0).getDescuento();
+						catDescuento = ""+(lstDetalleSolicitud.get(0).getCatDescuentos()== null ? "" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento());
+						
+						strError = strError + " | descuento: "+"descuento.toString()";
+						strError = strError + " | getOrdenPago: "+lstDetalleSolicitud.get(0).getOrdenPago()//lstDetalleSolicitud.size()>0 ? (lstDetalleSolicitud.get(0).getOrdenPago() == null ? "NULO OP" : "lstDetalleSolicitud.get(0).getOrdenPago()") : "NULL";
+						strError = strError + " | getCatCampus().getPersistenceId: " + lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId()
+						strError = strError + " | jsonPago: " +jsonPago.replace("[ORDERID]", String.valueOf(lstDetalleSolicitud.get(0).getOrdenPago())).replace("[CAMPUSID]", String.valueOf(lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId()));
+						if(lstDetalleSolicitud.get(0).getOrdenPago() == null || lstDetalleSolicitud.get(0).getOrdenPago() == "") {
+							
+						}else {
+							resultadoCDAO = cDAO.getOrderDetails(0, 999, jsonPago.replace("[ORDERID]", String.valueOf(lstDetalleSolicitud.get(0).getOrdenPago())).replace("[CAMPUSID]", String.valueOf(lstSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId())), context);
+							if(resultadoCDAO.isSuccess()) {
+								lstOrderDetails = (List<Map<String, String>>) resultadoCDAO.getData();
+								strError = strError + " | speiBank: " +lstOrderDetails.get(0).get("speiBank");
+								strError = strError + " | CLABE: " +lstOrderDetails.get(0).get("CLABE");
+								strError = strError + " | amount: " +lstOrderDetails.get(0).get("amount");
+								strError = strError + " | id: " +lstOrderDetails.get(0).get("id");
+								strError = strError + " | createdAtDate: " +lstOrderDetails.get(0).get("createdAtDate");
+								strError = strError + " | createdAtTime: " +lstOrderDetails.get(0).get("createdAtTime");
+								strError = strError + " | type: " +lstOrderDetails.get(0).get("type");
+								strError = strError + " | referencia: " +lstOrderDetails.get(0).get("referencia");
+								strError = strError + " | cardNumber: " +lstOrderDetails.get(0).get("cardNumber");
+								strError = strError + " | authorizationCode: " +lstOrderDetails.get(0).get("authorizationCode");
+								strError = strError + " | name: " +lstOrderDetails.get(0).get("name");
+								
+								strError = strError + " | lstDetalleSolicitud.size: "+lstDetalleSolicitud.size();
+								
+								if(lstOrderDetails.get(0).get("createdAtDate") != null) {
+									fechaConekta = dfEntradaConekta.parse(lstOrderDetails.get(0).get("createdAtDate"));
+									objHubSpotData.put("monto_pago_bpm", dfSalida.format(fechaConekta));
+								}
+								if(lstOrderDetails.get(0).get("amount") != null) {
+									Float monto=Float.parseFloat(lstOrderDetails.get(0).get("amount").toString().replace(pesoSigno, "").replace(" MXN", "").replace("MXN", ""));
+									
+									objHubSpotData.put("monto_pago_bpm", df.format(monto));
+								}
+								objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
+								objHubSpotData.put("pago_examen_bpm", dfSalida.format(fecha));
+								objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+								
+								strError = strError + (resultado.getError_info() == null ? "NULL INFO" : "|" + resultado.getError_info() + "|");
+							}
+							else {
+								//throw new Exception(resultadoCDAO.getError());
+							}
+						}
+						
+					}
+				}
+				}
+				else {
+					strError = strError + " | ------------------------------------------";
+					strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
+					strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
+					strError = strError + " | ------------------------------------------";
+				}
+				
+			}
+			pstm = con.prepareStatement("select to_char(now(), 'YYYY-MM-DD HH24:MI') fechahoraservidor")
+			rs = pstm.executeQuery();
+			if(rs.next()){
+				fecha = dfSalida.parse(rs.getString("fechahoraservidor"))
+			}
+			objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
+			objHubSpotData.put("fecha_transferencia_bpm",dfSalida.format(fecha));
+			objHubSpotData.put("origen_vpd_bpm",  claveOriginal);
+			objHubSpotData.put("destino_vpd_bpm", claveCambio);
+			Map<String, String> objHubSpotDataPreview = new HashMap<String, String>(objHubSpotData)
+			data.add(objHubSpotDataPreview)
+		
+			resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspotCambio, objHubSpotData);
+			
 			/*if (!resultado.success) {
 				def objCatConfiguracionDAO = context.apiClient.getDAO(CatConfiguracionDAO.class)
 				
@@ -2907,9 +2913,9 @@ class HubspotDAO {
 			
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Transferir Aspirante Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado =mgd.sendEmailPlantilla(correo, "Hubspot Transferir Aspirante Error", resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context).getData().get(0)
+				//resultado.error+="|email:"+correo+"|response:"+mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context).getData().get(0)
 			}
 
 			if (nfcarrera || nffp || nffi) {
@@ -2925,25 +2931,25 @@ class HubspotDAO {
 				//List<CatConfiguracion> config =objCatConfiguracionDAO.findByClave("EmailRegistro",0,1)
 				msjNF += " en el catalogo de HubSpot"
 				MailGunDAO mgd = new MailGunDAO();
-				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Transferir Aspirante Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
+				Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Transferir Aspirante Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context)
 				
 				strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
 			}
 
-          resultado.setData(data)
-          resultado.setSuccess(true);
-      } catch (Exception e) {
-          LOGGER.error "e: "+e.getMessage();
-          resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
-          resultado.setSuccess(false);
-          resultado.setError(e.getMessage());
-          e.printStackTrace();
-      }finally {
-          if(closeCon) {
-              new DBConnect().closeObj(con, stm, rs, pstm)
-          }
-      }
-      return resultado
+		  resultado.setData(data)
+		  resultado.setSuccess(true);
+	  } catch (Exception e) {
+		  LOGGER.error "e: "+e.getMessage();
+		  resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
+		  resultado.setSuccess(false);
+		  resultado.setError(e.getMessage());
+		  e.printStackTrace();
+	  }finally {
+		  if(closeCon) {
+			  new DBConnect().closeObj(con, stm, rs, pstm)
+		  }
+	  }
+	  return resultado
   }
   public Result insertUpdateEmail(HubspotConfig config) {
 	  Result result = new Result();
@@ -2952,19 +2958,19 @@ class HubspotDAO {
 			  closeCon = validarConexion();
 	
 			  verifyAndInsertOrUpdate("EmailAutodescripcion", config.emailHubspotAutodescripcion, "Correo para envío de fallos Hubspot Autodescripción")
-	          verifyAndInsertOrUpdate("EmailEnviada", config.emailHubspotEnviada,"")
-	          verifyAndInsertOrUpdate("EmailEsperaResultado", config.emailHubspotEsperaResultado,"")
-	          verifyAndInsertOrUpdate("EmailGenerarCredencial", config.emailHubspotGenerarCredencial,"")
-	          verifyAndInsertOrUpdate("EmailModificar", config.emailHubspotModificar,"")
-	          verifyAndInsertOrUpdate("EmailNoAsistioPruebas", config.emailHubspotNoAsistioPruebas,"")
-	          verifyAndInsertOrUpdate("EmailPago", config.emailHubspotPago,"")
-	          verifyAndInsertOrUpdate("EmailRechazoLRoja", config.emailHubspotRechazoLRoja,"")
-	          verifyAndInsertOrUpdate("EmailRegistro", config.emailHubspotRegistro,"")
-	          verifyAndInsertOrUpdate("EmailRestaurarRechazoLRoja", config.emailHubspotRestaurarRechazoLRoja,"")
-	          verifyAndInsertOrUpdate("EmailSeleccionoFechaExamen", config.emailHubspotSeleccionoFechaExamen,"")
-	          verifyAndInsertOrUpdate("EmailUsuarioRegistrado", config.emailHubspotUsuarioRegistrado,"")
-	          verifyAndInsertOrUpdate("EmailValidar", config.emailHubspotValidar,"")
-	          verifyAndInsertOrUpdate("EmailTransferirAspirante", config.emailHubspotTransferirAspirante,"")
+			  verifyAndInsertOrUpdate("EmailEnviada", config.emailHubspotEnviada,"")
+			  verifyAndInsertOrUpdate("EmailEsperaResultado", config.emailHubspotEsperaResultado,"")
+			  verifyAndInsertOrUpdate("EmailGenerarCredencial", config.emailHubspotGenerarCredencial,"")
+			  verifyAndInsertOrUpdate("EmailModificar", config.emailHubspotModificar,"")
+			  verifyAndInsertOrUpdate("EmailNoAsistioPruebas", config.emailHubspotNoAsistioPruebas,"")
+			  verifyAndInsertOrUpdate("EmailPago", config.emailHubspotPago,"")
+			  verifyAndInsertOrUpdate("EmailRechazoLRoja", config.emailHubspotRechazoLRoja,"")
+			  verifyAndInsertOrUpdate("EmailRegistro", config.emailHubspotRegistro,"")
+			  verifyAndInsertOrUpdate("EmailRestaurarRechazoLRoja", config.emailHubspotRestaurarRechazoLRoja,"")
+			  verifyAndInsertOrUpdate("EmailSeleccionoFechaExamen", config.emailHubspotSeleccionoFechaExamen,"")
+			  verifyAndInsertOrUpdate("EmailUsuarioRegistrado", config.emailHubspotUsuarioRegistrado,"")
+			  verifyAndInsertOrUpdate("EmailValidar", config.emailHubspotValidar,"")
+			  verifyAndInsertOrUpdate("EmailTransferirAspirante", config.emailHubspotTransferirAspirante,"")
 			  result.setSuccess(true)
 		  }catch(Exception e) {
 			  result.setSuccess(false)
@@ -2994,48 +3000,48 @@ class HubspotDAO {
 			  switch (rs.getString("clave")) {
 				  
 					 case "EmailAutodescripcion":
-                      row.setEmailHubspotAutodescripcion(rs.getString("valor"))
-                      break;
-                      case "EmailEnviada":
-                      row.setEmailHubspotEnviada(rs.getString("valor"))
-                      break;
-                      case "EmailEsperaResultado":
-                      row.setEmailHubspotEsperaResultado(rs.getString("valor"))
-                      break;
-                      case "EmailGenerarCredencial":
-                      row.setEmailHubspotGenerarCredencial(rs.getString("valor"))
-                      break;
-                      case "EmailModificar":
-                      row.setEmailHubspotModificar(rs.getString("valor"))
-                      break;
-                      case "EmailNoAsistioPruebas":
-                      row.setEmailHubspotNoAsistioPruebas(rs.getString("valor"))
-                      break;
-                      case "EmailModificar":
-                      row.setEmailHubspotModificar(rs.getString("valor"))
-                      break;
-                      case "EmailPago":
-                      row.setEmailHubspotPago(rs.getString("valor"))
-                      break;
-                      case "EmailRegistro":
-                      row.setEmailHubspotRegistro(rs.getString("valor"))
-                      break;
-                      case "EmailRestaurarRechazoLRoja":
-                      row.setEmailHubspotRestaurarRechazoLRoja(rs.getString("valor"))
-                      break;
-                      case "EmailSeleccionoFechaExamen":
-                      row.setEmailHubspotSeleccionoFechaExamen(rs.getString("valor"))
-                      break;
-                      case "EmailUsuarioRegistrado":
-                      row.setEmailHubspotUsuarioRegistrado(rs.getString("valor"))
-                      break;
-                      case "EmailValidar":
-                      row.setEmailHubspotValidar(rs.getString("valor"))
-                      break;
-                      case "EmailTransferirAspirante":
-                      row.setEmailHubspotTransferirAspirante(rs.getString("valor"))
-                      break;
-					  case "EmailRechazoLRoja": 
+					  row.setEmailHubspotAutodescripcion(rs.getString("valor"))
+					  break;
+					  case "EmailEnviada":
+					  row.setEmailHubspotEnviada(rs.getString("valor"))
+					  break;
+					  case "EmailEsperaResultado":
+					  row.setEmailHubspotEsperaResultado(rs.getString("valor"))
+					  break;
+					  case "EmailGenerarCredencial":
+					  row.setEmailHubspotGenerarCredencial(rs.getString("valor"))
+					  break;
+					  case "EmailModificar":
+					  row.setEmailHubspotModificar(rs.getString("valor"))
+					  break;
+					  case "EmailNoAsistioPruebas":
+					  row.setEmailHubspotNoAsistioPruebas(rs.getString("valor"))
+					  break;
+					  case "EmailModificar":
+					  row.setEmailHubspotModificar(rs.getString("valor"))
+					  break;
+					  case "EmailPago":
+					  row.setEmailHubspotPago(rs.getString("valor"))
+					  break;
+					  case "EmailRegistro":
+					  row.setEmailHubspotRegistro(rs.getString("valor"))
+					  break;
+					  case "EmailRestaurarRechazoLRoja":
+					  row.setEmailHubspotRestaurarRechazoLRoja(rs.getString("valor"))
+					  break;
+					  case "EmailSeleccionoFechaExamen":
+					  row.setEmailHubspotSeleccionoFechaExamen(rs.getString("valor"))
+					  break;
+					  case "EmailUsuarioRegistrado":
+					  row.setEmailHubspotUsuarioRegistrado(rs.getString("valor"))
+					  break;
+					  case "EmailValidar":
+					  row.setEmailHubspotValidar(rs.getString("valor"))
+					  break;
+					  case "EmailTransferirAspirante":
+					  row.setEmailHubspotTransferirAspirante(rs.getString("valor"))
+					  break;
+					  case "EmailRechazoLRoja":
 					  row.setEmailHubspotRechazoLRoja(rs.getString("valor"))
 					  break;
 				  

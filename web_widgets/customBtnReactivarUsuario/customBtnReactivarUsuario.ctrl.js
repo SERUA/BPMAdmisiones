@@ -3,6 +3,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     'use strict';
 
     var vm = this;
+    this.bloqueo = false;
 
     this.action = function action() {
         if ($scope.properties.action === 'Remove from collection') {
@@ -21,34 +22,45 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if ($scope.properties.action === 'Close modal') {
             closeModal(true);
         } else if ($scope.properties.url) {
-
+            vm.bloqueo = true;
+            
             var existecambio = false;
             var isTransferencia = false;
             if($scope.properties.valoresSolicitante.correoelectronico.includes("(rechazado)") ){
                 Swal.fire("¡Aviso!", "Este es un intento ya rechazado, no se puede volver a reactivar", "warning");
+                vm.bloqueo = false;
             }
             else if ($scope.properties.valoresSolicitante.catCampus === null) {
                Swal.fire("¡Aviso!", "Debes seleccionar un campus", "warning");
+               vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLicenciatura === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar una licenciatura", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.periodo === null || $scope.properties.valoresSolicitante.periodo === undefined) {
                 Swal.fire("¡Aviso!", "Debes seleccionar un período", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLicenciatura.propedeutico && $scope.properties.valoresSolicitante.catPropedeutico === undefined) {
                 Swal.fire("¡Aviso!", "Debes seleccionar un curso propedéutico", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLugarExamen === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar un lugar de examen", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLugarExamen.descripcion === "En un estado" && $scope.properties.valoresSolicitante.catEstadoExamen === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar un estado donde realizará  el examen", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLugarExamen.descripcion === "En un estado" && $scope.properties.valoresSolicitante.ciudadExamen === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar una ciudad donde se realizará  el examen", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLugarExamen.descripcion === "En el extranjero (solo si vives fuera de México)" && $scope.properties.valoresSolicitante.catPaisExamen === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar un pais donde se realizará  el examen", "warning");
+                vm.bloqueo = false;
             } else if ($scope.properties.valoresSolicitante.catLugarExamen.descripcion === "En el extranjero (solo si vives fuera de México)" && $scope.properties.valoresSolicitante.ciudadExamenPais === null) {
                 Swal.fire("¡Aviso!", "Debes seleccionar una ciudad donde se realizará  el examen", "warning");
+                vm.bloqueo = false;
             } else if((parseInt($scope.properties.valoresSolicitante.countrechazos) + 1 ) >= 2){
                  Swal.fire("¡Aviso!", "No se le puede dar una tercera oportunidad al aspirante", "warning");
-            }
-            else {
+                 vm.bloqueo = false;
+            } else {
                 $scope.properties.JSONTransferencia.caseid = $scope.properties.valoresSolicitante.caseid;
                 $scope.properties.JSONTransferencia.licenciatura = $scope.properties.valoresSolicitante.catLicenciatura.persistenceId;
                 if (!$scope.properties.valoresSolicitante.catLicenciatura.propedeutico) {
@@ -88,10 +100,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 console.log($scope.properties.JSONTransferencia);
                 $scope.properties.estadoSeleccionado = undefined;
                 doRequest($scope.properties.action, $scope.properties.url);
-
-
-
-
+                
             }
         }
     };
@@ -202,6 +211,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             })
             .finally(function() {
                 vm.busy = false;
+                vm.bloqueo = false;
             });
     }
 

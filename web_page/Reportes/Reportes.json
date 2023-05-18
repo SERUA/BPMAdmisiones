@@ -2094,8 +2094,9 @@
     "periodos" : {
       "type" : "url",
       "value" : [
-        "/bonita/API/extension/AnahuacRestGet?url=getPeriodosReporte&p=0&c=9999&jsonData=%7B%22lstFiltro%22%3A%5B%7B%22columna%22%3A%22CAMPUS%22%2C%22valor%22%3A%22{{campus_selected.persistenceId}}%22%2C%22operador%22%3A%22Igual%20a%22%7D%5D%7D"
+        "/bonita/API/extension/AnahuacRestGet?url=getPeriodosReporte2&p=0&c=9999&jsonData=%7B%22lstFiltro%22%3A%5B%7B%22columna%22%3A%22CAMPUS%22%2C%22valor%22%3A%22{{campus_selected.persistenceId}}%22%2C%22operador%22%3A%22Igual%20a%22%7D%5D%7D"
       ],
+      "advancedOptions" : { },
       "exposed" : false
     },
     "lstCatBachillerato" : {
@@ -2229,7 +2230,9 @@
         "    \"sesion\":$data.sesion,",
         "    \"encabezado\":$data.encabezado,",
         "    \"idbanner\":$data.idbanner,",
-        "    \"multicampus\":$data.campus2valor",
+        "    \"multicampus\":$data.campus2valor,",
+        "    \"skip\":$data.skip,",
+        "    \"limit\":\"500\"",
         "}",
         "return json;"
       ],
@@ -2282,6 +2285,10 @@
         "$data.lstCarrera=($data.lstGestionEscolar.length>0)?$data.lstGestionEscolar:[]",
         "return $data.lstCarrera;"
       ],
+      "exposed" : false
+    },
+    "skip" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

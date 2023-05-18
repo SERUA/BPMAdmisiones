@@ -3542,11 +3542,27 @@ class SesionesDAO {
 									columns.put("responsable",nombres)
 							}
 						}
+						
+						if(metaData.getColumnLabel(i).toLowerCase().equals("rid")) {
+							if(tipo == 1) {
+									User usr;
+									UserMembership membership
+									String responsables = rs.getString("RID");
+									String nombres= "";
+									if(!responsables.equals("null") && responsables != null) {
+											if(Long.parseLong(responsables)>0) {
+													usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(responsables))
+													nombres = usr.getFirstName()+" "+usr.getLastName()
+											}
+									}
+									columns.put("responsable",nombres)
+							}
+						}
 					}
 					rows.add(columns);
 				}	
 						
-				resultado.setError_info(" errorLog = "+errorlog)
+				//resultado.setError_info(" errorLog = "+errorlog)
 				resultado.setData(rows)
 				resultado.setSuccess(true)
 				
@@ -4569,11 +4585,9 @@ class SesionesDAO {
 					case "ASISTENCIA":
 					orderby+= "AP.asistencia";
 					break;
-					
 					case "HORARIO":
 					orderby+= "RD.horario";
 					break;
-					
 					default:
 					orderby+="AP.username"
 					break;
@@ -5439,7 +5453,7 @@ class SesionesDAO {
 				
 				
 				
-				String consulta = Statements.GET_ASPIRANTESPSICOLOGO
+				String consulta = Statements.GET_ASPIRANTESPSICOLOGO;
 				SesionesAspiranteCustom row = new SesionesAspiranteCustom();
 				List<SesionesAspiranteCustom> rows = new ArrayList<SesionesAspiranteCustom>();
 				List<Map<String, Object>> aspirante = new ArrayList<Map<String, Object>>();
@@ -5724,6 +5738,20 @@ class SesionesDAO {
 							}catch(Exception e) {
 								columns.put("fotografiab64", "");
 								errorlog+= ""+e.getMessage();
+							}
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("rid")) {
+							if(tipo == 1) {
+									User usr;
+									UserMembership membership
+									String responsables = rs.getString("RID");
+									String nombres= "";
+									if(!responsables.equals("null") && responsables != null) {
+											if(Long.parseLong(responsables)>0) {
+													usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(responsables))
+													nombres = usr.getFirstName()+" "+usr.getLastName()
+											}
+									}
+									columns.put("responsable",nombres)
 							}
 						}
 						else if(metaData.getColumnLabel(i).toLowerCase().equals("rid")) {

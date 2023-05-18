@@ -3,7 +3,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     'use strict';
 
     var vm = this;
-
+    this.bloqueo = false;
+    
     this.action = function action() {
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
@@ -13,6 +14,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
             blockUI.start();
+            vm.bloqueo = true;
             console.log("Alerta");
 
             $scope.properties.dataToSend.catRegistroInput.nombreusuario = $scope.properties.strRegistro.CorreoElectronico;
@@ -37,6 +39,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if (!$scope.properties.strRegistro.Validado || $scope.properties.strRegistro.error) {
                 swal("¡" + $scope.properties.campoError + "!", $scope.properties.erroMessage, "warning");
                 blockUI.stop();
+                vm.bloqueo = false;
             } else {
                 var req = {
                     method: "GET",
@@ -48,6 +51,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             if ($scope.properties.getUserBonita.length > 0) {
                                 swal("Error", "Este correo electrónico ya está registrado.", "error");
                                 blockUI.stop();
+                                vm.bloqueo = false;
                             } else {
                                 startProcess();
                             }
@@ -59,6 +63,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     })
                     .finally(function() {
                         blockUI.stop();
+                       
                     });
             }
         } else if ($scope.properties.action === 'Submit task') {
@@ -166,7 +171,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else {
                     swal("Error", JSON.stringify(data.error), "error");
                     blockUI.stop();
+                    
                 }
+                vm.bloqueo = false;
                 //}
             })
             .error(function(data, status) {
@@ -182,6 +189,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             .finally(function() {
                 $scope.properties.disabled = false;
                 blockUI.stop();
+                vm.bloqueo = false;
                 //$scope.hideLoading();
             });
     }
@@ -225,6 +233,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                 if ($scope.properties.action === 'Start process') {
                     $scope.registrarBonita();
+
                 }
 
                 notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status });

@@ -710,7 +710,6 @@ class UsuariosDAO {
 						}else {
 							where+="=[valor]"
 						}
-						
 					}else {
 						where+="=[valor]"
 					}
@@ -1728,7 +1727,7 @@ class UsuariosDAO {
 				}
 			}
 			HubspotDAO hDAO = new HubspotDAO()
-			Result hResultado = hDAO.createOrUpdateUsuarioRegistrado(jsonData)
+			Result hResultado = hDAO.createOrUpdateUsuarioRegistrado(jsonData,context)
 			
 			if(!hResultado.success) {
 				resultado.setError("hubspot: "+hResultado.error + " | " + hResultado.error_info)
@@ -1812,7 +1811,7 @@ class UsuariosDAO {
 			
 		}catch(Exception ex){
 			LOGGER.error "[ERROR] " + ex.getMessage();
-			resultado.setError_info(errorLog);
+			
 			resultado.setSuccess(false);
 			resultado.setError(ex.getMessage());
 			con.rollback();
@@ -4064,10 +4063,9 @@ class UsuariosDAO {
 
 			
 			resultado.setData(rows)
-
-		} catch (Exception e) {
+			resultado.setError(errorlog)
+			} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
-			
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
@@ -4077,7 +4075,6 @@ class UsuariosDAO {
 		}
 		return resultado
 	}
-	
 	public Result getUniversidadSmartCampus() {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -4243,7 +4240,6 @@ class UsuariosDAO {
 			resultado.setSuccess(true)
 			resultado.setData(rows)
 			resultado.setAdditional_data(tipo);
-		} catch (Exception e) {
 			resultado.setSuccess(false)
 			resultado.setError("500 Internal Server Error")
 			resultado.setError_info(e.getMessage())
@@ -4283,4 +4279,5 @@ class UsuariosDAO {
 		return valid;
 	}
 
+		} catch (Exception e) {
 }

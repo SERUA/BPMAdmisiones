@@ -1073,7 +1073,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				insertCatBitacoraCorreos(catBitacoraCorreo)
 			}
 			
-			resultado.setError_info(errorlog);
 			resultado.setSuccess(true)
 		} catch (Exception e) {
 			resultado.setSuccess(false);
@@ -1081,7 +1080,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			
 			e.printStackTrace()
 		}
-		
+		resultado.setError_info("");
 		return resultado;
 	}
 	
