@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PpGysGc7EeyAHufroJpG_Q" name="Apoyo educativo" version="1.0.33" author="jesus" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.0.80">
+    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.0.82">
       <elements xmi:type="process:Lane" xmi:id="_PpGysmc7EeyAHufroJpG_Q" name="Aspirante" actor="_KaQV8GdAEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_PpGys2c7EeyAHufroJpG_Q" name="entrada de proceso" outgoing="_gxpA8Gc7EeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PpGytGc7EeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -4391,18 +4391,18 @@
         </defaultValue>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_m_uV0IlTEeyveuxYpeB7zg" name="avalReferenciasBancariasModel" multiple="true" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.AvalReferencia">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_m_uV0YlTEeyveuxYpeB7zg" name="init_avalReferenciasBancariasModel()" content="import com.anahuac.SDAE.model.AvalReferencia;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferencia> lstReferencia = avalReferenciaDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 1);&#xD;&#xA;List&lt;AvalReferencia> lstReferenciaSalida =new ArrayList&lt;AvalReferencia>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsBancaria()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="expression:Expression" xmi:id="_LOB0wO9rEe2jOMvfcUQ5pg" name="avalReferenciaDAO" content="avalReferenciaDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciaDAO" returnTypeFixed="true"/>
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_LOB0we9rEe2jOMvfcUQ5pg" name="caseIdAdmisiones">
-            <mapping xmi:type="process:ContractInputMapping" xmi:id="_LOB0wu9rEe2jOMvfcUQ5pg"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_m_uV0YlTEeyveuxYpeB7zg" name="init_avalReferenciasBancariasModel()" content="import com.anahuac.SDAE.model.AvalReferencia;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferencia> lstReferencia = avalReferenciaDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 99);&#xD;&#xA;List&lt;AvalReferencia> lstReferenciaSalida =new ArrayList&lt;AvalReferencia>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsBancaria()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="expression:Expression" xmi:id="_CHLwYPQeEe2TDtk7ouPD1w" name="avalReferenciaDAO" content="avalReferenciaDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciaDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_CHMXcPQeEe2TDtk7ouPD1w" name="caseIdAdmisiones">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_CHMXcfQeEe2TDtk7ouPD1w"/>
           </referencedElements>
         </defaultValue>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_pFRGAIlTEeyveuxYpeB7zg" name="avalReferenciaCreditoModel" multiple="true" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.AvalReferencia">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_pFRGAYlTEeyveuxYpeB7zg" name="init_avalReferenciaCreditoModel()" content="import com.anahuac.SDAE.model.AvalReferencia;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferencia> lstReferencia = avalReferenciaDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 1);&#xD;&#xA;List&lt;AvalReferencia> lstReferenciaSalida =new ArrayList&lt;AvalReferencia>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(!it.isEsBancaria()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="expression:Expression" xmi:id="_J7SagO9rEe2jOMvfcUQ5pg" name="avalReferenciaDAO" content="avalReferenciaDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciaDAO" returnTypeFixed="true"/>
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_J7Sage9rEe2jOMvfcUQ5pg" name="caseIdAdmisiones">
-            <mapping xmi:type="process:ContractInputMapping" xmi:id="_J7Sagu9rEe2jOMvfcUQ5pg"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_pFRGAYlTEeyveuxYpeB7zg" name="init_avalReferenciaCreditoModel()" content="import com.anahuac.SDAE.model.AvalReferencia;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferencia> lstReferencia = avalReferenciaDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 99);&#xD;&#xA;List&lt;AvalReferencia> lstReferenciaSalida =new ArrayList&lt;AvalReferencia>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsBancaria() != true){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="expression:Expression" xmi:id="_WxYAIPQhEe2ZHOQjbMvVdw" name="avalReferenciaDAO" content="avalReferenciaDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciaDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_WxYAIfQhEe2ZHOQjbMvVdw" name="caseIdAdmisiones">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_WxYAIvQhEe2ZHOQjbMvVdw"/>
           </referencedElements>
         </defaultValue>
       </data>
@@ -4476,26 +4476,26 @@
         <defaultValue xmi:type="expression:Expression" xmi:id="_Zz8pofDxEey_v_KPWHHjrg" content="" returnType="java.lang.Boolean"/>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_HHxnUPilEeygy_PuZ-rKUw" name="documentosAvalModel" multiple="true" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.DocumentosAval">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_HHxnUfilEeygy_PuZ-rKUw" name="init_documentosAvalModel()" content="import com.anahuac.SDAE.model.DocumentosAval;&#xD;&#xA;&#xD;&#xA;List&lt;DocumentosAval> lstDocumentos = documentosAvalDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 1);&#xD;&#xA;&#xD;&#xA;if(lstDocumentos.size() > 0){&#xD;&#xA;&#x9;return lstDocumentos;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_Nved0O9rEe2jOMvfcUQ5pg" name="caseIdAdmisiones">
-            <mapping xmi:type="process:ContractInputMapping" xmi:id="_Nved0e9rEe2jOMvfcUQ5pg"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_HHxnUfilEeygy_PuZ-rKUw" name="init_documentosAvalModel()" content="import com.anahuac.SDAE.model.DocumentosAval;&#xD;&#xA;&#xD;&#xA;List&lt;DocumentosAval> lstDocumentos = documentosAvalDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 99);&#xD;&#xA;&#xD;&#xA;if(lstDocumentos.size() > 0){&#xD;&#xA;&#x9;return lstDocumentos;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="__S-jYPQdEe2TDtk7ouPD1w" name="caseIdAdmisiones">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="__S-jYfQdEe2TDtk7ouPD1w"/>
           </referencedElements>
-          <referencedElements xmi:type="expression:Expression" xmi:id="_Nved0u9rEe2jOMvfcUQ5pg" name="documentosAvalDAO" content="documentosAvalDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.DocumentosAvalDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="__S-jYvQdEe2TDtk7ouPD1w" name="documentosAvalDAO" content="documentosAvalDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.DocumentosAvalDAO" returnTypeFixed="true"/>
         </defaultValue>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_M-uH4EWZEe2G0fdwYrXoGQ" name="solicitanteReferenciasPersonales" multiple="true" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.AvalReferenciasPersonales">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_M-uH4UWZEe2G0fdwYrXoGQ" name="init_solicitanteReferenciasPersonales()" content="import com.anahuac.SDAE.model.AvalReferenciasPersonales;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferencia = avalReferenciasPersonalesDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 1);&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferenciaSalida = new ArrayList&lt;AvalReferenciasPersonales>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsPersonal()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_Qa3tEO9rEe2jOMvfcUQ5pg" name="caseIdAdmisiones">
-            <mapping xmi:type="process:ContractInputMapping" xmi:id="_Qa3tEe9rEe2jOMvfcUQ5pg"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_M-uH4UWZEe2G0fdwYrXoGQ" name="init_solicitanteReferenciasPersonales()" content="import com.anahuac.SDAE.model.AvalReferenciasPersonales;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferencia = avalReferenciasPersonalesDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 99);&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferenciaSalida = new ArrayList&lt;AvalReferenciasPersonales>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsPersonal()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_9pL7EPQdEe2TDtk7ouPD1w" name="caseIdAdmisiones">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_9pL7EfQdEe2TDtk7ouPD1w"/>
           </referencedElements>
-          <referencedElements xmi:type="expression:Expression" xmi:id="_Qa3tEu9rEe2jOMvfcUQ5pg" name="avalReferenciasPersonalesDAO" content="avalReferenciasPersonalesDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciasPersonalesDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_9pL7EvQdEe2TDtk7ouPD1w" name="avalReferenciasPersonalesDAO" content="avalReferenciasPersonalesDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciasPersonalesDAO" returnTypeFixed="true"/>
         </defaultValue>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_PDW5IEWZEe2G0fdwYrXoGQ" name="avalReferenciasPersonales" multiple="true" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.AvalReferenciasPersonales">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_PDW5IUWZEe2G0fdwYrXoGQ" name="init_avalReferenciasPersonales()" content="import com.anahuac.SDAE.model.AvalReferenciasPersonales;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferencia = avalReferenciasPersonalesDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 1);&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferenciaSalida = new ArrayList&lt;AvalReferenciasPersonales>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(!it.isEsPersonal()){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-          <referencedElements xmi:type="expression:Expression" xmi:id="_MmqboO9rEe2jOMvfcUQ5pg" name="avalReferenciasPersonalesDAO" content="avalReferenciasPersonalesDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciasPersonalesDAO" returnTypeFixed="true"/>
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_Mmqboe9rEe2jOMvfcUQ5pg" name="caseIdAdmisiones">
-            <mapping xmi:type="process:ContractInputMapping" xmi:id="_Mmqbou9rEe2jOMvfcUQ5pg"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_PDW5IUWZEe2G0fdwYrXoGQ" name="init_avalReferenciasPersonales()" content="import com.anahuac.SDAE.model.AvalReferenciasPersonales;&#xD;&#xA;&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferencia = avalReferenciasPersonalesDAO.findByCaseId(caseIdAdmisiones.toLong(), 0, 99);&#xD;&#xA;List&lt;AvalReferenciasPersonales> lstReferenciaSalida = new ArrayList&lt;AvalReferenciasPersonales>();&#xD;&#xA;&#xD;&#xA;if(lstReferencia.size() > 0){&#xD;&#xA;&#x9;lstReferencia.forEach{&#xD;&#xA;&#x9;&#x9;if(it.isEsPersonal() != true){&#xD;&#xA;&#x9;&#x9;&#x9;lstReferenciaSalida.add(it);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;return lstReferenciaSalida;&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+          <referencedElements xmi:type="expression:Expression" xmi:id="_TsM-8PQhEe2ZHOQjbMvVdw" name="avalReferenciasPersonalesDAO" content="avalReferenciasPersonalesDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.SDAE.model.AvalReferenciasPersonalesDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_TsM-8fQhEe2ZHOQjbMvVdw" name="caseIdAdmisiones">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_TsM-8vQhEe2ZHOQjbMvVdw"/>
           </referencedElements>
         </defaultValue>
       </data>
@@ -4792,11 +4792,11 @@
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_rw2zykZnEe2MNLuxrLSYjg" id="OTHER"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_rw2zy0ZnEe2MNLuxrLSYjg" id="GROOVY_SCRIPT"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_rw2zzEZnEe2MNLuxrLSYjg" id="OTHER"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4EZnEe2MNLuxrLSYjg" name="password" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4UZnEe2MNLuxrLSYjg" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4kZnEe2MNLuxrLSYjg" name="urlLogin" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a40ZnEe2MNLuxrLSYjg" name="usuario" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a5EZnEe2MNLuxrLSYjg" name="urlCambioEstatus" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4EZnEe2MNLuxrLSYjg" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4UZnEe2MNLuxrLSYjg" name="urlEnvioCorreo" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacRest?url=generateHtmlSDAE&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a4kZnEe2MNLuxrLSYjg" name="urlLogin" value="https://procesos.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a40ZnEe2MNLuxrLSYjg" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a5EZnEe2MNLuxrLSYjg" name="urlCambioEstatus" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacBecasRestGET?url=updateEstatusSolicitud&amp;p=0&amp;c=100&amp;&amp;estatus=[ESTATUS]&amp;caseId=[CASEID]" typeClassname="java.lang.String"/>
       </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_7yXLkNyHEeyjSYqicZc3Tw" name="password" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_-4aWgNyHEeyjSYqicZc3Tw" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
@@ -14001,11 +14001,11 @@
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuKsyfEeyRFMlEo8a1KQ" id="OTHER"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuK8yfEeyRFMlEo8a1KQ" id="GROOVY_SCRIPT"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuLMyfEeyRFMlEo8a1KQ" id="OTHER"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QMyfEeyRFMlEo8a1KQ" name="urlLogin" typeClassname="java.lang.String" description=""/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QcyfEeyRFMlEo8a1KQ" name="usuario" typeClassname="java.lang.String" description=""/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QsyfEeyRFMlEo8a1KQ" name="password" typeClassname="java.lang.String" description=""/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8Q8yfEeyRFMlEo8a1KQ" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_OaG4cFcLEe2tzt-U1N2Rqw" name="urlBitacora" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QMyfEeyRFMlEo8a1KQ" name="urlLogin" value="https://procesos.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String" description=""/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QcyfEeyRFMlEo8a1KQ" name="usuario" value="Administrador" typeClassname="java.lang.String" description=""/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8QsyfEeyRFMlEo8a1KQ" name="password" value="bpm2022BPM$" typeClassname="java.lang.String" description=""/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_cuC8Q8yfEeyRFMlEo8a1KQ" name="urlEnvioCorreo" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacRest?url=generateHtmlSDAE&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_OaG4cFcLEe2tzt-U1N2Rqw" name="urlBitacora" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacBecasRestGET?url=updateEstatusSolicitud&amp;p=0&amp;c=100&amp;&amp;estatus=[ESTATUS]&amp;caseId=[CASEID]" typeClassname="java.lang.String"/>
       </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_w6fKoL9dEeygG9_kY1ideA" name="urlLogin" typeClassname="java.lang.String" description=""/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_ya08AL9dEeygG9_kY1ideA" name="usuario" typeClassname="java.lang.String" description=""/>
@@ -14373,6 +14373,29 @@
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_B9gZF0m-Ee2lg_beSh-Vug" id="OTHER"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_B9gZGEm-Ee2lg_beSh-Vug" id="GROOVY_SCRIPT"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_B9gZGUm-Ee2lg_beSh-Vug" id="OTHER"/>
+      </configurations>
+      <configurations xmi:type="configuration:Configuration" xmi:id="_AiUc0PRJEe2ZHOQjbMvVdw" name="Production" version="7.12.0-004" username="Administrador" password="bpm">
+        <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_AiVD4PRJEe2ZHOQjbMvVdw">
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_AiVD4fRJEe2ZHOQjbMvVdw" name="Aspirante">
+            <groups xmi:type="actormapping:Groups" xmi:id="_AiVD4vRJEe2ZHOQjbMvVdw"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_AiVD4_RJEe2ZHOQjbMvVdw"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_AiVD5PRJEe2ZHOQjbMvVdw">
+              <role>ASPIRANTE</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_AiVD5fRJEe2ZHOQjbMvVdw"/>
+          </actorMapping>
+        </actorMappings>
+        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_AiUc0fRJEe2ZHOQjbMvVdw" type="ACTOR_FILTER" definitionId="bonita-actorfilter-single-user" definitionVersion="1.0.0" implementationId="bonita-actorfilter-single-user-impl" implementationVersion="1.0.0"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc0vRJEe2ZHOQjbMvVdw" id="CONNECTOR"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc0_RJEe2ZHOQjbMvVdw" id="GROOVY_SCRIPT"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc1PRJEe2ZHOQjbMvVdw" id="ACTOR_FILTER">
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_AiUc1fRJEe2ZHOQjbMvVdw" id="bonita-actorfilter-single-user-impl-1.0.0">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_AiUc1vRJEe2ZHOQjbMvVdw" key="bonita-actorfilter-single-user-impl -- 1.0.0" value="bonita-actorfilter-single-user-1.0.0.jar" type="ACTOR_FILTER"/>
+          </children>
+        </processDependencies>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc1_RJEe2ZHOQjbMvVdw" id="OTHER"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc2PRJEe2ZHOQjbMvVdw" id="GROOVY_SCRIPT"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_AiUc2fRJEe2ZHOQjbMvVdw" id="OTHER"/>
       </configurations>
       <contract xmi:type="process:Contract" xmi:id="__3d-E_4sEey36esUJqE80Q">
         <inputs xmi:type="process:ContractInput" xmi:id="__4LvuP4sEey36esUJqE80Q" name="solicitudApoyoEducativo_persistenceId" type="LONG"/>
@@ -15147,7 +15170,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_EP96wWc8EeyAHufroJpG_Q" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_EP9Ts2c8EeyAHufroJpG_Q" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EP9TtGc8EeyAHufroJpG_Q" points="[0, 42, 408, -326]$[0, 179, 408, -189]$[-410, 179, -2, -189]$[-410, 333, -2, -35]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_EP9TtGc8EeyAHufroJpG_Q" points="[0, 42, 378, -145]$[0, 84, 378, -103]$[-390, 84, -12, -103]$[-390, 141, -12, -46]"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_sRw_wGc8EeyAHufroJpG_Q" type="4001" element="_sRwYsGc8EeyAHufroJpG_Q" source="_EP2mAGc8EeyAHufroJpG_Q" target="_rOJmrWc8EeyAHufroJpG_Q" roundedBendpointsRadius="10" routing="Rectilinear">
       <children xmi:type="notation:DecorationNode" xmi:id="_sRw_w2c8EeyAHufroJpG_Q" type="6001">
@@ -15290,7 +15313,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_zUJZNGdDEeyAHufroJpG_Q" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_zUJZMWdDEeyAHufroJpG_Q" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_zUJZMmdDEeyAHufroJpG_Q" points="[7, -6, 154, -1640]$[7, 155, 154, -1479]$[-41, 155, 106, -1479]$[-41, 1307, 106, -327]$[-316, 1307, -169, -327]$[-316, 1637, -169, 3]$[-263, 1637, -116, 3]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_zUJZMmdDEeyAHufroJpG_Q" points="[7, -6, 154, -1940]$[7, 205, 154, -1729]$[-41, 205, 106, -1729]$[-41, 1507, 106, -427]$[-316, 1507, -169, -427]$[-316, 1940, -169, 6]$[-263, 1940, -116, 6]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_MGFz0P4pEey36esUJqE80Q" id="(0.09302325581395349,0.8837209302325582)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_DCa30GdjEeyAHufroJpG_Q" id="(0.8,0.4861111111111111)"/>
     </edges>

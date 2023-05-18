@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1684255065487,
+  "lastUpdate" : 1684282337150,
   "rows" : [
     [
       {
@@ -757,7 +757,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "931e8682-ef13-4638-b69d-37a980920db9",
+              "reference" : "59bf6d6c-1fda-49e4-927e-a9a46f9b392d",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -860,7 +860,7 @@
                         "value" : "left"
                       }
                     },
-                    "reference" : "574b35d4-f454-4295-861b-6fa4190584c7",
+                    "reference" : "a24d2ffb-e5eb-402b-bca7-6efff81504be",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -1166,7 +1166,7 @@
                   "value" : "left"
                 }
               },
-              "reference" : "604acdee-fa2a-45af-972c-dec1ac89256d",
+              "reference" : "663c2c8a-c0d4-48e0-b211-de867b9f1388",
               "hasValidationError" : false,
               "id" : "pbText"
             }
@@ -3636,8 +3636,11 @@
     "ocultarTabla" : {
       "type" : "expression",
       "value" : [
-        "if($data.assignedTask){\r",
-        "    return true;\r",
+        "if(!$data.assignedTask){\r",
+        "    \r",
+        "    let valEstatus = validarEstatus();\r",
+        "    debugger;\r",
+        "    return false && !valEstatus;\r",
         "} else {\r",
         "    console.log(\"Validando contenido de la tabla\");\r",
         "    if(!$data.buildContent){\r",
@@ -3648,23 +3651,28 @@
         "        console.log(\"       Estatus:\" + $data.buildContent[0].estado);\r",
         "        console.log(\"       Estatus:\" + $data.buildContent[0].estatusFinanciamiento);\r",
         "        debugger;\r",
-        "        if($data.buildContent[0].estado === \"En espera de resultado\" ){\r",
-        "            return false;\r",
-        "        } else if($data.buildContent[0].estado === \"Propuesta rechazada por aspirante\"){\r",
-        "            return false;\r",
-        "        } else if($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" || $data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\"){\r",
-        "            if($data.buildContent[0].estatusFinanciamiento === \"\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"){\r",
-        "                return false;\r",
-        "            } else {\r",
-        "                return true;\r",
-        "            }\r",
-        "        } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" ){\r",
-        "            return false;\r",
-        "        } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" ){\r",
+        "        validarEstatus();\r",
+        "        \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "function validarEstatus (){\r",
+        "    if($data.buildContent[0].estado === \"En espera de resultado\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta rechazada por aspirante\"){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" || $data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\"){\r",
+        "        if($data.buildContent[0].estatusFinanciamiento === \"\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"){\r",
         "            return false;\r",
         "        } else {\r",
         "            return true;\r",
         "        }\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" ){\r",
+        "        return false;\r",
+        "    } else {\r",
+        "        return true;\r",
         "    }\r",
         "}"
       ],
