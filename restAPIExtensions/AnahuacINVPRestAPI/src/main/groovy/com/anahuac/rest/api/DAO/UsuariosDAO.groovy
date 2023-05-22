@@ -1791,14 +1791,13 @@ class UsuariosDAO {
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
 					where += " ccam.descripcion = '" + campusMiembro + "'"
-					errorLog += " [| campusMiembro" + campusMiembro;
+					
 					if (i == (lstGrupo.size() - 1)) {
 						where += ") "
 					} else {
 						where += " OR "
 					}
 				}
-				errorLog += "] "
 			} else if(object.campus != null) {
 				where += " AND ccam.grupobonita = '" + object.campus + "'"
 			}
@@ -1806,7 +1805,6 @@ class UsuariosDAO {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 					case "id_sesion":
-						errorlog += "prue.sesion_pid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -1817,7 +1815,6 @@ class UsuariosDAO {
 						idprueba = filtro.get("valor");
 					break;
 					case "idBpm,idbanner":
-						errorlog += "creg.caseid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -2010,7 +2007,6 @@ class UsuariosDAO {
 			}
 			
 			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
-			errorLog += consulta;
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);

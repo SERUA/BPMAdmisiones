@@ -245,9 +245,10 @@ class IndexGet implements RestApiController {
 				break;
 			case "updateterminado":
 				try{
-					String username =request.getParameter "username"
-					String terminado =request.getParameter "terminado"
-					result =  new LoginSesionesDAO().updateterminadoGet(username, Boolean.valueOf(terminado));
+					String username = request.getParameter "username"
+					String terminado = request.getParameter "terminado"
+					String idsesion = request.getParameter "idsesion"
+					result =  new LoginSesionesDAO().updateterminadoGet(username, Boolean.valueOf(terminado), idsesion);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

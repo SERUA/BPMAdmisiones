@@ -74,7 +74,7 @@ class LoginSesionesDAO {
 					Result resultadoSesionTerminada = getSesionTerminada(object.username);
 					
 					if(!resultSesionActiva.isSuccess()) {
-						errorlog += " | 6 ";
+						errorlog += " | 6 " + resultSesionActiva.getError_info();
 						throw new Exception(resultSesionActiva.getError());
 					} else {
 						errorlog += " | 7 ";
@@ -265,12 +265,14 @@ class LoginSesionesDAO {
 						}
 						
 						if(checkTolerancia.isSuccess()) {
+							errorlog += " | " + checkTolerancia.getError_info();
 							tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
 						} else {
 							throw new Exception("no_sesion_asignada");
 						}
 						
 						if(!tieneTolerancia) {
+							errorlog += " | " + checkTolerancia.getError_info();
 							throw new Exception("toler");
 						}
 					}
@@ -514,7 +516,8 @@ class LoginSesionesDAO {
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
 			pstm.setString(1, object.username);
-			pstm.setBoolean(2, object.terminado);
+			pstm.setLong(2, Long.valueOf(object.idsesion));
+			pstm.setBoolean(3, object.terminado);
 			
 			pstm.executeUpdate();
 			/*rs = pstm.executeQuery();
@@ -834,6 +837,7 @@ class LoginSesionesDAO {
 			
 			pstm = con.prepareStatement(Statements.GET_EXAMEN_TERMINADO);
 			pstm.setString(1, username);
+			pstm.setString(2, username);
 			rs = pstm.executeQuery();
 			
 			row = new HashMap<String,Integer>();
@@ -939,7 +943,7 @@ class LoginSesionesDAO {
 		return resultado;
 	}
 	
-	public Result updateterminadoGet(String username, Boolean terminado) {
+	public Result updateterminadoGet(String username, Boolean terminado, String idsesion) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorlog = "";
@@ -947,12 +951,14 @@ class LoginSesionesDAO {
 		String error_log = "";
 		String success_log = "";
 		Long resultReq = 0;
+
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN);
 			pstm.setBoolean(1, terminado);
-			pstm.setString(2, username);
+			pstm.setLong(2, Long.valueOf(idsesion));
+			pstm.setString(3, username);	
 			pstm.executeUpdate();
 			con.commit();
 			

@@ -43,6 +43,8 @@ function($scope, $http, blockUI) {
             output = true;
         } else if($scope.isCrisp){
             output = true;
+        } else if ($scope.isConfigCampusSDAE){
+            output = true;
         }
         return output;
     }
@@ -157,6 +159,9 @@ function($scope, $http, blockUI) {
                         } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
                             $scope.isCrisp = true;
                             console.log("isSerua " + $scope.isCrisp);
+                        } else if ($scope.lstMembership[i].role_id.displayName === "Config Campus SDAE"){
+                            $scope.isConfigCampusSDAE = true;
+                            console.log("isConfigCampusSDAE " + $scope.isConfigCampusSDAE);
                         }
                     }
 

@@ -201,6 +201,7 @@ class Index implements RestApiController {
 
 				contract.put("idUsuarioInput",Long.valueOf(object.idUsuarioInput))
 				instanciaINVPInput.put("username", object.instanciaINVPInput.username);
+				instanciaINVPInput.put("idsesion", Long.valueOf(object.instanciaINVPInput.idsesion));
 				contract.put("terminarExamenInput", object.terminarExamenInput);
 				contract.put("instanciaINVPInput", instanciaINVPInput);
 				errorlog+="[5] "

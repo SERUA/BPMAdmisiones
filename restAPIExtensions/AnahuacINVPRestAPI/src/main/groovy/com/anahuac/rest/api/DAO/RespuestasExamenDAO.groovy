@@ -229,21 +229,49 @@ class RespuestasExamenDAO {
 			List<com.anahuac.invp.RespuestasExamen> respuestaList = new ArrayList<com.anahuac.invp.RespuestasExamen>();
 			def respuestaVar = new com.anahuac.invp.RespuestasExamen();
 			
-			errorlog += "consulta:";
-			pstm = con.prepareStatement(Statements.GET_RESPUESTAS_BY_USUARIO);
-			pstm.setLong(1, Long.valueOf(object.idusuario));
+			pstm = con.prepareStatement(Statements.GET_LAST_CASEID_BY_USERNAME);
+			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 
-			while (rs.next()) {
-				row = new com.anahuac.invp.RespuestaINVP();
-				row.setPersistenceId(rs.getInt("persistenceid"));
-				row.setPregunta(rs.getInt("pregunta"));
-				row.setCaseid(rs.getLong("caseid"));
-				row.setIdusuario(rs.getLong("idusuario"));
-				row.setRespuesta(rs.getBoolean("respuesta"))
-				rows.add(row)
-
+			if (rs.next()) {
+				Long caseid = rs.getLong("caseid");
+				List <Long> lstCaseid = new ArrayList<Long>();
+				lstCaseid.add(caseid);
+				resultado.setAdditional_data(lstCaseid);
+				
+				pstm = con.prepareStatement(Statements.GET_RESPUESTAS_BY_USUARIO_CASEID);
+				pstm.setLong(1, Long.valueOf(object.idusuario));
+				pstm.setLong(2, caseid); 
+				rs = pstm.executeQuery();
+	
+				while (rs.next()) {
+					row = new com.anahuac.invp.RespuestaINVP();
+					row.setPersistenceId(rs.getInt("persistenceid"));
+					row.setPregunta(rs.getInt("pregunta"));
+					row.setCaseid(rs.getLong("caseid"));
+					row.setIdusuario(rs.getLong("idusuario"));
+					row.setRespuesta(rs.getBoolean("respuesta"))
+					rows.add(row)
+	
+				}
+			} else {
+				pstm = con.prepareStatement(Statements.GET_RESPUESTAS_BY_USUARIO);
+				pstm.setLong(1, Long.valueOf(object.idusuario));
+				rs = pstm.executeQuery();
+	
+				while (rs.next()) {
+					row = new com.anahuac.invp.RespuestaINVP();
+					row.setPersistenceId(rs.getInt("persistenceid"));
+					row.setPregunta(rs.getInt("pregunta"));
+					row.setCaseid(rs.getLong("caseid"));
+					row.setIdusuario(rs.getLong("idusuario"));
+					row.setRespuesta(rs.getBoolean("respuesta"))
+					rows.add(row)
+	
+				}
 			}
+			
+			
 			
 			resultado.setSuccess(true)
 			resultado.setData(rows)

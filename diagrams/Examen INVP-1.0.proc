@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PSuYQGRNEe25vplGuJ9kyw" name="Examen INVP" author="micedo94" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.35">
+    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.38">
       <elements xmi:type="process:Lane" xmi:id="_PSuYQmRNEe25vplGuJ9kyw" name="Aspirante" actor="_VAArMGRNEe25vplGuJ9kyw">
         <elements xmi:type="process:StartEvent" xmi:id="_PSuYQ2RNEe25vplGuJ9kyw" name="Inicio1" outgoing="_PSuYWGRNEe25vplGuJ9kyw">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PSuYRGRNEe25vplGuJ9kyw" name="" content="" returnTypeFixed="true"/>
@@ -285,6 +285,15 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_M-I_87JAEe2aKOpVIln2Ig" type="JAVA_METHOD" expression="setEstatus">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_EVeQEPaTEe2w5-phBSmB-Q">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_EVeQEfaTEe2w5-phBSmB-Q" name="instanciaINVP" content="instanciaINVP" type="TYPE_VARIABLE" returnType="com.anahuac.invp.InstanciaINVP">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_E5gKMPaTEe2w5-phBSmB-Q" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_EVeQEvaTEe2w5-phBSmB-Q" name="newScript()" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+            <operator xmi:type="expression:Operator" xmi:id="_EVeQE_aTEe2w5-phBSmB-Q" type="JAVA_METHOD" expression="setExamenReiniciado">
+              <inputTypes>java.lang.Boolean</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_PSuYS2RNEe25vplGuJ9kyw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -968,9 +977,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_IQfKYM9SEe2Yz9GSw2pmgQ" name="updateTerminadoGet" definitionId="rest-get" event="ON_FINISH" ignoreErrors="true" definitionVersion="1.2.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_IQfKYc9SEe2Yz9GSw2pmgQ" definitionId="rest-get" version="1.2.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_IQfKYs9SEe2Yz9GSw2pmgQ" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_IQfKY89SEe2Yz9GSw2pmgQ" name="url()" content="String url = urlActualizarTerminado;&#xD;&#xA;return url.replace(&quot;[USUARIO]&quot;, instanciaINVP.username);" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_dwDh8M9gEe2Yz9GSw2pmgQ" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
-                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_dwDh8c9gEe2Yz9GSw2pmgQ" name="urlActualizarTerminado" typeClassname="java.lang.String"/>
+                <expression xmi:type="expression:Expression" xmi:id="_IQfKY89SEe2Yz9GSw2pmgQ" name="url()" content="String url = urlActualizarTerminado;&#xD;&#xA;url = url.replace(&quot;[USUARIO]&quot;, instanciaINVP.username);&#xD;&#xA;url = url.replace(&quot;[IDSESION]&quot;, instanciaINVP.idSesion.toString());&#xD;&#xA;&#xD;&#xA;return url;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_HQw3UPalEe2w5-phBSmB-Q" name="urlActualizarTerminado" typeClassname="java.lang.String"/>
+                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_HQw3UfalEe2w5-phBSmB-Q" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_IQfKZs9SEe2Yz9GSw2pmgQ" key="urlCookies">
@@ -1187,8 +1196,8 @@
         <defaultValue xmi:type="expression:Expression" xmi:id="_nDHPgbFVEe2nOrtpT7vKAQ" name="init_regresarExamen()" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
       </data>
       <data xmi:type="process:BusinessObjectData" xmi:id="_IniUQLINEe2zC4b6cCk0Lw" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_wIaHYLIWEe2aKOpVIln2Ig" name="initInstanciaINVP()" content="def instanciaINVPVar = new com.anahuac.invp.InstanciaINVP()&#xD;&#xA;instanciaINVPVar.username = instanciaINVPInput?.username&#xD;&#xA;instanciaINVPVar.idsesion = instanciaINVPInput?.idsesion &#xD;&#xA;return instanciaINVPVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.invp.InstanciaINVP">
-          <referencedElements xmi:type="process:ContractInput" xmi:id="_fZgiAORnEe2Il9MTam0DSQ" name="instanciaINVPInput" type="COMPLEX"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_wIaHYLIWEe2aKOpVIln2Ig" name="initInstanciaINVP()" content="def instanciaINVPVar = new com.anahuac.invp.InstanciaINVP()&#xD;&#xA;instanciaINVPVar.username = instanciaINVPInput?.username&#xD;&#xA;instanciaINVPVar.idSesion = instanciaINVPInput?.idsesion&#xD;&#xA;&#xD;&#xA;return instanciaINVPVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.invp.InstanciaINVP">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_nYrlEPacEe2w5-phBSmB-Q" name="instanciaINVPInput" type="COMPLEX"/>
         </defaultValue>
       </data>
       <data xmi:type="process:Data" xmi:id="_MX65ALI2Ee2aKOpVIln2Ig" name="terminadoF" dataType="_PSuYbGRNEe25vplGuJ9kyw">
@@ -1307,7 +1316,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_D88cwXcaEe2qwoQvXXiD9w" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_TTZCUHcaEe2qwoQvXXiD9w" name="urlLogin" value="https://dev.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_RekSAL7UEe20nqVJS6WQFg" name="urlEnvioCorreo" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacRest?url=generateHtml&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_8-frYMXSEe2OYrwQhS56WQ" name="urlActualizarTerminado" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_8-frYMXSEe2OYrwQhS56WQ" name="urlActualizarTerminado" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true&amp;idsesion=[IDSESION]" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_yVAGsMXeEe2OYrwQhS56WQ" name="urlTerminoPrueba" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=getTerminoPrueba&amp;p=0&amp;c=100&amp;username=" typeClassname="java.lang.String"/>
       </configurations>
       <configurations xmi:type="configuration:Configuration" xmi:id="_LIPpUNKBEe2YCZDIMKs75g" name="Qualification" version="7.12.0-004" username="Administrador" password="bpm">
@@ -1358,7 +1367,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_LIYMMdKBEe2YCZDIMKs75g" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_LIYzQNKBEe2YCZDIMKs75g" name="urlLogin" value="https://qa.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_LIYzQdKBEe2YCZDIMKs75g" name="urlEnvioCorreo" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacRest?url=generateHtml&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_LIYzQtKBEe2YCZDIMKs75g" name="urlActualizarTerminado" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_LIYzQtKBEe2YCZDIMKs75g" name="urlActualizarTerminado" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true&amp;idsesion=[IDSESION]" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_LIYzQ9KBEe2YCZDIMKs75g" name="urlTerminoPrueba" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=getTerminoPrueba&amp;p=0&amp;c=100&amp;username=" typeClassname="java.lang.String"/>
       </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_8omFYHcZEe2qwoQvXXiD9w" name="usuario" typeClassname="java.lang.String"/>
@@ -1478,7 +1487,7 @@
               <children xmi:type="notation:DecorationNode" xmi:id="_qmMwgmRNEe25vplGuJ9kyw" type="5090">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_qmMwg2RNEe25vplGuJ9kyw" y="5"/>
               </children>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_qmMwgWRNEe25vplGuJ9kyw" x="950" y="67"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_qmMwgWRNEe25vplGuJ9kyw" x="998" y="67"/>
             </children>
           </children>
           <styles xmi:type="notation:DescriptionStyle" xmi:id="__jWsIbFKEe2nOrtpT7vKAQ"/>
@@ -1522,7 +1531,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_m8qeBGRNEe25vplGuJ9kyw" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_m8qeAWRNEe25vplGuJ9kyw" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_m8qeAmRNEe25vplGuJ9kyw" points="[22, 0, -164, -1]$[171, 0, -15, -1]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_m8qeAmRNEe25vplGuJ9kyw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_6XaBILFJEe2nOrtpT7vKAQ" type="4001" element="_6XYzALFJEe2nOrtpT7vKAQ" source="_8GhOULFJEe2nOrtpT7vKAQ" target="_ihKjEGRNEe25vplGuJ9kyw" roundedBendpointsRadius="10" routing="Rectilinear">
       <children xmi:type="notation:DecorationNode" xmi:id="_6XaoMLFJEe2nOrtpT7vKAQ" type="6001">
@@ -1536,9 +1545,9 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_I1-jgbFKEe2nOrtpT7vKAQ" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_I198cbFKEe2nOrtpT7vKAQ" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_I198crFKEe2nOrtpT7vKAQ" points="[-12, 0, -372, 48]$[-12, 57, -372, 105]$[367, 57, 7, 105]$[367, -32, 7, 16]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_I198crFKEe2nOrtpT7vKAQ" points="[-1, 0, -509, 25]$[-1, 67, -509, 92]$[483, 67, -25, 92]$[483, -7, -25, 18]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_I2AYsLFKEe2nOrtpT7vKAQ" id="(1.0,1.0)"/>
-      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_I2AYsbFKEe2nOrtpT7vKAQ" id="(0.23333333333333334,0.43333333333333335)"/>
+      <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_I2AYsbFKEe2nOrtpT7vKAQ" id="(0.43333333333333335,0.9)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_Rn13ILINEe2zC4b6cCk0Lw" type="4001" element="_Rn0pALINEe2zC4b6cCk0Lw" source="_ST32uLINEe2zC4b6cCk0Lw" target="_yl0cUNNEEe2YCZDIMKs75g" roundedBendpointsRadius="10" routing="Rectilinear">
       <children xmi:type="notation:DecorationNode" xmi:id="_Rn13I7INEe2zC4b6cCk0Lw" type="6001">

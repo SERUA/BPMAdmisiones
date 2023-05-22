@@ -1618,6 +1618,10 @@ class SecurityFilter {
 			allow = bonitaRolFilter(context, "ADMISIONES");
 			if (allow) {
 			  break;
+			} 
+			allow = bonitaRolFilter(context, "Config Campus SDAE");
+			if (allow) {
+			  break;
 			}
 			break;
 		  case "transferirAspirante":

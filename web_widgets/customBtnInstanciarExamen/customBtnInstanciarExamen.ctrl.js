@@ -259,7 +259,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         var data = {
             "terminado": false,
-            "username": $scope.properties.userData.user_name
+            "username": $scope.properties.userData.user_name, 
+            "idsesion": $scope.properties.dataToSend.instanciaINVPInput.idsesion 
         }
 
         var req = {
@@ -316,5 +317,4 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
         });
     }
-
 }

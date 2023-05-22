@@ -13,7 +13,6 @@ function($scope, $http) {
       
         return $http(req).success(function(data, status) {
             if(data.data.length > 0){
-                debugger;
                 $scope.properties.objetoSesion = angular.copy(data.data[0]);
                 
                 var today = new Date();
@@ -46,17 +45,10 @@ function($scope, $http) {
         });
             
     }
-
-    // $scope.getCommentList();
-
+    
     $scope.$watch("properties.reload", function() {
         if ($scope.properties.reload !== undefined) {
             $scope.getCommentList();
         }
-        /*if(($scope.properties.reload === undefined || $scope.properties.reload.length === 0) && $scope.properties.campusSeleccionado !== undefined){
-            $("#loading").modal("show");
-        }else{
-            $("#loading").modal("hide");
-        }*/
     });
 }
