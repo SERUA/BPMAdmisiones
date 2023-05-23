@@ -225,13 +225,20 @@ class SecurityFilter {
 				  break;
 				}
 				break;
-				case "getPsicologoSesiones":allow=bonitaRolFilter(context,"ADMISIONES")
+				case "getPsicologoSesiones":
+				allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
-				case "getCatGestionEscolar":allow=bonitaRolFilter(context,"ADMISIONES")
+				case "getCatGestionEscolar":
+				allow = bonitaRolFilter(context, "ADMINISTRADOR"); 
+				if (allow) {break;}
+				allow = bonitaRolFilter(context, "TI SERUA"); 
+				if (allow) {break;}
+				allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Becas")
 				if(allow){break;}
+				allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
 				break;
 				case "getSesion":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -905,11 +912,18 @@ class SecurityFilter {
 		    break;
 		  case "getCatGestionEscolar":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 			allow=bonitaRolFilter(context,"Becas")
 			if(allow){break;}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {break;}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {break;}
+			allow=bonitaRolFilter(context,"ADMISIONES")
+			if(allow){break;}
+			allow=bonitaRolFilter(context,"Becas")
+			if(allow){break;}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
 		    break;
 		  case "getExcelGenerico":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1617,6 +1631,7 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
 			break;
 		  case "transferirAspirante":
 		    allow = bonitaRolFilter(context, "ADMISIONES");

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEPreAutorizacion",
   "name" : "SDAEPreAutorizacion",
-  "lastUpdate" : 1683331052907,
+  "lastUpdate" : 1684800762697,
   "rows" : [
     [
       {
@@ -1410,7 +1410,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<hr>Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>."
+                        "value" : "<hr>Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1790,6 +1790,58 @@
                           "reference" : "b5b89420-5316-4837-8b4d-579a49978a70",
                           "hasValidationError" : false,
                           "id" : "customCustomBtnNavigationByVariable"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Escribe  a continuación los cambios que solicitas al registro de <b><b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>."
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "cb225779-5229-4cd1-a8a1-dde2a7fc15f3",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
                         }
                       ],
                       [

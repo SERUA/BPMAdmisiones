@@ -6,7 +6,6 @@ function($scope, $http, blockUI) {
     $scope.isAreDeportiva = false;
     $scope.isFinanciamiento = false;
     $scope.isComiteFinanzas = false;
-    $scope.isTiCampus = false;
     $scope.isTiSerua = false;
     $scope.isSerua = false;
     $scope.isCrisp = false;
@@ -36,8 +35,6 @@ function($scope, $http, blockUI) {
         } else if($scope.isFinanciamiento){
             output = true;
         } else if($scope.isComiteFinanzas){
-            output = true;
-        } else if($scope.isTiCampus){
             output = true;
         } else if($scope.isTiSerua){
             output = true;
