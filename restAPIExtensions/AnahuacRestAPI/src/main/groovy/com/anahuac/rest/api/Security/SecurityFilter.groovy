@@ -452,6 +452,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Comite de Finanzas")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
 				break;
 				case "getActiveProcess":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -651,6 +653,9 @@ class SecurityFilter {
 		    }
 		    break;
 		  case "selectAspirantesEnproceso":
+		  	allow=bonitaRolFilter(context,"PreAutorizacion")
+			  if(allow){break;}
+			  break;
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
@@ -664,9 +669,6 @@ class SecurityFilter {
 			allow=bonitaRolFilter(context,"Becas")
 			if(allow){break;}
 		    break;
-			allow=bonitaRolFilter(context,"PreAutorizacion")
-			if(allow){break;}
-			break;
 		  case "selectAspirantesEnRed":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -1308,7 +1310,7 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
-			allow = bonitaRolFilter(context, "Comité finanzas");
+			allow = bonitaRolFilter(context, "Comite de Finanzas");
 			if (allow) {
 			  break;
 			}

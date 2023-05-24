@@ -308,6 +308,28 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Becas")
 				break;
+				case "getImagenesByTipoApoyo":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+				break;
 			}
 			return allow;
 	}
@@ -396,13 +418,21 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
-				allow=bonitaRolFilter(context,"ASPIRANTE")
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Area Artistica")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Area Deportiva")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Becas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Comite de Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
 				if(allow){break;}
 			break;
 			case "selectSolicitudesApoyo":
@@ -494,6 +524,54 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 			break;
+			case "selectBandejaMaestra":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "selectAspirantesEnproceso":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "countSolicitudesDeApoyoByEstatus":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "selectBandejaMaestra":
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				break;
 		}
 		return allow;
 	}
