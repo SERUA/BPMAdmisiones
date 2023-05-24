@@ -44,7 +44,9 @@ class Statements {
 	
 	public static final String INSERT_TERMINADO_EXAMEN = "INSERT INTO invpexamenterminado (persistenceId, persistenceVersion, username, terminado, fechainicio, fechafin, idsesion) VALUES ( case when (SELECT max(persistenceId)+1 from invpexamenterminado ) is null then 1 else (SELECT max(persistenceId)+1 from invpexamenterminado) end, 0, ?, ?, NOW(), NULL, ?);";
 	
-	public static final String UPDATE_TERMINADO_EXAMEN = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW(), idsesion = ? WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
+	public static final String UPDATE_TERMINADO_EXAMEN = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW()  WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
+	
+	public static final String UPDATE_TERMINADO_EXAMEN_GET = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW(), idsesion = ? WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
 	
 	public static final String GET_TERMINADO_EXAMEN = "SELECT terminado FROM invpexamenterminado WHERE username = ?";
 	

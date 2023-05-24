@@ -256,7 +256,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function insertterminado() {
         vm.busy = true;
-
+        debugger;
         var data = {
             "terminado": false,
             "username": $scope.properties.userData.user_name, 

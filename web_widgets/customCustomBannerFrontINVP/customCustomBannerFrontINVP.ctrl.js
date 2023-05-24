@@ -160,14 +160,14 @@ function ($scope, modalService, $http) {
     function getTaskInfo(){
         var req = {
             method: "GET",
-            url: "../API/bpm/task?c=100&p=0&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
+            // url: "../API/bpm/task?c=100&p=0&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
+            url: "../API/bpm/humanTask?p=0&c=10&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
         };
 
         return $http(req)
         .success(function(data, status) {
             let taskid = ""
             for(let reg of data){
-                debugger;
                 if(reg.assigned_id === $scope.properties.userData.user_id){
                     taskid = reg.id;
                     break;
@@ -198,10 +198,10 @@ function ($scope, modalService, $http) {
             url: "../API/bpm/userTask/" + _taskid + "/execution",
             data: dataToSend
         };
-        debugger;
 
         return $http(req)
         .success(function(data, status) {
+            debugger;
             updateterminado()
             // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })

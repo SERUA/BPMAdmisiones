@@ -516,8 +516,8 @@ class LoginSesionesDAO {
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.INSERT_TERMINADO_EXAMEN);
 			pstm.setString(1, object.username);
-			pstm.setLong(2, Long.valueOf(object.idsesion));
-			pstm.setBoolean(3, object.terminado);
+			pstm.setBoolean(2, object.terminado);
+			pstm.setLong(3, Long.valueOf(object.idsesion));
 			
 			pstm.executeUpdate();
 			/*rs = pstm.executeQuery();

@@ -242,9 +242,9 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
         }, 0);
     }
 
-    function refreshPage() {
-        $window.location.reload();
-    }
+    // function refreshPage() {
+    //     $window.location.reload();
+    // }
 
     function verifySession() {
         var userIdentity = '../API/extension/RegistroRest?url=getUserIdentity&userId=' + $scope.properties.userId;
@@ -254,39 +254,41 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     function setApplication() {
         var application = $scope.properties.application;
         ctrl.applicationToken = application.token;
-        if(ctrl.applicationToken === "aspiranteinvp"){
-            ctrl.pageToken = $scope.properties.pageToken;
-        } else if ($scope.properties.currentTaskName === "Pago de examen" || $scope.properties.currentTaskName === "Esperar pago") {
-            ctrl.pageToken = "pago_de_examen";
-        } else if ($scope.properties.currentTaskName === "Autodescripción") {
-            ctrl.pageToken = ($scope.processVersion < 1.53) ? "autodescripcion" : "autodescripcionV2";
-        } else if ($scope.properties.currentTaskName === "Seleccionar cita") {
-            ctrl.pageToken = "verSesiones";
-        } else if ($scope.properties.currentTaskName === "Generar credencial") {
-            let array = window.location.href.split("/");
-            let appName = array[array.length - 2];
+		ctrl.pageToken = $scope.properties.pageToken;
 
-            if (appName === "generar_credencial") {
-                ctrl.pageToken = "generar_credencial";
-            } else {
-                ctrl.pageToken = "confirmacion_credencial";
-            }
-        } else if (
-            $scope.properties.currentTaskName === "Pase de lista Prueba 1" ||
-            $scope.properties.currentTaskName === "Pase de lista Prueba 2" ||
-            $scope.properties.currentTaskName === "Pase de lista Prueba 3"
-        ) {
-            ctrl.pageToken = "generar_credencial";
-        } else if (
-            $scope.properties.currentTaskName === "Carga y consulta de resultados" ||
-            $scope.properties.currentTaskName === "Resultado final de comité" ||
-            $scope.properties.currentTaskName === "Reactivar usuario rechazado" ||
-            $scope.properties.currentTaskName === "Resultado"
-        ) {
-            ctrl.pageToken = "Resultado";
-        } else {
-            ctrl.pageToken = $scope.properties.pageToken;
-        }
+        // if(ctrl.applicationToken === "aspiranteinvp"){
+        //     ctrl.pageToken = $scope.properties.pageToken;
+        // } else if ($scope.properties.currentTaskName === "Pago de examen" || $scope.properties.currentTaskName === "Esperar pago") {
+        //     ctrl.pageToken = "pago_de_examen";
+        // } else if ($scope.properties.currentTaskName === "Autodescripción") {
+        //     ctrl.pageToken = ($scope.processVersion < 1.53) ? "autodescripcion" : "autodescripcionV2";
+        // } else if ($scope.properties.currentTaskName === "Seleccionar cita") {
+        //     ctrl.pageToken = "verSesiones";
+        // } else if ($scope.properties.currentTaskName === "Generar credencial") {
+        //     let array = window.location.href.split("/");
+        //     let appName = array[array.length - 2];
+
+        //     if (appName === "generar_credencial") {
+        //         ctrl.pageToken = "generar_credencial";
+        //     } else {
+        //         ctrl.pageToken = "confirmacion_credencial";
+        //     }
+        // } else if (
+        //     $scope.properties.currentTaskName === "Pase de lista Prueba 1" ||
+        //     $scope.properties.currentTaskName === "Pase de lista Prueba 2" ||
+        //     $scope.properties.currentTaskName === "Pase de lista Prueba 3"
+        // ) {
+        //     ctrl.pageToken = "generar_credencial";
+        // } else if (
+        //     $scope.properties.currentTaskName === "Carga y consulta de resultados" ||
+        //     $scope.properties.currentTaskName === "Resultado final de comité" ||
+        //     $scope.properties.currentTaskName === "Reactivar usuario rechazado" ||
+        //     $scope.properties.currentTaskName === "Resultado"
+        // ) {
+        //     ctrl.pageToken = "Resultado";
+        // } else {
+        //     ctrl.pageToken = $scope.properties.pageToken;
+        // }
 
         $scope.properties.currentToken = ctrl.pageToken;
 
@@ -294,6 +296,8 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
         setApplicationMenuList(application);
         setTargetedUrl();
     }
+
+	setApplication();
 
     $scope.$watch("properties.currentTaskName", function() {
         // if($scope.properties.isCaseStarted !== undefined && $scope.properties.currentTaskName !== undefined && !ctrl.appStarted){
@@ -312,7 +316,7 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
                             (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
                         ) {
                             ctrl.appStarted = true;
-                            setApplication();
+                            // setApplication();
                         }
                     } else {
                         doRequest("GET", "../API/extension/RegistroRest?url=archivedHumanTask&p=0&c=10&caseid=" + datos1[0].caseId + "&f=state=aborted", null, null, function(datos2) {
@@ -329,7 +333,7 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
                                 (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
                             ) {
                                 ctrl.appStarted = true;
-                                setApplication();
+                                // setApplication();
                             }
                         })
                     }
@@ -347,7 +351,7 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
                 (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
             ) {
                 ctrl.appStarted = true;
-                setApplication();
+                // setApplication();
             }
         }
     });
