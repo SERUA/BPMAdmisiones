@@ -955,7 +955,7 @@ class LoginSesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN);
+			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN_GET);
 			pstm.setBoolean(1, terminado);
 			pstm.setLong(2, Long.valueOf(idsesion));
 			pstm.setString(3, username);	
@@ -964,9 +964,9 @@ class LoginSesionesDAO {
 			
 			success = true;
 			if(resultReq > 0) {
-				error_log = resultReq + " Exito! query UPDATE_TERMINADO_EXAMEN"
+				error_log = resultReq + " Exito! query UPDATE_TERMINADO_EXAMEN_GET"
 			} else {
-				error_log = resultReq + " Error! query UPDATE_TERMINADO_EXAMEN"
+				error_log = resultReq + " Error! query UPDATE_TERMINADO_EXAMEN_GET"
 			}
 			
 			resultado.setSuccess(true)
