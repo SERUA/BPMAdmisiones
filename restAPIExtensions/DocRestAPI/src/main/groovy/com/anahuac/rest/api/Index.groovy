@@ -177,7 +177,13 @@ class Index implements RestApiController {
 		List<UserMembership> uMemberships=context.apiClient.identityAPI.getUserMemberships(context.apiSession.userId, 0, 100, UserMembershipCriterion.ROLE_NAME_ASC);
 		uMemberships.each{
 			it ->
-			if((it.roleName.equals("EXTERIOR") && it.groupName.equals("CAMPUS-PUEBLA")) || it.roleName.equals("ADMINISTRADOR") || it.roleName.equals("TI SERUA") || it.roleName.equals("Becas")) {
+			if((it.roleName.equals("EXTERIOR") && it.groupName.equals("CAMPUS-PUEBLA")) 
+				|| it.roleName.equals("ADMINISTRADOR") 
+				|| it.roleName.equals("TI SERUA") 
+				|| it.roleName.equals("PreAutorizacion")
+				|| it.roleName.equals("Finanzas")
+				|| it.roleName.equals("ASPIRANTE")
+			) {
 				valid=true
 			}
 		}
