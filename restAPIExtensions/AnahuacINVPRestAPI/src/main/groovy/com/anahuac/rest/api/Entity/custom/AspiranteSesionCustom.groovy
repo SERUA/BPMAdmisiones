@@ -29,7 +29,14 @@ class AspiranteSesionCustom {
 	private String temptoleranciaSalida;
 	private Boolean isTemporal;
 	private Boolean resultadoEnviado;
+	private Boolean sesionAsignada;
 	
+	public Boolean getSesionAsignada() {
+		return sesionAsignada;
+	}
+	public void setSesionAsignada(Boolean sesionAsignada) {
+		this.sesionAsignada = sesionAsignada;
+	}
 	public Boolean getUsuarioBloqueado() {
 		return usuarioBloqueado;
 	}

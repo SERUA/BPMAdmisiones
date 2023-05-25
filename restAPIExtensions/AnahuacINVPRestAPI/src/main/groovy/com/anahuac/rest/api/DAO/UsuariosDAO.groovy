@@ -2073,6 +2073,7 @@ class UsuariosDAO {
 				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"))
 				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
 				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
+				row.setSesionAsignada(rs.getBoolean("sesionasignada"))
 				rows.add(row);
 			}
 			
