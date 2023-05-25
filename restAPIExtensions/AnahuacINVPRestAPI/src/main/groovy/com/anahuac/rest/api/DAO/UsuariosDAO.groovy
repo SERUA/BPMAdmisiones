@@ -536,14 +536,12 @@ class UsuariosDAO {
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
 					where += " ccam.descripcion = '" + campusMiembro + "'"
-					errorLog += " [| campusMiembro" + campusMiembro;
 					if (i == (lstGrupo.size() - 1)) {
 						where += ") "
 					} else {
 						where += " OR "
 					}
 				}
-				errorLog += "] "
 			} else if(object.campus != null) {
 				where += " AND ccam.grupobonita = '" + object.campus + "'"
 			}
@@ -743,7 +741,7 @@ class UsuariosDAO {
 			}
 			
 			String consulta = Statements.GET_ASPIRANTES_SESIONES.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
-			errorLog += consulta;
+			
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);
@@ -785,13 +783,11 @@ class UsuariosDAO {
 //					row.setTiempo(formatterTime.format(date));
 //				}
 				
-				if(rs.getTimestamp("tiempo") != null) {
-					try {
-						Date date = new Date(rs.getTimestamp("tiempo").getTime());
-						row.setTiempo(formatterTime.format(date));
-					} catch(Exception e){
-						row.setTiempo("+ de 24 horas");
-					}
+				Object fieldValue = rs.getObject("tiempo");
+				
+				if(fieldValue instanceof Timestamp) {
+					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+					row.setTiempo(formatterTime.format(date));
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
@@ -811,7 +807,7 @@ class UsuariosDAO {
 			resultado.setData(rows);
 			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
+			errorLog += errorLog2;
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);
