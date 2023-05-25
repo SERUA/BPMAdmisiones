@@ -963,13 +963,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
             debugger;
-            if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
+            if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
                 $scope.aspirantesEnvio.push({
                     "username": element.correoElectronico,
                     "sesion": $scope.selectedSesion.idSesion,
                     "idbanner": element.idBanner,
                     "nombre": element.nombre,
-                    "idBpm": element.idBpm
+                    "idBpm": element.idBpm,
+                    "sesionAsignada": element.sesionAsignada
                 });
             }
         });
