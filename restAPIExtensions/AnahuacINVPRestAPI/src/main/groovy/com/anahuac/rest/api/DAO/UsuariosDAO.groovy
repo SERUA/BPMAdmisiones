@@ -77,33 +77,33 @@ class UsuariosDAO {
 		Boolean closeCon = false;
 		
 		try {
-		
-				List<Map<String, Boolean>> rows = new ArrayList<Map<String, Object>>();
-				closeCon = validarConexionBonita();
-				pstm = con.prepareStatement(Statements.GET_USERS_BY_USERNAME)
-				pstm.setString(1, username)
-				
-				rs = pstm.executeQuery()
-				rows = new ArrayList<Map<String, Object>>();
-				ResultSetMetaData metaData = rs.getMetaData();
-				int columnCount = metaData.getColumnCount();
-				while(rs.next()) {
-					rows.add(true);
-				}
-				resultado.setSuccess(true)
-				
-				resultado.setData(rows)
-				
-			} catch (Exception e) {
-				LOGGER.error "[ERROR] " + e.getMessage();
+			List<Map<String, Boolean>> rows = new ArrayList<Map<String, Object>>();
+			closeCon = validarConexionBonita();
+			pstm = con.prepareStatement(Statements.GET_USERS_BY_USERNAME)
+			pstm.setString(1, username)
+			
+			rs = pstm.executeQuery()
+			rows = new ArrayList<Map<String, Object>>();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			while(rs.next()) {
+				rows.add(true);
+			}
+			resultado.setSuccess(true)
+			
+			resultado.setData(rows)
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-		}finally {
+		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
-		return resultado
+		
+		return resultado;
 	}
 	
 	public Result postRegistrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
@@ -780,9 +780,18 @@ class UsuariosDAO {
 					row.setTermino(formatter.format(date));
 				}
 				
+//				if(rs.getTimestamp("tiempo") != null) {
+//					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+//					row.setTiempo(formatterTime.format(date));
+//				}
+				
 				if(rs.getTimestamp("tiempo") != null) {
-					Date date = new Date(rs.getTimestamp("tiempo").getTime());
-					row.setTiempo(formatterTime.format(date));
+					try {
+						Date date = new Date(rs.getTimestamp("tiempo").getTime());
+						row.setTiempo(formatterTime.format(date));
+					} catch(Exception e){
+						row.setTiempo("+ de 24 horas");
+					}
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
@@ -2044,8 +2053,12 @@ class UsuariosDAO {
 				}
 				
 				if(rs.getTimestamp("tiempo") != null) {
-					Date date = new Date(rs.getTimestamp("tiempo").getTime());
-					row.setTiempo(formatterTime.format(date));
+					try {
+						Date date = new Date(rs.getTimestamp("tiempo").getTime());
+						row.setTiempo(formatterTime.format(date));
+					} catch(Exception e){
+						row.setTiempo("+ de 24 horas");
+					}
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
