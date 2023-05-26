@@ -661,16 +661,11 @@ class SecurityFilter {
 		    break;
 		  case "selectAspirantesEnproceso":
 		  	allow=bonitaRolFilter(context,"PreAutorizacion")
-			  if(allow){break;}
-			  break;
+			if(allow){break;}
 		    allow = bonitaRolFilter(context, "ADMISIONES");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 		    allow = bonitaRolFilter(context, "ASPIRANTE");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 			allow=bonitaRolFilter(context,"SERUA")
 			if(allow){break;}
 			allow=bonitaRolFilter(context,"Becas")
