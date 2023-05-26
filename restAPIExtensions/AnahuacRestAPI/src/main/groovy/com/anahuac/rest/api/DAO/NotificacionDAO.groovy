@@ -1447,7 +1447,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
 							comentarios = motivoRechazo;
 						}
-						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-DEPORTIVA]"); 
+						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", !comentarios.equals("") ? comentarios:"[COMENTARIOS-DEPORTIVA]"); 
 						plantilla = plantilla.replace("[DEPORTIVA-SUGERIDA]", sugerida == null ? "" : sugerida);
 					} else if (object.codigo.equals("sdae-evaluación-artistica")){
 						String motivoAprobada = rs.getString("motivoaprobadaartistica");
@@ -1472,13 +1472,26 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 					} else if (object.codigo.equals("sdae-solicitudmodifcación-validaciónfinanzas")){
 					    plantilla = plantilla.replace("[COMENTARIOS-CAMBIO-AVAL]", rs.getString("observaciones_finanzas_fina"));
 					} else if (object.codigo.equals("sdae-solicitudrechaza-finanzas")){
-					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
+//					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
+						String comentarios = "";
+						comentarios = rs.getString("observaciones_finanzas_fina");
+						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINANZAS]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINANZAS]";
 					} else if (object.codigo.equals("sdae-propuestarechazada-becas")) {
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
 					} else if (object.codigo.equals("sdae-solicitudrechaza-comitéfinanzas")) {
-						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", rs.getString("observaciones_comite_fina"));
+//						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", rs.getString("observaciones_comite_fina"));
+//						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
+						String comentarios = "";
+						errorlog += "[1]";
+						comentarios = rs.getString("observaciones_comite_fina");
+						errorlog += "[2]";
+						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINDICTA]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINDICTA]";
+						errorlog += "[3]";
+						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", comentarios);
+						errorlog += "[4]";
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
+						errorlog += "[5]";
 					}  else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")) {
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
