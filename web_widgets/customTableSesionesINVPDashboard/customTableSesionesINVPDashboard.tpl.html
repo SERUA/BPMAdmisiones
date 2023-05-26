@@ -254,11 +254,14 @@
                             <!-- <td>{{row.estatusINVP}}</td> -->
                             <td>{{ validarEstatus(row.resultadoEnviado, row.estatusINVP) }}</td>
                             <td>
-                                <button ng-disabled="!(!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada'))" 
+                                <button ng-disabled="row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')" 
                                     type="button" 
                                     ng-click="cambiarIdioma(row, 'idioma')" 
                                     class="btn" 
-                                    ng-class="{'btn-default': (row.resultadoEnviado || !(selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'btn-warning': (!row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 'tooltips-info': !row.resultadoEnviado}" 
+                                    ng-class=
+                                        "{'btn-default': (row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
+                                        'btn-warning': !(row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
+                                        'tooltips-info': !row.resultadoEnviado}" 
                                     data-tooltip="{{row.resultadoEnviado ? '' : 'Cambiar idioma'}}">
                                     <span>{{row.idioma}}</span>
                                 </button>
