@@ -617,11 +617,11 @@ class UsuariosDAO {
 				Result resultadoTarea = enviarTareaRest(correo, context);
 				
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
-				// resultado.setError_info(resultadoTarea.error_info);
+				resultado.setError_info(resultadoTarea.error_info);
 			} else {
 				Result resultadoTarea = enviarTareaRest(correo, context);
 				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
-				// resultado.setError_info(resultadoTarea.error_info);
+				resultado.setError_info(resultadoTarea.error_info);
 			}
 			resultado.setSuccess(true);
 		} catch (Exception e) {

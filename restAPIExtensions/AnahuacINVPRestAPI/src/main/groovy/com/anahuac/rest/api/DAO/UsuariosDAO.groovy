@@ -2003,7 +2003,9 @@ class UsuariosDAO {
 			List <AspiranteSesionCustom> rows = new ArrayList <AspiranteSesionCustom>();
 			closeCon = validarConexion();
 			
-			where += " ) OR (temp.username IS NOT NULL  AND temp.idprueba = " + idprueba + ")";
+//			where += " ) OR (temp.username IS NOT NULL  AND temp.idprueba = " + idprueba + ")";
+			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN seas.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) AND temp.idprueba = " + idprueba + ")";
+//			) OR (temp.username IS NOT NULL AND (CASE WHEN seas.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico' END ) AND temp.idprueba = 237)
 			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);
 			rs = pstm.executeQuery();
