@@ -162,9 +162,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }
             } else if(_error.error === "examen_terminado"){
                 if(idioma === "es"){
-                    mensaje = "Tu examen ha concluido, si tienes dudas contacta a tu asesor.";
+                    mensaje = "Tu examen ha concluido, si tienes dudas contacta a tu aplicador.";
                 } else {
-                    mensaje = "Your exam has finished, if you have any questions, please contact your advisor.";
+                    mensaje = "Your exam has finished, if you have any questions, please contact your applicator.";
                 }
             } else {
                 mensaje = _error.error;

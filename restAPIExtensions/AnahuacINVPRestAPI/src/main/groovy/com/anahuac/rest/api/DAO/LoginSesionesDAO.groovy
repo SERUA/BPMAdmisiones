@@ -197,7 +197,7 @@ class LoginSesionesDAO {
 					row.setUsername(rs.getString("username"));
 					rows.add(row);
 				} else {
-					throw new Exception("No sesión registrada");
+					throw new Exception("no_existe_sesion");
 				}
 			}
 			

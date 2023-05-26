@@ -2048,13 +2048,20 @@ class UsuariosDAO {
 					row.setTermino(formatter.format(date));
 				}
 				
-				if(rs.getTimestamp("tiempo") != null) {
-					try {
-						Date date = new Date(rs.getTimestamp("tiempo").getTime());
-						row.setTiempo(formatterTime.format(date));
-					} catch(Exception e){
-						row.setTiempo("+ de 24 horas");
-					}
+//				if(rs.getTimestamp("tiempo") != null) {
+//					try {
+//						Date date = new Date(rs.getTimestamp("tiempo").getTime());
+//						row.setTiempo(formatterTime.format(date));
+//					} catch(Exception e){
+//						row.setTiempo("+ de 24 horas");
+//					}
+//				}
+				
+				Object fieldValue = rs.getObject("tiempo");
+				
+				if(fieldValue instanceof Timestamp) {
+					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+					row.setTiempo(formatterTime.format(date));
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
@@ -2070,10 +2077,10 @@ class UsuariosDAO {
 				row.setTempsalida(rs.getString("horafinsesion_temp"));
 				row.setTempfecha(rs.getString("fechainiciosesion_temp"));
 				row.setTempprueba(rs.getString("nombre__temp"));
-				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"))
+				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"));
 				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
 				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
-				row.setSesionAsignada(rs.getBoolean("sesionasignada"))
+				row.setSesionAsignada(rs.getBoolean("sesionasignada"));
 				rows.add(row);
 			}
 			
