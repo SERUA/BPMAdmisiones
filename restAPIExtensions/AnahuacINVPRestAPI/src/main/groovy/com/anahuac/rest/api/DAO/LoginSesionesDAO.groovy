@@ -943,7 +943,7 @@ class LoginSesionesDAO {
 		return resultado;
 	}
 	
-	public Result updateterminadoGet(String username, Boolean terminado, String idsesion) {
+	public Result updateterminadoGet(String username, Boolean terminado) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorlog = "";
@@ -957,8 +957,7 @@ class LoginSesionesDAO {
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN_GET);
 			pstm.setBoolean(1, terminado);
-			pstm.setLong(2, Long.valueOf(idsesion));
-			pstm.setString(3, username);	
+			pstm.setString(2, username);	
 			pstm.executeUpdate();
 			con.commit();
 			

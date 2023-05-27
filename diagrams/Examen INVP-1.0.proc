@@ -977,9 +977,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_IQfKYM9SEe2Yz9GSw2pmgQ" name="updateTerminadoGet" definitionId="rest-get" event="ON_FINISH" ignoreErrors="true" definitionVersion="1.2.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_IQfKYc9SEe2Yz9GSw2pmgQ" definitionId="rest-get" version="1.2.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_IQfKYs9SEe2Yz9GSw2pmgQ" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_IQfKY89SEe2Yz9GSw2pmgQ" name="url()" content="String url = urlActualizarTerminado;&#xD;&#xA;url = url.replace(&quot;[USUARIO]&quot;, instanciaINVP.username);&#xD;&#xA;url = url.replace(&quot;[IDSESION]&quot;, instanciaINVP.idSesion.toString());&#xD;&#xA;&#xD;&#xA;return url;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_HQw3UPalEe2w5-phBSmB-Q" name="urlActualizarTerminado" typeClassname="java.lang.String"/>
-                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_HQw3UfalEe2w5-phBSmB-Q" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
+                <expression xmi:type="expression:Expression" xmi:id="_IQfKY89SEe2Yz9GSw2pmgQ" name="url()" content="String url = urlActualizarTerminado;&#xD;&#xA;url = url.replace(&quot;[USUARIO]&quot;, instanciaINVP.username);&#xD;&#xA;&#xD;&#xA;return url;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_fz7gUPwlEe2E_-rc17dd7w" name="urlActualizarTerminado" typeClassname="java.lang.String"/>
+                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_fz7gUfwlEe2E_-rc17dd7w" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_IQfKZs9SEe2Yz9GSw2pmgQ" key="urlCookies">
@@ -1316,7 +1316,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_D88cwXcaEe2qwoQvXXiD9w" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_TTZCUHcaEe2qwoQvXXiD9w" name="urlLogin" value="https://dev.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_RekSAL7UEe20nqVJS6WQFg" name="urlEnvioCorreo" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacRest?url=generateHtml&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_8-frYMXSEe2OYrwQhS56WQ" name="urlActualizarTerminado" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true&amp;idsesion=[IDSESION]" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_8-frYMXSEe2OYrwQhS56WQ" name="urlActualizarTerminado" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=updateterminado&amp;p=0&amp;c=100&amp;username=[USUARIO]&amp;terminado=true" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_yVAGsMXeEe2OYrwQhS56WQ" name="urlTerminoPrueba" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacINVPRestGet?url=getTerminoPrueba&amp;p=0&amp;c=100&amp;username=" typeClassname="java.lang.String"/>
       </configurations>
       <configurations xmi:type="configuration:Configuration" xmi:id="_LIPpUNKBEe2YCZDIMKs75g" name="Qualification" version="7.12.0-004" username="Administrador" password="bpm">
