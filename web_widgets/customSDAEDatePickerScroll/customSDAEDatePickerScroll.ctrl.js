@@ -38,15 +38,15 @@ function PbDatePickerCtrl($scope, $log, widgetNameFactory, $element, $locale, $b
   }
 
     
-    $(document).ready(function () {
-        // $('$("pb-date-picker>div>div>div>p>input")').on('focus', function () {
-        $(".date-to-scroll").on('focus', function () {
-            var elemento = $(this);
-            var posicionElemento = elemento.offset().top + elemento.outerHeight();
-            var posicionFondoPantalla = $(window).scrollTop() + $(window).height() - 300;
-            if (posicionElemento > posicionFondoPantalla) {
-                $('html, .modal-open .modal').animate({ scrollTop: posicionElemento - $(window).height() + 300 }, 500);
-            }
-        });
-    });
+    // $(document).ready(function () {
+    //     // $('$("pb-date-picker>div>div>div>p>input")').on('focus', function () {
+    //     $(".date-to-scroll").on('focus', function () {
+    //         var elemento = $(this);
+    //         var posicionElemento = elemento.offset().top + elemento.outerHeight();
+    //         var posicionFondoPantalla = $(window).scrollTop() + $(window).height() - 300;
+    //         if (posicionElemento > posicionFondoPantalla) {
+    //             $('html, .modal-open .modal').animate({ scrollTop: posicionElemento - $(window).height() + 300 }, 500);
+    //         }
+    //     });
+    // });
 }

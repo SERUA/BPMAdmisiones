@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisarSolicitudFinanciamientoComite",
   "name" : "SDAERevisarSolicitudFinanciamientoComite",
-  "lastUpdate" : 1685063236942,
+  "lastUpdate" : 1685382322518,
   "rows" : [
     [
       {
@@ -3604,7 +3604,7 @@
                               },
                               "showToday" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "todayLabel" : {
                                 "type" : "interpolation",
@@ -5401,7 +5401,7 @@
                               },
                               "showToday" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "todayLabel" : {
                                 "type" : "interpolation",
@@ -5837,7 +5837,7 @@
                               },
                               "showToday" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "todayLabel" : {
                                 "type" : "interpolation",
@@ -7168,7 +7168,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "DOCUMENTACIÓN DEL AVAL"
+                                "value" : "DOCUMENTACIÓN"
                               },
                               "level" : {
                                 "type" : "constant",
@@ -12803,6 +12803,10 @@
         "if(!$data.formInputEnviarComite.solicitudFinanciamientoModelInput.porcComite){",
         "    output = false;",
         "    $data.errorMessageComite = \"No  puedes enviar  a comité sin llenar el campo 'Porcentaje de financiamiento'.\";",
+        "}",
+        "else if(!$data.formInputEnviarComite.solicitudFinanciamientoModelInput.fechaLimiteAceptaPropuesta){",
+        "    output = false;",
+        "    $data.errorMessageComite = \"No  puedes enviar  a comité sin llenar el campo 'Fecha límite para responder la propuesta'.\";",
         "}",
         "",
         "return output;"
