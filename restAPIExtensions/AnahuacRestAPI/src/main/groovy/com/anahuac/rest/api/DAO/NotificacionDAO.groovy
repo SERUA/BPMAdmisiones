@@ -1476,6 +1476,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						String comentarios = "";
 						comentarios = rs.getString("observaciones_finanzas_fina");
 						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINANZAS]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINANZAS]";
+						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", comentarios);
 					} else if (object.codigo.equals("sdae-propuestarechazada-becas")) {
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
@@ -1483,15 +1484,10 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 //						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", rs.getString("observaciones_comite_fina"));
 //						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
 						String comentarios = "";
-						errorlog += "[1]";
 						comentarios = rs.getString("observaciones_comite_fina");
-						errorlog += "[2]";
 						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINDICTA]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINDICTA]";
-						errorlog += "[3]";
 						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", comentarios);
-						errorlog += "[4]";
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
-						errorlog += "[5]";
 					}  else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")) {
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
