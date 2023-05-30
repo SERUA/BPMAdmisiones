@@ -9,6 +9,7 @@ function($scope, $http, blockUI) {
     $scope.isTiSerua = false;
     $scope.isSerua = false;
     $scope.isCrisp = false;
+    $scope.isAdministrador = false;
 
     $scope.countPreautorizacion = 0;
     $scope.countArtistica = 0;
@@ -154,6 +155,9 @@ function($scope, $http, blockUI) {
                         } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
                             $scope.isCrisp = true;
                             console.log("isSerua " + $scope.isCrisp);
+                        } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
+                            $scope.isAdministrador = true;
+                            console.log("isAdministrador " + $scope.isAdministrador);
                         }
                     }
 
