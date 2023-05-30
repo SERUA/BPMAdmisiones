@@ -25,7 +25,7 @@ class Statements {
 	
 	public static final String GET_AUTOS_BY_CASEID = "SELECT AUSO.marca, AUSO.modelo, AUSO.ano, CSDA.descripcion AS situacion, AUSO.costoaproximado FROM  AutosSolicitante AS AUSO LEFT JOIN CatSituacionAuto AS CSDA ON CSDA.persistenceid = AUSO.catsituacionauto_id WHERE CASEID = ?;";
 	
-	public static final String GET_IMAGENES_BY_CASEID = "SELECT ISOL.urlimagen, CISE.descripcion  FROM ImagenesSocioEcoSolicitante AS ISOL LEFT JOIN CatImagenesSocioEconomico AS CISE ON CISE.persistenceid = ISOL.imagensocioeconomico_id  WHERE ISOL.caseid = ?;";
+	public static final String GET_IMAGENES_BY_CASEID = "SELECT ISOL.urlimagen, CISE.descripcion  FROM ImagenesSocioEcoSolicitante AS ISOL LEFT JOIN CatImagenesSocioEconomico AS CISE ON CISE.persistenceid = ISOL.imagensocioeconomico_id  WHERE ISOL.caseid = ? ORDER BY ISOL DESC LIMIT 4 OFFSET 0;";
 	
 	public static final String GET_PAA_BY_IDBANNER_SIN_PERSISTENCE = "SELECT idBanner,paan,la1,la2,la3,la4,pg1,pg2,pg3,pg4,pg5,pv1,pv4,paav,leo1,leo3,leo4,leo5,cit1,cit2,para,hi1,hi2,hi3,hi4,hi5,hi6,(paan::INTEGER+paav::INTEGER+para::INTEGER+ (CASE WHEN invp is null then 0  WHEN INVP = '' THEN 0 ELSE invp::INTEGER END) ) as total,fechaExamen,lexiumPaan,LexiumPaav,lexiumPara,lexiumTotal,fechaRegistro,tipoExamen,persistenceid,invp FROM IMPORTACIONPAA WHERE IDBANNER = ?"
 	
