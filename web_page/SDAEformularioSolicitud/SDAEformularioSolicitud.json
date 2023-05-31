@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1684288819281,
+  "lastUpdate" : 1685399346624,
   "rows" : [
     [
       {
@@ -2464,7 +2464,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "getTipoAdmision"
+                                    "value" : "getDatosSolicitante[0].tipoIngreso"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -6182,7 +6182,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Teléfono celular:"
+                              "value" : "Teléfono de casa:"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -6259,7 +6259,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Teléfono de casa:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                              "value" : "Teléfono celular:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -8061,7 +8061,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Teléfono celular:"
+                              "value" : "Teléfono de casa:"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -8630,7 +8630,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Teléfono de casa:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                              "value" : "Teléfono celular:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -9207,7 +9207,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Teléfono celular:"
+                              "value" : "Teléfono de casa:"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -9778,7 +9778,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Télefono de casa:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                              "value" : "Télefono celular:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -20718,6 +20718,75 @@
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "3646e542-cc24-4e41-8aa7-49887588adcd",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
+                    }
                   ]
                 ]
               }
@@ -23779,7 +23848,7 @@
         "\r",
         "if(!$data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasaTutor || $data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasaTutor.length < 10){\r",
         "    output = false;\r",
-        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío, debe llenarse con un valor numérico y ser de al menos 10 caracteres para México y 14 para extranjero.\";\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono celular' no debe ir vacío, debe llenarse con un valor numérico y ser de al menos 10 caracteres para México y 14 para extranjero.\";\r",
         "    $data.tituloErrorPaso2 = \"Información de tutor\";\r",
         "} else if(  $data.tutor.catTrabaja.descripcion === \"Sí\" && (!$data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaTutor  || $data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaTutor.length < 10)){\r",
         "    output = false;\r",
@@ -23816,7 +23885,7 @@
         "    $data.tituloErrorPaso2 = \"Información de padre\";\r",
         "} else if(!validarPadresTutor($data.padre, $data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasaPadre)){\r",
         "    output = false;\r",
-        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío y el valor debe ser numérico y entre 10 y 14 caracteres de largo.\";\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono celular' no debe ir vacío y el valor debe ser numérico y entre 10 y 14 caracteres de largo.\";\r",
         "    $data.tituloErrorPaso2 = \"Información de padre\";\r",
         "} else if(!validarPadresTutorTrabaja($data.madre, $data.formOutputTest.solicitudApoyoEducativoInput.telefonoOficinaMadre)){\r",
         "    output = false;\r",
@@ -23824,7 +23893,7 @@
         "    $data.tituloErrorPaso2 = \"Información de madre\";\r",
         "} else if(!validarPadresTutor($data.madre, $data.formOutputTest.solicitudApoyoEducativoInput.telefonoCasaMadre)){\r",
         "    output = false;\r",
-        "    $data.errorPaso2 = \"El campo 'Teléfono de casa' no debe ir vacío y el valor debe ser numérico y entre 10 y 14 caracteres de largo.\";\r",
+        "    $data.errorPaso2 = \"El campo 'Teléfono celular' no debe ir vacío y el valor debe ser numérico y entre 10 y 14 caracteres de largo.\";\r",
         "    $data.tituloErrorPaso2 = \"Información de madre\";\r",
         "} else if ($data.formOutputTest.solicitudApoyoEducativoInput.tieneHermanos ==  null || $data.formOutputTest.solicitudApoyoEducativoInput.tieneHermanos ==  undefined){\r",
         "    output = false;\r",

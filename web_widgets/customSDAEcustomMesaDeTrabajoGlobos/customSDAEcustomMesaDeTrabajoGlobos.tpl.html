@@ -1,10 +1,11 @@
 <div class="row" ng-show="hasRole()">
     <div class="col-xs-12 text-center dashboard-baloon-container">
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion)}" ng-click="redirect('vistageneral', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" 
+        ng-class="{'balloon-container':(isTiSerua || isPreautorizacion), 'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion)}" ng-click="redirect('vistageneral', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/Solicitudes vista general.png">
-                    <img class="img-limited" ng-if="!(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/Solicitudes vista general gris.png">
+                    <img class="img-limited" ng-if="(isAdministrador || isTiSerua || isPreautorizacion || isFinanciamiento || isCrisp) " src="assets/img/Solicitudes vista general.png">
+                    <img class="img-limited" ng-if="!(isAdministrador || isTiSerua || isPreautorizacion || isFinanciamiento || isCrisp)" src="assets/img/Solicitudes vista general gris.png">
                 </div>
                 <div class="title">
                     <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion || isCrisp),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion)}">Solicitudes vista general</h4>

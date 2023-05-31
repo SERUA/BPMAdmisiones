@@ -82,7 +82,7 @@
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCBECA')">% de beca autorizado<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PORCBECA'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCFINA')">% de financiamiento autorizado<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('PORCFINA')">% de financiamiento pre-autorizado<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PORCFINA'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus financiamiento<i class="glyphicon"
@@ -163,7 +163,7 @@
                         <b>{{row.porcentajebecaautorizacion !== null ? row.porcentajebecaautorizacion + "%" : "N/A"}}</b><br>
                     </td>
                     <td>
-                        <b>{{row.porcentajeautorizadofinanciaimiento !== null ? row.porcentajeautorizadofinanciaimiento + "%" : "N/A"}}</b><br>
+                        <b>{{row.porcentajefinaautorizacion !== null ? row.porcentajefinaautorizacion + "%" : "N/A"}}</b><br>
                     </td>
                     <td>
                         <b>{{row.estatusfinanciamiento}}</b><br>
@@ -228,7 +228,7 @@
                                 <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                             </button>
 
-                            <button class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
+                            <button ng-hide="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')" class="btn btn-danger" ng-click="verSolicitud(row, 'rechazar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                             </button>
                             <button class="btn btn-primary" ng-click="verSolicitud(row, 'aceptar')" ng-if="(row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === null) || (row.estatussolicitud === null  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Propuesta aceptada por aspirante'  && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante') || (row.estatussolicitud === 'Solicitud de Financiamiento en Proceso' && row.estatusfinanciamiento === 'Propuesta de financiamiento aceptada por aspirante')">

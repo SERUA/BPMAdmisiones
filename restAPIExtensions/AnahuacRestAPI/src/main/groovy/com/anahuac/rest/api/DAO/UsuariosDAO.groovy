@@ -548,7 +548,6 @@ class UsuariosDAO {
 			lstCatRegistro = catRegistroDAO.findByCorreoelectronico(correo, 0, 1);
 			
 			if(lstCatRegistro.size() == 0) {
-				errorLog += "[-1] ";
 				throw new Exception ("No registro encontrado");
 			}
 			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
@@ -559,24 +558,17 @@ class UsuariosDAO {
 			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
 			
 			if(lstHumanTaskInstanceSearch.size() == 0) {
-				errorLog += "[-2] ";
 				throw new Exception ("No tarea  activa ");
 			} 
 			
-			errorLog += "[1] ";
 			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
-				errorLog += "[2] ";
 				apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
-				errorLog += "[3] ";
 				apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
-				errorLog += "[4] ";
 				break;
 			}
 			
-			resultado.setError_info(errorLog);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
-			resultado.setError_info(errorLog);
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();

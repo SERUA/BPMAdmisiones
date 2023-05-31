@@ -6,10 +6,10 @@ function($scope, $http, blockUI) {
     $scope.isAreDeportiva = false;
     $scope.isFinanciamiento = false;
     $scope.isComiteFinanzas = false;
-    $scope.isTiCampus = false;
     $scope.isTiSerua = false;
     $scope.isSerua = false;
     $scope.isCrisp = false;
+    $scope.isAdministrador = false;
 
     $scope.countPreautorizacion = 0;
     $scope.countArtistica = 0;
@@ -36,8 +36,6 @@ function($scope, $http, blockUI) {
         } else if($scope.isFinanciamiento){
             output = true;
         } else if($scope.isComiteFinanzas){
-            output = true;
-        } else if($scope.isTiCampus){
             output = true;
         } else if($scope.isTiSerua){
             output = true;
@@ -162,6 +160,9 @@ function($scope, $http, blockUI) {
                         } else if ($scope.lstMembership[i].role_id.displayName === "Config Campus SDAE"){
                             $scope.isConfigCampusSDAE = true;
                             console.log("isConfigCampusSDAE " + $scope.isConfigCampusSDAE);
+                        } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
+                            $scope.isAdministrador = true;
+                            console.log("isAdministrador " + $scope.isAdministrador);
                         }
                     }
 

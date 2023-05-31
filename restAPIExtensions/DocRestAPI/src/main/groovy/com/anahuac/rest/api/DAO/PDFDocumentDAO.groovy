@@ -1373,7 +1373,8 @@ class PDFDocumentDAO {
 				columns.put("totalEgresos", formatCurrency(rs.getString("egresototal")));
 				columns.put("sexoTutor", rs.getString("sexoTutor"));
 				columns.put("provieneIngresosTutor", rs.getString("provieneningresos"));
-				columns.put("telefonoCelTutor", rs.getString("telefonocelulartutor") != null && !rs.getString("telefonocelulartutor").equals("") ? rs.getString("telefonocelulartutor") : "N/A");
+//				columns.put("telefonoCelTutor", rs.getString("telefonocelulartutor") != null && !rs.getString("telefonocelulartutor").equals("") ? rs.getString("telefonocelulartutor") : "N/A");
+				columns.put("telefonoCelTutor", "");
 				columns.put("telefonoOficinaTutor", rs.getString("telefonoOficinaTutor") != null && !rs.getString("telefonoOficinaTutor").equals("") ? rs.getString("telefonoOficinaTutor") : "N/A");
 				columns.put("ingresoMensualTutor", formatCurrency(rs.getString("ingresomensualnetotutor")));
 				columns.put("telefonoOficinaPadre", desconozcoPadre ? "Se desconoce" : rs.getString("telefonooficinapadre") != null ? rs.getString("telefonooficinapadre") : "N/A");
