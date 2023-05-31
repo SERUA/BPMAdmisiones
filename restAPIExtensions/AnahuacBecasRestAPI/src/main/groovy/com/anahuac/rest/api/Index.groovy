@@ -17,6 +17,7 @@ import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.BitacoraSDAEDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Security.SecurityFilter
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
@@ -43,6 +44,11 @@ class Index implements RestApiController {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
 		
+		SecurityFilter security = new SecurityFilter();
+		if(!security.allowedUrlPost(context,url)){
+			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
+		}
+		
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);
 		Integer parameterC = Integer.valueOf(c);
@@ -55,14 +61,6 @@ class Index implements RestApiController {
 		
 		try {
 			switch(url) {
-				case "test":
-					result = dao.testFuction(parameterP, parameterC, jsonData);
-					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-					}else {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-					}
-					break;
 				case "simpleSelect":
 					result = new CatalogosDAO().simpleSelect(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -264,6 +262,23 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
+				case "countSolicitudesDeApoyoByEstatus":
+					result = new ListadoDAO().countSolicitudesDeApoyoByEstatus(jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				
+				case "selectSolicitudesApoyoCompletadas":
+					result = new ListadoDAO().selectSolicitudesApoyoCompletadas(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
 				case "getExcelFile":
 					result = new ListadoDAO().getExcelFile(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {
@@ -272,6 +287,15 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
+				case "getExcelFileCierre":
+					result = new ListadoDAO().getExcelFileCierre(parameterP, parameterC, jsonData, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				
 				case "selectBandejaMaestra":
 					result = new ListadoDAO().selectBandejaMaestra(parameterP, parameterC, jsonData, context);
 					if (result.isSuccess()) {

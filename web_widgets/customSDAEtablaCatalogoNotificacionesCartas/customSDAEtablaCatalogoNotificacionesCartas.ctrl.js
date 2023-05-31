@@ -163,7 +163,7 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
             url: "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10",
             data: angular.copy({
                 "campus": $scope.properties.campusSelected,
-                "correo": "braul5497@gmail.com",
+                "correo": "correo@test.com",
                 "codigo": codigo,
                 "isEnviar": false
             })

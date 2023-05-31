@@ -78,8 +78,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function startProcess() {
-        debugger;
         if(validacion($scope.properties.dataToChange2)){
+            debugger;
             if ($scope.properties.dataToChange2[0]) {
                 let prom = doRequest("POST","../API/extension/AnahuacBecasRest?url=updateSDAEGestionEscolar&p=0&c=10",1,2).then(function() {
                     if($scope.properties.dataToChange2[2]){
@@ -102,7 +102,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     
                 });
             }else {
+                debugger;
                 let prom = doRequest("POST","../API/extension/AnahuacBecasRest?url=insertSDAEGestionEscolar&p=0&c=10",1,1).then(function() {
+                    debugger;
                     doRequest("POST","../API/extension/AnahuacBecasRest?url=insertSDAECreditoGE&p=0&c=10",3,2).then(function() {
                             doRequest("GET", $scope.properties.url).then(function() {
                                 $scope.properties.dataToChange = $scope.properties.dataToSet;

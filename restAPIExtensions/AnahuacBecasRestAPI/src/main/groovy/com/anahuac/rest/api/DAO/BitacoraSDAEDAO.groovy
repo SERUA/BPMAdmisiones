@@ -328,7 +328,7 @@ class BitacoraSDAEDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertarCatTipoMoneda] " + e.getMessage());
+			resultado.setError("[insertBitacoraSDAE]: " + e.getMessage());
 			
 		} finally {
 			if(closeCon) {

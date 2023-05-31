@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionArtistica",
   "name" : "SDAERevisionArtistica",
-  "lastUpdate" : 1669075564509,
+  "lastUpdate" : 1685400722259,
   "rows" : [
     [
       {
@@ -703,7 +703,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Aprobar solicitud"
+                  "value" : "Validar solicitud"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -1048,6 +1048,75 @@
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_self"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "56c11917-c1d9-435d-98e2-02b283346516",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
+                    }
                   ]
                 ]
               }
@@ -1263,7 +1332,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Aprobar solicitud"
+                          "value" : "Validar solicitud"
                         },
                         "level" : {
                           "type" : "constant",
@@ -1509,7 +1578,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Aprobar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>validar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1537,7 +1606,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "readOnly" : {
                           "type" : "constant",
@@ -1579,6 +1648,66 @@
                       "reference" : "09bdb445-9720-43bd-b227-9d362d220693",
                       "hasValidationError" : false,
                       "id" : "pbTextarea"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 250
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInputAprobar.solicitudApoyoEducativoInput.motivoAprobadaArtistica"
+                        }
+                      },
+                      "reference" : "96bf4751-51f9-45ad-90ee-7b6b19e52d2e",
+                      "hasValidationError" : false,
+                      "id" : "customCustomTextAreaLimit"
                     }
                   ]
                 ]
@@ -1750,7 +1879,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -1841,7 +1970,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -2159,7 +2288,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2229,6 +2358,50 @@
                       "reference" : "361d84c1-0d0c-46d2-a5f3-122cdffbd74e",
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputRechazo.solicitudApoyoEducativoInput.motivoRechazoArtistica"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "recha1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewRechazar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[COMENTARIOS-ARTISTICA]"
+                        }
+                      },
+                      "reference" : "62b980f2-daf5-4eeb-bf89-c70a28eb061e",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
                     }
                   ]
                 ]
@@ -2867,7 +3040,7 @@
         "    }\r",
         "}\r",
         "\r",
-        "if($data.solicitudApoyoEducativo){\r",
+        "if($data.solicitudApoyoEducativo && $data.getCatTipoApoyoByCampus){\r",
         "    for(let cat of $data.getCatTipoApoyoByCampus.data){\r",
         "        if(cat.persistenceId == $data.solicitudApoyoEducativo.catTipoApoyo_id){\r",
         "            output[\"catTipoApoyo\"] =  cat;\r",
@@ -2966,7 +3139,7 @@
       "value" : [
         "return {\r",
         "\t\"beca\": \"N/A\",\r",
-        "  \t\"comentario\": $data.formInputAprobar.solicitudApoyoEducativoInput.motivoRechazoArtistica,\r",
+        "  \t\"comentario\": $data.formInputRechazo.solicitudApoyoEducativoInput.motivoRechazoArtistica,\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": \"Rechazada por área artística\",\r",
         "  \t\"financiamiento\": \"N/A\",\r",
@@ -2974,6 +3147,19 @@
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-evaluación-artistica\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
       "exposed" : false

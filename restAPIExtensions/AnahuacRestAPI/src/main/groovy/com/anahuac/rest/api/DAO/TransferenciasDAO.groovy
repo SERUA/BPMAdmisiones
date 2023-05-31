@@ -580,8 +580,13 @@ class TransferenciasDAO {
 				pstm.setLong(1, Long.valueOf(pagoid));
 				pstm.setString(2, object.caseid);
 				pstm.executeUpdate();
-				
 			}
+			
+			//Actualizando la bandera de transferencia de becas
+			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERIDO_SDAE);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, Long.valueOf(object.caseid));	
+			pstm.executeUpdate();
 
             con.commit();
             errorLog += " DESPUES del update "

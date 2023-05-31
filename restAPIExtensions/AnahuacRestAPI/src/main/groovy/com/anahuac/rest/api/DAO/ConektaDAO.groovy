@@ -1582,5 +1582,4 @@ class ConektaDAO {
 
 		return result;
 	}
-		} catch (io.conekta.ErrorList error) {
 }

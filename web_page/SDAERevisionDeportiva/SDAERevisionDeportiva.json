@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisionDeportiva",
   "name" : "SDAERevisionDeportiva",
-  "lastUpdate" : 1664390133068,
+  "lastUpdate" : 1685400801676,
   "rows" : [
     [
       {
@@ -703,7 +703,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Aprobar solicitud"
+                  "value" : "Validar solicitud"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -1048,6 +1048,75 @@
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "3ac18e65-f06a-4c8b-8b2d-150f9e49ea49",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
+                    }
                   ]
                 ]
               }
@@ -1263,7 +1332,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Aprobar solicitud"
+                          "value" : "Validar solicitud"
                         },
                         "level" : {
                           "type" : "constant",
@@ -1509,7 +1578,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Aprobar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>validar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1537,7 +1606,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "readOnly" : {
                           "type" : "constant",
@@ -1579,6 +1648,66 @@
                       "reference" : "ac3810ab-e0eb-44ab-92c7-201fdbbae527",
                       "hasValidationError" : false,
                       "id" : "pbTextarea"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 250
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "formInputAprobar.solicitudApoyoEducativoInput.motivoAprobadaDeportiva"
+                        }
+                      },
+                      "reference" : "b17b34e2-3979-4f07-9ebb-eb7a7ba8ceb5",
+                      "hasValidationError" : false,
+                      "id" : "customCustomTextAreaLimit"
                     }
                   ]
                 ]
@@ -1750,7 +1879,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -1841,7 +1970,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Aprobar solicitud"
+                                "value" : "Validar solicitud"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -2159,7 +2288,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>:"
+                          "value" : "Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>:"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -2229,6 +2358,50 @@
                       "reference" : "0b4a251b-2057-413b-bf2c-c3ca3c0f3111",
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputRechazo.solicitudApoyoEducativoInput.motivoRechazoDeportiva"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "recha1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewRechazar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[COMENTARIOS-DEPORTIVA]"
+                        }
+                      },
+                      "reference" : "ceca7f70-d25a-480e-952d-f148ab66c37e",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
                     }
                   ]
                 ]
@@ -2875,7 +3048,7 @@
         "    }\r",
         "}\r",
         "\r",
-        "if($data.solicitudApoyoEducativo){\r",
+        "if($data.solicitudApoyoEducativo && $data.getCatTipoApoyoByCampus){\r",
         "    for(let cat of $data.getCatTipoApoyoByCampus.data){\r",
         "        if(cat.persistenceId == $data.solicitudApoyoEducativo.catTipoApoyo_id){\r",
         "            output[\"catTipoApoyo\"] =  cat;\r",
@@ -2966,6 +3139,19 @@
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseId),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-evaluación-deportiva\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
       "exposed" : false

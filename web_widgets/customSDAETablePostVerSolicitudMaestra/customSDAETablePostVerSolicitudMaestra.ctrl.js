@@ -408,7 +408,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.lstCampusByUser = resultado;
     }
     $scope.filtroCampus = ""
-    $scope.addFilter = function() {
+
+    /*$scope.addFilter = function() {
+
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
                 "columna": "CAMPUS",
@@ -465,7 +467,178 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
         }
   
+    }*/
+
+    $scope.addFilter = function() {
+        if ($scope.filtroCampus != "Todos los campus") {
+            $scope.licenciaturas = [];
+            $scope.periodos = [];
+            $scope.filtroPeriodo = "";
+            $scope.filtroLicenciatura = "";
+            $scope.mostrarFiltros = true;
+
+            var filter = {
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.filtroCampus
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "CAMPUS") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
+                        for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                            if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                                $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                            }
+                        }
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                    for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                        if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                            $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                        }
+                    }
+                }
+                getLicenciasturas($scope.properties.campusSeleccionado);
+                getPeriodos($scope.properties.campusSeleccionado);
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+                for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                    if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                        $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                    }
+                }
+                getLicenciasturas($scope.properties.campusSeleccionado);
+                getPeriodos($scope.properties.campusSeleccionado);
+            }
+
+        } else {
+            $scope.mostrarFiltros = false;
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "CAMPUS") {
+                        $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                        $scope.properties.campusSeleccionado = null;
+                    }
+                }
+            } else {
+                $scope.properties.campusSeleccionado = null;
+            }
+        }
+  
     }
+
+    function getLicenciasturas(_campus) {
+        var req = {
+            method: "GET",
+            url: "/API/bdm/businessData/com.anahuac.catalogos.CatGestionEscolar?q=getCatGestionEscolarByCampus&p=0&c=9999&f=campus="  + _campus,
+            data: angular.copy({ "assigned_id": $scope.properties.userId })
+        };
+  
+        return $http(req).success(function(data, status) {
+            $scope.licenciaturas = data;
+            $scope.periodos
+            // window.open(url, '_blank');
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+
+        });
+    }
+
+    function getPeriodos(_campus) {
+        var req = {
+            method: "GET",
+            url: "/API/extension/AnahuacRestGet?url=getCatPeriodoActivo&p=0&c=10&tipo=Semestral",
+            data: angular.copy({ "assigned_id": $scope.properties.userId })
+        };
+  
+        return $http(req).success(function(data, status) {
+            $scope.periodos  = data.data;
+            // window.open(url, '_blank');
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+
+        });
+    }
+
+
+    $scope.addFilterLicenciatura = function() {
+        if ($scope.filtroLicenciatura) {
+            var filter = {
+                "columna": "LICENCIATURA",
+                "operador": "Que contengan",
+                "valor": $scope.filtroLicenciatura
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "LICENCIATURA") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroLicenciatura;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+
+        }
+    }
+
+    $scope.addFilterPeriodo = function() {
+        if ($scope.filtroPeriodo) {
+            var filter = {
+                "columna": "PERIODO",
+                "operador": "Que contengan",
+                "valor": $scope.filtroPeriodo
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "PERIODO") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroPeriodo;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+
+        }
+    }
+
     $scope.sizing = function() {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
@@ -500,17 +673,55 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 console.error(data);
             });
     }
+    
     $scope.isPeriodoVencido = function(periodofin) {
         var fecha = new Date(periodofin.slice(0, 10))
         return fecha < new Date();
     }
     
     $scope.abrirSolicitud = function(row) {
-        debugger;
         var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
         window.open(url, '_blank');
     }
   
   
     $scope.getCatCampus();
-  }
+
+    $scope.getTareaByEstatus = function(_estatus){
+        let output = "";
+        if(_estatus === "Esperando Pre-Autorización"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Correcciones realizadas"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Evaluación artística rechaza"){
+            output = "Archivo";
+        } else if(_estatus === "Evaluación deportiva rechaza"){
+            output = "Archivo";
+        } else if(_estatus === "Solicitud Rechazada"){
+            output = "Archivo";
+        } else if(_estatus === "En espera de resultado"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Esperando revisión área deportiva"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "Esperando revisión área artistica"){
+            output = "Pre-Autorización";
+        } else if(_estatus === "En espera de autorización"){
+            output = "Comité de becas";
+        } else if(_estatus === "Solicitud de apoyo en progreso"){
+            output = "Aspirante";
+        } else if(_estatus === "Solicitud de Financiamiento en Proceso"){
+            output = "Aspirante";
+        } else if(_estatus === "Pre-autorización solicita modificaciones"){
+            output = "Aspirante";
+        } else if(_estatus === "Solicitud autorizada"){
+            output = "Aspirante";
+        } 
+
+        return output;
+    };
+
+    $scope.abrirSolicitudF = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verFinanciamiento/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
+}

@@ -300,6 +300,7 @@
                 <field type="INTEGER" length="255" name="creditoSemestre" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="manejaApoyo" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatGestionEscolar" fetchType="LAZY" name="catGestionEscolar" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="manejaProntoPago" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -318,6 +319,9 @@
                 <field type="BOOLEAN" length="255" name="isPagoRealizadoAutorizacion" nullable="true" collection="false"/>
                 <field type="TEXT" length="255" name="motivoRechazoAutorizacionText" nullable="true" collection="false"/>
                 <field type="TEXT" length="255" name="cambiosSolicitudAutorizacionText" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaAutorizacion" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fechaLimitePropuesta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioAutoriza" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -405,6 +409,7 @@
                 <field type="STRING" length="255" name="rfc" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="urlDocumentoFirmado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="otroIngresoEspecificar" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -450,6 +455,8 @@
                 <field type="STRING" length="255" name="tipoCuenta" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="numeroCuenta" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="saldoPromedio" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="esBancaria" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -462,6 +469,7 @@
                 <field type="STRING" length="255" name="correoPersonal" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="parentesco" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="esPersonal" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -683,6 +691,7 @@
                 <field type="BOOLEAN" length="255" name="aprobadaFinal" nullable="true" collection="false"/>
                 <field type="TEXT" length="255" name="comentariosFinal" nullable="true" collection="false"/>
                 <field type="LOCALDATE" length="255" name="fechaLimiteAceptaPropuesta" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="transferidoAdmisiones" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -913,6 +922,10 @@
                 <field type="STRING" length="255" name="mailgunSDAE" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="mailgunDominioSDAE" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="mailgunCorreoSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlBannerSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioBannerSDAE" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="urlTokenBannerSDAE" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="pwBannerSDAE" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>

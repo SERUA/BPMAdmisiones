@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEPreAutorizacion",
   "name" : "SDAEPreAutorizacion",
-  "lastUpdate" : 1669066941642,
+  "lastUpdate" : 1685404194306,
   "rows" : [
     [
       {
@@ -525,6 +525,10 @@
                 "isArtisticaOrDeportiva" : {
                   "type" : "constant",
                   "value" : false
+                },
+                "getPAA" : {
+                  "type" : "expression",
+                  "value" : "getPAA[0]"
                 }
               },
               "reference" : "2b3e84f1-1deb-49a1-99bc-ac7fbe14445e",
@@ -1406,7 +1410,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<hr>Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}}</b>."
+                        "value" : "<hr>Escribe  a continuación la razón por la cual vas a <b>Rechazar</b> la solicitud de <b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1416,6 +1420,50 @@
                     "reference" : "1f0b27eb-2629-408e-a007-277b073cfda0",
                     "hasValidationError" : false,
                     "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "valor2" : {
+                        "type" : "variable",
+                        "value" : "formInputRechazo.preAutorizacionInput.motivoRechazoPreAutorizacion"
+                      },
+                      "id" : {
+                        "type" : "constant",
+                        "value" : "preRecha1"
+                      },
+                      "ocultarPrevisualizar" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "datosPrevisualizar" : {
+                        "type" : "variable",
+                        "value" : "previewRechazar"
+                      },
+                      "replace" : {
+                        "type" : "constant",
+                        "value" : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
+                      }
+                    },
+                    "reference" : "25c7e5f8-363b-45d5-a998-9b38590769c2",
+                    "hasValidationError" : false,
+                    "id" : "customSDAEtextEditorAJS"
                   }
                 ],
                 [
@@ -1457,9 +1505,9 @@
                         "value" : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
                       }
                     },
-                    "reference" : "25c7e5f8-363b-45d5-a998-9b38590769c2",
+                    "reference" : "fcec67a7-edfa-4714-9d09-18a4dab8e290",
                     "hasValidationError" : false,
-                    "id" : "customSDAEtextEditorAJS"
+                    "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
                   }
                 ],
                 [
@@ -1762,6 +1810,58 @@
                               "type" : "constant",
                               "value" : false
                             },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Escribe  a continuación los cambios que solicitas al registro de <b><b>{{getInformacionPersonal[0].primerNombre}} {{getInformacionPersonal[0].segundoNombre}} {{getInformacionPersonal[0].primerApellido}} {{getInformacionPersonal[0].segundoApellido}} (Máximo 250 caracteres)</b>."
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "cb225779-5229-4cd1-a8a1-dde2a7fc15f3",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
                             "valor2" : {
                               "type" : "variable",
                               "value" : "formInput.preAutorizacionInput.cambiosSolicitudPreAutorizacion"
@@ -1786,6 +1886,50 @@
                           "reference" : "cd5e4dda-5f7d-4961-a888-82ace81f1a27",
                           "hasValidationError" : false,
                           "id" : "customSDAEtextEditorAJS"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "valor2" : {
+                              "type" : "variable",
+                              "value" : "formInput.preAutorizacionInput.cambiosSolicitudPreAutorizacion"
+                            },
+                            "id" : {
+                              "type" : "constant",
+                              "value" : "preMod1"
+                            },
+                            "ocultarPrevisualizar" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "datosPrevisualizar" : {
+                              "type" : "variable",
+                              "value" : "previewModificar"
+                            },
+                            "replace" : {
+                              "type" : "constant",
+                              "value" : "[COMENTARIOS-CAMBIO-PREAUTORIZACION]"
+                            }
+                          },
+                          "reference" : "341cfd1a-09e2-4587-be45-4aeba872b733",
+                          "hasValidationError" : false,
+                          "id" : "customSDAEtextEditorAJSNOENRIQUECIDO"
                         }
                       ]
                     ]
@@ -2316,7 +2460,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Porcentaje de beca:"
+                          "value" : "Porcentaje de beca pre-autorizado:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -2477,7 +2621,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Porcentaje de financiamiento:"
+                          "value" : "Porcentaje de financiamiento sugerido:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -4697,7 +4841,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Porcentaje de financiamiento pre autorizado"
+                          "value" : "Porcentaje de financiamiento sugerido:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -5398,6 +5542,75 @@
                       "reference" : "4702549f-9deb-4905-a986-dc91959ffc39",
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "0753b978-a64b-4374-8e66-7bda3b46a58b",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
                     }
                   ]
                 ]
@@ -6565,7 +6778,7 @@
         "\t\"beca\": $data.formInputAprobar.preAutorizacionInput.porcentajeBeca ? $data.formInputAprobar.preAutorizacionInput.porcentajeBeca : \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
-        "  \t\"estatus\": \"Preautorización aporobada\",\r",
+        "  \t\"estatus\": \"Preautorización aprobada\",\r",
         "  \t\"financiamiento\": $data.formInputAprobar.preAutorizacionInput.porcentajeCredito ? $data.formInputAprobar.preAutorizacionInput.porcentajeCredito : \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
@@ -6640,6 +6853,14 @@
         "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getPAA" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getPAAByIdBanner&p=0&c=10&idbanner={{getDatosSolicitante[0].idAlumno}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

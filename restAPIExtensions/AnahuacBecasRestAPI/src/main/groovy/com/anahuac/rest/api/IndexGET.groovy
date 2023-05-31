@@ -12,6 +12,7 @@ import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
+import com.anahuac.rest.api.DAO.BannerRequestDAO
 import com.anahuac.rest.api.DAO.BitacoraDAO
 import com.anahuac.rest.api.DAO.BitacoraSDAEDAO
 import com.anahuac.rest.api.DAO.BonitaGetsDAO
@@ -20,6 +21,7 @@ import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Security.SecurityFilter
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
@@ -45,6 +47,11 @@ class IndexGET implements RestApiController {
         if (url == null) {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
+		
+		SecurityFilter security = new SecurityFilter();
+		if(!security.allowedUrl(context,url)){
+			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
+		}
 		
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);
@@ -116,7 +123,17 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
 					break;
-					
+				case "updateTransferidoSolicitud":
+					String caseIdAdmisiones = request.getParameter "caseIdAdmisiones"
+					String transferido = request.getParameter "transferido"
+					result = new SolicitudDeAdmisionDAO().updateTransferidoSolicitud(Boolean.valueOf(transferido), Long.valueOf(caseIdAdmisiones));
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+					break;	
 				case "getDocumentosByTipoApoyo":
 					String campus = request.getParameter "campus"
 					String idTipoApoyo = request.getParameter "idTipoApoyo"
@@ -210,6 +227,16 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getPAAByIdBanner":
+					String idbanner = request.getParameter "idbanner"
+					result = new ListadoDAO().getPAAByIdBanner(idbanner, context);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 					
 				case "getLinkDescarga":
 					String linkAzure = request.getParameter "linkAzure"
@@ -271,6 +298,17 @@ class IndexGET implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
+				case"getBannerInfo":
+					String idbanner = request.getParameter "idbanner"
+					String idcampus = request.getParameter "idcampus"
+					result = new BannerRequestDAO().getBannerInfo(idcampus, idbanner);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
 				case "getB64FileByUrlAzure":
 					String urlAzure = request.getParameter "urlAzure"
 					result = new SolicitudDeAdmisionDAO().getB64FileByUrlAzure(urlAzure);
@@ -317,6 +355,20 @@ class IndexGET implements RestApiController {
 						id = Long.valueOf(pid)
 					}
 					result = new CatalogosDAO().getSDAEGestionEscolar(id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getSDAEGestionEscolarByCarrera":
+					String pid = request.getParameter "id"
+					Long id = 0L;
+					if(!pid.equals(null) && !pid.equals("") && !pid.equals("null")) {
+						id = Long.valueOf(pid)
+					}
+					result = new CatalogosDAO().getSDAEGestionEscolarByCarrera(id);
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())

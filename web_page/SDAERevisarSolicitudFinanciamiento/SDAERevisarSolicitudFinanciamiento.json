@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAERevisarSolicitudFinanciamiento",
   "name" : "SDAERevisarSolicitudFinanciamiento",
-  "lastUpdate" : 1668125401185,
+  "lastUpdate" : 1685400122021,
   "rows" : [
     [
       {
@@ -1085,82 +1085,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 6,
-                              "md" : 6,
-                              "lg" : 6
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "required" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "minLength" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "maxLength" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "readOnly" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "% Crédito que solicita:"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation"
-                              },
-                              "value" : {
-                                "type" : "variable",
-                                "value" : "getSolicitudApoyoEducativo[0].porcentajefinanciamiento"
-                              },
-                              "type" : {
-                                "type" : "constant",
-                                "value" : "text"
-                              },
-                              "min" : {
-                                "type" : "constant"
-                              },
-                              "max" : {
-                                "type" : "constant"
-                              },
-                              "step" : {
-                                "type" : "constant",
-                                "value" : 1
-                              }
-                            },
-                            "reference" : "1afb91d0-c912-4f8e-8f17-5295fa1716c8",
-                            "hasValidationError" : false,
-                            "id" : "pbInput"
-                          },
-                          {
-                            "type" : "component",
+                            "type" : "container",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -1176,63 +1101,198 @@
                                 "type" : "constant",
                                 "value" : false
                               },
-                              "required" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "minLength" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "maxLength" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "readOnly" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "% de financiamiento preautorizado:"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation"
-                              },
-                              "value" : {
+                              "repeatedCollection" : {
                                 "type" : "variable",
-                                "value" : "preAutorizacion[0].porcentajeCreditoPreAutorizacion"
-                              },
-                              "type" : {
-                                "type" : "constant",
-                                "value" : "text"
-                              },
-                              "min" : {
-                                "type" : "constant"
-                              },
-                              "max" : {
-                                "type" : "constant"
-                              },
-                              "step" : {
-                                "type" : "constant",
-                                "value" : 1
+                                "value" : ""
                               }
                             },
-                            "reference" : "bfdc48c2-c0b3-48ca-b810-7d34ea6938e1",
+                            "reference" : "0b6aa05b-e6fe-462d-bff4-a1260d5a22d2",
                             "hasValidationError" : false,
-                            "id" : "pbInput"
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "!autorizacion[0].porcentajeBecaAutorizacion"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "% de beca autorizado:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "autorizacion[0].porcentajeBecaAutorizacion? autorizacion[0].porcentajeBecaAutorizacion: \"N/A\""
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "bfdc48c2-c0b3-48ca-b810-7d34ea6938e1",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ]
+                            ]
+                          },
+                          {
+                            "type" : "container",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 6,
+                              "lg" : 6
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "repeatedCollection" : {
+                                "type" : "variable",
+                                "value" : ""
+                              }
+                            },
+                            "reference" : "4d8a7f32-f869-419a-b7a6-4334e9b87088",
+                            "hasValidationError" : false,
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "% de financiamiento autorizado:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "autorizacion[0].porcentajeCreditoAutorizacion? autorizacion[0].porcentajeCreditoAutorizacion: \"N/A\""
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "c6fdf9b9-2d23-4414-87ed-5e8201824607",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ]
+                            ]
                           }
                         ],
                         [
@@ -1348,7 +1408,7 @@
                               "headers" : {
                                 "type" : "constant",
                                 "value" : [
-                                  "Nombre",
+                                  "Nombre completo",
                                   "Parentesco",
                                   "Teléfono",
                                   "E-mail"
@@ -1495,7 +1555,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Nombres:"
+                                      "value" : "Nombre(s):"
                                     },
                                     "placeholder" : {
                                       "type" : "constant"
@@ -1875,83 +1935,6 @@
                                     },
                                     "hidden" : {
                                       "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "required" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "minLength" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "maxLength" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "readOnly" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "labelHidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "label" : {
-                                      "type" : "interpolation",
-                                      "value" : "Parentesco:"
-                                    },
-                                    "labelPosition" : {
-                                      "type" : "constant",
-                                      "value" : "top"
-                                    },
-                                    "labelWidth" : {
-                                      "type" : "constant",
-                                      "value" : 4
-                                    },
-                                    "placeholder" : {
-                                      "type" : "interpolation"
-                                    },
-                                    "value" : {
-                                      "type" : "variable",
-                                      "value" : ""
-                                    },
-                                    "type" : {
-                                      "type" : "constant",
-                                      "value" : "text"
-                                    },
-                                    "min" : {
-                                      "type" : "constant"
-                                    },
-                                    "max" : {
-                                      "type" : "constant"
-                                    },
-                                    "step" : {
-                                      "type" : "constant",
-                                      "value" : 1
-                                    }
-                                  },
-                                  "reference" : "fab1b12e-5d70-4db0-8299-527a61cb0a58",
-                                  "hasValidationError" : false,
-                                  "id" : "pbInput"
-                                }
-                              ],
-                              [
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 12,
-                                    "lg" : 12
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "constant",
                                       "value" : false
                                     },
                                     "required" : {
@@ -1976,7 +1959,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Teléfono: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Teléfono:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2053,7 +2036,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Email personal: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Email personal:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2158,7 +2141,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Ingreso mensual ({{returnCatValue.catTipoMoneda.clave}}):"
+                                      "value" : "Ingreso mensual (MXN):"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2269,6 +2252,83 @@
                                   "type" : "component",
                                   "dimension" : {
                                     "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "!avalInfoPersonalModel.otroIngresoEspecificar"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Especifica:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "avalInfoPersonalModel.otroIngresoEspecificar"
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "4f0b2fcb-fd7a-4997-9ded-333ab81db2db",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
                                     "sm" : 6,
                                     "md" : 12,
                                     "lg" : 12
@@ -2304,7 +2364,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Otro ingreso ({{returnCatValue.catTipoMoneda.clave}}):"
+                                      "value" : "Otro ingreso (MXN):"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2383,7 +2443,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Ingreso mensual Total ({{returnCatValue.catTipoMoneda.clave}}):"
+                                      "value" : "Ingreso mensual Total (MXN):"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2460,7 +2520,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Egreso mensual Total ({{returnCatValue.catTipoMoneda.clave}}):"
+                                      "value" : "Egreso mensual Total (MXN):"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2538,7 +2598,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Saldo mensual ({{returnCatValue.catTipoMoneda.clave}}):"
+                                      "value" : "Saldo mensual (MXN):"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -3416,7 +3476,7 @@
                               "headers" : {
                                 "type" : "constant",
                                 "value" : [
-                                  "Nombre",
+                                  "Nombre completo",
                                   "Parentesco",
                                   "Teléfono",
                                   "E-mail"
@@ -4594,7 +4654,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "País"
+                                "value" : "País:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5268,7 +5328,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Notario(a): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Notario(a):"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5343,7 +5403,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "No. notaría: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "No. notaría:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5418,7 +5478,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "No. escritura: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "No. escritura:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5487,7 +5547,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Fecha: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Fecha:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5511,7 +5571,7 @@
                               },
                               "showToday" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "todayLabel" : {
                                 "type" : "interpolation",
@@ -5561,7 +5621,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Volumen: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Volumen:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5636,7 +5696,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Libro: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Libro:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5713,7 +5773,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Lugar de escrituración: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Lugar de escrituración:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -5883,7 +5943,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Folio o folio real: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Folio o folio real:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -5950,7 +6010,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Fecha de registro: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Fecha de registro:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -5974,7 +6034,7 @@
                                     },
                                     "showToday" : {
                                       "type" : "constant",
-                                      "value" : true
+                                      "value" : false
                                     },
                                     "todayLabel" : {
                                       "type" : "interpolation",
@@ -6026,7 +6086,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Tomo: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Tomo:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -6101,7 +6161,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Libro: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Libro:"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -6550,7 +6610,7 @@
                                           },
                                           "label" : {
                                             "type" : "interpolation",
-                                            "value" : "Lugar Escrituracion"
+                                            "value" : "Lugar Escrituracion:"
                                           },
                                           "placeholder" : {
                                             "type" : "constant"
@@ -7050,7 +7110,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Número de cuenta",
-                            "Saldo promedio"
+                            "Saldo promedio anual (MXN)"
                           ]
                         },
                         "content" : {
@@ -7165,7 +7225,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Número de cuenta",
-                            "Saldo promedio"
+                            "Monto mensual (MXN)"
                           ]
                         },
                         "content" : {
@@ -7310,7 +7370,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "DOCUMENTACIÓN DEL AVAL"
+                                "value" : "DOCUMENTACIÓN"
                               },
                               "level" : {
                                 "type" : "constant",
@@ -7538,7 +7598,7 @@
                               },
                               "hidden" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "repeatedCollection" : {
                                 "type" : "variable",
@@ -9073,6 +9133,102 @@
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputArchivar.solicitudFinanciamientoModelInput.observacionesFinanzas"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "recha1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewRechazar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[RECHAZO-COMENTARIOS-FINANZAS]"
+                        }
+                      },
+                      "reference" : "779ae341-f509-4122-ab26-e966502d128f",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<br>Se le enviará correo al solicitante"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "c22c44fd-1e18-4fda-884b-131abbafc1f7",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -9747,6 +9903,102 @@
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "valor2" : {
+                          "type" : "variable",
+                          "value" : "formInputModificar.solicitudFinanciamientoModelInput.observacionesFinanzas"
+                        },
+                        "id" : {
+                          "type" : "constant",
+                          "value" : "modi1"
+                        },
+                        "ocultarPrevisualizar" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "datosPrevisualizar" : {
+                          "type" : "variable",
+                          "value" : "previewModificar"
+                        },
+                        "replace" : {
+                          "type" : "constant",
+                          "value" : "[COMENTARIOS-CAMBIO-AVAL]"
+                        }
+                      },
+                      "reference" : "601b83be-ae75-4f74-885c-eb512654948b",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEbuttonPreviewNoText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<br>Se le enviará correo al solicitante"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "12e60d86-3bc5-45b2-aaa7-6fc4fe899667",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
                   ]
                 ]
               }
@@ -10315,7 +10567,7 @@
                               },
                               "hidden" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "required" : {
                                 "type" : "constant",
@@ -10331,7 +10583,7 @@
                               },
                               "readOnly" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -10339,7 +10591,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Porcentaje de financiamiento:"
+                                "value" : "Licenciatura:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -10354,7 +10606,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInputEnviarComite.solicitudFinanciamientoModelInput.porcFinanzas"
+                                "value" : "objSolicitudDeAdmision[0].catGestionEscolar.nombre"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -10371,7 +10623,315 @@
                                 "value" : 1
                               }
                             },
-                            "reference" : "af97f679-bc8a-44c8-8e5e-3001cfb4dcc2",
+                            "reference" : "a6490510-b047-4a2e-a70d-cd95f78bf2e1",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Periodo:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "objSolicitudDeAdmision[0].catPeriodo.descripcion"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "a2e1ddcd-9c3b-4643-b15a-d8c95a941809",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "preAutorizacion[0].porcentajeBeca ? false : true"
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Porcentaje de beca autorizado:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "preAutorizacion[0].porcentajeBeca ? preAutorizacion[0].porcentajeBeca : \"N/A\""
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "9c5062ad-9cb4-4469-99b3-cc92e1a886db",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "preAutorizacion[0].porcentajeCreditoPreAutorizacion? false : true"
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Porcentaje de financiamiento educativo sugerido por becas:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "preAutorizacion[0].porcentajeCreditoPreAutorizacion? preAutorizacion[0].porcentajeCreditoPreAutorizacion : \"N/A\""
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "c568a69f-8358-4654-af5b-28de87341a52",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "autorizacion[0].porcentajeCreditoAutorizacion ? false : true"
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Porcentaje de financiamiento educativo preautorizado por becas:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "autorizacion[0].porcentajeCreditoAutorizacion? autorizacion[0].porcentajeCreditoAutorizacion: \"N/A\""
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "12f9862f-84d8-48ec-bc34-985acd8b6e07",
                             "hasValidationError" : false,
                             "id" : "pbInput"
                           }
@@ -10416,7 +10976,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Porcentaje de financiamiento:"
+                                "value" : "Porcentaje de financiamiento pre-autorizado:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -10516,6 +11076,58 @@
                       "reference" : "d9090a58-1c6f-4f86-9dd9-8d8db4a61e79",
                       "hasValidationError" : false,
                       "id" : "customCustomTextAreaLimit"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : ""
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "22afb8cb-493f-466a-b364-c0ee488f1c4f",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
                     }
                   ]
                 ]
@@ -11163,6 +11775,75 @@
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "36949359-495b-4419-b327-74502d3e6aae",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
+                    }
                   ]
                 ]
               }
@@ -11297,7 +11978,7 @@
       "id" : "ffcf8621-aa8a-46e7-8280-93b38e5916da",
       "name" : "politespace.js",
       "type" : "js",
-      "order" : 5,
+      "order" : 6,
       "external" : false
     },
     {
@@ -11318,7 +11999,7 @@
       "id" : "6533df0f-c2ee-4e69-a608-b1078e57f719",
       "name" : "sweetalert.min.js",
       "type" : "js",
-      "order" : 3,
+      "order" : 4,
       "external" : false
     },
     {
@@ -11336,10 +12017,17 @@
       "external" : false
     },
     {
+      "id" : "c0adec87-d34a-4ff3-9e0d-7938ade99381",
+      "name" : "bootstrap.min.js",
+      "type" : "js",
+      "order" : 3,
+      "external" : false
+    },
+    {
       "id" : "a3376be8-0d4d-4bc3-8bb0-b14d453d79fa",
       "name" : "jquery.inputmask.bundle.js",
       "type" : "js",
-      "order" : 4,
+      "order" : 5,
       "external" : false
     }
   ],
@@ -12347,7 +13035,7 @@
         "output += objeto.primerNombre;",
         "objeto.segundoNombre ? output += objeto.segundoNombre + \" \" : output += \" \";",
         "output += objeto.apellidoPaterno;",
-        "objeto.apellidoMaterno ? output += objeto.apellidoMaterno + \" \" : output += \" \";",
+        "objeto.apellidoMaterno ? output += \" \" + objeto.apellidoMaterno + \" \" : output += \" \";",
         "",
         "return output;"
       ],
@@ -12579,8 +13267,8 @@
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": $data.formInputEnviarComite.solicitudFinanciamientoModelInput.observacionesFinanzas,\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
-        "  \t\"estatus\": \"Solicitud de financiamiento autorizada por financimamiento\",\r",
-        "  \t\"financiamiento\":  $data.formInputEnviarComite.solicitudFinanciamientoModelInput.porcFinanzas,\r",
+        "  \t\"estatus\": \"Solicitud preautorizada por financiamiento\",\r",
+        "  \t\"financiamiento\":  $data.formInputEnviarComite.solicitudFinanciamientoModelInput.porcFinanzas + \"\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseIdURL),\r",
@@ -12658,7 +13346,7 @@
       "value" : [
         "return {\r",
         "\t\"beca\": \"N/A\",\r",
-        "  \t\"comentario\": $data.formInputModificar.solicitudFinanciamientoModelInput.observacionesFinanzas,\r",
+        "  \t\"comentario\": $data.formInputArchivar.solicitudFinanciamientoModelInput.observacionesFinanzas,\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
         "  \t\"estatus\": \"Financiamiento rechaza solicitud\",\r",
         "  \t\"financiamiento\":  \"N/A\",\r",
@@ -12666,6 +13354,39 @@
         "  \t\"usuarios\": $data.userData.user_name,\r",
         "  \t\"caseid\": parseInt($data.caseIdURL),\r",
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "autorizacion" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseId [com.anahuac.SDAE.model.AutorizacionApoyo]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseId\",\"displayName\":\"findByCaseId\"},\"id\":\"com.anahuac.SDAE.model.AutorizacionApoyo\",\"filters\":[{\"name\":\"caseId\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{solicitudDeApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "previewModificar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-solicitudmodifcación-validaciónfinanzas\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "previewRechazar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "  \"campus\": $data.objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita,\r",
+        "  \"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
+        "  \"codigo\": \"sdae-solicitudrechaza-finanzas\",\r",
+        "  \"isEnviar\": false,\r",
+        "  \"correoAspirante\": $data.objSolicitudDeAdmision[0].correoElectronico\r",
         "}"
       ],
       "exposed" : false

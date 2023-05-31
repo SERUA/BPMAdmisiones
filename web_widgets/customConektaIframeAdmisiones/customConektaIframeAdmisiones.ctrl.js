@@ -1,5 +1,6 @@
 function ($scope, $http) {
 
+    var publicKey = "";
     var loaded = false;
     // $scope.formInput = {
     // 	"solicitudApoyoEducativoInput":{
@@ -58,17 +59,16 @@ function ($scope, $http) {
         };
 
         return $http(req).success(function (data, status) {
-            // $scope.properties.tokenObject = data[0];
-            debugger;
-            $scope.properties.publicKey = data[0];
+            $scope.properties.publicKey = angular.copy(data.data[0]);
+            publicKey = angular.copy(data.data[0]);
             getConektaTokenbObject();
         }).error(function (data, status) {
             // $scope.properties.dataFromError = data;
             swal("Error", "No se ha podido generar el token temporal, intente de nuevo mas tarde.", "error");
         }).finally(function () {
-            if ($scope.properties.tokenObject) {
-                setIframe();
-            }
+            // if ($scope.properties.tokenObject) {
+            //     setIframe();
+            // }
         });
     }
 
@@ -83,12 +83,13 @@ function ($scope, $http) {
     });
 
     function setIframe() {
+        debugger;
         window.ConektaCheckoutComponents.Card({
             targetIFrame: "#conektaIframeContainer",
             allowTokenization: true,
             checkoutRequestId: $scope.properties.tokenObject.checkout.id,
             // publicKey: $scope.properties.publicKey,
-            publicKey: 'key_C7SWKykBJHLyqcMT7C4yr9w',
+            publicKey:  publicKey,
             options: {
                 styles: {
                     inputType: 'basic', //'basic' | 'rounded' | 'line'
@@ -133,7 +134,6 @@ function ($scope, $http) {
     }
 
     $scope.buildCardObject = function(){
-        debugger;
         $scope.properties.objectCard = {
             "name": $scope.properties.objSolicitudAdmision.primerNombre + " "+ $scope.properties.objSolicitudAdmision.apellidoPaterno,
             "email": $scope.properties.objSolicitudAdmision.correoElectronico,

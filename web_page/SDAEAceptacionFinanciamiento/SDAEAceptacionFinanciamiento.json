@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAceptacionFinanciamiento",
   "name" : "SDAEAceptacionFinanciamiento",
-  "lastUpdate" : 1664846417015,
+  "lastUpdate" : 1684890129817,
   "rows" : [
     [
       {
@@ -345,7 +345,17 @@
                 "getDatosSolicitante" : "",
                 "imagenesSocEcoSolicitanteInput" : "",
                 "documentosSolicitanteInput" : "",
-                "idModal" : ""
+                "idModal" : "",
+                "avalInfoPersonalModel" : "",
+                "avalInfoInmuebleModel" : "",
+                "avalInfoPropiedadModel" : "",
+                "avalReferenciasBancariasModel" : "",
+                "avalReferenciaCreditoModel" : "",
+                "lstDocumentosAval" : "",
+                "isAutor" : "",
+                "lstTipoMoneda" : "",
+                "lstAutomoviles" : "",
+                "getConfiguracionCampus" : ""
               }
             }
           ],
@@ -5198,6 +5208,9 @@
                         "editar" : {
                           "type" : "constant",
                           "value" : true
+                        },
+                        "moneda" : {
+                          "type" : "constant"
                         }
                       },
                       "reference" : "ac0b70e5-429f-4bd6-99cc-7e908cd092e6",
@@ -5665,6 +5678,9 @@
                         "editar" : {
                           "type" : "constant",
                           "value" : true
+                        },
+                        "moneda" : {
+                          "type" : "constant"
                         }
                       },
                       "reference" : "acebced5-691e-47e0-86a8-0f1f6b81a9e0",
@@ -6595,7 +6611,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a su solicitud nos permitimos generarle la siguiente propuesta de financiamiento educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>, te agradecemos nos proporciones una respuesta a la brevedad posible para poder aplicar a este beneficio."
+                        "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Tienes hasta el <b>{{ solicitudFinanciamiento.fechaLimiteAceptaPropuesta | date:'dd/MM/yyyy'}}</b> para responder a la propuesta. <br> En caso de no responder la propuesta en tiempo tu solicitud se archivará automáticamente. Para reactivarla ponte en contacto con el área financiamiento educativo del campus.</p>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -6829,8 +6845,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "!formOutput"
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -7184,10 +7200,10 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
-                        "lg" : 6
+                        "lg" : 3
                       },
                       "propertyValues" : {
                         "cssClasses" : {
@@ -7270,12 +7286,215 @@
                       "id" : "pbButton"
                     },
                     {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 3
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Enviar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Submit task"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "formInputEnviarComite"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "objetoBitacora" : {
+                          "type" : "expression",
+                          "value" : "objetoBitacora"
+                        },
+                        "urlBitacora" : {
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                        }
+                      },
+                      "reference" : "ae0d8eed-c84e-4df4-82c5-ccfcb140f790",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEFinalizarTareaBit"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 3
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Enviar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Submit task"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "formInputEnviarComite"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation",
+                          "value" : "/bonita/apps/aspiranteSDAE/nueva_solicitud_SDAE/"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "estatusSolicitud" : {
+                          "type" : "variable",
+                          "value" : "estatusSolicitud"
+                        },
+                        "caseId" : {
+                          "type" : "variable",
+                          "value" : "caseIdURL"
+                        },
+                        "urlBitacora" : {
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
+                        },
+                        "objetoBitacora" : {
+                          "type" : "expression",
+                          "value" : "objetoBitacora"
+                        }
+                      },
+                      "reference" : "afa6a8e2-f756-45e5-9dc5-d92392307674",
+                      "hasValidationError" : false,
+                      "id" : "customSDAEButtonCambiarEstatusSolicitud"
+                    },
+                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
-                        "md" : 6,
-                        "lg" : 6
+                        "md" : 3,
+                        "lg" : 3
                       },
                       "propertyValues" : {
                         "cssClasses" : {
@@ -7295,213 +7514,7 @@
                       "hasValidationError" : false,
                       "id" : "pbContainer",
                       "rows" : [
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "disabled" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Enviar"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "primary"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "Submit task"
-                              },
-                              "assign" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "url" : {
-                                "type" : "interpolation"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "expression",
-                                "value" : "formInputEnviarComite"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation",
-                                "value" : "/bonita/apps/aspiranteSDAE/nueva_solicitud_SDAE/"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
-                              },
-                              "estatusSolicitud" : {
-                                "type" : "variable",
-                                "value" : "estatusSolicitud"
-                              },
-                              "caseId" : {
-                                "type" : "variable",
-                                "value" : "caseIdURL"
-                              },
-                              "urlBitacora" : {
-                                "type" : "constant",
-                                "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
-                              },
-                              "objetoBitacora" : {
-                                "type" : "expression",
-                                "value" : "objetoBitacora"
-                              }
-                            },
-                            "reference" : "afa6a8e2-f756-45e5-9dc5-d92392307674",
-                            "hasValidationError" : false,
-                            "id" : "customSDAEButtonCambiarEstatusSolicitud"
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "component",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "disabled" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Enviar"
-                              },
-                              "alignment" : {
-                                "type" : "constant",
-                                "value" : "right"
-                              },
-                              "buttonStyle" : {
-                                "type" : "constant",
-                                "value" : "primary"
-                              },
-                              "action" : {
-                                "type" : "constant",
-                                "value" : "Submit task"
-                              },
-                              "assign" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "url" : {
-                                "type" : "interpolation"
-                              },
-                              "responseStatusCode" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "dataToSend" : {
-                                "type" : "expression",
-                                "value" : "formInputEnviarComite"
-                              },
-                              "dataFromSuccess" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "closeOnSuccess" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "dataFromError" : {
-                                "type" : "variable",
-                                "value" : ""
-                              },
-                              "targetUrlOnSuccess" : {
-                                "type" : "interpolation"
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable"
-                              },
-                              "modalId" : {
-                                "type" : "constant",
-                                "value" : ""
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
-                              },
-                              "valueToAdd" : {
-                                "type" : "constant"
-                              },
-                              "removeItem" : {
-                                "type" : "variable"
-                              },
-                              "objetoBitacora" : {
-                                "type" : "expression",
-                                "value" : "objetoBitacora"
-                              },
-                              "urlBitacora" : {
-                                "type" : "constant",
-                                "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
-                              }
-                            },
-                            "reference" : "ae0d8eed-c84e-4df4-82c5-ccfcb140f790",
-                            "hasValidationError" : false,
-                            "id" : "customSDAEFinalizarTareaBit"
-                          }
-                        ]
+                        [ ]
                       ]
                     }
                   ]

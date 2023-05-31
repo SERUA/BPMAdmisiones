@@ -51,7 +51,6 @@ import com.anahuac.rest.api.Entity.HubspotConfig
 import com.anahuac.rest.api.Security.SecurityFilter
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
-import com.anahuac.rest.api.Security.SecurityFilter
 
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
@@ -1951,15 +1950,6 @@ class Index implements RestApiController {
 					}
 					break;
 					
-				case "B64File":
-					result = uDAO.getB64File(jsonData);
-					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-					}else {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-					}
-					break;
-					
 				case "updateCorreoElectronico":
 					result = uDAO.updateCorreoElectronico(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -2268,15 +2258,6 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
-				case "generarReportePerfilAspirante":
-				result = new ReportesDAO().generarReportePerfilAspirante(jsonData)
-				responseBuilder.withMediaType("application/json")
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
-				break;
 				case "getSesionesINVP":
 				def jsonSlurper = new JsonSlurper();
 				def object = jsonSlurper.parseText(jsonData);
@@ -2458,15 +2439,17 @@ class Index implements RestApiController {
 					}
 				break;
 				
-				case "getUserFoto":
-				result = uDAO.getUserFoto(context,jsonData)
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
+				case "createOrUpdateBeca":
+					def jsonSlurper = new JsonSlurper();
+					def object = jsonSlurper.parseText(jsonData);
+					
+					result = new HubspotDAO().createOrUpdateBeca(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
 				break;
-				
 				default:
 					result = notFound(url);
 					if (result.isSuccess()) {

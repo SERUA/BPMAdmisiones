@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAESolicitudFinanciamientoAvalModificar",
   "name" : "SDAESolicitudFinanciamientoAvalModificar",
-  "lastUpdate" : 1666823272308,
+  "lastUpdate" : 1685400199364,
   "rows" : [
     [
       {
@@ -856,7 +856,7 @@
                               ],
                               [
                                 {
-                                  "type" : "component",
+                                  "type" : "container",
                                   "dimension" : {
                                     "xs" : 12,
                                     "sm" : 12,
@@ -872,57 +872,96 @@
                                       "type" : "constant",
                                       "value" : false
                                     },
-                                    "disabled" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "required" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "labelHidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "label" : {
-                                      "type" : "interpolation",
-                                      "value" : "% de financiamiento solicitado:"
-                                    },
-                                    "labelPosition" : {
-                                      "type" : "constant",
-                                      "value" : "top"
-                                    },
-                                    "labelWidth" : {
-                                      "type" : "constant",
-                                      "value" : 4
-                                    },
-                                    "placeholder" : {
-                                      "type" : "interpolation",
-                                      "value" : "Select an option"
-                                    },
-                                    "availableValues" : {
-                                      "type" : "expression",
-                                      "value" : "lstCatPorcentajeFinanciamiento.data"
-                                    },
-                                    "displayedKey" : {
-                                      "type" : "constant",
-                                      "value" : "descripcion"
-                                    },
-                                    "returnedKey" : {
-                                      "type" : "constant",
-                                      "value" : "persistenceId"
-                                    },
-                                    "value" : {
+                                    "repeatedCollection" : {
                                       "type" : "variable",
-                                      "value" : "solicitudDeApoyo[0].catPorcentajeFinanciamiento_id"
+                                      "value" : ""
                                     }
                                   },
-                                  "reference" : "cf65d123-0ec1-4653-8342-e6174b1b96eb",
+                                  "reference" : "7afb4ad6-f4d2-4bbc-b78e-27d7a9c49301",
                                   "hasValidationError" : false,
-                                  "id" : "pbSelect"
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "expression",
+                                            "value" : "!autorizacion[0].porcentajeBecaAutorizacion"
+                                          },
+                                          "required" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "minLength" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "maxLength" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "readOnly" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "% de beca autorizado:"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "placeholder" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "value" : {
+                                            "type" : "variable",
+                                            "value" : "autorizacion[0].porcentajeBecaAutorizacion? autorizacion[0].porcentajeBecaAutorizacion: \"N/A\""
+                                          },
+                                          "type" : {
+                                            "type" : "constant",
+                                            "value" : "text"
+                                          },
+                                          "min" : {
+                                            "type" : "constant"
+                                          },
+                                          "max" : {
+                                            "type" : "constant"
+                                          },
+                                          "step" : {
+                                            "type" : "constant",
+                                            "value" : 1
+                                          }
+                                        },
+                                        "reference" : "dc604ace-0f11-4fdd-9479-76ba31d6101c",
+                                        "hasValidationError" : false,
+                                        "id" : "pbInput"
+                                      }
+                                    ]
+                                  ]
                                 },
                                 {
-                                  "type" : "component",
+                                  "type" : "container",
                                   "dimension" : {
                                     "xs" : 12,
                                     "sm" : 12,
@@ -938,63 +977,93 @@
                                       "type" : "constant",
                                       "value" : false
                                     },
-                                    "required" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "minLength" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "maxLength" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "readOnly" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "labelHidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "label" : {
-                                      "type" : "interpolation",
-                                      "value" : "% de financiamiento preautorizado:"
-                                    },
-                                    "labelPosition" : {
-                                      "type" : "constant",
-                                      "value" : "top"
-                                    },
-                                    "labelWidth" : {
-                                      "type" : "constant",
-                                      "value" : 4
-                                    },
-                                    "placeholder" : {
-                                      "type" : "interpolation"
-                                    },
-                                    "value" : {
+                                    "repeatedCollection" : {
                                       "type" : "variable",
-                                      "value" : "preAutorizacion[0].porcentajeCreditoPreAutorizacion"
-                                    },
-                                    "type" : {
-                                      "type" : "constant",
-                                      "value" : "text"
-                                    },
-                                    "min" : {
-                                      "type" : "constant"
-                                    },
-                                    "max" : {
-                                      "type" : "constant"
-                                    },
-                                    "step" : {
-                                      "type" : "constant",
-                                      "value" : 1
+                                      "value" : ""
                                     }
                                   },
-                                  "reference" : "dc604ace-0f11-4fdd-9479-76ba31d6101c",
+                                  "reference" : "c270cdc2-ac04-4714-9ae7-a26c83a4f0bc",
                                   "hasValidationError" : false,
-                                  "id" : "pbInput"
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "required" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "minLength" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "maxLength" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "readOnly" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "% de financiamiento pre-autorizado:"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "placeholder" : {
+                                            "type" : "interpolation"
+                                          },
+                                          "value" : {
+                                            "type" : "variable",
+                                            "value" : "autorizacion[0].porcentajeCreditoAutorizacion? autorizacion[0].porcentajeCreditoAutorizacion: \"N/A\""
+                                          },
+                                          "type" : {
+                                            "type" : "constant",
+                                            "value" : "text"
+                                          },
+                                          "min" : {
+                                            "type" : "constant"
+                                          },
+                                          "max" : {
+                                            "type" : "constant"
+                                          },
+                                          "step" : {
+                                            "type" : "constant",
+                                            "value" : 1
+                                          }
+                                        },
+                                        "reference" : "740cba55-ecb0-4b72-9c8b-a1238c3718ba",
+                                        "hasValidationError" : false,
+                                        "id" : "pbInput"
+                                      }
+                                    ]
+                                  ]
                                 }
                               ]
                             ]
@@ -1103,7 +1172,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "<label class=\"color-orange\">Referencias personales (Mínimo 3)</label>"
+                                      "value" : "<label class=\"color-orange\">Referencias personales (Mínimo 3)</label> <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -1140,7 +1209,7 @@
                                     "headers" : {
                                       "type" : "constant",
                                       "value" : [
-                                        "Nombre",
+                                        "Nombre completo",
                                         "Parentesco",
                                         "Teléfono",
                                         "E-mail"
@@ -1566,7 +1635,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Nombres: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Nombre(s): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -1915,71 +1984,6 @@
                                 {
                                   "type" : "component",
                                   "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 12,
-                                    "lg" : 12
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "disabled" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "required" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "labelHidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "label" : {
-                                      "type" : "interpolation",
-                                      "value" : "Parentesco: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
-                                    },
-                                    "labelPosition" : {
-                                      "type" : "constant",
-                                      "value" : "top"
-                                    },
-                                    "labelWidth" : {
-                                      "type" : "constant",
-                                      "value" : 4
-                                    },
-                                    "placeholder" : {
-                                      "type" : "interpolation",
-                                      "value" : "Selecciona una opción"
-                                    },
-                                    "availableValues" : {
-                                      "type" : "constant"
-                                    },
-                                    "displayedKey" : {
-                                      "type" : "constant"
-                                    },
-                                    "returnedKey" : {
-                                      "type" : "constant"
-                                    },
-                                    "value" : {
-                                      "type" : "variable",
-                                      "value" : ""
-                                    }
-                                  },
-                                  "reference" : "59cda995-63c0-4b9e-87ac-a7089cf1c698",
-                                  "hasValidationError" : false,
-                                  "id" : "pbSelect"
-                                }
-                              ],
-                              [
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
                                     "md" : 12,
                                     "sm" : 6,
                                     "xs" : 12,
@@ -2200,7 +2204,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Ingreso mensual ($): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Ingreso mensual (MXN): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2312,6 +2316,83 @@
                                   "type" : "component",
                                   "dimension" : {
                                     "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "returnCatValue.catProvienenIngresos.clave !== \"otro\" || !returnCatValue.catProvienenIngresos"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Especifica:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "avalInfoPersonalModel.otroIngresoEspecificar"
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "90fc7f74-4dbf-4de1-9b74-ce3c404b063f",
+                                  "hasValidationError" : false,
+                                  "id" : "customSDAEInputLimit"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
                                     "sm" : 6,
                                     "md" : 12,
                                     "lg" : 12
@@ -2347,7 +2428,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Otro ingreso ($): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Otro ingreso (MXN): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2426,7 +2507,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Ingreso mensual Total: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Ingreso mensual Total (MXN): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2505,7 +2586,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Egreso mensual Total: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Egreso mensual Total (MXN): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2584,7 +2665,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Saldo mensual: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                      "value" : "Saldo mensual (MXN): <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "labelPosition" : {
                                       "type" : "constant",
@@ -2729,7 +2810,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "<label class=\"color-orange\">Referencias personales (Mínimo 3)</label>"
+                                      "value" : "<label class=\"color-orange\">Referencias personales (Mínimo 3)</label> <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -2766,7 +2847,7 @@
                                     "headers" : {
                                       "type" : "constant",
                                       "value" : [
-                                        "Nombre",
+                                        "Nombre completo",
                                         "Parentesco",
                                         "Teléfono",
                                         "E-mail"
@@ -3204,7 +3285,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -4339,7 +4420,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -5054,7 +5135,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Buscar Codigo postal"
+                                      "value" : "Buscar código postal"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -5571,7 +5652,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Número interior: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                                "value" : "Número interior:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -7466,7 +7547,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "A) Referencias bancarias (Cheques, inversión, ahorro)"
+                          "value" : "A) Referencias bancarias (Cheques, inversión, ahorro) <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7511,7 +7592,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Numero de cuenta",
-                            "Saldo promedio"
+                            "Saldo promedio anual (MXN)"
                           ]
                         },
                         "content" : {
@@ -7737,7 +7818,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "B) Referencias de crédito (Hipotecario, autos, casas, comerciales, etc.)"
+                          "value" : "B) Referencias de crédito (Hipotecario, autos, casas, comerciales, etc.) <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -7822,7 +7903,7 @@
                             "Banco",
                             "Tipo de cuenta",
                             "Numero de cuenta",
-                            "Saldo promedio"
+                            "Monto mensual (MXN)"
                           ]
                         },
                         "content" : {
@@ -8018,6 +8099,94 @@
                   ],
                   [
                     {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : "color-orange"
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "DOCUMENTACIÓN"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "0d1df7a4-ad48-410d-a8b2-1017567a8162",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<b>Instrucciones: Carga los documentos indicados en PDF para completar la solicitud.\n</b>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "e2193780-a6f4-49bb-ae93-55d2d0782b52",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
@@ -8152,9 +8321,9 @@
                                 "value" : "$item.catManejoDocumentos.urlDocumentoAzure"
                               }
                             },
-                            "reference" : "1af70ba1-3616-432f-ad4e-b0c6e3ef4f64",
+                            "reference" : "9d147da8-af9c-4f07-9d90-325ad08bb3ef",
                             "hasValidationError" : false,
-                            "id" : "customSDAEUploadCustomAzure"
+                            "id" : "customSDAEUploadCustomAzureLimit"
                           }
                         ]
                       ]
@@ -8176,7 +8345,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "repeatedCollection" : {
                           "type" : "variable",
@@ -8887,7 +9056,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -8975,7 +9144,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -9234,7 +9403,7 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
+                  "xs" : 6,
                   "sm" : 12,
                   "md" : 6,
                   "lg" : 6
@@ -9322,7 +9491,7 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
+                  "xs" : 6,
                   "sm" : 12,
                   "md" : 6,
                   "lg" : 6
@@ -9578,7 +9747,7 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
+                  "xs" : 6,
                   "sm" : 12,
                   "md" : 6,
                   "lg" : 6
@@ -9666,7 +9835,7 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
+                  "xs" : 6,
                   "sm" : 12,
                   "md" : 6,
                   "lg" : 6
@@ -9979,6 +10148,75 @@
                       "reference" : "e05664d4-62f2-4821-b849-fd19df5139bc",
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "09ec4d89-6a4b-4649-812d-6a1dc668636c",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
                     }
                   ]
                 ]
@@ -10333,7 +10571,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "De conformidad con el ordenamiento citado en el artículo 208 del Reglamento General de la Universidad, al presentar cualquier tipo de documentación apócrifa, le hará acreedor a la anulación automática del financiamiento educativo, debiendo de liquidar el total del adeudo, con independencia de la sanción correspondiente"
+                          "value" : "De conformidad con el ordenamiento citado en el artículo 208 del Reglamento General de la Universidad, al presentar cualquier tipo de documentación apócrifa, le hará acreedor a la anulación automática del financiamiento educativo, debiendo de liquidar el total del adeudo, con independencia de la sanción correspondiente."
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -10493,7 +10731,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"https://www.anahuac.mx/queretaro/descargables/Aval_CreditoEducativo.pdf\">Financiamiento educativo<a>"
+                          "value" : "He leido y acepto las condiciones generales del <a class=\"color-orange\" target=\"blank\" href=\"{{getConfiguracionCampus.data[0].urlDocumentoCondicionesFinanciamiento}}\">Financiamiento educativo<a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -10539,7 +10777,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -10627,7 +10865,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -10694,10 +10932,12 @@
                           "value" : "caseId"
                         },
                         "objetoBitacora" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "objetoBitacora"
                         },
                         "urlBitacora" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "../API/extension/AnahuacBecasRest?url=insertBitacoraSDAE&p=0&c=10"
                         }
                       },
                       "reference" : "ecffa998-b6d9-4149-8132-02dbcecbae09",
@@ -10849,7 +11089,8 @@
         "            empresaExtensionTelefono: $data.avalInfoPersonalModel.empresaExtensionTelefono !== undefined ? $data.avalInfoPersonalModel.empresaExtensionTelefono : null,\r",
         "            empresaFechaIngreso: $data.avalInfoPersonalModel.empresaFechaIngreso !== undefined ? $data.avalInfoPersonalModel.empresaFechaIngreso : null,\r",
         "            empresaCorreoElectronico: $data.avalInfoPersonalModel.empresaCorreoElectronico !== undefined ? $data.avalInfoPersonalModel.empresaCorreoElectronico : null,\r",
-        "            urlDocumentoFirmado: $data.avalInfoPersonalModel.urlDocumentoFirmado !== undefined ? $data.avalInfoPersonalModel.urlDocumentoFirmado : null\r",
+        "            urlDocumentoFirmado: $data.avalInfoPersonalModel.urlDocumentoFirmado !== undefined ? $data.avalInfoPersonalModel.urlDocumentoFirmado : null,\r",
+        "            otroIngresoEspecificar: $data.avalInfoPersonalModel.otroIngresoEspecificar !== undefined ? $data.avalInfoPersonalModel.otroIngresoEspecificar : null\r",
         "\t\t},\r",
         "\t\t//map avalInfoPropiedadModel variable to expected task contract input\r",
         "\t\tavalInfoPropiedadModelInput: {\r",
@@ -10871,7 +11112,8 @@
         "\t\t\tbanco: it.banco !== undefined ? it.banco : null,\r",
         "\t\t\ttipoCuenta: it.tipoCuenta !== undefined ? it.tipoCuenta : null,\r",
         "\t\t\tnumeroCuenta: it.numeroCuenta !== undefined ? it.numeroCuenta : null,\r",
-        "\t\t\tsaldoPromedio: it.saldoPromedio !== undefined ? it.saldoPromedio : null\r",
+        "\t\t\tsaldoPromedio: it.saldoPromedio !== undefined ? it.saldoPromedio : null,\r",
+        "\t\t\tesBancaria: true\r",
         "\t\t})),\r",
         "\t\t//map avalReferenciaCreditoModel variable to expected task contract input\r",
         "\t\tavalReferenciaCreditoModelInput: $data.avalReferenciaCreditoModel.map( it => ({\r",
@@ -10879,7 +11121,8 @@
         "\t\t\tbanco: it.banco !== undefined ? it.banco : null,\r",
         "\t\t\ttipoCuenta: it.tipoCuenta !== undefined ? it.tipoCuenta : null,\r",
         "\t\t\tnumeroCuenta: it.numeroCuenta !== undefined ? it.numeroCuenta : null,\r",
-        "\t\t\tsaldoPromedio: it.saldoPromedio !== undefined ? it.saldoPromedio : null\r",
+        "\t\t\tsaldoPromedio: it.saldoPromedio !== undefined ? it.saldoPromedio : null,\r",
+        "\t\t\tesBancaria: false\r",
         "\t\t})),\r",
         "\t\t//map avalInfoInmuebleModel variable to expected task contract input\r",
         "\t\tavalInfoInmuebleModelInput: {\r",
@@ -10996,7 +11239,7 @@
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.nombres){\r",
         "    output = false;\r",
-        "\t$data.errorMEssageInfoPersonal = \"Campo 'Nombres' no debe ir vacío\";\r",
+        "\t$data.errorMEssageInfoPersonal = \"Campo 'Nombre(s)' no debe ir vacío\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.apellidoPaterno){\r",
         "    output = false;\r",
@@ -11024,7 +11267,7 @@
         "\t$data.titleMEssageInfoPersonal = \"Domicilio del aval\";\r",
         "} else if($data.avalInfoPersonalModel.telefono.length < 10){\r",
         "    output = false;\r",
-        "\t$data.errorMEssageInfoPersonal = \"Campo 'Teléfono' tiene que tener un mínimo de 10 dígitos\";\r",
+        "\t$data.errorMEssageInfoPersonal = \"Campo 'Teléfono' debe contener un mínimo de 10 dígitos\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Domicilio del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.ingresoMensual){\r",
         "    output = false;\r",
@@ -11034,9 +11277,9 @@
         "    output = false;\r",
         "\t$data.errorMEssageInfoPersonal = \"Campo 'Proveniente de' no debe ir vacío\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
-        "} else if(!$data.avalInfoPersonalModel.otroIngreso){\r",
+        "} else if(!$data.avalInfoPersonalModel.otroIngreso && $data.avalInfoPersonalModel.otroIngreso != 0){\r",
         "    output = false;\r",
-        "\t$data.errorMEssageInfoPersonal = \"Campo 'Otro ingreso ($)' no debe ir vacío\";\r",
+        "\t$data.errorMEssageInfoPersonal = \"Campo 'Otro ingreso ($)' no debe ir vacío. Si no tienes otros ingresos, colocar un cero (0)\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
         "} else if(!$data.avalInfoPersonalModel.ingresoMensualTotal){\r",
         "    output = false;\r",
@@ -11046,11 +11289,13 @@
         "    output = false;\r",
         "\t$data.errorMEssageInfoPersonal = \"Campo 'Egreso mensual total' no debe ir vacío\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
-        "} else if(!$data.avalInfoPersonalModel.saldoMensual){\r",
-        "    output = false;\r",
-        "\t$data.errorMEssageInfoPersonal = \"Campo 'Saldo mensual' no debe ir vacío\";\r",
-        "\t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
-        "} else if(!$data.avalInfoPersonalModel.pais){\r",
+        "} \r",
+        "// else if(!$data.avalInfoPersonalModel.saldoMensual){\r",
+        "//     output = false;\r",
+        "// \t$data.errorMEssageInfoPersonal = \"Campo 'Saldo mensual' no debe ir vacío\";\r",
+        "// \t$data.titleMEssageInfoPersonal = \"Datos del aval\";\r",
+        "// } \r",
+        "else if(!$data.avalInfoPersonalModel.pais){\r",
         "    output = false;\r",
         "\t$data.errorMEssageInfoPersonal = \"Campo 'País' no debe ir vacío\";\r",
         "\t$data.titleMEssageInfoPersonal = \"Domicilio del aval\";\r",
@@ -11441,11 +11686,7 @@
         "    output = false;\r",
         "\t$data.errorMessageInfoInmueble = \"Campo 'Número exterior' no debe ir vacío\";\r",
         "\t$data.titleMessageInfoInmueble = \"Datos del inmueble que avala el crédito\";\r",
-        "} else if(!$data.avalInfoInmuebleModel.noInterior){\r",
-        "    output = false;\r",
-        "\t$data.errorMessageInfoInmueble = \"Campo 'Número interior' no debe ir vacío\";\r",
-        "\t$data.titleMessageInfoInmueble = \"Datos del inmueble que avala el crédito\";\r",
-        "} \r",
+        "}\r",
         "\r",
         "return output;"
       ],
@@ -11720,7 +11961,8 @@
         "    \"catTipoApoyo\": null,",
         "    \"catTipoMoneda\": null,",
         "    \"catTienesHermanos\": null,",
-        "    \"catPorcentajeFinanciamiento\": null",
+        "    \"catPorcentajeFinanciamiento\": null,",
+        "    \"catProvienenIngresos\":null",
         "};",
         "",
         "if($data.formOutputTest.solicitudApoyoEducativoInput.catTienesHermanos_id){",
@@ -11764,6 +12006,15 @@
         "    for(let cat of $data.lstCatPorcentajeFinanciamiento.data){",
         "        if(cat.persistenceId === $data.solicitudDeApoyo[0].catPorcentajeFinanciamiento_id){",
         "            output[\"catPorcentajeFinanciamiento\"] =  cat;",
+        "            break;",
+        "        }    ",
+        "    }",
+        "}",
+        "",
+        "if($data.avalInfoPersonalModel.provenienteDe && $data.lstCatProvienenIngresos){",
+        "    for(let cat of $data.lstCatProvienenIngresos.data){",
+        "        if(cat.persistenceId == $data.avalInfoPersonalModel.provenienteDe){",
+        "            output[\"catProvienenIngresos\"] =  cat;",
         "            break;",
         "        }    ",
         "    }",
@@ -11832,7 +12083,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getCatTipoAoyoByCampus&p=0&c=0&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "lstCatPorcentajeBeca" : {
@@ -14832,13 +15087,13 @@
         "return {\r",
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
-        "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
-        "  \t\"estatus\": \"Solicitud aprobada\",\r",
-        "  \t\"financiamiento\":  $data.returnCatValue.catPorcentajeFinanciamiento.descripcion ? $data.returnCatValue.catPorcentajeFinanciamiento.descripcion : \"N/A\",\r",
+        "  \t\"correo\": $data.userData.user_name,\r",
+        "  \t\"estatus\": \"Información de aval modificada\",\r",
+        "  \t\"financiamiento\":  $data.autorizacion[0].porcentajeCreditoAutorizacion ? $data.autorizacion[0].porcentajeCreditoAutorizacion + \"\" : \"N/A\", \r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
-        "  \t\"caseid\": parseInt($data.caseId),\r",
-        "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
+        "  \t\"caseid\": parseInt($data.caseId ? $data.caseId : \"0\"),\r",
+        "  \t\"tipoapoyo\": \"Financiamiento educativo\"\r",
         "}"
       ],
       "exposed" : false
@@ -14897,14 +15152,17 @@
         "    $data.errorMessageSolReferenciasPersonales = \"Debes agregar al menos 3 referencias personales.\";",
         "} else {",
         "    for(let obj of $data.solicitanteReferenciasPersonalesInput){",
-        "        debugger;",
         "        if(!obj.nombre || !obj.telefono || !obj.correoPersonal || !obj.parentesco){",
         "            output = false;",
         "            $data.errorMessageSolReferenciasPersonales = \"Debes llenar todos los campos para cada referencia.\";",
         "            break;",
+        "        } else if (obj.telefono.length < 10 ) {",
+        "            output = false;",
+        "            $data.errorMessageSolReferenciasPersonales = \"El campo 'Teléfono' es inválido en alguna de las referencias, debe tener mínimo 10 dígitos.\";",
+        "            break;",
         "        } else if (!re.test(String(obj.correoPersonal.trim()).toLowerCase())){",
         "            output = false;",
-        "            $data.errorMessageSolReferenciasPersonales = \"El formato de correo electrónico es invalido en alguna de las referencias.\";",
+        "            $data.errorMessageSolReferenciasPersonales = \"El formato de correo electrónico es inválido en alguna de las referencias.\";",
         "            break;",
         "        }",
         "    }",
@@ -14926,14 +15184,17 @@
         "    $data.errorMessageAvalReferenciasPersonales = \"Debes agregar al menos 3 referencias personales.\";",
         "} else {",
         "    for(let obj of $data.avalReferenciasPersonalesInput){",
-        "        debugger;",
         "        if(!obj.nombre || !obj.telefono || !obj.correoPersonal || !obj.parentesco){",
         "            output = false;",
         "            $data.errorMessageAvalReferenciasPersonales = \"Debes llenar todos los campos para cada referencia.\";",
         "            break;",
+        "        } else if (obj.telefono.length < 10 ) {",
+        "            output = false;",
+        "            $data.errorMessageAvalReferenciasPersonales = \"El campo 'Teléfono' es inválido en alguna de las referencias, debe tener mínimo 10 dígitos.\";",
+        "            break;",
         "        } else if (!re.test(String(obj.correoPersonal.trim()).toLowerCase())){",
         "            output = false;",
-        "            $data.errorMessageAvalReferenciasPersonales = \"El formato de correo electrónico es invalido en alguna de las referencias.\";",
+        "            $data.errorMessageAvalReferenciasPersonales = \"El formato de correo electrónico es inválido en alguna de las referencias.\";",
         "            break;",
         "        }",
         "    }",
@@ -15023,6 +15284,25 @@
       "value" : [
         "{\"displayValue\":\"findByCaseId [com.anahuac.SDAE.model.PreAutorizacion]\",\"businessObjectName\":\"PreAutorizacion\",\"query\":{\"name\":\"findByCaseId\",\"displayName\":\"findByCaseId\"},\"id\":\"com.anahuac.SDAE.model.PreAutorizacion\",\"filters\":[{\"name\":\"caseId\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{solicitudDeApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
+      "exposed" : false
+    },
+    "autorizacion" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseId [com.anahuac.SDAE.model.AutorizacionApoyo]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseId\",\"displayName\":\"findByCaseId\"},\"id\":\"com.anahuac.SDAE.model.AutorizacionApoyo\",\"filters\":[{\"name\":\"caseId\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{solicitudDeApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "getConfiguracionCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?url=getConfiguracionCampus&p=0&c=10&idCampus={{objSolicitudDeAdmision[0].catCampusEstudio.persistenceId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },

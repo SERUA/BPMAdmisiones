@@ -61,9 +61,9 @@ function ($scope, $http) {
     function getModelSolicitudApoyoEducativo(url) {
         $http.get(url).success((data) => {
             if (data) {
-                debugger;
                 $scope.properties.solicitudApoyoEducativo = [];
                 $scope.properties.solicitudApoyoEducativo = data;
+                $scope.properties.solicitudApoyoEducativo.modificarDocumentos = false;
                 
                 if($scope.properties.isSolicitud){
                     if(data.pageIndex > 1){
@@ -212,7 +212,38 @@ function ($scope, $http) {
     });
 
     $scope.$watch("properties.lstDocumentosByTipoApoyo", ()=>{
-        if($scope.properties.lstDocumentosByTipoApoyo && $scope.properties.documentos){
+        if($scope.properties.modificarDocumentos === true){
+            $scope.properties.solicitudApoyoEducativo.urlVideoYouTube = "";
+            $scope.properties.solicitudApoyoEducativo.urlCurriculum = ""
+            $scope.properties.documentos = []
+            for(let documentObject of $scope.properties.lstDocumentosByTipoApoyo){
+                let templateObject = {
+                    "persistenceId_string":"",
+                    "catManejoDocumentos": documentObject,
+                    "urlDocumento":"",
+                    "caseId": $scope.properties.caseId,
+                    "catManejoDocumentos_id": documentObject.persistenceId
+                };
+
+                $scope.properties.documentos.push(templateObject);
+            }
+
+            $scope.properties.imagenesSocioEco = [];
+            for(let imageObject of $scope.properties.lstImagenesByTipoApoyo){
+                let templateObject = {
+                    "persistenceId_string":"",
+                    "imagenSocioEconomico": imageObject,
+                    "urlImagen":"",
+                    "caseId": $scope.properties.caseId,
+                    "imagenSocioEconomico_id": imageObject.persistenceId
+                };
+
+                $scope.properties.imagenesSocioEco.push(templateObject);
+            }
+
+
+
+        } else if($scope.properties.lstDocumentosByTipoApoyo && $scope.properties.documentos){
 			let newDocuments = [];
 			if($scope.properties.documentos.length < $scope.properties.lstDocumentosByTipoApoyo.length){
 			    
@@ -271,13 +302,8 @@ function ($scope, $http) {
 
     $scope.$watch("properties.lstImagenesByTipoApoyo", ()=>{
         if($scope.properties.lstImagenesByTipoApoyo && $scope.properties.imagenesSocioEco){
-            // for(let i = 0; i< $scope.properties.imagenesSocioEco.length; i++){
-            //     $scope.properties.imagenesSocioEco[i].imagenSocioEconomico = $scope.properties.lstImagenesByTipoApoyo[i];
-            // }
-
 			let newImages = [];
 			if($scope.properties.imagenesSocioEco.length < $scope.properties.lstImagenesByTipoApoyo.length){
-			    
 				for(let imageObject of $scope.properties.lstImagenesByTipoApoyo){
 					let templateObject = {
 						"persistenceId_string":"",

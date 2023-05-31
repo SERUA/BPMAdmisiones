@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1668625888319,
+  "lastUpdate" : 1684282337150,
   "rows" : [
     [
       {
@@ -38,6 +38,38 @@
         "reference" : "ba557aad-e2da-4b1e-be45-f72a1f1de2c8",
         "hasValidationError" : false,
         "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "objSolicitudDeAdmision" : {
+            "type" : "expression",
+            "value" : "objSolicitudDeAdmision[0]"
+          },
+          "urlToRedirect" : {
+            "type" : "constant",
+            "value" : "/apps/login/apoyoeducativo/"
+          }
+        },
+        "reference" : "3253d72c-7263-46c5-87f4-3df82bdbdbcd",
+        "hasValidationError" : false,
+        "id" : "customSDAECustomCampusBloqueado"
       }
     ],
     [
@@ -136,7 +168,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br>Estimado(a): <label class=\"color-orange\">{{nombreCompleto}}</label>, la Universidad Anáhuac ofrece apoyos educativos, los cuales consisten en la exención de pago total o parcial, de las cuotas de pago inicial y colegiaturas para aquellos interesados en estudiar un programa en la Universidad Anáhuac. Los apoyos pueden ser becas y/o financiamiento educativo de acuerdo con lo que ofrezca el campus de tu interés.\nTodo trámite de beca inicia cuando el interesado así lo solicite en el periodo que le corresponde, su situación socioeconómica lo amerite y la universidad cuente con los recursos financieros disponibles para otorgar este apoyo.<br>\n<br>\n<b>Los apoyos educativos se otorgan bajo diversas modalidades en razón del talento académico, deportivo, artístico-cultural y/o por la condición socioeconómica de quien los requiera. Los apoyos educativos no son transferibles.\nAntes de comenzar tu solicitud te recomendamos:</b><br>\n<br>\n<ol>\n    <li>Realizar tu proceso de admisión para poder registrarte en la plataforma de solicitud de apoyo educativo.</li>\n    <br>\n    <li>Tener a la mano tu kárdex oficial de SEP con promedio acumulado actualizado.</li>\n    <br>\n    <li>Comprobantes de ingresos de tus tutores o quien sea responsable económicamente por los pagos universitarios.</li>\n    <br>\n</ol>\n<br>\n<br>"
+                  "value" : "<br><br>Estimado(a): <label class=\"color-orange\">{{nombreCompleto}}</label>, la Universidad Anáhuac ofrece apoyos educativos, los cuales consisten en la exención de pago total o parcial, de las cuotas de pago inicial y colegiaturas para aquellos interesados en estudiar un programa en la Universidad Anáhuac. Los apoyos pueden ser becas y/o financiamiento educativo de acuerdo con lo que ofrezca el campus de tu interés.\nTodo trámite de beca inicia cuando el interesado así lo solicite en el periodo que le corresponde, su situación socioeconómica lo amerite y la universidad cuente con los recursos financieros disponibles para otorgar este apoyo.<br>\n<br>\n<b>Los apoyos educativos se otorgan bajo diversas modalidades en razón del talento académico, deportivo, artístico-cultural y/o por la condición socioeconómica de quien los requiera. Los apoyos educativos no son transferibles.\nAntes de comenzar tu solicitud te recomendamos:</b><br>\n<br>\n<ol>\n    <li>Realizar tu proceso de admisión para poder registrarte en la plataforma de solicitud de apoyo educativo.</li>\n    <br>\n    <li>Tener a la mano tu kárdex oficial de SEP con promedio acumulado actualizado.</li>\n    <br>\n    <li>Comprobantes de ingresos de tus tutores o quien sea responsable económicamente por los pagos universitarios (en formato pdf).</li>\n    <br>\n</ol>\n<br>\n<br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -146,6 +178,54 @@
               "reference" : "00b17926-df74-42df-aaa4-2b86f477c45a",
               "hasValidationError" : false,
               "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Comenzar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : "modalTipoMoneda"
+                },
+                "objSolicitudDeAdmision" : {
+                  "type" : "expression",
+                  "value" : "objSolicitudDeAdmision[0]"
+                }
+              },
+              "reference" : "fd2ebb8b-2858-4f21-8f34-efdcd25224a4",
+              "hasValidationError" : false,
+              "id" : "customBtnSDAEnuevaSolicitudAspirante"
             }
           ],
           [
@@ -187,7 +267,7 @@
                   "value" : "modalTipoMoneda"
                 }
               },
-              "reference" : "fd2ebb8b-2858-4f21-8f34-efdcd25224a4",
+              "reference" : "e7b40d6d-2155-4604-a881-82f368e7582d",
               "hasValidationError" : false,
               "id" : "customBtnSDAEnuevaSolicitudAspirante"
             }
@@ -294,7 +374,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "archivedCases.length === 0"
+            "value" : "!archivedCases || archivedCases.length === 0"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -374,7 +454,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<b>¡Buen día!</b><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br>\nHas concluido con el proceso de apoyo educativo en la licenciatura de <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catGestionEscolar.nombre}}</b> para el periodo <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>.\n<br>\nSi tienes alguna duda, contáctanos.\n<br><br>\n¡Estaremos pendientes!"
+                  "value" : "<b>¡Buen día!</b><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br>\nHas concluido con el proceso de apoyo educativo en la licenciatura de <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catGestionEscolar.nombre}}</b> para el periodo <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>.\n<br><br>\nRecuerda realizar el pago de inscripción para hacer valido tu apoyo educativo.<br><br>\nSi tienes alguna duda, contáctanos.\n<br><br>\n¡Estaremos pendientes!"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -492,7 +572,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado === \"En espera de resultado\""
+                  "value" : "ocultarTabla"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -656,7 +736,7 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -670,40 +750,122 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "buildContent[0].estado !== \"En espera de resultado\""
+                  "value" : "!ocultarTabla"
                 },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Default label"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "text" : {
-                  "type" : "interpolation",
-                  "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
-              "reference" : "2ce5be9f-3a30-4302-84b9-a175ff78b414",
+              "reference" : "59bf6d6c-1fda-49e4-927e-a9a46f9b392d",
               "hasValidationError" : false,
-              "id" : "pbText"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "!mostratMensaje"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<b>¡Buen día!</b><br><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catGestionEscolar.nombre }}</b><br><br>\n<b class=\"color-orange\">{{ objSolicitudDeAdmision[0].catPeriodo.descripcion }}</b><br><br>\nPara continuar con la evaluación de tu solicitud de apoyo educativo, estamos a la espera del resultado de tu proceso de admisión o de la reconsideración por el área de becas de la universidad.\n<br>\nEn cuanto lo tengamos, te enviaremos un correo a <b class=\"color-orange\">{{ objSolicitudDeAdmision[0].correoElectronico}}</b> con los siguientes pasos.\n<br><br>\n¡Quedamos pendientes!"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "2ce5be9f-3a30-4302-84b9-a175ff78b414",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "mostratMensaje"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<b>¡Buen día!</b><br>\n<b class=\"color-orange\">{{ nombreCompleto }}</b><br>\nHas concluido con el proceso de apoyo educativo en la licenciatura de <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catGestionEscolar.nombre}}</b> para el periodo <b class=\"color-orange\">{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>.\n<br><br>\nRecuerda realizar el pago de inscripción para hacer valido tu apoyo educativo.<br><br>\nSi tienes alguna duda, contáctanos.\n<br><br>\n¡Estaremos pendientes!"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "a24d2ffb-e5eb-402b-bca7-6efff81504be",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
+              ]
             }
           ],
           [
@@ -956,6 +1118,58 @@
                 ]
               ]
             }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<pre>{{ ocultarTabla }}</pre>\n<pre>{{ buildContent | json }}</pre>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "663c2c8a-c0d4-48e0-b211-de867b9f1388",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
           ]
         ]
       }
@@ -1133,7 +1347,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "La siguiente solicitud será creada para solicitar apoyo para ingresar al periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>, antes de iniciar, favor de indicar el tipo de moneda a utilizar durante el formulario de la solicitud."
+                          "value" : "La presente solicitud es para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Es importante seleccionar el tipo de moneda para el llenado de la misma."
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1378,10 +1592,10 @@
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 6,
                               "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
+                              "md" : 6,
+                              "lg" : 6
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -1462,44 +1676,14 @@
                             "reference" : "9bb2f333-1b53-4290-9942-1ceec6d8e3c0",
                             "hasValidationError" : false,
                             "id" : "pbButton"
-                          }
-                        ]
-                      ]
-                    },
-                    {
-                      "type" : "container",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 6,
-                        "lg" : 6
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "repeatedCollection" : {
-                          "type" : "variable",
-                          "value" : ""
-                        }
-                      },
-                      "reference" : "402610ab-37e7-46b4-aa3f-77d6f5bec25b",
-                      "hasValidationError" : false,
-                      "id" : "pbContainer",
-                      "rows" : [
-                        [
+                          },
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 6,
                               "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
+                              "md" : 6,
+                              "lg" : 6
                             },
                             "propertyValues" : {
                               "cssClasses" : {
@@ -1601,7 +1785,35 @@
                             "hasValidationError" : false,
                             "id" : "customBtnSDAENuevaSolicitud"
                           }
-                        ],
+                        ]
+                      ]
+                    },
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "402610ab-37e7-46b4-aa3f-77d6f5bec25b",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
                         [
                           {
                             "type" : "component",
@@ -2768,11 +2980,15 @@
         "        // \"estado\": $data.objSolicitudDeAdmision[0].catCampusEstudio.estado.descripcion",
         "        \"estado\": $data.objSolicitudApoyo[$data.objSolicitudApoyo.length - 1].estatusSolicitud,",
         "        \"pago\": $data.objSolicitudApoyo[$data.objSolicitudApoyo.length - 1].ordenPagoConekta,",
+        "        \"estatusFinanciamiento\": \"\"",
         "    }    ",
         "    ",
         "    output.push(object);",
         "}",
         "",
+        "if($data.objSolicitudFinanciamiento){",
+        "    output[0].estatusFinanciamiento = $data.objSolicitudFinanciamiento[0].estatusSolicitud;",
+        "}",
         "",
         "",
         "return output;",
@@ -3348,7 +3564,7 @@
         "\t\"beca\": \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.userData.user_name,\r",
-        "  \t\"estatus\": \"Solicitud iniciada\",\r",
+        "  \t\"estatus\": \"Solicitud de apoyo educativo iniciada\",\r",
         "  \t\"financiamiento\": \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",
@@ -3383,6 +3599,82 @@
         "}",
         "",
         "return output;"
+      ],
+      "exposed" : false
+    },
+    "objSolicitudFinanciamiento" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseIdSDAE [com.anahuac.SDAE.model.SolicitudFinanciamiento]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseIdSDAE\",\"displayName\":\"findByCaseIdSDAE\"},\"id\":\"com.anahuac.SDAE.model.SolicitudFinanciamiento\",\"filters\":[{\"name\":\"caseIdSDAE\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{objSolicitudApoyo[0].caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "mostratMensaje" : {
+      "type" : "expression",
+      "value" : [
+        "// return !(\r",
+        "//     $data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// ) || (\r",
+        "//     buildContent[0].estado === \"Propuesta aceptada por aspirante\" \r",
+        "//     && !buildContent[0].estatusFinanciamiento \r",
+        "// ) || (\r",
+        "//     buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// ) || !(\r",
+        "//     buildContent[0].estado === \"Solicitud Rechazada\" \r",
+        "//     && buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"\r",
+        "// )\r",
+        "return !($data.buildContent[0].estado !== \"Solicitud Rechazada\" \r",
+        "    || ($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" && $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\")\r",
+        "    || ($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" && !$data.buildContent[0].estatusFinanciamiento )\r",
+        "    || ($data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\" && !$data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\" )\r",
+        ")\r"
+      ],
+      "exposed" : false
+    },
+    "ocultarTabla" : {
+      "type" : "expression",
+      "value" : [
+        "if(!$data.assignedTask){\r",
+        "    \r",
+        "    let valEstatus = validarEstatus();\r",
+        "    debugger;\r",
+        "    return false && !valEstatus;\r",
+        "} else {\r",
+        "    console.log(\"Validando contenido de la tabla\");\r",
+        "    if(!$data.buildContent){\r",
+        "        console.log(\"   No hay Solicitudes\");\r",
+        "        return true;\r",
+        "    } else {\r",
+        "        console.log(\"   Existe solicitud\");\r",
+        "        console.log(\"       Estatus:\" + $data.buildContent[0].estado);\r",
+        "        console.log(\"       Estatus:\" + $data.buildContent[0].estatusFinanciamiento);\r",
+        "        debugger;\r",
+        "        validarEstatus();\r",
+        "        \r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "function validarEstatus (){\r",
+        "    if($data.buildContent[0].estado === \"En espera de resultado\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta rechazada por aspirante\"){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estado === \"Propuesta aceptada por aspirante\" || $data.buildContent[0].estado === \"Solicitud de Financiamiento en Proceso\"){\r",
+        "        if($data.buildContent[0].estatusFinanciamiento === \"\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento rechazada por aspirante\" || $data.buildContent[0].estatusFinanciamiento === \"Propuesta de financiamiento aceptada por aspirante\"){\r",
+        "            return false;\r",
+        "        } else {\r",
+        "            return true;\r",
+        "        }\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por finanzas\" ){\r",
+        "        return false;\r",
+        "    } else if($data.buildContent[0].estatusFinanciamiento === \"Solicitud rechazada por comité de finanzas\" ){\r",
+        "        return false;\r",
+        "    } else {\r",
+        "        return true;\r",
+        "    }\r",
+        "}"
       ],
       "exposed" : false
     }

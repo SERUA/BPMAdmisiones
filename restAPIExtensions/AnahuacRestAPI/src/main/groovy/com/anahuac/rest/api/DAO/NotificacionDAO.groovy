@@ -32,6 +32,8 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.text.NumberFormat
+import java.text.ParseException
 
 import org.apache.commons.codec.net.BCodec
 import org.bonitasoft.engine.bpm.document.Document
@@ -1111,10 +1113,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			/*-------------------------------------------------------------*/
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
-			
-			errorlog += "| username = "+ objProperties.getUsuario();
-			errorlog += "| password = "+ objProperties.getPassword();
-			errorlog += "| host =     "+objProperties.getUrlHost();
 			/*-------------------------------------------------------------*/
 
 			def jsonSlurper = new JsonSlurper();
@@ -1413,14 +1411,28 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						porcentajebeca_sol = rs.getString("porcentajebeca_sol");
 						porcentajecredito_sol = rs.getString("porcentajecredito_sol");
 					} else if (object.codigo.equals("sdae-rechazodictamen-becas")){
-						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-DICTAMEN]", rs.getString("motivoRechazoAutorizacionText")==null?"[COMENTARIOS-CAMBIO-PREAUTORIZACION]": (object.isEnviar)?rs.getString("motivoRechazoAutorizacionText"):"[RECHAZO-COMENTARIOS-DICTAMEN]")
-					} else if (object.codigo.equals("sdae-rechazopreautorización-becas")){
-						String comentarios = rs.getString("motivorechazopreautorizacion");
-//						rs.getString("motivorechazopreautorizacion") == null ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? rs.getString("motivorechazopreautorizacion") : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]"
+						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-DICTAMEN]", rs.getString("motivoRechazoAutorizacionText")==null?"[RECHAZO-COMENTARIOS-DICTAMEN]": (object.isEnviar)?rs.getString("motivoRechazoAutorizacionText"):"[RECHAZO-COMENTARIOS-DICTAMEN]")
+					} else if (object.codigo.equals("sdae-rechazopreautorización-becas") ){
+						String comentarios = "";
+						comentarios = rs.getString("motivorechazopreautorizacion");
 						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
 						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
 						porcentajebeca_sol = rs.getString("porcentajebeca_sol");
 						porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+						
+//						if( !rs.getString("estatussolicitud").equals("Esperando Pre-Autorización") || !rs.getString("estatussolicitud").equals("Rechazada por Pre-autorización")) {
+//							comentarios = rs.getString("comentariosfinal");
+//							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+//							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+//							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+//							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+//						} else {
+//							comentarios = rs.getString("motivorechazopreautorizacion");
+//							comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-PREAUTORIZACION]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-PREAUTORIZACION]";
+//							plantilla=plantilla.replace("[RECHAZO-COMENTARIOS-PREAUTORIZACION]", comentarios);
+//							porcentajebeca_sol = rs.getString("porcentajebeca_sol");
+//							porcentajecredito_sol = rs.getString("porcentajecredito_sol");
+//						}
 					} else if (object.codigo.equals("sdae-modificacióndictamen-becas")){
 						plantilla=plantilla.replace("[MOTIVO-MODIFICACION]", rs.getString("cambiossolicitudautorizaciontext")==null?"[MOTIVO-MODIFICACION]": (object.isEnviar)?rs.getString("cambiossolicitudautorizaciontext"):"[MOTIVO-MODIFICACION]")
 					} else if (object.codigo.equals("sdae-preautorizaciónpago-becas")){
@@ -1435,7 +1447,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
 							comentarios = motivoRechazo;
 						}
-						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", comentarios); 
+						plantilla = plantilla.replace("[COMENTARIOS-DEPORTIVA]", !comentarios.equals("") ? comentarios:"[COMENTARIOS-DEPORTIVA]"); 
 						plantilla = plantilla.replace("[DEPORTIVA-SUGERIDA]", sugerida == null ? "" : sugerida);
 					} else if (object.codigo.equals("sdae-evaluación-artistica")){
 						String motivoAprobada = rs.getString("motivoaprobadaartistica");
@@ -1448,45 +1460,67 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						} else if (motivoRechazo != null && !motivoRechazo.equals("")) {
 							comentarios = motivoRechazo;
 						}
-						plantilla = plantilla.replace("[COMENTARIOS-ARTISTICA]", comentarios);
+						plantilla = plantilla.replace("[COMENTARIOS-ARTISTICA]", !comentarios.equals("")?comentarios:"[COMENTARIOS-ARTISTICA]");
 						plantilla = plantilla.replace("[ARTISTICA-SUGERIDA]", sugerida == null ? "" : sugerida);
 					} else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")){
-					    plantilla = plantilla.replace("[MOTIVOSDERECHAZO-FINANCIAMIENTO]", "");
+//					    plantilla = plantilla.replace("[MOTIVOSDERECHAZO-FINANCIAMIENTO]", "");
+						String motivoRechazoFina = "";
+						if(rs.getString("motivo_rechazo_fina") !== null) {
+							motivoRechazoFina = rs.getString("motivo_rechazo_fina");
+						}
+						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", motivoRechazoFina);
 					} else if (object.codigo.equals("sdae-solicitudmodifcación-validaciónfinanzas")){
 					    plantilla = plantilla.replace("[COMENTARIOS-CAMBIO-AVAL]", rs.getString("observaciones_finanzas_fina"));
 					} else if (object.codigo.equals("sdae-solicitudrechaza-finanzas")){
-					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
+//					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
+						String comentarios = "";
+						comentarios = rs.getString("observaciones_finanzas_fina");
+						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINANZAS]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINANZAS]";
+						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", comentarios);
 					} else if (object.codigo.equals("sdae-propuestarechazada-becas")) {
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
-					}
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
+					} else if (object.codigo.equals("sdae-solicitudrechaza-comitéfinanzas")) {
+//						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", rs.getString("observaciones_comite_fina"));
+//						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
+						String comentarios = "";
+						comentarios = rs.getString("observaciones_comite_fina");
+						comentarios = comentarios == null || comentarios.equals("") ? "[RECHAZO-COMENTARIOS-FINDICTA]" : (object.isEnviar) ? comentarios : "[RECHAZO-COMENTARIOS-FINDICTA]";
+						plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINDICTA]", comentarios);
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajecredito_sol);
+					}  else if (object.codigo.equals("sdae-respondepropuestanegativa-finanzas-propuesta")) {
+						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", rs.getString("motivorechazoaspirante"));
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
+					} 
 
 					plantilla = plantilla.replace("[PORCENTAJE-BECA]", porcentajebeca_sol != null ? porcentajebeca_sol : "N/A");
 					plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO]", porcentajecredito_sol != null ? porcentajecredito_sol : "N/A");
 					plantilla = plantilla.replace("[PROMEDIO-MINIMO]", rs.getString("promediominimoautorizacion"));
 					plantilla = plantilla.replace("[FECHALIMITE-PAGO]", rs.getString("fechapagoinscripcionautorizacion"));
+					errorlog += " | ANTES DEL PORCENTAJE D EFINA  "
 					plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-OTORGADO]", rs.getString("porcentajefinanciamientootorgado"));
 					
 				}
 			} catch (Exception e) {
-				errorlog += " | FALLO AL BUSCAR LA SOLICITUD DE APOYO " + e.getMessage()
+				errorlog += " | CARTA BECAS " + e.getMessage()
 			} finally {
 				if(closeCon) {
 					new DBConnect().closeObj(con, stm, rs, pstm);
 				}
 			}
 			
-			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas")  || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") ) {
-				errorlog += " | PLANTILLA :: " + object.codigo;
-				Integer costoCredito = 0;
-				Integer creditosemestre = 0;
-				Integer parcialidad = 0;
-				Integer porcentajebecaautorizacion = 0;
-				Integer porcentajecreditoautorizacion = 0;
-				Integer descuentoanticipadoautorizacion = 0;
-				Integer inscripcionmayo = 0;
-				Integer inscripcionseptiembre = 0;
-				Integer inscripcionagosto = 0;
-				Integer inscripcionenero = 0;
+			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuestasolobeca-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-finanzas") ) {
+				
+				Double costoCredito = 0;
+				Double creditosemestre = 0;
+				Double parcialidad = 0;
+				Double porcentajebecaautorizacion = 0;
+				Double porcentajecreditoautorizacion = 0;
+				Double descuentoanticipadoautorizacion = 0;
+				Double inscripcionmayo = 0;
+				Double inscripcionseptiembre = 0;
+				Double inscripcionagosto = 0;
+				Double inscripcionenero = 0;
 				String descripcionPeriodo = "";
 
 				//OBTENIENDO
@@ -1503,75 +1537,101 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 					rs = pstm.executeQuery();
 					if(rs.next()) {
 						errorlog += "| " + object.codigo + " SOLICITUD ENCONTRADA ";
-						creditosemestre = rs.getInt("creditosemestre");
-						parcialidad = rs.getInt("parcialidad");
-						porcentajebecaautorizacion = rs.getInt("porcentajebecaautorizacion");
-						porcentajecreditoautorizacion = rs.getInt("porcentajecreditoautorizacion");
-						descuentoanticipadoautorizacion = rs.getInt("descuentoanticipadoautorizacion");
-						descripcionPeriodo = rs.getString("descripcion");
-						inscripcionmayo = rs.getInt("inscripcionmayo");
-						inscripcionseptiembre = rs.getInt("inscripcionseptiembre");
-						inscripcionagosto = rs.getInt("inscripcionagosto");
-						inscripcionenero = rs.getInt("inscripcionenero");
-						Integer descuento = rs.getInt("descuentoanticipado");
-						Integer porcentajeBeca_sol  = rs.getInt("porcentajebecaautorizacion");
-						Integer porcentajeFina_sol  = rs.getInt("porcentajecreditoautorizacion");
-						Integer porcentajeInteresFinanciamiento = rs.getInt("porcentajeinteresfinanciamiento");
-						
-						plantilla = plantilla.replace("[PROMEDIO-MINIMO]", rs.getString("promediominimoautorizacion"));
+						errorlog += " | 1 credito";
+						creditosemestre = rs.getDouble("creditosemestre");
+						errorlog += " | 1 parcialidad";
+						parcialidad = rs.getDouble("parcialidad");
+						errorlog += " | 1 porcentaje";
+						porcentajebecaautorizacion = rs.getDouble("porcentajebecaautorizacion");
+						porcentajecreditoautorizacion = rs.getDouble("porcentajecreditoautorizacion");
+						descuentoanticipadoautorizacion = rs.getDouble("descuentoanticipadoautorizacion");
+						errorlog += " | 1 periodo";
+						descripcionPeriodo = rs.getString("descripcion_periodo");
+						inscripcionmayo = rs.getDouble("inscripcionmayo");
+						inscripcionseptiembre = rs.getDouble("inscripcionseptiembre");
+						inscripcionagosto = rs.getDouble("inscripcionagosto");
+						inscripcionenero = rs.getDouble("inscripcionenero");
+						errorlog += " | 1 descuentos";
+						Double descuento = descuentoanticipadoautorizacion;
+						Double porcentajeBeca_sol  = rs.getDouble("porcentajebecaautorizacion");
+						Double porcentajeFina_sol  = rs.getDouble("porcentajecreditoautorizacion");
+						Double porcentajeInteresFinanciamiento = rs.getDouble("porcentajeinteresfinanciamiento");
+						Double porcentajefinanciamientootorgado =  rs.getDouble("porcentajefinanciamientootorgado");
+						errorlog += " | 1 promedios";
+						String promedio = "0";
+						if(rs.getString("promediominimoautorizacion")!= null) {
+							promedio = rs.getString("promediominimoautorizacion");
+						}
+						plantilla = plantilla.replace("[PROMEDIO-MINIMO]", promedio);
 						plantilla = plantilla.replace("[TIPO-BECA]", rs.getString("tipoapoyo"));
+						errorlog += " | 1 procedencia";
 						String procedencia = rs.getString("ciudadbachillerato") == null ? rs.getString("ciudadbachillerato_otro") : rs.getString("ciudadbachillerato");
 						plantilla = plantilla.replace("[PROCEDENCIA]", procedencia);
-						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_sol.toString());
-						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina")) {
+						Integer porcentajeBeca_int = rs.getInt("porcentajebecaautorizacion");
+						Integer porcentajeFina_int = 0;
+						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_int.toString());
+						errorlog += " | PLANTILLA LLEGO"
+						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago")) {
 							try {
-								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_sol.toString());
+								porcentajeFina_int  = rs.getInt("porcentajecreditoautorizacion");
+								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_int.toString());
 								Integer suma = (porcentajeBeca_sol == null ? 0 : porcentajeBeca_sol) + (porcentajeFina_sol == null ? 0 : porcentajeFina_sol);
 								plantilla = plantilla.replace("[SUMA-B-F]", suma.toString());
 							} catch(Exception e) {
 								plantilla = plantilla.replace("[SUMA-B-F]", "");
 							}
+						} else if(object.codigo.equals("sdae-propuesta-finanzas")){
+							errorlog += " | [PORCENTAJE-FINANCIAMIENTO-DICTAMEN] " + porcentajefinanciamientootorgado.toString();
+							plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajefinanciamientootorgado.toInteger().toString());
 						}
-						errorlog += " | suma hecha  ";
 						
+						errorlog += " | 1";
 						String[] fechaParcial = rs.getString("fechapagoinscripcionautorizacion").split("-");
+						errorlog += " | 2";
 						plantilla = plantilla.replace("[FECHALIMITE-INSCRIPCION]", fechaParcial[2] + "/" + fechaParcial[1] + "/" + fechaParcial[0]);
+						errorlog += " | 3";
 						plantilla = plantilla.replace("[DESCUENTO-INSCRIPCION]", rs.getString("descuentoanticipado"));
-						
+						errorlog += " | 4";
 						Long sdaecatgestionescolar_pid = rs.getLong("sdaecatgestionescolar_pid");
+						errorlog += " | 5";
 						//OBTENCION De LOS CREDITOS
 						closeCon = validarConexion();
 						pstm = con.prepareStatement(Statements.GET_SDAECAT_CREDITO_GE);
+						errorlog += " | sdaecatgestionescolar_pid:" +  sdaecatgestionescolar_pid.toString();
+						errorlog += " | descripcionPeriodo:" +  descripcionPeriodo;
+						String[] periodoArray = descripcionPeriodo.split(" ");
+						errorlog += " | periodoArray:" +  periodoArray[1];
 						pstm.setLong(1, sdaecatgestionescolar_pid);
-						pstm.setString(2, descripcionPeriodo.split(" ")[1]);
+						pstm.setString(2, periodoArray[1].toString());
 						rs = pstm.executeQuery();
 						
 						if(rs.next()) {
+							errorlog += " | 6";
 							costoCredito = rs.getInt("CREDITOAGOSTO");
 							Integer creditosSemestre = rs.getInt("creditosemestre");
-							Integer parcialidades = rs.getInt("parcialidad");
-							
-							Integer montoInscripcion = inscripcionagosto;
-							Integer montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
-							Integer montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
-							Integer montoCreditos = costoCredito;
-							
-							Integer montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
-							Integer montoColegiaturaBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoColegiaturaNormal;
-							Integer montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoColegiaturaFinanciamiento = (montoColegiaturaNormal * (porcentajeFina_sol * 0.01));
-							
-							Integer montoPagoNormal = montoColegiaturaNormal / parcialidades;
-							Integer mongoPagoBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoPagoNormal;
-							Integer mongoPagoBecaFinanciamiento = montoColegiaturaBecaFinanciamiento / parcialidades;
-							
-							Integer montoPagototalNormal = montoInscripcion + montoColegiaturaNormal;
-							Integer mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
-							Integer mongoPagoTotalBecaFinanciamiento = montoBecaFinanciamiento + montoColegiaturaBecaFinanciamiento;
-							Integer totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
-							Integer interesSemestre = totalFinanciado * (porcentajeInteresFinanciamiento * 0.01);
-							
+							Double parcialidades = rs.getDouble("parcialidad");
+							errorlog += " | 7";
+							Double montoInscripcion = inscripcionagosto;
+							Double montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
+							Double montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
+							Double montoCreditos = costoCredito;
+							errorlog += " | 8";
+							Double montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
+							Double montoColegiaturaBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoColegiaturaNormal;
+							Double montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoColegiaturaFinanciamiento = (montoColegiaturaNormal * (porcentajeFina_sol * 0.01));
+							errorlog += " | 9";
+							Double montoPagoNormal = montoColegiaturaNormal / parcialidades;
+							Double mongoPagoBeca = ((100 - porcentajeBeca_sol) * 0.01) * montoPagoNormal;
+							Double mongoPagoBecaFinanciamiento = montoColegiaturaBecaFinanciamiento / parcialidades;
+							errorlog += " | 10";
+							Double montoPagototalNormal = montoInscripcion + montoColegiaturaNormal;
+							Double mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
+							Double mongoPagoTotalBecaFinanciamiento = montoBecaFinanciamiento + montoColegiaturaBecaFinanciamiento;
+							Double totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
+							Double interesSemestre = totalFinanciado * (porcentajeInteresFinanciamiento * 0.01);
+							errorlog += " | 11 (" + totalFinanciado.toString() + "*(" + porcentajeInteresFinanciamiento.toString() + " * 0.01)";
 							plantilla = plantilla.replace("[CREDITOS]", creditosSemestre.toString());
 							plantilla = plantilla.replace("[PARCIAL]", rs.getString("parcialidad"));
 							plantilla = plantilla.replace("[PERIODO]", descripcionPeriodo);
@@ -1593,38 +1653,44 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							plantilla = plantilla.replace("[TOTAL-FINANCIADO]", formatCurrency(totalFinanciado.toString()));
 							plantilla = plantilla.replace("[INTERES-SEMESTRE]", formatCurrency(interesSemestre.toString()));
 							
-							Integer montoDescuentoFina = 0;
-							Integer montoDescuentoBeca = 0;
-							Integer montoDescuento = 0;
-							
-							Integer inscripcionDescuento = 0;
+							Double montoDescuentoFina = 0;
+							Double montoDescuentoBeca = 0;
+							Double montoDescuento = 0;
+							errorlog += "| descuento " + descuento.toString();
+							Double inscripcionDescuento = 0;
 							if(descuento > 0) {
-								montoDescuento = montoInscripcion - (montoInscripcion * (100 / descuento));
+								montoDescuento = montoInscripcion - (montoInscripcion * (descuento / 100));
 							}
-							inscripcionDescuento  = inscripcionDescuento - montoDescuento;
-							errorlog += "| inscripcionDescuento" + inscripcionDescuento.toString();
-							Integer inscripcionDescuentoBeca = 0;
+							inscripcionDescuento  = montoInscripcion - (montoInscripcion - montoDescuento);
+							errorlog += "| montoDescuento " + montoDescuento.toString();
+							errorlog += "| montoInscripcion " + montoInscripcion.toString();
+//							montoInscripcion/montoBeca/montoBecaFinanciamiento
+							Double inscripcionDescuentoBeca = 0;
 							if(porcentajeBeca_sol > 0) {
-								montoDescuentoBeca = montoInscripcion - (montoInscripcion * (100 / porcentajeBeca_sol));
+								montoDescuentoBeca = montoBeca - (montoBeca * (descuento / 100));
 							}
-							inscripcionDescuentoBeca = montoInscripcion - montoDescuento - montoDescuentoBeca;
-							errorlog += "| inscripcionDescuentoBeca" + inscripcionDescuentoBeca.toString();
+							inscripcionDescuentoBeca = montoBeca - (montoBeca - montoDescuentoBeca);
+							errorlog += "| montoBeca " + montoBeca.toString();
+							errorlog += "| montoDescuentoBeca " + montoDescuentoBeca.toString();
 							
-							Integer inscripcionDescuentoFina = 0 ;
+							Double inscripcionDescuentoFina = 0 ;
 							if(porcentajeFina_sol > 0) {
-								montoDescuentoFina = montoInscripcion - (montoInscripcion * (100 / porcentajeFina_sol));
+								montoDescuentoFina = montoBecaFinanciamiento - (montoBecaFinanciamiento * (descuento / 100));
 							}
 							
-							inscripcionDescuentoFina = montoInscripcion - montoDescuento - montoDescuentoBeca - montoDescuentoFina;
-							errorlog += "| inscripcionDescuentoFina" + inscripcionDescuentoFina.toString();
+							inscripcionDescuentoFina = montoBecaFinanciamiento - (montoBecaFinanciamiento - montoDescuentoFina);
+							errorlog += "| montoFinanciamiento " + montoFinanciamiento.toString();
+							errorlog += "| montoDescuentoFina " + montoDescuentoFina.toString();
 							
-							plantilla = plantilla.replace("[INCRIPCION-DESCUENTO]", formatCurrency(inscripcionDescuento.toString()));
+//							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toString());
+							plantilla = plantilla.replace("[PRONTO-PAGO]", descuentoanticipadoautorizacion.toInteger().toString());
+							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO]", formatCurrency(inscripcionDescuento.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA]", formatCurrency(inscripcionDescuentoBeca.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA-PORCENTAJEFINANCIAMIENTO]", formatCurrency(inscripcionDescuentoFina.toString()));
 						}
 					}
 				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
+					errorlog += "| PROPUESTA-FINA " + e.getLocalizedMessage();
 				} finally {
 					if(closeCon) {
 						new DBConnect().closeObj(con, stm, rs, pstm);
@@ -1700,8 +1766,31 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		return resultado;
 	}
 	
-	private String formatCurrency(String input) {
-		return "\$" + input + ".00";
+//	private String formatCurrency(String input) {
+//		return "\$" + input + ".00";
+//	}
+	
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+        NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+        // Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+        String numeroFormateado = null;
+        if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+            numeroFormateado = formatoMoneda.format(valor);
+        } else if (valor instanceof String) {
+            try {
+                Number numero = NumberFormat.getInstance().parse((String) valor);
+                numeroFormateado = formatoMoneda.format(numero);
+            } catch (ParseException e) {
+                // Manejar cualquier excepción de análisis aquí
+                e.printStackTrace();
+            }
+        }
+
+        // Retornar el valor formateado o una cadena vacía si no se pudo formatear
+        return numeroFormateado != null ? numeroFormateado : "";
 	}
 
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog,Boolean isEnviar) {

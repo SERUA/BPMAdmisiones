@@ -2,23 +2,24 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
     this.isArray = Array.isArray;
     $scope.task = {};
+    $scope.mostrarFiltros = false;
+    $scope.filtroBeca = false;
+    $scope.filtroFinanciamiento = false;
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
     };
   
     this.selectRow = function(row) {
         $scope.properties.selectedRow = row;
-        getTaskInfo(row.caseid);
+        // getTaskInfo(row.caseid);
     };
     
     function getTaskInfo(_caseId){
         let url = "../API/bpm/humanTask?c=100&p=0&f=parentCaseId=" + _caseId;
         $http.get(url).success(function(data){
-            debugger;
             $scope.task = data[0];
             $scope.properties.taskId = data[0].id;
         }).error(function(err){
-            debugger;
             console.log(err);
         });
     }
@@ -59,7 +60,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
         
         return $http(req).success(function(data, status) {
-            debugger;
             _rowData.taskId = data[0].id;
             _rowData.taskName = data[0].name;
             _rowData.processId = data[0].processId;
@@ -404,7 +404,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
     $scope.filtroCampus = "";
 
-    $scope.addFilter = function() {
+    /*$scope.addFilter = function() {
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
                 "columna": "CAMPUS",
@@ -460,7 +460,249 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             }
         }
   
+    }*/
+
+    $scope.addFilter = function() {
+        if ($scope.filtroCampus != "Todos los campus") {
+            $scope.licenciaturas = [];
+            $scope.periodos = [];
+            $scope.filtroPeriodo = "";
+            $scope.filtroLicenciatura = "";
+            $scope.mostrarFiltros = true;
+
+            var filter = {
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.filtroCampus
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "CAMPUS") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
+                        for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                            if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                                $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                            }
+                        }
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                    for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                        if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                            $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                        }
+                    }
+                }
+                getLicenciasturas($scope.properties.campusSeleccionado);
+                getPeriodos($scope.properties.campusSeleccionado);
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+                for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+                    if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+                        $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+                    }
+                }
+                getLicenciasturas($scope.properties.campusSeleccionado);
+                getPeriodos($scope.properties.campusSeleccionado);
+            }
+
+        } else {
+            $scope.mostrarFiltros = false;
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "CAMPUS") {
+                        $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                        $scope.properties.campusSeleccionado = null;
+                    }
+                }
+            } else {
+                $scope.properties.campusSeleccionado = null;
+            }
+        }
+  
     }
+
+    function getLicenciasturas(_campus) {
+        var req = {
+            method: "GET",
+            url: "/API/bdm/businessData/com.anahuac.catalogos.CatGestionEscolar?q=getCatGestionEscolarByCampus&p=0&c=9999&f=campus="  + _campus,
+            data: angular.copy({ "assigned_id": $scope.properties.userId })
+        };
+  
+        return $http(req).success(function(data, status) {
+            $scope.licenciaturas = data;
+            $scope.periodos
+            // window.open(url, '_blank');
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+
+        });
+    }
+
+    function getPeriodos(_campus) {
+        var req = {
+            method: "GET",
+            url: "/API/extension/AnahuacRestGet?url=getCatPeriodoActivo&p=0&c=10&tipo=Semestral",
+            data: angular.copy({ "assigned_id": $scope.properties.userId })
+        };
+  
+        return $http(req).success(function(data, status) {
+            $scope.periodos  = data.data;
+            // window.open(url, '_blank');
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+
+        });
+    }
+
+
+    $scope.addFilterLicenciatura = function() {
+        if ($scope.filtroLicenciatura) {
+            var filter = {
+                "columna": "LICENCIATURA",
+                "operador": "Que contengan",
+                "valor": $scope.filtroLicenciatura
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "LICENCIATURA") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroLicenciatura;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+
+        }
+    }
+
+    $scope.addFilterPeriodo = function() {
+        if ($scope.filtroPeriodo) {
+            var filter = {
+                "columna": "PERIODO",
+                "operador": "Que contengan",
+                "valor": $scope.filtroPeriodo
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "PERIODO") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroPeriodo;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+
+        }
+    }
+    
+    $scope.addFilterBecaFina = function() {
+        if ($scope.filtroBeca) {
+            var filter = {
+                "columna": "T-BECA",
+                "operador": "Que contengan",
+                "valor": $scope.filtroBeca
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-BECA") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroBeca;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            var encontrado = false;
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-BECA") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+
+        if ($scope.filtroFinanciamiento) {
+            var filter = {
+                "columna": "T-FINAN",
+                "operador": "Que contengan",
+                "valor": $scope.filtroFinanciamiento
+            };
+
+            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+                var encontrado = false;
+                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                    const element = $scope.properties.dataToSend.lstFiltro[index];
+                    if (element.columna == "T-FINAN") {
+                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroFinanciamiento;
+                        encontrado = true
+                    }
+                }
+  
+                if (!encontrado) {
+                    $scope.properties.dataToSend.lstFiltro.push(filter);
+                }
+            } else {
+                $scope.properties.dataToSend.lstFiltro.push(filter);
+            }
+        } else {
+            for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+                const element = $scope.properties.dataToSend.lstFiltro[index];
+                if (element.columna == "T-FINAN") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+                }
+            }
+        }
+    }
+
     $scope.sizing = function() {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
@@ -502,4 +744,66 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     $scope.getCatCampus();
+
+    
+    function downloadFile(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "solicitud_de_apoyo_educativo.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+    
+    
+    $scope.downloadFile = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfSolicitudApoyo&p=0&c=1&email=" + _email + "&caseid=" + _caseId;
+        $http.post(url, {}).success(function(success){
+            downloadFile(success.data[0]); 
+        }).error(function(err){
+           swal("Error", "No se ha podido generar el archivo, intentelo de nuevo mas tarde.", "error");
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
+    function downloadFileF(_document) {
+        blockUI.start();
+        const linkSource = "data:application/pdf; base64,"+ _document;
+        const downloadLink = document.createElement("a");
+    
+        let fileName = "Información del aval.pdf";
+
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();
+        blockUI.stop();
+    }
+
+    $scope.downloadFileF = function(_email, _caseId){
+        blockUI.start();
+        let url = "../API/extension/DocAPI?pdf=pdfDatosAval&p=0&c=1&email=" + _email;
+        $http.post(url, {}).success(function(success){
+            downloadFileF(success.data[0]); 
+        }).error(function(err){
+            
+        }).finally(function(){
+            blockUI.stop();
+        });
+    }
+
+    $scope.abrirSolicitud = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verSolicitud/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
+    
+    $scope.abrirSolicitudF = function(_rowData){
+        var url = "/bonita/portal/resource/app/sdae/verFinanciamiento/content/?app=sdae&caseId="+ _rowData.caseid;
+        window.open(url, '_blank');
+    }
 }

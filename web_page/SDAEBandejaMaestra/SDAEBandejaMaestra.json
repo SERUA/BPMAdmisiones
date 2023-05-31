@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEBandejaMaestra",
   "name" : "SDAEBandejaMaestra",
-  "lastUpdate" : 1667866897670,
+  "lastUpdate" : 1684171548607,
   "rows" : [
     [
       {
@@ -52,7 +52,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Solicitudes vista general"
+                  "value" : "Solicitudes de Apoyo Educativo <br>(Bitácora)"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -67,6 +67,106 @@
               "hasValidationError" : false,
               "id" : "pbTitle",
               "description" : ""
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Excel"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "POST"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../API/extension/AnahuacBecasRest?url=getExcelFile&p=0&c=10"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "dataToSend"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "fileExtension" : {
+                  "type" : "constant",
+                  "value" : "xls"
+                },
+                "nombre" : {
+                  "type" : "constant",
+                  "value" : "Solicitudes de apoyo educativo (Bitácora)"
+                }
+              },
+              "reference" : "71d536c8-1283-4073-8043-58633162c86f",
+              "hasValidationError" : false,
+              "id" : "customSDAEBtnDownloadExcelName"
             }
           ],
           [
@@ -259,6 +359,7 @@
         "    \"usuario\":$data.userData.user_name,\r",
         "    \"orderby\":\"\",\r",
         "    \"orientation\":\"DESC\",\r",
+        "    \"type\": \"nuevas_solicitudes\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
         "    \"campus\":$data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",

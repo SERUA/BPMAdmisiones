@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEModificarSolicitud",
   "name" : "SDAEModificarSolicitud",
-  "lastUpdate" : 1669320169647,
+  "lastUpdate" : 1685402490870,
   "rows" : [
     [
       {
@@ -85,6 +85,10 @@
           "isSolicitud" : {
             "type" : "constant",
             "value" : false
+          },
+          "modificarDocumentos" : {
+            "type" : "expression",
+            "value" : "formOutputTest.solicitudApoyoEducativoInput.modificarDocumentos"
           }
         },
         "reference" : "517a6016-b5ff-4faa-9587-de8ce46cd8bd",
@@ -707,6 +711,75 @@
                       "reference" : "7db3a920-09ac-4253-899c-86419b4ff243",
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "79614a96-bc0c-4f99-9679-b4698502e7e0",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
                     }
                   ]
                 ]
@@ -1448,7 +1521,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de  apoyo educativo te apoyará en este proceso y te acompañará para mantenerte al tanto de tu solicitud. ¡Te deseamos mucha suerte!</label>"
+                          "value" : "<label class=\"color-orange\">Si has revisado cuidadosamente tu información, si es verídica y correcta, es momento de enviar tu solicitud.</label><br>\n<label class=\"color-orange\">Nuestro equipo de apoyo educativo te acompañará en este proceso para mantenerte al tanto de tu solicitud.\n</label>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -1568,7 +1641,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad</a>"
+                          "value" : "He leido y acepto el <a class=\"color-orange\" href=\"https://procesos.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\" target=\"blank\">Aviso de privacidad.</a>"
                         },
                         "value" : {
                           "type" : "variable",
@@ -1608,7 +1681,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento educativo</a> de la Universidad"
+                          "value" : "Acepto el <a class=\"color-orange\" href=\"{{getConfiguracionCampus.data[0].urlReglamento}}\" target=\"blank\">Reglamento de Becas y Financiamiento educativo</a> de la Universidad."
                         },
                         "value" : {
                           "type" : "variable",
@@ -2540,7 +2613,11 @@
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getDocumentosByTipoApoyo&p=0&c=0&idTipoApoyo={{formOutputTest.solicitudApoyoEducativoInput.catTipoApoyo_id}}&campus={{objSolicitudDeAdmision[0].catCampusEstudio.grupoBonita}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "acceptoAvisoPrivacidad" : {
@@ -3042,12 +3119,12 @@
         "function validateBienesRaices(){\r",
         "    let output = true;\r",
         "\r",
-        "    for(let bien of $data.formOutputTest.bienesRaicesInput){\r",
-        "        if(!bien.catTipoInversionesPosee_id || !bien.descripcion || !bien.direccionBanco || !bien.valor){\r",
-        "            output = false;\r",
-        "            break;   \r",
-        "        }\r",
-        "    }\r",
+        "    // for(let bien of $data.formOutputTest.bienesRaicesInput){\r",
+        "    //     if(!bien.catTipoInversionesPosee_id || !bien.descripcion || !bien.direccionBanco || !bien.valor){\r",
+        "    //         output = false;\r",
+        "    //         break;   \r",
+        "    //     }\r",
+        "    // }\r",
         "\r",
         "    return output;\r",
         "}\r",
@@ -3130,7 +3207,7 @@
       "type" : "expression",
       "value" : [
         "let output =  true; \r",
-        "debugger;\r",
+        "\r",
         "if(!$data.formOutputTest.solicitudApoyoEducativoInput.motivoBeca){\r",
         "    output = false;\r",
         "    $data.errorPaso3 = \"El campo 'Escribe el motivo por el cual se solicita la beca y otra información que creas que el comité de selección deba saber' no debe ir vacío.\";\r",
@@ -3232,33 +3309,39 @@
         "    output = false;\r",
         "    $data.errorPaso4 = \"Si  agregaste un valor a la tabla de automóviles, todos los datos de este deben ser llenados.\";\r",
         "    $data.tituloErrorPaso4 = \"Automóviles\";\r",
-        "} \r",
-        "\r",
-        "else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre != 0){\r",
+        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoPadre != 0){\r",
         "    output = false;\r",
         "    $data.errorPaso4 = \"El campo 'Ingresos de padre' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoMadre != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de la madre' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de la madre' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoHermano != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de hermano' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de hermano' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoTio != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de Tio(a)' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de Tio(a)' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAbuelo != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de abuelo(a)' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de abuelo(a)' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoAspirante != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de aspirante' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de aspirante' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
-        "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta && $data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta != 0){\r",
+        "}  \r",
+        "\r",
+        "else if(!$data.formOutputTest.solicitudApoyoEducativoInput.ingresoOtro && $data.formOutputTest.solicitudApoyoEducativoInput.ingresoOtro != 0){\r",
+        "    output = false;\r",
+        "    $data.errorPaso4 = \"El campo 'Ingresos de Otros' no debe ir vacío.\";\r",
+        "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
+        "} \r",
+        "\r",
+        "else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta && $data.formOutputTest.solicitudApoyoEducativoInput.egresoRenta != 0){\r",
         "    output = false;\r",
         "    $data.errorPaso4 = \"El campo 'Egresos de Renta o Hipoteca' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
@@ -3296,7 +3379,7 @@
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos && $data.formOutputTest.solicitudApoyoEducativoInput.egresoCreditos != 0){\r",
         "    output = false;\r",
-        "    $data.errorPaso4 = \"El campo 'Egresos de Créditos/impuestos' no debe ir vacío.\";\r",
+        "    $data.errorPaso4 = \"El campo 'Egresos de Otros créditos' no debe ir vacío.\";\r",
         "    $data.tituloErrorPaso4 = \"Distribución de Ingresos y Gastos Mensuales\";\r",
         "} else if(!$data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros && $data.formOutputTest.solicitudApoyoEducativoInput.egresoOtros != 0){\r",
         "    output = false;\r",
@@ -3305,7 +3388,6 @@
         "} \r",
         "\r",
         "return output;\r",
-        "\r",
         "\r",
         "function validateAutomoviles(){\r",
         "    let output = true;\r",
@@ -4148,7 +4230,7 @@
       "value" : [
         "return {\r",
         "\t\"beca\": $data.returnCatValue.catPorcentajeBeca ? $data.returnCatValue.catPorcentajeBeca.descripcion : \"N/A\",\r",
-        "  \t\"comentario\": \"N/A\",\r",
+        "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.userData.user_name,\r",
         "  \t\"estatus\": \"El aspirante modificó su solicitud\",\r",
         "  \t\"financiamiento\": $data.returnCatValue.catPorcentajeFinanciamiento ? $data.returnCatValue.catPorcentajeFinanciamiento.descripcion: \"N/A\",\r",
@@ -4158,6 +4240,14 @@
         "  \t\"tipoapoyo\": $data.returnCatValue.catTipoApoyo ? $data.returnCatValue.catTipoApoyo.descripcion: \"N/A\"\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getImagenesByTipoApoyo" : {
+      "type" : "url",
+      "value" : [
+        "{{urlIMagenesSocioEconomico}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

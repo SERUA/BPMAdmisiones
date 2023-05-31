@@ -1,4 +1,6 @@
 package com.anahuac.rest.api.DAO
+import static org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion.DEFAULT
+
 import java.nio.charset.StandardCharsets
 import java.nio.file.Path
 import java.nio.file.Paths
@@ -7,6 +9,11 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.time.LocalDate
+import java.time.Period
+import java.text.NumberFormat
+import java.text.ParseException
+
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
 import net.sf.jasperreports.engine.JasperCompileManager
@@ -17,9 +24,16 @@ import net.sf.jasperreports.engine.JasperReport
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 
 import org.bonitasoft.engine.bpm.document.Document
+import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion
 import org.bonitasoft.engine.identity.User
 
-
+import com.anahuac.SDAE.model.SolicitudApoyoEducativo
+import com.anahuac.SDAE.model.SolicitudApoyoEducativoDAO
+import com.anahuac.SDAE.model.SolicitudFinanciamiento
+import com.anahuac.SDAE.model.SolicitudFinanciamientoDAO
+import com.anahuac.model.PadresTutor
+import com.anahuac.model.SolicitudDeAdmision
+import com.anahuac.model.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
@@ -813,7 +827,7 @@ class PDFDocumentDAO {
 		return resultado
 	}
 	
-	public Result pdfDatosAval(String email) {
+	public Result pdfDatosAval(String email, RestAPIContext context) {
 		Result resultado = new Result();
 		InputStream targetStream;
 		Boolean streamOpen = false;
@@ -824,7 +838,7 @@ class PDFDocumentDAO {
 			def jsonSlurper = new JsonSlurper();
 			Result dataResult = new Result();
 			List<List < Object >> lstParams;
-			Result infoAval = getInfoAval(email);
+			Result infoAval = getInfoAval(email, context);
 			List<?> info = infoAval.getData();
 			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 			errorLog += " | Ontuvo info del aval ";
@@ -881,10 +895,12 @@ class PDFDocumentDAO {
 		return resultado;
 	}
 	
-	public Result getInfoAval(String email) {
+	public Result getInfoAval(String email, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
+		Long caseidapoyo = 0L;
+		Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 		
 		try {
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
@@ -904,57 +920,19 @@ class PDFDocumentDAO {
 			
 			//Agregando datos del aval 
 			while (rs.next()) {
-				
 				errorLog += " | Datos del aval encontrados " ;
-				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
-				Map < String, Object > referenciaPersonalSol = new LinkedHashMap < String, Object > ();
-				List<Map < String, Object >> referenciasPersonalesSol = new ArrayList<Map < String, Object > >();
-				referenciaPersonalSol.put("nombre", "Referencia 1");
-				referenciaPersonalSol.put("parentesco", "Tío");
-				referenciaPersonalSol.put("telefono", "876876876");
-				referenciaPersonalSol.put("email", "mi@tio.com");
-				referenciasPersonalesSol.add(referenciaPersonalSol);
-				referenciaPersonalSol = new  LinkedHashMap < String, Object >();
-				referenciaPersonalSol.put("nombre", "Referencia 2");
-				referenciaPersonalSol.put("parentesco", "Tío");
-				referenciaPersonalSol.put("telefono", "78651684651");
-				referenciaPersonalSol.put("email", "mi_otro@tio.com");
-				referenciasPersonalesSol.add(referenciaPersonalSol);
-				
-				Map < String, Object > referenciaBancaria = new LinkedHashMap < String, Object > ();
-				List<Map < String, Object >> referenciasBancariasV = new ArrayList<Map < String, Object > >();
-				referenciaBancaria.put("banco", "Banorte");
-				referenciaBancaria.put("tipoCuenta", "Ahorros");
-				referenciaBancaria.put("numeroCuenta", "1");
-				referenciaBancaria.put("saldoPromedio", "343554");
-				referenciasBancariasV.add(referenciaBancaria);
-				referenciaBancaria = new  LinkedHashMap < String, Object >();
-				referenciaBancaria.put("banco", "Banorte");
-				referenciaBancaria.put("tipoCuenta", "Ahorros");
-				referenciaBancaria.put("numeroCuenta", "1");
-				referenciaBancaria.put("saldoPromedio", "343554");
-				referenciasBancariasV.add(referenciaBancaria);
-
-				JRBeanCollectionDataSource referenciasPersonalesSolicitante = new JRBeanCollectionDataSource(referenciasPersonalesSol);
-				JRBeanCollectionDataSource referenciasPErsonalesAval = new JRBeanCollectionDataSource(referenciasPersonalesSol);
-				JRBeanCollectionDataSource referenciasBancarias = new JRBeanCollectionDataSource(referenciasBancariasV);
-				JRBeanCollectionDataSource referenciasCredito = new JRBeanCollectionDataSource(referenciasBancariasV);
-				
+				columns = new LinkedHashMap < String, Object > ();
 				String urlFoto = rs.getString("fotosol");
 				errorLog += " |" + urlFoto + SSA;
-				columns.put("referenciasPersonalesSolicitante", referenciasPersonalesSolicitante);
-				columns.put("referenciasPersonalesAval", referenciasPErsonalesAval);
-				columns.put("referenciasBancarias", referenciasBancarias);
-				columns.put("referenciasCredito", referenciasCredito);
-				
 				columns.put("urlFoto",  urlFoto + SSA);
 				columns.put("nombre", rs.getString("primernombre") + " " + rs.getString("segundonombre"));
 				columns.put("idBanner", rs.getString("idbanner"));
 				columns.put("carrera", rs.getString("carrera"));
-				columns.put("periodo", "");
+				columns.put("periodo", rs.getString("periodo"));
 				columns.put("apellidoPaterno", rs.getString("apellidopaterno"));
-				columns.put("apellidoManerno", rs.getString("apellidomaterno"));
-				columns.put("porcFinSolicitado", rs.getString("porcentajefinanciamientosolicitado"));
+				columns.put("apellidoMaterno", rs.getString("apellidomaterno") != null ? rs.getString("apellidomaterno") : "");
+//				columns.put("porcFinSolicitado", rs.getString("porcentajefinanciamientosolicitado") + "%");
+				columns.put("porcFinSolicitado", rs.getString("porccomite") + "%");
 				columns.put("porcFinPrea", rs.getString("porcentajefinanciamientopreautorizado"));
 				columns.put("nombresAval", rs.getString("avalnombres"));
 				columns.put("apellidoPaternoAval", rs.getString("avalapellido_p"));
@@ -964,12 +942,12 @@ class PDFDocumentDAO {
 				columns.put("parentescoAval", "");
 				columns.put("telefonoAval", rs.getString("avaltelefono"));
 				columns.put("emailPersonalAval", rs.getString("avalemail"));
-				columns.put("ingresoMensual", rs.getString("ingresomensual"));
+				columns.put("ingresoMensual", formatCurrency(rs.getString("ingresomensual")));
 				columns.put("provenienteDe", rs.getString("provenientede"));
-				columns.put("otroIngreso", rs.getString("otroingreso"));
-				columns.put("ingresoMensualTotal", rs.getString("ingresomensualtotal"));
-				columns.put("egresoMensualTotal", rs.getString("egresomensualtotal"));
-				columns.put("saldoMensual", rs.getString("saldomensual"));
+				columns.put("otroIngreso", formatCurrency(rs.getString("otroingreso")));
+				columns.put("ingresoMensualTotal", formatCurrency(rs.getString("ingresomensualtotal")));
+				columns.put("egresoMensualTotal", formatCurrency(rs.getString("egresomensualtotal")));
+				columns.put("saldoMensual", formatCurrency(rs.getString("saldomensual")));
 				columns.put("paisDomicilioAval", rs.getString("avaldomiciliopais"));
 				columns.put("cpDomicilioAval", rs.getString("avaldomiciliocp"));
 				columns.put("estadoDomicilioAval", rs.getString("avaldomicilioestado"));
@@ -977,7 +955,7 @@ class PDFDocumentDAO {
 				columns.put("coloniaDomicilioAval", rs.getString("avaldomiciliocolonia"));
 				columns.put("calleNumeroDomicilioAval", rs.getString("avaldomiciliocalleynumero"));
 				columns.put("empresaTrabajaAval", rs.getString("avaltrabajoempresa"));
-				columns.put("empresaAval", rs.getString("avaltrabajopuesto"));
+				columns.put("empresaPuestoAval", rs.getString("avaltrabajopuesto"));
 				columns.put("empresaTelefonoAval", rs.getString("avaltrabajotelefono"));
 				columns.put("empresaTelefonoExtAval", rs.getString("avaltrabajotelefonoext"));
 				columns.put("empresaFechaIngresoAval", buildDate(rs.getString("avaltrabajofechaingreso")));
@@ -994,7 +972,8 @@ class PDFDocumentDAO {
 				columns.put("ciudadDomicilioInmueble", rs.getString("inmuebleciudad"));
 				columns.put("coloniaDomicilioInmueble", rs.getString("inmueblecolonia"));
 				columns.put("noInteriorDomicilioInmueble", rs.getString("inmueblenointerior"));
-				columns.put("calleDomicilioInmueble", rs.getString("inmueblecalle"));
+				columns.put("calleDomicilioInmueble", rs.getString("inmueblecalle") );
+				columns.put("calleNumeroDomicilioInmueble", rs.getString("inmueblecalle") + " #" +  rs.getString("inmueblenoexterior"));
 				columns.put("noExteriorDomicilioInmueble", rs.getString("inmueblenoexterior"));
 				columns.put("notario", rs.getString("notario"));
 				columns.put("noNotaria", rs.getString("numeronotaria"));
@@ -1004,13 +983,15 @@ class PDFDocumentDAO {
 				columns.put("libro", rs.getString("libronotario"));
 				columns.put("lugarDeEscrituracion", rs.getString("lugardeescrituracionnotario"));
 				columns.put("folio", rs.getString("foliopropiedad"));
+				columns.put("tomo", rs.getString("tomopropiedad"));
 				columns.put("libroRegistro", rs.getString("libropropiedad"));
 				columns.put("tomoPropiedad", rs.getString("tomopropiedad"));
 				columns.put("fechaRegistro", buildDate(rs.getString("fechapropiedad")));
+				columns.put("empresaExtensionAval", "N/A");
 				
 				//Domicilio solicitante 
-				columns.put("nuevoIngreso", false);
-				columns.put("avanzado", true);
+				columns.put("nuevoIngreso", true);
+				columns.put("avanzado", false);
 				columns.put("calleNumeroSol", rs.getString("callesol") + " #" + rs.getString("numerosol"));
 				columns.put("coloniaSol", rs.getString("coloniasol"));
 				columns.put("cpSol", rs.getString("cpsol"));
@@ -1021,8 +1002,87 @@ class PDFDocumentDAO {
 				columns.put("celularSol", rs.getString("celularsol"));
 				columns.put("emailSol", rs.getString("correosol"));
 				
-				rows.add(columns);
+				caseidapoyo = rs.getLong("caseidapoyo");
+//				rows.add(columns);
 			}
+			
+			/*Referencias personales del solcitante*/
+			pstm = con.prepareStatement(Statements.GET_REFERENCIAS_PERSONALES);
+			pstm.setLong(1, caseidapoyo);
+			pstm.setBoolean(2, true);
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > referenciaPersonalSolicitante = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstReferenciasPersonalesSolicitante = new ArrayList<Map < String, Object > >();
+			while (rs.next()) {
+				referenciaPersonalSolicitante = new LinkedHashMap < String, Object > ();
+				referenciaPersonalSolicitante.put("nombre", rs.getString("nombre"));
+				referenciaPersonalSolicitante.put("parentesco", rs.getString("parentesco"));
+				referenciaPersonalSolicitante.put("telefono", rs.getString("telefono"));
+				referenciaPersonalSolicitante.put("email", rs.getString("correopersonal"));
+				lstReferenciasPersonalesSolicitante.add(referenciaPersonalSolicitante);
+			}
+			JRBeanCollectionDataSource referenciasPersonalesSolicitante = new JRBeanCollectionDataSource(lstReferenciasPersonalesSolicitante);
+			columns.put("referenciasPersonalesSolicitante", referenciasPersonalesSolicitante);
+			
+			/*Referencias personales del aval*/
+			pstm = con.prepareStatement(Statements.GET_REFERENCIAS_PERSONALES);
+			pstm.setLong(1, caseidapoyo);
+			pstm.setBoolean(2, false);
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > referenciaPersonalAval = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstReferenciasPersonalesAval = new ArrayList<Map < String, Object > >();
+			while (rs.next()) {
+				referenciaPersonalAval = new LinkedHashMap < String, Object > ();
+				referenciaPersonalAval.put("nombre", rs.getString("nombre"));
+				referenciaPersonalAval.put("parentesco", rs.getString("parentesco"));
+				referenciaPersonalAval.put("telefono", rs.getString("telefono"));
+				referenciaPersonalAval.put("email", rs.getString("correopersonal"));
+				lstReferenciasPersonalesAval.add(referenciaPersonalAval);
+			}
+			JRBeanCollectionDataSource referenciasPersonalesAval = new JRBeanCollectionDataSource(lstReferenciasPersonalesAval);
+			columns.put("referenciasPersonalesAval", referenciasPersonalesAval);
+			
+			/*Referencias bancarias del aval*/
+			pstm = con.prepareStatement(Statements.GET_REFERENCIAS_BANCARIAS);
+			pstm.setLong(1, caseidapoyo);
+			pstm.setBoolean(2, true);
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > referenciaBancariaAval = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstReferenciasBancariasAval = new ArrayList<Map < String, Object > >();
+			while (rs.next()) {
+				referenciaBancariaAval = new LinkedHashMap < String, Object > ();
+				referenciaBancariaAval.put("banco", rs.getString("banco"));
+				referenciaBancariaAval.put("tipoCuenta", rs.getString("tipocuenta"));
+				referenciaBancariaAval.put("numeroCuenta", rs.getString("numerocuenta"));
+				referenciaBancariaAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
+				lstReferenciasBancariasAval.add(referenciaBancariaAval);
+			}
+			JRBeanCollectionDataSource referenciasBancarias = new JRBeanCollectionDataSource(lstReferenciasBancariasAval);
+			columns.put("referenciasBancarias", referenciasBancarias);
+			
+			/*Referencias bancarias del aval*/
+			pstm = con.prepareStatement(Statements.GET_REFERENCIAS_BANCARIAS);
+			pstm.setLong(1, caseidapoyo);
+			pstm.setBoolean(2, false);
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > referenciaCreditoAval = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstReferenciasCreditoAval = new ArrayList<Map < String, Object > >();
+			while (rs.next()) {
+				referenciaCreditoAval = new LinkedHashMap < String, Object > ();
+				referenciaCreditoAval.put("banco", rs.getString("banco"));
+				referenciaCreditoAval.put("tipoCuenta", rs.getString("tipocuenta"));
+				referenciaCreditoAval.put("numeroCuenta", rs.getString("numerocuenta"));
+				referenciaCreditoAval.put("saldoPromedio", formatCurrency(rs.getString("saldopromedio")));
+				lstReferenciasCreditoAval.add(referenciaCreditoAval);
+			}
+			JRBeanCollectionDataSource referenciasCredito = new JRBeanCollectionDataSource(lstReferenciasCreditoAval);
+			columns.put("referenciasCredito", referenciasCredito);
+			
+			rows.add(columns);//Agregando columnas al final 
 			
 			resultado.setSuccess(true);
 			resultado.setData(rows);
@@ -1042,10 +1102,502 @@ class PDFDocumentDAO {
 	
 	private String buildDate(String input) {
 		String output = "";
-		String datein = input.split("T")[0];
-		String[] dateparts = datein.split("-");
-		output = dateparts[2] + "/" + dateparts[1] + "/" + dateparts[0];
-		
+		if( input != null) {
+			String datein = input.split("T")[0];
+			String[] dateparts = datein.split("-");
+			output = dateparts[2] + "/" + dateparts[1] + "/" + dateparts[0];
+		}
 		return output;
+	}
+	
+	private static int calculateAge(LocalDate birthDate, LocalDate currentDate) {
+		if ((birthDate != null) && (currentDate != null)) {
+			return Period.between(birthDate, currentDate).getYears();
+		} else {
+			return 0;
+		}
+	}
+	
+	private Integer getAge (String input) {
+		String[] dateparts = input.split("/");
+		Date now = new Date();
+		return calculateAge( 
+			LocalDate.of(
+				Integer.valueOf(dateparts[2]), 
+				Integer.valueOf(dateparts[1]), 
+				Integer.valueOf(dateparts[0])
+			),  
+			LocalDate.of(
+				now.getYear() + 1900, 
+				now.getMonth() + 1, 
+				now.getDate()
+			)
+		);
+	}
+	
+	public Result pdfSolicitudApoyo(String email, String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String errorLog = "";
+		
+		try {
+			errorLog += "Entr al metodo ";
+			def jsonSlurper = new JsonSlurper();
+			Result dataResult = new Result();
+			List<List < Object >> lstParams;
+			Result solicitud = getSolicitudApoyo(email, caseid, context);
+			List<?> info = solicitud.getData();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			
+            if(info != null){
+                if(info.size() < 1) {
+                    throw new Exception("400 Bad Request Usuario no encontrado");
+                } else {
+                    columns = (Map < String, Object >) info.get(0);
+                }
+            } else {
+                throw new Exception("400 Bad Request Usuario no encontrado");
+            }
+			
+			String comentarios = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty("jasperDatosSolicitud");
+			inputStream.close();
+			byte [] file = Base64.getDecoder().decode(plantilla);
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream);
+			JRDataSource dataSource = new JREmptyDataSource();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			String result = new String(encode);
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result)
+			lstResultado.add(errorLog)
+						
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(errorLog);
+			
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getSolicitudApoyo(String email, String caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long caseidSolicitud = 0L;
+		String idbanner = "";
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			rows = new ArrayList < Map < String, Object >> ();
+			String SSA = "";
+			
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				SSA = rs.getString("valor");
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_SOLICITUD_ADMISION_INFO);
+			pstm.setString(1, email);
+			rs = pstm.executeQuery();
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			Boolean tienePAA = false;
+			String resultadoPAA = "";
+			while (rs.next()) {
+				tienePAA = rs.getBoolean("tienepaa");
+				resultadoPAA = rs.getString("resultadopaa");
+				String urlFoto = rs.getString("urlfoto");
+				String nombre = rs.getString("primernombre");
+				String preparatoria = rs.getString("preparatoria")// ? rs.getString("preparatoria") : rs.getString("otraprepa");
+				nombre += rs.getString("segundonombre") ? " " +  rs.getString("segundonombre") : "";
+				nombre +=  " " + rs.getString("apellidopaterno");
+				nombre += rs.getString("apellidomaterno") ? " " + rs.getString("apellidomaterno") : "";
+				String fechaNac = buildDate(rs.getString("fechanacimiento"));
+				errorLog += " | fechaNac: " + fechaNac;
+				columns.put("urlFoto",  urlFoto + SSA);
+				columns.put("promedioPreparatoria", rs.getString("promediogeneral"));
+				columns.put("nombreAsp", nombre);
+				columns.put("sexoAsp", rs.getString("sexo"));
+				columns.put("tipoIngresoAsp", rs.getString("tipoingreso"));
+				columns.put("fechaNacAsp", fechaNac);
+				columns.put("idAsp", rs.getString("idbanner"));
+				columns.put("correoAsp", email);
+				columns.put("carrera", rs.getString("carrera"));
+				columns.put("periodo", rs.getString("periodo"));
+				columns.put("edadAsp", (getAge(fechaNac).toString() + " años"));
+				columns.put("preparatoria", preparatoria);
+				columns.put("paisPreparatoria", rs.getString("paisprepa"));//PENDING
+				columns.put("ciudadPreparatoria", rs.getString("estadoprepa"));//PENDING
+				columns.put("estadoPreparatoria", rs.getString("ciudadprepa"));//PENDING
+				columns.put("calleAsp", rs.getString("calle"));
+				columns.put("numExtAsp", rs.getString("idbanner"));
+				idbanner = rs.getString("idbanner");
+				columns.put("cpAsp", rs.getString("cp"));
+				columns.put("paisAsp", rs.getString("pais"));
+				columns.put("telefonoAsp", rs.getString("telefono"));
+				columns.put("trabajasAsp", rs.getString("trabajas"));
+				columns.put("coloniaAsp", rs.getString("colonia"));
+				columns.put("ciudadAsp", rs.getString("ciudad"));
+				columns.put("estadoAsp", rs.getString("estado"));
+				columns.put("celularAsp", rs.getString("telefonocelular"));
+				columns.put("estadoCivilAsp", rs.getString("estadocivil"));
+				caseidSolicitud = rs.getLong("caseid");
+			}
+			
+			errorLog += " | " + columns.toString();
+			
+			pstm = con.prepareStatement(Statements.GET_PADRES_TUTOR_BY_CASEID);
+			pstm.setLong(1, caseidSolicitud);
+			rs = pstm.executeQuery();
+			
+			Boolean tutor = false;
+			Boolean padre = false;
+			Boolean madre = false;
+			Boolean desconozcoPadre = false;
+			Boolean desconozcoMadre = false;
+			
+			while (rs.next()) {
+				if(rs.getBoolean("istutor") && !tutor) {
+					columns.put("nombreTutor", rs.getString("nombre") + " " + rs.getString("apellidos"));
+					columns.put("emailTutor", rs.getString("correoelectronico"));
+					columns.put("ocupacionTutor", rs.getString("titulo"));
+					columns.put("telefonoCasaTutor", rs.getString("telefono"));
+					columns.put("parentescoTutor", rs.getString("parentesco"));
+					columns.put("empresaTutor", rs.getString("empresatrabaja") ?  rs.getString("empresatrabaja") : "N/A");
+					columns.put("puestoTutor", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
+					tutor = true;
+				} else if(rs.getString("parentesco").toLowerCase().equals("padre") && !padre) {
+					desconozcoPadre = rs.getBoolean("desconozcodatospadres");
+					if(rs.getBoolean("desconozcodatospadres")) {
+						columns.put("nombrePadre", "Se desconoce");
+						columns.put("correoElectronicoPadre", "Se desconoce");
+						columns.put("ocupacionPadre", "Se desconoce");
+						columns.put("telefonoCasaPadre", "Se desconoce");
+						columns.put("vivePadre", "Se desconoce");
+						columns.put("empresaPadre", "Se desconoce");
+						columns.put("puestoPadre", "Se desconoce");
+					} else {
+						columns.put("nombrePadre", rs.getString("nombre") + " " + rs.getString("apellidos"));
+						columns.put("correoElectronicoPadre", rs.getString("correoelectronico"));
+						columns.put("ocupacionPadre", rs.getString("titulo"));
+						columns.put("telefonoCasaPadre", rs.getString("telefono"));
+						columns.put("vivePadre", rs.getString("vive"));
+						columns.put("empresaPadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
+						columns.put("puestoPadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
+					}
+					padre = true;
+				} else if(rs.getString("parentesco").toLowerCase().equals("madre") && !madre) {
+					desconozcoMadre = rs.getBoolean("desconozcodatospadres");
+					if(rs.getBoolean("desconozcodatospadres")) {
+						columns.put("nombreMadre", "Se desconoce");
+						columns.put("correoElectronicoMadre", "Se desconoce");
+						columns.put("ocupacionMadre", "Se desconoce");
+						columns.put("telefonoCasaMadre", "Se desconoce");
+						columns.put("viveMadre", "Se desconoce");
+						columns.put("empresaMadre", "Se desconoce");
+						columns.put("puestoMadre", "Se desconoce");
+					} else {
+						columns.put("nombreMadre", rs.getString("nombre") + " " + rs.getString("apellidos"));
+						columns.put("correoElectronicoMadre", rs.getString("correoelectronico"));
+						columns.put("ocupacionMadre", rs.getString("titulo"));
+						columns.put("telefonoCasaMadre", rs.getString("telefono"));
+						columns.put("viveMadre", rs.getString("vive"));
+						columns.put("empresaMadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
+						columns.put("puestoMadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
+					}
+					madre = true;
+				} 
+				
+				if(tutor && padre && madre) {
+					break;
+				}
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_INFO);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				columns.put("terrenoM2Casa", rs.getString("terrenom2casa"));
+				columns.put("casaDondeVives", rs.getString("casadondevives"));
+				columns.put("valorAproxCasa", formatCurrency(rs.getString("valoraproxcasa")));
+				columns.put("construccionM2Casa", rs.getString("contruccionm2casa"));
+				columns.put("motivoBeca", rs.getString("motivoBeca"));
+				columns.put("cantMensualPagarUni", formatCurrency(rs.getString("cantMensualPagarUni")));
+				columns.put("ingresoPadre", formatCurrency(rs.getString("ingresopadre")));
+				columns.put("ingresoMadre", formatCurrency(rs.getString("ingresomadre")));
+				columns.put("ingresoHermano", formatCurrency(rs.getString("ingresohermano")));
+				columns.put("ingresoTio", formatCurrency(rs.getString("ingresotio")));
+				columns.put("ingresoAbuelo", formatCurrency(rs.getString("ingresoabuelo")));
+				columns.put("ingresoAspirante", formatCurrency(rs.getString("ingresoaspirante")));
+				columns.put("ingresoOtro", formatCurrency(rs.getString("ingresootro")));
+				columns.put("egresoRenta", formatCurrency(rs.getString("egresorenta")));
+				columns.put("egresoServicios", formatCurrency(rs.getString("egresoservicios")));
+				columns.put("egresoEducacion", formatCurrency(rs.getString("egresoeducacion")));
+				columns.put("egresoGastosMedicos", formatCurrency(rs.getString("egresogastosmedicos")));
+				columns.put("egresoAlimentacion", formatCurrency(rs.getString("egresoalimentacion")));
+				columns.put("egresoVestido", formatCurrency(rs.getString("egresovestido")));
+				columns.put("egresoSeguros", formatCurrency(rs.getString("egresoseguro")));
+				columns.put("egresoDiversion", formatCurrency(rs.getString("egresodiversion")));
+				columns.put("egresoAhorro", formatCurrency(rs.getString("egresoahorro")));
+				columns.put("egresoCreditos", formatCurrency(rs.getString("egresocreditos")));
+				columns.put("egresoOtro", formatCurrency(rs.getString("egresootros")));
+				columns.put("totalIngresos", formatCurrency(rs.getString("ingresototal")));
+				columns.put("totalEgresos", formatCurrency(rs.getString("egresototal")));
+				columns.put("sexoTutor", rs.getString("sexoTutor"));
+				columns.put("provieneIngresosTutor", rs.getString("provieneningresos"));
+//				columns.put("telefonoCelTutor", rs.getString("telefonocelulartutor") != null && !rs.getString("telefonocelulartutor").equals("") ? rs.getString("telefonocelulartutor") : "N/A");
+				columns.put("telefonoCelTutor", "");
+				columns.put("telefonoOficinaTutor", rs.getString("telefonoOficinaTutor") != null && !rs.getString("telefonoOficinaTutor").equals("") ? rs.getString("telefonoOficinaTutor") : "N/A");
+				columns.put("ingresoMensualTutor", formatCurrency(rs.getString("ingresomensualnetotutor")));
+				columns.put("telefonoOficinaPadre", desconozcoPadre ? "Se desconoce" : rs.getString("telefonooficinapadre") != null ? rs.getString("telefonooficinapadre") : "N/A");
+				columns.put("telefonoCelularPadre", desconozcoPadre ? "Se desconoce" : rs.getString("telefonocasapadre"));
+				columns.put("ingresoMensualPadre", desconozcoPadre ? "Se desconoce" : formatCurrency(rs.getString("ingresopadre")));
+				columns.put("telefonoOficinaMadre", desconozcoMadre ? "Se desconoce" : rs.getString("telefonooficinamadre") != null ? rs.getString("telefonooficinamadre") : "N/A");
+				columns.put("telefonoCelularMadre", desconozcoMadre ? "Se desconoce" : rs.getString("telefonocasamadre") != null ? rs.getString("telefonocasamadre") : "N/A");
+				columns.put("ingresoMensualMadre", desconozcoMadre ? "Se desconoce" : formatCurrency(rs.getString("ingresomadre")));
+				columns.put("colegiaturaAsp", formatCurrency(rs.getString("colegiatura")));
+				columns.put("porcentajeBeca", rs.getString("porcentajebecaautorizacion") ? rs.getString("porcentajebecaautorizacion") : "");
+				columns.put("porcentajeFinan", rs.getString("porcentajecreditoautorizacion") ? rs.getString("porcentajecreditoautorizacion") : "");
+				String fechaAutoriza = buildDate(rs.getString("fechaautorizacion"));
+				columns.put("fecha", fechaAutoriza);
+				columns.put("autoriza", rs.getString("usuarioautoriza"));
+				columns.put("comentarioComite", rs.getString("cambiosSolicitudAutorizacionText"));
+				columns.put("tipoMoneda", rs.getString("tipomoneda"));
+				columns.put("tipoMonedaCompleto", rs.getString("tipomonedacompleto"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_BIENES_RAICES_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > bienRaiz = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstBienesRaices = new ArrayList<Map < String, Object > >();
+			Boolean mostrarBienesRaices = false;
+			while (rs.next()) {
+				mostrarBienesRaices = true;
+				bienRaiz = new LinkedHashMap < String, Object > ();
+				bienRaiz.put("descripcion", rs.getString("descripcion"));
+				bienRaiz.put("direccionbanco", rs.getString("direccionbanco"));
+				bienRaiz.put("valor", formatCurrency(rs.getString("valor")));
+				bienRaiz.put("tipo", rs.getString("tipo"));
+				lstBienesRaices.add(bienRaiz);
+			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstBienesRaices.size() < 1) {
+				mostrarBienesRaices = true;
+				bienRaiz = new LinkedHashMap < String, Object > ();
+				bienRaiz.put("descripcion", "");
+				bienRaiz.put("direccionbanco", "");
+				bienRaiz.put("valor", "");
+				bienRaiz.put("tipo", "");
+				lstBienesRaices.add(bienRaiz);
+			}
+			
+			JRBeanCollectionDataSource bienesRaices = new JRBeanCollectionDataSource(lstBienesRaices);
+			columns.put("bienesRaices", bienesRaices);
+			columns.put("mostrarBienesRaices", mostrarBienesRaices);
+			
+			pstm = con.prepareStatement(Statements.GET_HERMANOS_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > hermano = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstHermanos = new ArrayList<Map < String, Object > >();
+			Boolean mostrarHermanos = false;
+			while (rs.next()) {
+				mostrarHermanos = true;
+				hermano = new LinkedHashMap < String, Object > ();
+				hermano.put("nombres", rs.getString("nombres"));
+				hermano.put("apellidos", rs.getString("apellidos"));
+				hermano.put("edad", rs.getString("edad"));
+				hermano.put("isestudia", rs.getBoolean("isestudia") ? "Sí": "No");
+				hermano.put("colegiaturamensual", formatCurrency(rs.getString("colegiaturamensual")));
+				hermano.put("institucion", rs.getString("institucion"));
+				hermano.put("istienebeca", rs.getBoolean("istienebeca") ? "Sí": "No");
+				hermano.put("porcentajebecaasignado", rs.getString("porcentajebecaasignado"));
+				hermano.put("istrabaja", rs.getBoolean("istrabaja") ? "Sí": "No");
+				hermano.put("empresa", rs.getString("empresa"));
+				hermano.put("ingresomensual", formatCurrency(rs.getString("ingresomensual")));
+				lstHermanos.add(hermano);
+			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if(lstHermanos.size() < 1){
+				mostrarHermanos = true;
+				hermano = new LinkedHashMap < String, Object > ();
+				hermano.put("nombres", "");
+				hermano.put("apellidos", "");
+				hermano.put("edad", "");
+				hermano.put("isestudia", "");
+				hermano.put("colegiaturamensual", "");
+				hermano.put("institucion", "");
+				hermano.put("istienebeca", "");
+				hermano.put("porcentajebecaasignado", "");
+				hermano.put("istrabaja", "");
+				hermano.put("empresa", "");
+				hermano.put("ingresomensual", "");
+				
+				lstHermanos.add(hermano);
+			}
+			
+			JRBeanCollectionDataSource hermanos = new JRBeanCollectionDataSource(lstHermanos);
+			columns.put("hermanos", hermanos);
+			columns.put("mostrarHermanos", mostrarHermanos);
+			
+			pstm = con.prepareStatement(Statements.GET_AUTOS_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > auto = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstAutos = new ArrayList<Map < String, Object > >();
+			Boolean mostrarAutos = false;
+			while (rs.next()) {
+				mostrarAutos = true;
+				auto = new LinkedHashMap < String, Object > ();
+				auto.put("marca", rs.getString("marca"));
+				auto.put("modelo", rs.getString("modelo"));
+				auto.put("ano", rs.getString("ano"));
+				auto.put("situacion", rs.getString("situacion"));
+				auto.put("valorAproximado", formatCurrency(rs.getString("costoaproximado")));
+				lstAutos.add(auto);
+			}
+			
+			//Registro vacío para cuando la lista está en blanco
+			if (lstAutos.size() < 1) {
+				mostrarAutos = true;
+				auto = new LinkedHashMap < String, Object > ();
+				auto.put("marca", "");
+				auto.put("modelo", "");
+				auto.put("ano", "");
+				auto.put("situacion", "");
+				auto.put("valorAproximado", "");
+				lstAutos.add(auto);
+			}
+			
+			JRBeanCollectionDataSource autos = new JRBeanCollectionDataSource(lstAutos);
+			columns.put("autos", autos);
+			columns.put("mostrarAutos", mostrarAutos);
+			
+			pstm = con.prepareStatement(Statements.GET_IMAGENES_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > imagen = new LinkedHashMap < String, Object > ();
+			List<Map < String, Object >> lstImagenes = new ArrayList<Map < String, Object > >();
+			Boolean mostrarImagenes = false;
+			while (rs.next()) {
+				mostrarImagenes = true;
+				//Primera entrada al while es para la primera imagen (se muestran en doscolumnas)
+				imagen = new LinkedHashMap < String, Object > ();
+				imagen.put("urlimagen", rs.getString("urlimagen") + SSA);
+				imagen.put("descripcion", rs.getString("descripcion"));
+				//If es para la segunda columna (El objeto contiene las dos imagenes y los dos titulos)
+				if(rs.next()) {
+					imagen.put("urlimagen2", rs.getString("urlimagen") + SSA);
+					imagen.put("descripcion2", rs.getString("descripcion"));
+				}
+				
+				lstImagenes.add(imagen);
+			}
+			JRBeanCollectionDataSource imagenes = new JRBeanCollectionDataSource(lstImagenes);
+			columns.put("imagenes", imagenes);
+//			columns.put("mostrarImagenes", mostrarImagenes);
+			columns.put("mostrarImagenes", true);
+			
+			pstm = con.prepareStatement(Statements.GET_PAA_BY_IDBANNER_SIN_PERSISTENCE);
+			pstm.setString(1, idbanner);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				columns.put("v", rs.getString("paav"));
+				columns.put("n", rs.getString("paan"));
+				columns.put("rj", rs.getString("para"));
+				columns.put("total", rs.getString("total"));
+			} else  if(tienePAA){
+				columns.put("v", "-");
+				columns.put("n", "-");
+				columns.put("rj", "-");
+				columns.put("total", resultadoPAA);
+			} else {
+				columns.put("v", "P/A");
+				columns.put("n", "P/A");
+				columns.put("rj", "P/A");
+				columns.put("total", "P/A");
+			}
+			
+			resultado.setSuccess(true);
+			rows.add(columns);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	/*private String formatCurrency(String input) {
+		if(input.equals("")) {
+			return "";
+		} else {
+			return "\$ " + input + ".00";
+		}
+	}*/
+	
+	private  static String formatCurrency(Object valor) {
+		// Crear un objeto NumberFormat para el formato de moneda
+		NumberFormat formatoMoneda = NumberFormat.getCurrencyInstance(Locale.US);
+
+		// Formatear el valor numérico o convertir la cadena de texto a número y luego formatear
+		String numeroFormateado = null;
+		if (valor instanceof Double || valor instanceof Float || valor instanceof Integer || valor instanceof Long) {
+			numeroFormateado = formatoMoneda.format(valor);
+		} else if (valor instanceof String) {
+			try {
+				Number numero = NumberFormat.getInstance().parse((String) valor);
+				numeroFormateado = formatoMoneda.format(numero);
+			} catch (ParseException e) {
+				// Manejar cualquier excepción de análisis aquí
+				e.printStackTrace();
+			}
+		}
+
+		// Retornar el valor formateado o una cadena vacía si no se pudo formatear
+		return numeroFormateado != null ? numeroFormateado : "";
 	}
 }

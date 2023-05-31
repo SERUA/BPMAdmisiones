@@ -7351,6 +7351,55 @@ class CatalogosDAO {
 		return resultado
 	}
 	
+	public Result getCatDescuentosByInfoAspirante(String campus, String idbachillerato, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			String consulta = Statements.GET_CATDESCUENTOS_BY_CAMPUS_AND_BACHILLERATO;
+			CatDescuentosCustom row = new CatDescuentosCustom();
+			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(consulta);
+			pstm.setLong(1, Long.valueOf(idbachillerato));
+			pstm.setString(2, campus);
+
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				row = new CatDescuentosCustom();
+				row.setCampus(campus);
+				row.setDescuento(rs.getInt("descuento"));
+				try {
+					row.setCatBachilleratos(new CatBachilleratos())
+					row.getCatBachilleratos().setDescripcion(rs.getString("bachillerato"))
+					row.getCatBachilleratos().setPersistenceId(Long.valueOf(idbachillerato))
+				} catch (Exception e) {
+					LOGGER.error "[ERROR] " + e.getMessage();
+					errorLog += e.getMessage()
+				}
+
+				rows.add(row)
+			}
+
+			resultado.setSuccess(true)
+			resultado.setError(errorLog)
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 	
     /***********************ARTURO ZAMORANO0 FIN**************************/
 }
