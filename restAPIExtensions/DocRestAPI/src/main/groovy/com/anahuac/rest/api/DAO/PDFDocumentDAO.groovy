@@ -959,7 +959,8 @@ class PDFDocumentDAO {
 				columns.put("empresaTelefonoAval", rs.getString("avaltrabajotelefono"));
 				columns.put("empresaTelefonoExtAval", rs.getString("avaltrabajotelefonoext"));
 				columns.put("empresaFechaIngresoAval", buildDate(rs.getString("avaltrabajofechaingreso")));
-				columns.put("empresaEmailAval", rs.getString("avaltrabajoemail"));
+				String empresaEmailAval = rs.getString("avaltrabajoemail");
+				columns.put("empresaEmailAval", empresaEmailAval != null ? empresaEmailAval : "N/A");
 				columns.put("paisDomicilioEmpresa", rs.getString("avaltrabajopais"));
 				columns.put("cpDomicilioEmpresa", rs.getString("avaltrabajocp"));
 				columns.put("estadoDomicilioEmpresa", rs.getString("avaltrabajoestado"));

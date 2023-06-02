@@ -8,7 +8,7 @@ function($scope, $http, blockUI) {
     $scope.isComiteFinanzas = false;
     $scope.isTiSerua = false;
     $scope.isSerua = false;
-    $scope.isCrisp = false;
+    $scope.isChat = false;
     $scope.isAdministrador = false;
 
     $scope.countPreautorizacion = 0;
@@ -39,7 +39,7 @@ function($scope, $http, blockUI) {
             output = true;
         } else if($scope.isTiSerua){
             output = true;
-        } else if($scope.isCrisp){
+        } else if($scope.isChat){
             output = true;
         }
         return output;
@@ -49,15 +49,15 @@ function($scope, $http, blockUI) {
     $scope.redirect = function (_param, filtro) {
 
         if (_param === "vistageneral") {
-            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion || $scope.isFinanciamiento || $scope.isChat) {
                 window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaMaestra/";
             }
         } else if (_param === "apoyosotorgados") {
-            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion || $scope.isFinanciamiento) {
                 window.top.location.href = "/bonita/apps/administrativo/bandejaFinalizadas/";
             }
         } else if (_param === "progreso") {
-            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion ) {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion || $scope.isChat) {
                 window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaEnProgreso/";
             }
         } else if (_param === "preauto") {
@@ -78,7 +78,7 @@ function($scope, $http, blockUI) {
                 window.top.location.href = "/bonita/apps/administrativo/bandejaArchivadas/";
             }
         } else if (_param === "esperapago") {
-            if ($scope.isBecas || $scope.isTiSerua || $scope.isSerua) {
+            if ($scope.isBecas || $scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion) {
                 window.top.location.href = "/bonita/apps/administrativo/EsperaDePago/";
             }
         } else if (_param === "artistica") {
@@ -90,7 +90,7 @@ function($scope, $http, blockUI) {
                 window.top.location.href = "/bonita/apps/administrativo/bandejaAreaDeportiva/";
             }
         } else if (_param === "iniciadasaval") {
-            if ($scope.isFinanciamiento || $scope.isTiSerua || $scope.isSerua) {
+            if ($scope.isFinanciamiento || $scope.isTiSerua || $scope.isSerua || $scope.isChat) {
                 window.top.location.href = "/bonita/apps/administrativo/solicitudes_financiamiento_progreso/";
             }
         } else if (_param === "financiamiento") {
@@ -153,8 +153,8 @@ function($scope, $http, blockUI) {
                             $scope.isSerua = true;
                             console.log("isSerua " + $scope.isSerua);
                         } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
-                            $scope.isCrisp = true;
-                            console.log("isSerua " + $scope.isCrisp);
+                            $scope.isChat = true;
+                            console.log("isSerua " + $scope.isChat);
                         } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
                             $scope.isAdministrador = true;
                             console.log("isAdministrador " + $scope.isAdministrador);
