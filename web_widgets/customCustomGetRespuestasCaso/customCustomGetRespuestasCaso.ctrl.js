@@ -1,4 +1,5 @@
 function ($scope, $http) {
+    $scope.properties.showForm = false;
     
     $scope.getCasoByIdUser = function(){
         let data = {
@@ -36,7 +37,9 @@ function ($scope, $http) {
                 window.top.location.href = "/bonita/apps/aspiranteinvp/termino";
             } else if (_success[0].examenIniciado && !$scope.properties.isExamen)  {
                 window.top.location.href = "/bonita/apps/aspiranteinvp/examen";
-            } 
+            } else {
+                $scope.properties.showForm = true;
+            }
         }).error(function(_error){
             Swal.fire({
                 title: '<strong>Atención</strong>',

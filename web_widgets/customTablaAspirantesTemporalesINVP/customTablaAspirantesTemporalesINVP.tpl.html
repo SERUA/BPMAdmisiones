@@ -100,7 +100,7 @@
                     {{row.termino}}<br>
                     {{row.tiempo}}
                 </td>
-                <td>{{row.estatusINVP}}</td>
+                <td>{{row.resultadoEnviado ? "Enviado" : row.estatusINVP }}</td>
                 <td>
                     {{row.tempprueba}} <br>
                     {{row.tempfecha}}<br>
@@ -108,21 +108,24 @@
                     {{row.tempsalida}}
                 </td>
                 <td class="text-center">
-                    <button type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
+                    <button ng-if="!row.resultadoEnviado" type="button" ng-click="cambiarIdioma(row, 'idioma')" class="btn btn-warning tooltips-info" data-tooltip="Cambiar idioma">
+                        <label>{{row.idioma}}</label>
+                    </button>
+                    <button ng-if="row.resultadoEnviado" type="button" disabled="disabled" class="btn btn-default">
                         <label>{{row.idioma}}</label>
                     </button>
                 </td>
                 <td class="text-center">
                     <button ng-disabled="row.estatusINVP === 'Por iniciar' || row.estatusINVP === 'Prueba terminada'"
-        ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'"
-        type="button"
-        ng-click="setSelectedAspirante(row, 'terminar')"
-        class="btn btn-danger"
-        ng-class="{'tooltips-info': !isDisabled && row.estatusINVP !== 'Por iniciar' && row.estatusINVP !== 'Prueba terminada', '': isDisabled}"
-        ng-attr-data-tooltip="{{!isDisabled ? 'Terminar examen' : ''}}">
-    <span class="glyphicon glyphicon-time"></span>
-</button>
-                    <button ng-if="row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada' " type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
+                            ng-if="row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'"
+                            type="button"
+                            ng-click="setSelectedAspirante(row, 'terminar')"
+                            class="btn btn-danger"
+                            ng-class="{'tooltips-info': !isDisabled && row.estatusINVP !== 'Por iniciar' && row.estatusINVP !== 'Prueba terminada', '': isDisabled}"
+                            ng-attr-data-tooltip="{{!isDisabled ? 'Terminar examen' : ''}}">
+                        <span class="glyphicon glyphicon-time"></span>
+                    </button>
+                    <button ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
                         <span class="glyphicon glyphicon-time"></span>
                     </button>
                     

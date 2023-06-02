@@ -96,7 +96,9 @@ class Statements {
 	
 	public static final String GET_TOLERANCIATEMP_BY_USERNAME = "SELECT temp.toleranciaEntradaSesion = 0, CONCAT(temp.fechaInicioSesion, ' ', temp.horaInicioSesion)::Timestamp AT TIME ZONE 'America/Mexico_City' + ((CASE WHEN  temp.toleranciaEntradaSesion IS NULL THEN 0 WHEN  temp.toleranciaEntradaSesion IS NOT NULL THEN  temp.toleranciaEntradaSesion END ) * interval '1 minute') > (now() AT TIME ZONE 'America/Mexico_City' - (CASE WHEN tz_cdmx.is_dst THEN INTERVAL '1 hour' WHEN tz_cdmx.is_dst THEN INTERVAL '0 hour' END) ) AS tienetolerancia FROM InfoAspiranteTemporal AS temp JOIN (SELECT * FROM pg_timezone_abbrevs WHERE abbrev = 'CDT') AS tz_cdmx ON tz_cdmx.is_dst = true   WHERE temp.username = ?  LIMIT 1;";
 	
-	public static final String GET_EXAMEN_TERMINADO = "SELECT terminado FROM INVPExamenTerminado WHERE username = ?  AND idsesion = (SELECT sesiones_pid FROM sesionaspirante WHERE username = ? ORDER BY sesiones_pid DESC LIMIT 1 )";
+	public static final String GET_EXAMEN_TERMINADO_SESION = "SELECT terminado FROM INVPExamenTerminado WHERE username = ?  AND idsesion = (SELECT sesiones_pid FROM sesionaspirante WHERE username = ? ORDER BY sesiones_pid DESC LIMIT 1 )";
+	
+	public static final String GET_EXAMEN_TERMINADO_TEMPORAL = "SELECT terminado FROM INVPExamenTerminado AS term INNER JOIN IdiomaINVPUsuario AS idio ON idio.username = term.username WHERE term.username = ? AND idio.istemporal = true;";
 	
 	public static final String GET_EXAMEN_TERMINADO_IDIOMA = "SELECT terminado FROM INVPExamenTerminado  WHERE username = ?";
 	

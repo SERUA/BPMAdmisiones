@@ -835,18 +835,31 @@ class LoginSesionesDAO {
 			List<Map<String,Integer>> rows = new ArrayList<Map<String,Integer>>();
 			closeCon = validarConexion();
 			
-			pstm = con.prepareStatement(Statements.GET_EXAMEN_TERMINADO);
+			pstm = con.prepareStatement(Statements.GET_EXAMEN_TERMINADO_SESION);
 			pstm.setString(1, username);
 			pstm.setString(2, username);
 			rs = pstm.executeQuery();
 			
 			row = new HashMap<String,Integer>();
+			errorlog += "[1]";
 			if (rs.next()) {
+				errorlog += "[2]";
 				row.put("examenIniciado", true);
 				row.put("examenTerminado", rs.getBoolean("terminado"));
 			} else {
-				row.put("examenIniciado", false);
-				row.put("examenTerminado", false);
+				errorlog += "[3]";
+				pstm = con.prepareStatement(Statements.GET_EXAMEN_TERMINADO_TEMPORAL);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				if (rs.next()) {
+					errorlog += "[4]";
+					row.put("examenIniciado", true);
+					row.put("examenTerminado", rs.getBoolean("terminado"));
+				} else {
+					errorlog += "[5]";
+					row.put("examenIniciado", false);
+					row.put("examenTerminado", false);
+				}
 			}
 			
 			rows.add(row);
