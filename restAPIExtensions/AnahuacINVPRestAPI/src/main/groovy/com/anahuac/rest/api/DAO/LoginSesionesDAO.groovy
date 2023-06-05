@@ -234,7 +234,7 @@ class LoginSesionesDAO {
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
-			if (rs.next()) {
+			if (rs.next() && !rs.getBoolean("examenreiniciado")) {
 				isTemporal = rs.getBoolean("istemporal");
 				examenReiniciado = rs.getBoolean("examenreiniciado");
 				row = new HashMap<String,Object>();
@@ -672,6 +672,7 @@ class LoginSesionesDAO {
 			
 			pstm = con.prepareStatement(Statements.GET_TERMINADO_EXAMEN);
 			pstm.setString(1, username);
+			pstm.setString(2, username);
 			rs = pstm.executeQuery();
 			if (rs.next()) {
 				if(rs.getBoolean("terminado")) {

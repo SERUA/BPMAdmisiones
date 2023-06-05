@@ -2013,6 +2013,7 @@ class UsuariosDAO {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
 			}
 			
+			errorLog += where + " " + orderBy;
 			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
