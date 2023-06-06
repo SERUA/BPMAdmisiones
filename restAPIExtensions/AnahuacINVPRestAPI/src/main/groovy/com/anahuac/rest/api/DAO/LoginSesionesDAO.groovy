@@ -972,6 +972,7 @@ class LoginSesionesDAO {
 			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN_GET);
 			pstm.setBoolean(1, terminado);
 			pstm.setString(2, username);	
+			pstm.setString(3, username);
 			pstm.executeUpdate();
 			con.commit();
 			

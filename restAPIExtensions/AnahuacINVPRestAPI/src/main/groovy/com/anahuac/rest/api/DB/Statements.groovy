@@ -46,7 +46,7 @@ class Statements {
 	
 	public static final String UPDATE_TERMINADO_EXAMEN = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW()  WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
 	
-	public static final String UPDATE_TERMINADO_EXAMEN_GET = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW() WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
+	public static final String UPDATE_TERMINADO_EXAMEN_GET = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW() WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado WHERE username = ? ORDER BY persistenceid DESC LIMIT 1 )";
 	
 	public static final String GET_TERMINADO_EXAMEN = "SELECT terminado FROM invpexamenterminado WHERE username = ? AND idSesion = (SELECT sesiones_pid FROM sesionaspirante WHERE username = ? ORDER BY sesiones_pid DESC LIMIT 1)";
 	
