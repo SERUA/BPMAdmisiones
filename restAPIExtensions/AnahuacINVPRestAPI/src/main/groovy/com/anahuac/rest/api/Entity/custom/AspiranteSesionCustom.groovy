@@ -30,6 +30,7 @@ class AspiranteSesionCustom {
 	private Boolean isTemporal;
 	private Boolean resultadoEnviado;
 	private Boolean sesionAsignada;
+	private Long idsesion;
 	
 	public Boolean getSesionAsignada() {
 		return sesionAsignada;
@@ -204,6 +205,12 @@ class AspiranteSesionCustom {
 	}
 	public void setIsTemporal(Boolean isTemporal) {
 		this.isTemporal = isTemporal;
+	}
+	public Long getIdsesion() {
+		return idsesion;
+	}
+	public void setIdsesion(Long idsesion) {
+		this.idsesion = idsesion;
 	}
 	
 }

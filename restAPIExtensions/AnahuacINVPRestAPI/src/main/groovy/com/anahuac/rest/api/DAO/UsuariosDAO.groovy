@@ -2084,6 +2084,8 @@ class UsuariosDAO {
 				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
 				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
 				row.setSesionAsignada(rs.getBoolean("sesionasignada"));
+				row.setIdsesion(rs.getLong("sesiones_pid"));
+				
 				rows.add(row);
 			}
 			

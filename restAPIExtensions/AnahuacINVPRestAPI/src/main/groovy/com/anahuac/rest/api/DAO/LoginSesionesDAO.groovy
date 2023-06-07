@@ -721,7 +721,11 @@ class LoginSesionesDAO {
 				row.setNombre_prueba(rs.getString("nombre_prueba"));
 				row.setId_prueba(rs.getLong("id_prueba"));
 				try {
-					row.setAplicacion(rs.getString("aplicacion"));
+					SimpleDateFormat sf = new SimpleDateFormat("dd/MM/yyyy");
+					Date  aplicacion = rs.getDate("aplicacion");
+					row.setAplicacion(aplicacion != null ? sf.format(aplicacion) : "");
+					Date  aplicacion_temp = rs.getDate("aplicacion_temp");
+					row.setAplicacion_temp(aplicacion_temp != null ? sf.format(aplicacion_temp) : "");
 				} catch (Exception e) {
 					LOGGER.error "[ERROR] " + e.getMessage();
 					errorlog += e.getMessage();
@@ -729,7 +733,6 @@ class LoginSesionesDAO {
 				row.setEntrada(rs.getString("entrada"));
 				row.setSalida(rs.getString("salida"));
 				row.setUsername(rs.getString("username"));
-				row.setAplicacion_temp(rs.getString("aplicacion_temp"));
 				row.setEntrada_temp(rs.getString("entrada_temp"));
 				row.setSalida_temp(rs.getString("salida_temp"));
 				row.setNombre_temp(rs.getString("nombre_temp"));

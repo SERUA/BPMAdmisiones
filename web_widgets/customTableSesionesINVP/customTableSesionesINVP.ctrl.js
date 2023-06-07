@@ -30,19 +30,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             params: params
         };
 
-        return $http(req)
-            .success(function (data, status) {
-                $scope.properties.lstContenido = data.data;
-                $scope.value = data.totalRegistros;
-                $scope.loadPaginado();
-                console.log(data.data)
-            })
-            .error(function (data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function () {
-                blockUI.stop();
-            });
+        return $http(req).success(function (data, status) {
+            $scope.properties.lstContenido = data.data;
+            $scope.value = data.totalRegistros;
+            $scope.loadPaginado();
+            console.log(data.data)
+        })
+        .error(function (data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function () {
+            blockUI.stop();
+        });
     }
 
 
@@ -337,15 +336,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 url: `/API/identity/membership?p=0&c=100&f=user_id%3d${$scope.properties.userId}&d=role_id&d=group_id`
             };
 
-            return $http(req)
-                .success(function (data, status) {
-                    $scope.lstMembership = data;
-                    $scope.campusByUser();
-                })
-                .error(function (data, status) {
-                    console.error(data);
-                })
-                .finally(function () { });
+            return $http(req).success(function (data, status) {
+                $scope.lstMembership = data;
+                $scope.campusByUser();
+            }).error(function (data, status) {
+                console.error(data);
+            }).finally(function () { 
+
+            });
         }
     });
 
@@ -362,6 +360,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                         i++;
                     }
                 });
+
                 if (i === 0) {
                     resultado.push($scope.lstMembership[x].group_id.name);
                 }
@@ -414,7 +413,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         } else {
-
             if ($scope.properties.dataToSend.lstFiltro.length > 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -427,9 +425,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             } else {
                 $scope.properties.campusSeleccionado = null;
             }
-
         }
-
     }
 
     $scope.sizing = function () {
@@ -452,19 +448,17 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             url: "../API/bdm/businessData/com.anahuac.catalogos.CatCampus?q=find&p=0&c=100"
         };
 
-        return $http(req)
-            .success(function (data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupoBonita
-                    })
-                }
-            })
-            .error(function (data, status) {
-                console.error(data);
-            });
+        return $http(req).success(function (data, status) {
+            $scope.lstCampus = [];
+            for (var index in data) {
+                $scope.lstCampus.push({
+                    "descripcion": data[index].descripcion,
+                    "valor": data[index].grupoBonita
+                })
+            }
+        }).error(function (data, status) {
+            console.error(data);
+        });
     }
 
     $scope.isPeriodoVencido = function (periodofin) {
@@ -488,8 +482,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "aplicacion": "",
                 "entrada": "",
                 "salida": "",
-                "toleranciaminutos": "",
-                "toleranciasalidaminutos": ""
+                "toleranciaminutos": 0,
+                "toleranciasalidaminutos": 0
             }
             mostrarModal("modalReactivar");
         } else if (_modal === "reagen") {
@@ -749,7 +743,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         });
     }
 
-
     $scope.configUsuario = {
         "aplicacion": "",
         "entrada": "",
@@ -959,11 +952,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function cargarLista(){
-        debugger;
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
-            debugger;
-            if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
+            if (lement.idsesion === $scope.selectedSesion.idSesion && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
                 $scope.aspirantesEnvio.push({
                     "username": element.correoElectronico,
                     "sesion": $scope.selectedSesion.idSesion,
@@ -991,7 +982,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.validarEstatus = function(_enviado, _estatus){
-        debugger;
         let output = ""; 
         if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
             output = "Enviado"
