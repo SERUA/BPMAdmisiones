@@ -659,35 +659,38 @@ function PbButtonCtrl($scope, modalService, $http, blockUI, $q, $filter) {
         
         doc.setTextColor(0);
 
-        doc.text("Confirmo que los datos aquí presentes son verídicos y poseo toda la documentación necesaria para respaldarlos.", respuestasPrimeraFila + 6, yValidacion += 10);
+        doc.text("Confirmo que los datos aquí presentes son verídicos y poseo toda la documentación necesaria para respaldarlos.", respuestasPrimeraFila, yValidacion += 10);
 
 // Dibujar marco y X para la primera línea
-const xPosition1 = 15;
-const yPosition1 = yValidacion - 3;
+const xPosition1 = 20;
+const yPosition1 = yValidacion - 10;
 
-doc.line(xPosition1, yPosition1, xPosition1 + 3, yPosition1 + 3);
-doc.line(xPosition1, yPosition1 + 3, xPosition1 + 3, yPosition1);
-doc.rect(xPosition1, yPosition1, 3, 3);
+doc.line(xPosition1, yPosition1, xPosition1 + 10, yPosition1 + 10);
+doc.line(xPosition1, yPosition1 + 10, xPosition1 + 10, yPosition1);
+doc.rect(xPosition1, yPosition1, 10, 10);
+doc.text("X", xPosition1 + 3, yPosition1 + 8);
 
-doc.text("Estoy de acuerdo y he leído el Aviso de privacidad", respuestasPrimeraFila + 6, yValidacion += 10);
+doc.text("Estoy de acuerdo y he leído el Aviso de privacidad", respuestasPrimeraFila, yValidacion += 10);
 
 // Dibujar marco y X para la segunda línea
-const xPosition2 = 15;
-const yPosition2 = yValidacion - 3;
+const xPosition2 = 20;
+const yPosition2 = yValidacion - 10;
 
-doc.line(xPosition2, yPosition2, xPosition2 + 3, yPosition2 + 3);
-doc.line(xPosition2, yPosition2 + 3, xPosition2 + 3, yPosition2);
-doc.rect(xPosition2, yPosition2, 3, 3);
+doc.line(xPosition2, yPosition2, xPosition2 + 10, yPosition2 + 10);
+doc.line(xPosition2, yPosition2 + 10, xPosition2 + 10, yPosition2);
+doc.rect(xPosition2, yPosition2, 10, 10);
+doc.text("X", xPosition2 + 3, yPosition2 + 8);
 
-doc.text("Confirmo que los datos aquí presentes son verídicos y poseo toda la documentación necesaria para respaldarlos.", respuestasPrimeraFila + 6, yValidacion += 10);
+doc.text("Confirmo que los datos aquí presentes son verídicos y poseo toda la documentación necesaria para respaldarlos.", respuestasPrimeraFila, yValidacion += 10);
 
 // Dibujar marco y X para la tercera línea
-const xPosition3 = 15;
-const yPosition3 = yValidacion - 3;
+const xPosition3 = 20;
+const yPosition3 = yValidacion - 10;
 
-doc.line(xPosition3, yPosition3, xPosition3 + 3, yPosition3 + 3);
-doc.line(xPosition3, yPosition3 + 3, xPosition3 + 3, yPosition3);
-doc.rect(xPosition3, yPosition3, 3, 3);
+doc.line(xPosition3, yPosition3, xPosition3 + 10, yPosition3 + 10);
+doc.line(xPosition3, yPosition3 + 10, xPosition3 + 10, yPosition3);
+doc.rect(xPosition3, yPosition3, 10, 10);
+doc.text("X", xPosition3 + 3, yPosition3 + 8);
 
 
 
