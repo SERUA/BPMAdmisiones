@@ -133,7 +133,6 @@ class RespuestasExamenDAO {
 			
 			if(rs.next()) {
 				terminado = rs.getBoolean("terminado");
-//				idioma = rs.getString("idioma");
 			} 
 			
 			if(!terminado) {

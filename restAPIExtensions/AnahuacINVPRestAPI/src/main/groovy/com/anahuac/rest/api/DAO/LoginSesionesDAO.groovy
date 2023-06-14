@@ -234,7 +234,8 @@ class LoginSesionesDAO {
 			pstm.setString(1, object.username);
 			rs = pstm.executeQuery();
 			
-			if (rs.next() && !rs.getBoolean("examenreiniciado")) {
+			if (rs.next()) {
+//			if (rs.next() && !rs.getBoolean("examenreiniciado")) {
 				isTemporal = rs.getBoolean("istemporal");
 				examenReiniciado = rs.getBoolean("examenreiniciado");
 				row = new HashMap<String,Object>();

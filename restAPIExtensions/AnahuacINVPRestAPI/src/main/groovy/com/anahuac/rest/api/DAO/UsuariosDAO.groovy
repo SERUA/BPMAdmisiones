@@ -1815,7 +1815,8 @@ class UsuariosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " ( prue.sesion_pid = [valor] )";
+//						where += " ( prue.sesion_pid = [valor] )";
+						where += " ( sesq.sesiones_pid = [valor] )";
 						where = where.replace("[valor]", filtro.get("valor"));
 						idprueba = filtro.get("valor");
 					break;
@@ -1830,7 +1831,7 @@ class UsuariosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "nombre":
-						errorlog += "ses.nombre"
+						errorlog += "creg.primernombre"
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -2004,10 +2005,11 @@ class UsuariosDAO {
 			closeCon = validarConexion();
 			
 //			where += " ) OR (temp.username IS NOT NULL  AND temp.idprueba = " + idprueba + ")";
-			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN seas.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) AND temp.idprueba = " + idprueba + ")";
+			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN sesq.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) AND temp.idprueba = " + idprueba + ")";
 //			) OR (temp.username IS NOT NULL AND (CASE WHEN seas.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico' END ) AND temp.idprueba = 237)
 			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);
+			pstm.setLong(1, Long.valueOf(idprueba));
 			rs = pstm.executeQuery();
 			while (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
@@ -2016,8 +2018,14 @@ class UsuariosDAO {
 			errorLog += where + " " + orderBy;
 			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
 			pstm = con.prepareStatement(consulta);
-			pstm.setInt(1, object.limit);
-			pstm.setInt(2, object.offset);
+			pstm.setLong(1, Long.valueOf(idprueba));
+			pstm.setLong(2, Long.valueOf(idprueba));
+			pstm.setLong(3, Long.valueOf(idprueba));
+			pstm.setLong(4, Long.valueOf(idprueba));
+			pstm.setInt(5, object.limit);
+			pstm.setInt(6, object.offset);
+//			pstm.setInt(1, object.limit);
+//			pstm.setInt(2, object.offset);
 			rs = pstm.executeQuery();
 
 			while (rs.next()) {

@@ -1,8 +1,8 @@
 <div class="fondo" ng-if="properties.idioma === 'ENG'">
-    <p>{{ properties.isTemporal ?  "TemporaryID" : "ID Banner"}}: <b>{{ properties.isTemporal ? properties.caseId : properties.idbanner}} </b> 
+    <p>{{ properties.isTemporal ?  "Temporary ID" : "ID Banner"}}: <b>{{ properties.isTemporal ? properties.caseId : properties.idbanner}} </b> 
         / Name: <b>{{properties.nombre}} </b> 
         / Session: <b>{{properties.objetoSesion.nombre_sesion ? properties.objetoSesion.nombre_sesion : properties.objetoSesion.nombre_temp }}</b> 
-        / Date and time: )
+        / Date and time: 
             <b ng-if="properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion + " " + properties.objetoSesion.entrada) | date:'dd/MM/yyyy hh:mm'}}</b> 
             <b ng-if="!properties.objetoSesion.aplicacion">{{(properties.objetoSesion.aplicacion_temp + " " + properties.objetoSesion.entrada_temp) | date:'dd/MM/yyyy hh:mm'}}</b> 
         <!-- / Time: 
