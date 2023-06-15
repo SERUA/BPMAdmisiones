@@ -20,17 +20,4 @@ function PbTableCtrl($scope) {
     $scope.removeElement = function(_row){
         $scope.properties.content.splice($scope.properties.content.indexOf(_row), 1);
     }
-
-    $scope.getInversion = function(_persistenceid){
-        let output = "";
-
-        for(let item of $scope.properties.lstTipoInversionesPosee){
-            if(item.persistenceId == _persistenceid){
-                output = item.descripcion;
-                break;
-            }
-        }
-
-        return output;
-    }
 }
