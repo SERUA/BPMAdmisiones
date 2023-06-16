@@ -925,7 +925,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 dataToSend.push({
                     "username": element.username,
                     "sesion": $scope.selectedSesion.idSesion,
-                    "idbanner": element.idbanner
+                    "idbanner": element.idbanner,
+                    "caseidINVP" : element.caseidINVP != null ?  element.caseidINVP: element.caseidINVP_temp
                 });
             }
         });
@@ -954,17 +955,23 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function cargarLista(){
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
-            if (lement.idsesion === $scope.selectedSesion.idSesion && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
+            debugger;
+            if (element.idsesion === $scope.selectedSesion.idSesion && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
+            // if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador") && !element.resultadoEnviado && element.idBanner !== null && element.sesionAsignada === true) {
                 $scope.aspirantesEnvio.push({
-                    "username": element.correoElectronico,
+                    "username": element.correoElectronico.replace(' (rechazado)', ''),
                     "sesion": $scope.selectedSesion.idSesion,
                     "idbanner": element.idBanner,
                     "nombre": element.nombre,
                     "idBpm": element.idBpm,
-                    "sesionAsignada": element.sesionAsignada
+                    "sesionAsignada": element.sesionAsignada,
+                    "caseidINVP": element.caseidINVP, 
+                    "caseidINVP_temp": element.caseidINVP_temp
                 });
             }
         });
+
+        console.log("$scope.aspirantesEnvio", $scope.aspirantesEnvio);
     }
 
     $scope.showModalEnviarSeleccionados = function (_show) {
@@ -983,6 +990,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.validarEstatus = function(_enviado, _estatus){
         let output = ""; 
+        debugger;
         if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
             output = "Enviado"
         } else {

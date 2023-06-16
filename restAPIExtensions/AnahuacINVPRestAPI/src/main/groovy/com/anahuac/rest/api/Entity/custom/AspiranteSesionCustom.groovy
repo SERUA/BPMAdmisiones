@@ -31,6 +31,8 @@ class AspiranteSesionCustom {
 	private Boolean resultadoEnviado;
 	private Boolean sesionAsignada;
 	private Long idsesion;
+	private Integer contestadas_temp;
+	private String caseidINVP_temp;
 	
 	public Boolean getSesionAsignada() {
 		return sesionAsignada;
@@ -211,6 +213,18 @@ class AspiranteSesionCustom {
 	}
 	public void setIdsesion(Long idsesion) {
 		this.idsesion = idsesion;
+	}
+	public Integer getContestadas_temp() {
+		return contestadas_temp;
+	}
+	public void setContestadas_temp(Integer contestadas_temp) {
+		this.contestadas_temp = contestadas_temp;
+	}
+	public String getCaseidINVP_temp() {
+		return caseidINVP_temp;
+	}
+	public void setCaseidINVP_temp(String caseidINVP_temp) {
+		this.caseidINVP_temp = caseidINVP_temp;
 	}
 	
 }

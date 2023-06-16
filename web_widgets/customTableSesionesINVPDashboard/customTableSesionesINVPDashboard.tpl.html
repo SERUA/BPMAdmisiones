@@ -245,7 +245,7 @@
                                 {{row.correoElectronico}}
                             </td>
                             <td>{{row.preguntas}}</td>
-                            <td>{{row.contestadas}}</td>
+                            <td>{{!(row.isTemporal === true && row.idsesion === selectedSesion.idSesion && row.contestadas_temp > 0) ? row.contestadas : (row.contestadas_temp + "(Sesión " + row.idsesion +")")}}</td>
                             <td style="min-width: 101px;">
                                 {{row.inicio | date:'dd/MM/yyyy hh:mm'}}<br>
                                 {{row.termino | date:'dd/MM/yyyy hh:mm'}}<br>

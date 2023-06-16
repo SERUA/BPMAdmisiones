@@ -10,6 +10,7 @@ function($scope, $http) {
     $scope.contestadoanterior = false;
     $scope.objcontestada = {};
     $scope.isseleccion = false;
+    $scope.preguntaAvanzado = false
     
     $scope.$watch('properties.value', function() {
         if ($scope.properties.value != undefined) {
@@ -155,16 +156,17 @@ function($scope, $http) {
     }
 
     $scope.seleccionarPagina = function(valorSeleccionado) {
-        debugger;
         $scope.isseleccion = true;
         $scope.objcontestada = angular.copy($scope.properties.objRespuesta);
         if ($scope.properties.respuestaExamen !== null && $scope.properties.respuestaExamen !== undefined) {
             $scope.contestado = true;
             if ($scope.properties.lstContestadas.length != 0) {
                 if (!($scope.properties.lstContestadas.indexOf($scope.properties.valorSeleccionado) >= 0)) {
+                    $scope.preguntaAvanzado = true;
                     $scope.properties.lstContestadas.push($scope.properties.valorSeleccionado);
                 }
             } else {
+                $scope.preguntaAvanzado = true;
                 $scope.properties.lstContestadas.push($scope.properties.valorSeleccionado);
             }
         } else {
@@ -205,9 +207,21 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
+                        if($scope.preguntaAvanzado === true){
+                            $scope.preguntaAvanzado = false;
+                            $scope.lstPaginado[$scope.lstPaginado.length - 1].contestado = false;
+                            $scope.anterior();
+                            $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
+                        }
                         mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                     }
                 } else {
+                    if($scope.preguntaAvanzado === true){
+                        $scope.preguntaAvanzado = false;
+                        $scope.lstPaginado[$scope.lstPaginado.length - 1].contestado = false;
+                        $scope.anterior();
+                        $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
+                    }
                     mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
                 }
                 

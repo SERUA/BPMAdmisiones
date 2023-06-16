@@ -931,9 +931,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.aspirantesEnvio.forEach((element) => {
             if (element.seleccionado) {
                 dataToSend.push({
-                    "username": element.username,
+                    "username": element.username.replace(' (rechazado)', ''),
                     "sesion": $scope.selectedSesion.idSesion,
-                    "idbanner": element.idbanner
+                    "idbanner": element.idbanner,
+                    "caseidINVP" : element.caseidINVP != null ?  element.caseidINVP: element.caseidINVP_temp
                 });
             }
         });
@@ -964,11 +965,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.aspirantes.forEach((element) => {
             if (element.idsesion === $scope.selectedSesion.idSesion && element.idBanner && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado) {
                 $scope.aspirantesEnvio.push({
-                    "username": element.correoElectronico,
+                    "username": element.correoElectronico.replace(' (rechazado)', ''),
                     "sesion": $scope.selectedSesion.idSesion,
                     "idbanner": element.idBanner,
                     "nombre": element.nombre,
-                    "idBpm": element.idBpm
+                    "idBpm": element.idBpm,
+                    "sesionAsignada": element.sesionAsignada,
+                    "caseidINVP": element.caseidINVP, 
+                    "caseidINVP_temp": element.caseidINVP_temp
                 });
             }
         });

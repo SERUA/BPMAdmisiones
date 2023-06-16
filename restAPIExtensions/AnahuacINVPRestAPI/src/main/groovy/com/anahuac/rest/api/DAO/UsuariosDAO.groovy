@@ -2010,6 +2010,10 @@ class UsuariosDAO {
 			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);
 			pstm.setLong(1, Long.valueOf(idprueba));
+			pstm.setLong(2, Long.valueOf(idprueba));
+			pstm.setLong(3, Long.valueOf(idprueba));
+			pstm.setLong(4, Long.valueOf(idprueba));
+			
 			rs = pstm.executeQuery();
 			while (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
@@ -2073,14 +2077,24 @@ class UsuariosDAO {
 				if(fieldValue instanceof Timestamp) {
 					Date date = new Date(rs.getTimestamp("tiempo").getTime());
 					row.setTiempo(formatterTime.format(date));
-				}
+				} 
 				
 				row.setIdBanner(rs.getString("idbanner"));
 				row.setIdioma(rs.getString("idioma") != null ? rs.getString("idioma") : "ESP");
 				row.setBloqueado(rs.getBoolean("usuariobloqueado"));
 				row.setTerminado(rs.getBoolean("terminado"));
-				row.setCaseidINVP(rs.getString("caseidinvp"))
-				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
+				row.setCaseidINVP(rs.getString("caseidinvp"));
+				row.setCaseidINVP_temp(rs.getString("caseidinvp_temp"));
+				if(rs.getString("estatusinvp") == null) {
+					if(rs.getBoolean("terminado") == true ) {
+						row.setEstatusINVP("Prueba terminada");
+					} else {
+						row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
+					}
+				} else {
+					row.setEstatusINVP(rs.getString("estatusinvp"));
+				}
+//				row.setEstatusINVP(rs.getString("estatusinvp") == null ? "Por iniciar" : rs.getString("estatusinvp"));
 				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
 				row.setIsTemporal(rs.getBoolean("istemporal"));
@@ -2090,9 +2104,17 @@ class UsuariosDAO {
 				row.setTempprueba(rs.getString("nombre__temp"));
 				row.setTemptoleranciaentrada(rs.getString("toleranciaentradasesion_temp"));
 				row.setTemptoleranciaSalida(rs.getString("toleranciasalidasesion_temp"));
-				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
+				
+				if(rs.getBoolean("resultadoenviado_temp")) {
+					row.setResultadoEnviado(rs.getBoolean("resultadoenviado_temp"));
+				} else {
+					row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
+				}
+				
+//				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
 				row.setSesionAsignada(rs.getBoolean("sesionasignada"));
 				row.setIdsesion(rs.getLong("sesiones_pid"));
+				row.setContestadas_temp(rs.getInt("total_respuestas_temp"));
 				
 				rows.add(row);
 			}

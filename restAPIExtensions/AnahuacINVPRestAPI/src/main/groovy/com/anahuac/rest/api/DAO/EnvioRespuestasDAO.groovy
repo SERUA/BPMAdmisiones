@@ -66,6 +66,7 @@ class EnvioRespuestasDAO {
 				if(!it.idbanner.equals("") && !it.idbanner.equals("null") && !it.idbanner.equals(null)) {
 					pstm = con.prepareStatement(Statements.GET_RESULTADOS_INVP_BY_USERNAME)
 					pstm.setString(1, it.username);
+					pstm.setLong(2, Long.valueOf(it.caseidINVP));
 					rs = pstm.executeQuery();
 					
 					List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
@@ -276,7 +277,7 @@ class EnvioRespuestasDAO {
 						pstm.execute();
 					}
 					
-				}else {
+				} else {
 					resultado.setError("Error");
 					resultado.setError_info("Ya hay un aspirante con esa sesion")
 				}
