@@ -1,6 +1,6 @@
 function PbSelectCtrl($scope, $parse, $log, widgetNameFactory, $timeout, $window, $element) {
   var ctrl = this;
-
+    debugger;
   function comparator(initialValue, item) {
     return angular.equals(initialValue, ctrl.getValue(item));
   }
