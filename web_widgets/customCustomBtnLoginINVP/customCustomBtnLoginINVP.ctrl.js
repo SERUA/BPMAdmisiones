@@ -58,7 +58,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if(captchaResponse !== ""){
                 $scope.validateForm();
             } else {
-                Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", idioma === "es" ? "Captcha inválido.":"Invalid captcha", "warning");
+                Swal.fire(idioma === "es" ? "¡Atención!" : "Attention!", idioma === "es" ? "Captcha inválido.":"Invalid captcha", "warning");
                 $scope.resetCaptcha();
             }
         } else {
@@ -77,30 +77,30 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         if(idioma === "es"){
             mensaje = "Usuario o contraseña incorrectos.";
         } else {
-            mensaje = "User or password invalid.";
+            mensaje = "Your user name or password is incorrect.";
         }
 
         if(username  === ""){
             if(idioma === "es"){
                mensaje = "El Correo electrónico no debe ir vacío."; 
             } else {
-                mensaje = "Username must not me empty."; 
+                mensaje = "The e-mail field must not be empty!"; 
             }
-            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Attention!", mensaje, "warning");
         } else if (!re.test(String(username))){
             if(idioma === "es"){
                 mensaje = "El formato de correo electrónico es inválido."; 
             } else {
                 mensaje = "Email format is not valid."; 
             }
-            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Attention!", mensaje, "warning");
         } else if (password === ""){
             if(idioma === "es"){
                 mensaje = "La Contraseña no debe ir vacía."; 
             } else {
-                mensaje = "Password must not be empty"; 
+                mensaje = "Your password must not be empty."; 
             }
-            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", mensaje, "warning");
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Attention!", mensaje, "warning");
         } else {
             // $scope.getTotalPreguntasContestadas();
             login(username, password);
@@ -127,38 +127,38 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 if(idioma === "es"){
                     mensaje = "Usuario o contraseña incorrectos.";
                 } else {
-                    mensaje = "User or password invalid.";
+                    mensaje = "Your user name or password is incorrect.";
                 }
             } else if(_error.error.includes("sesion_no_iniciada")){
                 let date = _error.error.split("|")[1];
                 if(idioma === "es"){
                     mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + ", para mas información contacta a tu aplicador.</p>" ;
                 } else {
-                    mensaje = "<p style='text-align: justify;'>There is no active session fot this user, you are scheduled at " + date + ", to more information, contact your applicator.</p>";
+                    mensaje = "<p style='text-align: justify;'>There is no active session for this user. You are scheduled for " + date + ". For further information, please contact your facilitator.</p>";
                 }
             } else if(_error.error === "sesion_finalizada" || _error.error === "prueba_finalizada" ){
                 if(idioma === "es"){
                     mensaje = "Tu sesión ya ha finalizado.";
                 } else {
-                    mensaje = "Your session has ended.";
+                    mensaje = "Test-finished";
                 }
             } else if(_error.error === "no_sesion_asignada" || _error.error === "no_existe_sesion"){
                 if(idioma === "es"){
                     mensaje = "No existe sesión asignada, contacta con tu aplicador.";
                 } else {
-                    mensaje = "You have no assigned  session, please contact your applicator.";
+                    mensaje = "There is no assigned session. Please, contact your facilitator.";
                 }
             } else if(_error.error === "fallo_tolerancia" || _error.error === "toler"){
                 if(idioma === "es"){
                     mensaje = "La hora de tolerancia de entrada a tu examen ha pasado.<br> Contacta a tu aplicador.";
                 } else {
-                    mensaje = "The grace period for entering your exam has passed. <br> Contect your applicator.";
+                    mensaje = "The tolerance time to start your test has passed. Please contact your facilitator.";
                 }
             } else if(_error.error === "block"){
                 if(idioma === "es"){
                     mensaje = "Existe una sesión activa con este usuario.<br> Contacta a tu aplicador.";
                 } else {
-                    mensaje = "There is an active session to this user. <br> Contect your applicator.";
+                    mensaje = "A session under this user name is currently active. Please contact your facilitator.";
                 }
             } else if(_error.error === "examen_terminado"){
                 if(idioma === "es"){
@@ -171,7 +171,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
 
             Swal.fire({
-                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Warning!",
+                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Attention!",
                 icon: 'error',
                 html: mensaje, 
                 showCloseButton: false
@@ -204,7 +204,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 mensaje = "User or password invalid.";
             }
             Swal.fire({
-                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Warning!",
+                title: idioma === "es" ? "<strong>¡Atención!</strong>" : "Attention!",
                 icon: 'error',
                 html:mensaje, 
                 showCloseButton: false

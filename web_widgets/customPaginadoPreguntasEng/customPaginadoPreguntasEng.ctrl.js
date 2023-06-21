@@ -203,7 +203,7 @@ function($scope, $http) {
 
                 if(data){
                     if(data.error === "test_end"){
-                        mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
+                        mensaje = "Your session has ended. You cannot resume the test. If you have any questions, please contact your facilitator.";
                     } else {
                         mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your applicator."
                     }
@@ -212,7 +212,7 @@ function($scope, $http) {
                 }
 
                 Swal.fire({
-                    title: '<strong>Atención</strong>',
+                    title: '<strong>Attention!</strong>',
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result) => {
@@ -266,14 +266,14 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
                     } else {
-                        mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your applicator."
+                        mensaje = "A connection failure is detected. Do not close your browser, check your internet connection, and contact your facilitator."
                     }
                 } else {
-                    mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your applicator."
+                    mensaje = "A connection failure is detected. Do not close your browser, check your internet connection, and contact your facilitator."
                 }
 
                 Swal.fire({
-                    title: '<strong>Atención</strong>',
+                    title: '<strong>Attention!</strong>',
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{

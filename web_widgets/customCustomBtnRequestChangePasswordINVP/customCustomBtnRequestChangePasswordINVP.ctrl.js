@@ -14,14 +14,14 @@ function PbButtonCtrl($scope, $http) {
 
         if($scope.properties.objUser.email === ""){
             isValid = false;
-            errorMessage = idioma === "es" ? "Por favor llena el campo Correo electrónico ." : "Please fill the Email field."
+            errorMessage = idioma === "es" ? "Por favor llena el campo Correo electrónico ." : "Please fill in the e-mail field."
         } else if (!regexEmail.test(String($scope.properties.objUser.email))){
             isValid = false;
-            errorMessage =  idioma === "es" ? "El formato del correo electrónico no es el correcto." : "Email format is not correct";
+            errorMessage =  idioma === "es" ? "El formato del correo electrónico no es el correcto." : "The e-mail format is not correct.";
         }
         
         if(!isValid){
-            Swal.fire(idioma === "es" ? "¡Atención!" : "Warning!", errorMessage, "warning");
+            Swal.fire(idioma === "es" ? "¡Atención!" : "Attention!", errorMessage, "warning");
         }
         
         return isValid;
@@ -48,9 +48,9 @@ function PbButtonCtrl($scope, $http) {
                 if(idioma === "es"){
                     message = "Revisa tu bandeja de entrada para continuar con el proceso de recuperación de contraseña.";
                 } else {
-                    message = "Check your email box in order to continue with your password recover process.";
+                    message = "Check your mail to continue with the password recovery process.";
                 }
-                Swal.fire(idiom === "es" ? "Ya casi está listo." : "Almost ready", message, "success");
+                Swal.fire(idiom === "es" ? "Ya casi está listo." : "It’s almost done.", message, "success");
                 
             } else {
                 debugger;
@@ -69,7 +69,7 @@ function PbButtonCtrl($scope, $http) {
                 if(idioma === "es"){
                     errorMessage = "El Correo electrónico ingresado no está registrado."
                 } else {
-                    errorMessage = "Email is not registered."
+                    errorMessage = "The e-mail you entered is not registered."
                 }
             }
             Swal.fire("Error.", errorMessage, "error");
