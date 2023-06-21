@@ -64,6 +64,10 @@ function ($scope, $http) {
                 $scope.properties.solicitudApoyoEducativo = [];
                 $scope.properties.solicitudApoyoEducativo = data;
                 $scope.properties.solicitudApoyoEducativo.modificarDocumentos = false;
+                debugger;
+                if($scope.properties.solicitudApoyoEducativo.nuevoKardex !== true || ($scope.properties.solicitudApoyoEducativo.urlAzureNuevoKardex === null || $scope.properties.solicitudApoyoEducativo.urlAzureNuevoKardex === "")){
+                    $scope.properties.solicitudApoyoEducativo.nuevoKardex = false;
+                }
                 
                 if($scope.properties.isSolicitud){
                     if(data.pageIndex > 1){
@@ -333,7 +337,7 @@ function ($scope, $http) {
 					$scope.properties.imagenesSocioEco.push(imageObject);
 				}
 
-			}  else if($scope.properties.imagenesSocioEco.length > $scope.properties.lstImagenesByTipoApoyo.length){
+			} else if($scope.properties.imagenesSocioEco.length > $scope.properties.lstImagenesByTipoApoyo.length){
 				for(let i = 0; i < $scope.properties.imagenesSocioEco.length; i++){
 					let imageFound = false;
 					for(let imageObject of $scope.properties.lstImagenesByTipoApoyo){
