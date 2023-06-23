@@ -126,8 +126,6 @@
                     <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
                         <span class="glyphicon glyphicon-time"></span>
                     </button>
-
-
                     <button  ng-if="row.usuarioBloqueado && !row.resultadoEnviado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
                         <span class="glyphicon glyphicon-lock"></span>
                     </button>
@@ -137,6 +135,11 @@
 
                     <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar')" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info tooltips-info" data-tooltip="Datos de la sesión">
                         <span><b>?</b></span>
+                    </button>
+                    
+                    
+                    <button ng-if="row.terminado === true && row.resultadoEnviado !== true" type="button" ng-click="seleccionarEnvio(row)" class="btn btn-success">
+                        <span class="glyphicon glyphicon-send"></span>
                     </button>
                 </td>
             </tr>
@@ -429,6 +432,31 @@
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
                 <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Actualizar tolerancia</button>
                 <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Actualizar tolerancia</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="modal" tabindex="-1" role="dialog" id="modalEnvioRes">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Enviar resultados</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <p>¿Estás seguro(a) que deseas enviar los resultados para este aspirante?</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                <button type="button" class="btn btn-primary" ng-click="enviarSeleccionados()">Enviar</button>
             </div>
         </div>
     </div>

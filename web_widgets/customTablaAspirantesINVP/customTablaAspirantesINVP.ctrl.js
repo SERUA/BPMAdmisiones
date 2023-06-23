@@ -700,12 +700,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.refreshAspirantes = function(){
-        getAspirantesSesion($scope.selectedSesion.idSesion);
+        doRequest("POST", $scope.properties.urlPost);
     }
     
-    $scope.refreshSesiones = function(){
-        doRequest("POST", $scope.properties.urlPost);
-    }   
+    // $scope.refreshSesiones = function(){
+    //     doRequest("POST", $scope.properties.urlPost);
+    // }   
     
     $scope.validarEstatus = function(_enviado, _estatus){
         let output = ""; 
@@ -717,5 +717,61 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return  output;
     }
-  
+    
+    $scope.enviarSeleccionados = function () {
+        
+        var dataToSend = [];
+        $scope.aspirantesEnvio.forEach((element) => {
+            dataToSend.push({
+                "username": element.username.replace(' (rechazado)', ''),
+                "sesion": element.sesion,
+                "idbanner": element.idbanner,
+                "caseidINVP" : element.caseidINVP != null ?  element.caseidINVP: element.caseidINVP_temp
+            });
+        });
+
+        let url = "../API/extension/AnahuacINVPRestAPI?url=PostMasivoRespuestaSesion&p=0&c=10";
+        debugger;
+        $http.post(url, dataToSend).success(function (_data) {
+            debugger;
+            if (_data.success) {
+                swal("Ok", "Los resultados fueron enviados correctamente.", "success");
+                ocultarModal("modalEnvioRes");
+                $scope.refreshAspirantes();
+            } else {
+                swal("Algo ha fallado", _data.info, "error");
+            }
+        }).error(function (_error) {
+            swal("Algo ha fallado", _error.info, "error");
+        });
+    }
+
+
+    $scope.seleccionarEnvio = function (_aspirante) {
+        $scope.aspirantesEnvio = [];
+        $scope.aspirantesEnvio.push({
+            "username": _aspirante.correoElectronico.replace(' (rechazado)', ''),
+            "sesion": _aspirante.idsesion,
+            "idbanner": _aspirante.idBanner,
+            "nombre": _aspirante.nombre,
+            "idBpm": _aspirante.idBpm,
+            "caseidINVP": _aspirante.caseidINVP, 
+            "caseidINVP_temp": _aspirante.caseidINVP_temp
+        });
+        
+        mostrarModal("modalEnvioRes");
+    }
+    
+    $scope.fechaMenorATresDias = function (_fecha) {
+        var hoy = new Date();
+        var partesFecha = _fecha.split('-');
+        var dia = parseInt(partesFecha[2], 10);
+        var mes = parseInt(partesFecha[1], 10) - 1;
+        var anio = parseInt(partesFecha[0], 10);
+        var fechaIngresada = new Date(anio, mes, dia);
+        var diferenciaEnMilisegundos = hoy - fechaIngresada;
+        var dias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+    
+        return (dias < 3);
+    }
 }

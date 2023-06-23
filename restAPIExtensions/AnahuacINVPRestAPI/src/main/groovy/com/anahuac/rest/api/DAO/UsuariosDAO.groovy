@@ -799,7 +799,8 @@ class UsuariosDAO {
 				row.setExamenReiniciado(rs.getBoolean("examenReiniciado"));
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
 				row.setResultadoEnviado(rs.getBoolean("resultadoenviado"));
-				
+				row.setIdsesion(rs.getLong("idsesion"));	
+							
 				rows.add(row);
 			}
 			
@@ -807,7 +808,7 @@ class UsuariosDAO {
 			resultado.setData(rows);
 			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			errorLog += errorLog2;
+			
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);

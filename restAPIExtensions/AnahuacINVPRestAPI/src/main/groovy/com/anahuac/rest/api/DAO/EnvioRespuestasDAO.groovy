@@ -289,7 +289,7 @@ class EnvioRespuestasDAO {
 			
 			if(resultado.getError().equals("Error")){
 				resultado.setSuccess(false);
-			}else {
+			} else {
 				Result asistencia = asistenciaINVP(idbanner,sesiones_pid);
 				rows.add(respuestainvp)
 				additionalData.add(aData)
