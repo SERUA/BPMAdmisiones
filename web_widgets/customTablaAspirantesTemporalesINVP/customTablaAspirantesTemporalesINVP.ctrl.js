@@ -574,4 +574,17 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshSesiones = function(){
         doRequest("POST", $scope.properties.urlPost);
     }
+    
+    $scope.fechaMenorATresDias = function (_fecha) {
+        var hoy = new Date();
+        var partesFecha = _fecha.split('/');
+        var dia = parseInt(partesFecha[0], 10);
+        var mes = parseInt(partesFecha[1], 10) - 1;
+        var anio = parseInt(partesFecha[2], 10);
+        var fechaIngresada = new Date(anio, mes, dia);
+        var diferenciaEnMilisegundos = hoy - fechaIngresada;
+        var dias = Math.floor(diferenciaEnMilisegundos / (1000 * 60 * 60 * 24));
+    
+        return (dias < 3);
+    }
 }

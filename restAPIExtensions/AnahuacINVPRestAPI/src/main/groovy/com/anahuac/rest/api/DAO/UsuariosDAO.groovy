@@ -1036,7 +1036,7 @@ class UsuariosDAO {
 		List < String > lstGrupo = new ArrayList < String > ();
 		String errorLog = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-		
+		SimpleDateFormat formatterNoTime = new SimpleDateFormat("dd/MM/yyyy");
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -1322,7 +1322,11 @@ class UsuariosDAO {
 				row.setUsuarioBloqueado(rs.getBoolean("usuariobloqueadob"));
 				row.setTempentrada(rs.getString("temp_horainiciosesion"));
 				row.setTempsalida(rs.getString("tes_horafinsesion"));
-				row.setTempfecha(rs.getString("temp_fechainiciosesion"));
+				if(rs.getTimestamp("temp_fechainiciosesion") != null) {
+					Date date = new Date(rs.getTimestamp("temp_fechainiciosesion").getTime());
+					row.setTempfecha(formatterNoTime.format(date));
+				} 
+//				row.setTempfecha(rs.getString("temp_fechainiciosesion"));
 				row.setTempprueba(rs.getString("temp_sesion"));
 				row.setTemptoleranciaentrada(rs.getString("temp_toleranciaentrada"));
 				row.setTemptoleranciaSalida(rs.getString("temp_toleranciasalida"));

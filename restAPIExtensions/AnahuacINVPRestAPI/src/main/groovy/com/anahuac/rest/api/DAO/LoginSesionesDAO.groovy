@@ -811,7 +811,8 @@ class LoginSesionesDAO {
 			while (rs.next()) {
 				row = new HashMap<String,Integer>();
 				row.put("telefonocelular", rs.getString("telefonocelular"));
-				rows.add(row)
+				row.put("telefono", rs.getString("telefono"));
+				rows.add(row);
 			}
 			resultado.setSuccess(true)
 			resultado.setData(rows)
