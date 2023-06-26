@@ -980,6 +980,10 @@ class LoginSesionesDAO {
 			pstm.setString(3, username);
 			pstm.executeUpdate();
 			con.commit();
+			UsuariosDAO uDAO = new UsuariosDAO();
+			
+			uDAO.desbloquearAspiranteDef(username);
+			uDAO.bloquearAspirante(username, false, true);
 			
 			success = true;
 			if(resultReq > 0) {
