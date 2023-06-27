@@ -176,7 +176,11 @@ class UsuariosDAO {
 					}
 					
 				} catch (Exception e) {
-					con.rollback();
+					try {
+						con.rollback();
+					} catch(Exception ex) {
+						ex.printStackTrace();
+					}
 					/*if (success == false) {
 						try {
 							con.setAutoCommit(false);
@@ -238,7 +242,7 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			try {
 				con.rollback();
-			}catch(Exception ex) {
+			} catch(Exception ex) {
 				ex.printStackTrace();
 			}
 			
@@ -320,8 +324,12 @@ class UsuariosDAO {
 			} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
-		}finally {
+			try {
+				con.rollback();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
+		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
@@ -843,7 +851,11 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			try {
+				con.rollback();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -1474,7 +1486,11 @@ class UsuariosDAO {
 			errorLog += " | Fallido | " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			try {
+				con.rollback();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -1510,7 +1526,11 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			try {
+				con.rollback();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -1545,7 +1565,11 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			try {
+				con.rollback();
+			} catch(Exception ex) {
+				ex.printStackTrace();
+			}
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
