@@ -4232,6 +4232,7 @@ class UsuariosDAO {
 			resultado.setSuccess(true)
 			resultado.setData(rows)
 			resultado.setAdditional_data(tipo);
+		} catch (Exception e) {
 			resultado.setSuccess(false)
 			resultado.setError("500 Internal Server Error")
 			resultado.setError_info(e.getMessage())
