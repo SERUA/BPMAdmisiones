@@ -25,10 +25,10 @@ function PbButtonCtrl($scope, $http) {
     
     function getCampusBloqueado(){
         let campus = angular.copy($scope.properties.objSolicitudDeAdmision.catCampusEstudio.grupoBonita);
-        if(campus === "CAMPUS-MNORTE" || campus === "CAMPUS-MSUR" || campus === "CAMPUS-MAYAB"){
+        if(campus === "CAMPUS-MNORTE" || campus === "CAMPUS-MSUR" || campus === "CAMPUS-MAYAB" || campus === "CAMPUS-CORDOBA" || campus === "CAMPUS-TAMPICO" || campus === "CAMPUS-XALAPA" || campus === "CAMPUS-PUEBLA"){
             swal({
                 title: "¡Atención!",
-                text: "Para conocer el proceso de solicitud de apoyo educativo, contacta al área de becas del campus.",
+                text: "Para conocer el proceso de solicitud de apoyo educativo, contacta al área de admisiones del campus.",
                 icon: "info"
             }).then(() => {
                 let url = "	/bonita/logoutservice?redirect=false";
