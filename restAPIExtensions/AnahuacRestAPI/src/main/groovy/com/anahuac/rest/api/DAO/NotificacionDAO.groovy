@@ -1509,7 +1509,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				}
 			}
 			
-			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuestasolobeca-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-finanzas") ) {
+			if(object.codigo.equals("sdae-propuestasolobeca-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuestasolobeca-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-finanzas") || object.codigo.equals("sdae-propuestasolobeca-becas-medicina-conpago") ||object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina-conpago")) {
 				
 				Double costoCredito = 0;
 				Double creditosemestre = 0;
@@ -1571,7 +1571,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						Integer porcentajeFina_int = 0;
 						plantilla = plantilla.replace("[PORCENTAJE-BECA-DICTAMEN]", porcentajeBeca_int.toString());
 						errorlog += " | PLANTILLA LLEGO"
-						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago")) {
+						if(object.codigo.equals("sdae-propuesta-financiamiento-becas") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina") || object.codigo.equals("sdae-propuesta-financiamiento-becas-prontopago") || object.codigo.equals("sdae-propuesta-financiamiento-becas-medicina-conpago")) {
 							try {
 								porcentajeFina_int  = rs.getInt("porcentajecreditoautorizacion");
 								plantilla = plantilla.replace("[PORCENTAJE-FINANCIAMIENTO-DICTAMEN]",  porcentajeFina_int.toString());
@@ -1586,9 +1586,11 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						}
 						
 						errorlog += " | 1";
-						String[] fechaParcial = rs.getString("fechapagoinscripcionautorizacion").split("-");
-						errorlog += " | 2";
-						plantilla = plantilla.replace("[FECHALIMITE-INSCRIPCION]", fechaParcial[2] + "/" + fechaParcial[1] + "/" + fechaParcial[0]);
+						if(rs.getString("fechapagoinscripcionautorizacion") != null) {
+							String[] fechaParcial = rs.getString("fechapagoinscripcionautorizacion").split("-");
+							errorlog += " | 2";
+							plantilla = plantilla.replace("[FECHALIMITE-INSCRIPCION]", fechaParcial[2] + "/" + fechaParcial[1] + "/" + fechaParcial[0]);
+						}
 						errorlog += " | 3";
 						plantilla = plantilla.replace("[DESCUENTO-INSCRIPCION]", rs.getString("descuentoanticipado"));
 						errorlog += " | 4";
