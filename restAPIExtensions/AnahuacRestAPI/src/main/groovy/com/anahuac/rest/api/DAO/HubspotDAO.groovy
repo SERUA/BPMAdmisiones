@@ -82,7 +82,7 @@ class HubspotDAO {
 	Map<String,String> estatusMapBecas = new HashMap<String, String>() {{
 		put("Esperando Pre-Autorización", "Envío de solicitud beca");
 		put("Correcciones realizadas", "Envío de solicitud beca");
-		put("En espera de resultado", "Validado");
+		put("En espera de resultado", "Solicitud de beca validada");
 		put("Solicitud Rechazada", "Rechazo solicitud beca");
 		put("Solicitud no autorizada", "Rechazo solicitud beca");
 		put("Solicitud rechazada por comité de finanzas", "Rechazo solicitud beca");
@@ -91,7 +91,9 @@ class HubspotDAO {
 		put("En espera de pago", "En espera de pago");
 		put("En espera de validación de pago", "En espera de pago");
 		put("En espera de autorización", "En espera de resultado de beca");
-		put("Solicitud autorizada", "Solicitud de beca autorizada");
+		put("Solicitud autorizada", "Propuesta enviada por comité de becas");
+		put("Propuesta aceptada por aspirante", "Propuesta aceptada por el aspirante");
+		put("Propuesta rechazada por el aspirante", "Propuesta rechazada por el aspirante");
 	}};
 
 	Map<String,String> mapTipoBecas = new HashMap<String, String>() {{
@@ -102,7 +104,6 @@ class HubspotDAO {
 		put("Convenio", "Académica");
 		put("Beca de excelencia", "Académica");
 		put("Convenio", "Académica");
-		
 	}};
 
 	public Boolean validarConexion() {
@@ -3092,7 +3093,11 @@ class HubspotDAO {
 		  
 	  }
 
-	  //TO-DO
+	  /**
+	   * Valore de etapa de proceso: 
+	   * 	solicitud, preauto, preauto_rechazo modificacion, artistica, deportiva, pago, autor, autor_rechazo, propuesta, 
+	   		solicitud_fina, preauto_fina, modificacion_fina, autor_fina, propuesta_fina 
+	   * */
 	  public Result createOrUpdateBeca(String jsonData, RestAPIContext context) {
 	        Result resultado = new Result();
 	        Result resultadoApiKey = new Result();
@@ -3107,7 +3112,7 @@ class HubspotDAO {
 	        String apikeyHubspot ="";
 	        Date fecha = new Date();
 	        DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-			
+			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 	        try {
 				  
 	            def jsonSlurper = new JsonSlurper();
@@ -3115,77 +3120,61 @@ class HubspotDAO {
 	            
 				def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
 				lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(object.email, 0, 1);
-				
 	            assert object instanceof Map;
-	            strError += " | try";
-				
 				resultadoApiKey = getApikeyHubspot(lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
 				apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 				ServiciosBecasDAO becas = new ServiciosBecasDAO();
 				Result resultBEcas = becas.getSolicitudApoyoByCaseId(Integer.valueOf(object.caseid), context);
 				String email = object.email;
-				strError += " | jsonData.caseid" + object.caseid;
 				
 				if(resultBEcas.isSuccess()){
+					String etapaProceso = object.etapaProceso;
 					Map < String, Object > map = new LinkedHashMap < String, Object > ();
 					map = (Map < String, Object >) resultBEcas.getData().get(0);
-//					objHubSpotData.put("email", email);
-					
-					objHubSpotData.put("beca_otorgada_bpm", "");
 					objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get(map.get("estatussolicitud")));
-					objHubSpotData.put("finan_otorgada_bpm", "");
-					objHubSpotData.put("mensaje_becas_bpm", "");
-//					objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingreso"));
-					objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca"));
-					objHubSpotData.put("porcentaje_finan_solicitado_bpm",  map.get("porcentajefinanciamiento"));
-					objHubSpotData.put("propuesta_beca_bpm", "");
-					objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
-//					objHubSpotData.put("fecha_actualizacion_becas_bpm", dfSalida.format(map.get("fechaultimamodificacion")));
+					objHubSpotData.put("fecha_actualizacion_becas_bpm", df.format(new Date()));
+					
+					if(etapaProceso.equals("solicitud") || etapaProceso.equals("modificacion")) {
+						objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca"));
+						objHubSpotData.put("porcentaje_finan_solicitado_bpm",  map.get("porcentajefinanciamiento"));
+						objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
+						objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingresoclave"));
+						objHubSpotData.put("porcentaje_beca_prepa_bpm", map.get("porcentajebecaprepa"));//404
+					}
+					
+					if(etapaProceso.equals("autor_rechazo")) {
+						objHubSpotData.put("mensaje_becas_bpm", map.get(""));//Autorizción
+					}
+					
+					if(etapaProceso.equals("preauto_rechazo")) {
+						objHubSpotData.put("mensaje_becas_bpm", map.get(""));//Pre-autorizción
+					}
+						
+					if(etapaProceso.equals("pago")) {
+//						objHubSpotData.put("monto_pago_estudio_bpm", map.get(""));//404
+//						objHubSpotData.put("fecha_pago_estudio_bpm", df.format(new Date()));//404
+					}
+					
+					if(etapaProceso.equals("autor")) {
+						objHubSpotData.put("beca_otorgada_bpm", map.get("porcentajebecaautorizacion"));
+						objHubSpotData.put("finan_otorgada_bpm", map.get(""));
+						objHubSpotData.put("propuesta_beca_bpm", map.get("porcentajebecaautorizacion"));
+//						objHubSpotData.put("fecha_limite_propuesta_beca_bpm", map.get("fechalimitepropuesta"));//404
+//						objHubSpotData.put("fecha_limite_inscripcion_beca_bpm", map.get("fechapagoinscripcionautorizacion"));//404
+//						objHubSpotData.put("descuento_pronto_pago_beca_bpm", map.get(""));//404
+//						objHubSpotData.put("prom_minimo_conserva_beca_bpm", map.get("promediominimoautorizacion"));//404
+					}
+					
+					if(etapaProceso.equals("propuesta")) {
+//						objHubSpotData.put("acepta_rechazo_finan_bpm", map.get(""));//404
+					}				
 					
 					resultado = createOrUpdateHubspotBecas(email, apikeyHubspot, objHubSpotData);
-				} else {
-					strError = strError + " | ------------------------------------------";
-					strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
-					strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
-					strError = strError + " | ------------------------------------------";
-				}
-				
-	            if (!resultado.success) {
-	                String correo = "";
-	                closeCon = validarConexion();
-	                pstm = con.prepareStatement(Statements.GET_CORREO_BY_CLAVE)
-	                pstm.setString(1, "EmailRegistro")
-	                rs = pstm.executeQuery()
-	                while(rs.next()) {
-	                    correo = rs.getString("valor");
-	                }
-	            
-	                MailGunDAO mgd = new MailGunDAO();
-	                Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error", resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
-	                strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-	            }
-	
-	            if (noSol == true) {
-	                String correo = "";
-	                closeCon = validarConexion();
-	                pstm = con.prepareStatement(Statements.GET_CORREO_BY_CLAVE)
-	                pstm.setString(1, "EmailRegistro")
-	                rs = pstm.executeQuery()
-	                while(rs.next()) {
-	                    correo = rs.getString("valor");
-	                }
-					
-	                msjNF += " en el catalogo de HubSpot"
-	                MailGunDAO mgd = new MailGunDAO();
-	                Result correoenviado = mgd.sendEmailPlantilla(correo, "Hubspot Registro Error - Propiedad no encotrada", msjNF + "<br><br>" + resultado.getError_info(), "",lstSolicitudDeAdmision.get(0).getCatCampus().getGrupoBonita(), context)
-	                
-	                strError += strError + correoenviado.isSuccess().toString() + " | " + correoenviado.getInfo();
-	            }
+				} 
 	
 	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	            
 	        } catch (Exception e) {
-	            LOGGER.error "e: "+e.getMessage();
 	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	            resultado.setSuccess(false);
 	            resultado.setError(e.getMessage());
