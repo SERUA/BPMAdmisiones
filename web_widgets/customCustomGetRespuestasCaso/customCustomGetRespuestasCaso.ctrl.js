@@ -15,7 +15,6 @@ function ($scope, $http) {
         };
 
         return $http(req).success(function(data, status) {
-            debugger;
             if(data.additional_data){
                 $scope.properties.caseId = data.additional_data[0];
             }
@@ -51,7 +50,12 @@ function ($scope, $http) {
 
     $scope.$watch("properties.reload", function(){
         if($scope.properties.reload !== undefined){
-             $scope.getCasoByIdUser();
+            // $scope.getCasoByIdUser();
+            if($scope.properties.username && $scope.properties.username !== "guest"){
+                $scope.getCasoByIdUser(); 
+            } else {
+               window.top.location.href = "/apps/login/testinvp"; 
+            }
         }
     });
 }

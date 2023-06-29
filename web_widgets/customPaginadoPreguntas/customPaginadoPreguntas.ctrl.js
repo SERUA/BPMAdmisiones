@@ -10,11 +10,14 @@ function($scope, $http) {
     $scope.contestadoanterior = false;
     $scope.objcontestada = {};
     $scope.isseleccion = false;
-    $scope.preguntaAvanzado = false
-    
+    $scope.preguntaAvanzado = false;
+    $scope.lastIndex = 0;
+    $scope.precargado = false;
+
     $scope.$watch('properties.value', function() {
         if ($scope.properties.value != undefined) {
             $scope.loadPaginado();
+            
         }
     });
 
@@ -72,6 +75,7 @@ function($scope, $http) {
 
             $scope.properties.valorSeleccionado = $scope.valorSeleccionado;
             $scope.lstPaginado.push(obj);
+            $scope.lastIndex = obj.contestado ? ( $scope.lstPaginado.length < 567 ? $scope.lstPaginado.length + 1: $scope.lstPaginado.length): $scope.lastIndex;
             $scope.contestadoanterior = false;
         }
 
@@ -121,6 +125,10 @@ function($scope, $http) {
             $scope.properties.respuestaExamen = null;
         }
 
+        if($scope.precargado === false && $scope.lastIndex > 0){
+            $scope.precargado = true;
+            $scope.seleccionarPagina($scope.lastIndex);
+        }
     }
 
     $scope.siguiente = function() {
@@ -282,6 +290,17 @@ function($scope, $http) {
                 //vm.busy = false;
             });
     }
+
+    // $scope.precargado = false;
+    // $scope.$watch("properties.objPreguntasContestadas", function(){
+    //     debugger;
+    //     if($scope.precargado === false && ($scope.properties.objPreguntasContestadas.length > 0)){
+    //         $scope.precargado = true;
+    //         debugger;
+    //         let objeto = ($scope.objPreguntasContestadas.length - 1);
+    //         $scope.seleccionarPagina(objeto.pregunta);
+    //     }
+    // });
 
     $scope.$watch("properties.reload", function() {
         if ($scope.properties.reload !== undefined) {

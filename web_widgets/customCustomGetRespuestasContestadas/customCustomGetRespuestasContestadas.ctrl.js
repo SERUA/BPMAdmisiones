@@ -1,7 +1,6 @@
 function ($scope, $http) {
     
     $scope.getCommentList = function(){
-        debugger;
         let data = {
             "caseid":$scope.properties.commentList,
             "idusuario":Number($scope.properties.reload)
@@ -14,7 +13,6 @@ function ($scope, $http) {
         };
         
         return $http(req).success(function(data, status) {
-            debugger;
             let respuesta = [];
             /*let valores = {
                 "pregunta":0,
