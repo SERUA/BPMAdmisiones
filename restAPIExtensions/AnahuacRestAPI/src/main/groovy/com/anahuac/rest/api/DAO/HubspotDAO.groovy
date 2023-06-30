@@ -3094,7 +3094,7 @@ class HubspotDAO {
 	  }
 
 	  /**
-	   * Valore de etapa de proceso: 
+	   * Valores de etapa de proceso: 
 	   * 	solicitud, preauto, preauto_rechazo modificacion, artistica, deportiva, pago, autor, autor_rechazo, propuesta, 
 	   		solicitud_fina, preauto_fina, modificacion_fina, autor_fina, propuesta_fina 
 	   * */
