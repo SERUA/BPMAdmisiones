@@ -28,7 +28,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.dataToSend.catSolicitudDeAdmisionInput.catCampus = $scope.properties.dataToSend.catSolicitudDeAdmisionInput.catCampusEstudio;
 
             if (!$scope.properties.strRegistro.Validado || $scope.properties.strRegistro.error) {
-                swal("¡" + $scope.properties.campoError + "!", $scope.properties.erroMessage, "warning");
+                swal($scope.properties.campoError, $scope.properties.erroMessage, "warning");
                 blockUI.stop();
             } else {
                 $scope.strBonita = {

@@ -212,10 +212,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "Your session has ended. You cannot resume the test. If you have any questions, please contact your facilitator.";
                     } else {
-                        mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your applicator."
+                        mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your facilitator."
                     }
                 } else {
-                    mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your applicator."
+                    mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your facilitator."
                 }
 
                 Swal.fire({
@@ -297,7 +297,6 @@ function($scope, $http) {
     
     $scope.precargado = false;
     $scope.$watch("properties.objPreguntasContestadas", function(){
-        debugger;
         if($scope.precargado === false && ($scope.properties.objPreguntasContestadas.length > 0)){
             $scope.precargado = true;
             debugger;
