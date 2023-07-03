@@ -2,9 +2,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     
      this.action = function action() {
       debugger
+        
+        
         if($scope.properties.editarSec1 == false){
         $scope.properties.editarSec1 = true;
-        
         }else if($scope.properties.editarSec1 == true){
         $scope.properties.editarSec1 = false;
         }
@@ -16,9 +17,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
         if($scope.properties.editarSec3 == false){
         $scope.properties.editarSec3 = true;
-        
         }else if($scope.properties.editarSec3 == true){
         $scope.properties.editarSec3 = false;
+        $scope.properties.seccionEditar = '1';
         }
         if($scope.properties.editarSec4 == false){
         $scope.properties.editarSec4 = true;

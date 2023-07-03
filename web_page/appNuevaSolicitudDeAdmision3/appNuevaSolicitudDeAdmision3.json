@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appNuevaSolicitudDeAdmision3",
   "name" : "appNuevaSolicitudDeAdmision",
-  "lastUpdate" : 1666739409946,
+  "lastUpdate" : 1688168155341,
   "rows" : [
     [
       {
@@ -4359,6 +4359,10 @@
                             "catSolicitudDeAdmision" : {
                               "type" : "variable",
                               "value" : "catSolicitudDeAdmision"
+                            },
+                            "objSolicitudDeAdmision" : {
+                              "type" : "variable",
+                              "value" : ""
                             }
                           },
                           "reference" : "a3b7dee7-e3b3-4102-b00b-a2874418fa66",
@@ -23490,23 +23494,24 @@
         "if ($data.cp !== undefined) {\r",
         "    if ($data.selectedIndex === 2) {\r",
         "        for (var x = 0; x < $data.catEstados.length; x++) {\r",
+        "            \r",
         "            if ($data.catEstados[x].descripcion === $data.cp.estado) {\r",
-        "                $data.catSolicitudDeAdmision.catEstado = $data.catEstados[x];\r",
+        "                $data.objSolicitudDeAdmision.catEstado = $data.catEstados[x];\r",
         "            } else if ($data.catEstados[x].descripcion === \"Estado de México\" && $data.cp.estado === \"México\") {\r",
-        "                $data.catSolicitudDeAdmision.catEstado = $data.catEstados[x];\r",
+        "                $data.objSolicitudDeAdmision.catEstado = $data.catEstados[x];\r",
         "            }\r",
         "        }\r",
         "        if ($data.cp.ciudad !== \"\" && $data.cp.ciudad !== null) {\r",
-        "            $data.catSolicitudDeAdmision.ciudad = $data.cp.ciudad\r",
+        "            $data.objSolicitudDeAdmision.ciudad = $data.cp.ciudad\r",
         "            if ($data.cp.ciudad !== undefined) {\r",
         "                $data.haveCiudad = true;\r",
         "            }\r",
         "        }\r",
         "        if ($data.cp.municipio !== \"\") {\r",
-        "            $data.catSolicitudDeAdmision.delegacionMunicipio = $data.cp.municipio\r",
+        "            $data.objSolicitudDeAdmision.delegacionMunicipio = $data.cp.municipio\r",
         "        }\r",
         "        if ($data.cp.asentamiento !== \"\") {\r",
-        "            $data.catSolicitudDeAdmision.colonia = $data.cp.asentamiento\r",
+        "            $data.objSolicitudDeAdmision.colonia = $data.cp.asentamiento\r",
         "        }\r",
         "    } else if ($data.tutor.catPais !== null && $data.tutor.catPais.persistenceId_string !==\"\") {\r",
         "        if ($data.selectedIndex === 3 && $data.selectedIndexFamiliar === 0 && $data.tutor.catPais.descripcion === \"México\") {\r",
