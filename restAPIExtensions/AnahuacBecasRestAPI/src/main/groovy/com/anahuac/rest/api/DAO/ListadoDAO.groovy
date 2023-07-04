@@ -515,52 +515,50 @@ class ListadoDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE SDAE.eliminado = false "
-			
-			
+			where += " WHERE SDAE.eliminado = false ";
 			
 			if(object.isCompletadas == true) {
 				if (object.estatusSolicitud != null) {
-					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') ) "
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') ) ";
 				}
 			} else {
 				if (object.estatusSolicitud != null) {
-					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") ) "
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") ) ";
 				}
 			}
 			
 			if (object.caseId != null) {
-				where += " AND SDAE.caseId = "+object.caseId +" "
+				where += " AND SDAE.caseId = " + object.caseId + " ";
 			}
 			
 			if (object.caseId == null) {
 				if (lstGrupo.size() > 0) {
-					where += " AND ("
+					where += " AND (";
 				}
+				
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
-					where += "campus.descripcion='" + campusMiembro + "'"
+					where += "campus.descripcion='" + campusMiembro + "'";
 					if (i == (lstGrupo.size() - 1)) {
-						where += ") "
+						where += ") ";
 					} else {
-						where += " OR "
+						where += " OR ";
 					}
 				}
 			}
-
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 
 			String SSA = "";
-			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
 			rs = pstm.executeQuery();
 			if (rs.next()) {
-				SSA = rs.getString("valor")
+				SSA = rs.getString("valor");
 			}
 
-			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS
-			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS;
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS;
 
 			errorlog = consulta + " 2";
 			
@@ -616,7 +614,6 @@ class ListadoDAO {
 							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "CAMPUS":
 							errorlog += "CAMPUS"
 							where += " AND LOWER(campus.DESCRIPCION) ";
@@ -627,7 +624,6 @@ class ListadoDAO {
 							}
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "ULTIMA MODIFICACION":
 							errorlog += "FECHAULTIMAMODIFICACION"
 							if (where.contains("WHERE")) {
@@ -3180,9 +3176,10 @@ class ListadoDAO {
 			
 			Map <String, Object> row = new HashMap <String, Object>();
 			pstm = con.prepareStatement(Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS.replace("[WHERE]", where));
-			
 			rs = pstm.executeQuery();
-
+			
+			resultado.setError_info(where);
+			
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"));
 			} else {

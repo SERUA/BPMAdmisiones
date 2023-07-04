@@ -61,7 +61,6 @@ function($scope, $http, blockUI) {
                 window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaEnProgreso/";
             }
         } else if (_param === "preauto") {
-
             if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion) {
                 window.top.location.href = "/bonita/apps/administrativo/bandejaPreAutorizacion/";
             }
@@ -121,51 +120,49 @@ function($scope, $http, blockUI) {
                 url: `/API/identity/membership?p=0&c=100&f=user_id%3d${$scope.properties.userId}&d=role_id&d=group_id`
             };
 
-            return $http(req)
-                .success(function (data, status) {
-                    $scope.lstMembership = data;
-                    for (var i = 0; i < $scope.lstMembership.length; i++) {
-                        if ($scope.lstMembership[i].role_id.displayName === "PreAutorizacion") {
-                            $scope.isPreautorizacion = true;
-                            console.log("PreAutorizacion " + $scope.isPreautorizacion);
-                        }  else if ($scope.lstMembership[i].role_id.displayName === "Becas") {
-                            $scope.isBecas = true;
-                            console.log("Becas " + $scope.isBecas);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Area Artistica") {
-                            $scope.isAreaArtistica = true;
-                            console.log("Area artística " + $scope.isAreaArtistica);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Area Deportiva") {
-                            $scope.isAreDeportiva = true;
-                            console.log("Area deportiva " + $scope.isAreDeportiva);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Finanzas") {
-                            $scope.isFinanciamiento = true;
-                            console.log("Finanzas " + $scope.isFinanciamiento);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Comite de Finanzas") {
-                            $scope.isComiteFinanzas = true;
-                            console.log("Finanzas " + $scope.isComiteFinanzas);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "TI CAMPUS") {
-                            $scope.isTiCampus = true;
-                            console.log("isTiCampu " + $scope.isTiCampus);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "TI SERUA") {
-                            $scope.isTiSerua = true;
-                            console.log("isTiSerua " + $scope.isTiSerua);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "SERUA") {
-                            $scope.isSerua = true;
-                            console.log("isSerua " + $scope.isSerua);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
-                            $scope.isChat = true;
-                            console.log("isSerua " + $scope.isChat);
-                        } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
-                            $scope.isAdministrador = true;
-                            console.log("isAdministrador " + $scope.isAdministrador);
-                        }
+            return $http(req).success(function (data, status) {
+                $scope.lstMembership = data;
+                for (var i = 0; i < $scope.lstMembership.length; i++) {
+                    if ($scope.lstMembership[i].role_id.displayName === "PreAutorizacion") {
+                        $scope.isPreautorizacion = true;
+                        console.log("PreAutorizacion " + $scope.isPreautorizacion);
+                    }  else if ($scope.lstMembership[i].role_id.displayName === "Becas") {
+                        $scope.isBecas = true;
+                        console.log("Becas " + $scope.isBecas);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Area Artistica") {
+                        $scope.isAreaArtistica = true;
+                        console.log("Area artística " + $scope.isAreaArtistica);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Area Deportiva") {
+                        $scope.isAreDeportiva = true;
+                        console.log("Area deportiva " + $scope.isAreDeportiva);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Finanzas") {
+                        $scope.isFinanciamiento = true;
+                        console.log("Finanzas " + $scope.isFinanciamiento);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Comite de Finanzas") {
+                        $scope.isComiteFinanzas = true;
+                        console.log("Finanzas " + $scope.isComiteFinanzas);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "TI CAMPUS") {
+                        $scope.isTiCampus = true;
+                        console.log("isTiCampu " + $scope.isTiCampus);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "TI SERUA") {
+                        $scope.isTiSerua = true;
+                        console.log("isTiSerua " + $scope.isTiSerua);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "SERUA") {
+                        $scope.isSerua = true;
+                        console.log("isSerua " + $scope.isSerua);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
+                        $scope.isChat = true;
+                        console.log("isSerua " + $scope.isChat);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
+                        $scope.isAdministrador = true;
+                        console.log("isAdministrador " + $scope.isAdministrador);
                     }
+                }
+            }).error(function (data, status) {
+                console.error(data);
+            }).finally(function () { 
 
-                })
-                .error(function (data, status) {
-                    console.error(data);
-                })
-                .finally(function () { });
+            });
         }
     });
 
@@ -181,45 +178,44 @@ function($scope, $http, blockUI) {
 
         return $http(req).success(function (data, status) {
             callback(data)
-        })
-            .error(function (data, status) {
-                console.error(data)
-            })
-            .finally(function () {
-
-                blockUI.stop();
-            });
+        }).error(function (data, status) {
+            console.error(data)
+        }).finally(function () {
+            blockUI.stop();
+        });
     }
-    $scope.enProceso = 0;
-    $scope.nuevasSolicitudes = 0;
-    $scope.esperandoPago = 0;
-    $scope.autodescripcion = 0;
 
-    $scope.AutodescripcionEnProceso = 0;
-    $scope.EleccionPruebasNoCalendarizado = 0;
-    $scope.NoImpresoCredencial = 0;
-    $scope.YaSeImprimioSuCredencial = 0;
-    $scope.initializeDatosProceso = function () {
-        doRequest("POST", "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100", {}, {
-            "estatusSolicitud": "Nuevas solicitudes",
-            "tarea": "Validar Información",
-            "lstFiltro": [],
-            "type": "aspirantes_proceso",
-            "orderby": "",
-            "orientation": "DESC",
-            "limit": 10,
-            "offset": 0
-        }, function (datos) {
-            $scope.nuevasSolicitudes = datos.totalRegistros;
-        })
-    }
-    $scope.initializeDatosProceso();
+    // $scope.enProceso = 0;
+    // $scope.nuevasSolicitudes = 0;
+    // $scope.esperandoPago = 0;
+    // $scope.autodescripcion = 0;
+    // $scope.AutodescripcionEnProceso = 0;
+    // $scope.EleccionPruebasNoCalendarizado = 0;
+    // $scope.NoImpresoCredencial = 0;
+    // $scope.YaSeImprimioSuCredencial = 0;
+    // $scope.initializeDatosProceso = function () {
+    //     doRequest("POST", "/bonita/API/extension/AnahuacRest?url=selectAspirantesEnproceso&p=0&c=100", {}, {
+    //         "estatusSolicitud": "Nuevas solicitudes",
+    //         "tarea": "Validar Información",
+    //         "lstFiltro": [],
+    //         "type": "aspirantes_proceso",
+    //         "orderby": "",
+    //         "orientation": "DESC",
+    //         "limit": 10,
+    //         "offset": 0
+    //     }, function (datos) {
+    //         console.log("getDatosCierreFinanzas" + _data.totalRegistros);
+    //         $scope.nuevasSolicitudes = datos.totalRegistros;
+    //     })
+    // }
+    // $scope.initializeDatosProceso();
 
     function getDatosPreauto() {
         let data = {
             "estatusSolicitud": "'Esperando Pre-Autorización', 'Correcciones realizadas', 'Evaluación artística rechaza', 'Evaluación deportiva rechaza'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosPreauto::" + _data.totalRegistros);
             $scope.countPreautorizacion = _data.totalRegistros;
             getDatosArtsistica();
         })
@@ -232,6 +228,7 @@ function($scope, $http, blockUI) {
             "estatusSolicitud": "'Esperando revisión área artistica'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosArtsistica::" + _data.totalRegistros);
             $scope.countArtistica =  _data.totalRegistros;
             getDatosDeportiva()
         })
@@ -242,6 +239,7 @@ function($scope, $http, blockUI) {
             "estatusSolicitud": "'Esperando revisión área deportiva'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosDeportiva::" + _data.totalRegistros);
             $scope.countDeportiva =  _data.totalRegistros;
             getDatosComiteBecas();
         })
@@ -252,6 +250,7 @@ function($scope, $http, blockUI) {
             "estatusSolicitud": "'En espera de autorización'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosComiteBecas::" + _data.totalRegistros);
             $scope.countComiteBecas =  _data.totalRegistros;
             getDatosCierreBecas();
         })
@@ -259,9 +258,10 @@ function($scope, $http, blockUI) {
 
     function getDatosCierreBecas() {
         let data = {
-            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada'"
+            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada', 'Propuesta de financiamiento aceptada por aspirante'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosCierreBecas::" + _data.totalRegistros);
             $scope.countCierreBecas =  _data.totalRegistros;
             getDatosPreautoFina();
         })
@@ -272,6 +272,7 @@ function($scope, $http, blockUI) {
             "estatusSolicitud": "'Solicitud de financiamiento completada', 'Solicitud de financimiento reactivada',  'Modificaciones realizadas'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosPreautoFina::" + _data.totalRegistros);
             $scope.countPreAutoFina =  _data.totalRegistros;
             getDatosComiteFinanzas();
         })
@@ -282,6 +283,7 @@ function($scope, $http, blockUI) {
             "estatusSolicitud": "'Solicitud de financiamiento en autorización', 'Solicitud validada por finanzas'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosComiteFinanzas::" + _data.totalRegistros);
             $scope.countComiteFinanzas =  _data.totalRegistros;
             getDatosCierreFinanzas();
         })
@@ -289,10 +291,11 @@ function($scope, $http, blockUI) {
 
     function getDatosCierreFinanzas() {
         let data = {
-            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada'"
+            "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada', 'Propuesta de financiamiento aceptada por aspirante'"
         };
         
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
+            console.log("getDatosCierreFinanzas" + _data.totalRegistros);
             $scope.countCierreFinanzas =  _data.totalRegistros;
         })
     }
