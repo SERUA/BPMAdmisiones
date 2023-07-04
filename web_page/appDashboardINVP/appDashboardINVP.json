@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appDashboardINVP",
   "name" : "appDashboardINVP",
-  "lastUpdate" : 1687544773164,
+  "lastUpdate" : 1688427379678,
   "rows" : [
     [
       {
@@ -540,8 +540,8 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"lstFiltro\": $data.lstFiltros,\r",
-        "    \"usuario\":$data.session.user_name,\r",
+        "    \"lstFiltro\": $data.lstFiltrosAsp,\r",
+        "    \"usuario\": $data.session.user_name,\r",
         "    \"orderby\":\"ID_SESION\",\r",
         "    \"orientation\":\"DESC\",\r",
         "    \"limit\":99999,\r",
@@ -555,6 +555,13 @@
       "type" : "constant",
       "value" : [
         "principal"
+      ],
+      "exposed" : false
+    },
+    "lstFiltrosAsp" : {
+      "type" : "json",
+      "value" : [
+        "[]"
       ],
       "exposed" : false
     }

@@ -164,7 +164,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 if(idioma === "es"){
                     mensaje = "Tu examen ha concluido, si tienes dudas contacta a tu aplicador.";
                 } else {
-                    mensaje = "Your exam has finished, if you have any questions, please contact your applicator.";
+                    mensaje = "Test-finished, if you have any questions, please contact your applicator.";
                 }
             } else {
                 mensaje = _error.error;

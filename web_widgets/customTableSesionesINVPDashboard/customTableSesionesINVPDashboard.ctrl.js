@@ -55,7 +55,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.valorTotalAsp = 10;
 
     $scope.loadPaginadoAsp = function() {
-        $scope.valorTotalAsp = Math.ceil($scope.valueAsp / $scope.dataToSend.limit);
+        // $scope.valorTotalAsp = Math.ceil($scope.valueAsp / $scope.dataToSend.limit);
+        $scope.valorTotalAsp = Math.ceil($scope.valueAsp / $scope.properties.dataToSendAsp.limit);
         $scope.lstPaginadoAsp = [];
         if ($scope.valorSeleccionadoAsp <= 5) {
             $scope.iniciarPAsp = 1;
@@ -124,13 +125,33 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     function getAspirantesSesion(_idsesion){
         let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
-        $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
-        $scope.properties.dataToSendAsp.lstFiltro = [{
-            "columna":"id_sesion",
-            "valor": _idsesion + ""
-        }];
+        // $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
+
+        if($scope.properties.dataToSendAsp.lstFiltro.length > 0){
+            let encontrado = false;
+            for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
+                if(dato.columna === "id_sesion"){
+                    encontrado = true;
+                    break;
+                }
+            }
+
+            if(encontrado === false){
+                $scope.properties.dataToSendAsp.lstFiltro.push({
+                    "columna": "id_sesion",
+                    "operador": "Igual a",
+                    "valor": _idsesion + ""
+                });
+            }
+        } else {
+            $scope.properties.dataToSendAsp.lstFiltro = [{
+                "columna": "id_sesion",
+                "operador": "Igual a",
+                "valor": _idsesion + ""
+            }];
+        }
         
-        $http.post(url,$scope.properties.dataToSendAsp).success(function(_data){
+        $http.post(url, $scope.properties.dataToSendAsp).success(function(_data){
             $scope.aspirantes = _data.data;
             $scope.valueAsp = _data.totalRegistros;
             $scope.loadPaginadoAsp();
@@ -408,6 +429,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
   
         doRequest("POST", $scope.properties.urlPost);
+    }
+
+    $scope.filterKeyPressAspirantes = function(columna, press) {
+        var aplicado = true;
+        debugger;
+        for (let index = 0; index < $scope.properties.dataToSendAsp.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSendAsp.lstFiltro[index];
+            if (element.columna == columna) {
+                $scope.properties.dataToSendAsp.lstFiltro[index].valor = press;
+                $scope.properties.dataToSendAsp.lstFiltro[index].operador = "Que contengan";
+                aplicado = false;
+            }
+        }
+        if (aplicado) {
+            var obj = { "columna": columna, "operador": "Que contengan", "valor": press }
+            $scope.properties.dataToSendAsp.lstFiltro.push(obj);
+        }
+  
+        getAspirantesSesion($scope.selectedSesion.idSesion);
     }
   
     $scope.lstPaginado = [];
@@ -1001,5 +1041,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         return  output;
+    }
+
+    $scope.deleteContent = function(objContent) {
+        console.log(objContent);
+        var index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(objContent);
+
+        if(index != -1){
+            $scope.properties.dataToSendAsp.lstFiltro.splice(index, 1);
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }
     }
 }
