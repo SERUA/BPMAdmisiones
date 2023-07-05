@@ -933,10 +933,10 @@ class ListadoDAO {
 					rows.add(columns);
 				}
 				
-				resultado.setSuccess(true)
-	
+				resultado.setSuccess(true);
 				resultado.setError_info(errorlog);
-				resultado.setData(rows)
+				resultado.setError_info(where);
+				resultado.setData(rows);
 			} catch (Exception e) {
 				errorlog += " 9" + e.getMessage();
 				LOGGER.error "[ERROR] " + e.getMessage();
@@ -3154,7 +3154,13 @@ class ListadoDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			
+			if(object.isCompletadas == true) {
+				where += " WHERE SDAE.eliminado = false AND (SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante'))";
+			} else {
+				where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			}
+			
 			
 			if (object.caseId == null) {
 				if (lstGrupo.size() > 0) {
@@ -3178,14 +3184,13 @@ class ListadoDAO {
 			pstm = con.prepareStatement(Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS.replace("[WHERE]", where));
 			rs = pstm.executeQuery();
 			
-			resultado.setError_info(where);
-			
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"));
 			} else {
 				resultado.setTotalRegistros(0);
 			}
 			
+			resultado.setError_info(where);
 			resultado.setSuccess(true);
 			resultado.setData(new ArrayList<String>());
 		} catch (Exception e) {

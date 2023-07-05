@@ -258,6 +258,7 @@ function($scope, $http, blockUI) {
 
     function getDatosCierreBecas() {
         let data = {
+            "isCompletadas": true,
             "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada', 'Propuesta de financiamiento aceptada por aspirante'"
         };
         doRequest("POST", "../API/extension/AnahuacBecasRest?url=countSolicitudesDeApoyoByEstatus&p=0&c=10", {}, data, function (_data) {
@@ -291,6 +292,7 @@ function($scope, $http, blockUI) {
 
     function getDatosCierreFinanzas() {
         let data = {
+            "isCompletadas": true,
             "estatusSolicitud": "'Propuesta aceptada por aspirante', 'Propuesta financiamiento aceptada por aspirante', 'Solicitud de financiamiento autorizada', 'Propuesta de financiamiento aceptada por aspirante'"
         };
         
