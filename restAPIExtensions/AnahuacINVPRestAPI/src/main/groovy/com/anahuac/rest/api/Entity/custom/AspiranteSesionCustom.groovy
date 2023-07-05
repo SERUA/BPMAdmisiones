@@ -33,6 +33,7 @@ class AspiranteSesionCustom {
 	private Long idsesion;
 	private Integer contestadas_temp;
 	private String caseidINVP_temp;
+	private Boolean fechaValida;
 	
 	public Boolean getSesionAsignada() {
 		return sesionAsignada;
@@ -225,6 +226,12 @@ class AspiranteSesionCustom {
 	}
 	public void setCaseidINVP_temp(String caseidINVP_temp) {
 		this.caseidINVP_temp = caseidINVP_temp;
+	}
+	public Boolean getFechaValida() {
+		return fechaValida;
+	}
+	public void setFechaValida(Boolean fechaValida) {
+		this.fechaValida = fechaValida;
 	}
 	
 }

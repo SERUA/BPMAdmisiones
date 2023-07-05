@@ -519,6 +519,7 @@ class UsuariosDAO {
 		String errorLog = "";
 		SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		SimpleDateFormat formatterTime = new SimpleDateFormat("HH:mm:ss");
+		SimpleDateFormat formatterEntrada = new SimpleDateFormat("yyyy-MM-dd");
 		
 		try {
 			def jsonSlurper = new JsonSlurper();
@@ -790,6 +791,21 @@ class UsuariosDAO {
 //					Date date = new Date(rs.getTimestamp("tiempo").getTime());
 //					row.setTiempo(formatterTime.format(date));
 //				}
+				
+				if(rs.getString("fechaprueba")) {
+					Date now = new Date();
+					Date fechaprueba = formatterEntrada.parse(rs.getString("fechaprueba"));
+					long diferenciaMilisegundos = fechaprueba.getTime() - now.getTime();
+					long diferenciaDias = diferenciaMilisegundos / (24 * 60 * 60 * 1000);
+					
+					if(diferenciaDias < 3) {
+						row.setFechaValida(false);
+					} else {
+						row.setFechaValida(true);
+					}
+				} else {
+					row.setFechaValida(true);
+				}
 				
 				Object fieldValue = rs.getObject("tiempo");
 				

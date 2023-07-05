@@ -774,4 +774,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
         return (dias < 3);
     }
+    
+    $scope.refresh = function(){
+        getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
 }
