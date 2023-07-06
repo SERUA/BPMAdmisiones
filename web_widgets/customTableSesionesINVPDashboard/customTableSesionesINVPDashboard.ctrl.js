@@ -131,7 +131,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let encontrado = false;
             for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
                 if(dato.columna === "id_sesion"){
+                    debugger;
                     encontrado = true;
+                    let index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(dato);
+                    $scope.properties.dataToSendAsp.lstFiltro[index].valor = _idsesion + "";
                     break;
                 }
             }
