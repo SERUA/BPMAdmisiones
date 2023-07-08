@@ -529,6 +529,10 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Chat")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Artistica")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Deportiva")
+				if(allow){break;}
 			break;
 			case "getCatGenerico":
 				allow=bonitaRolFilter(context,"TI SERUA")
