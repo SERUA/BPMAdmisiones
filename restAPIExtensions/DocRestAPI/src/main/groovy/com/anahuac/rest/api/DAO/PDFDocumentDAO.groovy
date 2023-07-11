@@ -1386,7 +1386,7 @@ class PDFDocumentDAO {
 				columns.put("telefonoCelularMadre", desconozcoMadre ? "Se desconoce" : rs.getString("telefonocasamadre") != null ? rs.getString("telefonocasamadre") : "N/A");
 				columns.put("ingresoMensualMadre", desconozcoMadre ? "Se desconoce" : formatCurrency(rs.getString("ingresomadre")));
 				columns.put("colegiaturaAsp", formatCurrency(rs.getString("colegiatura")));
-				columns.put("porcentajeBeca", rs.getString("porcentajebeca") != null ? rs.getString("porcentajebeca") : "N/A");
+				columns.put("porcentajeBeca", rs.getString("porcentajebecaautorizacion") != null ? rs.getString("porcentajebecaautorizacion") : "N/A");
 				columns.put("porcentajeFinan", rs.getString("porcentajecreditoautorizacion") ? rs.getString("porcentajecreditoautorizacion") : "");
 				String fechaAutoriza = buildDate(rs.getString("fechaautorizacion"));
 				columns.put("fecha", fechaAutoriza);
