@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frgModalVerPrueba2",
   "name" : "frgModalVerPrueba2",
-  "lastUpdate" : 1688417614012,
+  "lastUpdate" : 1688753072674,
   "rows" : [
     [
       {
@@ -1513,6 +1513,132 @@
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "datosJson.catPais.descripcion !== 'México' || datosJson.viveContigo !== false"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "editarSec5 || datosJson.viveContigo"
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Buscar código postal"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Open modal"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "expression",
+                  "value" : "modalCodigoPostal"
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "estado" : {
+                  "type" : "variable",
+                  "value" : "datosJson.catEstado"
+                },
+                "ciudad" : {
+                  "type" : "variable",
+                  "value" : "datosJson.ciudad"
+                },
+                "municipio" : {
+                  "type" : "variable",
+                  "value" : "datosJson.delegacionMunicipio"
+                },
+                "asentamiento" : {
+                  "type" : "variable",
+                  "value" : "datosJson.colonia"
+                },
+                "estadoExtranjero" : {
+                  "type" : "variable",
+                  "value" : "datosJson.estadoExtranjero"
+                },
+                "cp" : {
+                  "type" : "variable",
+                  "value" : "cp"
+                },
+                "haveCiudad" : {
+                  "type" : "variable",
+                  "value" : "haveCiudad"
+                },
+                "seccionEditar" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "selectedIndex" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "f1f1932b-bc68-4c0b-bb78-0013ed23c609",
+              "hasValidationError" : false,
+              "id" : "customBtnCodigoPostal"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
                 "sm" : 6,
                 "md" : 6,
                 "lg" : 6
@@ -2479,6 +2605,55 @@
         ""
       ],
       "exposed" : true
+    },
+    "objSolicitudDeAdmision" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "viveMismoDomicilio" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;\r",
+        "if (!$data.datosJson.viveContigo && $data.bloquear==false) {\r",
+        "    $data.datosJson.calle = \"\";\r",
+        "    $data.datosJson.catPais = null;\r",
+        "    $data.datosJson.numeroExterior = \"\";\r",
+        "    $data.datosJson.numeroInterior = \"\";\r",
+        "    $data.datosJson.catEstado = null;\r",
+        "    $data.datosJson.ciudad = \"\";\r",
+        "    $data.datosJson.colonia = \"\";\r",
+        "    $data.datosJson.telefono = \"\";\r",
+        "    $data.datosJson.codigoPostal = \"\";\r",
+        "    $data.datosJson.delegacionMunicipio = \"\";\r",
+        "    $data.datosJson.estadoExtranjero = \"\";\r",
+        "    $data.bloquear = true;\r",
+        "  }\r",
+        "  if ($data.datosJson.viveContigo) {\r",
+        "    $data.datosJson.calle = $data.objSolicitudDeAdmision.calle;\r",
+        "    $data.datosJson.catPais = $data.objSolicitudDeAdmision.catPais;\r",
+        "    $data.datosJson.numeroExterior = $data.objSolicitudDeAdmision.numeroExterior;\r",
+        "    $data.datosJson.numeroInterior = $data.objSolicitudDeAdmision.numeroInterior;\r",
+        "    $data.datosJson.catEstado = $data.objSolicitudDeAdmision.catEstado;\r",
+        "    $data.datosJson.ciudad = $data.objSolicitudDeAdmision.ciudad;\r",
+        "    $data.datosJson.colonia = $data.objSolicitudDeAdmision.colonia;\r",
+        "    $data.datosJson.telefono = $data.objSolicitudDeAdmision.telefono;\r",
+        "    $data.datosJson.codigoPostal = $data.objSolicitudDeAdmision.codigoPostal;\r",
+        "    $data.datosJson.delegacionMunicipio = $data.objSolicitudDeAdmision.delegacionMunicipio;\r",
+        "    $data.datosJson.estadoExtranjero = $data.objSolicitudDeAdmision.estadoExtranjero;\r",
+        "    $data.bloquear=false;\r",
+        "  }"
+      ],
+      "exposed" : false
+    },
+    "bloquear" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
     }
   },
   "hasValidationError" : false,

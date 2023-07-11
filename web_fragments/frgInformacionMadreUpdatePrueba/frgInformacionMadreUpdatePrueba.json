@@ -1,0 +1,2462 @@
+{
+  "modelVersion" : "2.2",
+  "previousArtifactVersion" : "1.11.52",
+  "id" : "frgInformacionMadreUpdatePrueba",
+  "name" : "frgInformacionMadreUpdatePrueba",
+  "lastUpdate" : 1688423350781,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<label class=\"color-orange\">Información de la madre</label>"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 4"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "b7197fba-3630-40ac-8522-dbf63a0ac958",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "isMadretutor || madre.isTutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Desconozco los datos porque no convivo con ella."
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.desconozcoDatosPadres"
+          }
+        },
+        "reference" : "04536d3f-a0ac-4f2f-a03a-e5537529cbc0",
+        "hasValidationError" : false,
+        "id" : "pbCheckbox"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "madre.isTutor || madre.desconozcoDatosPadres || isMadretutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿Vive?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : "Selecciona una opción"
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catVive"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.vive"
+          }
+        },
+        "reference" : "030abe37-1ce8-4a7d-8928-92bbbc20820f",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres || isMadretutor || madre.isTutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Título:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : "Selecciona una opción"
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catTitulo"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.catTitulo"
+          }
+        },
+        "reference" : "b6cb8867-b6d9-450e-bb54-75de8ca9843e",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Nombres: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.nombre"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "56137403-57eb-4a77-84dc-6fa1d0a0a338",
+        "hasValidationError" : false,
+        "id" : "customInputMinMay"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.desconozcoDatosPadres || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Apellidos:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.apellidos"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "e9953cc2-ee4f-479c-8ba1-8f1fd1e51bee",
+        "hasValidationError" : false,
+        "id" : "customInputMinMay"
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "048fa994-b00f-4a33-9458-f53eb46af301",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvive"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿Es egresada de la Universidad Anáhuac?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catEgresoAnahuac"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.catEgresoAnahuac"
+                }
+              },
+              "reference" : "829c9547-cf14-4795-bb72-a371578451c9",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "egresoanahuac"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿De cuál campus es egresada?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catCampus"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.catCampusEgreso"
+                }
+              },
+              "reference" : "b3bdbfce-f471-402e-a74b-28dc4293945e",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvive"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 50
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Correo electrónico:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.correoElectronico"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "c707502a-2d4c-4d9a-a549-f8fb991bcfef",
+              "hasValidationError" : false,
+              "id" : "customInputLimit"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvive"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Escolaridad de la madre:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catEscolaridad"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.catEscolaridad"
+                }
+              },
+              "reference" : "2b1682c5-b0d2-4839-9d9d-2617ccf15075",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "d1b7364b-3819-46ff-9fdc-4c18c9873a82",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "isvive"
+                },
+                "disabled" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "¿Tu madre trabaja?  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "catPadreTrabaja"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.catTrabaja"
+                }
+              },
+              "reference" : "25f982f1-35d8-489e-99ec-6d5bea3f025c",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "madretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 50
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Empresa en la que trabaja:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.empresaTrabaja"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "998e4442-5854-468b-8cb3-e0330ef9f10e",
+              "hasValidationError" : false,
+              "id" : "customInputLimit"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "madretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 50
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Giro de la empresa:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.giroEmpresa"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "7fcdf39a-f107-4b97-87ae-dec66841d348",
+              "hasValidationError" : false,
+              "id" : "customInputMinMay"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "madretrabaja"
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "minLength" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "maxLength" : {
+                  "type" : "constant",
+                  "value" : 50
+                },
+                "readOnly" : {
+                  "type" : "expression",
+                  "value" : "isMadretutor || madre.isTutor"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Puesto:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "madre.puesto"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "text"
+                },
+                "min" : {
+                  "type" : "constant"
+                },
+                "max" : {
+                  "type" : "constant"
+                },
+                "step" : {
+                  "type" : "constant",
+                  "value" : 1
+                }
+              },
+              "reference" : "dd413490-2cdf-4e8d-90d1-3947d5d80c75",
+              "hasValidationError" : false,
+              "id" : "customInputMinMay"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Domicilio permanente de la madre"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 4"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "5e0cb229-c842-461f-a7d2-02856e1e04b1",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "isMadretutor || madre.isTutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "¿Tu madre vive en el mismo domicilio que tú?"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.viveContigo"
+          }
+        },
+        "reference" : "c78eade1-c926-48df-a546-5fff31473d28",
+        "hasValidationError" : false,
+        "id" : "pbCheckbox"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "País:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : "Selecciona una opción"
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catPais"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.catPais"
+          },
+          "madre" : {
+            "type" : "variable",
+            "value" : "madre"
+          },
+          "datosCP" : {
+            "type" : "variable",
+            "value" : "cp"
+          },
+          "haveCiudad" : {
+            "type" : "variable",
+            "value" : "haveCiudad"
+          }
+        },
+        "reference" : "0ab14161-af22-427b-b6e4-b31e3fb427b3",
+        "hasValidationError" : false,
+        "id" : "customSelectChangeValueMadreUpdate"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion !== 'México'"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 5
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Código postal:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.codigoPostal"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "2dc6312e-f6e4-4d8b-afe5-516fd448da4f",
+        "hasValidationError" : false,
+        "id" : "customInputNumerico"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion === 'México'"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Código postal:"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.codigoPostal"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "908595ff-faac-465e-b549-42a69c4ad19f",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "madre.catPais.descripcion !== 'México'"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Buscar código postal"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "right"
+          },
+          "buttonStyle" : {
+            "type" : "constant",
+            "value" : "primary"
+          },
+          "action" : {
+            "type" : "constant",
+            "value" : "Open modal"
+          },
+          "assign" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "url" : {
+            "type" : "interpolation"
+          },
+          "responseStatusCode" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "dataToSend" : {
+            "type" : "constant"
+          },
+          "dataFromSuccess" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "closeOnSuccess" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "dataFromError" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "targetUrlOnSuccess" : {
+            "type" : "interpolation"
+          },
+          "collectionToModify" : {
+            "type" : "variable"
+          },
+          "modalId" : {
+            "type" : "expression",
+            "value" : "modalCodigoPostal"
+          },
+          "collectionPosition" : {
+            "type" : "constant",
+            "value" : "Last"
+          },
+          "valueToAdd" : {
+            "type" : "constant"
+          },
+          "removeItem" : {
+            "type" : "variable"
+          },
+          "estado" : {
+            "type" : "variable",
+            "value" : "madre.catEstado"
+          },
+          "ciudad" : {
+            "type" : "variable",
+            "value" : "madre.ciudad"
+          },
+          "municipio" : {
+            "type" : "variable",
+            "value" : "madre.delegacionMunicipio"
+          },
+          "asentamiento" : {
+            "type" : "variable",
+            "value" : "madre.colonia"
+          },
+          "estadoExtranjero" : {
+            "type" : "variable",
+            "value" : "madre.estadoExtranjero"
+          },
+          "cp" : {
+            "type" : "variable",
+            "value" : "cp"
+          },
+          "haveCiudad" : {
+            "type" : "variable",
+            "value" : "haveCiudad"
+          }
+        },
+        "reference" : "2bfc34f6-22a3-4957-9ba5-621adb8a6a18",
+        "hasValidationError" : false,
+        "id" : "customBtnCodigoPostal"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion !== 'México'"
+          },
+          "disabled" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.catPais.descripcion === 'México' || madre.isTutor"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Estado:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation",
+            "value" : "Selecciona una opción"
+          },
+          "availableValues" : {
+            "type" : "expression",
+            "value" : "catEstado"
+          },
+          "displayedKey" : {
+            "type" : "constant",
+            "value" : "descripcion"
+          },
+          "returnedKey" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.catEstado"
+          }
+        },
+        "reference" : "81da4849-72cf-4221-b060-3af09176d863",
+        "hasValidationError" : false,
+        "id" : "pbSelect"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion === 'México'"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Estado:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.estadoExtranjero"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "e932d24f-91a2-4d49-85f6-252483a087fc",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || haveCiudad || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Ciudad:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.ciudad"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "e6590d54-6867-4637-a82f-e9f552349060",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.catPais.descripcion === 'México' || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Ciudad/Municipio/Delegación/Poblado: <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.delegacionMunicipio"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "ebe58900-fb2d-49aa-bd2c-ce2f57703aa3",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.catPais.descripcion === 'México' || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Colonia:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.colonia"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "9a151772-6d60-4b15-b21e-ebc2bafc461a",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Calle:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.calle"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "ad61cb40-0a58-4864-a2dc-cd511677e61e",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Núm. Exterior:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.numeroExterior"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "cb8a28a3-9240-447e-ba18-62d1b55150f3",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 50
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "madre.viveContigo || isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Núm. Interior:"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.numeroInterior"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "0e263e5c-5919-41c0-a0f2-2de38e33f954",
+        "hasValidationError" : false,
+        "id" : "customInputLimit"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion !== 'México'"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 10
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Teléfono:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.telefono"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "08d395ce-d662-4ed8-b383-0ac14f719f90",
+        "hasValidationError" : false,
+        "id" : "customInputNumerico"
+      },
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 6,
+          "md" : 6,
+          "lg" : 6
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isvive || madre.catPais.descripcion === 'México'"
+          },
+          "required" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "minLength" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "maxLength" : {
+            "type" : "constant",
+            "value" : 14
+          },
+          "readOnly" : {
+            "type" : "expression",
+            "value" : "isMadretutor || madre.isTutor"
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Teléfono:  <span class=\"glyphicon glyphicon-asterisk color-orange\"></span>"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "placeholder" : {
+            "type" : "interpolation"
+          },
+          "value" : {
+            "type" : "variable",
+            "value" : "madre.telefono"
+          },
+          "type" : {
+            "type" : "constant",
+            "value" : "text"
+          },
+          "min" : {
+            "type" : "constant"
+          },
+          "max" : {
+            "type" : "constant"
+          },
+          "step" : {
+            "type" : "constant",
+            "value" : 1
+          }
+        },
+        "reference" : "2f741c05-c5b9-4458-838e-83224f27078b",
+        "hasValidationError" : false,
+        "id" : "customInputNumerico"
+      }
+    ]
+  ],
+  "assets" : [ ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "catVive" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catTitulo" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEscolaridad" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPadreTrabaja" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEgresoAnahuac" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catEstado" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catPais" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "catCampus" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "egresoanahuac" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catEgresoAnahuac.length; x++) {\r",
+        "    if ($data.madre.catEgresoAnahuac === undefined) {\r",
+        "        mostrar = true;\r",
+        "        $data.anahuac = false;\r",
+        "    } else {\r",
+        "        if ($data.catEgresoAnahuac[x].persistenceId === $data.madre.catEgresoAnahuac.persistenceId) {\r",
+        "            if ($data.catEgresoAnahuac[x].descripcion === \"Si\" || $data.catEgresoAnahuac[x].descripcion === \"SI\" || $data.catEgresoAnahuac[x].descripcion === \"Sí\") {\r",
+        "                mostrar = false;\r",
+        "                $data.anahuac = true;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "                $data.anahuac = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "isvive" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "\r",
+        "for (var x = 0; x < $data.catVive.length; x++) {\r",
+        "    if ($data.madre.vive === undefined || $data.madre.vive === null) {\r",
+        "        $data.egresoanahuac = true;\r",
+        "        $data.madretrabaja = true;\r",
+        "        mostrar = true;\r",
+        "        $data.vive = false;\r",
+        "    } else {\r",
+        "        if ($data.catVive[x].persistenceId === $data.madre.vive.persistenceId) {\r",
+        "            if ($data.catVive[x].descripcion === \"Si\" || $data.catVive[x].descripcion === \"SI\" || $data.catVive[x].descripcion === \"Sí\") {\r",
+        "                mostrar = false;\r",
+        "                $data.vive = true;\r",
+        "            } else {\r",
+        "                $data.egresoanahuac = true;\r",
+        "                $data.madretrabaja = true;\r",
+        "                mostrar = true;\r",
+        "                $data.vive = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}    \r",
+        "\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "madretrabaja" : {
+      "type" : "expression",
+      "value" : [
+        "var mostrar = true;\r",
+        "for (var x = 0; x < $data.catPadreTrabaja.length; x++) {\r",
+        "    if ($data.madre.catTrabaja === undefined) {\r",
+        "        mostrar = true;\r",
+        "        $data.trabaja = false;\r",
+        "    } else {\r",
+        "        if ($data.catPadreTrabaja[x].persistenceId === $data.madre.catTrabaja.persistenceId) {\r",
+        "            if ($data.catPadreTrabaja[x].descripcion === \"Si\" || $data.catPadreTrabaja[x].descripcion === \"Sí\") {\r",
+        "                mostrar = false;\r",
+        "                $data.trabaja = true;\r",
+        "            } else {\r",
+        "                mostrar = true;\r",
+        "                $data.trabaja = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "return mostrar;"
+      ],
+      "exposed" : false
+    },
+    "vive" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "trabaja" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "anahuac" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "isMadretutor" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "desconozcoDatos" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.madre.desconozcoDatosPadres){",
+        "  $data.madre = {",
+        "    \"catTitulo\" : null,",
+        "    \"nombre\" : \"\",",
+        "    \"apellidos\" : \"\",",
+        "    \"correoElectronico\" : \"\",",
+        "    \"catEscolaridad\" : null,",
+        "    \"catEgresoAnahuac\" : null,",
+        "    \"catCampusEgreso\" : null,",
+        "    \"catTrabaja\" : null,",
+        "    \"empresaTrabaja\" : \"\",",
+        "    \"giroEmpresa\" : \"\",",
+        "    \"puesto\" : \"\",",
+        "    \"isTutor\" : false,",
+        "    \"vive\" : null,",
+        "    \"calle\" : \"\",",
+        "    \"catPais\" : null,",
+        "    \"numeroExterior\" : \"\",",
+        "    \"numeroInterior\" : \"\",",
+        "    \"catEstado\" : null,",
+        "    \"ciudad\" : \"\",",
+        "    \"colonia\" : \"\",",
+        "    \"telefono\" : \"\",",
+        "    \"codigoPostal\" : \"\",",
+        "    \"viveContigo\" : false,",
+        "    \"desconozcoDatosPadres\" : true,",
+        "    \"delegacionMunicipio\" : \"\",",
+        "    \"estadoExtranjero\" : \"\"",
+        "  }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "urlCodigoPostal" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "objResponseCP" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "objResponseCPError" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "modalCodigoPostal" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "cp" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "haveCiudad" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "madre" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "codigopostalmadre" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "lengtcodigo" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.madre.codigoPostal>=5){",
+        "    $data.codigopostalmadre = $data.madre.codigoPostal;",
+        "}"
+      ],
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "type" : "fragment"
+}

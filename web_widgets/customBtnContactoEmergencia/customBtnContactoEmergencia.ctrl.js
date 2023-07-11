@@ -1,10 +1,15 @@
 function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+    
 
   'use strict';
 
   var vm = this;
 
   this.action = function action() {
+
+    debugger;
+    $scope.properties.objTutor;
+      
     if ($scope.properties.action === 'Remove from collection') {
       removeFromCollection();
       closeModal($scope.properties.closeOnSuccess);

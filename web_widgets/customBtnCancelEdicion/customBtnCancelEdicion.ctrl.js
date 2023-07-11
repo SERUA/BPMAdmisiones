@@ -5,6 +5,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
   var vm = this;
 
   this.action = function action() {
+      debugger;
+      
+      $scope.properties.actualizar = true;
+      
       if($scope.properties.editarSec1 == false){
         $scope.properties.editarSec1 = true;
         
