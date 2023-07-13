@@ -1043,4 +1043,41 @@ class LoginSesionesDAO {
 		
 		return resultado;
 	}
+	
+	public Result checkInstance(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Long> rows = new ArrayList<Long>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_SESION_INICIADA_ASP);
+			pstm.setString(1, object.username);
+			pstm.setLong(2, Long.valueOf(object.idsesion));
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				throw new Exception("sesion_iniciada_otro");
+			}
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }

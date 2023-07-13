@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1688673272035,
+  "lastUpdate" : 1689207372467,
   "rows" : [
     [
       {
@@ -540,8 +540,8 @@
                         "value" : "text-center"
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "examenComenzado !== true"
                       },
                       "text" : {
                         "type" : "interpolation",
@@ -617,8 +617,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "examenComenzado !== true"
                       },
                       "disabled" : {
                         "type" : "expression",
@@ -1253,8 +1253,8 @@
                         "value" : "text-center"
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "examenComenzado !== true"
                       },
                       "text" : {
                         "type" : "interpolation",
@@ -1330,8 +1330,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "examenComenzado !== true"
                       },
                       "disabled" : {
                         "type" : "expression",
@@ -1474,6 +1474,10 @@
           "showForm" : {
             "type" : "variable",
             "value" : "showForm"
+          },
+          "examenIniciado" : {
+            "type" : "variable",
+            "value" : "examenIniciado"
           }
         },
         "reference" : "1b2efe6f-f507-4fbf-9d48-8878edce1c39",
@@ -1761,6 +1765,49 @@
     },
     "showForm" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "examenIniciado" : {
+      "type" : "constant",
+      "value" : [
+        "false"
+      ],
+      "exposed" : false
+    },
+    "examenComenzado" : {
+      "type" : "expression",
+      "value" : [
+        "let output = true;",
+        "",
+        "if($data.objetoSesion !== null){",
+        "    let sesion = angular.copy($data.objetoSesion);",
+        "    if(sesion.entrada){",
+        "        output = compararFechas(sesion.aplicacion + \" \" + sesion.entrada);",
+        "    } else if (sesion.entrada_temp){",
+        "        output = compararFechas(sesion.aplicacion_temp + \" \" + sesion.entrada_temp);",
+        "    }",
+        "}",
+        "",
+        "return output;",
+        "",
+        "function compararFechas(_fecha){",
+        "    var partes = _fecha.split(/\\/|\\s|:/);",
+        "    var fechaInicio = new Date(partes[2], (partes[1] - 1), partes[0], partes[3], partes[4]);",
+        "    var fechaActualCDMX = new Date().toLocaleString(\"es-MX\", { timeZone: \"America/Mexico_City\" });",
+        "    var partes2 = fechaActualCDMX.split(/[/,:\\s]/);",
+        "    let fecham = partes2[2] + \"/\" + (partes2[1] - 1) + \"/\" + partes2[0] + \" \" + partes2[4] + \":\" + partes2[5] + \":\" + partes2[6];",
+        "    var fechaActual = new Date(partes2[2], (partes2[1] - 1), partes2[0], partes2[4], partes2[5], partes2[6]);",
+        "    ",
+        "    console.log(\"Fecha actual en CDMX: \" + fechaActual);",
+        "    console.log(\"Fecha inicio: \" + fechaInicio);",
+        "",
+        "    if (fechaActual.getTime() > fechaInicio.getTime()) {",
+        "        return true;",
+        "    } else {",
+        "        return false;",
+        "    }",
+        "}"
+      ],
       "exposed" : false
     }
   },

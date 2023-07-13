@@ -13,7 +13,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
-            startProcess();
+            // startProcess();
+            checkInstance();
             // checkTolerancia($scope.properties.userData.user_name);
         } else if ($scope.properties.action === 'Submit task') {
             submitTask();
@@ -118,6 +119,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
     }
 
+    function checkInstance(){
+        $http.post("../API/extension/AnahuacINVPRestAPI?url=checkInstance&p=0&c=10", $scope.properties.dataToSend.instanciaINVPInput).success(function(data){
+            startProcess();
+        }).error(function(){
+            swal("Error", "La prueba ya se ha iniciado desde otro equipo. ", "error");
+        });
+    }
+
     function startProcess() {
         var prom = doRequest('POST', '../API/extension/AnahuacINVPRestAPI?url=instantiation&p=0&c=10', getUserParam()).then(function() {
 
@@ -131,6 +140,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      */
     function doRequest(method, url, params) {
         vm.busy = true;
+        debugger;
         var req = {
             method: method,
             url: url,
@@ -256,7 +266,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function insertterminado() {
         vm.busy = true;
-        debugger;
         var data = {
             "terminado": false,
             "username": $scope.properties.userData.user_name, 

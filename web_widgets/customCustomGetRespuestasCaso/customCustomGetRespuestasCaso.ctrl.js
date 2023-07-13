@@ -39,6 +39,7 @@ function ($scope, $http) {
             } else {
                 $scope.properties.showForm = true;
             }
+            
         }).error(function(_error){
             Swal.fire({
                 title: '<strong>Atención</strong>',

@@ -172,5 +172,7 @@ class Statements {
 	public static final String GET_LAST_CASEID_BY_USERNAME = "SELECT * FROM instanciainvp WHERE username =  ? ORDER BY CASEID DESC LIMIT 1";
 	
 	public static final String INSERT_sesionaspirante="INSERT INTO sesionaspirante (persistenceid,persistenceversion,username,sesiones_pid,responsabledisponible_pid,caseid) VALUES ( case when (SELECT max(persistenceId)+1 from sesionaspirante ) is null then 1 else (SELECT max(persistenceId)+1 from sesionaspirante) end,0,?,?,?,?)"
+	
+	public static final String GET_SESION_INICIADA_ASP = "SELECT * FROM InstanciaINVP WHERE username = ? AND idsesion = ?";
 		
 }
