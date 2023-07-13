@@ -132,7 +132,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else if(_error.error.includes("sesion_no_iniciada")){
                 let date = _error.error.split("|")[1];
                 if(idioma === "es"){
-                    mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + ", para mas información contacta a tu aplicador.</p>" ;
+                    mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + ", para más información contacta a tu aplicador.</p>" ;
                 } else {
                     mensaje = "<p style='text-align: justify;'>There is no active session for this user. You are scheduled for " + date + ". For further information, please contact your facilitator.</p>";
                 }
