@@ -1309,7 +1309,7 @@ class PDFDocumentDAO {
 						columns.put("correoElectronicoPadre", rs.getString("correoelectronico"));
 						columns.put("ocupacionPadre", rs.getString("titulo"));
 						columns.put("telefonoCasaPadre", rs.getString("telefono"));
-						columns.put("vivePadre", rs.getString("vive"));
+						columns.put("vivePadre", rs.getString("vive") != null ? rs.getString("vive") : (rs.getBoolean("istutor") ? "Si" : "No"));
 						columns.put("empresaPadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
 						columns.put("puestoPadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
 					}
@@ -1329,7 +1329,7 @@ class PDFDocumentDAO {
 						columns.put("correoElectronicoMadre", rs.getString("correoelectronico"));
 						columns.put("ocupacionMadre", rs.getString("titulo"));
 						columns.put("telefonoCasaMadre", rs.getString("telefono"));
-						columns.put("viveMadre", rs.getString("vive"));
+						columns.put("viveMadre", rs.getString("vive") != null ? rs.getString("vive") : (rs.getBoolean("istutor") ? "Si" : "No"));
 						columns.put("empresaMadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
 						columns.put("puestoMadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
 					}
@@ -1409,7 +1409,7 @@ class PDFDocumentDAO {
 				bienRaiz.put("descripcion", rs.getString("descripcion"));
 				bienRaiz.put("direccionbanco", rs.getString("direccionbanco"));
 				bienRaiz.put("valor", formatCurrency(rs.getString("valor")));
-				bienRaiz.put("tipo", rs.getString("tipo"));
+				bienRaiz.put("tipo", rs.getString("tipo") != null ? rs.getString("tipo") : "");
 				lstBienesRaices.add(bienRaiz);
 			}
 			
