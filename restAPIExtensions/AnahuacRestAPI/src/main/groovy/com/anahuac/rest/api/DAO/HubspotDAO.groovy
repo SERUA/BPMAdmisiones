@@ -1,7 +1,6 @@
 
 package com.anahuac.rest.api.DAO
 
-import java.lang.reflect.Field
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -3107,6 +3106,7 @@ class HubspotDAO {
 	        Result resultado = new Result();
 	        Result resultadoApiKey = new Result();
 	        Boolean closeCon = false;
+//	        List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
 	        List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
 	        List<String> lstValueProperties = new ArrayList<String>();
 	        Map<String, String> objHubSpotData = new HashMap<String, String>();
@@ -3138,12 +3138,14 @@ class HubspotDAO {
 					Map < String, Object > map = new LinkedHashMap < String, Object > ();
 					map = (Map < String, Object >) resultBEcas.getData().get(0);
 					objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get(map.get("estatussolicitud")));
+//					
 					
 					calendar.setTime(dfPropuesta.parse(map.get("fechaultimamodificacion")));
 					TimeZone timeZone = TimeZone.getTimeZone("UTC");
 					calendar.setTimeZone(timeZone);
 					Date ultimaMod = new Date();
 					objHubSpotData.put("fecha_de_actualizacion_becas_bpm", df.format(ultimaMod));
+					
 					
 					if(etapaProceso.equals("solicitud") || etapaProceso.equals("modificacion")) {
 						objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca")+"%");
@@ -3178,19 +3180,8 @@ class HubspotDAO {
 					}
 						
 					if(etapaProceso.equals("pago")) {
-						ConektaDAO cDAO = new ConektaDAO();
-						String jsonString = "{\"order_id\" : \"[ORDER]\", \"campus_id\" : \"[CAMPUS]\" }";
-						jsonString = jsonString.replace("[CAMPUS]", map.get("id_campus"));
-						jsonString = jsonString.replace("[ORDER]", map.get("orden_pago"));
-						Result resultConekta =  cDAO.getOrderDetails(0, 1, jsonString, context);
-						if(resultConekta.isSuccess() == false) {
-							throw new Exception(resultConekta.getError_info());
-						}
-						
-						Map<String, String> res = (Map<String, String>) resultConekta.getData().get(0);
-						
-						objHubSpotData.put("monto_pago_estudio_bpm", res.get("amount"));
-						objHubSpotData.put("fecha_pago_estudio_bpm", res.get("createdAtDate") + " " + res.get("createdAtTime"));
+//						objHubSpotData.put("monto_pago_estudio_bpm", map.get(""));//404
+						objHubSpotData.put("fecha_pago_estudio_bpm", df.format(new Date()));//404
 					}
 					
 					if(etapaProceso.equals("autor")) {
@@ -3234,14 +3225,15 @@ class HubspotDAO {
 					
 					if(etapaProceso.equals("propuesta")) {
 						objHubSpotData.put("acepto_financiamiento_en_solicitud_de_beca_", object.aceptapropuesta == true ? "Si": "No");
-					}
+					}				
 					
 					resultado = createOrUpdateHubspotBecas(email, apikeyHubspot, objHubSpotData);
 				} 
 	
-	            resultado.setError_info(strError + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            
 	        } catch (Exception e) {
-	            resultado.setError_info(strError + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	            resultado.setSuccess(false);
 	            resultado.setError(e.getMessage());
 	            e.printStackTrace();
@@ -3269,6 +3261,10 @@ class HubspotDAO {
 		  JSONArray jsonList = new JSONArray();
 		  
 		  try {
+			  strError = strError + ", INICIO";
+			  strError = strError + "| ==============================================";
+			  //strError = strError + "| apikeyHubspot: "+apikeyHubspot;
+			  strError = strError + "| ==============================================";
 			  Iterator it = objHubSpotData.entrySet().iterator();
 			  while (it.hasNext()) {
 				  Map.Entry pair = (Map.Entry)it.next();
@@ -3317,5 +3313,6 @@ class HubspotDAO {
 		  return resultado
 		  //"<br>" +
 	  }
+  
 }
 

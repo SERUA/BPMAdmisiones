@@ -701,6 +701,18 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"Finanzas")
 				if(allow){break;}
 				break;
+			case "getExcelFileBandejaMaestra":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				break;
 		}
 		return allow;
 	}
