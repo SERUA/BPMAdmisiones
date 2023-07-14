@@ -273,7 +273,7 @@ class ListadoDAO {
 							}
 							where = where.replace("[valor]", filtro.get("valor"))
 							
-							where += " AND LOWER(CASE SDA.aceptado WHEN 't' THEN 'aceptado' WHEN 'f' THEN 'rechazado' ELSE 'en proceso de admisión' END) LIKE LOWER('%[valor]%') )";
+							where += " OR LOWER(CASE SDA.aceptado WHEN 't' THEN 'aceptado' WHEN 'f' THEN 'rechazado' ELSE 'en proceso de admisión' END) LIKE LOWER('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						case "P-BECA":
