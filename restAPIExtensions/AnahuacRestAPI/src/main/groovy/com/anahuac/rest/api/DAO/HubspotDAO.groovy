@@ -81,6 +81,7 @@ class HubspotDAO {
         put("Rechazado por comité","En espera de resultados");}};
 	
 	Map<String,String> estatusMapBecas = new HashMap<String, String>() {{
+		put("Solicitud de apoyo en progreso", "Inició su solicitud de beca");
 		put("Esperando Pre-Autorización", "Envió aspirante solicitud beca");
 		put("Correcciones realizadas", "Envió aspirante solicitud beca");
 		put("En espera de resultado", "Solicitud de beca validada");
