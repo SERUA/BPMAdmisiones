@@ -1973,27 +1973,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						errorlog += "| Variable15.3"
 						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
 					}
-					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
-					
-					if(!ordenpago.equals("")) {
-						errorlog += "| campusid"
-						pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE)
-						pstm.setString(1, object.campus)
-						rs = pstm.executeQuery()
-						if(rs.next()) {
-							
-							campus_id = rs.getString("campus_id")==null?"": rs.getString("campus_id")
-							errorlog += "| se obtuvo el campusid"+campus_id
-							resultado = new ConektaDAO().getOrderDetails(0, 999, "{\"order_id\":\""+ordenpago+"\", \"campus_id\":\""+campus_id+"\"}", context)
-							errorlog += "| se va castear map string string por data"
-							Map<String, String> conektaData =(Map<String, String>) resultado.getData().get(0)
-							errorlog += "| casteo exitoso"
-							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
-							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
-							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
-						}
-						
-					}
 					
 				}
 			} catch(Exception ex) {
@@ -2005,11 +1984,19 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				
 			}
 			
-			errorlog += "| Variable8.5 DataUsuarioAdmision"
-			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog,object.isEnviar);
-			errorlog += "| Variable8.6 DataUsuarioRegistro"
-			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
-
+//			errorlog += "| Variable8.5 DataUsuarioAdmision"
+//			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog,object.isEnviar);
+//			errorlog += "| Variable8.6 DataUsuarioRegistro"
+//			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
+			
+			if(!object.correoAspirante.equals("") && object.correoAspirante != null) {
+				plantilla = DataUsuarioAdmision(plantilla, context, object.correoAspirante, cn, errorlog, object.isEnviar);
+				plantilla = DataUsuarioRegistro(plantilla, context, object.correoAspirante, cn, errorlog);
+			} else {
+				plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar);
+				plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
+			}
+			
 			String tablaPasos=""
 			String plantillaPasos="<tr> <td class= \"col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center aling-middle backgroundOrange color-index number-table \"> [numero]</td> <td class= \"col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center aling-middle backgroundDGray \"> <div class= \"row \"> <div class= \"col-12 form-group color-titulo \"> <img src= \"[imagen] \"> </div> <div class= \"col-12 color-index sub-img \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [titulo] </div> </div> </td> <td class= \"col-xs-7 col-sm-7 col-md-7 col-lg-7 col-7 text-justify aling-middle backgroundLGray \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [descripcion] </td> </tr>"
 			
@@ -2059,8 +2046,9 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			
 			encoded=""
 			
-			if(object.codigo.equals("examenentrevista")) {
-				
+			if(object.codigo.equals("invp-notificacion-de-activacion")) {
+				//TO-DO
+				plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + object.correo + "");
 			} 
 			
 			try {
