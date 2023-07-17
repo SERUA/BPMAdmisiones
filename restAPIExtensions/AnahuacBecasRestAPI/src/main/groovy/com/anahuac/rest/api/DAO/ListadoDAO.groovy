@@ -198,7 +198,8 @@ class ListadoDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " (LOWER(SDAE.fechaultimamodificacion) ";
+							
+							where += " (LOWER(to_char(SDAE.fechaUltimaModificacion::timestamp, 'DD/MM/YYYY HH24:MI')) ";
 							if (filtro.get("operador").equals("Igual a")) {
 								where += "=LOWER('[valor]')"
 							} else {
@@ -264,12 +265,15 @@ class ListadoDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " LOWER(SDAE.estatusSolicitud) ";
+							where += " (LOWER(SDAE.estatusSolicitud) ";
 							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
+								where += "= LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
 							} else {
-								where += "LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
+								where += " LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
 							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							
+							where += " OR LOWER(CASE SDA.aceptado WHEN 't' THEN 'aceptado' WHEN 'f' THEN 'rechazado' ELSE 'en proceso de admisión' END) LIKE LOWER('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						case "P-BECA":
@@ -515,52 +519,50 @@ class ListadoDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE SDAE.eliminado = false "
-			
-			
+			where += " WHERE SDAE.eliminado = false ";
 			
 			if(object.isCompletadas == true) {
 				if (object.estatusSolicitud != null) {
-					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') ) "
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante') ) ";
 				}
 			} else {
 				if (object.estatusSolicitud != null) {
-					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") ) "
+					where += " AND (SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") ) ";
 				}
 			}
 			
 			if (object.caseId != null) {
-				where += " AND SDAE.caseId = "+object.caseId +" "
+				where += " AND SDAE.caseId = " + object.caseId + " ";
 			}
 			
 			if (object.caseId == null) {
 				if (lstGrupo.size() > 0) {
-					where += " AND ("
+					where += " AND (";
 				}
+				
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
-					where += "campus.descripcion='" + campusMiembro + "'"
+					where += "campus.descripcion='" + campusMiembro + "'";
 					if (i == (lstGrupo.size() - 1)) {
-						where += ") "
+						where += ") ";
 					} else {
-						where += " OR "
+						where += " OR ";
 					}
 				}
 			}
-
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 
 			String SSA = "";
-			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
 			rs = pstm.executeQuery();
 			if (rs.next()) {
-				SSA = rs.getString("valor")
+				SSA = rs.getString("valor");
 			}
 
-			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS
-			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS
+			String consulta = Statements.GET_SOLICITUDES_APOYO_BY_ESTATUS;
+			String consultaCount = Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS;
 
 			errorlog = consulta + " 2";
 			
@@ -616,7 +618,6 @@ class ListadoDAO {
 							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "CAMPUS":
 							errorlog += "CAMPUS"
 							where += " AND LOWER(campus.DESCRIPCION) ";
@@ -627,7 +628,6 @@ class ListadoDAO {
 							}
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "ULTIMA MODIFICACION":
 							errorlog += "FECHAULTIMAMODIFICACION"
 							if (where.contains("WHERE")) {
@@ -937,10 +937,10 @@ class ListadoDAO {
 					rows.add(columns);
 				}
 				
-				resultado.setSuccess(true)
-	
+				resultado.setSuccess(true);
 				resultado.setError_info(errorlog);
-				resultado.setData(rows)
+				resultado.setError_info(where);
+				resultado.setData(rows);
 			} catch (Exception e) {
 				errorlog += " 9" + e.getMessage();
 				LOGGER.error "[ERROR] " + e.getMessage();
@@ -3061,7 +3061,7 @@ class ListadoDAO {
             cell12.setCellValue(lstParams[i].porcentajebecaautorizacion == null ? "N/A" : lstParams[i].porcentajebecaautorizacion + (lstParams[i].porcentajebecaautorizacion.equals("N/A") ? "" : "%"));
             if ("1".equals(buttonSource)) {
                 Cell cell13 = row.createCell(12);
-                def porcentaje = lstParams[i].porcentajefinaautorizacion.toDouble()
+                def porcentaje = lstParams[i].porcentajefinaautorizacion != null ? lstParams[i].porcentajefinaautorizacion.toDouble() : 0.0
 
 				if (porcentaje && porcentaje > 0) {
 					cell13.setCellValue(porcentaje)
@@ -3158,7 +3158,13 @@ class ListadoDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			
+			if(object.isCompletadas == true) {
+				where += " WHERE SDAE.eliminado = false AND (SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") OR (SDAE.estatusSolicitud = 'Solicitud de Financiamiento en Proceso' AND SF.estatusSolicitud = 'Propuesta de financiamiento aceptada por aspirante'))";
+			} else {
+				where += " WHERE SDAE.eliminado = false AND SDAE.estatusSolicitud IN (" + object.estatusSolicitud + ") ";
+			}
+			
 			
 			if (object.caseId == null) {
 				if (lstGrupo.size() > 0) {
@@ -3180,15 +3186,15 @@ class ListadoDAO {
 			
 			Map <String, Object> row = new HashMap <String, Object>();
 			pstm = con.prepareStatement(Statements.GET_COUNT_SOLICITUDES_APOYO_BY_ESTATUS.replace("[WHERE]", where));
-			
 			rs = pstm.executeQuery();
-
+			
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"));
 			} else {
 				resultado.setTotalRegistros(0);
 			}
 			
+			resultado.setError_info(where);
 			resultado.setSuccess(true);
 			resultado.setData(new ArrayList<String>());
 		} catch (Exception e) {
@@ -3242,4 +3248,200 @@ class ListadoDAO {
 
 		return resultado;
 	} 
+	public Result getExcelFileBandejaMaestra(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+	
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = selectBandejaMaestra(parameterP, parameterC, jsonData, context);
+			resultado = dataResult;
+	
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+	
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontró datos");
+			}
+	
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue(title);
+	
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String sDate = formatter.format(date);
+	
+			Row blank = sheet.createRow(++rowCount);
+			Cell cellusuario = blank.createCell(4);
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = blank.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("ID Banner");
+			header1.setCellStyle(style);
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("ID BPM");
+			header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Nombre");
+			header3.setCellStyle(style);
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("Email");
+			header4.setCellStyle(style);
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("CURP");
+			header5.setCellStyle(style);
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Programa");
+			header6.setCellStyle(style);
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Período de ingreso");
+			header7.setCellStyle(style);
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Campus ingreso");
+			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Tipo Beca");
+			header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Promedio Admisiones");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(10);
+			header11.setCellValue("Promedio Actualizado");
+			header11.setCellStyle(style);
+			Cell header12 = headersRow.createCell(11);
+			header12.setCellValue("Estatus SDAE");
+			header12.setCellStyle(style);
+			Cell header13 = headersRow.createCell(12);
+			header13.setCellValue("Estatus Admisión");
+			header13.setCellStyle(style);
+			Cell header14 = headersRow.createCell(13);
+			header14.setCellValue("Asignado a");
+			header14.setCellStyle(style);
+			Cell header15 = headersRow.createCell(14);
+			header15.setCellValue("Fecha de creación de la solicitud");
+			header15.setCellStyle(style);
+			Cell header16 = headersRow.createCell(15);
+			header16.setCellValue("Última modificación");
+			header16.setCellStyle(style);
+	
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd");
+			DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+	
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams.get(i).idbanner);
+				Cell cell2 = row.createCell(1);
+				cell2.setCellValue(lstParams.get(i).caseid);
+				String nombre = lstParams.get(i).apellidopaterno + " " + lstParams.get(i).apellidomaterno + " " + lstParams.get(i).primernombre + " " + lstParams.get(i).segundonombre;
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(nombre);
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams.get(i).correoelectronico);
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams.get(i).curp);
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue(lstParams.get(i).licenciatura);
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue(lstParams.get(i).ingreso);
+				Cell cell8 = row.createCell(7);
+				cell8.setCellValue(lstParams.get(i).campussede);
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams.get(i).tipoapoyo);
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams.get(i).promediogeneral);
+				Cell cell11 = row.createCell(10);
+				cell11.setCellValue(lstParams.get(i).nuevopromedioprepa != null ? lstParams.get(i).nuevopromedioprepa : "N/A");
+				Cell cell12 = row.createCell(11);
+				cell12.setCellValue(lstParams.get(i).estatussolicitud);
+				Cell cell13 = row.createCell(12);
+				cell13.setCellValue(lstParams.get(i).aceptado);
+				Cell cell14 = row.createCell(13);
+				String estatus = lstParams.get(i).estatussolicitud.trim();
+	
+				if (estatus.equalsIgnoreCase("Esperando Pre-Autorización") || estatus.equalsIgnoreCase("En espera de resultado") || estatus.equalsIgnoreCase("Correcciones realizadas")) {
+					cell14.setCellValue("Pre-Autorización");
+				} else if (estatus.equalsIgnoreCase("Esperando revisión área artistica")) {
+					cell14.setCellValue("Pre-Autorización");
+				} else if (estatus.equalsIgnoreCase("Esperando revisión área deportiva")) {
+					cell14.setCellValue("Pre-Autorización");
+				} else if (estatus.equalsIgnoreCase("En espera de autorización")) {
+					cell14.setCellValue("Comité de becas");
+				} else if (estatus.equalsIgnoreCase("Solicitud Rechazada")) {
+					cell14.setCellValue("Archivo");
+				} else if (estatus.equalsIgnoreCase("Solicitud de financiamiento autorizada")) {
+					cell14.setCellValue(""); // Dejar en blanco
+				} else {
+					cell14.setCellValue("Aspirante");
+				}
+	
+				String fechaRegistroString = lstParams.get(i).fecharegistro;
+	
+				if (fechaRegistroString != null) {
+					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
+					String fechaFormateada = dformat.format(fechaRegistro);
+					Cell cell15 = row.createCell(14);
+					cell15.setCellValue(fechaFormateada);
+				} else {
+					Cell cell15 = row.createCell(14);
+					cell15.setCellValue("N/A");
+				}
+	
+				String fechaUltimaModificacionString = lstParams.get(i).fechaultimamodificacion;
+	
+				if (fechaUltimaModificacionString != null) {
+					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
+					String fechaFormateada = dformat.format(fechaUltimaModificacion);
+					Cell cell16 = row.createCell(15);
+					cell16.setCellValue(fechaFormateada);
+				} else {
+					Cell cell16 = row.createCell(15);
+					cell16.setCellValue("N/A");
+				}
+			}
+	
+			for (int i = 0; i <= rowCount + 3; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+	
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+	
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error("[ERROR] " + e.getMessage());
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}
+	
+		return resultado;
+	}
 }
