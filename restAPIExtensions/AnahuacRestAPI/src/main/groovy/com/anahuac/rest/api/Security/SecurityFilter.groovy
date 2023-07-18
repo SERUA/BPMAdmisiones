@@ -1618,6 +1618,14 @@ class SecurityFilter {
 		
 		    break;
 		  case "updateCatNotificaciones":
+		    allow = bonitaRolFilter(context, "ADMINISTRADOR");
+		    if (allow) {
+			  break;
+		    }
+		    allow = bonitaRolFilter(context, "TI SERUA");
+		    if (allow) {
+			  break;
+		    }
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
@@ -1628,7 +1636,33 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
 			allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
+			break;
+		  case "updateCatNotificacionesAlt":
+		    allow = bonitaRolFilter(context, "ADMINISTRADOR");
+		    if (allow) {
+			  break;
+		    }
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); 
+			if (allow) {
+			  break;
+			}
 			break;
 		  case "transferirAspirante":
 		    allow = bonitaRolFilter(context, "ADMISIONES");

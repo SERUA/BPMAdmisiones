@@ -27,6 +27,8 @@ class Statements {
 	public static final String UPDATE_CAT_NOTIFICACIONES ="update catnotificaciones set anguloImagenFooter = ?, anguloImagenHeader = ?, asunto = ?, comentarioLeon = ?, contenido  = ?, contenidoCorreo = ?, contenidoLeonel = ?, descripcion = ?, docGuiaEstudio = ?, enlaceBanner = ?, enlaceContacto = ?, enlaceFacebook = ?, enlaceFooter = ?, enlaceInstagram = ?, enlaceTwitter = ?, nombreImagenFooter = ?, textoFooter  = ?, tipoCorreo = ?, titulo = ?, urlImgFooter = ?, urlImgHeader = ? WHERE codigo = ? AND caseid= ?"
 	
 	public static final String UPDATE_CAT_NOTIFICACIONES_SDAE ="update catnotificaciones set anguloImagenFooter = ?, anguloImagenHeader = ?, asunto = ?, comentarioLeon = ?, contenido  = ?, contenidoCorreo = ?, contenidoLeonel = ?, descripcion = ?, docGuiaEstudio = ?, enlaceBanner = ?, enlaceContacto = ?, enlaceFacebook = ?, enlaceFooter = ?, enlaceInstagram = ?, enlaceTwitter = ?, nombreImagenFooter = ?, textoFooter  = ?, tipoCorreo = ?, titulo = ?, urlImgFooter = ?, urlImgHeader = ? WHERE persistenceid = ?;";
+	
+	public static final String UPDATE_CAT_NOTIFICACIONES_ALT ="update catnotificaciones set anguloImagenFooter = ?, anguloImagenHeader = ?, asunto = ?, comentarioLeon = ?, contenido  = ?, contenidoCorreo = ?, contenidoLeonel = ?, descripcion = ?, docGuiaEstudio = ?, enlaceBanner = ?, enlaceContacto = ?, enlaceFacebook = ?, enlaceFooter = ?, enlaceInstagram = ?, enlaceTwitter = ?, nombreImagenFooter = ?, textoFooter  = ?, tipoCorreo = ?, titulo = ?, urlImgFooter = ?, urlImgHeader = ? WHERE persistenceid = ?;";
 
 	public static final String INSERT_CAT_NOTIFICACIONES ="INSERT INTO catnotificaciones  (persistenceid, persistenceversion, anguloImagenFooter , anguloImagenHeader , asunto , comentarioLeon , contenido  , contenidoCorreo , contenidoLeonel , descripcion , docGuiaEstudio , enlaceBanner , enlaceContacto , enlaceFacebook , enlaceFooter , enlaceInstagram , enlaceTwitter , nombreImagenFooter , textoFooter  , tipoCorreo , titulo , urlImgFooter , urlImgHeader,   codigo,   caseid) values (case when (SELECT max(persistenceId)+1 from catnotificaciones ) is null then 1 else (SELECT max(persistenceId)+1 from catnotificaciones) end, 0, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)"
 	
@@ -38,6 +40,8 @@ class Statements {
 	
 	public static final String GET_CARTAS_NOTIFICACIONES_SDAE = "SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid = c.caseid and pc.campus = ? WHERE c.tipoCorreo <> 'Notificación de admisiones' AND c.tipoCorreo <> 'Carta de admisiones' ORDER BY c.codigo ASC";
 
+	public static final String GET_CARTAS_NOTIFICACIONES_ALT="SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid=c.caseid and pc.campus=? WHERE c.tipoCorreo <> 'Notificación de SDAE'";
+	
 	public static final String GET_CAT_NOTIFICACION_FIRMA="SELECT PERSISTENCEID, CARGO, CORREO, GRUPO, NOMBRECOMPLETO, PERSISTENCEVERSION, SHOWCARGO, SHOWCORREO, SHOWGRUPO, SHOWTELEFONO, SHOWTITULO, TELEFONO, TITULO, CAMPUS, FACEBOOK, TWITTER, APELLIDO, BANNER FROM CATNOTIFICACIONESFIRMA [WHERE] [ORDERBY] [LIMITOFFSET];"
 
 	public static final String GET_CAMPUS_ID_FROM_CLAVE="SELECT persistenceid as campus_id FROM CATCAMPUS where grupoBonita=? limit 1 "
