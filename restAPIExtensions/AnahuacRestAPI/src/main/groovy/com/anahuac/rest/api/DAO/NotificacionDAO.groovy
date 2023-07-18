@@ -3597,6 +3597,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 					row.titulo = rs.getString("titulo")
 					row.urlImgFooter = rs.getString("urlImgFooter")
 					row.urlImgHeader = rs.getString("urlImgHeader")
+					row.persistenceId = rs.getLong("persistenceid")
 					rows.add(row)
 				}
 				resultado.setSuccess(true)
@@ -3714,5 +3715,89 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			}
 		}
 		return resultado
+	}
+	
+	public Result updateCatNotificacionesAlt(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			List<?> rows = new ArrayList<?>();
+			closeCon = validarConexion();
+			
+			if(object.persistenceId != null) {
+				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES_SDAE);
+				pstm.setString(1, object.anguloImagenFooter);
+				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentarioLeon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(7, object.contenidoLeonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.docGuiaEstudio);
+				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(11, object.enlaceContacto);
+				pstm.setString(12, object.enlaceFacebook);
+				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(14, object.enlaceInstagram);
+				pstm.setString(15, object.enlaceTwitter);
+				pstm.setString(16, object.nombreImagenFooter);
+				pstm.setString(17, object.textoFooter);
+				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
+				pstm.setLong(22, Long.valueOf(object.persistenceId));
+				
+			} else {
+				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
+				
+				pstm.setString(1, object.anguloImagenFooter);
+				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentarioLeon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(7, object.contenidoLeonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.docGuiaEstudio);
+				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(11, object.enlaceContacto);
+				pstm.setString(12, object.enlaceFacebook);
+				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(14, object.enlaceInstagram);
+				pstm.setString(15, object.enlaceTwitter);
+				pstm.setString(16, object.nombreImagenFooter);
+				pstm.setString(17, object.textoFooter);
+				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
+				pstm.setString(22, object.codigo);
+				pstm.setString(23, object.caseId);
+			}
+			
+			pstm.execute();
+			
+			resultado.setSuccess(true);
+			rows.add(object);
+			resultado.setError_info(errorLog);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			errorLog += " | " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
 	}
 }
