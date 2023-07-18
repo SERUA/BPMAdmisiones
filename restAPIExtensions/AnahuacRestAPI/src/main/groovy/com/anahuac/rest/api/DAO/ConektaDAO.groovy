@@ -1431,9 +1431,9 @@ class ConektaDAO {
 			
 			resultado.setData(lstResultado);
 			resultado.setSuccess(true);
-			LOGGER.error error.details.get(0).message
-			resultado.setSuccess(false);
-			resultado.setError(error.details.get(0).message);
+//			LOGGER.error error.details.get(0).message
+//			resultado.setSuccess(false);
+//			resultado.setError(error.details.get(0).message);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);

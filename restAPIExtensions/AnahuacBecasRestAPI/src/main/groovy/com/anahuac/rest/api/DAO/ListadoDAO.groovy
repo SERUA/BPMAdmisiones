@@ -198,7 +198,8 @@ class ListadoDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " (LOWER(SDAE.fechaultimamodificacion) ";
+							
+							where += " (LOWER(to_char(SDAE.fechaUltimaModificacion::timestamp, 'DD/MM/YYYY HH24:MI')) ";
 							if (filtro.get("operador").equals("Igual a")) {
 								where += "=LOWER('[valor]')"
 							} else {
@@ -264,12 +265,15 @@ class ListadoDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " LOWER(SDAE.estatusSolicitud) ";
+							where += " (LOWER(SDAE.estatusSolicitud) ";
 							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
+								where += "= LOWER('[valor]') OR LOWER(SF.estatusSolicitud)=LOWER('[valor]') "
 							} else {
-								where += "LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
+								where += " LIKE LOWER('%[valor]%') OR LOWER(SF.estatusSolicitud) LIKE LOWER('%[valor]%') "
 							}
+							where = where.replace("[valor]", filtro.get("valor"))
+							
+							where += " OR LOWER(CASE SDA.aceptado WHEN 't' THEN 'aceptado' WHEN 'f' THEN 'rechazado' ELSE 'en proceso de admisión' END) LIKE LOWER('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						case "P-BECA":
