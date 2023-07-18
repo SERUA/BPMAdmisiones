@@ -346,10 +346,35 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromError = undefined;
             $scope.properties.navigationVar = "formSuccess";
+            
+            // blockUI.stop();
+            // redirectIfNeeded();
+            logout();
+        })
+        .error(function(data, status) {
+            console.error(data);
+        })
+        .finally(function() {
+            $scope.hideLoading();
+            vm.busy = false;
+        });
+    }
+
+
+    function logout() {
+        vm.busy = true;
+        let url = "/bonita/logoutservice";
+
+        var req = {
+            method: 'POST',
+            url: url,
+            data: data,
+            headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+        };
+      
+        return $http(req).success(function(data, status) {
             blockUI.stop();
             redirectIfNeeded();
-            // checkBloqueado();
-            // redirectIfNeeded();
         })
         .error(function(data, status) {
             console.error(data);
