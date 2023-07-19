@@ -1107,6 +1107,23 @@ class ListadoDAO {
 	
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "FECHAREGISTRO":
+							errorlog += "FECHAREGISTRO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							
+							where += " (LOWER(to_char(SDAE.fechaRegistro::timestamp, 'DD/MM/YYYY HH24:MI')) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						case "# EXPEDIENTE":
 							errorlog += "SOLICITUD"
 							if (where.contains("WHERE")) {
