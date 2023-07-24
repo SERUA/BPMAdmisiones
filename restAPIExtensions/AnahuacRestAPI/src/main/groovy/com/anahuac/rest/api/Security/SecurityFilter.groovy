@@ -1666,6 +1666,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		case "updateUsuarioRegistradoPrueba":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
 		  case "selectAspirantesEnLaRed":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {

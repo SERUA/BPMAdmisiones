@@ -4271,4 +4271,101 @@ class UsuariosDAO {
 		
 		return valid;
 	}
+	
+	public Result updateUsuarioRegistradoPrueba(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog ="";
+		Boolean closeCon = false;
+		try {
+			ProcessAPI processAPI = context.getApiClient().getProcessAPI()
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			assert object instanceof Map;
+			
+			// Guardar los valores en un Map
+			Map<String, Object> valores = object;
+		
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient(); //context.getApiClient();
+	        apiClient.login(username, password);
+	
+	        errorLog += " Antes del update ";
+	        closeCon = validarConexion(); // Suponiendo que este método valida la conexión a la base de datos
+	        errorLog += " closeCon " + closeCon;
+			
+			if(valores.editarSec1 == false) {
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC1
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, valores.catcampusestudio_pid);
+				pstm.setString(2, valores.catgestionescolar_pid);
+				pstm.setString(3, valores.catperiodo_pid);
+				pstm.setString(4, valores.catcampus_pid);
+				pstm.setString(5, valores.catpresentasteenotrocampus_pid);
+				pstm.setString(6, valores.correoelectronico);
+				pstm.setString(7, valores.catconcluisteproceso_pid);
+				pstm.setString(8, valores.catresultadoadmision_pid);
+				pstm.setInt(9, valores.caseid);
+				int filasActualizadas = pstm.executeUpdate();
+			} else if(valores.editarSec2 == false){
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC2
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, valores.primernombre);
+				pstm.setString(2, valores.segundonombre);
+				pstm.setString(3, valores.apellidopaterno);
+				pstm.setString(4, valores.apellidomaterno);
+				pstm.setString(5, valores.curp);
+				pstm.setString(6, valores.telefonocelular);
+				pstm.setInt(7, valores.caseid);
+				
+				int filasActualizadas = pstm.executeUpdate();
+			} else if(valores.editarSec3 == false){
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC3
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, valores.ciudad);
+				pstm.setString(2, valores.calle);
+				pstm.setString(3, valores.calle2);
+				pstm.setString(4, valores.numexterior);
+				pstm.setString(5, valores.numinterior);
+				pstm.setString(6, valores.telefono);
+				pstm.setString(7, valores.otrotelefonocontacto);
+				pstm.setInt(8, valores.caseid);
+				
+				int filasActualizadas = pstm.executeUpdate();
+				
+			} else if(valores.editarSec4 == false){
+				
+			} else if(valores.editarSec5 == false){
+				
+			} else if(valores.editarSec6 == false){
+				
+			} else if(valores.editarSec7 == false){
+				
+			} 
+			
+			resultado.setSuccess(true);
+			
+			
+		}catch(Exception ex){
+			LOGGER.error "[ERROR] " + ex.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(ex.getMessage());
+			con.rollback();
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }
