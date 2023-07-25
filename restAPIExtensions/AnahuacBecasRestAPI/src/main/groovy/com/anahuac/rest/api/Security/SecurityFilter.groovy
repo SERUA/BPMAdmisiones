@@ -415,6 +415,14 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Config Campus SDAE")
 					if(allow){break;}
 				break;
+				case "removerDuplicadosFinan":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
 			}
 			return allow;
 	}
