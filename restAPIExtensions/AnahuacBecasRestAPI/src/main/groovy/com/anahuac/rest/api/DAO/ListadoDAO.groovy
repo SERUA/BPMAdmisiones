@@ -349,6 +349,9 @@ class ListadoDAO {
 					}
 				}
 			}	
+			
+			where += " AND SF.persistenceversion >= 0 ";
+			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
 				orderby = "";
@@ -1185,6 +1188,9 @@ class ListadoDAO {
 	
 				}
 			}
+			
+			where += " AND SF.persistenceversion >= 0 ";
+			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
 				orderby = "";
