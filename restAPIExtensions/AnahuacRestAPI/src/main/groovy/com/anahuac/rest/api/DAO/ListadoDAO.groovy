@@ -1372,7 +1372,6 @@ class ListadoDAO {
                         String encoded = "";
                         boolean noAzure = false;
                         try {
-                           columns.put("parameterC",parameterC);
                             if(parameterC == null || parameterC != 777){
                                 String urlFoto = rs.getString("urlfoto");
                                 if (urlFoto != null && !urlFoto.isEmpty() ) {
@@ -5430,7 +5429,7 @@ class ListadoDAO {
             style.setFont(font);
 
             if (type.equals("nuevas_solicitudes")) {
-                dataResult = selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnproceso(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
@@ -5782,7 +5781,7 @@ class ListadoDAO {
 					
                 }
             } else if (type.equals("aspirantes_proceso_fechas")) {
-                dataResult = selectAspirantesEnprocesoFechas(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnprocesoFechas(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
@@ -6356,7 +6355,7 @@ class ListadoDAO {
             //-----------------------------------------------------------------------
             else if (type.equals("lista_roja") || type.equals("aspirantes_rechazados")) {
                 //dataResult = getAspirantesByStatus(parameterP, parameterC, jsonData, context);
-                dataResult = selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnproceso(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
