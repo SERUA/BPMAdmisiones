@@ -3269,6 +3269,7 @@ class ListadoDAO {
 
 		return resultado;
 	} 
+	
 	public Result getExcelFileBandejaMaestra(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		String errorLog = "";
@@ -3463,6 +3464,60 @@ class ListadoDAO {
 			resultado.setError_info(errorLog);
 		}
 	
+		return resultado;
+	}
+	
+	public Result removerDuplicadosFinan(String caseid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		Map <String, Object> row = new HashMap <String, Object>();
+		
+		try {
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_INMUEBLE);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_NOTARIAL);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PERSONAL);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PROPIEDAD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS_PERSONALES);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_DOCUMENTOS);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_FINANCIAMIENTO);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeUpdate();
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
 		return resultado;
 	}
 }

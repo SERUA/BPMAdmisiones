@@ -45,4 +45,19 @@ class Statements {
 	
 	public static final String GET_PAA_BY_IDBANNER = "SELECT * FROM IMPORTACIONPAA  WHERE idbanner = ?;";
 	
+	public static final String QUITAR_DUPLICADOS_INMUEBLE = "UPDATE AvalInfoInmueble SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_NOTARIAL = "UPDATE AvalInfoNotarial SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_PERSONAL = "UPDATE AvalInfoPersonal SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_PROPIEDAD = "UPDATE AvalInfoPropiedad SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_REFERENCIAS = "UPDATE AvalReferencia SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_REFERENCIAS_PERSONALES = "UPDATE AvalReferenciasPersonales SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_DOCUMENTOS = "UPDATE DocumentosAval SET persistenceversion = -1 WHERE caseid = ?;";
+	
+	public static final String QUITAR_DUPLICADOS_FINANCIAMIENTO = "UPDATE SolicitudFinanciamiento   SET persistenceversion = -1 WHERE caseIdSDAE = ?;";
 }
