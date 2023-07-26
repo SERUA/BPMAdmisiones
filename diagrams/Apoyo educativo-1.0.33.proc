@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PpGysGc7EeyAHufroJpG_Q" name="Apoyo educativo" version="1.0.33" author="jesus" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.0.85">
+    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.0.89">
       <elements xmi:type="process:Lane" xmi:id="_PpGysmc7EeyAHufroJpG_Q" name="Aspirante" actor="_KaQV8GdAEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_PpGys2c7EeyAHufroJpG_Q" name="entrada de proceso" outgoing="_gxpA8Gc7EeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PpGytGc7EeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -152,7 +152,7 @@
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_DkDWxygCEe6EAdDNxngnNg" key="contentType">
-                <expression xmi:type="expression:Expression" xmi:id="_DkDWyCgCEe6EAdDNxngnNg" name="application/json" content="application/json" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_DkDWyCgCEe6EAdDNxngnNg" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_DkDWySgCEe6EAdDNxngnNg" key="charset">
                 <expression xmi:type="expression:Expression" xmi:id="_DkDWyigCEe6EAdDNxngnNg" name="UTF-8" content="UTF-8" returnTypeFixed="true"/>
@@ -384,8 +384,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_nfunIFcNEe2tzt-U1N2Rqw" name="quitarDuplicados" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_nfunIVcNEe2tzt-U1N2Rqw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_nfunIlcNEe2tzt-U1N2Rqw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_nfunI1cNEe2tzt-U1N2Rqw" name="url()" content="return urlEliminarDupicadosFinan;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_u0R34CgIEe6EAdDNxngnNg" name="urlEliminarDupicadosFinan" typeClassname="java.lang.String"/>
+                <expression xmi:type="expression:Expression" xmi:id="_nfunI1cNEe2tzt-U1N2Rqw" name="url()" content="String url = urlEliminarDupicadosFinan.replace(&quot;[CASEID]&quot;, String.valueOf(caseidSolicitudApoyo));&#xD;&#xA;return url;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="parameter:Parameter" xmi:id="_Z_ickCtIEe6_MNieXyA5SQ" name="urlEliminarDupicadosFinan" typeClassname="java.lang.String"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_Z_ickStIEe6_MNieXyA5SQ" name="caseidSolicitudApoyo" dataType="_PpGy32c7EeyAHufroJpG_Q"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_nfunJVcNEe2tzt-U1N2Rqw" key="contentType">
@@ -4954,6 +4955,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_ZNqFg91EEeyjSYqicZc3Tw" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_ZNqFhN1EEeyjSYqicZc3Tw" name="urlCambioEstatus" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacBecasRestGET?url=updateEstatusSolicitud&amp;p=0&amp;c=100&amp;&amp;estatus=[ESTATUS]&amp;caseId=[CASEID]" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_Wol2EBeYEe6H89IHbbtWwQ" name="urlHubspot" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacRest?url=createOrUpdateBeca&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_yNUmUCs0Ee6_MNieXyA5SQ" name="urlEliminarDupicadosFinan" value="https://dev.bpm.anahuac.mx/API/extension/AnahuacRest?url=removerDuplicadosFinan&amp;p=0&amp;c=10&amp;caseid=[CASEID]" typeClassname="java.lang.String"/>
       </configurations>
       <configurations xmi:type="configuration:Configuration" xmi:id="_0akQoN0hEeyWU6F7SuI3bw" name="Qualification" version="7.12.0-004" username="Administrador" password="bpm">
         <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_0alewN0hEeyWU6F7SuI3bw">
@@ -5004,7 +5006,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_0amF090hEeyWU6F7SuI3bw" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_IE9toOESEeyuH-_RtkbD9A" name="urlCambioEstatus" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacBecasRestGET?url=updateEstatusSolicitud&amp;p=0&amp;c=100&amp;&amp;estatus=[ESTATUS]&amp;caseId=[CASEID]" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_Sbs-4BeYEe6H89IHbbtWwQ" name="urlHubspot" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacRest?url=createOrUpdateBeca&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
-        <parameters xmi:type="parameter:Parameter" xmi:id="_4FcXsCptEe6_MNieXyA5SQ" name="urlEliminarDupicadosFinan" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_4FcXsCptEe6_MNieXyA5SQ" name="urlEliminarDupicadosFinan" value="https://qa.bpm.anahuac.mx/API/extension/AnahuacRest?url=removerDuplicadosFinan&amp;p=0&amp;c=10&amp;caseid=[CASEID]" typeClassname="java.lang.String"/>
       </configurations>
       <configurations xmi:type="configuration:Configuration" xmi:id="_rw2zwEZnEe2MNLuxrLSYjg" name="Production" version="7.12.0-004" username="Administrador" password="bpm">
         <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_rw3a0EZnEe2MNLuxrLSYjg">
@@ -5055,6 +5057,7 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a40ZnEe2MNLuxrLSYjg" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_rw3a5EZnEe2MNLuxrLSYjg" name="urlCambioEstatus" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacBecasRestGET?url=updateEstatusSolicitud&amp;p=0&amp;c=100&amp;&amp;estatus=[ESTATUS]&amp;caseId=[CASEID]" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_UBxk0BeYEe6H89IHbbtWwQ" name="urlHubspot" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacRest?url=createOrUpdateBeca&amp;p=0&amp;c=10" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_1RzD8Cs0Ee6_MNieXyA5SQ" name="urlEliminarDupicadosFinan" value="https://procesos.bpm.anahuac.mx/API/extension/AnahuacRest?url=removerDuplicadosFinan&amp;p=0&amp;c=10&amp;caseid=[CASEID]" typeClassname="java.lang.String"/>
       </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_7yXLkNyHEeyjSYqicZc3Tw" name="password" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_-4aWgNyHEeyjSYqicZc3Tw" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
@@ -5098,7 +5101,7 @@
         <value xmi:type="expression:Expression" xmi:id="_PpGy22c7EeyAHufroJpG_Q" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.07">
+    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.09">
       <elements xmi:type="process:Lane" xmi:id="_EmGwkGdBEeyAHufroJpG_Q" name="Aspirante" actor="_Frl3UGdUEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_HtHk0GdBEeyAHufroJpG_Q" name="Solicitud de beca aspirante" outgoing="_KMB3QGdBEeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_HtHk0mdBEeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -5256,9 +5259,10 @@
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_36gnRSJjEe6KbPH1DXbXHw" key="body">
-                <expression xmi:type="expression:Expression" xmi:id="_36gnRiJjEe6KbPH1DXbXHw" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;&#xD;&#xA;String payload = &quot;{\&quot;email\&quot;:\&quot;[USERNAME]\&quot;,\&quot;caseid\&quot;:\&quot;[CASEID]\&quot;,\&quot;etapaProceso\&quot;:\&quot;[ETAPA]\&quot;}&quot;;&#xD;&#xA;&#xD;&#xA;ArrayList&lt;SolicitudDeAdmision> lstSol = new ArrayList&lt;SolicitudDeAdmision>();&#xD;&#xA;lstSol = solicitudDeAdmisionDAO.findByCaseId(solicitudApoyoEducativo.caseIdAdmisiones, 0, 1);&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CASEID]&quot;, solicitudApoyoEducativo.caseId.toString());&#xD;&#xA;payload = payload.replace(&quot;[USERNAME]&quot;, lstSol.get(0).getCorreoElectronico());&#xD;&#xA;payload = payload.replace(&quot;[ETAPA]&quot;, &quot;inicio&quot;);&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_7xijICJjEe6KbPH1DXbXHw" name="solicitudApoyoEducativo" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.SolicitudApoyoEducativo"/>
-                  <referencedElements xmi:type="expression:Expression" xmi:id="_7xijISJjEe6KbPH1DXbXHw" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_36gnRiJjEe6KbPH1DXbXHw" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;import org.bonitasoft.engine.identity.User&#xD;&#xA;&#xD;&#xA;User user = apiAccessor.identityAPI.getUserWithProfessionalDetails(idAspirante);&#xD;&#xA;String payload = &quot;{\&quot;email\&quot;:\&quot;[USERNAME]\&quot;,\&quot;caseid\&quot;:\&quot;[CASEID]\&quot;,\&quot;etapaProceso\&quot;:\&quot;[ETAPA]\&quot;}&quot;;&#xD;&#xA;ArrayList&lt;SolicitudDeAdmision> lstSol = new ArrayList&lt;SolicitudDeAdmision>();&#xD;&#xA;lstSol = solicitudDeAdmisionDAO.findByCorreoElectronico(user.getUserName(), 0, 1);&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CASEID]&quot;,  String.valueOf(lstSol.get(0).getCaseId()));&#xD;&#xA;payload = payload.replace(&quot;[USERNAME]&quot;, lstSol.get(0).getCorreoElectronico());&#xD;&#xA;payload = payload.replace(&quot;[ETAPA]&quot;, &quot;inicio&quot;);&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_qRrY4CtJEe6_MNieXyA5SQ" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_qRrY4StJEe6_MNieXyA5SQ" name="apiAccessor" content="apiAccessor" type="TYPE_ENGINE_CONSTANT" returnType="com.bonitasoft.engine.api.APIAccessor"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_qRrY4itJEe6_MNieXyA5SQ" name="idAspirante" dataType="_PpGy32c7EeyAHufroJpG_Q"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_36gnSSJjEe6KbPH1DXbXHw" key="do_not_follow_redirect">
@@ -16566,7 +16570,7 @@
             </children>
             <children xmi:type="notation:Shape" xmi:id="_lipR0Gc7EeyAHufroJpG_Q" type="3027" element="_lincoGc7EeyAHufroJpG_Q" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_lipR0mc7EeyAHufroJpG_Q" type="5017"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lipR0Wc7EeyAHufroJpG_Q" x="235" y="49" width="140" height="70"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_lipR0Wc7EeyAHufroJpG_Q" x="235" y="49" width="154" height="77"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_A_dzUWc8EeyAHufroJpG_Q" type="3005" element="_A_dMQGc8EeyAHufroJpG_Q" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_A_dzU2c8EeyAHufroJpG_Q" type="5005"/>

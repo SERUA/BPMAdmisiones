@@ -81,6 +81,7 @@ class HubspotDAO {
 	
 	Map<String,String> estatusMapBecas = new HashMap<String, String>() {{
 		put("Solicitud de apoyo en progreso", "Inició su solicitud de beca");
+		put("Solicitud de Financiamiento en Proceso", "Inició su solicitud de beca");
 		put("Esperando Pre-Autorización", "Envió aspirante solicitud beca");
 		put("Correcciones realizadas", "Envió aspirante solicitud beca");
 		put("En espera de resultado", "Solicitud de beca validada");
@@ -3149,16 +3150,19 @@ class HubspotDAO {
 					
 					
 					if(etapaProceso.equals("solicitud") || etapaProceso.equals("modificacion")) {
-						objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca")+"%");
 						objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
 						objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingresoclave"));
 //						objHubSpotData.put("porcentaje_beca_prepa_bpm", map.get("porcentajebecaprepa")+"%");//404
 						if(!map.get("porcentajebecaprepa").equals("") && map.get("porcentajebecaprepa") != null) {
-//							objHubSpotData.put("porcentaje_beca_prepa_bpm", map.get("porcentajebecaprepa") + "%");
 							objHubSpotData.put("porcentaje_beca_prepa_bpm", "Si");
 						} else {
-//							objHubSpotData.put("porcentaje_beca_prepa_bpm", "0%");
 							objHubSpotData.put("porcentaje_beca_prepa_bpm", "No");
+						}
+						
+						if(map.get("porcentajebeca")  != null ) {
+							objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca")+"%");
+						} else {
+							objHubSpotData.put("porcentaje_beca_solicitado_bpm",  "0%");
 						}
 						
 						if(map.get("porcentajefinanciamiento") != null) {

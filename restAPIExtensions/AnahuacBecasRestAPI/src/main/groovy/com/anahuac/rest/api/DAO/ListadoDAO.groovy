@@ -350,7 +350,7 @@ class ListadoDAO {
 				}
 			}	
 			
-			where += " AND SF.persistenceversion >= 0 ";
+//			where += " AND SF.persistenceversion >= 0 ";
 			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
@@ -1189,7 +1189,7 @@ class ListadoDAO {
 				}
 			}
 			
-			where += " AND SF.persistenceversion >= 0 ";
+//			where += " AND SF.persistenceversion >= 0 ";
 			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
