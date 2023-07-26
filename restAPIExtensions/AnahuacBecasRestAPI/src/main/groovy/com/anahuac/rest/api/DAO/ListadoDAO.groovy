@@ -3484,35 +3484,35 @@ class ListadoDAO {
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_INMUEBLE);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_NOTARIAL);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PERSONAL);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PROPIEDAD);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS_PERSONALES);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_DOCUMENTOS);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_FINANCIAMIENTO);
 			pstm.setLong(1, Long.valueOf(caseid));
-			rs = pstm.executeUpdate();
+			pstm.executeUpdate();
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {

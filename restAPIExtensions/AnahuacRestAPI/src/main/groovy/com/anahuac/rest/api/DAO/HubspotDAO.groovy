@@ -3108,7 +3108,6 @@ class HubspotDAO {
 	        Result resultado = new Result();
 	        Result resultadoApiKey = new Result();
 	        Boolean closeCon = false;
-//	        List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
 	        List<SolicitudDeAdmision> lstSolicitudDeAdmision = new ArrayList<SolicitudDeAdmision>();
 	        List<String> lstValueProperties = new ArrayList<String>();
 	        Map<String, String> objHubSpotData = new HashMap<String, String>();
@@ -3120,11 +3119,10 @@ class HubspotDAO {
 	        DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
 			DateFormat dfPropuesta = new SimpleDateFormat("yyyy-MM-dd");
 			DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+			
 	        try {
-				  
 	            def jsonSlurper = new JsonSlurper();
 	            def object = jsonSlurper.parseText(jsonData);
-	            
 				def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
 				lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(object.email, 0, 1);
 	            assert object instanceof Map;
@@ -3138,105 +3136,97 @@ class HubspotDAO {
 					Calendar calendar = Calendar.getInstance();
 					String etapaProceso = object.etapaProceso;
 					Map < String, Object > map = new LinkedHashMap < String, Object > ();
-					map = (Map < String, Object >) resultBEcas.getData().get(0);
-					objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get(map.get("estatussolicitud")));
-//					
-					
-					calendar.setTime(dfPropuesta.parse(map.get("fechaultimamodificacion")));
-					TimeZone timeZone = TimeZone.getTimeZone("UTC");
-					calendar.setTimeZone(timeZone);
-					Date ultimaMod = new Date();
-					objHubSpotData.put("fecha_de_actualizacion_becas_bpm", df.format(ultimaMod));
-					
-					
-					if(etapaProceso.equals("solicitud") || etapaProceso.equals("modificacion")) {
-						objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
-						objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingresoclave"));
-//						objHubSpotData.put("porcentaje_beca_prepa_bpm", map.get("porcentajebecaprepa")+"%");//404
-						if(!map.get("porcentajebecaprepa").equals("") && map.get("porcentajebecaprepa") != null) {
-							objHubSpotData.put("porcentaje_beca_prepa_bpm", "Si");
-						} else {
-							objHubSpotData.put("porcentaje_beca_prepa_bpm", "No");
-						}
+					if(etapaProceso.equals("inicio")) {
+						objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get("Solicitud de apoyo en progreso"));
+						calendar.setTime(new Date());
+						TimeZone timeZone = TimeZone.getTimeZone("UTC");
+						calendar.setTimeZone(timeZone);
+						Date ultimaMod = new Date();
+						objHubSpotData.put("fecha_de_actualizacion_becas_bpm", df.format(ultimaMod));
+					} else {
+						map = (Map < String, Object >) resultBEcas.getData().get(0);
+						calendar.setTime(dfPropuesta.parse(map.get("fechaultimamodificacion")));
+						TimeZone timeZone = TimeZone.getTimeZone("UTC");
+						calendar.setTimeZone(timeZone);
+						Date ultimaMod = new Date();
+						objHubSpotData.put("fecha_de_actualizacion_becas_bpm", df.format(ultimaMod));
+						objHubSpotData.put("estatus_beca_bpm",  estatusMapBecas.get(map.get("estatussolicitud")));
 						
-						if(map.get("porcentajebeca")  != null ) {
-							objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca")+"%");
-						} else {
-							objHubSpotData.put("porcentaje_beca_solicitado_bpm",  "0%");
-						}
-						
-						if(map.get("porcentajefinanciamiento") != null) {
-							objHubSpotData.put("porcentaje_finan_solicitado_bpm",  map.get("porcentajefinanciamiento")+"%");
-						} else {
-							objHubSpotData.put("porcentaje_finan_solicitado_bpm",  "0%");
-						}
-					}
-					
-					if(etapaProceso.equals("autor_rechazo")) {
-						objHubSpotData.put("mensaje_becas_bpm", map.get(""));//Autorizción
-					}
-					
-					if(etapaProceso.equals("preauto")) {
-						objHubSpotData.put("mensaje_becas_bpm", map.get("cambiossolicitudpreautorizacion"));//Pre-autorizción
-					}
-					
-					if(etapaProceso.equals("preauto_rechazo")) {
-						objHubSpotData.put("mensaje_becas_bpm", map.get("motivorechazopreautorizacion"));//Pre-autorizción
-					}
-						
-					if(etapaProceso.equals("pago")) {
-//						objHubSpotData.put("monto_pago_estudio_bpm", map.get(""));//404
-						objHubSpotData.put("fecha_pago_estudio_bpm", df.format(new Date()));//404
-					}
-					
-					if(etapaProceso.equals("autor")) {
-						objHubSpotData.put("beca_otorgada_bpm", map.get("porcentajebecaautorizacion")+"%");
-						objHubSpotData.put("tipo_beca_otorgada_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
-						
-						if(!map.get("porcentajecreditoautorizacion").equals("") && map.get("porcentajecreditoautorizacion") != null) {
-							objHubSpotData.put("finan_otorgada_bpm", map.get("porcentajecreditoautorizacion") + "%");
-						} else {
-							objHubSpotData.put("finan_otorgada_bpm", "0%");
-						}
-						
-						if(map.get("fechalimitepropuesta") != null) {
-							calendar.setTime(dfPropuesta.parse(map.get("fechalimitepropuesta")));
-							calendar.set(Calendar.HOUR_OF_DAY, 0);
-							calendar.set(Calendar.MINUTE, 0);
-							calendar.set(Calendar.SECOND, 0);
-							calendar.set(Calendar.MILLISECOND, 0);
-							timeZone = TimeZone.getTimeZone("UTC");
-							calendar.setTimeZone(timeZone);
+						if(etapaProceso.equals("solicitud") || etapaProceso.equals("modificacion")) {
+							objHubSpotData.put("tipo_beca_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
+							objHubSpotData.put("periodo_de_ingreso_becas_bpm", map.get("ingresoclave"));
 							
-							objHubSpotData.put("fecha_limite_propuesta_beca_bpm", calendar.getTime().getTime());
-//							objHubSpotData.put("fecha_limite_propuesta_beca_bpm", (dfPropuesta.parse(map.get("fechalimitepropuesta")).getTime()));
-						}
-						
-						if(map.get("fechapagoinscripcionautorizacion") != null && !map.get("fechapagoinscripcionautorizacion").equals("")) {
-							calendar.setTime(dfPropuesta.parse(map.get("fechapagoinscripcionautorizacion")));
-							calendar.set(Calendar.HOUR_OF_DAY, 0);
-							calendar.set(Calendar.MINUTE, 0);
-							calendar.set(Calendar.SECOND, 0);
-							calendar.set(Calendar.MILLISECOND, 0);
-							timeZone = TimeZone.getTimeZone("UTC");
-							calendar.setTimeZone(timeZone);
+							if(!map.get("porcentajebecaprepa").equals("") && map.get("porcentajebecaprepa") != null) {
+								objHubSpotData.put("porcentaje_beca_prepa_bpm", "Si");
+							} else {
+								objHubSpotData.put("porcentaje_beca_prepa_bpm", "No");
+							}
 							
-							objHubSpotData.put("fecha_limite_inscripcion_beca_bpm", calendar.getTime().getTime());
+							if(map.get("porcentajebeca")  != null ) {
+								objHubSpotData.put("porcentaje_beca_solicitado_bpm",  map.get("porcentajebeca")+"%");
+							} else {
+								objHubSpotData.put("porcentaje_beca_solicitado_bpm",  "0%");
+							}
+							
+							if(map.get("porcentajefinanciamiento") != null) {
+								objHubSpotData.put("porcentaje_finan_solicitado_bpm",  map.get("porcentajefinanciamiento")+"%");
+							} else {
+								objHubSpotData.put("porcentaje_finan_solicitado_bpm",  "0%");
+							}
+						} else if(etapaProceso.equals("autor_rechazo")) {
+							objHubSpotData.put("mensaje_becas_bpm", map.get(""));//Autorizción
+						} else if(etapaProceso.equals("preauto")) {
+							objHubSpotData.put("mensaje_becas_bpm", map.get("cambiossolicitudpreautorizacion"));//Pre-autorizción
+						} else if(etapaProceso.equals("preauto_rechazo")) {
+							objHubSpotData.put("mensaje_becas_bpm", map.get("motivorechazopreautorizacion"));//Pre-autorizción
+						} else if(etapaProceso.equals("pago")) {
+	//						objHubSpotData.put("monto_pago_estudio_bpm", map.get(""));//404
+							objHubSpotData.put("fecha_pago_estudio_bpm", df.format(new Date()));//404
+						} else if(etapaProceso.equals("autor")) {
+							objHubSpotData.put("beca_otorgada_bpm", map.get("porcentajebecaautorizacion")+"%");
+							objHubSpotData.put("tipo_beca_otorgada_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
+							
+							if(!map.get("porcentajecreditoautorizacion").equals("") && map.get("porcentajecreditoautorizacion") != null) {
+								objHubSpotData.put("finan_otorgada_bpm", map.get("porcentajecreditoautorizacion") + "%");
+							} else {
+								objHubSpotData.put("finan_otorgada_bpm", "0%");
+							}
+							
+							if(map.get("fechalimitepropuesta") != null) {
+								calendar.setTime(dfPropuesta.parse(map.get("fechalimitepropuesta")));
+								calendar.set(Calendar.HOUR_OF_DAY, 0);
+								calendar.set(Calendar.MINUTE, 0);
+								calendar.set(Calendar.SECOND, 0);
+								calendar.set(Calendar.MILLISECOND, 0);
+								timeZone = TimeZone.getTimeZone("UTC");
+								calendar.setTimeZone(timeZone);
+								
+								objHubSpotData.put("fecha_limite_propuesta_beca_bpm", calendar.getTime().getTime());
+							}
+							
+							if(map.get("fechapagoinscripcionautorizacion") != null && !map.get("fechapagoinscripcionautorizacion").equals("")) {
+								calendar.setTime(dfPropuesta.parse(map.get("fechapagoinscripcionautorizacion")));
+								calendar.set(Calendar.HOUR_OF_DAY, 0);
+								calendar.set(Calendar.MINUTE, 0);
+								calendar.set(Calendar.SECOND, 0);
+								calendar.set(Calendar.MILLISECOND, 0);
+								timeZone = TimeZone.getTimeZone("UTC");
+								calendar.setTimeZone(timeZone);
+								
+								objHubSpotData.put("fecha_limite_inscripcion_beca_bpm", calendar.getTime().getTime());
+							}
+							
+							objHubSpotData.put("descuento_pronto_pago_beca_bpm", map.get("descuentoanticipadoautorizacion") != null ? map.get("descuentoanticipadoautorizacion") + "%" : "0%");//404
+							objHubSpotData.put("prom_minimo_conserva_beca_bpm", map.get("promediominimoautorizacion"));//404
+						} else if(etapaProceso.equals("propuesta")) {
+							objHubSpotData.put("acepto_financiamiento_en_solicitud_de_beca_", object.aceptapropuesta == true ? "Si": "No");
 						}
-						
-						objHubSpotData.put("descuento_pronto_pago_beca_bpm", map.get("descuentoanticipadoautorizacion") != null ? map.get("descuentoanticipadoautorizacion") + "%" : "0%");//404
-						objHubSpotData.put("prom_minimo_conserva_beca_bpm", map.get("promediominimoautorizacion"));//404
 					}
-					
-					if(etapaProceso.equals("propuesta")) {
-						objHubSpotData.put("acepto_financiamiento_en_solicitud_de_beca_", object.aceptapropuesta == true ? "Si": "No");
-					}				
 					
 					resultado = createOrUpdateHubspotBecas(email, apikeyHubspot, objHubSpotData);
 				} 
 	
 	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
-	            
 	        } catch (Exception e) {
 	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	            resultado.setSuccess(false);
