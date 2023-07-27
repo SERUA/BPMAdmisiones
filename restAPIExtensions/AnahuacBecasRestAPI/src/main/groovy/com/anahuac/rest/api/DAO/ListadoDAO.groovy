@@ -3374,8 +3374,8 @@ class ListadoDAO {
 			header16.setCellValue("Última modificación");
 			header16.setCellStyle(style);
 	
-			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			DateFormat dfSalida = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 			for (int i = 0; i < lstParams.size(); ++i) {
 				Row row = sheet.createRow(++rowCount);
@@ -3431,7 +3431,8 @@ class ListadoDAO {
 					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
 					String fechaFormateada = dformat.format(fechaRegistro);
 					Cell cell15 = row.createCell(14);
-					cell15.setCellValue(fechaFormateada);
+//					cell15.setCellValue(fechaFormateada);
+					cell15.setCellValue(fechaRegistroString);
 				} else {
 					Cell cell15 = row.createCell(14);
 					cell15.setCellValue("N/A");
@@ -3443,7 +3444,8 @@ class ListadoDAO {
 					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
 					String fechaFormateada = dformat.format(fechaUltimaModificacion);
 					Cell cell16 = row.createCell(15);
-					cell16.setCellValue(fechaFormateada);
+//					cell16.setCellValue(fechaFormateada);
+					cell16.setCellValue(fechaUltimaModificacionString);
 				} else {
 					Cell cell16 = row.createCell(15);
 					cell16.setCellValue("N/A");
