@@ -704,7 +704,7 @@ class ListadoDAO {
                 SSA = rs.getString("valor")
             }
 
-            String consulta = Statements.GET_ASPIRANTES_EN_PROCESO
+            String consulta = Statements.GET_ASPIRANTES_EN_PROCESO;
 
             for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
                 errorlog = consulta + " 1";
@@ -1372,23 +1372,26 @@ class ListadoDAO {
                         String encoded = "";
                         boolean noAzure = false;
                         try {
-                            String urlFoto = rs.getString("urlfoto");
-                            if (urlFoto != null && !urlFoto.isEmpty()) {
-								columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
-                                //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
-                            } else {
-                                noAzure = true;
-                                List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
-                                for (Document doc: doc1) {
+                            if(parameterC == null || parameterC != 777){
+                                String urlFoto = rs.getString("urlfoto");
+                                if (urlFoto != null && !urlFoto.isEmpty() ) {
+								    columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+                                    //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+                                } else {
+                                    noAzure = true;
+                                    List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+                                    for (Document doc: doc1) {
+                                        encoded = "../API/formsDocumentImage?document=" + doc.getId();
+                                        columns.put("fotografiab64", encoded);
+                                    }
+                                }
+
+                                for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
                                     encoded = "../API/formsDocumentImage?document=" + doc.getId();
-                                    columns.put("fotografiab64", encoded);
+                                    columns.put("fotografiabpm", encoded);
                                 }
                             }
-
-                            for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
-                                encoded = "../API/formsDocumentImage?document=" + doc.getId();
-                                columns.put("fotografiabpm", encoded);
-                            }
+                            
 
                             /*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
                                 encoded = "../API/formsDocumentImage?document="+doc.getId();
@@ -5426,7 +5429,7 @@ class ListadoDAO {
             style.setFont(font);
 
             if (type.equals("nuevas_solicitudes")) {
-                dataResult = selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnproceso(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
@@ -5692,7 +5695,7 @@ class ListadoDAO {
                 }
             } else if (type.equals("aspirantes_proceso")) {
                 //dataResult = getAspirantesProceso(parameterP, parameterC, jsonData, context);
-                dataResult = selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnproceso(parameterP, 777, jsonData, context);
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
                 } else {
@@ -5703,8 +5706,10 @@ class ListadoDAO {
                 Cell cellReporte = titleRow.createCell(1);
                 cellReporte.setCellValue("Reporte:");
                 cellReporte.setCellStyle(style);
+                
                 Cell cellTitle = titleRow.createCell(2);
                 cellTitle.setCellValue("ASPITANTES EN PROCESO");
+
                 Cell cellFecha = titleRow.createCell(4);
                 cellFecha.setCellValue("Fecha:");
                 cellFecha.setCellStyle(style);
@@ -5714,10 +5719,6 @@ class ListadoDAO {
                 Date date = cal.getTime();
                 SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
-                /*Date date = new Date();
-                TimeZone timeZone = TimeZone.getTimeZone("UTC-6");
-                formatter.setTimeZone(timeZone);
-                String sDate = formatter.format(date);*/
 
                 String sDate = formatter.format(date);
                 Cell cellFechaData = titleRow.createCell(5);
@@ -5730,158 +5731,57 @@ class ListadoDAO {
                 Cell cellusuarioData = blank.createCell(5);
                 cellusuarioData.setCellValue(object.usuario);
 
-                Row espacio = sheet.createRow(++rowCount);
+                ++rowCount;
+			    Row espacio = sheet.createRow(++rowCount);
 
+                def titulos = ["ID BANNER","NOMBRE","EMAIL","CURP","CAMPUS","PROGRAMA","INGRESO","PROCEDENCIA","PREPARATORIA","PROMEDIO","ESTATUS","RESIDENCIA","TIPO ADMISIÓN","MISMO CAMPUS O TRANSFERENCIA","FECHA SOLICITUD ENVIADA","FECHA ULTIMA MODIFICACIÓN","TELÉFONO CELULAR","TELÉFONO DE CASA"]
                 Row headersRow = sheet.createRow(++rowCount);
+                ++rowCount;
+			    List<Cell> header = new ArrayList<Cell>();
+			    for(int i = 0; i < titulos.size(); ++i) {
+    				header.add(headersRow.createCell(i))
+	    			header[i].setCellValue(titulos.get(i))
+				    header[i].setCellStyle(style)
+			    }
 
-                Cell header0 = headersRow.createCell(0);
-                header0.setCellValue("ID BANNER");
-                header0.setCellStyle(style);
-
-                Cell header1 = headersRow.createCell(1);
-                header1.setCellValue("NOMBRE");
-                header1.setCellStyle(style);
-                Cell header2 = headersRow.createCell(2);
-                header2.setCellValue("EMAIL");
-                header2.setCellStyle(style);
-                Cell header3 = headersRow.createCell(3);
-                header3.setCellValue("CURP");
-                header3.setCellStyle(style);
-                Cell header4 = headersRow.createCell(4);
-                header4.setCellValue("CAMPUS");
-                header4.setCellStyle(style);
-                Cell header5 = headersRow.createCell(5);
-                header5.setCellValue("PROGRAMA");
-                header5.setCellStyle(style);
-                Cell header6 = headersRow.createCell(6);
-                header6.setCellValue("INGRESO");
-                header6.setCellStyle(style);
-                Cell header7 = headersRow.createCell(7);
-                header7.setCellValue("PROCEDENCIA");
-                header7.setCellStyle(style);
-                Cell header8 = headersRow.createCell(8);
-                header8.setCellValue("PREPARATORIA");
-                header8.setCellStyle(style);
-                Cell header9 = headersRow.createCell(9);
-                header9.setCellValue("PROMEDIO");
-                header9.setCellStyle(style);
-
-                Cell header10 = headersRow.createCell(10);
-                header10.setCellValue("ESTATUS");
-                header10.setCellStyle(style);
-
-                Cell header13 = headersRow.createCell(11);
-                header13.setCellValue("RESIDENCIA");
-                header13.setCellStyle(style);
-
-                Cell header14 = headersRow.createCell(12);
-                header14.setCellValue("TIPO ADMISIÓN");
-                header14.setCellStyle(style);
-
-
-                Cell header15 = headersRow.createCell(13);
-                header15.setCellValue("MISMO CAMPUS O TRANSFERENCIA");
-                header15.setCellStyle(style);
-
-                Cell header11 = headersRow.createCell(14);
-                header11.setCellValue("FECHA SOLICITUD ENVIADA");
-                header11.setCellStyle(style);
-
-                Cell header12 = headersRow.createCell(15);
-                header12.setCellValue("FECHA ULTIMA MODIFICACIÓN");
-                header12.setCellStyle(style);
-				
-				Cell header16 = headersRow.createCell(16);
-                header16.setCellValue("TELÉFONO CELULAR");
-                header16.setCellStyle(style);
-				
-				Cell header17 = headersRow.createCell(17);
-                header17.setCellValue("TELÉFONO DE CASA");
-                header17.setCellStyle(style);
+                CellStyle bodyStyle = workbook.createCellStyle();
+			    bodyStyle.setWrapText(true);
+			    bodyStyle.setAlignment(HorizontalAlignment.CENTER);
 
                 //FORMATO DE LAS FECHAS
                 DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
                 Date fechaCreacion = new Date();
                 DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 
+                def info = ["idbanner","nombre","correoelectronico","curp","campus","licenciatura","ingreso","procedencia","preparatoria","promediogeneral","estatussolicitud","residensia","tipoadmision","campus","fechasolicitudenviada","fechaultimamodificacion","telefonocelular","telefono"]
+                List<Cell> body;
                 for (int i = 0; i < lstParams.size(); ++i) {
-                    //SolicitudAdmisionCustom  solicitud = (SolicitudAdmisionCustom) lstParams.get(i);
-                    Row row = sheet.createRow(++rowCount);
 
-                    Cell cell0 = row.createCell(0);
-                    cell0.setCellValue(lstParams[i].idbanner);
-                    //Nombre
-                    Cell cell1 = row.createCell(1);
-                    cell1.setCellValue(
-                        lstParams[i].apellidopaterno + " " +
-                        lstParams[i].apellidomaterno + " " +
-                        lstParams[i].primernombre + " " +
-                        lstParams[i].segundonombre
-                    );
-                    //Correo Electronico
-                    Cell cell2 = row.createCell(2);
-                    cell2.setCellValue(lstParams[i].correoelectronico);
-                    //CURP
-                    Cell cell3 = row.createCell(3);
-                    cell3.setCellValue(lstParams[i].curp);
-                    //Campus
-                    Cell cell4 = row.createCell(4);
-                    cell4.setCellValue(lstParams[i].campus);
-                    //PROGRAMA
-                    Cell cell5 = row.createCell(5);
-                    cell5.setCellValue(lstParams[i].licenciatura);
-                    //Ingreso
-                    Cell cell6 = row.createCell(6);
-                    cell6.setCellValue(lstParams[i].ingreso);
-                    //Estado
-                    Cell cell7 = row.createCell(7);
-                    cell7.setCellValue(lstParams[i].procedencia);
-                    //PREPARATORIA
-                    Cell cell8 = row.createCell(8);
-                    cell8.setCellValue(lstParams[i].preparatoria);
-                    //PROMEDIO
-                    Cell cell9 = row.createCell(9);
-                    cell9.setCellValue(lstParams[i].promediogeneral);
-                    //ESTATUS
-                    Cell cell10 = row.createCell(10);
-                    cell10.setCellValue(lstParams[i].estatussolicitud);
-                    //TIPO
-                    //Cell cell11 = row.createCell(11);
-                    //cell11.setCellValue(lstParams[i].getObjDetalleSolicitud() == null?"" : lstParams[i].getObjDetalleSolicitud().getTipoAlumno());
-
-                    Cell cell13 = row.createCell(11);
-                    cell13.setCellValue(lstParams[i].residensia);
-                    Cell cell14 = row.createCell(12);
-                    cell14.setCellValue(lstParams[i].tipoadmision);
-                    Cell cell15 = row.createCell(13);
-                    String estatus = (lstParams[i].campus.equals(lstParams[i].campussede))?"MISMO CAMPUS" : "TRANSFERENCIA";
-                    cell15.setCellValue(estatus);
-
-                    Cell cell11 = row.createCell(14);
-                    if (lstParams[i].fechasolicitudenviada != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechasolicitudenviada.toString())
-                        cell11.setCellValue(dformat.format(fechaCreacion));
-                    } else {
-                        cell11.setCellValue("");
-                    }
-
-                    //ULTIMA MODIFICACION
-                    Cell cell12 = row.createCell(15);
-                    if (lstParams[i].fechaultimamodificacion != null) {
-                        fechaCreacion = dfSalida.parse(lstParams[i].fechaultimamodificacion.toString())
-                        cell12.setCellValue(dformat.format(fechaCreacion));
-                    } else {
-                        cell12.setCellValue("");
-                    }
+                    Row row = sheet.createRow(rowCount);
+				    ++rowCount;
+				    body = new ArrayList<Cell>()
+				    for(int j=0;  j < info.size(); ++j) {
+					    body.add(row.createCell(j))
+					    if(info.get(j).equals("nombre")){
+    						body[j].setCellValue(lstParams[i].apellidopaterno + " " + lstParams[i].apellidomaterno+ " " + lstParams[i].primernombre + " " + lstParams[i].segundonombre)
+	    				}else if(info.get(j).equals("campus") && j>4){
+                            body[j].setCellValue((lstParams[i][info.get(j)].equals(lstParams[i].campussede))?"MISMO CAMPUS" : "TRANSFERENCIA");
+                        }else if (info.get(j).equals("fechasolicitudenviada") || info.get(j).equals("fechaultimamodificacion")){
+                            if (lstParams[i][info.get(j)] != null) {
+                                fechaCreacion = dfSalida.parse(lstParams[i][info.get(j)].toString())
+                                body[j].setCellValue(dformat.format(fechaCreacion))
+                            }else{
+                                body[j].setCellValue("")
+                            }
+                        }else{
+		    				body[j].setCellValue(lstParams[i][info.get(j)].toString())
+					    }
+					    body[j].setCellStyle(bodyStyle);					
+				    }
 					
-					Cell cell16 = row.createCell(16);
-                    cell16.setCellValue(lstParams[i].telefonocelular);
-					Cell cell17 = row.createCell(17);
-                    cell17.setCellValue(lstParams[i].telefono);
-                    //cell12.setCellValue(solicitud.getUpdateDate());
                 }
             } else if (type.equals("aspirantes_proceso_fechas")) {
-                dataResult = selectAspirantesEnprocesoFechas(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnprocesoFechas(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();
@@ -6455,7 +6355,7 @@ class ListadoDAO {
             //-----------------------------------------------------------------------
             else if (type.equals("lista_roja") || type.equals("aspirantes_rechazados")) {
                 //dataResult = getAspirantesByStatus(parameterP, parameterC, jsonData, context);
-                dataResult = selectAspirantesEnproceso(parameterP, parameterC, jsonData, context);
+                dataResult = selectAspirantesEnproceso(parameterP, 777, jsonData, context);
 
                 if (dataResult.success) {
                     lstParams = dataResult.getData();

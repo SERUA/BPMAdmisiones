@@ -349,6 +349,9 @@ class ListadoDAO {
 					}
 				}
 			}	
+			
+//			where += " AND SF.persistenceversion >= 0 ";
+			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
 				orderby = "";
@@ -1107,6 +1110,23 @@ class ListadoDAO {
 	
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "FECHAREGISTRO":
+							errorlog += "FECHAREGISTRO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							
+							where += " (LOWER(to_char(SDAE.fechaRegistro::timestamp, 'DD/MM/YYYY HH24:MI')) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%'))"
+							}
+	
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						case "# EXPEDIENTE":
 							errorlog += "SOLICITUD"
 							if (where.contains("WHERE")) {
@@ -1168,6 +1188,9 @@ class ListadoDAO {
 	
 				}
 			}
+			
+//			where += " AND SF.persistenceversion >= 0 ";
+			
 			errorlog = consulta + " 2";
 			if (object.caseId != null) {
 				orderby = "";
@@ -3252,6 +3275,7 @@ class ListadoDAO {
 
 		return resultado;
 	} 
+	
 	public Result getExcelFileBandejaMaestra(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		String errorLog = "";
@@ -3350,8 +3374,8 @@ class ListadoDAO {
 			header16.setCellValue("Última modificación");
 			header16.setCellStyle(style);
 	
-			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd");
-			DateFormat dformat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			DateFormat dfSalida = new SimpleDateFormat("dd/MM/yyyy");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
 			for (int i = 0; i < lstParams.size(); ++i) {
 				Row row = sheet.createRow(++rowCount);
@@ -3407,7 +3431,8 @@ class ListadoDAO {
 					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
 					String fechaFormateada = dformat.format(fechaRegistro);
 					Cell cell15 = row.createCell(14);
-					cell15.setCellValue(fechaFormateada);
+//					cell15.setCellValue(fechaFormateada);
+					cell15.setCellValue(fechaRegistroString);
 				} else {
 					Cell cell15 = row.createCell(14);
 					cell15.setCellValue("N/A");
@@ -3419,7 +3444,8 @@ class ListadoDAO {
 					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
 					String fechaFormateada = dformat.format(fechaUltimaModificacion);
 					Cell cell16 = row.createCell(15);
-					cell16.setCellValue(fechaFormateada);
+//					cell16.setCellValue(fechaFormateada);
+					cell16.setCellValue(fechaUltimaModificacionString);
 				} else {
 					Cell cell16 = row.createCell(15);
 					cell16.setCellValue("N/A");
@@ -3446,6 +3472,60 @@ class ListadoDAO {
 			resultado.setError_info(errorLog);
 		}
 	
+		return resultado;
+	}
+	
+	public Result removerDuplicadosFinan(String caseid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		Map <String, Object> row = new HashMap <String, Object>();
+		
+		try {
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_INMUEBLE);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_NOTARIAL);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PERSONAL);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_PROPIEDAD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_REFERENCIAS_PERSONALES);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_DOCUMENTOS);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement(Statements.QUITAR_DUPLICADOS_FINANCIAMIENTO);
+			pstm.setLong(1, Long.valueOf(caseid));
+			pstm.executeUpdate();
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
 		return resultado;
 	}
 }
