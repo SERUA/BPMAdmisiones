@@ -869,13 +869,13 @@ class Index implements RestApiController {
 					break;
 					
 					case "postExcelAspirantesPAA":
-					result = new ImportacionPAADAO().postExcelAspirantesPAA(jsonData, context);
-					responseBuilder.withMediaType("application/json")
-					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-					}else {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-					}
+						result = new ImportacionPAADAO().postExcelAspirantesPAA(jsonData, context);
+						responseBuilder.withMediaType("application/json")
+						if (result.isSuccess()) {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+						}else {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+						}
 					break;
 					
 					case "postEliminarResultado":
@@ -1162,6 +1162,15 @@ class Index implements RestApiController {
 					/*result = new Result();
 					result.setSuccess(true);*/
 
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "generateHtmlINVP":
+					result = nDAO.generateHtmlINVP(parameterP, parameterC, jsonData, context);
+					
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

@@ -38,10 +38,10 @@ class Statements {
 	
 	public static final String GET_CARTAS_NOTIFICACIONES="SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid=c.caseid and pc.campus=? WHERE c.tipoCorreo = 'Carta'";
 	
-	public static final String GET_CARTAS_NOTIFICACIONES_SDAE = "SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid = c.caseid and pc.campus = ? WHERE c.tipoCorreo <> 'Notificación de admisiones' AND c.tipoCorreo <> 'Carta de admisiones' ORDER BY c.codigo ASC";
-
 	public static final String GET_CARTAS_NOTIFICACIONES_ALT="SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid=c.caseid and pc.campus=? WHERE c.tipoCorreo <> 'Notificación de SDAE'";
 	
+	public static final String GET_CARTAS_NOTIFICACIONES_SDAE = "SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid = c.caseid and pc.campus = ? WHERE c.tipoCorreo <> 'Notificación de admisiones' AND c.tipoCorreo <> 'Carta de admisiones' ORDER BY c.codigo ASC";
+
 	public static final String GET_CAT_NOTIFICACION_FIRMA="SELECT PERSISTENCEID, CARGO, CORREO, GRUPO, NOMBRECOMPLETO, PERSISTENCEVERSION, SHOWCARGO, SHOWCORREO, SHOWGRUPO, SHOWTELEFONO, SHOWTITULO, TELEFONO, TITULO, CAMPUS, FACEBOOK, TWITTER, APELLIDO, BANNER FROM CATNOTIFICACIONESFIRMA [WHERE] [ORDERBY] [LIMITOFFSET];"
 
 	public static final String GET_CAMPUS_ID_FROM_CLAVE="SELECT persistenceid as campus_id FROM CATCAMPUS where grupoBonita=? limit 1 "

@@ -92,7 +92,7 @@ class IndexGet implements RestApiController {
 				}
 				
 				SecurityFilter security2 = new SecurityFilter();
-				if(!security2.allowedUrl(context,url)){
+				if(!security2.allowedUrl(context, url)){
 					return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
 				}
 						
@@ -231,13 +231,13 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				case "getMenuAdministrativo":
-				result = new UsuariosDAO().getMenuAdministrativo(context)
-				responseBuilder.withMediaType("application/json")
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
+					result = new UsuariosDAO().getMenuAdministrativo(context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
 				break;
 				
 				case "getUniversidadSmartCampus":

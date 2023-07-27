@@ -19,6 +19,17 @@ function PbButtonCtrl($scope, $http) {
                 title: "¡Periodo vencido!",
                 content: content,
                 icon: "warning"
+            }).then(() => {
+                let url = "	/bonita/logoutservice?redirect=false";
+                var req = {
+                    method: "POST",
+                    url: url,
+                };
+          
+                return $http(req).success(function(data){
+                    let href = window.location.protocol + "//" + window.location.host + $scope.properties.urlToRedirect;
+                    window.top.location = href;
+                });
             });
         }
     }

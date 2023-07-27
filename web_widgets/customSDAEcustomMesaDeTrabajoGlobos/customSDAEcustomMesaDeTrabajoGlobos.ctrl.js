@@ -41,6 +41,8 @@ function($scope, $http, blockUI) {
             output = true;
         } else if($scope.isChat){
             output = true;
+        } else if ($scope.isConfigCampusSDAE){
+            output = true;
         }
         return output;
     }
@@ -153,6 +155,9 @@ function($scope, $http, blockUI) {
                     } else if ($scope.lstMembership[i].role_id.displayName === "Crisp") {
                         $scope.isChat = true;
                         console.log("isSerua " + $scope.isChat);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Config Campus SDAE"){
+                        $scope.isConfigCampusSDAE = true;
+                        console.log("isConfigCampusSDAE " + $scope.isConfigCampusSDAE);
                     } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
                         $scope.isAdministrador = true;
                         console.log("isAdministrador " + $scope.isAdministrador);

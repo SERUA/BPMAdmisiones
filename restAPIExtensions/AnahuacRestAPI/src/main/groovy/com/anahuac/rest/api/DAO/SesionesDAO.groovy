@@ -3172,8 +3172,8 @@ class SesionesDAO {
 				pstm.executeUpdate();
 				
 				con.commit();
-				Result dataResult = updateAspirantesPruebas(jsonData, context);
-				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData, context);
+				Result dataResult = updateAspirantesPruebas(jsonData);
+				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData);
 				
 				resultado.setSuccess(true)
 				
@@ -6168,7 +6168,7 @@ class SesionesDAO {
 				switch(filtro.get("columna")) {
 
 				case "FECHA, LUGAR":
-					where +=" AND  ( LOWER( CAST(TO_CHAR(P.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+					where +=" AND  ( LOWER( CAST(TO_CHAR(P.aplicacion, 'DD/MM/YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 					where += "OR LOWER(P.entrada) LIKE LOWER('%[valor]%') "
 					where += "OR LOWER(P.salida) LIKE LOWER('%[valor]%') "
 					where = where.replace("[valor]", filtro.get("valor"))

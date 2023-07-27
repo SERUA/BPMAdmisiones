@@ -18,8 +18,10 @@ function($scope, $http) {
                 $scope.properties.successResponseValue = data;
             })
             .error(function(data, status) {
+                debugger;
                 $scope.properties.errorResponseValue = data;
                 if (data.error === "fallo por Cannot invoke method size() on null object") {
+                    debugger;
                     //swal("Activado", "El usuario ya se encuentra activado", "success");
                     $scope.readJson("Activado!", "¡El usuario ya se encuentra activado!");
                     swal({
@@ -31,8 +33,6 @@ function($scope, $http) {
                         buttons: false
                     });
                     setTimeout(fun, 2000);
-
-
                 } else {
                     swal("Error", data.error, "error");
                 }
@@ -51,7 +51,6 @@ function($scope, $http) {
 
 
     function fun() {
-        //window.location = "http://www.youtube.com";
         window.location.assign("https://" + location.host + "/apps/login")
     }
 
