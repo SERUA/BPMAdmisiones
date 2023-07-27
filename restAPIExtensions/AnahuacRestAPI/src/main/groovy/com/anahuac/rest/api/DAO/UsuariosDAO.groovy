@@ -4305,14 +4305,22 @@ class UsuariosDAO {
 			if(valores.editarSec1 == false) {
 				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC1
 				pstm = con.prepareStatement(consulta);
-				pstm.setString(1, valores.catcampusestudio_pid);
-				pstm.setString(2, valores.catgestionescolar_pid);
-				pstm.setString(3, valores.catperiodo_pid);
-				pstm.setString(4, valores.catcampus_pid);
-				pstm.setString(5, valores.catpresentasteenotrocampus_pid);
+				pstm.setInt(1, valores.catcampusestudio_pid);
+				pstm.setInt(2, valores.catgestionescolar_pid);
+				pstm.setInt(3, valores.catperiodo_pid);
+				pstm.setInt(4, valores.catcampus_pid);
+				pstm.setInt(5, valores.catpresentasteenotrocampus_pid);
 				pstm.setString(6, valores.correoelectronico);
-				pstm.setString(7, valores.catconcluisteproceso_pid);
-				pstm.setString(8, valores.catresultadoadmision_pid);
+				if (valores.catconcluisteproceso_pid == null) {
+				    pstm.setObject(7, null); // Establecer valor nulo para el parámetro
+				} else {
+				    pstm.setInt(7, valores.catconcluisteproceso_pid); // Establecer el valor entero
+				}
+				if (valores.catresultadoadmision_pid == null) {
+				    pstm.setObject(8, null); // Establecer valor nulo para el parámetro
+				} else {
+				    pstm.setInt(8, valores.catresultadoadmision_pid); // Establecer el valor entero
+				}
 				pstm.setInt(9, valores.caseid);
 				int filasActualizadas = pstm.executeUpdate();
 			} else if(valores.editarSec2 == false){
@@ -4322,29 +4330,174 @@ class UsuariosDAO {
 				pstm.setString(2, valores.segundonombre);
 				pstm.setString(3, valores.apellidopaterno);
 				pstm.setString(4, valores.apellidomaterno);
-				pstm.setString(5, valores.curp);
-				pstm.setString(6, valores.telefonocelular);
-				pstm.setInt(7, valores.caseid);
+				pstm.setInt(5, valores.catsexo_pid);
+				pstm.setString(6, valores.fechanacimiento);
+				pstm.setInt(7, valores.catestado_pid);
+				pstm.setInt(8, valores.catreligion_pid);
+				pstm.setString(9, valores.curp);
+				pstm.setString(10, valores.telefonocelular);
+				pstm.setInt(11, valores.catestadocivil_pid);
+				pstm.setInt(12, valores.caseid);
 				
 				int filasActualizadas = pstm.executeUpdate();
 			} else if(valores.editarSec3 == false){
 				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC3
 				pstm = con.prepareStatement(consulta);
-				pstm.setString(1, valores.ciudad);
-				pstm.setString(2, valores.calle);
-				pstm.setString(3, valores.calle2);
-				pstm.setString(4, valores.numexterior);
-				pstm.setString(5, valores.numinterior);
-				pstm.setString(6, valores.telefono);
-				pstm.setString(7, valores.otrotelefonocontacto);
-				pstm.setInt(8, valores.caseid);
+				pstm.setInt(1, valores.catpais_pid);
+				pstm.setString(2, valores.codigopostal);
+				pstm.setInt(3, valores.catestado_pid);
+				pstm.setString(4, valores.ciudad);
+				pstm.setString(5, valores.delegacionmunicipio);
+				pstm.setString(6, valores.colonia);
+				pstm.setString(7, valores.calle);
+				pstm.setString(8, valores.calle2);
+				pstm.setString(9, valores.numexterior);
+				pstm.setString(10, valores.numinterior);
+				pstm.setString(11, valores.telefono);
+				pstm.setString(12, valores.otrotelefonocontacto);
+				pstm.setInt(13, valores.caseid);
 				
 				int filasActualizadas = pstm.executeUpdate();
 				
 			} else if(valores.editarSec4 == false){
+				con.setAutoCommit(false)
+				String promedioGeneral = valores.promediogeneral
+				String consulta1 = "UPDATE solicituddeadmision SET promediogeneral = ?, catbachilleratos_pid = ? WHERE caseid = ?"
+				pstm = con.prepareStatement(consulta1)
+				pstm.setString(1, promedioGeneral) // Utiliza la variable 'promedioGeneral'
+				pstm.setInt(2, valores.catbachilleratos_pid)
+				pstm.setInt(3, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+				int filasActualizadas1 = pstm.executeUpdate()
+				pstm.close()
+				
+				if(valores.catbachilleratos_pid == 1){
+					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC42
+					pstm = con.prepareStatement(consulta2)
+					pstm.setInt(1, valores.persistenceid = 1)
+					pstm.setString(2, valores.descripcion = "Otro") // Reemplaza 'valores.descripcion' con el valor real
+					pstm.setString(3, valores.estado) // Reemplaza 'valores.estado' con el valor real
+					pstm.setString(4, valores.pais) // Reemplaza 'valores.pais' con el valor real
+					pstm.setString(5, valores.ciudad) // Reemplaza 'valores.ciudad' con el valor real
+					pstm.setInt(6, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+					int filasActualizadas2 = pstm.executeUpdate()
+					pstm.close()
+				}
+				con.commit()
 				
 			} else if(valores.editarSec5 == false){
-				
+				con.setAutoCommit(false)
+				if(valores.change == true) {
+					String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					pstm = con.prepareStatement(consulta);
+					pstm.setInt(1, valores.cattitulo_pid);
+					pstm.setInt(2, valores.catparentezco_pid);
+					pstm.setString(3, valores.nombre);
+					if (valores.otroparentesco == null) {
+						pstm.setObject(4, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(4, valores.otroparentesco); // Establecer el valor entero
+					}
+					pstm.setString(5, valores.apellidos);
+					pstm.setString(6, valores.correoelectronico);
+					pstm.setInt(7, valores.categresoanahuac_pid);
+					pstm.setInt(8, valores.cattrabaja_pid);
+					pstm.setInt(9, valores.catcampusegreso_pid);
+					pstm.setString(10, valores.empresatrabaja);
+					pstm.setInt(11, valores.catescolaridad_pid);
+					pstm.setString(12, valores.giroempresa);
+					pstm.setString(13, valores.puesto);
+					pstm.setInt(14, valores.catpais_pid);
+					pstm.setString(15, valores.codigopostal);
+					pstm.setInt(16, valores.catestado_pid);
+					if (valores.estadoextranjero == null) {
+						pstm.setObject(17, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setInt(17, valores.estadoextranjero); // Establecer el valor entero
+					}
+					pstm.setString(18, valores.ciudad);
+					pstm.setString(19, valores.delegacionmunicipio);
+					pstm.setString(20, valores.colonia);
+					pstm.setString(21, valores.calle);
+					if (valores.numeroexterior == null) {
+						pstm.setObject(22, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(22, valores.numeroexterior); // Establecer el valor entero
+					}
+					if (valores.numerointerior == null) {
+						pstm.setObject(23, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(23, valores.numerointerior); // Establecer el valor entero
+					}
+					pstm.setString(24, valores.telefono);
+					pstm.setBoolean(25, valores.istutor);
+					pstm.setInt(26, valores.caseid);
+					pstm.setInt(27, valores.persistenceid);
+					
+					int filasActualizadasNuevo = pstm.executeUpdate();
+					pstm.close()
+					
+					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC52
+					pstm = con.prepareStatement(consulta2)
+					pstm.setBoolean(1, valores.istutorDesactivar);
+					pstm.setBoolean(2, valores.desconozcoDatosPadresDesactivar);
+					pstm.setInt(3, valores.caseid);
+					pstm.setInt(4, valores.desconozcoDatosPadresDesactivarPersistenceId);
+					int filasActualizadasViejo = pstm.executeUpdate();
+					
+					pstm.close()
+					
+				}else {
+					String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					pstm = con.prepareStatement(consulta);
+					pstm.setInt(1, valores.cattitulo_pid);
+					pstm.setInt(2, valores.catparentezco_pid);
+					pstm.setString(3, valores.nombre);
+					if (valores.otroparentesco == null) {
+						pstm.setObject(4, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(4, valores.otroparentesco); // Establecer el valor entero
+					}
+					pstm.setString(5, valores.apellidos);
+					pstm.setString(6, valores.correoelectronico);
+					pstm.setInt(7, valores.categresoanahuac_pid);
+					pstm.setInt(8, valores.cattrabaja_pid);
+					pstm.setInt(9, valores.catcampusegreso_pid);
+					pstm.setString(10, valores.empresatrabaja);
+					pstm.setInt(11, valores.catescolaridad_pid);
+					pstm.setString(12, valores.giroempresa);
+					pstm.setString(13, valores.puesto);
+					pstm.setInt(14, valores.catpais_pid);
+					pstm.setString(15, valores.codigopostal);
+					pstm.setInt(16, valores.catestado_pid);
+					if (valores.estadoextranjero == null) {
+						pstm.setObject(17, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setInt(17, valores.estadoextranjero); // Establecer el valor entero
+					}
+					pstm.setString(18, valores.ciudad);
+					pstm.setString(19, valores.delegacionmunicipio);
+					pstm.setString(20, valores.colonia);
+					pstm.setString(21, valores.calle);
+					if (valores.numeroexterior == null) {
+						pstm.setObject(22, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(22, valores.numeroexterior); // Establecer el valor entero
+					}
+					if (valores.numerointerior == null) {
+						pstm.setObject(23, null); // Establecer valor nulo para el parámetro
+					} else {
+						pstm.setString(23, valores.numerointerior); // Establecer el valor entero
+					}
+					pstm.setString(24, valores.telefono);
+					pstm.setBoolean(25, valores.istutor);
+					pstm.setBoolean(26, valores.desconozcoDatosPadres);
+					pstm.setInt(27, valores.caseid);
+					pstm.setInt(28, valores.persistenceid);
+					
+					int filasActualizadas = pstm.executeUpdate();
+					
+				}
+				con.commit()
 			} else if(valores.editarSec6 == false){
 				
 			} else if(valores.editarSec7 == false){
