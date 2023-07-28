@@ -4435,7 +4435,7 @@ class UsuariosDAO {
 					
 					int filasActualizadasNuevo = pstm.executeUpdate();
 					pstm.close()
-					
+					/*
 					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC52
 					pstm = con.prepareStatement(consulta2)
 					pstm.setBoolean(1, valores.istutorDesactivar);
@@ -4445,9 +4445,14 @@ class UsuariosDAO {
 					int filasActualizadasViejo = pstm.executeUpdate();
 					
 					pstm.close()
-					
+					*/
 				}else {
-					String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					if(valores.otro == true) {
+						String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC53
+					}else {
+						String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					}
+					
 					pstm = con.prepareStatement(consulta);
 					pstm.setInt(1, valores.cattitulo_pid);
 					pstm.setInt(2, valores.catparentezco_pid);
