@@ -1,0 +1,5 @@
+<div ng-if="!properties.inline" class="radio-button border" ng-repeat="option in properties.availableValues track by $index">
+    <input type="radio" id="radio{{$index}}" name="{{ctrl.name}}" ng-model="properties.selectedValue" ng-value="ctrl.getValue(option)">
+    <label class="labelnomargin" for="radio{{$index}}"> {{ (ctrl.getLabel(option) || option) | uiTranslate }}</label>
+</div>
+

@@ -48,9 +48,9 @@ import com.anahuac.rest.api.Entity.db.ResponsableDisponible
 import com.anahuac.rest.api.Entity.db.Role
 import com.anahuac.rest.api.Entity.db.Sesion_Aspirante
 import com.anahuac.rest.api.Entity.HubspotConfig
+import com.anahuac.rest.api.Security.SecurityFilter
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
-import com.anahuac.rest.api.Security.SecurityFilter
 
 import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
@@ -79,7 +79,7 @@ class Index implements RestApiController {
 		if(!security.allowedUrlPost(context,url)){
 			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
 		}
-		
+				
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);
 		Integer parameterC = Integer.valueOf(c);
@@ -869,13 +869,13 @@ class Index implements RestApiController {
 					break;
 					
 					case "postExcelAspirantesPAA":
-					result = new ImportacionPAADAO().postExcelAspirantesPAA(jsonData, context);
-					responseBuilder.withMediaType("application/json")
-					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-					}else {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-					}
+						result = new ImportacionPAADAO().postExcelAspirantesPAA(jsonData, context);
+						responseBuilder.withMediaType("application/json")
+						if (result.isSuccess()) {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+						}else {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+						}
 					break;
 					
 					case "postEliminarResultado":
@@ -1162,6 +1162,15 @@ class Index implements RestApiController {
 					/*result = new Result();
 					result.setSuccess(true);*/
 
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "generateHtmlINVP":
+					result = nDAO.generateHtmlINVP(parameterP, parameterC, jsonData, context);
+					
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -1819,6 +1828,14 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
+				case "updateCatNotificacionesAlt":
+					result = new NotificacionDAO().updateCatNotificacionesAlt(jsonData)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
 				case "reagendarExamen":
 					result = tDAO.reagendarExamen(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -1932,8 +1949,8 @@ class Index implements RestApiController {
 					}
 					break;
 					
-				case "selectAspirantesSmartCampus":
-					result = uDAO.selectAspirantesSmartCampus(jsonData, context)
+				case "B64File":
+					result = uDAO.getB64File(jsonData);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -1941,8 +1958,8 @@ class Index implements RestApiController {
 					}
 					break;
 					
-				case "B64File":
-					result = uDAO.getB64File(jsonData);
+				case "selectAspirantesSmartCampus":
+					result = uDAO.selectAspirantesSmartCampus(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -2131,6 +2148,16 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				
+				case "generarReportePerfilAspirante":
+					result = new ReportesDAO().generarReportePerfilAspirante(jsonData)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
 				case "getIdiomaVencidos":
 					result = suDAO.getIdiomaVencidos(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -2248,15 +2275,6 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
-				case "generarReportePerfilAspirante":
-				result = new ReportesDAO().generarReportePerfilAspirante(jsonData)
-				responseBuilder.withMediaType("application/json")
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
-				break;
 				case "getSesionesINVP":
 				def jsonSlurper = new JsonSlurper();
 				def object = jsonSlurper.parseText(jsonData);
@@ -2367,6 +2385,14 @@ class Index implements RestApiController {
 				}
 				
 				break;
+				case "getUserFoto":
+				result = uDAO.getUserFoto(context,jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 				
 				case "PostUpdateDeleteCatEscalaEAC":
 				result = new ImportacionPAADAO().PostUpdateDeleteCatEscalaEAC(jsonData)
@@ -2441,17 +2467,6 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
-				
-				
-				case "getUserFoto":
-				result = uDAO.getUserFoto(context,jsonData)
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
-				break;
-				
 				default:
 					result = notFound(url);
 					if (result.isSuccess()) {

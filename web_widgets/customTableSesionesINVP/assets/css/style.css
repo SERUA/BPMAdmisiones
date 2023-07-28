@@ -1,0 +1,49 @@
+.row-margin-in{
+    margin-left: 2px !important;
+    margin-right: 2px !important;
+}
+button.tooltips-info[data-tooltip] {
+  position: relative;
+}
+
+button.tooltips-info[data-tooltip]::before {
+  content: attr(data-tooltip);
+  position: absolute;
+  top: -30px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #CDB9EF;
+  color: black;
+  padding: 5px 10px;
+  font-size: 10px;
+  font-weight: bold;
+  text-align: center;
+  white-space: nowrap;
+  border-radius: 5px;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+button.tooltips-info[data-tooltip]:hover::before {
+  visibility: visible;
+  opacity: 1;
+}
+
+button.tooltips-info[data-tooltip]::after {
+  content: '';
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%) rotate(0deg);
+  border: 10px solid #CDB9EF;
+  border-color: #CDB9EF transparent transparent transparent;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.3s ease-in-out;
+}
+
+button.tooltips-info[data-tooltip]:hover::after {
+  visibility: visible;
+  opacity: 1;
+} 

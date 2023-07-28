@@ -1,0 +1,56 @@
+<div class="table-responsive" ng-if="!seleccionado">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th ng-repeat="header in properties.headers" style="width:40vw">
+                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
+                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                </th>
+            </tr>
+            <tr><td style="width:40vw"><input class="form-control" ng-model="filtro"></td><td></td></tr>
+        </thead>
+        <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
+            <tr ng-repeat="row in properties.content | filter:filtro:strict" ng-click="paginaSelected(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
+                    {{ $eval(column, row) | uiTranslate }}
+                </td>
+                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
+                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                </td>
+                <td ><span style="margin-left: 5px;" class="label label-primary" ng-repeat="role in row.roles">{{role.name}}</span></td>
+            </tr>
+        </tbody>
+        <tbody ng-if="ctrl.isArray(properties.content) && !ctrl.isArray(properties.columnsKey)">
+            <tr ng-repeat="row in properties.content | filter:filtro:strict" ng-click="paginaSelected(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>
+                <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
+                <td ><span style="margin-left: 5px;" class="label label-primary" ng-repeat="role in row.roles">{{role.name}}</span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<div class="row" ng-if="seleccionado">
+  <div class="col-xs-12" style="margin-top:15px">
+      <h3>{{pagina.displayname}}</h3>
+  </div>
+  <div class="col-xs-9" style="margin-top:15px"><select  
+    class="form-control"
+    ng-model="rolSelected"
+    ng-options="option as option.displayName for option in lstRoles"
+    ng-change="setRol(rolSelected)">
+    <option style="display:none" value="">
+        Seleccionar...
+    </option></select></div>  <div class="col-xs-3" style="margin-top:15px"><button class="btn btn-primary" ng-click="agregarRol()">Agregar</button></div>
+    <div class="col-xs-12" style="margin-top:15px">
+        <table class="table">
+            <thead><tr><th>Rol</th><th>Acción</th></tr></thead>
+            <tbody><tr ng-repeat="rol in pagina.roles" ng-if="!rol.eliminado"><td>{{rol.name}}</td><td><button class="btn btn-link" ng-click="eliminarRol(rol)"><span class="glyphicon glyphicon-remove"></span></button></td></tr></tbody>
+        </table>
+    </div>
+    <div class="col-xs-6 text-left" style="margin-top:15px">
+        <button class="btn btn-info" ng-click="ocultar()">Cancelar</button>
+    </div>
+    <div class="col-xs-6 text-right" style="margin-top:15px">
+        <button class="btn btn-primary" ng-click="guardar()">Guardar</button>
+    </div>
+</div>

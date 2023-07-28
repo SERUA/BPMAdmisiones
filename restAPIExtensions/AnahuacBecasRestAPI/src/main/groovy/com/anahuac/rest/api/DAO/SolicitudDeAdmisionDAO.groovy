@@ -85,7 +85,7 @@ class SolicitudDeAdmisionDAO {
 				row.setSegundoApellido(rs.getString("apellidomaterno"))
 				row.setCorreoElectronico(rs.getString("correoelectronico"))
 				row.setSexo(rs.getString("sexo"))
-				row.setTipoIngreso(rs.getString("tipoadmision"))
+				row.setTipoIngreso(rs.getString("tipoalumno"))
 				row.setLicenciatura(rs.getString("licenciatura"))
 				row.setSemestreIngreso(rs.getString("semestre"))
 				row.setIdAlumno(rs.getString("idalumno"))

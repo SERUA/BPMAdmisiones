@@ -110,7 +110,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
             .success(function (data, status) {
-                debugger;
                 caseid = data.caseId;
                 $scope.caseid = data.caseId;
                 $scope.properties.dataFromSuccess = data;
@@ -123,20 +122,20 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 closeModal($scope.properties.closeOnSuccess);
             })
             .error(function (data, status) {
+                vm.busy = false;
                 $scope.properties.dataFromError = data;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromSuccess = undefined;
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function () {
-                vm.busy = false;
-                insertBitacora();
-                // window.location.reload();
+                setTimeout(function(){
+                    insertBitacora();
+                }, 2000);
             });
     }
 
     function insertBitacora(){
-        debugger;
         let url = $scope.properties.urlBitacora;
         let dataToSend = angular.copy($scope.properties.objetoBitacora);
         dataToSend.caseid = $scope.caseid;

@@ -1,0 +1,51 @@
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="">
+        <div class="navbar-header">
+            <a class="navbar-brand visible-xs" ng-click="ctrl.displayPage(properties.homePageToken)" href="../{{properties.homePageToken}}/">{{ctrl.applicationName}}</a>
+            <button type="button" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        
+        <div collapse="navCollapsed" class="collapse navbar-responsive-collapse navbar-collapse">
+            <ul class="nav navbar-nav visible-xs text-center">
+                <hr ng-show="ctrl.applicationMenuList.length>0"/>
+                <li ng-if="!properties.isGuestUser"><a ng-click="ctrl.openCurrentSessionModal()" class="btn btn-link btn-account"><span class="max-title-width">{{properties.userName}}</span></a></li>
+                <li ng-if="properties.isGuestUser"><a ng-click="ctrl.logoutAndUpdateSuccessfulLogoutVariable()" class="btn btn-link btn-account"><span class="max-title-width" translate>Sign in</span></a></li>
+                <li><a ng-click="ctrl.openAppSelectionModal()" class="btn btn-link btn-account"><span class="glyphicon glyphicon-th"></span></a></li>
+            </ul>
+            <!--<ul class="nav navbar-nav">-->
+            <ul class="bgo">
+                {{ctrl.parentToken}}
+                <li ng-class="{active:(ctrl.pageToken === menu.token) || (ctrl.parentPageId === menu.id && properties.menuClosed === true), 'text-center': properties.menuClosed}" class="main-app" ng-repeat="menu in getMenuAdministrativo" dropdown >
+                    <a ng-if="menu.url!=null" ng-click="ctrl.displayPage(menu.token); ctrl.setParentPageActive(0)" href="../{{menu.token}}/">
+                        <span class="ease-transition glyphicon glyphicon-calendar" ng-if="menu.displayName === 'Admisiones'"></span>
+                        <span class="ease-transition glyphicon glyphicon-file" ng-if="menu.displayName === 'Examenes'"></span>
+                        <span class="ease-transition glyphicon glyphicon-cog" ng-if="menu.displayName === 'Gestión de administrativos'"></span>
+                        <span class="ease-transition glyphicon glyphicon-envelope" ng-if="menu.displayName === 'Gestión de correos'"></span>
+                        <span class="maxTitleWidth ease-transition" ng-if="!properties.menuClosed">{{menu.menu}}</span>
+                    </a>
+                    <a ng-if="menu.url==null"  href="javascript:void(0);" dropdown-toggle ng-click="menu.showChildren ? menu.showChildren = false : menu.showChildren = true">
+                        <span class="ease-transition glyphicon glyphicon-calendar" ng-if="menu.displayName === 'Admisiones'"></span>
+                        <span class="ease-transition glyphicon glyphicon-file" ng-if="menu.displayName === 'Examenes'"></span>
+                        <span class="ease-transition glyphicon glyphicon-cog" ng-if="menu.displayName === 'Gestión de administrativos'"></span>
+                        <span class="ease-transition glyphicon glyphicon-envelope" ng-if="menu.displayName === 'Gestión de correos'"></span>
+                        <span class="maxTitleWidth ease-transition" ng-if="!properties.menuClosed">{{menu.menu}}</span>
+                    </a>
+                    <!--<ul ng-if="ctrl.isParentMenu(menu)"  class="dropdown-menu">-->
+                    <ul ng-if="menu.url==null && !properties.menuClosed" class="ease-transition">
+                        <li ng-if="menu.showChildren" ng-repeat="childMenu in menu.child" class="secondary-app ease-transition " ng-class="{active:ctrl.pageToken===childMenu.applicationPageId.token}">
+                            <!--<a ng-click="ctrl.displayPage(childMenu.applicationPageId.token); " href="../{{childMenu.applicationPageId.token}}/">-->
+                            <a ng-click="ctrl.displayPage(childMenu.token); ctrl.setParentPageActive(childMenu.parentid)" href="../{{childMenu.token}}/">
+                                {{childMenu.menu}}
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+            
+        </div>
+    </div>
+</div>

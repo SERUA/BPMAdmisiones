@@ -3508,6 +3508,159 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.AspirantesBloqueados">
+            <fields>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaBloqueo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.CatPreguntas">
+            <fields>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pregunta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="question" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaCreacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuarioCreacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="caseId" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getPreguntasByOrden" content="SELECT c &#13;&#10;FROM CatPreguntas c &#13;&#10;WHERE c.orden = :orden &#13;&#10;AND c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.invp.CatPreguntas">
+                    <queryParameters>
+                        <queryParameter name="orden" className="java.lang.Integer"/>
+                    </queryParameters>
+                </query>
+                <query name="getCatPreguntas" content="SELECT c &#13;&#10;FROM CatPreguntas c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.invp.CatPreguntas">
+                    <queryParameters/>
+                </query>
+                <query name="getCatPreguntasByCaso" content="SELECT c &#13;&#10;FROM CatPreguntas c &#13;&#10;WHERE c.isEliminado = false&#13;&#10;ORDER BY c.caseId ASC" returnType="com.anahuac.invp.CatPreguntas">
+                    <queryParameters/>
+                </query>
+                <query name="countForFindEliminado" content="SELECT COUNT(c) &#13;&#10;FROM CatPreguntas c&#13;&#10;WHERE c.isEliminado = false" returnType="java.lang.Long">
+                    <queryParameters/>
+                </query>
+                <query name="getCatPreguntasBYIsEliminado" content="SELECT c &#13;&#10;FROM CatPreguntas c &#13;&#10;WHERE c.isEliminado = :isEliminado&#13;&#10;ORDER BY c.orden ASC" returnType="com.anahuac.invp.CatPreguntas">
+                    <queryParameters>
+                        <queryParameter name="isEliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.ConfiguracionesINVP">
+            <fields>
+                <field type="INTEGER" length="255" name="toleranciaMinutos" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="idprueba" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="toleranciaSalidaMinutos" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.INVPExamenTerminado">
+            <fields>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="terminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechainicio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechafin" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="idSesion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.IdiomaINVPUsuario">
+            <fields>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="havesesion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="usuariobloqueado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombresesion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="istemporal" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.InfoAspiranteTemporal">
+            <fields>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="fechaInicioSesion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="horaInicioSesion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="horaFinSesion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="toleranciaEntradaSesion" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="toleranciaSalidaSesion" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="idprueba" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.InstanciaINVP">
+            <fields>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaRegistro" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="ultimaModificacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="estatus" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="mensajeTermino" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="examenReiniciado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="resultadoEnviado" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="idSesion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.RespuestaINVP">
+            <fields>
+                <field type="INTEGER" length="255" name="pregunta" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="respuesta" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="idusuario" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="username" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.RespuestasExamen">
+            <fields>
+                <field type="LONG" length="255" name="idUsuario" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="respuesta" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pregunta" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseId" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="contestada" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.invp.CatPreguntas" fetchType="EAGER" name="objPreguntas" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.SesionesFinalizadas">
+            <fields>
+                <field type="LONG" length="255" name="idSesion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="finalizada" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.invp.bitacora.CatBitacoraINVP">
+            <fields>
+                <field type="STRING" length="255" name="evento" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fechaRegistro" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="isEliminado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.model.AspirantesPruebas">
             <fields>
                 <field type="STRING" length="255" name="username" nullable="true" collection="false"/>

@@ -25,7 +25,6 @@ function PbTableCtrl($scope) {
         let output = "";
 
         for(let item of $scope.properties.lstTipoInversionesPosee){
-            debugger;
             if(item.persistenceId == _persistenceid){
                 output = item.descripcion;
                 break;
