@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1684191275696,
+  "lastUpdate" : 1689359024824,
   "rows" : [
     [
       {
@@ -5146,6 +5146,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : true
                                     }
                                   },
                                   "reference" : "b57e15d4-e6d7-4984-b7bb-0c0573847f33",
@@ -5293,6 +5297,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : false
                                     }
                                   },
                                   "reference" : "97ff31e9-2fe9-40b1-a540-449c648f292e",
@@ -6500,6 +6508,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : true
                                     }
                                   },
                                   "reference" : "e8595059-eca4-4c99-954a-366b4fc0c6fd",
@@ -6647,6 +6659,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : false
                                     }
                                   },
                                   "reference" : "861fa9f0-8370-4435-9e15-feda999b2633",
@@ -7653,6 +7669,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : true
                                     }
                                   },
                                   "reference" : "859aa347-c55b-45e5-9832-04bc7af95e57",
@@ -7800,6 +7820,10 @@
                                     "todayLabel" : {
                                       "type" : "interpolation",
                                       "value" : "Today"
+                                    },
+                                    "esFechaInscripcion" : {
+                                      "type" : "constant",
+                                      "value" : false
                                     }
                                   },
                                   "reference" : "3c8efc61-3ae1-47b8-b8b2-7ce8fdba4eaa",
@@ -8408,6 +8432,75 @@
                       "hasValidationError" : false,
                       "id" : "customSDAEFileViewer"
                     }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "URL"
+                        },
+                        "targetUrl" : {
+                          "type" : "expression",
+                          "value" : "selectedFile"
+                        },
+                        "pageToken" : {
+                          "type" : "constant"
+                        },
+                        "processName" : {
+                          "type" : "constant"
+                        },
+                        "processVersion" : {
+                          "type" : "constant"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "target" : {
+                          "type" : "constant",
+                          "value" : "_blank"
+                        },
+                        "appToken" : {
+                          "type" : "constant"
+                        },
+                        "urlParams" : {
+                          "type" : "constant"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        }
+                      },
+                      "reference" : "ed4a3892-cd1a-41ef-be33-705b3b89cb65",
+                      "hasValidationError" : false,
+                      "id" : "customSDAELinkDescargaArchivo"
+                    }
                   ]
                 ]
               }
@@ -8947,7 +9040,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.model.SolicitudDeAdmision?q=findByCaseId&p=0&c=10&f=caseId={{formOutputTest.solicitudApoyoEducativoInput.caseIdAdmisiones}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "mensaje" : {
@@ -9318,6 +9415,9 @@
         "} else if(!$data.formInputAprobar.autorizacionInput.isPagoRealizadoAutorizacion && !$data.formInputAprobar.autorizacionInput.fechaPagoInscripcionAutorizacion){\r",
         "    $data.errorMessage = \"El campo 'Fecha límite de inscripción' no debe ir vacío\";\r",
         "    output = false;\r",
+        "} else if(!$data.formInputAprobar.autorizacionInput.fechaLimitePropuesta){\r",
+        "    $data.errorMessage = \"El campo 'Fecha límite de para responder la propuesta' no debe ir vacío\";\r",
+        "    output = false;\r",
         "}\r",
         "\r",
         "return output;"
@@ -9393,7 +9493,7 @@
         "\t\"beca\": $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeBecaAutorizacion + \"\" : \"N/A\",\r",
         "  \t\"comentario\": \"\",\r",
         "  \t\"correo\": $data.objSolicitudDeAdmision[0].correoElectronico,\r",
-        "  \t\"estatus\": \"Solicitud aprobada\",\r",
+        "  \t\"estatus\": \"Propuesta enviada por comité de becas\",\r",
         "  \t\"financiamiento\": $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion ? $data.formInputAprobar.autorizacionInput.porcentajeCreditoAutorizacion  + \"\" : \"N/A\",\r",
         "  \t\"idbanner\": $data.getDatosSolicitante[0].idAlumno,\r",
         "  \t\"usuarios\": $data.userData.user_name,\r",

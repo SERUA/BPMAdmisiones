@@ -959,7 +959,8 @@ class PDFDocumentDAO {
 				columns.put("empresaTelefonoAval", rs.getString("avaltrabajotelefono"));
 				columns.put("empresaTelefonoExtAval", rs.getString("avaltrabajotelefonoext"));
 				columns.put("empresaFechaIngresoAval", buildDate(rs.getString("avaltrabajofechaingreso")));
-				columns.put("empresaEmailAval", rs.getString("avaltrabajoemail"));
+				String empresaEmailAval = rs.getString("avaltrabajoemail");
+				columns.put("empresaEmailAval", empresaEmailAval != null ? empresaEmailAval : "N/A");
 				columns.put("paisDomicilioEmpresa", rs.getString("avaltrabajopais"));
 				columns.put("cpDomicilioEmpresa", rs.getString("avaltrabajocp"));
 				columns.put("estadoDomicilioEmpresa", rs.getString("avaltrabajoestado"));
@@ -1245,7 +1246,7 @@ class PDFDocumentDAO {
 				columns.put("promedioPreparatoria", rs.getString("promediogeneral"));
 				columns.put("nombreAsp", nombre);
 				columns.put("sexoAsp", rs.getString("sexo"));
-				columns.put("tipoIngresoAsp", rs.getString("tipoingreso"));
+				columns.put("tipoIngresoAsp", rs.getString("tipoalumno"));
 				columns.put("fechaNacAsp", fechaNac);
 				columns.put("idAsp", rs.getString("idbanner"));
 				columns.put("correoAsp", email);
@@ -1256,16 +1257,16 @@ class PDFDocumentDAO {
 				columns.put("paisPreparatoria", rs.getString("paisprepa"));//PENDING
 				columns.put("ciudadPreparatoria", rs.getString("estadoprepa"));//PENDING
 				columns.put("estadoPreparatoria", rs.getString("ciudadprepa"));//PENDING
-				columns.put("calleAsp", rs.getString("calle"));
-				columns.put("numExtAsp", rs.getString("idbanner"));
+				columns.put("calleAsp", rs.getString("callesol"));
+				columns.put("numExtAsp", rs.getString("numerosol"));
 				idbanner = rs.getString("idbanner");
-				columns.put("cpAsp", rs.getString("cp"));
-				columns.put("paisAsp", rs.getString("pais"));
+				columns.put("cpAsp", rs.getString("codigopostalsol"));
+				columns.put("paisAsp", rs.getString("paissol"));
 				columns.put("telefonoAsp", rs.getString("telefono"));
 				columns.put("trabajasAsp", rs.getString("trabajas"));
-				columns.put("coloniaAsp", rs.getString("colonia"));
-				columns.put("ciudadAsp", rs.getString("ciudad"));
-				columns.put("estadoAsp", rs.getString("estado"));
+				columns.put("coloniaAsp", rs.getString("coloniasol"));
+				columns.put("ciudadAsp", rs.getString("ciudadsol"));
+				columns.put("estadoAsp", rs.getString("estadosol"));
 				columns.put("celularAsp", rs.getString("telefonocelular"));
 				columns.put("estadoCivilAsp", rs.getString("estadocivil"));
 				caseidSolicitud = rs.getLong("caseid");
@@ -1284,16 +1285,7 @@ class PDFDocumentDAO {
 			Boolean desconozcoMadre = false;
 			
 			while (rs.next()) {
-				if(rs.getBoolean("istutor") && !tutor) {
-					columns.put("nombreTutor", rs.getString("nombre") + " " + rs.getString("apellidos"));
-					columns.put("emailTutor", rs.getString("correoelectronico"));
-					columns.put("ocupacionTutor", rs.getString("titulo"));
-					columns.put("telefonoCasaTutor", rs.getString("telefono"));
-					columns.put("parentescoTutor", rs.getString("parentesco"));
-					columns.put("empresaTutor", rs.getString("empresatrabaja") ?  rs.getString("empresatrabaja") : "N/A");
-					columns.put("puestoTutor", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
-					tutor = true;
-				} else if(rs.getString("parentesco").toLowerCase().equals("padre") && !padre) {
+				if(rs.getString("parentesco").toLowerCase().equals("padre") && !padre) {
 					desconozcoPadre = rs.getBoolean("desconozcodatospadres");
 					if(rs.getBoolean("desconozcodatospadres")) {
 						columns.put("nombrePadre", "Se desconoce");
@@ -1308,7 +1300,7 @@ class PDFDocumentDAO {
 						columns.put("correoElectronicoPadre", rs.getString("correoelectronico"));
 						columns.put("ocupacionPadre", rs.getString("titulo"));
 						columns.put("telefonoCasaPadre", rs.getString("telefono"));
-						columns.put("vivePadre", rs.getString("vive"));
+						columns.put("vivePadre", rs.getString("vive") != null ? rs.getString("vive") : (rs.getBoolean("istutor") ? "Si" : "No"));
 						columns.put("empresaPadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
 						columns.put("puestoPadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
 					}
@@ -1328,7 +1320,7 @@ class PDFDocumentDAO {
 						columns.put("correoElectronicoMadre", rs.getString("correoelectronico"));
 						columns.put("ocupacionMadre", rs.getString("titulo"));
 						columns.put("telefonoCasaMadre", rs.getString("telefono"));
-						columns.put("viveMadre", rs.getString("vive"));
+						columns.put("viveMadre", rs.getString("vive") != null ? rs.getString("vive") : (rs.getBoolean("istutor") ? "Si" : "No"));
 						columns.put("empresaMadre", rs.getString("empresatrabaja") ? rs.getString("empresatrabaja") : "N/A");
 						columns.put("puestoMadre", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
 					}
@@ -1339,12 +1331,27 @@ class PDFDocumentDAO {
 					break;
 				}
 			}
+			pstm = con.prepareStatement(Statements.GET_DATOS_TUTOR_PDF);
+			pstm.setLong(1, Long.valueOf(caseidSolicitud));
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				columns.put("nombreTutor", rs.getString("nombre") + " " + rs.getString("apellidos"));
+				columns.put("emailTutor", rs.getString("correoelectronico"));
+				columns.put("ocupacionTutor", rs.getString("titulo"));
+				columns.put("telefonoCasaTutor", rs.getString("telefono"));
+				columns.put("parentescoTutor", rs.getString("parentesco"));
+				columns.put("empresaTutor", rs.getString("empresatrabaja") ?  rs.getString("empresatrabaja") : "N/A");
+				columns.put("puestoTutor", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
+			}
+			
 			
 			pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_INFO);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
 			
 			while (rs.next()) {
+				columns.put("tipoApoyo", rs.getString("tipoapoyo"));
 				columns.put("terrenoM2Casa", rs.getString("terrenom2casa"));
 				columns.put("casaDondeVives", rs.getString("casadondevives"));
 				columns.put("valorAproxCasa", formatCurrency(rs.getString("valoraproxcasa")));
@@ -1373,7 +1380,7 @@ class PDFDocumentDAO {
 				columns.put("totalEgresos", formatCurrency(rs.getString("egresototal")));
 				columns.put("sexoTutor", rs.getString("sexoTutor"));
 				columns.put("provieneIngresosTutor", rs.getString("provieneningresos"));
-				columns.put("telefonoCelTutor", rs.getString("telefonocelulartutor") != null && !rs.getString("telefonocelulartutor").equals("") ? rs.getString("telefonocelulartutor") : "N/A");
+				columns.put("telefonoCelTutor", rs.getString("telefonocasatutor") != null && !rs.getString("telefonocasatutor").equals("") ? rs.getString("telefonocasatutor") : "N/A");
 				columns.put("telefonoOficinaTutor", rs.getString("telefonoOficinaTutor") != null && !rs.getString("telefonoOficinaTutor").equals("") ? rs.getString("telefonoOficinaTutor") : "N/A");
 				columns.put("ingresoMensualTutor", formatCurrency(rs.getString("ingresomensualnetotutor")));
 				columns.put("telefonoOficinaPadre", desconozcoPadre ? "Se desconoce" : rs.getString("telefonooficinapadre") != null ? rs.getString("telefonooficinapadre") : "N/A");
@@ -1383,11 +1390,14 @@ class PDFDocumentDAO {
 				columns.put("telefonoCelularMadre", desconozcoMadre ? "Se desconoce" : rs.getString("telefonocasamadre") != null ? rs.getString("telefonocasamadre") : "N/A");
 				columns.put("ingresoMensualMadre", desconozcoMadre ? "Se desconoce" : formatCurrency(rs.getString("ingresomadre")));
 				columns.put("colegiaturaAsp", formatCurrency(rs.getString("colegiatura")));
-				columns.put("porcentajeBeca", rs.getString("porcentajebecaautorizacion") ? rs.getString("porcentajebecaautorizacion") : "");
+				columns.put("porcentajeBeca", rs.getString("porcentajebecaautorizacion") != null ? rs.getString("porcentajebecaautorizacion") : "N/A");
 				columns.put("porcentajeFinan", rs.getString("porcentajecreditoautorizacion") ? rs.getString("porcentajecreditoautorizacion") : "");
+				columns.put("porcentajeBecaSolicitada", rs.getString("porcentajebeca") != null ? rs.getString("porcentajebeca") : "N/A");
 				String fechaAutoriza = buildDate(rs.getString("fechaautorizacion"));
 				columns.put("fecha", fechaAutoriza);
-				columns.put("autoriza", rs.getString("usuarioautoriza"));
+				String usuarioAutoriza = rs.getString("usuarioautoriza")
+				usuarioAutoriza = usuarioAutoriza.replaceAll(/(?<=[a-z])(?=[A-Z])/,' ')
+				columns.put("autoriza", usuarioAutoriza)
 				columns.put("comentarioComite", rs.getString("cambiosSolicitudAutorizacionText"));
 				columns.put("tipoMoneda", rs.getString("tipomoneda"));
 				columns.put("tipoMonedaCompleto", rs.getString("tipomonedacompleto"));
@@ -1406,7 +1416,7 @@ class PDFDocumentDAO {
 				bienRaiz.put("descripcion", rs.getString("descripcion"));
 				bienRaiz.put("direccionbanco", rs.getString("direccionbanco"));
 				bienRaiz.put("valor", formatCurrency(rs.getString("valor")));
-				bienRaiz.put("tipo", rs.getString("tipo"));
+				bienRaiz.put("tipo", rs.getString("tipo") != null ? rs.getString("tipo") : "");
 				lstBienesRaices.add(bienRaiz);
 			}
 			

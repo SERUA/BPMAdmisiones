@@ -42,6 +42,7 @@ import com.anahuac.rest.api.Entity.Custom.SesionCustom
 import com.anahuac.rest.api.Entity.db.Responsable
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
 import com.anahuac.rest.api.Entity.db.Sesion
+import com.anahuac.rest.api.Security.SecurityFilter
 import com.anahuac.rest.api.Utilities.FileDownload
 import com.bonitasoft.web.extension.rest.RestAPIContext
 import com.bonitasoft.web.extension.rest.RestApiController
@@ -88,6 +89,11 @@ class IndexGet implements RestApiController {
 				
 				if (url == null) {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
+				}
+				
+				SecurityFilter security2 = new SecurityFilter();
+				if(!security2.allowedUrl(context, url)){
+					return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
 				}
 						
 				Integer parameterP = Integer.valueOf(p);
@@ -225,13 +231,13 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				case "getMenuAdministrativo":
-				result = new UsuariosDAO().getMenuAdministrativo(context)
-				responseBuilder.withMediaType("application/json")
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
-				}else {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-				}
+					result = new UsuariosDAO().getMenuAdministrativo(context)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
 				break;
 				
 				case "getUniversidadSmartCampus":
@@ -1517,6 +1523,14 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+				case "getPeriodosReporte2":
+				result = new ReportesDAO().getTodosPeriodos()
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 				case "getCatGestionEscolarMultiple":
 				String campus =request.getParameter "campus"
 				result = new ReportesDAO().getCatGestionEscolarMultiple(campus)
@@ -1680,15 +1694,13 @@ class IndexGet implements RestApiController {
 				break;
 				
 				case "getEmailHubspotConfig":
-					
 					result = new HubspotDAO().getEmailHubspotConfig();
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
-						 return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data.get(0)).toString());
+					 	return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data.get(0)).toString());
 					}else {
 						 return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
-					
 				break;
 				
 				case "getSolicitudApoyoByCaseId":

@@ -29,6 +29,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"EXTERIOR")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
 				break;
 				case "enviarTareaRest":
 					allow=bonitaRolFilter(context,"ADMISIONES")
@@ -225,13 +227,20 @@ class SecurityFilter {
 				  break;
 				}
 				break;
-				case "getPsicologoSesiones":allow=bonitaRolFilter(context,"ADMISIONES")
+				case "getPsicologoSesiones":
+				allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
-				case "getCatGestionEscolar":allow=bonitaRolFilter(context,"ADMISIONES")
+				case "getCatGestionEscolar":
+				allow = bonitaRolFilter(context, "ADMINISTRADOR"); 
+				if (allow) {break;}
+				allow = bonitaRolFilter(context, "TI SERUA"); 
+				if (allow) {break;}
+				allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Becas")
 				if(allow){break;}
+				allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
 				break;
 				case "getSesion":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -452,6 +461,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Comite de Finanzas")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
 				break;
 				case "getActiveProcess":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
@@ -651,22 +662,17 @@ class SecurityFilter {
 		    }
 		    break;
 		  case "selectAspirantesEnproceso":
+		  	allow=bonitaRolFilter(context,"PreAutorizacion")
+			if(allow){break;}
 		    allow = bonitaRolFilter(context, "ADMISIONES");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 		    allow = bonitaRolFilter(context, "ASPIRANTE");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 			allow=bonitaRolFilter(context,"SERUA")
 			if(allow){break;}
 			allow=bonitaRolFilter(context,"Becas")
 			if(allow){break;}
 		    break;
-			allow=bonitaRolFilter(context,"PreAutorizacion")
-			if(allow){break;}
-			break;
 		  case "selectAspirantesEnRed":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
@@ -905,11 +911,18 @@ class SecurityFilter {
 		    break;
 		  case "getCatGestionEscolar":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
-		    if (allow) {
-		      break;
-		    }
+		    if (allow) {break;}
 			allow=bonitaRolFilter(context,"Becas")
 			if(allow){break;}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {break;}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {break;}
+			allow=bonitaRolFilter(context,"ADMISIONES")
+			if(allow){break;}
+			allow=bonitaRolFilter(context,"Becas")
+			if(allow){break;}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
 		    break;
 		  case "getExcelGenerico":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1256,6 +1269,10 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
 		    break;
 		  case "recuperarPasswordAdministrativo":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
@@ -1308,7 +1325,37 @@ class SecurityFilter {
 			if (allow) {
 			  break;
 			}
-			allow = bonitaRolFilter(context, "Comité finanzas");
+			allow = bonitaRolFilter(context, "Comite de Finanzas");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "generateHtmlINVP":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ASPIRANTE");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "BECAS");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "PreAutorizacion");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Finanzas");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Comite de Finanzas");
 			if (allow) {
 			  break;
 			}
@@ -1607,6 +1654,14 @@ class SecurityFilter {
 		
 		    break;
 		  case "updateCatNotificaciones":
+		    allow = bonitaRolFilter(context, "ADMINISTRADOR");
+		    if (allow) {
+			  break;
+		    }
+		    allow = bonitaRolFilter(context, "TI SERUA");
+		    if (allow) {
+			  break;
+		    }
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
@@ -1614,6 +1669,37 @@ class SecurityFilter {
 		    break;
 		  case "updateCatNotificacionesSDAE":
 			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			} 
+			allow = bonitaRolFilter(context, "Config Campus SDAE");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); if (allow) {break;}
+			break;
+		  case "updateCatNotificacionesAlt":
+		    allow = bonitaRolFilter(context, "ADMINISTRADOR");
+		    if (allow) {
+			  break;
+		    }
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "Config Campus SDAE"); 
 			if (allow) {
 			  break;
 			}

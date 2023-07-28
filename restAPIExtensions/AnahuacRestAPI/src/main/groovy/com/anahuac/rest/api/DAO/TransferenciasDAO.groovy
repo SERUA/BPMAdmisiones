@@ -48,6 +48,7 @@ class TransferenciasDAO {
     public Result getUsuariosTransferencia(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
         Result resultado = new Result();
         Boolean closeCon = false;
+		
         String where = "", bachillerato = "", campus = "", programa = "", ingreso = "", estado = "", tipoalumno = "", orderby = "ORDER BY ", errorlog = ""
         List < String > lstGrupo = new ArrayList < String > ();
         List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
@@ -498,6 +499,7 @@ class TransferenciasDAO {
         Result resultado = new Result();
         String errorLog = "";
         Boolean closeCon = false;
+		Boolean isCommit = false;
         try {
             Transferencias transferencia = new Transferencias();
             ProcessAPI processAPI = context.getApiClient().getProcessAPI()
@@ -552,6 +554,7 @@ class TransferenciasDAO {
 			}
 			
             con.setAutoCommit(false)
+			isCommit = true;
             pstm = con.prepareStatement(Statements.UPDATE_DATOS_TRASNFERENCIA)
             pstm.setLong(1, object.campus);
             pstm.setLong(2, object.licenciatura);
@@ -625,7 +628,10 @@ class TransferenciasDAO {
             
             resultado.setSuccess(false);
             resultado.setError(ex.getMessage());
-            con.rollback();
+			if(isCommit) {
+				con.rollback();
+			}
+            
         } finally {
             if (closeCon) {
                 new DBConnect().closeObj(con, stm, rs, pstm)

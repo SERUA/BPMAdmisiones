@@ -1,24 +1,25 @@
 <div class="row" ng-show="hasRole()">
     <div class="col-xs-12 text-center dashboard-baloon-container">
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion)}" ng-click="redirect('vistageneral', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" 
+        ng-class="{'balloon-container':(isTiSerua || isPreautorizacion || isFinanciamiento || isChat), 'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion || isFinanciamiento || isChat)}" ng-click="redirect('vistageneral', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/Solicitudes vista general.png">
-                    <img class="img-limited" ng-if="!(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/Solicitudes vista general gris.png">
+                    <img class="img-limited" ng-if="(isAdministrador || isTiSerua || isPreautorizacion || isFinanciamiento || isChat) " src="assets/img/Solicitudes vista general.png">
+                    <img class="img-limited" ng-if="!(isAdministrador || isTiSerua || isPreautorizacion || isFinanciamiento || isChat)" src="assets/img/Solicitudes vista general gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion || isCrisp),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion)}">Solicitudes vista general</h4>
+                    <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion || isChat || isFinanciamiento),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion || isFinanciamiento || isChat)}">Solicitudes vista general</h4>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion)}" ng-click="redirect('progreso', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':(isTiSerua || isPreautorizacion || isChat),'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion || isChat)}" ng-click="redirect('progreso', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/solicitud iniciada.png">
-                    <img class="img-limited" ng-if="!(isTiSerua || isPreautorizacion || isCrisp)" src="assets/img/solicitud iniciada gris.png">
+                    <img class="img-limited" ng-if="(isTiSerua || isPreautorizacion || isChat)" src="assets/img/solicitud iniciada.png">
+                    <img class="img-limited" ng-if="!(isTiSerua || isPreautorizacion || isChat)" src="assets/img/solicitud iniciada gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion || isCrisp),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion)}">Solicitudes iniciadas</h4>
+                    <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion || isChat),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion || isChat)}">Solicitudes iniciadas</h4>
                 </div>
             </div>
         </div>
@@ -64,14 +65,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':( isTiSerua || isBecas),'balloon-container-disabled' :  !( isTiSerua || isBecas)}" ng-click="redirect('esperapago', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12" ng-class="{'balloon-container':( isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !( isTiSerua || isPreautorizacion)}" ng-click="redirect('esperapago', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isBecas)" src="assets/img/solicitud espera pago.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isBecas)" src="assets/img/solicitud espera gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isPreautorizacion)" src="assets/img/solicitud espera pago.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isPreautorizacion)" src="assets/img/solicitud espera gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isBecas),'color-gray-disabled' :  !( isTiSerua || isBecas)}">Solicitudes en espera de pago</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isPreautorizacion),'color-gray-disabled' :  !( isTiSerua || isPreautorizacion)}">Solicitudes en espera de pago</h4>
                 </div>
             </div>
         </div>
@@ -89,39 +90,39 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':(isTiSerua || isBecas),'balloon-container-disabled' :  !(isTiSerua || isBecas)}" ng-click="redirect('cierre', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':(isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !(isTiSerua || isPreautorizacion)}" ng-click="redirect('cierre', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited"  ng-if="(isTiSerua || isBecas)" src="assets/img/solicitudes en cierre.png">
-                    <img class="img-limited"  ng-if="!(isTiSerua || isBecas)" src="assets/img/solicitudes en cierre gris.png">
+                    <img class="img-limited"  ng-if="(isTiSerua || isPreautorizacion)" src="assets/img/solicitudes en cierre.png">
+                    <img class="img-limited"  ng-if="!(isTiSerua || isPreautorizacion)" src="assets/img/solicitudes en cierre gris.png">
                     <div class="notification-container">
-                        <p ng-if="(isTiSerua || isBecas)" ng-class="{'text-light':countCierreBecas > 0}" class="text-baloon">{{countCierreBecas}}</p>
+                        <p ng-if="(isTiSerua || isPreautorizacion)" ng-class="{'text-light':countCierreBecas > 0}" class="text-baloon">{{countCierreBecas}}</p>
                     </div>
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':(isTiSerua || isBecas),'color-gray-disabled' :  !(isTiSerua || isBecas)}">Solicitudes en cierre (becas)</h4>
+                    <h4 ng-class="{'color-orange':(isTiSerua || isPreautorizacion),'color-gray-disabled' :  !(isTiSerua || isPreautorizacion)}">Solicitudes en cierre (becas)</h4>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isBecas),'balloon-container-disabled' :  !( isTiSerua || isBecas)}" ng-click="redirect('archivadas', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isPreautorizacion),'balloon-container-disabled' :  !( isTiSerua || isPreautorizacion)}" ng-click="redirect('archivadas', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isBecas)" src="assets/img/solicitudes archivadas 2.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isBecas)" src="assets/img/solicitudes archivadas 2 gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isPreautorizacion)" src="assets/img/solicitudes archivadas 2.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isPreautorizacion)" src="assets/img/solicitudes archivadas 2 gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isBecas),'color-gray-disabled' :  !( isTiSerua || isBecas)}">Solicitudes archivadas</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isPreautorizacion),'color-gray-disabled' :  !( isTiSerua || isPreautorizacion)}">Solicitudes archivadas</h4>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento)}" ng-click="redirect('iniciadasaval', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento || isChat),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento || isChat)}" ng-click="redirect('iniciadasaval', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento || isCrisp)" src="assets/img/solicitud iniciada aval.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento || isCrisp)" src="assets/img/solicitud iniciada aval gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento || isChat)" src="assets/img/solicitud iniciada aval.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento || isChat)" src="assets/img/solicitud iniciada aval gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento || isCrisp),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento)}">Solicitudes iniciadas (aval)</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento || isChat),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento || isChat)}">Solicitudes iniciadas (aval)</h4>
                 </div>
             </div>
         </div>
@@ -139,14 +140,14 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento || isComiteFinanzas),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento || isComiteFinanzas)}" ng-click="redirect('archivofinan', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento)}" ng-click="redirect('archivofinan', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento || isComiteFinanzas)" src="assets/img/solicitudes archivadas 2.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento || isComiteFinanzas)" src="assets/img/solicitudes archivadas 2 gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento)" src="assets/img/solicitudes archivadas 2.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento)" src="assets/img/solicitudes archivadas 2 gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento || isComiteFinanzas),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento || isComiteFinanzas)}">Solicitudes archivadas (Financiamiento educativo)</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento)}">Solicitudes archivadas (Financiamiento educativo)</h4>
                 </div>
             </div>
         </div>
@@ -156,7 +157,7 @@
                     <img class="img-limited" ng-if="( isTiSerua || isComiteFinanzas)" src="assets/img/solicitudes en comite finan.png">
                     <img class="img-limited" ng-if="!( isTiSerua || isComiteFinanzas)" src="assets/img/solicitudes en comite finan gris.png">
                     <div class="notification-container">
-                        <p ng-if="( isTiSerua || isComiteFinanzas)" ng-class="{'text-light':countComiteFinanzas > 0}" class="text-baloon">{{countComiteFinanzas}}</p>
+                        <p ng-if="( isTiSerua || isComiteFinanzas )" ng-class="{'text-light':countComiteFinanzas > 0}" class="text-baloon">{{countComiteFinanzas}}</p>
                     </div>
                 </div>
                 <div class="title">
@@ -164,28 +165,28 @@
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isComiteFinanzas || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isComiteFinanzas || isFinanciamiento)}" ng-click="redirect('cierrefinan', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento)}" ng-click="redirect('cierrefinan', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isComiteFinanzas || isFinanciamiento)" src="assets/img/solicitudes en cierre financia.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isComiteFinanzas || isFinanciamiento)" src="assets/img/solicitudes en cierre financia gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento)" src="assets/img/solicitudes en cierre financia.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento)" src="assets/img/solicitudes en cierre financia gris.png">
                     <div class="notification-container">
-                        <p ng-if="( isTiSerua || isComiteFinanzas)" ng-class="{'text-light':countCierreFinanzas > 0}" class="text-baloon">{{countCierreFinanzas}}</p>
+                        <p ng-if="( isTiSerua)" ng-class="{'text-light':countCierreFinanzas > 0}" class="text-baloon">{{countCierreFinanzas}}</p>
                     </div>
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isComiteFinanzas || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isComiteFinanzas || isFinanciamiento)}">Solicitudes en cierre (Financiamiento educativo)</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento)}">Solicitudes en cierre (Financiamiento educativo)</h4>
                 </div>
             </div>
         </div>
-        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas),'balloon-container-disabled' :  !( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas)}" ng-click="redirect('apoyosotorgados', '')" >
+        <div class="col-lg-2 col-md-2 col-sm-4 col-xs-12 " ng-class="{'balloon-container':( isTiSerua || isFinanciamiento || isPreautorizacion),'balloon-container-disabled' :  !( isTiSerua || isFinanciamiento || isPreautorizacion)}" ng-click="redirect('apoyosotorgados', '')" >
             <div class="text-center">
                 <div class="img-center-widget">
-                    <img class="img-limited" ng-if="( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas)" src="assets/img/Apoyos otorgados.png">
-                    <img class="img-limited" ng-if="!( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas)" src="assets/img/Apoyos otorgados gris.png">
+                    <img class="img-limited" ng-if="( isTiSerua || isFinanciamiento || isPreautorizacion)" src="assets/img/Apoyos otorgados.png">
+                    <img class="img-limited" ng-if="!( isTiSerua || isFinanciamiento || isPreautorizacion)" src="assets/img/Apoyos otorgados gris.png">
                 </div>
                 <div class="title">
-                    <h4 ng-class="{'color-orange':( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas),'color-gray-disabled' :  !( isTiSerua || isComiteFinanzas || isFinanciamiento || isBecas)}">Apoyos educativos otorgados</h4>
+                    <h4 ng-class="{'color-orange':( isTiSerua || isFinanciamiento || isPreautorizacion),'color-gray-disabled' :  !( isTiSerua || isFinanciamiento || isPreautorizacion)}">Apoyos educativos otorgados</h4>
                 </div>
             </div>
         </div>

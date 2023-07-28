@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAceptacionFinanciamiento",
   "name" : "SDAEAceptacionFinanciamiento",
-  "lastUpdate" : 1684197083170,
+  "lastUpdate" : 1684890129817,
   "rows" : [
     [
       {
@@ -6611,7 +6611,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Tienes hasta el <b>{{ solicitudFinanciamiento.fechaLimiteAceptaPropuesta | date:'dd/MM/yyyy'}}</b> para responder a la propuesta. <br> En caso de no responder la propuesta en tiempo tu solicitud se archivará automáticamente,. Para reactivarla ponte en contacto con el área financiamiento educativo del campus.</p>"
+                        "value" : "<hr>\nEstimado(a): <label class=\"color-orange\">{{nombreCompletoAspirante}}</label>, de acuerdo a tu solicitud nos permitimos generarte la siguiente propuesta de apoyo educativo, la cual aplica solo para el periodo <b>{{objSolicitudDeAdmision[0].catPeriodo.descripcion}}</b>. Tienes hasta el <b>{{ solicitudFinanciamiento.fechaLimiteAceptaPropuesta | date:'dd/MM/yyyy'}}</b> para responder a la propuesta. <br> En caso de no responder la propuesta en tiempo tu solicitud se archivará automáticamente. Para reactivarla ponte en contacto con el área financiamiento educativo del campus.</p>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -6845,8 +6845,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "constant",
-                              "value" : false
+                              "type" : "expression",
+                              "value" : "!formOutput"
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -7387,7 +7387,7 @@
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
-                        "md" : 6,
+                        "md" : 12,
                         "lg" : 3
                       },
                       "propertyValues" : {

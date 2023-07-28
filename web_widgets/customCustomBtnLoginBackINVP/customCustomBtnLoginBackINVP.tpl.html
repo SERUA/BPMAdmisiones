@@ -1,0 +1,18 @@
+<div class="row m-top m-bottom text-center-p">
+    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12 text-center-p">
+        <div id="captchaElement" class="g-recaptcha" data-sitekey="{{properties.reCAPTCHAkey}}"></div>
+    </div>
+</div>
+<div class="m-top m-bottom text-center" ng-show="isCaptchaLoaded">
+    <button class="btn btn-info btn-login-width" ng-click="resetCaptcha()" type="button">
+        Recargar captcha
+    </button>
+</div>
+
+<div class="m-top m-bottom text-{{ properties.alignment }}">
+    <button class="btn-login-width"
+        ng-class="'btn btn-' + properties.buttonStyle"
+        ng-click="ctrl.action()"
+        type="button"
+        ng-disabled="properties.disabled || ctrl.busy" ng-bind-html="properties.label | uiTranslate"></button>
+</div>
