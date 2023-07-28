@@ -19,17 +19,6 @@
         <option ng-value="100">100</option>
     </select>
 </div>
-
-<!--<div class="col-xs-12 text-right"  ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">-->
-<!--    <button type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">-->
-<!--        Cambiar idioma para todos-->
-<!--    </button>-->
-<!--    &nbsp;-->
-<!--    <button type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">-->
-<!--        Terminar todos <span class="glyphicon glyphicon-time"></span>-->
-<!--    </button>-->
-<!--    <br>-->
-<!--</div>-->
     
 <div class="table-responsive col-xs-12" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
@@ -132,14 +121,8 @@
                     <button ng-if="!row.usuarioBloqueado || row.resultadoEnviado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
                         <span class="glyphicon glyphicon-lock"></span>
                     </button>
-
                     <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar')" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info tooltips-info" data-tooltip="Datos de la sesión">
                         <span><b>?</b></span>
-                    </button>
-                    
-                    
-                    <button ng-if="row.terminado === true && row.resultadoEnviado !== true "  type="button" ng-click="seleccionarEnvio(row)" class="btn btn-success">
-                        <span class="glyphicon glyphicon-send"></span>
                     </button>
                 </td>
             </tr>
