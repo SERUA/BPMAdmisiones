@@ -79,9 +79,7 @@ function ($scope, modalService, $http) {
     })
     
     $scope.$watch("properties.cerrarSesion", function(){
-        
         if($scope.properties.pageToken === "examen" || $scope.properties.pageToken === "presentar"){  
-            // updateterminado();
             getTaskInfo();
         }else if($scope.properties.pageToken === "termino"){
             $scope.properties.cerrarSesion = false;
@@ -146,11 +144,10 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            // getTaskInfo();
             window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
-           
+           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error")
         })
         .finally(function() {
 
@@ -201,12 +198,14 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            debugger;
             updateterminado()
-            // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
-            swal("Error", "Error al ejecutar la tarea: " + status, "error");
+            if(status == 405){
+                window.location.reload();
+            } else {
+                swal("Error", "Error al ejecutar la tarea: " + status, "error");
+            }
         })
         .finally(function() {
 

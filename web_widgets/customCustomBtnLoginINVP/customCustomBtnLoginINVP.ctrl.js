@@ -132,9 +132,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else if(_error.error.includes("sesion_no_iniciada")){
                 let date = _error.error.split("|")[1];
                 if(idioma === "es"){
-                    mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + ", para más información contacta a tu aplicador.</p>" ;
+                    mensaje = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + date + " hora de CDMX, para más información contacta a tu aplicador.</p>" ;
                 } else {
-                    mensaje = "<p style='text-align: justify;'>There is no active session for this user. You are scheduled for " + date + ". For further information, please contact your facilitator.</p>";
+                    mensaje = "<p style='text-align: justify;'>There is no active session for this user. You are scheduled for " + date + " CDMX time. For further information, please contact your facilitator.</p>";
                 }
             } else if(_error.error === "sesion_finalizada" || _error.error === "prueba_finalizada" ){
                 if(idioma === "es"){
@@ -580,14 +580,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if(data.data.length > 0){
                 var pos = data.data.length - 1;
                 var content = document.createElement('div');
-                let message  = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + formatoFecha(data.data[pos].aplicacion) + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>";
+                let message  = "<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + formatoFecha(data.data[pos].aplicacion) + " a las " + data.data[pos].entrada +" de CDMX, para más información contacta a tu aplicador</p>";
                 content.innerHTML = message;
                 
                 Swal.fire({
                     title: '<strong>Atención</strong>',
                     icon: 'error',
                     //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                    html:"<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + formatoFecha(data.data[pos].aplicacion) + " a las " + data.data[pos].entrada +", para más información contacta a tu aplicador</p>", showCloseButton: false
+                    html:"<p style='text-align: justify;'>No existe una sesión activa para este usuario, estás programado(a) para el día " + formatoFecha(data.data[pos].aplicacion) + " a las " + data.data[pos].entrada +" de CDMX, para más información contacta a tu aplicador</p>", showCloseButton: false
                 });
             }else{
                 Swal.fire({
