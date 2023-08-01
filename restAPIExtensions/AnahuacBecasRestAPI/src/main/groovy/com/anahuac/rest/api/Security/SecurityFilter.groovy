@@ -99,6 +99,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
 				break;
 				case "getSolicitudDeAdmision":
 					allow=bonitaRolFilter(context,"TI SERUA")
