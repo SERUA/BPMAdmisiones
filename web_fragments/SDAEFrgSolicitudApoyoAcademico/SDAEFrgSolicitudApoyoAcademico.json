@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEFrgSolicitudApoyoAcademico",
   "name" : "SDAEFrgSolicitudApoyoAcademico",
-  "lastUpdate" : 1685386707967,
+  "lastUpdate" : 1688431045859,
   "rows" : [
     [
       {
@@ -17615,10 +17615,11 @@
                             },
                             "requiereEjemplo" : {
                               "type" : "constant",
-                              "value" : false
+                              "value" : true
                             },
                             "urlEjemplo" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "returnCatValue.catTipoApoyo.urlEjemploCurriculum"
                             }
                           },
                           "reference" : "6a038861-3281-4112-bf4b-0553d9d99501",
@@ -18179,7 +18180,7 @@
         "    }\r",
         "}\r",
         "\r",
-        "\r",
+        "console.log(\"CatValue: \" + output)\r",
         "return output;"
       ],
       "exposed" : false
