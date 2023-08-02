@@ -82,20 +82,33 @@ class HubspotDAO {
 	Map<String,String> estatusMapBecas = new HashMap<String, String>() {{
 		put("Solicitud de apoyo en progreso", "Inició su solicitud de beca");
 		put("Solicitud de Financiamiento en Proceso", "Inició su solicitud de beca");
+		
 		put("Esperando Pre-Autorización", "Envió aspirante solicitud beca");
 		put("Correcciones realizadas", "Envió aspirante solicitud beca");
+		
 		put("En espera de resultado", "Solicitud de beca validada");
+		put("Esperando revisión área deportiva", "Solicitud de beca validada");
+		put("Esperando revisión área artistica", "Solicitud de beca validada");
+		put("Solicitud de beca académica", "Solicitud de beca validada");
+		
 		put("Solicitud Rechazada", "Rechazo solicitud beca");
 		put("Solicitud no autorizada", "Rechazo solicitud beca");
 		put("Solicitud rechazada por comité de finanzas", "Rechazo solicitud beca");
 		put("Solicitud rechazada por finanzas", "Rechazo solicitud beca");
+		put("Evaluación artística rechaza", "Rechazo solicitud beca");
+		put("Evaluación artística rechaza", "Rechazo solicitud beca");
+		
 		put("Pre-autorización solicita modificaciones", "Solicitud cambios beca");
-		put("Solicitud de beca académica", "En espera de pago");
-		put("En espera de pago", "En espera de pago");
-		put("En espera de validación de pago", "En espera de pago");
+		
+		put("En espera de pago", "En espera de pago de estudio socieconómico");
+		put("En espera de validación de pago", "En espera de pago de estudio socieconómico");
+		
 		put("En espera de autorización", "En espera de resultado de beca");
+		
 		put("Solicitud autorizada", "Propuesta enviada por comité de becas");
+		
 		put("Propuesta aceptada por aspirante", "Propuesta aceptada por el aspirante");
+		
 		put("Propuesta rechazada por aspirante", "Propuesta rechazada por el aspirante");
 	}};
 
@@ -106,10 +119,9 @@ class HubspotDAO {
 		put("Beca deportiva", "Deportiva");
 		put("Beca Académica", "Académica");
 		put("Beca académica", "Académica");
-		put("Beca SEP(promedio mínimo 9.0)", "Académica");
-		put("Convenio", "Académica");
-		put("Beca de excelencia", "Académica");
-		put("Convenio", "Académica");
+		put("Beca SEP(promedio mínimo 9.0)", "Beca SEP");
+		put("Convenio", "Convenio");
+		put("Beca de excelencia", "Excelencia");
 	}};
 
 	public Boolean validarConexion() {
@@ -3114,6 +3126,7 @@ class HubspotDAO {
 	        Boolean noSol = false;
 			String msjNF = "";
 	        String strError = "";
+			String errorLog = "";
 	        String apikeyHubspot ="";
 	        Date fecha = new Date();
 	        DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
@@ -3174,7 +3187,7 @@ class HubspotDAO {
 								objHubSpotData.put("porcentaje_finan_solicitado_bpm",  "0%");
 							}
 						} else if(etapaProceso.equals("autor_rechazo")) {
-							objHubSpotData.put("mensaje_becas_bpm", map.get(""));//Autorizción
+							objHubSpotData.put("mensaje_becas_bpm", map.get("motivoRechazoAutorizacionText"));//Autorizción
 						} else if(etapaProceso.equals("preauto")) {
 							objHubSpotData.put("mensaje_becas_bpm", map.get("cambiossolicitudpreautorizacion"));//Pre-autorizción
 						} else if(etapaProceso.equals("preauto_rechazo")) {
@@ -3182,6 +3195,18 @@ class HubspotDAO {
 						} else if(etapaProceso.equals("pago")) {
 	//						objHubSpotData.put("monto_pago_estudio_bpm", map.get(""));//404
 							objHubSpotData.put("fecha_pago_estudio_bpm", df.format(new Date()));//404
+							ConektaDAO cDAO = new ConektaDAO();
+							String jsonDataString = "{\"order_id\": \"[ORDER_ID]\", \"campus_id\": \"[CAMPUS_ID]\"}";
+							jsonDataString = jsonDataString.replace("[ORDER_ID]" , map.get("order_id"));
+							jsonDataString = jsonDataString.replace("[CAMPUS_ID]" , map.get("campus_id"));
+							
+							Result resultadoPago = cDAO.getOrderDetails(0, 0, jsonDataString, context);
+							if(resultadoPago.isSuccess()) {
+								Map<String, Object> mapResult = (Map<String, Object>) resultadoPago.getData().get(0);
+								objHubSpotData.put("monto_pago_estudio_bpm", mapResult.get("amount"));
+							} else {
+								strError += resultadoPago.getError();
+							}
 						} else if(etapaProceso.equals("autor")) {
 							objHubSpotData.put("beca_otorgada_bpm", map.get("porcentajebecaautorizacion")+"%");
 							objHubSpotData.put("tipo_beca_otorgada_bpm", mapTipoBecas.get(map.get("tipoapoyo")));
@@ -3226,7 +3251,7 @@ class HubspotDAO {
 					resultado = createOrUpdateHubspotBecas(email, apikeyHubspot, objHubSpotData);
 				} 
 	
-	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
+	            resultado.setError_info(strError +" ||| "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	        } catch (Exception e) {
 	            resultado.setError_info(strError+" | "+(resultado.getError_info() == null ? "" : resultado.getError_info()));
 	            resultado.setSuccess(false);
