@@ -243,6 +243,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }
             } else if($scope.properties.editarSec6 == false){
                 $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
+                $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objPadre.desconozcoDatosPadres;
                 $scope.properties.JSONUsuarioRegistrado.vive = parseInt($scope.properties.objPadre.vive);
                 $scope.properties.JSONUsuarioRegistrado.cattitulo = parseInt($scope.properties.objPadre.catTitulo);
                 $scope.properties.JSONUsuarioRegistrado.nombre = parseInt($scope.properties.objPadre.nombre);
@@ -268,6 +269,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $scope.properties.JSONUsuarioRegistrado.telefono = parseInt($scope.properties.objPadre.telefono);
             } else if($scope.properties.editarSec7 == false){
                 $scope.properties.JSONUsuarioRegistrado.vive = parseInt($scope.properties.objMadre.vive);
+                $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objMadre.desconozcoDatosPadres;
                 $scope.properties.JSONUsuarioRegistrado.cattitulo = parseInt($scope.properties.objMadre.catTitulo);
                 $scope.properties.JSONUsuarioRegistrado.nombre = parseInt($scope.properties.objMadre.nombre);
                 $scope.properties.JSONUsuarioRegistrado.apellidos = parseInt($scope.properties.objMadre.apellidos);
@@ -404,61 +406,35 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
                 } else if ($scope.properties.editarSec5 == false){
                     debugger;
+                    
+                    $scope.properties.JSONUsuarioRegistrado.tutorPersistenceid = $scope.properties.datosJson.persistenceId;
+                        
+                    jsonAnterior.istutor = true;
+                    jsonNuevo.istutor = true;
+                    $scope.properties.JSONUsuarioRegistrado.istutor = true;
+
+                    jsonAnterior.vive_pid = 145289;
+                    jsonNuevo.vive_pid = 145289;
+                    $scope.properties.JSONUsuarioRegistrado.vive_pid = 145289;
+                        
+                    jsonAnterior.desconozcoDatosPadres = (jsonAnterior.desconozcoDatosPadres === "false");
+                    jsonNuevo.desconozcoDatosPadres = (jsonNuevo.desconozcoDatosPadres === "false");
+                    $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres = ($scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres === "false");
+
+                    if($scope.properties.datosJson.catParentezco.descripcion == "Padre"){
+                        $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objPadre.persistenceId;
+                        $scope.properties.JSONUsuarioRegistrado.otro = false;
+
+                    } else if($scope.properties.datosJson.catParentezco.descripcion == "Madre"){
+                        $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objMadre.persistenceId;
+                        $scope.properties.JSONUsuarioRegistrado.otro = false;
+                        
+                    } else if($scope.properties.datosJson.catParentezco.descripcion != "Padre" && $scope.properties.datosJson.catParentezco.descripcion != "Madre"){
+                        $scope.properties.JSONUsuarioRegistrado.otro = true;
+                    }
+                    
                     jsonAnterior.cattitulo_pid = parseInt($scope.properties.datosJson.catTitulo.persistenceId);
                     jsonAnterior.catparentezco_pid = parseInt($scope.properties.datosJson.catParentezco.persistenceId);
-                    if($scope.properties.datosJson.catParentezco.descripcion == "Padre" || $scope.properties.datosJson.catParentezco.descripcion == "Madre"){
-                        jsonAnterior.desconozcoDatosPadres = (jsonAnterior.desconozcoDatosPadres === "false");
-                        jsonNuevo.desconozcoDatosPadres = (jsonNuevo.desconozcoDatosPadres === "false");
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres = ($scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres === "false");
-                        jsonAnterior.istutor = true;
-                        jsonNuevo.istutor = true;
-                        $scope.properties.JSONUsuarioRegistrado.istutor = true;
-
-                        jsonAnterior.desconozcodatospadres = (jsonAnterior.desconozcodatospadres === "false");
-                        jsonNuevo.desconozcodatospadres = (jsonNuevo.desconozcodatospadres === "false");
-                        $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = ($scope.properties.JSONUsuarioRegistrado.desconozcodatospadres === "false");
-                    } else {
-                        jsonAnterior.istutor = (jsonAnterior.istutor === "false");
-                        jsonNuevo.istutor = (jsonNuevo.istutor === "false");
-                        $scope.properties.JSONUsuarioRegistrado.istutor = ($scope.properties.JSONUsuarioRegistrado.istutor === "false");
-
-                        jsonAnterior.desconozcodatospadres = true;
-                        jsonNuevo.desconozcodatospadres = true;
-                        $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = true;
-                    }
-                    if($scope.properties.datosJson.catParentezco.descripcion == "Padre" && $scope.properties.jsonModificarTutor.catParentezco.descripcion == "Madre"){
-                        
-                        $scope.properties.JSONUsuarioRegistrado.change = true;
-                        jsonAnterior.istutor = true;
-                        jsonNuevo.istutor = true;
-                        $scope.properties.JSONUsuarioRegistrado.istutor = true;
-                        
-                        jsonAnterior.desconozcoDatosPadres = (jsonAnterior.desconozcoDatosPadres === "false");
-                        jsonNuevo.desconozcoDatosPadres = (jsonNuevo.desconozcoDatosPadres === "false");
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres = ($scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres === "false");
-
-                        jsonAnterior.istutorDesactivar = (jsonAnterior.istutorDesactivar === "false");
-                        jsonNuevo.istutorDesactivar = (jsonNuevo.istutorDesactivar === "false");
-                        $scope.properties.JSONUsuarioRegistrado.istutorDesactivar = ($scope.properties.JSONUsuarioRegistrado.istutorDesactivar === "false");
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadresDesactivar = true;
-                        jsonAnterior.desconozcoDatosPadresDesactivar = true;
-                        jsonNuevo.desconozcoDatosPadresDesactivar = true;
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadresDesactivarPersistenceId = $scope.properties.objMadre.persistenceId;
-                    } else if($scope.properties.datosJson.catParentezco.descripcion == "Madre" && $scope.properties.jsonModificarTutor.catParentezco.descripcion == "Padre"){
-                        $scope.properties.JSONUsuarioRegistrado.change = true;
-                        jsonAnterior.istutor = true;
-                        jsonNuevo.istutor = true;
-                        $scope.properties.JSONUsuarioRegistrado.istutor = true;
-                        
-                        jsonAnterior.desconozcoDatosPadres = (jsonAnterior.desconozcoDatosPadres === "false");
-                        jsonNuevo.desconozcoDatosPadres = (jsonNuevo.desconozcoDatosPadres === "false");
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres = ($scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadres === "false");
-
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadresDesactivar = true;
-                        jsonAnterior.desconozcoDatosPadresDesactivar = true;
-                        jsonNuevo.desconozcoDatosPadresDesactivar = true;
-                        $scope.properties.JSONUsuarioRegistrado.desconozcoDatosPadresDesactivarPersistenceId = $scope.properties.objpADRE.persistenceId;
-                    }
                     jsonAnterior.nombre = $scope.properties.datosJson.nombre;
                     jsonAnterior.otroparentesco = $scope.properties.datosJson.otroParentesco ?? null;
                     jsonAnterior.apellidos = $scope.properties.datosJson.apellidos;
@@ -506,7 +482,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     jsonNuevo.numeroexterior = $scope.properties.JSONUsuarioRegistrado.numeroexterior ?? null;
                     jsonNuevo.numerointerior = $scope.properties.JSONUsuarioRegistrado.numerointerior ?? null;
                     jsonNuevo.telefono = $scope.properties.JSONUsuarioRegistrado.telefono;
-                    
+
                 } else if ($scope.properties.editarSec6 == false){
 
                 } else if ($scope.properties.editarSec7 == false){
