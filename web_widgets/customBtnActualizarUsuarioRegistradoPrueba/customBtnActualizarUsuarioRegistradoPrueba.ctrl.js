@@ -431,18 +431,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         
                     } else if($scope.properties.datosJson.catParentezco.descripcion != "Padre" && $scope.properties.datosJson.catParentezco.descripcion != "Madre"){
                         $scope.properties.JSONUsuarioRegistrado.otro = true;
-
-                        $scope.properties.JSONUsuarioRegistrado.padrePersistenceid = $scope.properties.objPadre.persistenceId;
-
-                        jsonAnterior.istutor = (jsonAnterior.istutor === "false");
-                        jsonNuevo.istutor = (jsonNuevo.istutor === "false");
-                        $scope.properties.JSONUsuarioRegistrado.istutor = ($scope.properties.JSONUsuarioRegistrado.istutor === "false");
-
-                        $scope.properties.JSONUsuarioRegistrado.madrePersistenceid = $scope.properties.objMadre.persistenceId;
-                        
-                        jsonAnterior.istutor = (jsonAnterior.istutor === "false");
-                        jsonNuevo.istutor = (jsonNuevo.istutor === "false");
-                        $scope.properties.JSONUsuarioRegistrado.istutor = ($scope.properties.JSONUsuarioRegistrado.istutor === "false");
                     }
                     
                     jsonAnterior.cattitulo_pid = parseInt($scope.properties.datosJson.catTitulo.persistenceId);
