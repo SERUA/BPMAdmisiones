@@ -19,8 +19,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let data = angular.copy($scope.properties.dataToSend)
         data.limit = 999999;
         
-        data.buttonSource = '1';
-        
         var req = {
             method: method,
             url: url,

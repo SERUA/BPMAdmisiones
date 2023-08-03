@@ -80,21 +80,19 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     return false;
                   }
                 }
-
-                // COMENTADO LAS VALIDACIONES DE LOS KPS
-                // if(datos.tipoExamen == "KP"){
-                //     let valores3=["LA1","LA2","LA3","LA4","PG1","PG2","PG3","PG4","PG5","PV1","PV4","LEO1","LEO3","LEO4","LEO5","CIT1","CIT2","HI1","HI2","HI3","HI4","HI5","HI6"]
-                //     for(let i=0; i<valores3.length; i++){
+                if(datos.tipoExamen == "KP"){
+                    let valores3=["LA1","LA2","LA3","LA4","PG1","PG2","PG3","PG4","PG5","PV1","PV4","LEO1","LEO3","LEO4","LEO5","CIT1","CIT2","HI1","HI2","HI3","HI4","HI5","HI6"]
+                    for(let i=0; i<valores3.length; i++){
                         
-                //         if(!isRangoValue(datos[valores3[i]],0,10)){
-                //             swal("¡Aviso!",`${valores3[i]}\xa0(${datos[valores3[i]]})\xa0tiene que estar en el rango de 0-10`,"warning")
-                //             return false; 
-                //         }else if(!haveZero(datos[valores3[i]])){
-                //             swal("¡Aviso!",`${valores3[i]}\xa0(${datos[valores3[i]]})\xa0tiene que estar entre 0-10 a dos dígitos`,"warning")
-                //             return false; 
-                //         }
-                //     }
-                // }
+                        if(!isRangoValue(datos[valores3[i]],0,10)){
+                            swal("¡Aviso!",`${valores3[i]}\xa0(${datos[valores3[i]]})\xa0tiene que estar en el rango de 0-10`,"warning")
+                            return false; 
+                        }else if(!haveZero(datos[valores3[i]])){
+                            swal("¡Aviso!",`${valores3[i]}\xa0(${datos[valores3[i]]})\xa0tiene que estar entre 0-10 a dos dígitos`,"warning")
+                            return false; 
+                        }
+                    }
+                }
                 
                 
                 return true;
@@ -213,6 +211,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         return  index
     }    
 
+
     function isKp(datos){
         if(datos.tipoExamen != "KP"){
             let valores = ["MLEX","CLEX","HLEX","CIT1","CIT2","HI1","HI2","HI3","HI4","HI5","HI6","LA1","LA2","LA3","LA4","LEO1","LEO3","LEO4","LEO5","PG1","PG2","PG3","PG4","PG5","PV1","PV4"]
@@ -221,4 +220,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             });
         }
     }
-}
+      
+  
+  }
+  

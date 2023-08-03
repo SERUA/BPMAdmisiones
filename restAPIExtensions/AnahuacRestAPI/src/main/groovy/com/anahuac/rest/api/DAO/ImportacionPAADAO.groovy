@@ -1602,7 +1602,7 @@ class ImportacionPAADAO {
 			++rowCount;
 			Row espacio = sheet.createRow(++rowCount);
 			
-			def titulos = ["Id Banner","Nombre","Email","Curp","Campus","Programa","Periodo","Procedencia","Preparatoria","Promedio","Id sesión","Sesión","MLEX","PAAN","CLEX","PAAV","HLEX","PARA","INVP","Fecha examen EAC","Fecha ultima modificación", "Fecha examen INVP"]
+			def titulos = ["Id Banner","Nombre","Email","Curp","Campus","Programa","Periodo","Procedencia","Preparatoria","Promedio","Id sesión","Sesión","MLEX","PAAN","CLEX","PAAV","HLEX","PARA","INVP","Fecha del examen","Fecha ultima modificación"]
 			Row headersRow = sheet.createRow(rowCount);
 			++rowCount;
 			List<Cell> header = new ArrayList<Cell>();
@@ -1617,7 +1617,7 @@ class ImportacionPAADAO {
 			bodyStyle.setAlignment(HorizontalAlignment.CENTER);
 			
 			
-			def info = ["idbanner","nombre","correoelectronico","curp","campus","licenciatura","ingreso","procedencia","preparatoria","promediogeneral","id","sesion","lexiumpaan","paan","lexiumpaav","paav","lexiumpara","para","invp","fechaexamen","fecharegistro", ""]
+			def info = ["idbanner","nombre","correoelectronico","curp","campus","licenciatura","ingreso","procedencia","preparatoria","promediogeneral","id","sesion","lexiumpaan","paan","lexiumpaav","paav","lexiumpara","para","invp","fechaexamen","fecharegistro"]
 			List<Cell> body;
 			for (int i = 0; i < lstParams.size(); ++i){
 				Row row = sheet.createRow(rowCount);

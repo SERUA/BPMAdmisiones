@@ -32,7 +32,4 @@ class Statements {
 	public static final String GET_REFERENCIAS_PERSONALES = "SELECT persistenceid, correopersonal, nombre, parentesco, telefono, espersonal FROM AvalReferenciasPersonales WHERE caseid = ? AND espersonal = ? ORDER BY persistenceid ASC";
 	
 	public static final String GET_REFERENCIAS_BANCARIAS = "SELECT banco, numerocuenta, saldopromedio, tipocuenta, esbancaria  FROM AvalReferencia WHERE caseid = ? AND esbancaria = ? ORDER BY persistenceid ASC";
-
-	public static final String GET_DATOS_TUTOR_PDF = "SELECT DISTINCT ON (PADR.correoelectronico) PADR.nombre, PADR.apellidos, PADR.correoelectronico, CTIT.descripcion AS titulo, PADR.telefono, CPAR.descripcion AS parentesco, PADR.empresatrabaja, PADR.puesto FROM PadresTutor AS PADR LEFT JOIN CATTITULO AS CTIT ON CTIT.persistenceid = PADR.cattitulo_pid LEFT JOIN CATPARENTESCO AS CPAR ON CPAR.persistenceid = PADR.catparentezco_pid WHERE PADR.correoelectronico IN (SELECT correoelectronico FROM PadresTutor WHERE caseid = ? AND correoelectronico IS NOT NULL GROUP BY correoelectronico HAVING COUNT(*) > 1);"
-	
-	}
+}

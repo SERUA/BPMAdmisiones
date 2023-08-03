@@ -99,8 +99,6 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
 					if(allow){break;}
-					allow=bonitaRolFilter(context,"Chat")
-					if(allow){break;}
 				break;
 				case "getSolicitudDeAdmision":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -417,14 +415,6 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Config Campus SDAE")
 					if(allow){break;}
 				break;
-				case "removerDuplicadosFinan":
-					allow=bonitaRolFilter(context,"TI SERUA")
-					if(allow){break;}
-					allow=bonitaRolFilter(context,"ADMINISTRADOR")
-					if(allow){break;}
-					allow=bonitaRolFilter(context,"Config Campus SDAE")
-					if(allow){break;}
-				break;
 			}
 			return allow;
 	}
@@ -538,10 +528,6 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"PreAutorizacion")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Chat")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Artistica")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Area Deportiva")
 				if(allow){break;}
 			break;
 			case "getCatGenerico":
@@ -709,24 +695,6 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"PreAutorizacion")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Finanzas")
-				if(allow){break;}
-				break;
-			case "getExcelFileBandejaMaestra":
-				allow=bonitaRolFilter(context,"ADMINISTRADOR")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"TI SERUA")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"PreAutorizacion")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Finanzas")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"Chat")
-				if(allow){break;}
-				break;
-			case "removerDuplicadosFinan":
-				allow=bonitaRolFilter(context,"ADMINISTRADOR")
-				if(allow){break;}
-				allow=bonitaRolFilter(context,"TI SERUA")
 				if(allow){break;}
 				break;
 		}

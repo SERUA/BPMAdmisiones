@@ -793,191 +793,162 @@ class SesionesDAO {
 		Boolean closeCon = false;
 		Long responsabledisponible_pid = 0L
 		try {
-			List<Sesion_Aspirante> rows = new ArrayList<Sesion_Aspirante>();
-			closeCon = validarConexion();
-			con.setAutoCommit(false)
-			pstm = con.prepareStatement(Statements.GET_REGISTRADOS_CUPO)
-			pstm.setLong(1, sesionAspirante.getSesiones_pid())
-			rs = pstm.executeQuery()
-			while(rs.next()) {
-				if((rs.getInt("registrados")+1)>rs.getInt("cupo")) {
-					throw new Exception("No hay cupo");
-				}
-			}
-			
-			pstm = con.prepareStatement(Statements.GET_OCUPADO_RESPONSABLE_DISPONIBLE)
-			pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				throw new Exception("Se encuentra ocupado")
-			}
-			
-			Long caseid=0L
-			Integer rechazo=null
-			pstm=con.prepareStatement("SELECT caseid, countRechazos from solicituddeadmision where correoelectronico=? limit 1")
-			pstm.setString(1, sesionAspirante.getUsername())
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				caseid= rs.getLong("caseid")
-				rechazo= rs.getInt("countRechazos")
-			}
-			
-			pstm = con.prepareStatement(Statements.GET_SESIONASPIRANTE_BY_CASEID)
-			pstm.setLong(1, caseid)
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				
-				responsabledisponible_pid = rs.getLong("responsabledisponible_pid")
-				if(sesionAspirante.getResponsabledisponible_pid().equals(0L)){
-					sesionAspirante.setResponsabledisponible_pid(responsabledisponible_pid)
-				}
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_INV)
-				pstm.setLong(1, rs.getLong("sesiones_pid"))
-				pstm.setLong(2, rs.getLong("sesiones_pid"))
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE_INV)
-				pstm.setLong(1, rs.getLong("responsabledisponible_pid"))
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS_INV)
-				pstm.setLong(1, rs.getLong("responsabledisponible_pid"))
-				pstm.setLong(2, rs.getLong("responsabledisponible_pid"))
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS)
+				List<Sesion_Aspirante> rows = new ArrayList<Sesion_Aspirante>();
+				closeCon = validarConexion();
+				con.setAutoCommit(false)
+				pstm = con.prepareStatement(Statements.GET_REGISTRADOS_CUPO)
 				pstm.setLong(1, sesionAspirante.getSesiones_pid())
-				pstm.setLong(2, sesionAspirante.getSesiones_pid())
-				pstm.executeUpdate();
+				rs = pstm.executeQuery()
+				while(rs.next()) {
+					if((rs.getInt("registrados")+1)>rs.getInt("cupo")) {
+						throw new Exception("No hay cupo");
+					}
+				}
 				
-				pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE)
+				pstm = con.prepareStatement(Statements.GET_OCUPADO_RESPONSABLE_DISPONIBLE)
 				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
-				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
-				pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_sesionaspirante)
-				pstm.setString(1, sesionAspirante.getUsername())
-				pstm.setLong(2, sesionAspirante.getSesiones_pid())
-				pstm.setLong(3, sesionAspirante.getResponsabledisponible_pid())
-				pstm.setLong(4, rs.getLong("persistenceid"))
-				
-				pstm.executeUpdate();
-				sesionAspirante.setPersistenceId(rs.getLong("persistenceId"))
-				
-			}else {
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS)
-				pstm.setLong(1, sesionAspirante.getSesiones_pid())
-				pstm.setLong(2, sesionAspirante.getSesiones_pid())
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE)
-				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
-				pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
-				pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.INSERT_sesionaspirante, Statement.RETURN_GENERATED_KEYS)
-				pstm.setString(1, sesionAspirante.getUsername())
-				pstm.setLong(2, sesionAspirante.getSesiones_pid())
-				pstm.setLong(3, sesionAspirante.getResponsabledisponible_pid())
-				pstm.setLong(4, caseid)
-				
-				pstm.executeUpdate();
-				rs = pstm.getGeneratedKeys()
-				
+				rs = pstm.executeQuery()
 				if(rs.next()) {
-					sesionAspirante.setPersistenceId(rs.getLong("persistenceId"))
+					throw new Exception("Se encuentra ocupado")
 				}
-			}
-			
-			DataInstance asistenciaCollegeBoard= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaCollegeBoard", caseid)
-			DataInstance asistenciaPsicometrico= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaPsicometrico", caseid)
-			DataInstance asistenciaEntrevista= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaEntrevista", caseid)
-			
-			asistenciaCollegeBoard.getValue()
-			
-			pstm=con.prepareStatement("SELECT p.persistenceid, p.cattipoprueba_pid from pruebas p where p.sesion_pid=? and p.cattipoprueba_pid!=1 order by p.cattipoprueba_pid DESC")
-			pstm.setLong(1, sesionAspirante.getSesiones_pid())
-			rs = pstm.executeQuery()
-			while(rs.next()) {
-				pstm = con.prepareStatement(Statements.INSERT_ASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
 				
-				pstm.setString(1,sesionAspirante.getUsername());
-				pstm.setLong(2,rs.getInt("persistenceid"));
-				pstm.setBoolean(3,false);
-				pstm.setInt(4,rechazo);
-				pstm.setLong(5,sesionAspirante.getSesiones_pid());
-				pstm.setLong(6,rs.getInt("cattipoprueba_pid"));
-				pstm.setNull(7, java.sql.Types.NULL);
-				pstm.setBoolean(8,(rs.getInt("cattipoprueba_pid")==2)?(Boolean)asistenciaPsicometrico.getValue():(Boolean)asistenciaCollegeBoard.getValue());
-				pstm.setLong(9,caseid);
-				pstm.executeUpdate();
+				Long caseid=0L
+				Integer rechazo=null
+				pstm=con.prepareStatement("SELECT caseid, countRechazos from solicituddeadmision where correoelectronico=? limit 1")
+				pstm.setString(1, sesionAspirante.getUsername())
+				rs = pstm.executeQuery()
+				if(rs.next()) {
+					caseid= rs.getLong("caseid")
+					rechazo= rs.getInt("countRechazos")
+				}
 				
-				//INSERT PARA LA BITACORA
-				pstm = con.prepareStatement(Statements.INSERT_BITACORAASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
-				pstm.setString(1,sesionAspirante.getUsername());
-				pstm.setLong(2,rs.getInt("persistenceid"));
-				pstm.setBoolean(3,false);
-				pstm.setLong(4,sesionAspirante.getSesiones_pid());
-				pstm.setLong(5,rs.getInt("cattipoprueba_pid"));
-				pstm.setNull(6, java.sql.Types.NULL);
-				pstm.setBoolean(7,(rs.getInt("cattipoprueba_pid")==2)?(Boolean)asistenciaPsicometrico.getValue():(Boolean)asistenciaCollegeBoard.getValue());
-				pstm.setLong(8,caseid);
-				pstm.executeUpdate();
+				pstm = con.prepareStatement(Statements.GET_SESIONASPIRANTE_BY_CASEID)
+				pstm.setLong(1, caseid)
+				rs = pstm.executeQuery()
+				if(rs.next()) {
+					
+					responsabledisponible_pid = rs.getLong("responsabledisponible_pid")
+					if(sesionAspirante.getResponsabledisponible_pid().equals(0L)){
+						sesionAspirante.setResponsabledisponible_pid(responsabledisponible_pid)
+					}
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_INV)
+					pstm.setLong(1, rs.getLong("sesiones_pid"))
+					pstm.setLong(2, rs.getLong("sesiones_pid"))
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE_INV)
+					pstm.setLong(1, rs.getLong("responsabledisponible_pid"))
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS_INV)
+					pstm.setLong(1, rs.getLong("responsabledisponible_pid"))
+					pstm.setLong(2, rs.getLong("responsabledisponible_pid"))
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS)
+					pstm.setLong(1, sesionAspirante.getSesiones_pid())
+					pstm.setLong(2, sesionAspirante.getSesiones_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE)
+					pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
+					pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+					pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_sesionaspirante)
+					pstm.setString(1, sesionAspirante.getUsername())
+					pstm.setLong(2, sesionAspirante.getSesiones_pid())
+					pstm.setLong(3, sesionAspirante.getResponsabledisponible_pid())
+					pstm.setLong(4, rs.getLong("persistenceid"))
+					
+					pstm.executeUpdate();
+					sesionAspirante.setPersistenceId(rs.getLong("persistenceId"))
+					
+				}else {
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS)
+					pstm.setLong(1, sesionAspirante.getSesiones_pid())
+					pstm.setLong(2, sesionAspirante.getSesiones_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_OCUPADO_RESPONSABLE_DISPONIBLE)
+					pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.UPDATE_REGISTRADOS_PRUEBAS)
+					pstm.setLong(1, sesionAspirante.getResponsabledisponible_pid())
+					pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
+					pstm.executeUpdate();
+					
+					pstm = con.prepareStatement(Statements.INSERT_sesionaspirante, Statement.RETURN_GENERATED_KEYS)
+					pstm.setString(1, sesionAspirante.getUsername())
+					pstm.setLong(2, sesionAspirante.getSesiones_pid())
+					pstm.setLong(3, sesionAspirante.getResponsabledisponible_pid())
+					pstm.setLong(4, caseid)
+					
+					pstm.executeUpdate();
+					rs = pstm.getGeneratedKeys()
+					
+					if(rs.next()) {
+						sesionAspirante.setPersistenceId(rs.getLong("persistenceId"))
+					}
+				}
 				
-			}
-			
-			pstm=con.prepareStatement("SELECT p.persistenceid, p.cattipoprueba_pid, rd.persistenceid Responsabledisponible_pid from pruebas p inner join responsabledisponible rd on rd.prueba_pid=p.persistenceid where p.sesion_pid=? and p.cattipoprueba_pid=1 and rd.persistenceid=?")
-			pstm.setLong(1, sesionAspirante.getSesiones_pid())
-			pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				pstm = con.prepareStatement(Statements.INSERT_ASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+				DataInstance asistenciaCollegeBoard= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaCollegeBoard", caseid)
+				DataInstance asistenciaPsicometrico= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaPsicometrico", caseid)
+				DataInstance asistenciaEntrevista= context.getApiClient().getProcessAPI().getProcessDataInstance("asistenciaEntrevista", caseid)
 				
-				pstm.setString(1,sesionAspirante.getUsername());
-				pstm.setLong(2,rs.getLong("persistenceid"));
-				pstm.setBoolean(3,false);
-				pstm.setInt(4,rechazo);
-				pstm.setLong(5,sesionAspirante.getSesiones_pid());
-				pstm.setInt(6,rs.getInt("cattipoprueba_pid"));
-				pstm.setLong(7,sesionAspirante.getResponsabledisponible_pid());
-				pstm.setBoolean(8,(Boolean)asistenciaEntrevista.getValue());
-				pstm.setLong(9,caseid);
-				pstm.executeUpdate();
+				asistenciaCollegeBoard.getValue()
 				
-				//INSERT PARA LA BITACORA
-				pstm = con.prepareStatement(Statements.INSERT_BITACORAASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
-				pstm.setString(1,sesionAspirante.getUsername());
-				pstm.setLong(2,rs.getLong("persistenceid"));
-				pstm.setBoolean(3,false);
-				pstm.setLong(4,sesionAspirante.getSesiones_pid());
-				pstm.setInt(5,rs.getInt("cattipoprueba_pid"));
-				pstm.setLong(6,sesionAspirante.getResponsabledisponible_pid());
-				pstm.setBoolean(7,(Boolean)asistenciaEntrevista.getValue());
-				pstm.setLong(8,caseid);
-				pstm.executeUpdate();
-				
-			}else {
-				pstm=con.prepareStatement("select persistenceid from pruebas where sesion_pid = ? and cattipoprueba_pid = 1 order by persistenceid desc limit 1");
+				pstm=con.prepareStatement("SELECT p.persistenceid, p.cattipoprueba_pid from pruebas p where p.sesion_pid=? and p.cattipoprueba_pid!=1 order by p.cattipoprueba_pid DESC")
 				pstm.setLong(1, sesionAspirante.getSesiones_pid())
-				rs = pstm.executeQuery();
+				rs = pstm.executeQuery()
+				while(rs.next()) {
+					pstm = con.prepareStatement(Statements.INSERT_ASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+					
+					pstm.setString(1,sesionAspirante.getUsername());
+					pstm.setLong(2,rs.getInt("persistenceid"));
+					pstm.setBoolean(3,false);
+					pstm.setInt(4,rechazo);
+					pstm.setLong(5,sesionAspirante.getSesiones_pid());
+					pstm.setLong(6,rs.getInt("cattipoprueba_pid"));
+					pstm.setNull(7, java.sql.Types.NULL);
+					pstm.setBoolean(8,(rs.getInt("cattipoprueba_pid")==2)?(Boolean)asistenciaPsicometrico.getValue():(Boolean)asistenciaCollegeBoard.getValue());
+					pstm.setLong(9,caseid);
+					pstm.executeUpdate();
+					
+					//INSERT PARA LA BITACORA
+					pstm = con.prepareStatement(Statements.INSERT_BITACORAASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+					pstm.setString(1,sesionAspirante.getUsername());
+					pstm.setLong(2,rs.getInt("persistenceid"));
+					pstm.setBoolean(3,false);
+					pstm.setLong(4,sesionAspirante.getSesiones_pid());
+					pstm.setLong(5,rs.getInt("cattipoprueba_pid"));
+					pstm.setNull(6, java.sql.Types.NULL);
+					pstm.setBoolean(7,(rs.getInt("cattipoprueba_pid")==2)?(Boolean)asistenciaPsicometrico.getValue():(Boolean)asistenciaCollegeBoard.getValue());
+					pstm.setLong(8,caseid);
+					pstm.executeUpdate();
+					
+				}
+				
+				pstm=con.prepareStatement("SELECT p.persistenceid, p.cattipoprueba_pid, rd.persistenceid Responsabledisponible_pid from pruebas p inner join responsabledisponible rd on rd.prueba_pid=p.persistenceid where p.sesion_pid=? and p.cattipoprueba_pid=1 and rd.persistenceid=?")
+				pstm.setLong(1, sesionAspirante.getSesiones_pid())
+				pstm.setLong(2, sesionAspirante.getResponsabledisponible_pid())
+				rs = pstm.executeQuery()
 				if(rs.next()) {
 					pstm = con.prepareStatement(Statements.INSERT_ASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+					
 					pstm.setString(1,sesionAspirante.getUsername());
 					pstm.setLong(2,rs.getLong("persistenceid"));
 					pstm.setBoolean(3,false);
 					pstm.setInt(4,rechazo);
 					pstm.setLong(5,sesionAspirante.getSesiones_pid());
-					pstm.setInt(6,1);
-					pstm.setNull(7, java.sql.Types.NULL);
-					pstm.setBoolean(8,true);
+					pstm.setInt(6,rs.getInt("cattipoprueba_pid"));
+					pstm.setLong(7,sesionAspirante.getResponsabledisponible_pid());
+					pstm.setBoolean(8,(Boolean)asistenciaEntrevista.getValue());
 					pstm.setLong(9,caseid);
 					pstm.executeUpdate();
 					
@@ -987,45 +958,59 @@ class SesionesDAO {
 					pstm.setLong(2,rs.getLong("persistenceid"));
 					pstm.setBoolean(3,false);
 					pstm.setLong(4,sesionAspirante.getSesiones_pid());
-					pstm.setInt(5,1);
-					pstm.setNull(6, java.sql.Types.NULL);
-					pstm.setBoolean(7,true);
+					pstm.setInt(5,rs.getInt("cattipoprueba_pid"));
+					pstm.setLong(6,sesionAspirante.getResponsabledisponible_pid());
+					pstm.setBoolean(7,(Boolean)asistenciaEntrevista.getValue());
 					pstm.setLong(8,caseid);
 					pstm.executeUpdate();
+					
+				}else {
+					pstm=con.prepareStatement("select persistenceid from pruebas where sesion_pid = ? and cattipoprueba_pid = 1 order by persistenceid desc limit 1");
+					pstm.setLong(1, sesionAspirante.getSesiones_pid())
+					rs = pstm.executeQuery();
+					if(rs.next()) {
+						pstm = con.prepareStatement(Statements.INSERT_ASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+						pstm.setString(1,sesionAspirante.getUsername());
+						pstm.setLong(2,rs.getLong("persistenceid"));
+						pstm.setBoolean(3,false);
+						pstm.setInt(4,rechazo);
+						pstm.setLong(5,sesionAspirante.getSesiones_pid());
+						pstm.setInt(6,1);
+						pstm.setNull(7, java.sql.Types.NULL);
+						pstm.setBoolean(8,true);
+						pstm.setLong(9,caseid);
+						pstm.executeUpdate();
+						
+						//INSERT PARA LA BITACORA
+						pstm = con.prepareStatement(Statements.INSERT_BITACORAASPIRANTESPRUEBAS, Statement.RETURN_GENERATED_KEYS);
+						pstm.setString(1,sesionAspirante.getUsername());
+						pstm.setLong(2,rs.getLong("persistenceid"));
+						pstm.setBoolean(3,false);
+						pstm.setLong(4,sesionAspirante.getSesiones_pid());
+						pstm.setInt(5,1);
+						pstm.setNull(6, java.sql.Types.NULL);
+						pstm.setBoolean(7,true);
+						pstm.setLong(8,caseid);
+						pstm.executeUpdate();
+					}
 				}
-			}
-			
-			String correo = sesionAspirante.getUsername();
-			pstm = con.prepareStatement("DELETE FROM AspirantesBloqueados WHERE username = ? ");
-			pstm.setString(1, correo);
-			pstm.executeUpdate();
-			
-			pstm = con.prepareStatement("UPDATE idiomainvpusuario SET usuariobloqueado = false WHERE username = ?");
-			pstm.setString(1, correo);
-			pstm.executeUpdate();
-			
-			pstm = con.prepareStatement("UPDATE idiomainvpusuario SET havesesion = false WHERE username = ?");
-			pstm.setString(1, correo);
-			pstm.executeUpdate();
-			
-			con.commit();
-			rows.add(sesionAspirante)
-			resultado.setSuccess(true)
-			
-			resultado.setData(rows)
-			
-		} catch (Exception e) {
+				con.commit();
+				rows.add(sesionAspirante)
+				resultado.setSuccess(true)
+				
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			con.rollback();
-		} finally {
+		}finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
 		return resultado
 	}
-	
 	public Result getSesionesCalendario(String fecha,String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -3187,8 +3172,8 @@ class SesionesDAO {
 				pstm.executeUpdate();
 				
 				con.commit();
-				Result dataResult = updateAspirantesPruebas(jsonData);
-				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData);
+				Result dataResult = updateAspirantesPruebas(jsonData, context);
+				Result dataResult2 = updateBitacoraAspirantesPruebas(jsonData, context);
 				
 				resultado.setSuccess(true)
 				
@@ -6183,7 +6168,7 @@ class SesionesDAO {
 				switch(filtro.get("columna")) {
 
 				case "FECHA, LUGAR":
-					where +=" AND  ( LOWER( CAST(TO_CHAR(P.aplicacion, 'DD/MM/YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+					where +=" AND  ( LOWER( CAST(TO_CHAR(P.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 					where += "OR LOWER(P.entrada) LIKE LOWER('%[valor]%') "
 					where += "OR LOWER(P.salida) LIKE LOWER('%[valor]%') "
 					where = where.replace("[valor]", filtro.get("valor"))
