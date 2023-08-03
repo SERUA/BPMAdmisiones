@@ -106,24 +106,10 @@ class Index implements RestApiController {
 					}
 				}
 			}
-		}catch(Exception ex) {
+		} catch(Exception ex) {
 			jsonData = null
 			return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder("[]").toString())
 		}
-		
-		
-		
-		
-		
-		
-		
-		
-		/*def resultado = [  "myParameterKey" : paramValue, "currentDate" : LocalDate.now().toString() ]
-
-        // Send the result as a JSON representation
-        // You may use buildPagedResponse if your result is multiple
-        return buildResponse(responseBuilder, HttpServletResponse.SC_OK, jsonData)*/
-		
     }
 
     /**
@@ -182,7 +168,9 @@ class Index implements RestApiController {
 				|| it.roleName.equals("TI SERUA") 
 				|| it.roleName.equals("PreAutorizacion")
 				|| it.roleName.equals("Finanzas")
-				|| it.roleName.equals("ASPIRANTE")
+				|| it.roleName.equals("ASPIRANTE") 
+				|| it.roleName.equals("PSICOLOGO") 
+				|| it.roleName.equals("PSICOLOGO SUPERVISOR")
 			) {
 				valid=true
 			}
