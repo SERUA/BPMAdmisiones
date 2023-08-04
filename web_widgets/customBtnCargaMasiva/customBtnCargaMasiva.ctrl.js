@@ -26,7 +26,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     if ($scope.enviar) {
                         doRequest("POST", $scope.properties.urlPost, $scope.final);
                     } else {
-                        swal("¡Aviso!", `¡Se ha actulizado la lista de errores, para enviar los registos sin error presiona otra vez el boton!`, "warning");
+                        swal("¡Aviso!", `¡Se ha actulizado la lista de errores, para enviar los registos sin error presiona otra vez el botón!`, "warning");
                         $scope.properties.value = $scope.final;
                     }
 
