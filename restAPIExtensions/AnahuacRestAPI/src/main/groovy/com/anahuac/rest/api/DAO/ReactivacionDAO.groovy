@@ -2247,7 +2247,6 @@ class ReactivacionDAO {
 			con.commit();
 			con.close();
 			
-			//TO-DO
 			//Actualizar los datos de las instancias del INVP
 			validarConexionBonita();
 			con.setAutoCommit(false);
@@ -2262,6 +2261,8 @@ class ReactivacionDAO {
 			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username '${correo} (rechazado)' WHERE username = '${correo}'");
 			pstm.executeUpdate();
 			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE PaseLista SET username '${correo} (rechazado)' WHERE username = '${correo}'");
 			pstm.executeUpdate();
 			errorLog+=",FIN COSAS DEL INVP";
 			con.commit();
