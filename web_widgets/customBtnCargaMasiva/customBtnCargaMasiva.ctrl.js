@@ -26,7 +26,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     if ($scope.enviar) {
                         doRequest("POST", $scope.properties.urlPost, $scope.final);
                     } else {
-                        swal("¡Aviso!", `¡Se ha actulizado la lista de errores, para enviar los registos sin error precionar otravez el boton!`, "warning");
+                        swal("¡Aviso!", `¡Se ha actulizado la lista de errores, para enviar los registos sin error presiona otra vez el botón!`, "warning");
                         $scope.properties.value = $scope.final;
                     }
 
@@ -46,7 +46,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
         return false
     }
-
 
     function doRequest(method, url, datos) {
         var req = {
@@ -71,8 +70,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
             });
     }
-
-
 
     function doRequest2(method, url, datos) {
         var req = {
@@ -100,7 +97,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             .error(function (data, status) {
             })
     }
-
 
     function revisarDatos(data, datos) {
         data.data.forEach((info, index) => {
@@ -137,7 +133,5 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         });
         return index
     }
-
-
 
 }

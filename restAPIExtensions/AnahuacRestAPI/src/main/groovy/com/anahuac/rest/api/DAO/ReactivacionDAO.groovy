@@ -595,7 +595,6 @@ class ReactivacionDAO {
 				pstm = con.prepareStatement(Statements.UPDATE_DATOS_REACTIVARUSUARIO_AUTODESCRIPCION)
 				pstm.setLong(1,  Long.valueOf(nuevaSolicitud.getData().get(0)));
 				pstm.executeUpdate();
-	
 				con.commit();
 			}
 			
@@ -2246,8 +2245,29 @@ class ReactivacionDAO {
 				pstm.executeUpdate();
 			}
 			con.commit();
+			con.close();
 			
-			con.close()
+			//Actualizar los datos de las instancias del INVP
+			validarConexionBonita();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement("UPDATE RespuestaINVP SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE InstanciaINVP SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE InfoAspiranteTemporal SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			pstm = con.prepareStatement("UPDATE PaseLista SET username '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();
+			errorLog+=",FIN COSAS DEL INVP";
+			con.commit();
+			
+			con.close();
 			
 			validarConexion()
 			con.setAutoCommit(false);
