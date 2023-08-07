@@ -2086,7 +2086,6 @@ class ReactivacionDAO {
 			pstm.executeUpdate();
 			errorLog+="solicitud";
 			
-			
 			pstm = con.prepareStatement("SELECT persistenceid, correoelectronico FROM solicitudDeAdmision WHERE caseid::integer = "+caseIdOrigen);
 			rs = pstm.executeQuery();
 			errorLog+=", persistenceid1";
@@ -2108,9 +2107,7 @@ class ReactivacionDAO {
 				}catch(Exception a) {
 					errorLog+=", error campusPresente:"+a
 				}
-				
 			}
-			
 			
 			pstm = con.prepareStatement("UPDATE solicitudDeAdmision SET correoelectronico = '${correo} (rechazado)' where caseid = '${caseIdOrigen}' ")
 			pstm.executeUpdate();
@@ -2136,8 +2133,6 @@ class ReactivacionDAO {
 				detalleSolicitudId = rs.getLong("persistenceid")
 			}
 			
-			
-			
 			pstm = con.prepareStatement("UPDATE DetalleSolicitud SET persistenceversion = '0' WHERE persistenceversion is null ")
 			pstm.executeUpdate();
 			
@@ -2151,8 +2146,6 @@ class ReactivacionDAO {
 			pstm = con.prepareStatement("UPDATE padresTutor SET catTitulo_pid = pt.catTitulo_pid, catParentezco_pid = pt.catParentezco_pid, nombre = pt.nombre, apellidos = pt.apellidos, correoElectronico = pt.correoElectronico, catEscolaridad_pid = pt.catEscolaridad_pid, catEgresoAnahuac_pid = pt.catEgresoAnahuac_pid, catCampusEgreso_pid = pt.catCampusEgreso_pid, catTrabaja_pid = pt.catTrabaja_pid, empresaTrabaja = pt.empresaTrabaja, giroEmpresa = pt.giroEmpresa, puesto = pt.puesto, isTutor = pt.isTutor, vive_pid = pt.vive_pid, calle = pt.calle, catPais_pid = pt.catPais_pid, numeroExterior = pt.numeroExterior, numeroInterior = pt.numeroInterior, catEstado_pid = pt.catEstado_pid, ciudad = pt.ciudad, colonia = pt.colonia, telefono = pt.telefono, codigoPostal = pt.codigoPostal, viveContigo = pt.viveContigo, otroParentesco = pt.otroParentesco, desconozcoDatosPadres = pt.desconozcoDatosPadres, delegacionMunicipio = pt.delegacionMunicipio, estadoExtranjero = pt.estadoExtranjero FROM (SELECT catTitulo_pid,catParentezco_pid,nombre,apellidos,correoElectronico,catEscolaridad_pid,catEgresoAnahuac_pid,catCampusEgreso_pid,catTrabaja_pid,empresaTrabaja,giroEmpresa,puesto,isTutor,vive_pid,calle,catPais_pid,numeroExterior,numeroInterior,catEstado_pid,ciudad,colonia,telefono,codigoPostal,viveContigo,otroParentesco,desconozcoDatosPadres,delegacionMunicipio,estadoExtranjero FROM padresTutor WHERE persistenceId = ${contexto?.padre_ref?.storageId} ) as pt WHERE padresTutor.persistenceId = "+contexto2?.padre_ref?.storageId);
 			pstm.executeUpdate();
 			errorLog+=", padresTutor_Padre";
-			
-			
 			
 			for(int i = 0; i<contexto?.tutor_ref?.storageIds?.size(); i++) {
 				pstm = con.prepareStatement("UPDATE padresTutor SET catTitulo_pid = pt.catTitulo_pid, catParentezco_pid = pt.catParentezco_pid, nombre = pt.nombre, apellidos = pt.apellidos, correoElectronico = pt.correoElectronico, catEscolaridad_pid = pt.catEscolaridad_pid, catEgresoAnahuac_pid = pt.catEgresoAnahuac_pid, catCampusEgreso_pid = pt.catCampusEgreso_pid, catTrabaja_pid = pt.catTrabaja_pid, empresaTrabaja = pt.empresaTrabaja, giroEmpresa = pt.giroEmpresa, puesto = pt.puesto, isTutor = pt.isTutor, vive_pid = pt.vive_pid, calle = pt.calle, catPais_pid = pt.catPais_pid, numeroExterior = pt.numeroExterior, numeroInterior = pt.numeroInterior, catEstado_pid = pt.catEstado_pid, ciudad = pt.ciudad, colonia = pt.colonia, telefono = pt.telefono, codigoPostal = pt.codigoPostal, viveContigo = pt.viveContigo, otroParentesco = pt.otroParentesco, desconozcoDatosPadres = pt.desconozcoDatosPadres, delegacionMunicipio = pt.delegacionMunicipio, estadoExtranjero = pt.estadoExtranjero FROM (SELECT catTitulo_pid,catParentezco_pid,nombre,apellidos,correoElectronico,catEscolaridad_pid,catEgresoAnahuac_pid,catCampusEgreso_pid,catTrabaja_pid,empresaTrabaja,giroEmpresa,puesto,isTutor,vive_pid,calle,catPais_pid,numeroExterior,numeroInterior,catEstado_pid,ciudad,colonia,telefono,codigoPostal,viveContigo,otroParentesco,desconozcoDatosPadres,delegacionMunicipio,estadoExtranjero FROM padresTutor WHERE persistenceId = ${contexto?.tutor_ref?.storageIds[i]} ) as pt WHERE padresTutor.persistenceId = "+contexto2?.tutor_ref?.storageIds[i]);
@@ -2188,27 +2181,27 @@ class ReactivacionDAO {
 			pstm.executeUpdate();
 			errorLog+=", paseLista";
 			
-			
 			con.commit();
-			
 			con.close();
 			
-			validarConexionBonita()
-			con.setAutoCommit(false)
+			validarConexionBonita();
+			con.setAutoCommit(false);
 			errorLog+=",INICIO lstInformacionEscolar_ref";
-			List<Long> lstEscuelasHasEstadoids = new ArrayList()
+			List<Long> lstEscuelasHasEstadoids = new ArrayList();
 			pstm = con.prepareStatement("SELECT  md.data_id FROM ref_biz_data_inst data  INNER JOIN multi_biz_data md on md.id=data.id where proc_inst_id=${caseIdOrigen} AND data.name='lstInformacionEscolar'")
 			rs = pstm.executeQuery()
 			while(rs.next()) {
-				lstEscuelasHasEstadoids.add(rs.getLong("data_id"))
+				lstEscuelasHasEstadoids.add(rs.getLong("data_id"));
 			}
+			
 			if(lstEscuelasHasEstadoids.size() < 1) {
 				pstm = con.prepareStatement("SELECT  md.data_id FROM arch_ref_biz_data_inst data  INNER JOIN arch_multi_biz_data md on md.id=data.id where orig_proc_inst_id=${caseIdOrigen} AND data.name='lstInformacionEscolar'")
-				rs = pstm.executeQuery()
+				rs = pstm.executeQuery();
 				while(rs.next()) {
-					lstEscuelasHasEstadoids.add(rs.getLong("data_id"))
+					lstEscuelasHasEstadoids.add(rs.getLong("data_id"));
 				}
 			}
+			
 			errorLog+=",autodescripcion";
 			pstm = con.prepareStatement("UPDATE REF_BIZ_DATA_INST SET data_id=? where proc_inst_id=${caseIdDestino} and name='autodescripcionV2' ")
 			pstm.setLong(1,autodescripcionId)
@@ -2220,64 +2213,68 @@ class ReactivacionDAO {
 			pstm.executeUpdate();
 			
 			con.commit();
+			con.close();
 			
-			con.close()
 			errorLog+=",INICIO2 lstInformacionEscolar_ref";
-			validarConexion()
-			con.setAutoCommit(false)
-			List<Long> lstEscuelasHasEstadoDestinoids = new ArrayList()
+			validarConexion();
+			con.setAutoCommit(false);
+			List<Long> lstEscuelasHasEstadoDestinoids = new ArrayList();
+			
 			for(Long escuelasHasEstadoId: lstEscuelasHasEstadoids) {
-				
 				pstm = con.prepareStatement("INSERT INTO EscuelasHasEstado (persistenceid, anofin, anoinicio, caseid, ciudad, estadostring, otraescuela, promedio, escuela_pid, estado_pid, grado_pid, pais_pid, tipo_pid, vencido) SELECT (case when (SELECT max(persistenceId)+1 from EscuelasHasEstado ) is null then 1 else (SELECT max(persistenceId)+1 from EscuelasHasEstado) end) AS persistenceid, pt.anofin, pt.anoinicio, ${caseIdDestino} as caseid,pt.ciudad,pt.estadostring,pt.otraescuela,pt.promedio,pt.escuela_pid,pt.estado_pid,pt.grado_pid,pt.pais_pid,pt.tipo_pid,pt.vencido FROM EscuelasHasEstado as PT WHERE pt.persistenceid = ${escuelasHasEstadoId} RETURNING persistenceid")
 				rs = pstm.executeQuery()
 				if(rs.next()) {
 					lstEscuelasHasEstadoDestinoids.add(rs.getLong("persistenceid"))
 				}
 			}
+			
 			errorLog+=",FIN lstInformacionEscolar_ref";
 			con.commit();
+			con.close();
 			
-			con.close()
-			validarConexionBonita()
-			con.setAutoCommit(false)
+			validarConexionBonita();
+			con.setAutoCommit(false);
+			
 			for(Long pid:lstEscuelasHasEstadoDestinoids) {
 				pstm = con.prepareStatement("INSERT INTO multi_biz_data (tenantid,id,idx,data_id) VALUES (1,(SELECT id FROM ref_biz_data_inst WHERE proc_inst_id=${caseIdDestino} AND name='lstInformacionEscolar' ),0, ${pid})")
 				pstm.executeUpdate();
 			}
+			
 			con.commit();
 			con.close();
 			
 			//Actualizar los datos de las instancias del INVP
-			validarConexionBonita();
+			validarConexion();
 			con.setAutoCommit(false);
-			pstm = con.prepareStatement("UPDATE RespuestaINVP SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE InstanciaINVP SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE InfoAspiranteTemporal SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			pstm = con.prepareStatement("UPDATE PaseLista SET username '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();
-			errorLog+=",FIN COSAS DEL INVP";
-			con.commit();
 			
+			errorLog+="INICIO  COSAS DEL INVP";
+			pstm = con.prepareStatement("UPDATE RespuestaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 1";
+			pstm = con.prepareStatement("UPDATE InstanciaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 2";
+			pstm = con.prepareStatement("UPDATE InfoAspiranteTemporal SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 3";
+			pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 4";
+			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 5";
+			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 6";
+			pstm = con.prepareStatement("UPDATE PaseLista SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 7";
+			errorLog+=",FIN COSAS DEL INVP";
+			
+			con.commit();
 			con.close();
 			
 			validarConexion()
 			con.setAutoCommit(false);
 			
 			resultado.setError_info(errorLog);
-			resultado.setSuccess(true)
-			
+			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false)
-			resultado.setError(e.getMessage())
+			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);
 			con.rollback();
 		}finally {
