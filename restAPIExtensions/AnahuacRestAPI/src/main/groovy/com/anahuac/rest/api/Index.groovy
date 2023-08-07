@@ -1932,12 +1932,10 @@ class Index implements RestApiController {
 					}
 					break;
 				case "updateUsuarioRegistrado":
-					result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context)
-					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-					}else {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-					}
+			        handleUpdateUsuarioRegistrado(responseBuilder);
+			        break;
+				case "updateUsuarioRegistradoPrueba":
+					handleUpdateUsuarioRegistradoPruebaCase(responseBuilder);
 					break;
 					
 				case "selectAspirantesEnLaRed":
@@ -2485,6 +2483,24 @@ class Index implements RestApiController {
 		
 		return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
     }
+	
+	private void handleUpdateUsuarioRegistradoPruebaCase(RestApiResponseBuilder responseBuilder) {
+		result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context);
+		if (result.isSuccess()) {
+			buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+		} else {
+			buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString());
+		}
+	}
+	
+	private void handleUpdateUsuarioRegistrado(RestApiResponseBuilder responseBuilder) {
+		result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context);
+		if (result.isSuccess()) {
+			buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+		} else {
+			buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString());
+		}
+	}
 	
 	public Result notFound(String url) {
 		Result resultado = new Result();

@@ -4271,4 +4271,409 @@ class UsuariosDAO {
 		
 		return valid;
 	}
+	
+	public Result updateUsuarioRegistradoPrueba(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog ="";
+		Boolean closeCon = false;
+		try {
+			ProcessAPI processAPI = context.getApiClient().getProcessAPI()
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			assert object instanceof Map;
+			
+			// Guardar los valores en un Map
+			Map<String, Object> valores = object;
+		
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient(); //context.getApiClient();
+			apiClient.login(username, password);
+	
+			errorLog += " Antes del update ";
+			closeCon = validarConexion(); // Suponiendo que este método valida la conexión a la base de datos
+			errorLog += " closeCon " + closeCon;
+			
+			if(valores.editarSec1 == false) {
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC1
+				pstm = con.prepareStatement(consulta);
+				pstm.setInt(1, valores.catcampusestudio_pid);
+				pstm.setInt(2, valores.catgestionescolar_pid);
+				pstm.setInt(3, valores.catperiodo_pid);
+				pstm.setInt(4, valores.catcampus_pid);
+				pstm.setInt(5, valores.catpresentasteenotrocampus_pid);
+				pstm.setString(6, valores.correoelectronico);
+				if (valores.catconcluisteproceso_pid == null) {
+					pstm.setObject(7, null); // Establecer valor nulo para el parámetro
+				} else {
+					pstm.setInt(7, valores.catconcluisteproceso_pid); // Establecer el valor entero
+				}
+				if (valores.catresultadoadmision_pid == null) {
+					pstm.setObject(8, null); // Establecer valor nulo para el parámetro
+				} else {
+					pstm.setInt(8, valores.catresultadoadmision_pid); // Establecer el valor entero
+				}
+				pstm.setInt(9, valores.caseid);
+				int filasActualizadas = pstm.executeUpdate();
+			} else if(valores.editarSec2 == false){
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC2
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, valores.primernombre);
+				pstm.setString(2, valores.segundonombre);
+				pstm.setString(3, valores.apellidopaterno);
+				pstm.setString(4, valores.apellidomaterno);
+				pstm.setInt(5, valores.catsexo_pid);
+				pstm.setString(6, valores.fechanacimiento);
+				pstm.setInt(7, valores.catestado_pid);
+				pstm.setInt(8, valores.catreligion_pid);
+				pstm.setString(9, valores.curp);
+				pstm.setString(10, valores.telefonocelular);
+				pstm.setInt(11, valores.catestadocivil_pid);
+				pstm.setInt(12, valores.caseid);
+				
+				int filasActualizadas = pstm.executeUpdate();
+			} else if(valores.editarSec3 == false){
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC3
+				pstm = con.prepareStatement(consulta);
+				pstm.setInt(1, valores.catpais_pid);
+				pstm.setString(2, valores.codigopostal);
+				pstm.setInt(3, valores.catestado_pid);
+				pstm.setString(4, valores.ciudad);
+				pstm.setString(5, valores.delegacionmunicipio);
+				pstm.setString(6, valores.colonia);
+				pstm.setString(7, valores.calle);
+				pstm.setString(8, valores.calle2);
+				pstm.setString(9, valores.numexterior);
+				pstm.setString(10, valores.numinterior);
+				pstm.setString(11, valores.telefono);
+				pstm.setString(12, valores.otrotelefonocontacto);
+				pstm.setInt(13, valores.caseid);
+				
+				int filasActualizadas = pstm.executeUpdate();
+				
+			} else if(valores.editarSec4 == false){
+				con.setAutoCommit(false)
+				String promedioGeneral = valores.promediogeneral
+				String consulta1 = "UPDATE solicituddeadmision SET promediogeneral = ?, catbachilleratos_pid = ? WHERE caseid = ?"
+				pstm = con.prepareStatement(consulta1)
+				pstm.setString(1, promedioGeneral) // Utiliza la variable 'promedioGeneral'
+				pstm.setInt(2, valores.catbachilleratos_pid)
+				pstm.setInt(3, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+				int filasActualizadas1 = pstm.executeUpdate()
+				pstm.close()
+				
+				if(valores.catbachilleratos_pid == 1){
+					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC42
+					pstm = con.prepareStatement(consulta2)
+					pstm.setInt(1, valores.persistenceid = 1)
+					pstm.setString(2, valores.descripcion = "Otro") // Reemplaza 'valores.descripcion' con el valor real
+					pstm.setString(3, valores.estado) // Reemplaza 'valores.estado' con el valor real
+					pstm.setString(4, valores.pais) // Reemplaza 'valores.pais' con el valor real
+					pstm.setString(5, valores.ciudad) // Reemplaza 'valores.ciudad' con el valor real
+					pstm.setInt(6, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+					int filasActualizadas2 = pstm.executeUpdate()
+					pstm.close()
+				}
+				con.commit()
+				
+			} else if(valores.editarSec5 == false){
+				con.setAutoCommit(false)
+				if(valores.otro == false) {
+					String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					pstm = con.prepareStatement(consulta);
+					pstm.setInt(1, valores.cattitulo_pid);
+					pstm.setInt(2, valores.catparentezco_pid);
+					pstm.setString(3, valores.nombre);
+					// Establecer el valor nulo para el parámetro otroparentesco si es null
+					if (valores.otroparentesco == null) {
+						pstm.setNull(4, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(4, valores.otroparentesco);
+					}
+					pstm.setString(5, valores.apellidos);
+					pstm.setString(6, valores.correoelectronico);
+					pstm.setInt(7, valores.categresoanahuac_pid);
+					pstm.setInt(8, valores.cattrabaja_pid);
+					pstm.setInt(9, valores.catcampusegreso_pid);
+					pstm.setString(10, valores.empresatrabaja);
+					pstm.setInt(11, valores.catescolaridad_pid);
+					pstm.setString(12, valores.giroempresa);
+					pstm.setString(13, valores.puesto);
+					pstm.setInt(14, valores.catpais_pid);
+					pstm.setString(15, valores.codigopostal);
+					pstm.setInt(16, valores.catestado_pid);
+					// Establecer el valor nulo para el parámetro estadoextranjero si es null
+					if (valores.estadoextranjero == null) {
+						pstm.setNull(17, java.sql.Types.INTEGER);
+					} else {
+						pstm.setInt(17, valores.estadoextranjero);
+					}
+					pstm.setString(18, valores.ciudad);
+					pstm.setString(19, valores.delegacionmunicipio);
+					pstm.setString(20, valores.colonia);
+					pstm.setString(21, valores.calle);
+					// Establecer el valor nulo para el parámetro numeroexterior si es null
+					if (valores.numeroexterior == null) {
+						pstm.setNull(22, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(22, valores.numeroexterior);
+					}
+					// Establecer el valor nulo para el parámetro numerointerior si es null
+					if (valores.numerointerior == null) {
+						pstm.setNull(23, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(23, valores.numerointerior);
+					}
+					pstm.setString(24, valores.telefono);
+					pstm.setBoolean(25, valores.istutor);
+					pstm.setBoolean(26, valores.desconozcoDatosPadres);
+					pstm.setInt(27, valores.vive_pid);
+					pstm.setInt(28, valores.caseid);
+					pstm.setInt(29, valores.persistenceid);
+					
+					int filasActualizadas = pstm.executeUpdate();
+					pstm.close();
+					
+					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					pstm = con.prepareStatement(consulta2);
+					pstm.setInt(1, valores.cattitulo_pid);
+					pstm.setInt(2, valores.catparentezco_pid);
+					pstm.setString(3, valores.nombre);
+					// Establecer el valor nulo para el parámetro otroparentesco si es null
+					if (valores.otroparentesco == null) {
+						pstm.setNull(4, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(4, valores.otroparentesco);
+					}
+					pstm.setString(5, valores.apellidos);
+					pstm.setString(6, valores.correoelectronico);
+					pstm.setInt(7, valores.categresoanahuac_pid);
+					pstm.setInt(8, valores.cattrabaja_pid);
+					pstm.setInt(9, valores.catcampusegreso_pid);
+					pstm.setString(10, valores.empresatrabaja);
+					pstm.setInt(11, valores.catescolaridad_pid);
+					pstm.setString(12, valores.giroempresa);
+					pstm.setString(13, valores.puesto);
+					pstm.setInt(14, valores.catpais_pid);
+					pstm.setString(15, valores.codigopostal);
+					pstm.setInt(16, valores.catestado_pid);
+					// Establecer el valor nulo para el parámetro estadoextranjero si es null
+					if (valores.estadoextranjero == null) {
+						pstm.setNull(17, java.sql.Types.INTEGER);
+					} else {
+						pstm.setInt(17, valores.estadoextranjero);
+					}
+					pstm.setString(18, valores.ciudad);
+					pstm.setString(19, valores.delegacionmunicipio);
+					pstm.setString(20, valores.colonia);
+					pstm.setString(21, valores.calle);
+					// Establecer el valor nulo para el parámetro numeroexterior si es null
+					if (valores.numeroexterior == null) {
+						pstm.setNull(22, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(22, valores.numeroexterior);
+					}
+					// Establecer el valor nulo para el parámetro numerointerior si es null
+					if (valores.numerointerior == null) {
+						pstm.setNull(23, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(23, valores.numerointerior);
+					}
+					pstm.setString(24, valores.telefono);
+					pstm.setBoolean(25, valores.istutor);
+					pstm.setBoolean(26, valores.desconozcoDatosPadres);
+					pstm.setInt(27, valores.vive_pid);
+					pstm.setInt(28, valores.caseid);
+					pstm.setInt(29, valores.tutorPersistenceid);
+					
+					int filasActualizadasTutor = pstm.executeUpdate();
+					pstm.close();
+					
+					if(valores.MaP == true) {
+						String consulta3 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5TUTOR
+						pstm = con.prepareStatement(consulta3);
+						pstm.setBoolean(1, valores.istutorPadres);
+						pstm.setInt(2, valores.caseid);
+						pstm.setInt(3, valores.madrePersistenceid);
+						
+						int filasActualizadasTutor2 = pstm.executeUpdate();
+						pstm.close();
+					}
+					if(valores.PaM == true) {
+						String consulta4 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5TUTOR
+						pstm = con.prepareStatement(consulta4);
+						pstm.setBoolean(1, valores.istutorPadres);
+						pstm.setInt(2, valores.caseid);
+						pstm.setInt(3, valores.padrePersistenceid);
+						
+						int filasActualizadasTutor3 = pstm.executeUpdate();
+						pstm.close();
+					}
+					
+					
+					
+				} else {
+					String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+					pstm = con.prepareStatement(consulta);
+					pstm.setInt(1, valores.cattitulo_pid);
+					pstm.setInt(2, valores.catparentezco_pid);
+					pstm.setString(3, valores.nombre);
+					// Establecer el valor nulo para el parámetro otroparentesco si es null
+					if (valores.otroparentesco == null) {
+						pstm.setNull(4, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(4, valores.otroparentesco);
+					}
+					pstm.setString(5, valores.apellidos);
+					pstm.setString(6, valores.correoelectronico);
+					pstm.setInt(7, valores.categresoanahuac_pid);
+					pstm.setInt(8, valores.cattrabaja_pid);
+					pstm.setInt(9, valores.catcampusegreso_pid);
+					pstm.setString(10, valores.empresatrabaja);
+					pstm.setInt(11, valores.catescolaridad_pid);
+					pstm.setString(12, valores.giroempresa);
+					pstm.setString(13, valores.puesto);
+					pstm.setInt(14, valores.catpais_pid);
+					pstm.setString(15, valores.codigopostal);
+					pstm.setInt(16, valores.catestado_pid);
+					// Establecer el valor nulo para el parámetro estadoextranjero si es null
+					if (valores.estadoextranjero == null) {
+						pstm.setNull(17, java.sql.Types.INTEGER);
+					} else {
+						pstm.setInt(17, valores.estadoextranjero);
+					}
+					pstm.setString(18, valores.ciudad);
+					pstm.setString(19, valores.delegacionmunicipio);
+					pstm.setString(20, valores.colonia);
+					pstm.setString(21, valores.calle);
+					// Establecer el valor nulo para el parámetro numeroexterior si es null
+					if (valores.numeroexterior == null) {
+						pstm.setNull(22, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(22, valores.numeroexterior);
+					}
+					// Establecer el valor nulo para el parámetro numerointerior si es null
+					if (valores.numerointerior == null) {
+						pstm.setNull(23, java.sql.Types.VARCHAR);
+					} else {
+						pstm.setString(23, valores.numerointerior);
+					}
+					pstm.setString(24, valores.telefono);
+					pstm.setBoolean(25, valores.istutor);
+					pstm.setBoolean(26, valores.desconozcoDatosPadres);
+					pstm.setInt(27, valores.vive_pid);
+					pstm.setInt(28, valores.caseid);
+					pstm.setInt(29, valores.tutorPersistenceid);
+					
+					int filasActualizadasTutor = pstm.executeUpdate();
+					pstm.close();
+					
+					String consulta3 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5TUTOR
+					pstm = con.prepareStatement(consulta3);
+					pstm.setBoolean(1, valores.istutorPadres);
+					pstm.setInt(2, valores.caseid);
+					pstm.setInt(3, valores.padrePersistenceid);
+					
+					int filasActualizadasTutor2 = pstm.executeUpdate();
+					pstm.close();
+					
+					String consulta4 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5TUTOR
+					pstm = con.prepareStatement(consulta4);
+					pstm.setBoolean(1, valores.istutorPadres);
+					pstm.setInt(2, valores.caseid);
+					pstm.setInt(3, valores.madrePersistenceid);
+					
+					int filasActualizadasTutor3 = pstm.executeUpdate();
+					pstm.close();
+					
+				}
+				
+				
+			
+				con.commit()
+			} else if(valores.editarSec6 == false){
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+				pstm = con.prepareStatement(consulta);
+				pstm.setInt(1, valores.cattitulo_pid);
+				pstm.setInt(2, valores.catparentezco_pid);
+				pstm.setString(3, valores.nombre);
+				// Establecer el valor nulo para el parámetro otroparentesco si es null
+				if (valores.otroparentesco == null) {
+					pstm.setNull(4, java.sql.Types.VARCHAR);
+				} else {
+					pstm.setString(4, valores.otroparentesco);
+				}
+				pstm.setString(5, valores.apellidos);
+				pstm.setString(6, valores.correoelectronico);
+				pstm.setInt(7, valores.categresoanahuac_pid);
+				pstm.setInt(8, valores.cattrabaja_pid);
+				pstm.setInt(9, valores.catcampusegreso_pid);
+				pstm.setString(10, valores.empresatrabaja);
+				pstm.setInt(11, valores.catescolaridad_pid);
+				pstm.setString(12, valores.giroempresa);
+				pstm.setString(13, valores.puesto);
+				pstm.setInt(14, valores.catpais_pid);
+				pstm.setString(15, valores.codigopostal);
+				pstm.setInt(16, valores.catestado_pid);
+				// Establecer el valor nulo para el parámetro estadoextranjero si es null
+				if (valores.estadoextranjero == null) {
+					pstm.setNull(17, java.sql.Types.INTEGER);
+				} else {
+					pstm.setInt(17, valores.estadoextranjero);
+				}
+				pstm.setString(18, valores.ciudad);
+				pstm.setString(19, valores.delegacionmunicipio);
+				pstm.setString(20, valores.colonia);
+				pstm.setString(21, valores.calle);
+				// Establecer el valor nulo para el parámetro numeroexterior si es null
+				if (valores.numeroexterior == null) {
+					pstm.setNull(22, java.sql.Types.VARCHAR);
+				} else {
+					pstm.setString(22, valores.numeroexterior);
+				}
+				// Establecer el valor nulo para el parámetro numerointerior si es null
+				if (valores.numerointerior == null) {
+					pstm.setNull(23, java.sql.Types.VARCHAR);
+				} else {
+					pstm.setString(23, valores.numerointerior);
+				}
+				pstm.setString(24, valores.telefono);
+				pstm.setBoolean(25, valores.istutor);
+				pstm.setBoolean(26, valores.desconozcoDatosPadres);
+				pstm.setInt(27, valores.vive_pid);
+				pstm.setInt(28, valores.caseid);
+				pstm.setInt(29, valores.persistenceid);
+				
+				int filasActualizadas = pstm.executeUpdate();
+				pstm.close();
+				
+			} else if(valores.editarSec7 == false){
+				
+			}
+			
+			resultado.setSuccess(true);
+			
+			
+		}catch(Exception ex){
+			LOGGER.error "[ERROR] " + ex.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(ex.getMessage());
+			con.rollback();
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }
