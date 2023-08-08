@@ -7,6 +7,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.sql.Types;
 
 import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.IdentityAPI
@@ -4303,6 +4304,7 @@ class UsuariosDAO {
 			errorLog += " closeCon " + closeCon;
 			
 			if(valores.editarSec1 == false) {
+				con.setAutoCommit(false)
 				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC1
 				pstm = con.prepareStatement(consulta);
 				pstm.setInt(1, valores.catcampusestudio_pid);
@@ -4323,6 +4325,8 @@ class UsuariosDAO {
 				}
 				pstm.setInt(9, valores.caseid);
 				int filasActualizadas = pstm.executeUpdate();
+				pstm.close();
+				con.commit()
 			} else if(valores.editarSec2 == false){
 				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC2
 				pstm = con.prepareStatement(consulta);
