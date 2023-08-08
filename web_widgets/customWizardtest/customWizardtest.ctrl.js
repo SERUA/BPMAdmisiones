@@ -3,6 +3,7 @@ function ($scope) {
     $scope.properties.selectedIndex = 0;
     
     $scope.nextStep = function(){
+        debugger;
         if($scope.properties.content[$scope.properties.selectedIndex].isValid){
             if($scope.properties.selectedIndex < $scope.properties.content.length -1){
                 $scope.properties.selectedIndex = $scope.properties.selectedIndex + 1;
@@ -12,6 +13,7 @@ function ($scope) {
     }
     
     $scope.previousStep = function(){
+        debugger;
         if($scope.properties.selectedIndex > 0){
             $scope.properties.selectedIndex = $scope.properties.selectedIndex - 1;
             $scope.setSelected($scope.properties.selectedIndex);
@@ -19,11 +21,13 @@ function ($scope) {
     }
     
     $scope.scrollWizard = function(_direction){
+        debugger;
         $("#wizard-container")
         element.scrollTop = pixels;
     };
     
     $scope.scrollTo = function scrollToCategory(_direction) {
+        debugger;
         var elem = document.getElementById("wizard-container");
         // var elemWidth = document.querySelector(".wizard-step-container").scrollWidth;
         var elemWidth = 200;
@@ -55,6 +59,7 @@ function ($scope) {
       }
 
     $scope.setSelected = function(_index){
+        debugger;
         let isStepForward = _index ===  ($scope.maxCompletedStep + 1) || (_index === ($scope.properties.currentWindow - 1));
         let isStepBAckward = _index === ($scope.properties.currentWindow - 1);
         if( isStepBAckward || isStepForward || $scope.maxCompletedStep >= _index){
@@ -72,24 +77,28 @@ function ($scope) {
     }
     
     $scope.selectStepManually = function(_index){
+        debugger;
         if(_index <= $scope.maxCompletedStep){
             $scope.properties.selectedIndex = _index;
         }
     }
     
     function getElementOnScreen( _id){
+        debugger;
         //let element = document.getElementById(_id);
         //element.scrollIntoView();
         document.getElementById(_id).scrollIntoView({block: "end", behavior: "smooth"});
     }
     
     $scope.$watchCollection("properties.content", function(newValue, oldValue) {
+        debugger;
         if($scope.properties.content !== undefined){
             // $scope.setSelected(0);
         }
     });
 
     $scope.$watchCollection("properties.selectedIndex", function(newValue, oldValue) {
+        debugger;
         if($scope.properties.selectedIndex !== undefined){
             $scope.setSelected($scope.properties.selectedIndex);
         }

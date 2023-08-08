@@ -3,20 +3,24 @@ function PbTableCtrl($scope, modalService) {
     this.isArray = Array.isArray;
 
     this.isClickable = function() {
+        debugger;
         return $scope.properties.isBound('selectedRow');
     };
 
     this.selectRow = function(row) {
+        debugger;
         if (this.isClickable()) {
             $scope.properties.selectedRow = row;
         }
     };
 
     this.isSelected = function(row) {
+        debugger;
         return angular.equals(row, $scope.properties.selectedRow);
     }
 
     this.showdatos = function(row) {
+        debugger;
 
         $scope.properties.datomodificar = angular.copy(row);
         $scope.properties.ver = true;
@@ -25,6 +29,7 @@ function PbTableCtrl($scope, modalService) {
     }
 
     this.editdatos = function(row) {
+        debugger;
         $scope.properties.datomodificar = angular.copy(row);
         console.log($scope.properties.datomodificar);
         $scope.properties.ocultar = true;
@@ -36,6 +41,7 @@ function PbTableCtrl($scope, modalService) {
 
 
     $scope.deleteData = function(row, index) {
+        debugger;
         if ($scope.properties.eliminar[index].catParentezco.descripcion === "Padre") {
             $scope.properties.padre.catTitulo = null;
             $scope.properties.padre.nombre = "";
@@ -62,6 +68,7 @@ function PbTableCtrl($scope, modalService) {
             $scope.properties.padre.vive = null;
 
         } else if ($scope.properties.eliminar[index].catParentezco.descripcion === "Madre") {
+            debugger;
             $scope.properties.madre.vive = null;
             $scope.properties.madre.catTitulo = null;
             $scope.properties.madre.nombre = "";
