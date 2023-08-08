@@ -1932,12 +1932,11 @@ class Index implements RestApiController {
 					}
 					break;
 				case "updateUsuarioRegistrado":
-			        handleUpdateUsuarioRegistrado(responseBuilder);
-			        break;
+	                result = updateUR()
+	                break
 				case "updateUsuarioRegistradoPrueba":
-					handleUpdateUsuarioRegistradoPruebaCase(responseBuilder);
-					break;
-					
+	                result = updateURP()
+	                break
 				case "selectAspirantesEnLaRed":
 					result = uDAO.selectAspirantesEnLaRed(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -2484,23 +2483,33 @@ class Index implements RestApiController {
 		return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
     }
 	
-	private void handleUpdateUsuarioRegistradoPruebaCase(RestApiResponseBuilder responseBuilder) {
-		result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context);
-		if (result.isSuccess()) {
-			buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
-		} else {
-			buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString());
-		}
-	}
+		def updateUR() {
+	        def result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context)
+	        if (result.isSuccess()) {
+	            return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+	        } else {
+	            return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+	        }
+	    }
 	
-	private void handleUpdateUsuarioRegistrado(RestApiResponseBuilder responseBuilder) {
-		result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context);
-		if (result.isSuccess()) {
-			buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
-		} else {
-			buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString());
+	    def updateURP() {
+	        def result = uDAO.updateUsuarioRegistradoPrueba(parameterP, parameterC, jsonData, context)
+	        if (result.isSuccess()) {
+	            return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+	        } else {
+	            return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+	        }
+	    }
+		
+		def buildResponse(responseBuilder, statusCode, responseBody) {
+			def response = responseBuilder.createResponse(statusCode)
+			response.setContentType("application/json")
+			response.setCharacterEncoding("UTF-8")
+			
+			response.writer << responseBody
+			
+			return response
 		}
-	}
 	
 	public Result notFound(String url) {
 		Result resultado = new Result();
