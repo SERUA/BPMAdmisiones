@@ -4560,15 +4560,15 @@ class UsuariosDAO {
 					pstm.setString(21, valores.calle);
 					// Establecer el valor nulo para el parámetro numeroexterior si es null
 					if (valores.numeroexterior == null) {
-						pstm.setNull(22, java.sql.Types.VARCHAR);
+					    pstm.setNull(22, java.sql.Types.VARCHAR); // Usar el número de índice correcto (22)
 					} else {
-						pstm.setString(22, valores.numeroexterior);
+					    pstm.setString(22, valores.numeroexterior);
 					}
 					// Establecer el valor nulo para el parámetro numerointerior si es null
 					if (valores.numerointerior == null) {
-						pstm.setNull(23, java.sql.Types.VARCHAR);
+					    pstm.setNull(23, java.sql.Types.VARCHAR); // Usar el número de índice correcto (23)
 					} else {
-						pstm.setString(23, valores.numerointerior);
+					    pstm.setString(23, valores.numerointerior);
 					}
 					pstm.setString(24, valores.telefono);
 					pstm.setBoolean(25, valores.istutor);

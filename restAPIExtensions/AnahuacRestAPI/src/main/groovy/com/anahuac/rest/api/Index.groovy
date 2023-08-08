@@ -1931,12 +1931,14 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "updateUsuarioRegistrado":
-	                result = updateUR()
-	                break
 				case "updateUsuarioRegistradoPrueba":
-	                result = updateURP()
-	                break
+					result = uDAO.updateUsuarioRegistradoPrueba(parameterP, parameterC, jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					
 				case "selectAspirantesEnLaRed":
 					result = uDAO.selectAspirantesEnLaRed(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
@@ -2482,34 +2484,6 @@ class Index implements RestApiController {
 		
 		return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
     }
-	
-		def updateUR() {
-	        def result = uDAO.updateUsuarioRegistrado(parameterP, parameterC, jsonData, context)
-	        if (result.isSuccess()) {
-	            return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-	        } else {
-	            return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
-	        }
-	    }
-	
-	    def updateURP() {
-	        def result = uDAO.updateUsuarioRegistradoPrueba(parameterP, parameterC, jsonData, context)
-	        if (result.isSuccess()) {
-	            return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-	        } else {
-	            return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
-	        }
-	    }
-		
-		def buildResponse(responseBuilder, statusCode, responseBody) {
-			def response = responseBuilder.createResponse(statusCode)
-			response.setContentType("application/json")
-			response.setCharacterEncoding("UTF-8")
-			
-			response.writer << responseBody
-			
-			return response
-		}
 	
 	public Result notFound(String url) {
 		Result resultado = new Result();
