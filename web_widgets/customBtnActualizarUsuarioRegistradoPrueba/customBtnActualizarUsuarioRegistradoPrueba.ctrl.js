@@ -46,7 +46,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     swal("¡Aviso!", "Debe ingresar correo electónico.", "warning");
                     //FALTA AGREGAR CONCLUISTE, RESULTADO Y CAMPUS DONDE SE PRESENTÓ
                 }else{
-                    debugger;
                     $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
                     $scope.properties.JSONUsuarioRegistrado.catcampusestudio_pid = $scope.properties.objSolicitudDeAdmision.catCampusEstudio.persistenceId;
                     $scope.properties.JSONUsuarioRegistrado.catgestionescolar_pid = $scope.properties.objSolicitudDeAdmision.catGestionEscolar.persistenceId;
@@ -282,11 +281,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
 
             
-            debugger;
+            
                 var jsonAnterior = {};
                 var jsonNuevo = {};
                 if($scope.properties.editarSec1 == false){
-                    debugger;
+                    
                     jsonAnterior.catcampusestudio_pid = $scope.properties.objSolicitudDeAdmision.catCampusEstudio.persistenceId;
                     jsonAnterior.catgestionescolar_pid = $scope.properties.objSolicitudDeAdmision.catGestionEscolar.persistenceId;
                     jsonAnterior.catperiodo_pid = $scope.properties.objSolicitudDeAdmision.catPeriodo.persistenceId;
@@ -394,7 +393,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     
                     $scope.properties.JSONUsuarioRegistrado.otro = false;
                     $scope.properties.JSONUsuarioRegistrado.MaP = false;
-                    $scope.properties.JSONUsuarioRegistrado.PaM = true;
+                    $scope.properties.JSONUsuarioRegistrado.PaM = false;
 
                     $scope.properties.JSONUsuarioRegistrado.tutorPersistenceid = $scope.properties.datosJson.persistenceId;
                         
