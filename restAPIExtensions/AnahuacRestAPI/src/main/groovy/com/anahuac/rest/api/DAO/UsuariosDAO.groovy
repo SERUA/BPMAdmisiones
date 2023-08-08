@@ -4312,14 +4312,14 @@ class UsuariosDAO {
 				pstm.setInt(5, valores.catpresentasteenotrocampus_pid);
 				pstm.setString(6, valores.correoelectronico);
 				if (valores.catconcluisteproceso_pid == null) {
-					pstm.setObject(7, null); // Establecer valor nulo para el parámetro
+				    pstm.setNull(7, Types.INTEGER); // Establecer valor nulo para el parámetro de tipo INT
 				} else {
-					pstm.setInt(7, valores.catconcluisteproceso_pid); // Establecer el valor entero
+				    pstm.setInt(7, valores.catconcluisteproceso_pid);
 				}
 				if (valores.catresultadoadmision_pid == null) {
-					pstm.setObject(8, null); // Establecer valor nulo para el parámetro
+				    pstm.setNull(8, Types.INTEGER); // Establecer valor nulo para el parámetro de tipo INT
 				} else {
-					pstm.setInt(8, valores.catresultadoadmision_pid); // Establecer el valor entero
+				    pstm.setInt(8, valores.catresultadoadmision_pid);
 				}
 				pstm.setInt(9, valores.caseid);
 				int filasActualizadas = pstm.executeUpdate();
