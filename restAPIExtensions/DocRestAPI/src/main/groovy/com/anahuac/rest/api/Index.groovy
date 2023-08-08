@@ -165,7 +165,8 @@ class Index implements RestApiController {
 			it ->
 			if((it.roleName.equals("EXTERIOR") && it.groupName.equals("CAMPUS-PUEBLA")) 
 				|| it.roleName.equals("ADMINISTRADOR") 
-				|| it.roleName.equals("TI SERUA") 
+				|| it.roleName.equals("TI SERUA")
+				|| it.roleName.equals("SERUA")
 				|| it.roleName.equals("PreAutorizacion")
 				|| it.roleName.equals("Finanzas")
 				|| it.roleName.equals("ASPIRANTE") 

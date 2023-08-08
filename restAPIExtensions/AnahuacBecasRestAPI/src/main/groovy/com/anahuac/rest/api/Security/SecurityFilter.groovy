@@ -729,6 +729,12 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"TI SERUA")
 				if(allow){break;}
 				break;
+			case "deleteCartaSDAE":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				break;	
 		}
 		return allow;
 	}
