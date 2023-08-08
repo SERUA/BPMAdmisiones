@@ -182,4 +182,9 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
             blockUI.stop()
         });
     }
+    
+    $scope.confirmareliminar = function(_cartaEliminar){
+        $scope.properties.cartaEliminar = angular.copy(_cartaEliminar);
+        modalService.open("modal-confirmar-eliminar-carta");
+    }
 }

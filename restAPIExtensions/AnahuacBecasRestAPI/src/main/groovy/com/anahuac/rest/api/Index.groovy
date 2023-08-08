@@ -15,6 +15,7 @@ import org.slf4j.LoggerFactory
 import com.anahuac.rest.api.DAO.BitacoraDAO
 import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.ListadoDAO
+import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.BitacoraSDAEDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Security.SecurityFilter
@@ -395,6 +396,15 @@ class Index implements RestApiController {
 				break;
 				case "updateSDAECreditoGE":
 					result = new CatalogosDAO().updateSDAECreditoGE(jsonData);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+				break;
+				case "deleteCartaSDAE":
+					result = new NotificacionDAO().deleteCartaSDAE(jsonData);
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
