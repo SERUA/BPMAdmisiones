@@ -14,21 +14,17 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
         }
     };
 
-
     this.isSelected = function (row) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
 
-
     $scope.modificarData = function (row, index) {
-        debugger;
         $scope.properties.selectedToModificate = row;
         $scope.properties.selectedDataPID = row.persistenceId ? row.persistenceId + "" : "";
         $scope.properties.selectedToModificate.persistenceId_string =  row.persistenceId ? row.persistenceId + "" : "";
         $scope.properties.selectedIndex = index;
         localStorage.setItem("index", index);
     }
-
 
     $scope.deleteData = function (row, index) {
         if ($scope.loading === false) {
@@ -181,5 +177,10 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
         .finally(function () {
             blockUI.stop()
         });
+    }
+    
+    $scope.confirmareliminar = function(_cartaEliminar){
+        $scope.properties.cartaEliminar = angular.copy(_cartaEliminar);
+        modalService.open("modal-confirmar-eliminar-carta");
     }
 }

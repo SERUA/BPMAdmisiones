@@ -11,6 +11,8 @@ import com.anahuac.catalogos.CatNotificacionesCampus
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.Result
 
+import groovy.json.JsonSlurper
+
 class NotificacionDAO {
 	Connection con;
 	Statement stm;
@@ -81,5 +83,40 @@ class NotificacionDAO {
 			retorno=true
 		}
 		return retorno;
+	}
+	
+	public Result deleteCartaSDAE(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			CatNotificaciones row = new CatNotificaciones()
+			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
+			closeCon = validarConexion();
+			//String consulta = "SELECT c.* FROM catnotificaciones c INNER JOIN procesocaso pc on pc.caseid=c.caseid and pc.campus=? WHERE c.tipoCorreo IN ('Notificaciones SDAE BC' ,'Notificaciones SDAE FNZ' ,'Cartas SDAE BC','Cartas SDAE FNZ') "
+			String consulta = "DELETE FROM catnotificaciones WHERE persistenceid = ?";
+			pstm = con.prepareStatement(consulta);
+			pstm.setLong(1, Long.valueOf(object.persistenceId));
+			Integer updated = pstm.executeUpdate();
+			
+			if(updated == 0)  {
+				throw new Exception("No encontrado");
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
 	}
 }
