@@ -3,8 +3,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     'use strict';
 
     var vm = this;
-
+    
     this.action = function action() {
+        debugger;
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
             closeModal($scope.properties.closeOnSuccess);
@@ -19,7 +20,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
             openModal($scope.properties.modalId);
         } else if ($scope.properties.action === 'Close modal') {
-            debugger;
+
             if ($scope.properties.contactoJson.catCasoDeEmergencia === null) {
                 swal("¡Contacto de emergencia!", "Debes de agregar por lo menos un contacto de emergencia", "warning");
             } else if ($scope.properties.contactoJson.nombre === "") {
@@ -48,7 +49,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.showmadrealert = false;
                         $scope.properties.isOtroContacto = false;
                         closeModal(true);
-                        debugger;
                     }
                 } else {
                     $scope.properties.contactoJson.parentesco = $scope.properties.contactoJson.catParentesco.descripcion;
@@ -60,14 +60,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         "telefonoCelular": "",
                         "parentesco": "",
                         "catParentesco": null
-                        
                     }
                     $scope.properties.showpadrealert = false;
                     $scope.properties.showmadrealert = false;
                     $scope.properties.isOtroContacto = false;
                     closeModal(true);
-                    debugger;
-                    
                 }
 
                 //alert("Debes seleccionar el parentesco que tiene con usted el contacto de emergencia");
@@ -85,23 +82,19 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $scope.properties.showmadrealert = false;
                 $scope.properties.isOtroContacto = false;
                 closeModal(true);
-                debugger;
             }
             /* $scope.properties.formInput.push($scope.properties.contactoJson);
              closeModal(true);*/
         } else if ($scope.properties.url) {
-            debugger;
             doRequest($scope.properties.action, $scope.properties.url);
         }
     };
 
     function openModal(modalId) {
-        debugger;
         modalService.open(modalId);
     }
 
     function closeModal(shouldClose) {
-        debugger;
         if (shouldClose)
             modalService.close();
     }
@@ -164,7 +157,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
-        debugger;
         vm.busy = true;
         var req = {
             method: method,
@@ -208,7 +200,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function redirectIfNeeded() {
-        debugger;
         var iframeId = $window.frameElement ? $window.frameElement.id : null;
         //Redirect only if we are not in the portal or a living app
         if (!iframeId || iframeId && iframeId.indexOf('bonitaframe') !== 0) {
@@ -217,7 +208,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function notifyParentFrame(additionalProperties) {
-        debugger;
         if ($window.parent !== $window.self) {
             var dataToSend = angular.extend({}, $scope.properties, additionalProperties);
             $window.parent.postMessage(JSON.stringify(dataToSend), '*');
@@ -225,7 +215,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function getUserParam() {
-        debugger;
         var userId = getUrlParam('user');
         if (userId) {
             return {
@@ -244,7 +233,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @returns {id}
      */
     function getUrlParam(param) {
-        debugger;
         var paramValue = $location.absUrl().match('[//?&]' + param + '=([^&#]*)($|[&#])');
         if (paramValue) {
             return paramValue[1];

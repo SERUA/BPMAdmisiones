@@ -4742,6 +4742,18 @@ class UsuariosDAO {
 				}
 				int filasActualizadas = pstm.executeUpdate();
 				pstm.close();
+			} else if(valores.editarSec8 == false) {
+				con.setAutoCommit(false)
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC8
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, valores.registrosAcumulados[0]); // nombre
+				pstm.setString(2, valores.registrosAcumulados[1]); // parentesco
+				pstm.setString(3, valores.registrosAcumulados[2]); // telefono
+				pstm.setString(4, valores.registrosAcumulados[3]); // telefonocelular
+				pstm.setInt(5, valores.caseid);
+				int filasActualizadas = pstm.executeUpdate();
+				pstm.close();
+				con.commit()
 			}
 			
 			resultado.setSuccess(true);

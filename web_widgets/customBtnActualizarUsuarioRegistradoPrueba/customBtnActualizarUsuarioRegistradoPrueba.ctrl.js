@@ -276,7 +276,7 @@
                         }
                     }
                 } else if($scope.properties.editarSec7 == false){
-                    debugger;
+                    
                     $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
                     $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objMadre.desconozcoDatosPadres;
                     if($scope.properties.objMadre.desconozcoDatosPadres == false){
@@ -308,6 +308,30 @@
                             $scope.properties.JSONUsuarioRegistrado.telefono = $scope.properties.objMadre.telefono !== undefined ? $scope.properties.objMadre.telefono : null;
                         }
                     }
+                } else if($scope.properties.editarSec8 == false){
+                    debugger;
+                    $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
+
+                    var registrosAcumulados = [];
+
+                    // Recorrer los contactos de contactoEmergencia
+                    for (var i = 0; i < $scope.properties.contactoEmergencia.length; i++) {
+                        var contacto = $scope.properties.contactoEmergencia[i];
+                        
+                        // Crear un objeto para almacenar los datos del contacto actual
+                        var datosContacto = {
+                            nombre: contacto.nombre,
+                            parentesco: contacto.parentesco,
+                            telefono: contacto.telefono,
+                            telefonocelular: contacto.telefonoCelular
+                        };
+
+                        // Agregar el objeto al arreglo de registros acumulados
+                        registrosAcumulados.push(datosContacto);
+                    }
+
+                    // Asignar el arreglo de registros acumulados a JSONUsuarioRegistrado
+                    $scope.properties.JSONUsuarioRegistrado.registrosAcumulados = registrosAcumulados;
                 }
 
                 
@@ -650,7 +674,32 @@
                                 jsonNuevo.telefono = $scope.properties.JSONUsuarioRegistrado.telefono;
                             }
                         }
-                    } 
+                    } else if ($scope.properties.editarSec8 == false){
+                        debugger;
+                        var registrosAcumulados = [];
+
+                        // Recorrer los contactos de contactoEmergencia
+                        for (var i = 0; i < $scope.properties.JSONUsuarioRegistrado.registrosAcumulados.length; i++) {
+                            var contacto = $scope.properties.JSONUsuarioRegistrado.registrosAcumulados[i];
+                            
+                            // Crear un objeto para almacenar los datos del contacto actual
+                            var datosContacto = {
+                                nombre: contacto.nombre,
+                                parentesco: contacto.parentesco,
+                                telefono: contacto.telefono,
+                                telefonocelular: contacto.telefonoCelular
+                            };
+
+                            // Agregar el objeto al arreglo de registros acumulados
+                            registrosAcumulados.push(datosContacto);
+                            
+                            // Aquí puedes realizar más acciones con los datos del contacto si es necesario
+                            // Por ejemplo, podrías realizar alguna operación con jsonAnterior
+                            jsonAnterior.registrosAcumulados = registrosAcumulados;
+                        }
+
+                        //AGREGAR LO DE NUEVOJSON
+                    }
                     
 
                     $scope.properties.JSONUsuarioRegistrado.editarSec1 = $scope.properties.editarSec1 ?? true;
@@ -660,6 +709,7 @@
                     $scope.properties.JSONUsuarioRegistrado.editarSec5 = $scope.properties.editarSec5 ?? true;
                     $scope.properties.JSONUsuarioRegistrado.editarSec6 = $scope.properties.editarSec6 ?? true;
                     $scope.properties.JSONUsuarioRegistrado.editarSec7 = $scope.properties.editarSec7 ?? true;
+                    $scope.properties.JSONUsuarioRegistrado.editarSec8 = $scope.properties.editarSec8 ?? true;
 
                     $scope.properties.actualizar = true;
         
@@ -704,6 +754,12 @@
             
             }else if($scope.properties.editarSec7 == true){
             $scope.properties.editarSec7 = false;
+            }
+            if($scope.properties.editarSec8 == false){
+                $scope.properties.editarSec8 = true;
+                
+            }else if($scope.properties.editarSec8 == true){
+                $scope.properties.editarSec8 = false;
             }
 
                     doRequest($scope.properties.action, $scope.properties.url);
