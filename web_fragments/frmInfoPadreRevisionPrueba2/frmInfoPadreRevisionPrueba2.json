@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frmInfoPadreRevisionPrueba2",
   "name" : "frmInfoPadreRevisionPrueba2",
-  "lastUpdate" : 1691513443418,
+  "lastUpdate" : 1691575555457,
   "rows" : [
     [
       {
@@ -556,7 +556,7 @@
           },
           "value" : {
             "type" : "variable",
-            "value" : "objPadre.catCampus"
+            "value" : "objPadre.catCampusEgreso"
           }
         },
         "reference" : "25f7c81e-c749-4d64-a9dc-66b7894ad84a",
@@ -1099,15 +1099,15 @@
                 },
                 "padre" : {
                   "type" : "variable",
-                  "value" : "objPadre"
+                  "value" : ""
                 },
                 "datosCP" : {
                   "type" : "variable",
-                  "value" : "cp"
+                  "value" : ""
                 },
                 "haveCiudad" : {
                   "type" : "variable",
-                  "value" : "haveCiudad"
+                  "value" : ""
                 }
               },
               "reference" : "1f11885f-827d-49d2-94ed-8c86e1fadef6",
@@ -2211,7 +2211,8 @@
         "    \"viveContigo\" : false,",
         "    \"desconozcoDatosPadres\" : true,",
         "    \"delegacionMunicipio\" : \"\",",
-        "    \"estadoExtranjero\" : \"\"",
+        "    \"estadoExtranjero\" : \"\",",
+        "    \"persistenceId\" : $data.objPadre.persistenceId",
         "  }",
         "}"
       ],
@@ -2238,8 +2239,8 @@
         "  if ($data.objPadre.viveContigo) {\r",
         "    $data.objPadre.calle = $data.objSolicitudDeAdmision.calle;\r",
         "    $data.objPadre.catPais = $data.objSolicitudDeAdmision.catPais;\r",
-        "    $data.objPadre.numeroExterior = $data.objSolicitudDeAdmision.numeroExterior;\r",
-        "    $data.objPadre.numeroInterior = $data.objSolicitudDeAdmision.numeroInterior;\r",
+        "    $data.objPadre.numeroExterior = $data.objSolicitudDeAdmision.numExterior;\r",
+        "    $data.objPadre.numeroInterior = $data.objSolicitudDeAdmision.numInterior;\r",
         "    $data.objPadre.catEstado = $data.objSolicitudDeAdmision.catEstado;\r",
         "    $data.objPadre.ciudad = $data.objSolicitudDeAdmision.ciudad;\r",
         "    $data.objPadre.colonia = $data.objSolicitudDeAdmision.colonia;\r",

@@ -244,6 +244,7 @@
                 } else if($scope.properties.editarSec6 == false){
                     debugger;
                     $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
+                    $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objPadre.persistenceId;
                     $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objPadre.desconozcoDatosPadres;
                     if($scope.properties.objPadre.desconozcoDatosPadres == false){
                         $scope.properties.JSONUsuarioRegistrado.vive_pid = parseInt($scope.properties.objPadre.vive.persistenceId);
@@ -253,16 +254,16 @@
                         if($scope.properties.objPadre.vive.descripcion == "Sí"){
                             $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid = $scope.properties.objPadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objPadre.catEgresoAnahuac.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid = $scope.properties.objPadre.catTrabaja !== undefined ? parseInt($scope.properties.objPadre.catTrabaja.persistenceId) : null;
-                            $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = $scope.properties.objPadre.catCampus !== undefined && $scope.properties.objPadre.catCampus !== null ? parseInt($scope.properties.objPadre.catCampusEgreso.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = $scope.properties.objPadre.catCampusEgreso.persistenceId !== undefined && $scope.properties.objPadre.catCampusEgreso.persistenceId !== null ? parseInt($scope.properties.objPadre.catCampusEgreso.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.correoelectronico = $scope.properties.objPadre.correoElectronico !== undefined ? $scope.properties.objPadre.correoElectronico : null;
                             $scope.properties.JSONUsuarioRegistrado.empresatrabaja = $scope.properties.objPadre.empresaTrabaja !== undefined ? $scope.properties.objPadre.empresaTrabaja : null;
                             $scope.properties.JSONUsuarioRegistrado.giroempresa = $scope.properties.objPadre.giroEmpresa !== undefined ? $scope.properties.objPadre.giroEmpresa : null;
                             $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid = $scope.properties.objPadre.catEscolaridad !== undefined ? parseInt($scope.properties.objPadre.catEscolaridad.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.puesto = $scope.properties.objPadre.puesto !== undefined ? $scope.properties.objPadre.puesto : null;
                             $scope.properties.JSONUsuarioRegistrado.vivecontigo = $scope.properties.objPadre.viveContigo;
-                            $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.catPais !== undefined ? parseInt($scope.properties.objPadre.catPais.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objPadre.catPais.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.codigopostal = $scope.properties.objPadre.codigoPostal !== undefined ? $scope.properties.objPadre.codigoPostal : null;
-                            $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.objPadreCatPais !== undefined ? parseInt($scope.properties.objPadre.objPadreCatPais.descripcion) : null;
+                            //$scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.objPadreCatPais !== undefined ? parseInt($scope.properties.objPadre.objPadreCatPais.descripcion) : null;
                             $scope.properties.JSONUsuarioRegistrado.estadoextranjero = $scope.properties.objPadre.estadoExtranjero !== undefined ? $scope.properties.objPadre.estadoExtranjero : null;
                             $scope.properties.JSONUsuarioRegistrado.catestado_pid = $scope.properties.objPadre.catEstado !== undefined ? parseInt($scope.properties.objPadre.catEstado.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.ciudad = $scope.properties.objPadre.ciudad !== undefined ? $scope.properties.objPadre.ciudad : null;
@@ -274,11 +275,39 @@
                             $scope.properties.JSONUsuarioRegistrado.telefono = $scope.properties.objPadre.telefono !== undefined ? $scope.properties.objPadre.telefono : null;
                         }
                     }
-                        
-                    
-
                 } else if($scope.properties.editarSec7 == false){
-                    
+                    debugger;
+                    $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
+                    $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objMadre.desconozcoDatosPadres;
+                    if($scope.properties.objMadre.desconozcoDatosPadres == false){
+                        $scope.properties.JSONUsuarioRegistrado.vive_pid = parseInt($scope.properties.objMadre.vive.persistenceId);
+                        $scope.properties.JSONUsuarioRegistrado.cattitulo_pid = parseInt($scope.properties.objMadre.catTitulo.persistenceId);
+                        $scope.properties.JSONUsuarioRegistrado.nombre = $scope.properties.objMadre.nombre;
+                        $scope.properties.JSONUsuarioRegistrado.apellidos = $scope.properties.objMadre.apellidos;
+                        if($scope.properties.objMadre.vive.descripcion == "Sí"){
+                            $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid = $scope.properties.objMadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objMadre.catEgresoAnahuac.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid = $scope.properties.objMadre.catTrabaja !== undefined ? parseInt($scope.properties.objMadre.catTrabaja.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = $scope.properties.objMadre.catCampusEgreso.persistenceId !== undefined && $scope.properties.objMadre.catCampusEgreso.persistenceId !== null ? parseInt($scope.properties.objMadre.catCampusEgreso.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.correoelectronico = $scope.properties.objMadre.correoElectronico !== undefined ? $scope.properties.objMadre.correoElectronico : null;
+                            $scope.properties.JSONUsuarioRegistrado.empresatrabaja = $scope.properties.objMadre.empresaTrabaja !== undefined ? $scope.properties.objMadre.empresaTrabaja : null;
+                            $scope.properties.JSONUsuarioRegistrado.giroempresa = $scope.properties.objMadre.giroEmpresa !== undefined ? $scope.properties.objMadre.giroEmpresa : null;
+                            $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid = $scope.properties.objMadre.catEscolaridad !== undefined ? parseInt($scope.properties.objMadre.catEscolaridad.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.puesto = $scope.properties.objMadre.puesto !== undefined ? $scope.properties.objMadre.puesto : null;
+                            $scope.properties.JSONUsuarioRegistrado.vivecontigo = $scope.properties.objMadre.viveContigo;
+                            $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objMadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objMadre.catPais.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.codigopostal = $scope.properties.objMadre.codigoPostal !== undefined ? $scope.properties.objMadre.codigoPostal : null;
+                            //$scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objMadre.objMadreCatPais !== undefined ? parseInt($scope.properties.objMadre.objMadreCatPais.descripcion) : null;
+                            $scope.properties.JSONUsuarioRegistrado.estadoextranjero = $scope.properties.objMadre.estadoExtranjero !== undefined ? $scope.properties.objMadre.estadoExtranjero : null;
+                            $scope.properties.JSONUsuarioRegistrado.catestado_pid = $scope.properties.objMadre.catEstado !== undefined ? parseInt($scope.properties.objMadre.catEstado.persistenceId) : null;
+                            $scope.properties.JSONUsuarioRegistrado.ciudad = $scope.properties.objMadre.ciudad !== undefined ? $scope.properties.objMadre.ciudad : null;
+                            $scope.properties.JSONUsuarioRegistrado.delegacionmunicipio = $scope.properties.objMadre.delegacionMunicipio !== undefined ? $scope.properties.objMadre.delegacionMunicipio : null;
+                            $scope.properties.JSONUsuarioRegistrado.colonia = $scope.properties.objMadre.colonia !== undefined ? $scope.properties.objMadre.colonia : null;
+                            $scope.properties.JSONUsuarioRegistrado.calle = $scope.properties.objMadre.calle !== undefined ? $scope.properties.objMadre.calle : null;
+                            $scope.properties.JSONUsuarioRegistrado.numeroexterior = $scope.properties.objMadre.numeroExterior !== undefined ? $scope.properties.objMadre.numeroExterior : null;
+                            $scope.properties.JSONUsuarioRegistrado.numerointerior = $scope.properties.objMadre.numeroInterior !== undefined ? $scope.properties.objMadre.numeroInterior : null;
+                            $scope.properties.JSONUsuarioRegistrado.telefono = $scope.properties.objMadre.telefono !== undefined ? $scope.properties.objMadre.telefono : null;
+                        }
+                    }
                 }
 
                 
@@ -405,6 +434,9 @@
                         jsonAnterior.vive_pid = 145289;
                         jsonNuevo.vive_pid = 145289;
                         $scope.properties.JSONUsuarioRegistrado.vive_pid = 145289;
+
+                        $scope.properties.JSONUsuarioRegistrado.vivecontigo = $scope.properties.datosJson.viveContigo;
+
                             
                         jsonAnterior.desconozcoDatosPadres = (jsonAnterior.desconozcoDatosPadres === "false");
                         jsonNuevo.desconozcoDatosPadres = (jsonNuevo.desconozcoDatosPadres === "false");
@@ -497,7 +529,6 @@
 
                     } else if ($scope.properties.editarSec6 == false){
                         debugger;
-                        $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objPadre.persistenceId;
                         jsonAnterior.desconozcodatospadres = $scope.properties.objPadre.desconozcoDatosPadres;
                         if($scope.properties.objPadre.desconozcoDatosPadres == false){
                             jsonAnterior.vive_pid = parseInt($scope.properties.objPadre.vive.persistenceId);
@@ -514,7 +545,7 @@
                                 jsonAnterior.giroempresa = $scope.properties.objPadre.giroEmpresa !== undefined ? $scope.properties.objPadre.giroEmpresa : null;
                                 jsonAnterior.puesto = $scope.properties.objPadre.puesto !== undefined ? $scope.properties.objPadre.puesto : null;
                                 jsonAnterior.vivecontigo = $scope.properties.objPadre.viveContigo;
-                                jsonAnterior.catpais_pid = $scope.properties.objPadre.catPais !== undefined ? parseInt($scope.properties.objPadre.catPais.persistenceId) : null;
+                                jsonAnterior.catpais_pid = $scope.properties.objPadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objPadre.catPais.persistenceId) : null;
                                 jsonAnterior.codigopostal = $scope.properties.objPadre.codigoPostal !== undefined ? $scope.properties.objPadre.codigoPostal : null;
                                 jsonAnterior.catestado_pid = $scope.properties.objPadre.catEstado !== undefined ? parseInt($scope.properties.objPadre.catEstado.persistenceId) : null;
                                 jsonAnterior.estadoextranjero = $scope.properties.objPadre.estadoExtranjero !== undefined ? $scope.properties.objPadre.estadoExtranjero : null;
@@ -557,64 +588,68 @@
                                 jsonNuevo.telefono = $scope.properties.JSONUsuarioRegistrado.telefono;
                             }
                         }
-                        
-                        
-                        
-                        
-
                     } else if ($scope.properties.editarSec7 == false){
-
+                        debugger;
+                        $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objMadre.persistenceId;
                         jsonAnterior.desconozcodatospadres = $scope.properties.objMadre.desconozcoDatosPadres;
-                        jsonAnterior.vive_pid = parseInt($scope.properties.objMadre.vive.persistenceId);
-                        jsonAnterior.cattitulo_pid = parseInt($scope.properties.datosJson.catTitulo.persistenceId);
-                        jsonAnterior.nombre = $scope.properties.objMadre.nombre;
-                        jsonAnterior.apellidos = $scope.properties.objMadre.apellidos;
-                        jsonAnterior.correoelectronico = $scope.properties.objMadre.correoElectronico !== undefined ? $scope.properties.objMadre.correoElectronico : null;
-                        jsonAnterior.categresoanahuac_pid = $scope.properties.objMadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objMadre.catEgresoAnahuac.persistenceId) : null;
-                        jsonAnterior.cattrabaja_pid = $scope.properties.objMadre.catTrabaja !== undefined ? parseInt($scope.properties.objMadre.catTrabaja.persistenceId) : null;
-                        jsonAnterior.catcampusegreso_pid = $scope.properties.objMadre.catCampus !== undefined && $scope.properties.objMadre.catCampus !== null ? parseInt($scope.properties.objMadre.catCampusEgreso.persistenceId) : null;
-                        jsonAnterior.empresatrabaja = $scope.properties.datosJson.empresaTrabaja;
-                        jsonAnterior.catescolaridad_pid = $scope.properties.objMadre.catEscolaridad !== undefined ? parseInt($scope.properties.objMadre.catEscolaridad.persistenceId) : null;
-                        jsonAnterior.giroempresa = $scope.properties.objMadre.giroEmpresa !== undefined ? $scope.properties.objMadre.giroEmpresa : null;
-                        jsonAnterior.puesto = $scope.properties.objMadre.puesto !== undefined ? $scope.properties.objMadre.puesto : null;
-                        jsonAnterior.vivecontigo = $scope.properties.objMadre.viveContigo;
-                        jsonAnterior.catpais_pid = $scope.properties.objMadre.catPais !== undefined ? parseInt($scope.properties.objMadre.catPais.persistenceId) : null;
-                        jsonAnterior.codigopostal = $scope.properties.objMadre.codigoPostal !== undefined ? $scope.properties.objMadre.codigoPostal : null;
-                        jsonAnterior.catestado_pid = $scope.properties.objMadre.catEstado !== undefined ? parseInt($scope.properties.objMadre.catEstado.persistenceId) : null;
-                        jsonAnterior.estadoextranjero = $scope.properties.objMadre.estadoExtranjero !== undefined ? $scope.properties.objMadre.estadoExtranjero : null;
-                        jsonAnterior.ciudad = $scope.properties.objMadre.ciudad !== undefined ? $scope.properties.objMadre.ciudad : null;
-                        jsonAnterior.delegacionmunicipio = $scope.properties.objMadre.delegacionMunicipio !== undefined ? $scope.properties.objMadre.delegacionMunicipio : null;
-                        jsonAnterior.colonia = $scope.properties.objMadre.colonia !== undefined ? $scope.properties.objMadre.colonia : null;
-                        jsonAnterior.calle = $scope.properties.objMadre.calle !== undefined ? $scope.properties.objMadre.calle : null;
-                        jsonAnterior.numeroexterior = $scope.properties.objMadre.numeroExterior !== undefined ? $scope.properties.objMadre.numeroExterior : null;
-                        jsonAnterior.numerointerior = $scope.properties.objMadre.numeroInterior !== undefined ? $scope.properties.objMadre.numeroInterior : null;
-                        jsonAnterior.telefono = $scope.properties.objMadre.telefono !== undefined ? $scope.properties.objMadre.telefono : null;
-
+                        if($scope.properties.objMadre.desconozcoDatosPadres == false){
+                            jsonAnterior.vive_pid = parseInt($scope.properties.objMadre.vive.persistenceId);
+                            jsonAnterior.cattitulo_pid = parseInt($scope.properties.objMadre.catTitulo.persistenceId);
+                            jsonAnterior.nombre = $scope.properties.objMadre.nombre;
+                            jsonAnterior.apellidos = $scope.properties.objMadre.apellidos;
+                            if($scope.properties.objMadre.vive.descripcion == "Sí"){
+                                jsonAnterior.correoelectronico = $scope.properties.objMadre.correoElectronico !== undefined ? $scope.properties.objMadre.correoElectronico : null;
+                                jsonAnterior.categresoanahuac_pid = $scope.properties.objMadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objMadre.catEgresoAnahuac.persistenceId) : null;
+                                jsonAnterior.cattrabaja_pid = $scope.properties.objMadre.catTrabaja !== undefined ? parseInt($scope.properties.objMadre.catTrabaja.persistenceId) : null;
+                                jsonAnterior.catcampusegreso_pid = $scope.properties.objMadre.catCampus !== undefined && $scope.properties.objMadre.catCampus !== null ? parseInt($scope.properties.objMadre.catCampusEgreso.persistenceId) : null;
+                                jsonAnterior.empresatrabaja = $scope.properties.objMadre.empresaTrabaja;
+                                jsonAnterior.catescolaridad_pid = $scope.properties.objMadre.catEscolaridad !== undefined ? parseInt($scope.properties.objMadre.catEscolaridad.persistenceId) : null;
+                                jsonAnterior.giroempresa = $scope.properties.objMadre.giroEmpresa !== undefined ? $scope.properties.objMadre.giroEmpresa : null;
+                                jsonAnterior.puesto = $scope.properties.objMadre.puesto !== undefined ? $scope.properties.objMadre.puesto : null;
+                                jsonAnterior.vivecontigo = $scope.properties.objMadre.viveContigo;
+                                jsonAnterior.catpais_pid = $scope.properties.objMadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objMadre.catPais.persistenceId) : null;
+                                jsonAnterior.codigopostal = $scope.properties.objMadre.codigoPostal !== undefined ? $scope.properties.objMadre.codigoPostal : null;
+                                jsonAnterior.catestado_pid = $scope.properties.objMadre.catEstado !== undefined ? parseInt($scope.properties.objMadre.catEstado.persistenceId) : null;
+                                jsonAnterior.estadoextranjero = $scope.properties.objMadre.estadoExtranjero !== undefined ? $scope.properties.objMadre.estadoExtranjero : null;
+                                jsonAnterior.ciudad = $scope.properties.objMadre.ciudad !== undefined ? $scope.properties.objMadre.ciudad : null;
+                                jsonAnterior.delegacionmunicipio = $scope.properties.objMadre.delegacionMunicipio !== undefined ? $scope.properties.objMadre.delegacionMunicipio : null;
+                                jsonAnterior.colonia = $scope.properties.objMadre.colonia !== undefined ? $scope.properties.objMadre.colonia : null;
+                                jsonAnterior.calle = $scope.properties.objMadre.calle !== undefined ? $scope.properties.objMadre.calle : null;
+                                jsonAnterior.numeroexterior = $scope.properties.objMadre.numeroExterior !== undefined ? $scope.properties.objMadre.numeroExterior : null;
+                                jsonAnterior.numerointerior = $scope.properties.objMadre.numeroInterior !== undefined ? $scope.properties.objMadre.numeroInterior : null;
+                                jsonAnterior.telefono = $scope.properties.objMadre.telefono !== undefined ? $scope.properties.objMadre.telefono : null;
+                            }
+                        }
+                        
                         jsonNuevo.desconozcodatospadres = $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres;
-                        jsonNuevo.vive_pid = $scope.properties.JSONUsuarioRegistrado.vive_pid;
-                        jsonNuevo.cattitulo_pid = $scope.properties.JSONUsuarioRegistrado.cattitulo_pid;
-                        jsonNuevo.nombre = $scope.properties.JSONUsuarioRegistrado.nombre;
-                        jsonNuevo.apellidos = $scope.properties.JSONUsuarioRegistrado.apellidos;
-                        jsonNuevo.correoelectronico = $scope.properties.JSONUsuarioRegistrado.correoelectronico;
-                        jsonNuevo.categresoanahuac_pid = $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid;
-                        jsonNuevo.cattrabaja_pid = $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid;
-                        jsonNuevo.catcampusegreso_pid = $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid;
-                        jsonNuevo.empresatrabaja = $scope.properties.JSONUsuarioRegistrado.empresatrabaja;
-                        jsonNuevo.catescolaridad_pid = $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid;
-                        jsonNuevo.giroempresa = $scope.properties.JSONUsuarioRegistrado.giroempresa;
-                        jsonNuevo.puesto = $scope.properties.JSONUsuarioRegistrado.puesto;
-                        jsonNuevo.vivecontigo = $scope.properties.JSONUsuarioRegistrado.vivecontigo;
-                        jsonNuevo.catpais_pid = $scope.properties.JSONUsuarioRegistrado.catpais_pid;
-                        jsonNuevo.codigopostal = $scope.properties.JSONUsuarioRegistrado.codigopostal;
-                        jsonNuevo.catestado_pid = $scope.properties.JSONUsuarioRegistrado.catestado_pid;
-                        jsonNuevo.estadoextranjero = $scope.properties.JSONUsuarioRegistrado.estadoextranjero ?? null;
-                        jsonNuevo.ciudad = $scope.properties.JSONUsuarioRegistrado.ciudad;
-                        jsonNuevo.delegacionmunicipio = $scope.properties.JSONUsuarioRegistrado.delegacionmunicipio;
-                        jsonNuevo.colonia = $scope.properties.JSONUsuarioRegistrado.colonia;
-                        jsonNuevo.calle = $scope.properties.JSONUsuarioRegistrado.calle;
-                        jsonNuevo.numeroexterior = $scope.properties.JSONUsuarioRegistrado.numeroexterior ?? null;
-                        jsonNuevo.numerointerior = $scope.properties.JSONUsuarioRegistrado.numerointerior ?? null;
-                        jsonNuevo.telefono = $scope.properties.JSONUsuarioRegistrado.telefono;
+                        if($scope.properties.objMadre.desconozcoDatosPadres == false){
+                            jsonNuevo.vive_pid = $scope.properties.JSONUsuarioRegistrado.vive_pid;
+                            jsonNuevo.cattitulo_pid = $scope.properties.JSONUsuarioRegistrado.cattitulo_pid;
+                            jsonNuevo.nombre = $scope.properties.JSONUsuarioRegistrado.nombre;
+                            jsonNuevo.apellidos = $scope.properties.JSONUsuarioRegistrado.apellidos;
+                            if($scope.properties.objMadre.vive.descripcion == "Sí"){
+                                jsonNuevo.correoelectronico = $scope.properties.JSONUsuarioRegistrado.correoelectronico;
+                                jsonNuevo.categresoanahuac_pid = $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid;
+                                jsonNuevo.cattrabaja_pid = $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid;
+                                jsonNuevo.catcampusegreso_pid = $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid;
+                                jsonNuevo.empresatrabaja = $scope.properties.JSONUsuarioRegistrado.empresatrabaja;
+                                jsonNuevo.catescolaridad_pid = $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid;
+                                jsonNuevo.giroempresa = $scope.properties.JSONUsuarioRegistrado.giroempresa;
+                                jsonNuevo.puesto = $scope.properties.JSONUsuarioRegistrado.puesto;
+                                jsonNuevo.vivecontigo = $scope.properties.JSONUsuarioRegistrado.vivecontigo;
+                                jsonNuevo.catpais_pid = $scope.properties.JSONUsuarioRegistrado.catpais_pid;
+                                jsonNuevo.codigopostal = $scope.properties.JSONUsuarioRegistrado.codigopostal;
+                                jsonNuevo.catestado_pid = $scope.properties.JSONUsuarioRegistrado.catestado_pid;
+                                jsonNuevo.estadoextranjero = $scope.properties.JSONUsuarioRegistrado.estadoextranjero ?? null;
+                                jsonNuevo.ciudad = $scope.properties.JSONUsuarioRegistrado.ciudad;
+                                jsonNuevo.delegacionmunicipio = $scope.properties.JSONUsuarioRegistrado.delegacionmunicipio;
+                                jsonNuevo.colonia = $scope.properties.JSONUsuarioRegistrado.colonia;
+                                jsonNuevo.calle = $scope.properties.JSONUsuarioRegistrado.calle;
+                                jsonNuevo.numeroexterior = $scope.properties.JSONUsuarioRegistrado.numeroexterior ?? null;
+                                jsonNuevo.numerointerior = $scope.properties.JSONUsuarioRegistrado.numerointerior ?? null;
+                                jsonNuevo.telefono = $scope.properties.JSONUsuarioRegistrado.telefono;
+                            }
+                        }
                     } 
                     
 

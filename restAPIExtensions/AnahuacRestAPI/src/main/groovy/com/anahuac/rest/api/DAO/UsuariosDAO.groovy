@@ -4440,8 +4440,9 @@ class UsuariosDAO {
 					pstm.setBoolean(25, valores.istutor);
 					pstm.setBoolean(26, valores.desconozcoDatosPadres);
 					pstm.setInt(27, valores.vive_pid);
-					pstm.setInt(28, valores.caseid);
-					pstm.setInt(29, valores.persistenceid);
+					pstm.setBoolean(28, valores.vivecontigo);
+					pstm.setInt(29, valores.caseid);
+					pstm.setInt(30, valores.persistenceid);
 					
 					int filasActualizadas = pstm.executeUpdate();
 					pstm.close();
@@ -4495,8 +4496,9 @@ class UsuariosDAO {
 					pstm.setBoolean(25, valores.istutor);
 					pstm.setBoolean(26, valores.desconozcoDatosPadres);
 					pstm.setInt(27, valores.vive_pid);
-					pstm.setInt(28, valores.caseid);
-					pstm.setInt(29, valores.tutorPersistenceid);
+					pstm.setBoolean(28, valores.vivecontigo);
+					pstm.setInt(29, valores.caseid);
+					pstm.setInt(30, valores.tutorPersistenceid);
 					
 					int filasActualizadasTutor = pstm.executeUpdate();
 					pstm.close();
@@ -4574,8 +4576,9 @@ class UsuariosDAO {
 					pstm.setBoolean(25, valores.istutor);
 					pstm.setBoolean(26, valores.desconozcoDatosPadres);
 					pstm.setInt(27, valores.vive_pid);
-					pstm.setInt(28, valores.caseid);
-					pstm.setInt(29, valores.tutorPersistenceid);
+					pstm.setBoolean(28, valores.vivecontigo);
+					pstm.setInt(29, valores.caseid);
+					pstm.setInt(30, valores.tutorPersistenceid);
 					
 					int filasActualizadasTutor = pstm.executeUpdate();
 					pstm.close();
@@ -4607,10 +4610,13 @@ class UsuariosDAO {
 				con.setAutoCommit(false)
 				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC6
 				pstm = con.prepareStatement(consulta);
-				
 				pstm.setBoolean(1, valores.desconozcodatospadres)
 				if(!valores.desconozcodatospadres) {
-					pstm.setInt(2, valores.vive);
+					if (valores.vive_pid != null) {
+					    pstm.setInt(2, valores.vive_pid)
+					} else {
+					    pstm.setNull(2, java.sql.Types.INTEGER)
+					}
 					pstm.setInt(3, valores.cattitulo_pid);
 					pstm.setString(4, valores.nombre);
 					pstm.setString(5, valores.apellidos);
@@ -4627,10 +4633,10 @@ class UsuariosDAO {
 						pstm.setString(15, valores.codigopostal);
 						pstm.setInt(16, valores.catestado_pid);
 						// Establecer el valor nulo para el parámetro estadoextranjero si es null
-						if (valores.estadoextranjero == null) {
-							pstm.setNull(17, java.sql.Types.INTEGER);
+						if (valores.estadoextranjero != null && !valores.estadoextranjero.isEmpty()) {
+						    pstm.setInt(17, Integer.parseInt(valores.estadoextranjero))
 						} else {
-							pstm.setInt(17, valores.estadoextranjero);
+						    pstm.setNull(17, java.sql.Types.INTEGER)
 						}
 						pstm.setString(18, valores.ciudad);
 						pstm.setString(19, valores.delegacionmunicipio);
@@ -4649,17 +4655,93 @@ class UsuariosDAO {
 							pstm.setString(23, valores.numerointerior);
 						}
 						pstm.setString(24, valores.telefono);
-						pstm.setBoolean(25, valores.istutor);
+						pstm.setBoolean(25, valores.vivecontigo);
+						pstm.setInt(26, valores.caseid);
+						pstm.setInt(27, valores.persistenceid);
+					}else {
+						for (int i = 6; i <= 25; i++) {
+							pstm.setNull(i, java.sql.Types.NULL);
+						}
 						pstm.setInt(26, valores.caseid);
 						pstm.setInt(27, valores.persistenceid);
 					}
+				}else {
+					for (int i = 2; i <= 25; i++) {
+						pstm.setNull(i, java.sql.Types.NULL);
+					}
+					pstm.setInt(26, valores.caseid);
+					pstm.setInt(27, valores.persistenceid);
 				}
-				
 				int filasActualizadas = pstm.executeUpdate();
 				pstm.close();
-				
 			} else if(valores.editarSec7 == false){
-				
+				con.setAutoCommit(false)
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC6
+				pstm = con.prepareStatement(consulta);
+				pstm.setBoolean(1, valores.desconozcodatospadres)
+				if(!valores.desconozcodatospadres) {
+					if (valores.vive_pid != null) {
+					    pstm.setInt(2, valores.vive_pid)
+					} else {
+					    pstm.setNull(2, java.sql.Types.INTEGER)
+					}
+					pstm.setInt(3, valores.cattitulo_pid);
+					pstm.setString(4, valores.nombre);
+					pstm.setString(5, valores.apellidos);
+					if(valores.vive_pid == 145289) {
+						pstm.setString(6, valores.correoelectronico);
+						pstm.setInt(7, valores.categresoanahuac_pid);
+						pstm.setInt(8, valores.cattrabaja_pid);
+						pstm.setInt(9, valores.catcampusegreso_pid);
+						pstm.setString(10, valores.empresatrabaja);
+						pstm.setInt(11, valores.catescolaridad_pid);
+						pstm.setString(12, valores.giroempresa);
+						pstm.setString(13, valores.puesto);
+						pstm.setInt(14, valores.catpais_pid);
+						pstm.setString(15, valores.codigopostal);
+						pstm.setInt(16, valores.catestado_pid);
+						// Establecer el valor nulo para el parámetro estadoextranjero si es null
+						if (valores.estadoextranjero != null && !valores.estadoextranjero.isEmpty()) {
+						    pstm.setInt(17, Integer.parseInt(valores.estadoextranjero))
+						} else {
+						    pstm.setNull(17, java.sql.Types.INTEGER)
+						}
+						pstm.setString(18, valores.ciudad);
+						pstm.setString(19, valores.delegacionmunicipio);
+						pstm.setString(20, valores.colonia);
+						pstm.setString(21, valores.calle);
+						// Establecer el valor nulo para el parámetro numeroexterior si es null
+						if (valores.numeroexterior == null) {
+							pstm.setNull(22, java.sql.Types.VARCHAR);
+						} else {
+							pstm.setString(22, valores.numeroexterior);
+						}
+						// Establecer el valor nulo para el parámetro numerointerior si es null
+						if (valores.numerointerior == null) {
+							pstm.setNull(23, java.sql.Types.VARCHAR);
+						} else {
+							pstm.setString(23, valores.numerointerior);
+						}
+						pstm.setString(24, valores.telefono);
+						pstm.setBoolean(25, valores.vivecontigo);
+						pstm.setInt(26, valores.caseid);
+						pstm.setInt(27, valores.persistenceid);
+					}else {
+						for (int i = 6; i <= 25; i++) {
+							pstm.setNull(i, java.sql.Types.NULL);
+						}
+						pstm.setInt(26, valores.caseid);
+						pstm.setInt(27, valores.persistenceid);
+					}
+				}else {
+					for (int i = 2; i <= 25; i++) {
+						pstm.setNull(i, java.sql.Types.NULL);
+					}
+					pstm.setInt(26, valores.caseid);
+					pstm.setInt(27, valores.persistenceid);
+				}
+				int filasActualizadas = pstm.executeUpdate();
+				pstm.close();
 			}
 			
 			resultado.setSuccess(true);
