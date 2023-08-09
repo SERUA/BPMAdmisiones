@@ -6,6 +6,9 @@ class BannerWSInfo {
 	private String pago_de_inscripcion;
 	private String programa_periodo_campus;
 	private String carga_de_materias;
+	private String programa;
+	private String periodo;
+	private String campus;
 	
 	public String getPago_de_propedeutico() {
 		return pago_de_propedeutico;
@@ -36,5 +39,23 @@ class BannerWSInfo {
 	}
 	public void setCarga_de_materias(String carga_de_materias) {
 		this.carga_de_materias = carga_de_materias;
+	}
+	public String getPrograma() {
+		return programa;
+	}
+	public void setPrograma(String programa) {
+		this.programa = programa;
+	}
+	public String getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	public String getCampus() {
+		return campus;
+	}
+	public void setCampus(String campus) {
+		this.campus = campus;
 	}
 }

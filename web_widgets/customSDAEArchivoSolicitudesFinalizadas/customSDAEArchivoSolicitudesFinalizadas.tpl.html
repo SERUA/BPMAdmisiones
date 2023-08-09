@@ -112,30 +112,22 @@
                         <b ng-if="!row.porcentajeautorizadofinanciaimiento">N/A</b>
                     </td>
                     <td>
-                        <b>
-                            {{!row.inscripcionPropedeutico ? ( row.inscripcionPropedeutico !== false ? "N/A" : "No" ) : "Sí" }}
-                        </b>
+                        <b>{{!row.bannerInfo.pago_de_propedeutico ? "N/A" : row.bannerInfo.pago_de_propedeutico }}</b>
                     </td>
                     <td>
-                        <b>
-                            {{!row.pasoPropedeutico ? ( row.pasoPropedeutico !== false ? "N/A" : "No" ) : "Sí" }}
-                        </b>
+                        <b>{{!row.bannerInfo.admitido_a_medicina ? "N/A" : row.bannerInfo.admitido_a_medicina }}</b>
                     </td>
                     <td>
-                        <b>
-                            {{!row.inscrito ? ( row.inscrito !== false ? "N/A" : "No" ) : "Sí" }}
-                        </b>
+                        <b>{{!row.bannerInfo.pago_de_inscripcion ? "N/A" : row.bannerInfo.pago_de_inscripcion }}</b>
                     </td>
                     <td>
-                        <b>
-                            {{!row.tomaMaterias ? ( row.tomaMaterias !== false ? "N/A" : "No" ) : "Sí" }}
-                        </b>
+                        <b>{{!row.bannerInfo.carga_de_materias ? "N/A" : row.bannerInfo.carga_de_materias }}</b>
                     </td>
                     <td>
-                        <b>{{!row.infoEscolarBanner.licenciatura ? "N/A" : row.infoEscolarBanner.licenciatura }}</b><br>
-                        <b>{{!row.infoEscolarBanner.periodo ? "N/A" : row.infoEscolarBanner.periodo }}</b><br>
-                        <b>{{!row.infoEscolarBanner.campus ? "N/A" : row.infoEscolarBanner.campus }}</b>
-                    </td>
+                        <b>{{!row.bannerInfo.programa ? "N/A" : row.bannerInfo.programa }}</b><br>
+                        <b>{{!row.bannerInfo.periodo ? "N/A" : row.bannerInfo.periodo }}</b><br>
+                        <b>{{!row.bannerInfo.campus ? "N/A" : row.bannerInfo.campus }}</b>
+                    </td> 
                     <td>
                         <!-- <button class="btn btn-default" ng-click="abrirSolicitud(row)">
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>

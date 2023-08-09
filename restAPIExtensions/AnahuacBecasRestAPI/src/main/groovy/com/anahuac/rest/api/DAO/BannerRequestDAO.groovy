@@ -84,6 +84,13 @@ class BannerRequestDAO {
 					bannerInfo.setPago_de_inscripcion(jsonArray.get(0).getAsJsonObject().get("pago_de_inscripcion").toString().replaceAll("\"", ""));
 					bannerInfo.setPago_de_propedeutico(jsonArray.get(0).getAsJsonObject().get("pago_de_propedeutico").toString().replaceAll("\"", ""));
 					bannerInfo.setPrograma_periodo_campus(jsonArray.get(0).getAsJsonObject().get("programa_periodo_campus").toString().replaceAll("\"", ""))
+					
+					if(bannerInfo.getPrograma_periodo_campus() != null && !bannerInfo.getPrograma_periodo_campus().equals("")) {
+						String[] infoArr = bannerInfo.getPrograma_periodo_campus().split("/");
+						bannerInfo.setPrograma(infoArr[0]);
+						bannerInfo.setPeriodo(infoArr[1]);
+						bannerInfo.setCampus(infoArr[2]);				
+					}
 				}
 				
 				lstResult.add(bannerInfo);

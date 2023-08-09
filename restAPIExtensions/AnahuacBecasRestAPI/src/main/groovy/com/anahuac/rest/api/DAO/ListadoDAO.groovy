@@ -862,101 +862,101 @@ class ListadoDAO {
 			int columnCount = metaData.getColumnCount();
 			
 			
-				while (rs.next()) {
-					BannerRequestDAO bannerRequestDAO = new BannerRequestDAO();
-					Result getBannerObject = bannerRequestDAO.getBannerInfo(rs.getString("idcampus"), rs.getString("idBanner"));
-					Map<String, Object> columns = new LinkedHashMap<String, Object>();
-					errorlog += " | Resultado de banner";
-					if (getBannerObject.isSuccess()) {
-						errorlog += " | Banner encontrado ";
-						columns.put("bannerInfo", getBannerObject.getData().get(0));
-						BannerWSInfo bannerInfo = (BannerWSInfo) getBannerObject.getData().get(0);
-						errorlog += " | bannerInfo ";
-						String infoEscolar = bannerInfo.getPrograma_periodo_campus();
-						errorlog += " | infoEscolar ";
-						String[] infoEscolarArray;
-						if (infoEscolar != null && !infoEscolar.equals("") && !infoEscolar.equals("null")) {
-							errorlog += " | infoEscolar.split ";
-							infoEscolarArray = infoEscolar.split("/");
-							if (infoEscolarArray.length > 0) {
-								String programa = infoEscolarArray[0]; // Guardar el valor en una nueva variable llamada 'programa'
-								columns.put("licenciatura", programa);
-								errorlog += " | infoEscolar " + programa;
-								columns.put("periodo", infoEscolarArray[1]);
-								errorlog += " | infoEscolar " + infoEscolarArray[1];
-								columns.put("campus", infoEscolarArray[2]);
-								errorlog += " | infoEscolar " + infoEscolarArray[2];
-							} else {
-								columns.put("licenciatura", "");
-								columns.put("periodo", "");
-								columns.put("campus", "");
-							}
+			while (rs.next()) {
+				BannerRequestDAO bannerRequestDAO = new BannerRequestDAO();
+				Result getBannerObject = bannerRequestDAO.getBannerInfo(rs.getString("idcampus"), rs.getString("idBanner"));
+				Map<String, Object> columns = new LinkedHashMap<String, Object>();
+				errorlog += " | Resultado de banner";
+				if (getBannerObject.isSuccess()) {
+					errorlog += " | Banner encontrado ";
+					columns.put("bannerInfo", getBannerObject.getData().get(0));
+					BannerWSInfo bannerInfo = (BannerWSInfo) getBannerObject.getData().get(0);
+					errorlog += " | bannerInfo ";
+					String infoEscolar = bannerInfo.getPrograma_periodo_campus();
+					errorlog += " | infoEscolar ";
+					String[] infoEscolarArray;
+					if (infoEscolar != null && !infoEscolar.equals("") && !infoEscolar.equals("null")) {
+						errorlog += " | infoEscolar.split ";
+						infoEscolarArray = infoEscolar.split("/");
+						if (infoEscolarArray.length > 0) {
+							String programa = infoEscolarArray[0]; // Guardar el valor en una nueva variable llamada 'programa'
+							columns.put("licenciatura", programa);
+							errorlog += " | infoEscolar " + programa;
+							columns.put("periodo", infoEscolarArray[1]);
+							errorlog += " | infoEscolar " + infoEscolarArray[1];
+							columns.put("campus", infoEscolarArray[2]);
+							errorlog += " | infoEscolar " + infoEscolarArray[2];
 						} else {
 							columns.put("licenciatura", "");
 							columns.put("periodo", "");
 							columns.put("campus", "");
 						}
 					} else {
-						errorlog += " | Banner no encontrado ";
-						errorlog += " | " + getBannerObject.error;
-						errorlog += " | " + getBannerObject.error_info;
+						columns.put("licenciatura", "");
+						columns.put("periodo", "");
+						columns.put("campus", "");
 					}
+				} else {
+					errorlog += " | Banner no encontrado ";
+					errorlog += " | " + getBannerObject.error;
+					errorlog += " | " + getBannerObject.error_info;
+				}
 
-					errorlog += " | Columnas iteradas ";
-					for (int i = 1; i <= columnCount; i++) {
-						errorlog += " | Columnas index  " + String.valueOf(i);
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
-						if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
-							String encoded = "";
-							boolean noAzure = false;
-							try {
-								String urlFoto = rs.getString("urlfoto");
-								if (urlFoto != null && !urlFoto.isEmpty()) {
-									columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
-								} else {
-									noAzure = true;
-									List<Document> doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10);
-									for (Document doc : doc1) {
-										encoded = "../API/formsDocumentImage?document=" + doc.getId();
-										columns.put("fotografiab64", encoded);
-									}
-								}
-
-								for (Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+				errorlog += " | Columnas iteradas ";
+				for (int i = 1; i <= columnCount; i++) {
+					errorlog += " | Columnas index  " + String.valueOf(i);
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List<Document> doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10);
+								for (Document doc : doc1) {
 									encoded = "../API/formsDocumentImage?document=" + doc.getId();
-									columns.put("fotografiabpm", encoded);
+									columns.put("fotografiab64", encoded);
 								}
-							} catch (Exception e) {
-								LOGGER.error("[ERROR] " + e.getMessage());
-								columns.put("fotografiabpm", "");
-								if (noAzure) {
-									columns.put("fotografiab64", "");
-								}
-								errorlog += "" + e.getMessage();
 							}
+
+							for (Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+						} catch (Exception e) {
+							LOGGER.error("[ERROR] " + e.getMessage());
+							columns.put("fotografiabpm", "");
+							if (noAzure) {
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
 						}
 					}
-    
-					rows.add(columns);
 				}
-				
-				resultado.setSuccess(true);
-				resultado.setError_info(errorlog);
-				resultado.setError_info(where);
-				resultado.setData(rows);
-			} catch (Exception e) {
-				errorlog += " 9" + e.getMessage();
-				LOGGER.error "[ERROR] " + e.getMessage();
-				resultado.setError_info(errorlog)
-				resultado.setSuccess(false);
-				resultado.setError(e.getMessage());
-			} finally {
-				if (closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm)
-				}
+
+				rows.add(columns);
 			}
-			return resultado
+			
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+			resultado.setError_info(where);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			errorlog += " 9" + e.getMessage();
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorlog)
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
 		}
+		return resultado
+	}
 	
 	public Result selectBandejaMaestra(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
