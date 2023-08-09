@@ -4605,16 +4605,16 @@ class UsuariosDAO {
 				con.commit()
 			} else if(valores.editarSec6 == false){
 				con.setAutoCommit(false)
-				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC5
+				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC6
 				pstm = con.prepareStatement(consulta);
 				
-				pstm.setInt(1, valores.vive);
-				if(valores.desconozcoDatosPadres == false) {
-					pstm.setInt(1, valores.vive);
-					pstm.setInt(1, valores.cattitulo_pid);
-					pstm.setString(3, valores.nombre);
+				pstm.setBoolean(1, valores.desconozcodatospadres)
+				if(!valores.desconozcodatospadres) {
+					pstm.setInt(2, valores.vive);
+					pstm.setInt(3, valores.cattitulo_pid);
+					pstm.setString(4, valores.nombre);
 					pstm.setString(5, valores.apellidos);
-					if(valores.vive == false) {
+					if(valores.vive_pid == 145289) {
 						pstm.setString(6, valores.correoelectronico);
 						pstm.setInt(7, valores.categresoanahuac_pid);
 						pstm.setInt(8, valores.cattrabaja_pid);
@@ -4650,10 +4650,8 @@ class UsuariosDAO {
 						}
 						pstm.setString(24, valores.telefono);
 						pstm.setBoolean(25, valores.istutor);
-						pstm.setBoolean(26, valores.desconozcoDatosPadres);
-						pstm.setInt(27, valores.vive_pid);
-						pstm.setInt(28, valores.caseid);
-						pstm.setInt(29, valores.persistenceid);
+						pstm.setInt(26, valores.caseid);
+						pstm.setInt(27, valores.persistenceid);
 					}
 				}
 				
