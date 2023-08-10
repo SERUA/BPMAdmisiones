@@ -28,7 +28,7 @@
                 var existecambio = false;
                 const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
                 const regexEmail = "^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$";
-                
+                debugger;
                 if($scope.properties.editarSec1 == false){
                     if ($scope.properties.objSolicitudDeAdmision.catCampusEstudio === "") {
                         swal("¡Aviso!", "Debe agregar el campus donde se cursarán sus estudios.", "warning");
@@ -687,7 +687,7 @@
                                 nombre: contacto.nombre,
                                 parentesco: contacto.parentesco,
                                 telefono: contacto.telefono,
-                                telefonocelular: contacto.telefonoCelular
+                                telefonocelular: contacto.telefonocelular
                             };
 
                             // Agregar el objeto al arreglo de registros acumulados

@@ -4744,16 +4744,52 @@ class UsuariosDAO {
 				pstm.close();
 			} else if(valores.editarSec8 == false) {
 				con.setAutoCommit(false)
-				String consulta = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC8
-				pstm = con.prepareStatement(consulta);
-				pstm.setString(1, valores.registrosAcumulados[0]); // nombre
-				pstm.setString(2, valores.registrosAcumulados[1]); // parentesco
-				pstm.setString(3, valores.registrosAcumulados[2]); // telefono
-				pstm.setString(4, valores.registrosAcumulados[3]); // telefonocelular
-				pstm.setInt(5, valores.caseid);
-				int filasActualizadas = pstm.executeUpdate();
-				pstm.close();
-				con.commit()
+				
+				try {
+					// Obtener los persistenceid que coinciden con el caseid
+					def persistenceids = []
+				
+					def consultaSelect = "SELECT persistenceid FROM ContactoEmergencias WHERE caseid = ?"
+					def pstmSelect = con.prepareStatement(consultaSelect)
+					pstmSelect.setInt(1, valores.caseid)
+				
+					def rs = pstmSelect.executeQuery()
+					while (rs.next()) {
+						persistenceids.add(rs.getInt("persistenceid"))
+					}
+					rs.close()
+					pstmSelect.close()
+				
+					// Actualizar los registros en ContactoEmergencias usando un único llamado
+					def consultaUpdate = "UPDATE ContactoEmergencias SET nombre = ?, parentesco = ?, telefono = ?, telefonocelular = ? WHERE persistenceid = ?"
+					
+					// Verificar los valores en valores.registrosAcumulados
+					println("Valores en valores.registrosAcumulados:")
+					valores.registrosAcumulados.each { registro ->
+						println(registro)
+						
+						def pstmUpdate = con.prepareStatement(consultaUpdate)
+						pstmUpdate.setString(1, registro.nombre)
+						pstmUpdate.setString(2, registro.parentesco)
+						pstmUpdate.setString(3, registro.telefono)
+						pstmUpdate.setString(4, registro.telefonocelular)
+						
+						// Aquí debemos establecer el persistenceid específico para cada registro
+						pstmUpdate.setInt(5, registro.persistenceid) // Asegúrate de que el nombre del campo sea correcto
+						
+						pstmUpdate.executeUpdate()
+						pstmUpdate.close()
+					}
+				
+					con.commit()
+				} catch (Exception e) {
+					con.rollback()
+					e.printStackTrace()
+				} finally {
+					con.setAutoCommit(true)
+				}
+				
+
 			}
 			
 			resultado.setSuccess(true);
