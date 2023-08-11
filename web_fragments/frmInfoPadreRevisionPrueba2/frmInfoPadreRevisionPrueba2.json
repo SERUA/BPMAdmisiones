@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frmInfoPadreRevisionPrueba2",
   "name" : "frmInfoPadreRevisionPrueba2",
-  "lastUpdate" : 1691575555457,
+  "lastUpdate" : 1691786248400,
   "rows" : [
     [
       {
@@ -241,7 +241,7 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
             "type" : "expression",
@@ -283,11 +283,15 @@
           "step" : {
             "type" : "constant",
             "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
-        "reference" : "b8cfc533-3e85-49d4-b1f8-f1a2be526534",
+        "reference" : "9198955f-efa0-4db1-bc42-4f509397beb7",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMayPrueba"
       },
       {
         "type" : "component",
@@ -316,7 +320,7 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
             "type" : "expression",
@@ -358,11 +362,15 @@
           "step" : {
             "type" : "constant",
             "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
-        "reference" : "64e2f197-415f-4fb4-b71c-18b9b9c20583",
+        "reference" : "2a6671d6-9c7d-4373-b8ba-f2771ec5d27a",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMayPrueba"
       }
     ],
     [
@@ -1141,11 +1149,11 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : 5
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "editarSec6 || objPadre.viveContigo"
+                  "value" : "editarSec6 || objPadre.viveContigo || bloqueoCelular"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -1185,9 +1193,9 @@
                   "value" : 1
                 }
               },
-              "reference" : "d076c8d3-a500-4f96-95c8-490c36e8d062",
+              "reference" : "82ae7f35-8f08-4348-b17b-d77249b08733",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "customInputNumerico"
             }
           ],
           [
@@ -2019,11 +2027,11 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : 10
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "editarSec6 || objPadre.viveContigo"
+                  "value" : "editarSec6 || objPadre.viveContigo || bloqueoCelular"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -2063,9 +2071,9 @@
                   "value" : 1
                 }
               },
-              "reference" : "110a7e9c-a361-42fc-b72d-786f27d13e5a",
+              "reference" : "ff9194b7-af63-4995-af24-0792a5d35b76",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "customInputNumerico"
             }
           ]
         ]
@@ -2344,6 +2352,20 @@
       "type" : "expression",
       "value" : [
         "return false;"
+      ],
+      "exposed" : false
+    },
+    "bloqueoCelular" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : false
+    },
+    "telefonoMaxLength" : {
+      "type" : "expression",
+      "value" : [
+        "return 10;"
       ],
       "exposed" : false
     }

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "frmInfoMadreRevisionPrueba2",
   "name" : "frmInfoMadreRevisionPrueba2",
-  "lastUpdate" : 1691575763383,
+  "lastUpdate" : 1691784996336,
   "rows" : [
     [
       {
@@ -229,7 +229,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "objMadre.desconozcoDatosPadres"
+            "value" : ""
           },
           "required" : {
             "type" : "constant",
@@ -241,7 +241,7 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
             "type" : "expression",
@@ -283,11 +283,15 @@
           "step" : {
             "type" : "constant",
             "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
-        "reference" : "0f0193b9-800b-479c-accc-b3058639a6b3",
+        "reference" : "543210c4-9679-4c85-873a-018cb0d0ded4",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMayPrueba"
       },
       {
         "type" : "component",
@@ -316,7 +320,7 @@
           },
           "maxLength" : {
             "type" : "constant",
-            "value" : ""
+            "value" : 1
           },
           "readOnly" : {
             "type" : "expression",
@@ -358,11 +362,15 @@
           "step" : {
             "type" : "constant",
             "value" : 1
+          },
+          "idInput" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
-        "reference" : "f06ca273-b74c-42a6-bbfb-a473ce85b15f",
+        "reference" : "fdecc37f-9ecf-47fb-b36a-44b3be091f7f",
         "hasValidationError" : false,
-        "id" : "pbInput"
+        "id" : "customInputMinMayPrueba"
       }
     ],
     [
@@ -1142,11 +1150,11 @@
                 },
                 "maxLength" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : 5
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "editarSec7 || objMadre.viveContigo"
+                  "value" : "editarSec7 || objMadre.viveContigo || bloqueoCelular"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -1186,9 +1194,9 @@
                   "value" : 1
                 }
               },
-              "reference" : "57fb558a-fcb2-4aa8-b1a0-a66b129e4f17",
+              "reference" : "1199ea2a-b33c-472e-b451-78a0af71c70e",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "customInputNumerico"
             }
           ],
           [
@@ -1943,12 +1951,12 @@
                   "value" : ""
                 },
                 "maxLength" : {
-                  "type" : "constant",
-                  "value" : ""
+                  "type" : "expression",
+                  "value" : "telefonoMaxLength"
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "editarSec7 || objMadre.viveContigo"
+                  "value" : "editarSec7 || objMadre.viveContigo || bloqueoCelular"
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -1956,7 +1964,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Teléfono:"
+                  "value" : "Teléfono"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -1988,9 +1996,9 @@
                   "value" : 1
                 }
               },
-              "reference" : "44097bea-0e0a-41ed-bc7b-f8f47ea06bc6",
+              "reference" : "d423efbd-d783-42db-abf5-1a064e26fc57",
               "hasValidationError" : false,
-              "id" : "pbInput"
+              "id" : "customInputNumerico"
             }
           ]
         ]
@@ -2235,6 +2243,17 @@
       "value" : [
         "return false;"
       ],
+      "exposed" : false
+    },
+    "telefonoMaxLength" : {
+      "type" : "expression",
+      "value" : [
+        "return 10;\r"
+      ],
+      "exposed" : false
+    },
+    "bloqueoCelular" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

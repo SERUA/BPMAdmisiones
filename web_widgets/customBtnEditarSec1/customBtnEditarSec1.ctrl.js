@@ -45,5 +45,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }else if($scope.properties.editarSec7 == true){
         $scope.properties.editarSec7 = false;
         }
+        if($scope.properties.editarSec8 == false){
+        $scope.properties.editarSec8 = true;
+        
+        }else if($scope.properties.editarSec8 == true){
+        $scope.properties.editarSec8 = false;
+        }
     }
 }
