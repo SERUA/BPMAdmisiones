@@ -2823,9 +2823,15 @@ class HubspotDAO {
 				
 				if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
 					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+					objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+					objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+					objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 				}
 				else {
 					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
+					objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+					objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+					objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 				}
 				lstDetalleSolicitud = objDetalleSolicitudDAO.findByCaseId(String.valueOf(lstCatRegistro.get(0).getCaseId()), 0, 1);
 				
