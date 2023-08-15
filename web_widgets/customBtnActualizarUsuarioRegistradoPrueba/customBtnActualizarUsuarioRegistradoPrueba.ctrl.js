@@ -32,20 +32,25 @@
                 if($scope.properties.editarSec1 == false){
                     if ($scope.properties.objSolicitudDeAdmision.catCampusEstudio === "") {
                         swal("¡Aviso!", "Debe agregar el campus donde se cursarán sus estudios.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catGestionEscolar === null) {
+                        return;
+                    } else if ($scope.properties.objSolicitudDeAdmision.catGestionEscolar === "") {
                         swal("¡Aviso!", "Debe seleccionar una licenciatura.", "warning");
+                        return;
                         /*}else if($scope.properties.objSolicitudDeAdmision.catPeriodo === null){
                             swal("¡Aviso!", "Debe seleccionar un periodo", "warning");*/
-                    } else if ($scope.properties.objSolicitudDeAdmision.catPeriodo === null) {
+                    } else if ($scope.properties.objSolicitudDeAdmision.catPeriodo === "") {
                         swal("¡Aviso!", "Debe seleccionar el periodo de ingreso.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catCampus === null) {
+                        return;
+                    } else if ($scope.properties.objSolicitudDeAdmision.catCampus === "") {
                         swal("¡Aviso!", "Debe seleccionar el campus de examen.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catPresentasteEnOtroCampus === null) {
+                        return;
+                    } else if ($scope.properties.objSolicitudDeAdmision.catPresentasteEnOtroCampus === "") {
                         swal("¡Aviso!", "Debe seleccionar si has presentado solicitud de admisión en otra universidad.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.correoElectronico === null) {
+                        return;
+                    } else if ($scope.properties.objSolicitudDeAdmision.correoElectronico === "") {
                         swal("¡Aviso!", "Debe ingresar correo electónico.", "warning");
-                        //FALTA AGREGAR CONCLUISTE, RESULTADO Y CAMPUS DONDE SE PRESENTÓ
-                    }else{
+                        return;
+                    } else{
                         $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
                         $scope.properties.JSONUsuarioRegistrado.catcampusestudio_pid = $scope.properties.objSolicitudDeAdmision.catCampusEstudio.persistenceId;
                         $scope.properties.JSONUsuarioRegistrado.catgestionescolar_pid = $scope.properties.objSolicitudDeAdmision.catGestionEscolar.persistenceId;
@@ -59,11 +64,17 @@
                             $scope.properties.JSONUsuarioRegistrado.catcampuspresentadosolicitud = null;
                         } else {
                             $scope.properties.JSONUsuarioRegistrado.catconcluisteproceso_pid = $scope.properties.objSolicitudDeAdmision.catConcluisteProceso ? $scope.properties.objSolicitudDeAdmision.catConcluisteProceso.persistenceId : null;
+                            if($scope.properties.objSolicitudDeAdmision.catConcluisteProceso === null){
+                                swal("¡Aviso!", "Debe seleccionar concluiste proceso de admisión.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catresultadoadmision_pid = $scope.properties.objSolicitudDeAdmision.catResultadoAdmision ? $scope.properties.objSolicitudDeAdmision.catResultadoAdmision.persistenceId : null;
-                            $scope.properties.JSONUsuarioRegistrado.catcampuspresentadosolicitud = $scope.properties.objSolicitudDeAdmision.catCampusPresentadoSolicitud;
+                            if($scope.properties.objSolicitudDeAdmision.catResultadoAdmision === null){
+                                swal("¡Aviso!", "Debe seleccionar el resultado de la admisión.", "warning");
+                                return;
+                            }
+                            //$scope.properties.JSONUsuarioRegistrado.catcampuspresentadosolicitud = $scope.properties.objSolicitudDeAdmision.catCampusPresentadoSolicitud;
                         }
-                        
-                        
                     }
                 } else if($scope.properties.editarSec2 == false){
                     if ($scope.properties.objSolicitudDeAdmision.primerNombre === "") {
@@ -161,8 +172,8 @@
                     } else {
                         $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
                         $scope.properties.JSONUsuarioRegistrado.catbachilleratos_pid = parseInt($scope.properties.objSolicitudDeAdmision.catBachilleratos.persistenceid);
-                        if($scope.properties.objSolicitudDeAdmision.catBachilleratos == "otro"){
-                            $scope.properties.JSONUsuarioRegistrado.descripcion = $scope.properties.datosPreparatoria.nombreBachillerato ? $scope.properties.datosPreparatoria.nombreBachillerato : null;
+                        if($scope.properties.objSolicitudDeAdmision.catBachilleratos.descripcion == "Otro"){
+                            $scope.properties.JSONUsuarioRegistrado.bachillerato = $scope.properties.objSolicitudDeAdmision.bachillerato ? $scope.properties.objSolicitudDeAdmision.bachillerato : null;
                         }
                         $scope.properties.JSONUsuarioRegistrado.estado = $scope.properties.datosPreparatoria.estadoBachillerato;
                         $scope.properties.JSONUsuarioRegistrado.pais = $scope.properties.datosPreparatoria.paisBachillerato;
@@ -170,35 +181,37 @@
                         $scope.properties.JSONUsuarioRegistrado.promediogeneral = $scope.properties.objSolicitudDeAdmision.promedioGeneral;
                     }
                 } else if($scope.properties.editarSec5 == false){
-                    if ($scope.properties.objSolicitudDeAdmision.catTitulo === "") {
+                    if ($scope.properties.datosJson.catTitulo === "") {
                         swal("¡Aviso!", "Debe seleccionar titulo.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catParentezco === "") {
+                    } else if ($scope.properties.datosJson.catParentezco === "") {
                         swal("¡Aviso!", "Debe seleccionar parentesco.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.nombre === "") {
+                    } else if ($scope.properties.datosJson.nombre === "") {
                         swal("¡Aviso!", "Debe agregar nombre.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.apellidos === "") {
+                    } else if ($scope.properties.datosJson.apellidos === "") {
                         swal("¡Aviso!", "Debe agregar apellido.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catCampusEgreso === "") {
+                    } else if ($scope.properties.datosJson.correoElectronico === "") {
+                        swal("¡Aviso!", "Debe agregar correo electrónico.", "warning");
+                    } else if ($scope.properties.datosJson.catEgresoAnahuac === "") {
                         swal("¡Aviso!", "Debe seleccionar egresó de la universidad Anahuac.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catTrabaja === "") {
+                    }  else if ($scope.properties.datosJson.catTrabaja === "") {
                         swal("¡Aviso!", "Debe seleccionar tutor trabaja.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catEscolaridad === "") {
+                    } else if ($scope.properties.datosJson.catEscolaridad === "") {
                         swal("¡Aviso!", "Debe seleccionar escolaridad del tutor.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catPais === "") {
+                    } else if ($scope.properties.datosJson.catPais === "") {
                         swal("¡Aviso!", "Debe seleccionar país.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.codigoPostal === "") {
+                    } else if ($scope.properties.datosJson.codigoPostal === "") {
                         swal("¡Aviso!", "Debe agregar código postal.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.catEstado === "") {
+                    } else if ($scope.properties.datosJson.catEstado === "") {
                         swal("¡Aviso!", "Debe agregar estado.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.ciudad === "") {
+                    } else if ($scope.properties.datosJson.ciudad === "") {
                         swal("¡Aviso!", "Debe agregar ciudad.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.colonia === "") {
+                    } else if ($scope.properties.datosJson.colonia === "") {
                         swal("¡Aviso!", "Debe agregar colonia.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.calle === "") {
+                    } else if ($scope.properties.datosJson.calle === "") {
                         swal("¡Aviso!", "Debe agregar calle.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.numeroExterior === "") {
+                    } else if ($scope.properties.datosJson.numeroExterior === "") {
                         swal("¡Aviso!", "Debe agregar numero exterior.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.telefono === "") {
+                    } else if ($scope.properties.datosJson.telefono === "") {
                         swal("¡Aviso!", "Debe agregar teléfono.", "warning");
                     } else {
                         $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
@@ -219,10 +232,34 @@
                         $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid = parseInt($scope.properties.datosJson.catEgresoAnahuac.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid = parseInt($scope.properties.datosJson.catTrabaja.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = parseInt($scope.properties.datosJson.catCampusEgreso.persistenceId);
+                        if($scope.properties.datosJson.catEgresoAnahuac.descripcion === "Sí"){
+                            if ($scope.properties.datosJson.catCampusEgreso.descripcion === "") {
+                                swal("¡Aviso!", "Debe agregar campus de egreso.", "warning");
+                                return;
+                            }
+                        }
                         $scope.properties.JSONUsuarioRegistrado.empresatrabaja = $scope.properties.datosJson.empresaTrabaja;
+                        if($scope.properties.datosJson.catTrabaja.descripcion == "Sí"){
+                            if ($scope.properties.datosJson.empresaTrabaja === "") {
+                                swal("¡Aviso!", "Debe ingresar empresa en la que trabaja.", "warning");
+                                return;
+                            }
+                        }
                         $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid = parseInt($scope.properties.datosJson.catEscolaridad.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.giroempresa = $scope.properties.datosJson.giroEmpresa;
+                        if($scope.properties.datosJson.catTrabaja.descripcion == "Sí"){
+                            if ($scope.properties.datosJson.giroEmpresa === "") {
+                                swal("¡Aviso!", "Debe ingresar giro de la empresa.", "warning");
+                                return;
+                            }
+                        }
                         $scope.properties.JSONUsuarioRegistrado.puesto = $scope.properties.datosJson.puesto;
+                        if($scope.properties.datosJson.catTrabaja.descripcion == "Sí"){
+                            if ($scope.properties.datosJson.puesto === "") {
+                                swal("¡Aviso!", "Debe ingresar puesto.", "warning");
+                                return;
+                            }
+                        }
                         $scope.properties.JSONUsuarioRegistrado.catpais_pid  = parseInt($scope.properties.datosJson.catPais.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.codigopostal  = $scope.properties.datosJson.codigoPostal;
                         $scope.properties.JSONUsuarioRegistrado.catestado_pid  = parseInt($scope.properties.datosJson.catEstado.persistenceId);
@@ -251,87 +288,246 @@
                         $scope.properties.JSONUsuarioRegistrado.cattitulo_pid = parseInt($scope.properties.objPadre.catTitulo.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.nombre = $scope.properties.objPadre.nombre;
                         $scope.properties.JSONUsuarioRegistrado.apellidos = $scope.properties.objPadre.apellidos;
+                        if ($scope.properties.objPadre.vive === "") {
+                            swal("¡Aviso!", "Debe seleccionar vive.", "warning");
+                            return;
+                        } else if($scope.properties.objPadre.catTitulo === ""){
+                            swal("¡Aviso!", "Debe seleccionar titulo.", "warning");
+                            return;
+                        } else if($scope.properties.objPadre.nombre === ""){
+                            swal("¡Aviso!", "Debe ingresar nombre.", "warning");
+                            return;
+                        } else if($scope.properties.objPadre.apellidos === ""){
+                            swal("¡Aviso!", "Debe ingresar apellido.", "warning");
+                            return;
+                        }
                         if($scope.properties.objPadre.vive.descripcion == "Sí"){
                             $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid = $scope.properties.objPadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objPadre.catEgresoAnahuac.persistenceId) : null;
+                            if ($scope.properties.objPadre.catEgresoAnahuac === "") {
+                                swal("¡Aviso!", "Debe seleccionar egresó de la universidad.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid = $scope.properties.objPadre.catTrabaja !== undefined ? parseInt($scope.properties.objPadre.catTrabaja.persistenceId) : null;
+                            if ($scope.properties.objPadre.catTrabaja === "") {
+                                swal("¡Aviso!", "Debe seleccionar trabaja.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = $scope.properties.objPadre.catCampusEgreso.persistenceId !== undefined && $scope.properties.objPadre.catCampusEgreso.persistenceId !== null ? parseInt($scope.properties.objPadre.catCampusEgreso.persistenceId) : null;
+                            if ($scope.properties.objPadre.catCampusEgreso === "") {
+                                swal("¡Aviso!", "Debe seleccionar campus de egreso.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.correoelectronico = $scope.properties.objPadre.correoElectronico !== undefined ? $scope.properties.objPadre.correoElectronico : null;
+                            if ($scope.properties.objPadre.correoElectronico === "") {
+                                swal("¡Aviso!", "Debe ingresar correo electónico.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.empresatrabaja = $scope.properties.objPadre.empresaTrabaja !== undefined ? $scope.properties.objPadre.empresaTrabaja : null;
+                            if ($scope.properties.objPadre.empresaTrabaja === "") {
+                                swal("¡Aviso!", "Debe ingresar empresa en la que trabaja.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.giroempresa = $scope.properties.objPadre.giroEmpresa !== undefined ? $scope.properties.objPadre.giroEmpresa : null;
+                            if ($scope.properties.objPadre.giroEmpresa === "") {
+                                swal("¡Aviso!", "Debe ingresar giro de la empresa.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid = $scope.properties.objPadre.catEscolaridad !== undefined ? parseInt($scope.properties.objPadre.catEscolaridad.persistenceId) : null;
+                            if ($scope.properties.objPadre.catEscolaridad  === "") {
+                                swal("¡Aviso!", "Debe seleccionar escolaridad del padre.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.puesto = $scope.properties.objPadre.puesto !== undefined ? $scope.properties.objPadre.puesto : null;
+                            if ($scope.properties.objPadre.puesto  === "") {
+                                swal("¡Aviso!", "Debe ingresar puesto.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.vivecontigo = $scope.properties.objPadre.viveContigo;
                             $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objPadre.catPais.persistenceId) : null;
+                            if ($scope.properties.objPadre.catPais  === "") {
+                                swal("¡Aviso!", "Debe seleccionar país.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.codigopostal = $scope.properties.objPadre.codigoPostal !== undefined ? $scope.properties.objPadre.codigoPostal : null;
+                            if ($scope.properties.objPadre.codigoPostal  === "") {
+                                swal("¡Aviso!", "Debe ingresar codigo postal.", "warning");
+                                return;
+                            }
                             //$scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objPadre.objPadreCatPais !== undefined ? parseInt($scope.properties.objPadre.objPadreCatPais.descripcion) : null;
                             $scope.properties.JSONUsuarioRegistrado.estadoextranjero = $scope.properties.objPadre.estadoExtranjero !== undefined ? $scope.properties.objPadre.estadoExtranjero : null;
+                            if($scope.properties.objPadre.catPais.descripcion != "México"){
+                                if ($scope.properties.objPadre.estadoExtranjero  === "") {
+                                    swal("¡Aviso!", "Debe ingresar estado extranjero.", "warning");
+                                    return;
+                                }
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catestado_pid = $scope.properties.objPadre.catEstado !== undefined ? parseInt($scope.properties.objPadre.catEstado.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.ciudad = $scope.properties.objPadre.ciudad !== undefined ? $scope.properties.objPadre.ciudad : null;
+                            if ($scope.properties.objPadre.ciudad  === "") {
+                                swal("¡Aviso!", "Debe ingresar ciudad.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.delegacionmunicipio = $scope.properties.objPadre.delegacionMunicipio !== undefined ? $scope.properties.objPadre.delegacionMunicipio : null;
                             $scope.properties.JSONUsuarioRegistrado.colonia = $scope.properties.objPadre.colonia !== undefined ? $scope.properties.objPadre.colonia : null;
                             $scope.properties.JSONUsuarioRegistrado.calle = $scope.properties.objPadre.calle !== undefined ? $scope.properties.objPadre.calle : null;
+                            if ($scope.properties.objPadre.calle  === "") {
+                                swal("¡Aviso!", "Debe ingresar calle.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.numeroexterior = $scope.properties.objPadre.numeroExterior !== undefined ? $scope.properties.objPadre.numeroExterior : null;
+                            if ($scope.properties.objPadre.numeroExterior  === "") {
+                                swal("¡Aviso!", "Debe ingresar numero exterior.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.numerointerior = $scope.properties.objPadre.numeroInterior !== undefined ? $scope.properties.objPadre.numeroInterior : null;
                             $scope.properties.JSONUsuarioRegistrado.telefono = $scope.properties.objPadre.telefono !== undefined ? $scope.properties.objPadre.telefono : null;
+                            if ($scope.properties.objPadre.telefono  === "") {
+                                swal("¡Aviso!", "Debe ingresar telefono.", "warning");
+                                return;
+                            }
                         }
                     }
                 } else if($scope.properties.editarSec7 == false){
-                    
+                    debugger;
                     $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
+                    $scope.properties.JSONUsuarioRegistrado.persistenceid = $scope.properties.objMadre.persistenceId;
                     $scope.properties.JSONUsuarioRegistrado.desconozcodatospadres = $scope.properties.objMadre.desconozcoDatosPadres;
                     if($scope.properties.objMadre.desconozcoDatosPadres == false){
                         $scope.properties.JSONUsuarioRegistrado.vive_pid = parseInt($scope.properties.objMadre.vive.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.cattitulo_pid = parseInt($scope.properties.objMadre.catTitulo.persistenceId);
                         $scope.properties.JSONUsuarioRegistrado.nombre = $scope.properties.objMadre.nombre;
                         $scope.properties.JSONUsuarioRegistrado.apellidos = $scope.properties.objMadre.apellidos;
+                        if ($scope.properties.objMadre.vive === "") {
+                            swal("¡Aviso!", "Debe seleccionar vive.", "warning");
+                            return;
+                        } else if($scope.properties.objMadre.catTitulo === ""){
+                            swal("¡Aviso!", "Debe seleccionar titulo.", "warning");
+                            return;
+                        } else if($scope.properties.objMadre.nombre === ""){
+                            swal("¡Aviso!", "Debe ingresar nombre.", "warning");
+                            return;
+                        } else if($scope.properties.objMadre.apellidos === ""){
+                            swal("¡Aviso!", "Debe ingresar apellido.", "warning");
+                            return;
+                        }
                         if($scope.properties.objMadre.vive.descripcion == "Sí"){
                             $scope.properties.JSONUsuarioRegistrado.categresoanahuac_pid = $scope.properties.objMadre.catEgresoAnahuac !== undefined ? parseInt($scope.properties.objMadre.catEgresoAnahuac.persistenceId) : null;
+                            if ($scope.properties.objMadre.catEgresoAnahuac === "") {
+                                swal("¡Aviso!", "Debe seleccionar egresó de la universidad.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.cattrabaja_pid = $scope.properties.objMadre.catTrabaja !== undefined ? parseInt($scope.properties.objMadre.catTrabaja.persistenceId) : null;
+                            if ($scope.properties.objMadre.catTrabaja === "") {
+                                swal("¡Aviso!", "Debe seleccionar trabaja.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catcampusegreso_pid = $scope.properties.objMadre.catCampusEgreso.persistenceId !== undefined && $scope.properties.objMadre.catCampusEgreso.persistenceId !== null ? parseInt($scope.properties.objMadre.catCampusEgreso.persistenceId) : null;
+                            if ($scope.properties.objMadre.catCampusEgreso === "") {
+                                swal("¡Aviso!", "Debe seleccionar campus de egreso.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.correoelectronico = $scope.properties.objMadre.correoElectronico !== undefined ? $scope.properties.objMadre.correoElectronico : null;
+                            if ($scope.properties.objMadre.correoElectronico === "") {
+                                swal("¡Aviso!", "Debe ingresar correo electónico.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.empresatrabaja = $scope.properties.objMadre.empresaTrabaja !== undefined ? $scope.properties.objMadre.empresaTrabaja : null;
+                            if ($scope.properties.objMadre.empresaTrabaja === "") {
+                                swal("¡Aviso!", "Debe ingresar empresa en la que trabaja.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.giroempresa = $scope.properties.objMadre.giroEmpresa !== undefined ? $scope.properties.objMadre.giroEmpresa : null;
+                            if ($scope.properties.objMadre.giroEmpresa === "") {
+                                swal("¡Aviso!", "Debe ingresar giro de la empresa.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catescolaridad_pid = $scope.properties.objMadre.catEscolaridad !== undefined ? parseInt($scope.properties.objMadre.catEscolaridad.persistenceId) : null;
+                            if ($scope.properties.objMadre.catEscolaridad  === "") {
+                                swal("¡Aviso!", "Debe seleccionar escolaridad del padre.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.puesto = $scope.properties.objMadre.puesto !== undefined ? $scope.properties.objMadre.puesto : null;
+                            if ($scope.properties.objMadre.puesto  === "") {
+                                swal("¡Aviso!", "Debe ingresar puesto.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.vivecontigo = $scope.properties.objMadre.viveContigo;
                             $scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objMadre.catPais.persistenceId !== undefined ? parseInt($scope.properties.objMadre.catPais.persistenceId) : null;
+                            if ($scope.properties.objMadre.catPais  === "") {
+                                swal("¡Aviso!", "Debe seleccionar país.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.codigopostal = $scope.properties.objMadre.codigoPostal !== undefined ? $scope.properties.objMadre.codigoPostal : null;
+                            if ($scope.properties.objMadre.codigoPostal  === "") {
+                                swal("¡Aviso!", "Debe ingresar codigo postal.", "warning");
+                                return;
+                            }
                             //$scope.properties.JSONUsuarioRegistrado.catpais_pid = $scope.properties.objMadre.objMadreCatPais !== undefined ? parseInt($scope.properties.objMadre.objMadreCatPais.descripcion) : null;
                             $scope.properties.JSONUsuarioRegistrado.estadoextranjero = $scope.properties.objMadre.estadoExtranjero !== undefined ? $scope.properties.objMadre.estadoExtranjero : null;
+                            if($scope.properties.objMadre.catPais.descripcion != "México"){
+                                if ($scope.properties.objMadre.estadoExtranjero  === "") {
+                                    swal("¡Aviso!", "Debe ingresar estado extranjero.", "warning");
+                                    return;
+                                }
+                            }
                             $scope.properties.JSONUsuarioRegistrado.catestado_pid = $scope.properties.objMadre.catEstado !== undefined ? parseInt($scope.properties.objMadre.catEstado.persistenceId) : null;
                             $scope.properties.JSONUsuarioRegistrado.ciudad = $scope.properties.objMadre.ciudad !== undefined ? $scope.properties.objMadre.ciudad : null;
+                            if ($scope.properties.objMadre.ciudad  === "") {
+                                swal("¡Aviso!", "Debe ingresar ciudad.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.delegacionmunicipio = $scope.properties.objMadre.delegacionMunicipio !== undefined ? $scope.properties.objMadre.delegacionMunicipio : null;
                             $scope.properties.JSONUsuarioRegistrado.colonia = $scope.properties.objMadre.colonia !== undefined ? $scope.properties.objMadre.colonia : null;
                             $scope.properties.JSONUsuarioRegistrado.calle = $scope.properties.objMadre.calle !== undefined ? $scope.properties.objMadre.calle : null;
+                            if ($scope.properties.objMadre.calle  === "") {
+                                swal("¡Aviso!", "Debe ingresar calle.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.numeroexterior = $scope.properties.objMadre.numeroExterior !== undefined ? $scope.properties.objMadre.numeroExterior : null;
+                            if ($scope.properties.objMadre.numeroExterior  === "") {
+                                swal("¡Aviso!", "Debe ingresar numero exterior.", "warning");
+                                return;
+                            }
                             $scope.properties.JSONUsuarioRegistrado.numerointerior = $scope.properties.objMadre.numeroInterior !== undefined ? $scope.properties.objMadre.numeroInterior : null;
                             $scope.properties.JSONUsuarioRegistrado.telefono = $scope.properties.objMadre.telefono !== undefined ? $scope.properties.objMadre.telefono : null;
+                            if ($scope.properties.objMadre.telefono  === "") {
+                                swal("¡Aviso!", "Debe ingresar telefono.", "warning");
+                                return;
+                            }
                         }
                     }
                 } else if($scope.properties.editarSec8 == false){
                     debugger;
                     $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
 
-                    var registrosAcumulados = [];
+var registrosAcumulados = [];
 
-                    // Recorrer los contactos de contactoEmergencia
-                    for (var i = 0; i < $scope.properties.contactoEmergencia.length; i++) {
-                        var contacto = $scope.properties.contactoEmergencia[i];
-                        
-                        // Crear un objeto para almacenar los datos del contacto actual
-                        var datosContacto = {
-                            nombre: contacto.nombre,
-                            parentesco: contacto.parentesco,
-                            telefono: contacto.telefono,
-                            telefonocelular: contacto.telefonoCelular
-                        };
+// Recorrer los contactos de contactoEmergencia
+for (var i = 0; i < $scope.properties.contactoEmergencia.length; i++) {
+    var contacto = $scope.properties.contactoEmergencia[i];
+    
+    // Obtener la descripción del parentesco del contacto actual
+    var parentescoDescripcion = contacto.parentesco;
 
-                        // Agregar el objeto al arreglo de registros acumulados
-                        registrosAcumulados.push(datosContacto);
-                    }
+    // Buscar el parentesco coincidente en el array catParentesco
+    const matchingParentesco = $scope.properties.catParentesco.find(parentesco => parentesco.descripcion === parentescoDescripcion);
 
-                    // Asignar el arreglo de registros acumulados a JSONUsuarioRegistrado
-                    $scope.properties.JSONUsuarioRegistrado.registrosAcumulados = registrosAcumulados;
+    // Crear un objeto para almacenar los datos del contacto actual
+    var datosContacto = {
+        nombre: contacto.nombre,
+        parentesco: parentescoDescripcion, // Usar la descripción del parentesco
+        telefono: contacto.telefono,
+        telefonocelular: contacto.telefonoCelular,
+        catcasodeemergencia_pid: contacto.catCasoDeEmergencia.persistenceId,
+        catparentesco_pid: matchingParentesco ? matchingParentesco.persistenceId : null
+    };
+
+    // Agregar el objeto al arreglo de registros acumulados
+    registrosAcumulados.push(datosContacto);
+}
+
+// Asignar el arreglo de registros acumulados a JSONUsuarioRegistrado
+$scope.properties.JSONUsuarioRegistrado.registrosAcumulados = registrosAcumulados;
                 }
 
                 

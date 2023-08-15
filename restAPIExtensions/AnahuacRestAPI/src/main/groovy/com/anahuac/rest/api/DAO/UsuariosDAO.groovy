@@ -4375,15 +4375,20 @@ class UsuariosDAO {
 				pstm.close()
 				
 				if(valores.catbachilleratos_pid == 1){
-					String consulta2 = Statements.UPDATE_USUARIOS_REGISTRADOS_SEC42
+					String consulta2 = "UPDATE CatBachilleratos SET estado = ?, pais = ?, ciudad = ? WHERE persistenceid = (SELECT catbachilleratos_pid FROM solicituddeadmision WHERE caseid = ?)"
 					pstm = con.prepareStatement(consulta2)
-					pstm.setInt(1, valores.persistenceid = 1)
-					pstm.setString(2, valores.descripcion = "Otro") // Reemplaza 'valores.descripcion' con el valor real
-					pstm.setString(3, valores.estado) // Reemplaza 'valores.estado' con el valor real
-					pstm.setString(4, valores.pais) // Reemplaza 'valores.pais' con el valor real
-					pstm.setString(5, valores.ciudad) // Reemplaza 'valores.ciudad' con el valor real
-					pstm.setInt(6, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+					pstm.setString(1, valores.estado) // Reemplaza 'valores.estado' con el valor real
+					pstm.setString(2, valores.pais) // Reemplaza 'valores.pais' con el valor real
+					pstm.setString(3, valores.ciudad) // Reemplaza 'valores.ciudad' con el valor real
+					pstm.setInt(4, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
 					int filasActualizadas2 = pstm.executeUpdate()
+					pstm.close()
+					
+					String consulta3 = "UPDATE solicituddeadmision SET bachillerato = ? WHERE caseid = ?"
+					pstm = con.prepareStatement(consulta3)
+					pstm.setString(1, valores.bachillerato)
+					pstm.setInt(2, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
+					int filasActualizadas3 = pstm.executeUpdate()
 					pstm.close()
 				}
 				con.commit()
@@ -4745,39 +4750,51 @@ class UsuariosDAO {
 			} else if(valores.editarSec8 == false) {
 				con.setAutoCommit(false)
 
-// Obtener los persistenceid que coinciden con el caseid
-def persistenceids = []
-
-def consultaSelect = "SELECT persistenceid FROM ContactoEmergencias WHERE caseid = ?"
-def pstmSelect = con.prepareStatement(consultaSelect)
-pstmSelect.setInt(1, valores.caseid)
-
-def rs = pstmSelect.executeQuery()
-while (rs.next()) {
-    persistenceids.add(rs.getInt("persistenceid"))
-}
-rs.close()
-pstmSelect.close()
-
-def registrosIterator = valores.registrosAcumulados.iterator()
-
-persistenceids.each { persistenceid ->
-    def registro = registrosIterator.hasNext() ? registrosIterator.next() : null
-
-    def consultaUpdate = "UPDATE ContactoEmergencias SET nombre = ?, parentesco = ?, telefono = ?, telefonocelular = ? WHERE persistenceid = ?"
-    def pstmUpdate = con.prepareStatement(consultaUpdate)
-
-    pstmUpdate.setString(1, registro?.nombre ?: null)
-    pstmUpdate.setString(2, registro?.parentesco ?: null)
-    pstmUpdate.setString(3, registro?.telefono ?: null)
-    pstmUpdate.setString(4, registro?.telefonocelular ?: null)
-    pstmUpdate.setInt(5, persistenceid)
-
-    pstmUpdate.executeUpdate()
-    pstmUpdate.close()
-}
-
-con.commit()
+			// Obtener los persistenceid que coinciden con el caseid
+			def persistenceids = []
+			
+			def consultaSelect = "SELECT persistenceid FROM ContactoEmergencias WHERE caseid = ?"
+			def pstmSelect = con.prepareStatement(consultaSelect)
+			pstmSelect.setInt(1, valores.caseid)
+			
+			def rs = pstmSelect.executeQuery()
+			while (rs.next()) {
+			    persistenceids.add(rs.getInt("persistenceid"))
+			}
+			rs.close()
+			pstmSelect.close()
+			
+			def registrosIterator = valores.registrosAcumulados.iterator()
+			
+			persistenceids.each { persistenceid ->
+			    def registro = registrosIterator.hasNext() ? registrosIterator.next() : null
+			
+			    def consultaUpdate = "UPDATE ContactoEmergencias SET nombre = ?, parentesco = ?, telefono = ?, telefonocelular = ?, catcasodeemergencia_pid = ?, catparentesco_pid = ? WHERE persistenceid = ?"
+			    def pstmUpdate = con.prepareStatement(consultaUpdate)
+			
+			    pstmUpdate.setString(1, registro?.nombre ?: null)
+			    pstmUpdate.setString(2, registro?.parentesco ?: null)
+			    pstmUpdate.setString(3, registro?.telefono ?: null)
+			    pstmUpdate.setString(4, registro?.telefonocelular ?: null)
+				// Usar setNull para manejar valores nulos
+    if (registro?.catcasodeemergencia_pid != null) {
+        pstmUpdate.setInt(5, registro.catcasodeemergencia_pid)
+    } else {
+        pstmUpdate.setNull(5, Types.INTEGER)
+    }
+    
+    if (registro?.catparentesco_pid != null) {
+        pstmUpdate.setInt(6, registro.catparentesco_pid)
+    } else {
+        pstmUpdate.setNull(6, Types.INTEGER)
+    }
+			    pstmUpdate.setInt(7, persistenceid)
+			
+			    pstmUpdate.executeUpdate()
+			    pstmUpdate.close()
+			}
+			
+			con.commit()
 
 			}
 			
