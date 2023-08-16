@@ -16,12 +16,14 @@ function PbAutocompleteCtrl($scope, $parse, $log, widgetNameFactory) {
     }
 
     $scope.testblur = function() {
+        debugger;
         $scope.properties.urlCollageBoard = "";
         $scope.properties.isPDFCollageBoard = "true";
         $scope.properties.isImagenCollage = "true";
         $scope.properties.collageBoard = "";
 
         setTimeout(function() {
+            debugger;
             var otro = true;
 
             $scope.properties.urlCollageBoard = "";
@@ -53,14 +55,15 @@ function PbAutocompleteCtrl($scope, $parse, $log, widgetNameFactory) {
     }
 
     $scope.$watch("properties.objSolicitudDeAdmision.catBachilleratos.descripcion", function() {
+        debugger;
         if (!$scope.llenoEntero) {
             if ($scope.properties.objSolicitudDeAdmision.catBachilleratos.descripcion !== null || $scope.properties.objSolicitudDeAdmision.catBachilleratos.descripcion !== undefined) {
                 $scope.properties.value = $scope.properties.objSolicitudDeAdmision.catBachilleratos.descripcion;
                 if ($scope.properties.objSolicitudDeAdmision.catBachilleratos.descripcion === "Otro") {
                     $scope.properties.datosPreparatoria.nombreBachillerato = $scope.properties.objSolicitudDeAdmision.bachillerato;
-                    $scope.properties.datosPreparatoria.paisBachillerato = $scope.properties.objSolicitudDeAdmision.paisBachillerato;
-                    $scope.properties.datosPreparatoria.estadoBachillerato = $scope.properties.objSolicitudDeAdmision.estadoBachillerato;
-                    $scope.properties.datosPreparatoria.ciudadBachillerato = $scope.properties.objSolicitudDeAdmision.ciudadBachillerato;
+                    $scope.properties.datosPreparatoria.paisBachillerato = $scope.properties.objSolicitudDeAdmision.catBachilleratos.pais;
+                    $scope.properties.datosPreparatoria.estadoBachillerato = $scope.properties.objSolicitudDeAdmision.catBachilleratos.estado;
+                    $scope.properties.datosPreparatoria.ciudadBachillerato = $scope.properties.objSolicitudDeAdmision.catBachilleratos.ciudad;
                     $scope.llenoEntero = true;
                 } else {
                     $scope.llenoEntero = true;
