@@ -4390,15 +4390,6 @@ class UsuariosDAO {
 					pstm.setInt(2, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
 					int filasActualizadas3 = pstm.executeUpdate()
 					pstm.close()
-					
-					String consulta4 = "UPDATE solicituddeadmision SET bachillerato = ?, estado = ?, pais = ?, ciudad = ? WHERE caseid = ?"
-					pstm = con.prepareStatement(consulta4)
-					pstm.setString(1, valores.estado) // Reemplaza 'valores.estado' con el valor real
-					pstm.setString(2, valores.pais) // Reemplaza 'valores.pais' con el valor real
-					pstm.setString(3, valores.ciudad) // Reemplaza 'valores.ciudad' con el valor real
-					pstm.setInt(4, valores.caseid) // Reemplaza 'valores.caseid' con el valor real
-					int filasActualizadas4 = pstm.executeUpdate()
-					pstm.close()
 				}
 				con.commit()
 				
