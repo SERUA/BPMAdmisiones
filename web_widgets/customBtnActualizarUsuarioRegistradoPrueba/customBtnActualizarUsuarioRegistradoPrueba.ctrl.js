@@ -157,18 +157,24 @@
                         $scope.properties.JSONUsuarioRegistrado.otrotelefonocontacto = $scope.properties.objSolicitudDeAdmision.otroTelefonoContacto;
                     }
                 } else if($scope.properties.editarSec4 == false){
-                    if ($scope.properties.objSolicitudDeAdmision.catBachilleratos === "") {
+                    if (!$scope.properties.objSolicitudDeAdmision.catBachilleratos || $scope.properties.objSolicitudDeAdmision.catBachilleratos === "") {
                         swal("¡Aviso!", "Debe agregar bachillerato.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.nombreBachillerato === "") {
+                        return;
+                    } else if (!$scope.properties.objSolicitudDeAdmision.bachillerato || $scope.properties.objSolicitudDeAdmision.bachillerato === "") {
                         swal("¡Aviso!", "Debe agregar nombre del bachillerato.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.estadoBachillerato === "") {
+                        return;
+                    } else if (!$scope.properties.datosPreparatoria.estadoBachillerato || $scope.properties.datosPreparatoria.estadoBachillerato === "") {
                         swal("¡Aviso!", "Debe agregar estado de bachillerato.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.paisBachillerato === "") {
+                        return;
+                    } else if (!$scope.properties.datosPreparatoria.paisBachillerato || $scope.properties.datosPreparatoria.paisBachillerato === "") {
                         swal("¡Aviso!", "Debe agregar país de bachillerato.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.ciudadBachillerato === "") {
+                        return;
+                    } else if (!$scope.properties.datosPreparatoria.ciudadBachillerato || $scope.properties.datosPreparatoria.ciudadBachillerato === "") {
                         swal("¡Aviso!", "Debe agregar ciudad de bachillerato.", "warning");
-                    } else if ($scope.properties.objSolicitudDeAdmision.promedioGeneral === "") {
+                        return;
+                    } else if (!$scope.properties.objSolicitudDeAdmision.promedioGeneral || $scope.properties.objSolicitudDeAdmision.promedioGeneral === "") {
                         swal("¡Aviso!", "Debe agregar promedio general.", "warning");
+                        return;
                     } else {
                         $scope.properties.JSONUsuarioRegistrado.caseid = $scope.properties.objSolicitudDeAdmision.caseId;
                         $scope.properties.JSONUsuarioRegistrado.catbachilleratos_pid = parseInt($scope.properties.objSolicitudDeAdmision.catBachilleratos.persistenceid);
