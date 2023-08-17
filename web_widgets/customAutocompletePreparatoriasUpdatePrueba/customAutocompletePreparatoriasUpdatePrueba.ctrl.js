@@ -35,7 +35,9 @@ function PbAutocompleteCtrl($scope, $parse, $log, widgetNameFactory) {
                 if ($scope.properties.value === $scope.properties.availableValues[x].descripcion) {
                     otro = false;
                     if ($scope.properties.availableValues[x].descripcion === "Otro") {
+                        debugger;
                         $scope.properties.datosPreparatoria.nombreBachillerato = null;
+                        $scope.properties.objSolicitudDeAdmision.bachillerato = null;
                         $scope.properties.datosPreparatoria.paisBachillerato = null;
                         $scope.properties.datosPreparatoria.estadoBachillerato = null;
                         $scope.properties.datosPreparatoria.ciudadBachillerato = null;
@@ -45,13 +47,15 @@ function PbAutocompleteCtrl($scope, $parse, $log, widgetNameFactory) {
                 }
             }
             if (otro) {
+                debugger;
                 $scope.properties.datosPreparatoria.nombreBachillerato = $scope.properties.value;
+                $scope.properties.objSolicitudDeAdmision.bachillerato = "";
                 $scope.properties.datosPreparatoria.paisBachillerato = "";
                 $scope.properties.datosPreparatoria.estadoBachillerato = "";
                 $scope.properties.datosPreparatoria.ciudadBachillerato = "";
                 $scope.properties.value = "Otro";
             }
-        }, 500);
+        }, 1);
     }
 
     $scope.$watch("properties.objSolicitudDeAdmision.catBachilleratos.descripcion", function() {

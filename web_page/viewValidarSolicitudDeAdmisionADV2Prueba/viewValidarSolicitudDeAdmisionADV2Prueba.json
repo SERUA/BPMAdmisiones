@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "viewValidarSolicitudDeAdmisionADV2Prueba",
   "name" : "viewValidarSolicitudDeAdmisionADV2Prueba",
-  "lastUpdate" : 1692211226993,
+  "lastUpdate" : 1692231334141,
   "rows" : [
     [
       {
@@ -5197,7 +5197,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : "datosPreparatoria.bachillerato"
+                                    "value" : "objSolicitudDeAdmision.bachillerato"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -28683,7 +28683,9 @@
         "            countIntento: it.nombre !== undefined  ?  ($data.selectedIndexFamiliar!== 0?null:($data.objSolicitudDeAdmision.countRechazos == null?0:$data.objSolicitudDeAdmision.countRechazos) ) : null\r",
         "\t\t}))\r",
         "\t}\r",
-        "}"
+        "\tdebugger;\r",
+        "}\r",
+        "debugger;"
       ],
       "exposed" : false
     },
@@ -28721,6 +28723,7 @@
         "//$data.formInput.solicitudDeAdmisionInput.idCatCampus = $data.campusSelected;\r",
         "//$data.formInput.catSolicitudDeAdmisionInput.correoElectronico = $data.users.user_name;\r",
         "//\r",
+        "debugger;\r",
         "$data.formOutput.detalleSolicitudInput.isCurpValidado = $data.isCurpValidado;\r",
         "if ($data.descuentoManual) {\r",
         "console.log(1)\r",
@@ -28744,11 +28747,12 @@
         "}\r",
         "\r",
         "}\r",
-        "\r",
+        "debugger;\r",
         "//$data.formOutput.detalleSolicitudInput.tipoAlumno = $data.tipoAlumno;\r",
         "if ($data.getPagoExamen.length > 0) {\r",
         "$data.formOutput.detalleSolicitudInput.catPagoDeExamenDeAdmision = $data.getPagoExamen[0];\r",
-        "}"
+        "}\r",
+        "debugger;"
       ],
       "exposed" : false
     },
@@ -29259,6 +29263,7 @@
       "type" : "expression",
       "value" : [
         "debugger;\r",
+        "\r",
         "var mostrar = true;\r",
         "if($data.preparatoriaSeleccionada === \"Otro\"){\r",
         "    for (var x = 0; x < $data.catBachillerato2.length; x++) {\r",
@@ -30814,6 +30819,7 @@
     "lstInformacionEscolarModFiltro" : {
       "type" : "expression",
       "value" : [
+        "debugger;",
         "var retorno=[]",
         "try{",
         "    retorno=JSON.parse(JSON.stringify($data.lstInformacionEscolarMod));",
@@ -30981,6 +30987,7 @@
     "setValoresCP" : {
       "type" : "expression",
       "value" : [
+        "\r",
         "$data.haveCiudad = false;\r",
         "$data.haveCiudadPadre = false;\r",
         "$data.haveCiudadMadre = false;\r",
@@ -31093,7 +31100,7 @@
         "                $data.jsonModificarTutor.colonia = $data.cp.asentamiento\r",
         "            }\r",
         "        }\r",
-        "    }\r"
+        "    }"
       ],
       "exposed" : false
     },
@@ -31177,19 +31184,23 @@
       "type" : "expression",
       "value" : [
         "debugger;\r",
+        "function capitalizeText(text) {\r",
+        "    return text.charAt(0).toUpperCase() + text.slice(1);\r",
+        "}\r",
+        "\r",
         "if( $data.preparatoriaSeleccionada == \"Otro\" && $data.datosPreparatoria.nombreBachillerato != null && $data.datosPreparatoria.nombreBachillerato.trim().length>0){\r",
         "    $data.datosPreparatoria.nombreBachillerato = capitalizeText($data.datosPreparatoria.nombreBachillerato);\r",
         "}\r",
         "\r",
-        "\r",
+        "debugger;\r",
         "if( $data.preparatoriaSeleccionada == \"Otro\" && $data.datosPreparatoria.estadoBachillerato != null && $data.datosPreparatoria.estadoBachillerato.trim().length>0){\r",
         "    $data.datosPreparatoria.estadoBachillerato = capitalizeText( $data.datosPreparatoria.estadoBachillerato);\r",
         "}\r",
-        "\r",
+        "debugger;\r",
         "if( $data.preparatoriaSeleccionada == \"Otro\" && $data.datosPreparatoria.ciudadBachillerato != null && $data.datosPreparatoria.ciudadBachillerato.trim().length>0){\r",
         "    $data.datosPreparatoria.ciudadBachillerato = capitalizeText( $data.datosPreparatoria.ciudadBachillerato);\r",
         "}\r",
-        "\r",
+        "debugger;\r",
         "if( $data.preparatoriaSeleccionada == \"Otro\" && $data.datosPreparatoria.paisBachillerato != null && $data.datosPreparatoria.paisBachillerato.trim().length>0){\r",
         "    $data.datosPreparatoria.paisBachillerato = capitalizeText( $data.datosPreparatoria.paisBachillerato);\r",
         "}\r"
@@ -31200,6 +31211,7 @@
       "type" : "expression",
       "value" : [
         "//if(!$data.tienePAA && $data.catSolicitudDeAdmision.catBachilleratos.pertenecered === \"f\"){",
+        "debugger;",
         "if(!$data.objSolicitudDeAdmision.tienePAA){",
         "    $data.urlCollageBoard = \"\";",
         "    $data.isPDFCollageBoard = \"true\";",
