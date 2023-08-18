@@ -1395,9 +1395,11 @@ class PDFDocumentDAO {
 				columns.put("porcentajeBecaSolicitada", rs.getString("porcentajebeca") != null ? rs.getString("porcentajebeca") : "N/A");
 				String fechaAutoriza = buildDate(rs.getString("fechaautorizacion"));
 				columns.put("fecha", fechaAutoriza);
-				String usuarioAutoriza = rs.getString("usuarioautoriza")
-				usuarioAutoriza = usuarioAutoriza.replaceAll(/(?<=[a-z])(?=[A-Z])/,' ')
-				columns.put("autoriza", usuarioAutoriza)
+				String usuarioAutoriza = rs.getString("usuarioautoriza");
+				if (usuarioAutoriza != null) {
+				    usuarioAutoriza = usuarioAutoriza.replaceAll(/(?<=[a-z])(?=[A-Z])/,' ');
+				}
+				columns.put("autoriza", usuarioAutoriza != null ? usuarioAutoriza : null);
 				columns.put("comentarioComite", rs.getString("cambiosSolicitudAutorizacionText"));
 				columns.put("tipoMoneda", rs.getString("tipomoneda"));
 				columns.put("tipoMonedaCompleto", rs.getString("tipomonedacompleto"));
