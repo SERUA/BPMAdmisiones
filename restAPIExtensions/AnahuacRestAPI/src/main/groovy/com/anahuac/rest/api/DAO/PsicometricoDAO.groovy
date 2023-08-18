@@ -1655,7 +1655,7 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 
 			assert object instanceof Map;
 			//AND ((SELECT COUNT(persistenceid) FROM TestPsicometrico as TP2 WHERE TP2.countRechazo = TP.countRechazo) = 0)
-			where += " WHERE sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false ) AND ((SELECT COUNT(persistenceid) FROM TestPsicometrico as TP2 WHERE TP2.caseid = sda.caseid::varchar AND TP2.countRechazo = CASE WHEN sda.countrechazos IS NULL THEN 0 ELSE sda.countrechazos END) = 0) "
+			where += " WHERE sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false )"
 			if (object.campus != null) {
 				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
 			}
