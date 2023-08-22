@@ -5167,7 +5167,7 @@ class SesionesDAO {
 		Long caseId = 0L;
 		Long total = 0L;
 		List<PruebasCustom> lstSesion = new ArrayList();
-		String where ="", orderby="ORDER BY ", errorlog="", role="", group="", residencia="WHERE ( (CAST(ultimaaplicacion AS DATE) + integer '3') >= (CAST(TO_CHAR(NOW(),'YYYY-MM-DD') as DATE) ) )",campus="";
+		String where ="", orderby="ORDER BY ", errorlog="", role="", group="", residencia=" ",campus="";
 		List<String> lstGrupo = new ArrayList<String>();
 		//Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		try {
@@ -5219,7 +5219,13 @@ class SesionesDAO {
 						
 						
 					case "TIPO DE PRUEBA, RESIDENCIA":
-						residencia +=" AND ( LOWER(residencia) LIKE LOWER('%[valor]%')";
+						if (residencia.contains("WHERE")) {
+							residencia += " AND "
+						} else {
+							residencia += " WHERE "
+						}
+						
+						residencia +="  ( LOWER(residencia) LIKE LOWER('%[valor]%')";
 						residencia = residencia.replace("[valor]", filtro.get("valor"))
 						
 						residencia +=" OR LOWER(tipo_prueba) LIKE LOWER('%[valor]%') )";
@@ -5256,7 +5262,7 @@ class SesionesDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 						
-					case "ALUMNOS REGISTRADOS":
+					/*case "ALUMNOS REGISTRADOS":
 						if (residencia.contains("WHERE")) {
 							residencia += " AND "
 						} else {
@@ -5270,9 +5276,18 @@ class SesionesDAO {
 							residencia+="LIKE '%[valor]%'"
 						}
 						residencia = residencia.replace("[valor]", filtro.get("valor"))
+						break;*/
+					case "ALUMNOS REGISTRADOS":
+						where +=" AND Pruebas.registrados ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="= [valor]"
+						}else {
+							where+="= [valor]"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-						
-						
+					break;
+
 					case "RESIDENCIA":
 						if (residencia.contains("WHERE")) {
 							residencia += " AND "
@@ -5349,7 +5364,7 @@ class SesionesDAO {
 						orderby+="Pruebas.nombre";
 						break;
 						case "ALUMNOS REGISTRADOS":
-						orderby+="registrados";
+						orderby+="Pruebas.registrados";
 						break;
 						case "CUPO":
 						orderby+="Pruebas.cupo";
@@ -5384,7 +5399,8 @@ class SesionesDAO {
 					String consulta_aspirante =  Statements.EXT_SESIONESPSICOLOGO;
 					
 					String conteo = Statements.COUNT_SESIONESPSICOLOGO
-					conteo=conteo.replace("[COUNTASPIRANTES]", consulta_aspirante)
+					//conteo=conteo.replace("[COUNTASPIRANTES]", consulta_aspirante)
+					conteo=conteo.replace("[COUNTASPIRANTES]", '')
 					conteo=conteo.replace("[WHERE]", where);
 					conteo=conteo.replace("[CAMPUS]", campus);
 					conteo=conteo.replace("[RESIDENCIA]", residencia);
@@ -5401,7 +5417,7 @@ class SesionesDAO {
 					consulta=consulta.replace("[ORDERBY]", orderby)
 					consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 					consulta=consulta.replace("[RESIDENCIA]", residencia)
-					consulta=consulta.replace("[COUNTASPIRANTES]", consulta_aspirante)
+					consulta=consulta.replace("[COUNTASPIRANTES]", "")
 					errorlog+="conteo exitoso "
 					
 					pstm = con.prepareStatement(consulta)
