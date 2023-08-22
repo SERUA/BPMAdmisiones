@@ -355,7 +355,7 @@ public Result getCatPreguntas(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 //		String where = "WHERE ctp.iseliminado <> true AND res.responsableid = [USUARIO] ";
-		String where = "WHERE ctp.iseliminado <> true   ";
+		String where = "WHERE ctp.iseliminado <> true AND p.iseliminado <> true ";
 		String errorlog = "";
 		String orderBy = "";
 		List < String > lstGrupo = new ArrayList < String > ();
@@ -624,7 +624,7 @@ public Result getCatPreguntas(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 //		String where = "WHERE ctp.iseliminado <> true AND p.aplicacion = CURRENT_DATE AND res.responsableid = [USUARIO] ";
-		String where = "WHERE ctp.iseliminado <> true AND p.aplicacion = CURRENT_DATE  ";
+		String where = "WHERE ctp.iseliminado <> true AND p.iseliminado <> true AND p.aplicacion = CURRENT_DATE  ";
 		String errorlog = "";
 		String orderBy = "";
 		List < String > lstGrupo = new ArrayList < String > ();
