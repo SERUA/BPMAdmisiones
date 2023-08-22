@@ -1330,20 +1330,39 @@ class PsicometricoDAO {
 					username2 = rs.getString("username");
 				}
 				
+				pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
+				pstm.setString(1, username2);
+				pstm.setLong(2, Long.parseLong(prueba));
+				rs= pstm.executeQuery();
+				String pl = '';
+				if(rs.next()) {
+					pl = rs.getString("persistenceid");
+				}
+				
 				Result resultPaseLista = new Result();
 				String jsdonPaseLista = "{\"prueba\":${prueba},\"username\":\"${username2}\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
-				resultPaseLista = new SesionesDAO().insertPaseLista(jsonData);
-
+				if(pl.equals('')) {
+					resultPaseLista = new SesionesDAO().insertPaseLista(jsdonPaseLista);					
+				}else {
+					resultPaseLista = new SesionesDAO().updatePaseLista(jsdonPaseLista);
+				}
+				strError += "INTEGRACION:"+resultado2.isSuccess()+"ERROR:"+resultado2.getError()+"ERROR_INFO:"+resultado2.getError_info();
+				strError += " ||||JSON PASE LISTA ${jsdonPaseLista} |||| PASELISTA:"+resultPaseLista.isSuccess()+"ERROR:"+resultPaseLista.getError()+"ERROR_INFO:"+resultPaseLista.getError_info();
+				
 				if(resultPaseLista.isSuccess()){
-					ProcessAPI processAPI = context.getApiClient().getProcessAPI();
-					Map<String, Serializable> rows = new HashMap<String, Serializable>();
-					rows.put("asistenciaEntrevista", false);
-					processAPI.updateProcessDataInstances(caseId, rows);
+					try {
+						ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+						Map<String, Serializable> rows = new HashMap<String, Serializable>();
+						rows.put("asistenciaEntrevista", true);
+						processAPI.updateProcessDataInstances(caseId, rows);
+					}catch (Exception e) {
+						strError += '||| ERROR PROCESO '+e;
+					}
+					
 
 				}
 				
-				strError += "INTEGRACION:"+resultado2.isSuccess()+"ERROR:"+resultado2.getError()+"ERROR_INFO:"+resultado2.getError_info();
-				strError += " |||| PASELISTA:"+resultPaseLista.isSuccess()+"ERROR:"+resultPaseLista.getError()+"ERROR_INFO:"+resultPaseLista.getError_info();
+				
 			}
 			
 			/*========================================================TEST PSICOMETRICO OBSERVACIONES ACCIONES========================================================*/

@@ -3097,11 +3097,12 @@ class SesionesDAO {
 	public Result insertPaseLista( String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
+		String error = "";
 		try {
 			
 				def jsonSlurper = new JsonSlurper();
 				def object = jsonSlurper.parseText(jsonData);
-				
+				error = jsonData;
 				closeCon = validarConexion();
 				con.setAutoCommit(false)
 				pstm = con.prepareStatement(Statements.INSERT_PASEDELISTA, Statement.RETURN_GENERATED_KEYS)
@@ -3121,7 +3122,7 @@ class SesionesDAO {
 			} catch (Exception e) {
 			String es = e.getMessage();
 			resultado.setSuccess(false);
-			resultado.setError(es);
+			resultado.setError(es+"||||"+error);
 			con.rollback();
 		}finally {
 			if(closeCon) {
