@@ -1836,21 +1836,21 @@ class UsuariosDAO {
 				}
 			}
 			
-			if (lstGrupo.size() > 0 && object.campus == null) {
-				where += " AND (";
-				for (Integer i = 0; i < lstGrupo.size(); i++) {
-					String campusMiembro = lstGrupo.get(i);
-					where += " ccam.descripcion = '" + campusMiembro + "'"
-					
-					if (i == (lstGrupo.size() - 1)) {
-						where += ") "
-					} else {
-						where += " OR "
-					}
-				}
-			} else if(object.campus != null) {
-				where += " AND ccam.grupobonita = '" + object.campus + "'"
-			}
+//			if (lstGrupo.size() > 0 && object.campus == null) {
+//				where += " AND (";
+//				for (Integer i = 0; i < lstGrupo.size(); i++) {
+//					String campusMiembro = lstGrupo.get(i);
+//					where += " ccam.descripcion = '" + campusMiembro + "'"
+//					
+//					if (i == (lstGrupo.size() - 1)) {
+//						where += ") "
+//					} else {
+//						where += " OR "
+//					}
+//				}
+//			} else if(object.campus != null) {
+//				where += " AND ccam.grupobonita = '" + object.campus + "'"
+//			}
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
