@@ -14,6 +14,8 @@ class SesionesCustom {
 	private String aspirantesNoRegistrados;
 	private Boolean fechaValida;
 	private Boolean finalizada;
+	private Integer toleranciaMinutos;
+	private Integer toleranciaSalidaMinutos;
 	
 	public Long getIdSesion() {
 		return idSesion;
@@ -92,5 +94,17 @@ class SesionesCustom {
 	}
 	public void setFinalizada(Boolean finalizada) {
 		this.finalizada = finalizada;
+	}
+	public Integer getToleranciaMinutos() {
+		return toleranciaMinutos;
+	}
+	public void setToleranciaMinutos(Integer toleranciaMinutos) {
+		this.toleranciaMinutos = toleranciaMinutos;
+	}
+	public Integer getToleranciaSalidaMinutos() {
+		return toleranciaSalidaMinutos;
+	}
+	public void setToleranciaSalidaMinutos(Integer toleranciaSalidaMinutos) {
+		this.toleranciaSalidaMinutos = toleranciaSalidaMinutos;
 	}
 }

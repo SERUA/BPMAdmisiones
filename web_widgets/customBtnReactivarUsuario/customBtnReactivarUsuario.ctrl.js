@@ -177,9 +177,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             data: angular.copy($scope.properties.dataToSend),
             params: params
         };
+        
+        swal("Este proceso puede tardar un rato", "Favor de no salir de esta página hasta que el proceso de reactivación termine. ", "success");
 
         return $http(req)
             .success(function(data, status) {
+                swal("Ok", "Aspirante reactivado", "success");
                 $scope.properties.dataFromSuccess = data;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromError = undefined;
@@ -198,6 +201,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
             })
             .error(function(data, status) {
+                swal("¡Algo ha fallado!", "Error al intentar reactivar al usuario.", "error");
                 $scope.properties.dataFromError = data;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromSuccess = undefined;
@@ -210,6 +214,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 });
             })
             .finally(function() {
+                blockUI.stop();
                 vm.busy = false;
                 vm.bloqueo = false;
             });
