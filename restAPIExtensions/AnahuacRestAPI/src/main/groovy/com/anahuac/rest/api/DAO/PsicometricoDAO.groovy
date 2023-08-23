@@ -1354,7 +1354,7 @@ class PsicometricoDAO {
 						ProcessAPI processAPI = context.getApiClient().getProcessAPI();
 						Map<String, Serializable> rows = new HashMap<String, Serializable>();
 						rows.put("asistenciaEntrevista", true);
-						processAPI.updateProcessDataInstances(caseId, rows);
+						processAPI.updateProcessDataInstances(Long.parseLong(caseId), rows);
 					}catch (Exception e) {
 						strError += '||| ERROR PROCESO '+e;
 					}
