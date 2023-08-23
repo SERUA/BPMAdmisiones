@@ -32,9 +32,9 @@
                 <th>
                     <span style="cursor:pointer" ng-click="setOrderBy('uni')"> Uni. <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='uni'"></i></span>
                 </th>
-                <th>
+                <!-- <th>
                     <span style="cursor:pointer" ng-click="setOrderBy('sesion')"> Sesión <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='sesion'"></i></span>
-                </th>
+                </th> -->
                 <th>
                     <span style="cursor:pointer" ng-click="setOrderBy('fecha_prueba')"> Fecha <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='fecha_prueba'"></i></span>
                 </th>
@@ -58,7 +58,7 @@
                 <td><input ng-model="dynamicInput['id_sesion']" class="form-control" ng-enter="filterKeyPress('No.', dynamicInput['id_sesion'])"></td>
                 <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('Nombre', dynamicInput['nombre'])"></td>
                 <td><input ng-model="dynamicInput['uni']" class="form-control" ng-enter="filterKeyPress('Uni.', dynamicInput['uni'])"></td>
-                <td><input ng-model="dynamicInput['sesion']" class="form-control" ng-enter="filterKeyPress('Sesión', dynamicInput['sesion'])"></td>
+                <!-- <td><input ng-model="dynamicInput['sesion']" class="form-control" ng-enter="filterKeyPress('Sesión', dynamicInput['sesion'])"></td> -->
                 <td><input ng-model="dynamicInput['fecha_prueba']" class="form-control" ng-enter="filterKeyPress('Fecha', dynamicInput['fecha_prueba'])"></td>
                 <td><input ng-model="dynamicInput['entrada_prueba']" class="form-control" ng-enter="filterKeyPress('Hr. Inicio', dynamicInput['entrada_prueba'])"></td>
                 <td><input ng-model="dynamicInput['salida_prueba']" class="form-control" ng-enter="filterKeyPress('Hr. Término', dynamicInput['salida_prueba'])"></td>
@@ -70,7 +70,7 @@
                 <td>{{row.idSesion}}</td>
                 <td>{{row.nombreSesion}}</td>
                 <td>{{row.uni}}</td>
-                <td>{{row.sesion}}</td>
+                <!-- <td>{{row.sesion}}</td> -->
                 <td>{{row.fecha | date:'dd/MM/yyyy'}}</td>
                 <td>{{row.horaInicio | date:'HH:mm'}}</td>
                 <td>{{row.horaTermino | date:'HH:mm'}}</td>
@@ -123,8 +123,9 @@
     <div class="row row-margin-in">
         <div class="col-xs-12">
             <div class="row">
-                <div class="col-xs-6">Sesión: <label>{{selectedSesion.idSesion}} - {{selectedSesion.nombreSesion}}</label><br></div>
-                <div class="col-xs-6">Descripción: <label>{{selectedSesion.sesion}}</label><br></div>
+                <div class="col-xs-12">Sesión: <label>{{selectedSesion.idSesion}} - {{selectedSesion.nombreSesion}}</label><br></div>
+                <!-- <div class="col-xs-6">Sesión: <label>{{selectedSesion.idSesion}} - {{selectedSesion.nombreSesion}}</label><br></div>
+                <div class="col-xs-6">Descripción: <label>{{selectedSesion.sesion}}</label><br></div> -->
             </div>
             <div class="row">
                 <div class="col-xs-6">Campus: <label>{{selectedSesion.uni}}</label><br></div>
@@ -287,7 +288,7 @@
                     </tbody>
                 </table>
                 <div class="col-xs-5">
-                    <div class="dataTables_info">Mostrando {{dataToSend.offset + 1}} a {{((dataToSend.limit * valorSeleccionadoAsp) > valueAsp) ? valueAsp : dataToSend.limit * valorSeleccionadoAsp}} de {{valueAsp}} registros</div>
+                    <div class="dataTables_info">Mostrando {{dataToSend.offset + 1}} a {{valueAsp}} de {{valueAsp}} registros</div>
                 </div>
                 <div class="col-xs-7 text-center">
                    
