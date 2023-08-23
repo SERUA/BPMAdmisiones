@@ -4777,17 +4777,17 @@ class UsuariosDAO {
 			    pstmUpdate.setString(3, registro?.telefono ?: null)
 			    pstmUpdate.setString(4, registro?.telefonocelular ?: null)
 				// Usar setNull para manejar valores nulos
-    if (registro?.catcasodeemergencia_pid != null) {
-        pstmUpdate.setInt(5, registro.catcasodeemergencia_pid)
-    } else {
-        pstmUpdate.setNull(5, Types.INTEGER)
-    }
-    
-    if (registro?.catparentesco_pid != null) {
-        pstmUpdate.setInt(6, registro.catparentesco_pid)
-    } else {
-        pstmUpdate.setNull(6, Types.INTEGER)
-    }
+		    if (registro?.catcasodeemergencia_pid != null) {
+		        pstmUpdate.setInt(5, registro.catcasodeemergencia_pid)
+		    } else {
+		        pstmUpdate.setNull(5, Types.INTEGER)
+		    }
+		    
+		    if (registro?.catparentesco_pid != null) {
+		        pstmUpdate.setInt(6, registro.catparentesco_pid)
+		    } else {
+		        pstmUpdate.setNull(6, Types.INTEGER)
+		    }
 			    pstmUpdate.setInt(7, persistenceid)
 			
 			    pstmUpdate.executeUpdate()
