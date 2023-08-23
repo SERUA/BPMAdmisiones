@@ -808,11 +808,22 @@ class UsuariosDAO {
 					row.setFechaValida(true);
 				}
 				
+//				Object fieldValue = rs.getObject("tiempo");
+//				
+//				if(fieldValue instanceof Timestamp) {
+//					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+//					row.setTiempo(formatterTime.format(date));
+//				}
+				
 				Object fieldValue = rs.getObject("tiempo");
 				
 				if(fieldValue instanceof Timestamp) {
 					Date date = new Date(rs.getTimestamp("tiempo").getTime());
 					row.setTiempo(formatterTime.format(date));
+				} else {
+					if(rs.getString("tiempo") != null) {
+						row.setTiempo(rs.getString("tiempo").split("\\.")[0]);
+					}
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
