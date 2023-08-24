@@ -4557,9 +4557,9 @@ class UsuariosDAO {
 					pstm.setInt(16, valores.catestado_pid);
 					// Establecer el valor nulo para el parámetro estadoextranjero si es null
 					if (valores.estadoextranjero == null) {
-						pstm.setNull(17, java.sql.Types.INTEGER);
+					    pstm.setNull(17, java.sql.Types.INTEGER);
 					} else {
-						pstm.setInt(17, valores.estadoextranjero);
+					    pstm.setInt(17, valores.estadoextranjero);
 					}
 					pstm.setString(18, valores.ciudad);
 					pstm.setString(19, valores.delegacionmunicipio);
@@ -4567,13 +4567,13 @@ class UsuariosDAO {
 					pstm.setString(21, valores.calle);
 					// Establecer el valor nulo para el parámetro numeroexterior si es null
 					if (valores.numeroexterior == null) {
-					    pstm.setNull(22, java.sql.Types.VARCHAR); // Usar el número de índice correcto (22)
+					    pstm.setNull(22, java.sql.Types.VARCHAR);
 					} else {
 					    pstm.setString(22, valores.numeroexterior);
 					}
 					// Establecer el valor nulo para el parámetro numerointerior si es null
 					if (valores.numerointerior == null) {
-					    pstm.setNull(23, java.sql.Types.VARCHAR); // Usar el número de índice correcto (23)
+					    pstm.setNull(23, java.sql.Types.VARCHAR);
 					} else {
 					    pstm.setString(23, valores.numerointerior);
 					}
@@ -4799,7 +4799,6 @@ class UsuariosDAO {
 			}
 			
 			resultado.setSuccess(true);
-			
 			
 		}catch(Exception ex){
 			LOGGER.error "[ERROR] " + ex.getMessage();

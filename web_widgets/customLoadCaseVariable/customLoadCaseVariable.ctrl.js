@@ -2,6 +2,7 @@ function loadCaseVariableCtrl($scope, $http) {
     $scope.lstArchivedCase = [];
 
     $scope.loadCaseVariable = function(caseId) {
+        debugger;
         doRequest("GET", "../API/extension/RegistroRest?url=caseVariable&caseid=" + caseId, {},
             function(data, status) { //SUCCESS
                 $scope.properties.caseVariable = data;

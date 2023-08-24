@@ -2,6 +2,7 @@ function loadContextCtrl($scope, $http) {
     $scope.lstArchivedCase = [];
 
     $scope.loadContextTask = function(taskId) {
+        debugger;
         console.log("LOAD TASK");
         doRequest("GET", "../API/bpm/userTask/"+taskId+"/context", {},
         function(data, status){//SUCCESS
@@ -15,6 +16,7 @@ function loadContextCtrl($scope, $http) {
     }
 
     $scope.loadContextRest = function(caseId) {
+        debugger;
         console.log("LOAD context");
         doRequest("GET", "../API/extension/RegistroRest?url=context&caseid="+caseId, {},
         function(data, status){//SUCCESS
@@ -44,6 +46,8 @@ function loadContextCtrl($scope, $http) {
     }
 
     $scope.loadContextCaseId = function(archivedCase, revivida) {
+        debugger;
+        context;
         if ($scope.properties.taskId === undefined || $scope.properties.taskId === "" || revivida) {
             doRequest("GET", "../API/bpm/archivedCase/"+archivedCase.id+"/context", {},
             function(data, status){//SUCCESS
@@ -76,6 +80,7 @@ function loadContextCtrl($scope, $http) {
     });
 
     $scope.$watchCollection("properties.caseId", function(newValue, oldValue) {
+        debugger;
         if ($scope.properties.caseId !== undefined) {
             console.log("loadcontext")
             $scope.loadContextRest($scope.properties.caseId);
