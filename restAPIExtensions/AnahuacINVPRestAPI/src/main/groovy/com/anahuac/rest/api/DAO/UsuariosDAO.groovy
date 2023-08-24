@@ -1821,7 +1821,7 @@ class UsuariosDAO {
 	public Result getAspirantesTodos(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		String where = " WHERE ( ctpr.descripcion = 'Examen Psicométrico'  ";
+		String where = " WHERE ( ( ctpr.descripcion = 'Examen Psicométrico'  ";
 		String errorlog = "  ";
 		String orderBy = " ORDER BY ";
 		List < String > lstGrupo = new ArrayList < String > ();
@@ -1863,6 +1863,7 @@ class UsuariosDAO {
 //			} else if(object.campus != null) {
 //				where += " AND ccam.grupobonita = '" + object.campus + "'"
 //			}
+			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN sesq.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) ) )";
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
@@ -1873,9 +1874,11 @@ class UsuariosDAO {
 							where += " WHERE "
 						}
 //						where += " ( prue.sesion_pid = [valor] )";
-						where += " ( sesq.sesiones_pid = [valor] )";
+						where += "( ( sesq.sesiones_pid = [valor] )";
+						where += "OR ( temp.idprueba = [valor] ) ";
 						where = where.replace("[valor]", filtro.get("valor"));
 						idprueba = filtro.get("valor");
+						
 					break;
 					case "idBpm,idbanner":
 						if (where.contains("WHERE")) {
@@ -1883,8 +1886,8 @@ class UsuariosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " ( ( LOWER(creg.caseid::VARCHAR) like lower('%[valor]%') )";
-						where += " OR ( LOWER(dets.idbanner) like lower('%[valor]%') ) )";
+						where += " ( ( creg.caseid::VARCHAR like '%[valor]%' )";
+						where += " OR ( dets.idbanner like '%[valor]%' ) )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "nombre":
@@ -1952,24 +1955,24 @@ class UsuariosDAO {
 						where += " ( LOWER(creg.correoelectronico) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "Preguntas":
+					case "preguntas":
 						errorlog += "total_preguntas "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " ( LOWER(total_preguntas) like lower('%[valor]%') )";
+						where += " ( LOWER(total_preguntas::VARCHAR) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "Contestadas":
+					case "contestadas":
 						errorlog += "total_respuestas "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " ( LOWER(total_respuestas) like lower('%[valor]%') )";
+						where += " ( LOWER(total_respuestas::VARCHAR) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "inicio,termino,tiempo":
@@ -2004,20 +2007,22 @@ class UsuariosDAO {
 //						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Estatus":
-//						errorlog += "fechafin "
-//						if (where.contains("WHERE")) {
-//							where += " AND "
-//						} else {
-//							where += " WHERE "
-//						}
-//						where += " ( LOWER(fechafin) like lower('%[valor]%') )";
-//						where = where.replace("[valor]", filtro.get("valor"))
+						errorlog += "Estatus"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(invp.estatus) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					default:
 						break;
 				}
 			}
 			
+			where += " )";
+
 			switch(object.orderby) {
 				case "idBpm":
 					orderBy = " ORDER BY creg.caseid " + object.orientation;
@@ -2062,7 +2067,7 @@ class UsuariosDAO {
 			closeCon = validarConexion();
 			
 //			where += " ) OR (temp.username IS NOT NULL  AND temp.idprueba = " + idprueba + ")";
-			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN sesq.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) AND temp.idprueba = " + idprueba + ")";
+//			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN sesq.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) AND temp.idprueba = " + idprueba + ")";
 //			) OR (temp.username IS NOT NULL AND (CASE WHEN seas.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico' END ) AND temp.idprueba = 237)
 			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_TODOS.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);

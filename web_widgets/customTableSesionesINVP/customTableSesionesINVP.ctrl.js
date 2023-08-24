@@ -117,20 +117,43 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest("POST", $scope.properties.urlPost);
     }
 
-    function getAspirantesSesion(_idsesion) {
+    function getAspirantesSesion(_idsesion){
         let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
-        $scope.properties.dataToSendAsp.lstFiltro = [{
-            "columna": "id_sesion",
-            "valor": _idsesion + ""
-        }];
 
-        $http.post(url, $scope.properties.dataToSendAsp).success(function (_data) {
+        if($scope.properties.dataToSendAsp.lstFiltro.length > 0){
+            let encontrado = false;
+            for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
+                if(dato.columna === "id_sesion"){
+                    encontrado = true;
+                    let index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(dato);
+                    $scope.properties.dataToSendAsp.lstFiltro[index].valor = _idsesion + "";
+                    break;
+                }
+            }
+
+            if(encontrado === false){
+                $scope.properties.dataToSendAsp.lstFiltro.push({
+                    "columna": "id_sesion",
+                    "operador": "Igual a",
+                    "valor": _idsesion + ""
+                });
+            }
+        } else {
+            $scope.properties.dataToSendAsp.lstFiltro = [{
+                "columna": "id_sesion",
+                "operador": "Igual a",
+                "valor": _idsesion + ""
+            }];
+        }
+        
+        $http.post(url, $scope.properties.dataToSendAsp).success(function(_data){
             $scope.aspirantes = _data.data;
             $scope.valueAsp = _data.totalRegistros;
             $scope.loadPaginadoAsp();
+            // $("#modalAspirantesSesion").modal("show");
             $scope.properties.navigationVar = "aspirantesEnSesion";
-        }).error(function (_err) {
+        }).error(function(_err){
             swal("Error", _err.mensajeError, "error");
         })
     }
@@ -238,6 +261,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         doRequest("POST", $scope.properties.urlPost);
+    }
+
+    $scope.filterKeyPressAspirantes = function(columna, press) {
+        var aplicado = true;
+        debugger;
+        for (let index = 0; index < $scope.properties.dataToSendAsp.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSendAsp.lstFiltro[index];
+            if (element.columna == columna) {
+                $scope.properties.dataToSendAsp.lstFiltro[index].valor = press;
+                $scope.properties.dataToSendAsp.lstFiltro[index].operador = "Que contengan";
+                aplicado = false;
+            }
+        }
+        if (aplicado) {
+            var obj = { "columna": columna, "operador": "Que contengan", "valor": press }
+            $scope.properties.dataToSendAsp.lstFiltro.push(obj);
+        }
+  
+        getAspirantesSesion($scope.selectedSesion.idSesion);
     }
 
     $scope.lstPaginado = [];
@@ -955,7 +997,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function cargarLista(){
         $scope.aspirantesEnvio = [];
         $scope.aspirantes.forEach((element) => {
-            debugger;
+            
             if (element.idsesion === $scope.selectedSesion.idSesion && (element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador" ) && !element.resultadoEnviado && element.idBanner!==null && element.sesionAsignada===true ) {
             // if ((element.estatusINVP === "Prueba terminada" || element.estatusINVP === "Prueba terminada por administrador") && !element.resultadoEnviado && element.idBanner !== null && element.sesionAsignada === true) {
                 $scope.aspirantesEnvio.push({
@@ -990,7 +1032,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.validarEstatus = function(_enviado, _estatus){
         let output = ""; 
-        debugger;
+
         if((_estatus === "Prueba terminada por administrador" || _estatus === "Prueba terminada") && _enviado === true){
             output = "Enviado"
         } else {
@@ -1009,5 +1051,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }).error(function(_error){
             swal("Algo ha fallado", "Ha ocurrido un error al terminar la sesión para todos los aspirantes en proceso. Intente de nuevo mas tarde", "error");
         });
+    }
+
+    $scope.deleteContent = function(objContent) {
+        console.log(objContent);
+        var index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(objContent);
+
+        if(index != -1){
+            $scope.properties.dataToSendAsp.lstFiltro.splice(index, 1);
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }
     }
 }
