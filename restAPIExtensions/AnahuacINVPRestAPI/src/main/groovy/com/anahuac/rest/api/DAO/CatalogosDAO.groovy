@@ -695,7 +695,7 @@ public Result getCatPreguntas(String jsonData) {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 
-					case "No. ":
+					case "No.":
 						errorlog += "id_sesion "
 						if (where.contains("WHERE")) {
 							where += " AND "
