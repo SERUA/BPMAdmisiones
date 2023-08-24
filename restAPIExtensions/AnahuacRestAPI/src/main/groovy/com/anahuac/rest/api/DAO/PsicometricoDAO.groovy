@@ -16,6 +16,7 @@ import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Utilities.FileDownload
 import com.bonitasoft.web.extension.rest.RestAPIContext
+import com.anahuac.rest.api.DAO.SesionesDAO;
 
 import groovy.json.JsonSlurper
 import groovy.sql.Sql
@@ -33,6 +34,7 @@ import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.engine.bpm.document.Document
+import org.bonitasoft.engine.api.ProcessAPI
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
@@ -1317,7 +1319,50 @@ class PsicometricoDAO {
 				
 				Result resultado2 = new Result();
 				resultado2 = integracionEthos(fecha,idBanner,"MMPI",testPsicomInput.puntuacionINVP+"",context);
+				
+				pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
+				pstm.setString(1, idBanner);
+				pstm.setLong(2, Long.parseLong(testPsicomInput.sesion_pid));
+				rs= pstm.executeQuery();
+				String prueba = "", username2="";
+				if(rs.next()) {
+					prueba = rs.getString("prueba_pid");
+					username2 = rs.getString("username");
+				}
+				
+				pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
+				pstm.setString(1, username2);
+				pstm.setLong(2, Long.parseLong(prueba));
+				rs= pstm.executeQuery();
+				String pl = '';
+				if(rs.next()) {
+					pl = rs.getString("persistenceid");
+				}
+				
+				Result resultPaseLista = new Result();
+				String jsdonPaseLista = "{\"prueba\":${prueba},\"username\":\"${username2}\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
+				if(pl.equals('')) {
+					resultPaseLista = new SesionesDAO().insertPaseLista(jsdonPaseLista);					
+				}else {
+					resultPaseLista = new SesionesDAO().updatePaseLista(jsdonPaseLista);
+				}
 				strError += "INTEGRACION:"+resultado2.isSuccess()+"ERROR:"+resultado2.getError()+"ERROR_INFO:"+resultado2.getError_info();
+				strError += " ||||JSON PASE LISTA ${jsdonPaseLista} |||| PASELISTA:"+resultPaseLista.isSuccess()+"ERROR:"+resultPaseLista.getError()+"ERROR_INFO:"+resultPaseLista.getError_info();
+				
+				if(resultPaseLista.isSuccess()){
+					try {
+						ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+						Map<String, Serializable> rows = new HashMap<String, Serializable>();
+						rows.put("asistenciaEntrevista", true);
+						processAPI.updateProcessDataInstances(caseId, rows);
+					}catch (Exception e) {
+						strError += '||| ERROR PROCESO '+e;
+					}
+					
+
+				}
+				
+				
 			}
 			
 			/*========================================================TEST PSICOMETRICO OBSERVACIONES ACCIONES========================================================*/
@@ -1655,12 +1700,16 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 
 			assert object instanceof Map;
 			//AND ((SELECT COUNT(persistenceid) FROM TestPsicometrico as TP2 WHERE TP2.countRechazo = TP.countRechazo) = 0)
-			where += " WHERE sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false )"
+			
+			//Se agrego el filtro con la fecha para l excluir los casos del INVP //////sda.fecharegistro > '2023-07-27T00:00:00.340974' AND
+			where += " WHERE  sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false )"
 			if (object.campus != null) {
 				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
 			}
 			
-			where += " AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en proceso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud a modificar' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud modificada' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud vencida')"
+//			where += " AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en proceso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud a modificar' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud modificada' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud vencida')"
+			where += " AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en proceso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud en espera de pago' ) AND (sda.ESTATUSSOLICITUD != 'Validación pago condonado' ) AND (sda.ESTATUSSOLICITUD != 'Autodescripción en proceso' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud a modificar' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud modificada' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud vencida')  AND (sda.ESTATUSSOLICITUD != 'Validación descuento 100%') AND (sda.ESTATUSSOLICITUD != 'Solicitud con pago aceptado') "
+			
 			if (lstGrupo.size() > 0) {
 				campus += " AND ("
 			}

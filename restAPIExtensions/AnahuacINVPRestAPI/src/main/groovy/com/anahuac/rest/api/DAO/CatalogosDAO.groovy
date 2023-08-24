@@ -599,6 +599,8 @@ public Result getCatPreguntas(String jsonData) {
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
 				row.setFinalizada(rs.getBoolean("finalizada"));
+				row.setToleranciaMinutos(rs.getInt("toleranciaminutos"));
+				row.setToleranciaSalidaMinutos(rs.getInt("toleranciasalidaminutos"));
 				
 				rows.add(row);
 			}
@@ -693,7 +695,7 @@ public Result getCatPreguntas(String jsonData) {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 
-					case "No. ":
+					case "No.":
 						errorlog += "id_sesion "
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -852,6 +854,8 @@ public Result getCatPreguntas(String jsonData) {
 				row.setAspirantesNoRegistrados(rs.getString("no_registrados_prueba"));
 				row.setFechaValida(fechaValida(rs.getString("fecha_prueba") + " " + rs.getString("entrada_prueba")));
 				row.setFinalizada(rs.getBoolean("finalizada"));
+				row.setToleranciaMinutos(rs.getInt("toleranciaminutos"));
+				row.setToleranciaSalidaMinutos(rs.getInt("toleranciasalidaminutos"));
 				
 				rows.add(row);
 			}

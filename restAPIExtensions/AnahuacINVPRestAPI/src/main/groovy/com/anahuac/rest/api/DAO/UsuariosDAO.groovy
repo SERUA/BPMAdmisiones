@@ -7,6 +7,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.sql.Time
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
@@ -807,11 +808,22 @@ class UsuariosDAO {
 					row.setFechaValida(true);
 				}
 				
+//				Object fieldValue = rs.getObject("tiempo");
+//				
+//				if(fieldValue instanceof Timestamp) {
+//					Date date = new Date(rs.getTimestamp("tiempo").getTime());
+//					row.setTiempo(formatterTime.format(date));
+//				}
+				
 				Object fieldValue = rs.getObject("tiempo");
 				
 				if(fieldValue instanceof Timestamp) {
 					Date date = new Date(rs.getTimestamp("tiempo").getTime());
 					row.setTiempo(formatterTime.format(date));
+				} else {
+					if(rs.getString("tiempo") != null) {
+						row.setTiempo(rs.getString("tiempo").split("\\.")[0]);
+					}
 				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
@@ -1836,21 +1848,21 @@ class UsuariosDAO {
 				}
 			}
 			
-			if (lstGrupo.size() > 0 && object.campus == null) {
-				where += " AND (";
-				for (Integer i = 0; i < lstGrupo.size(); i++) {
-					String campusMiembro = lstGrupo.get(i);
-					where += " ccam.descripcion = '" + campusMiembro + "'"
-					
-					if (i == (lstGrupo.size() - 1)) {
-						where += ") "
-					} else {
-						where += " OR "
-					}
-				}
-			} else if(object.campus != null) {
-				where += " AND ccam.grupobonita = '" + object.campus + "'"
-			}
+//			if (lstGrupo.size() > 0 && object.campus == null) {
+//				where += " AND (";
+//				for (Integer i = 0; i < lstGrupo.size(); i++) {
+//					String campusMiembro = lstGrupo.get(i);
+//					where += " ccam.descripcion = '" + campusMiembro + "'"
+//					
+//					if (i == (lstGrupo.size() - 1)) {
+//						where += ") "
+//					} else {
+//						where += " OR "
+//					}
+//				}
+//			} else if(object.campus != null) {
+//				where += " AND ccam.grupobonita = '" + object.campus + "'"
+//			}
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
@@ -2122,7 +2134,11 @@ class UsuariosDAO {
 				if(fieldValue instanceof Timestamp) {
 					Date date = new Date(rs.getTimestamp("tiempo").getTime());
 					row.setTiempo(formatterTime.format(date));
-				} 
+				} else {
+					if(rs.getString("tiempo") != null) {
+						row.setTiempo(rs.getString("tiempo").split("\\.")[0]);
+					}
+				}
 				
 				row.setIdBanner(rs.getString("idbanner"));
 				row.setIdioma(rs.getString("idioma") != null ? rs.getString("idioma") : "ESP");
