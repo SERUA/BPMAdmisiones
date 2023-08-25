@@ -131,7 +131,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let encontrado = false;
             for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
                 if(dato.columna === "id_sesion"){
-                    debugger;
                     encontrado = true;
                     let index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(dato);
                     $scope.properties.dataToSendAsp.lstFiltro[index].valor = _idsesion + "";
@@ -435,8 +434,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterKeyPressAspirantes = function(columna, press) {
-        var aplicado = true;
         debugger;
+        var aplicado = true;
+
         for (let index = 0; index < $scope.properties.dataToSendAsp.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSendAsp.lstFiltro[index];
             if (element.columna == columna) {
