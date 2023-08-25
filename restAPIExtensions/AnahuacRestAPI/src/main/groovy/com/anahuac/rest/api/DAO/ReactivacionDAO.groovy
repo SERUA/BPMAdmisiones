@@ -571,41 +571,43 @@ class ReactivacionDAO {
 				}
 			}
 			
-			Result nuevaSolicitud = nuevoCasoSolicitud(jsonData,context);
-			errorLog += ", nuevaSolicitud:"+nuevaSolicitud+", data:"+nuevaSolicitud.getData();
-
-			if(nuevaSolicitud.isSuccess()) {
-				autoCommit = true;
-				con.setAutoCommit(false)
-				
-				pstm = con.prepareStatement(Statements.UPDATE_DATOS_REACTIVARUSUARIO)
-				pstm.setLong(1, object.campus);
-				pstm.setLong(2, object.licenciatura);
-				if (object.propedeutico == null) {
-					pstm.setNull(3, java.sql.Types.BIGINT);
-				} else {
-					pstm.setLong(3, object.propedeutico);
+			String consultaRechazado = "SELECT (COUNT(correoelectronico) > 0) AS existeRechazado FROM CatRegistro WHERE correoelectronico LIKE '%[CORREO]%' AND correoelectronico LIKE '%(rechazado)%'";
+			pstm = con.prepareStatement(consultaRechazado.replace("[CORREO]", object.correoaspirante));
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				if(!rs.getBoolean("existeRechazado")) {
+					Result nuevaSolicitud = nuevoCasoSolicitud(jsonData,context);
+					errorLog += ", nuevaSolicitud:"+nuevaSolicitud+", data:"+nuevaSolicitud.getData();
+		
+					if(nuevaSolicitud.isSuccess()) {
+						autoCommit = true;
+						con.setAutoCommit(false)
+						
+						pstm = con.prepareStatement(Statements.UPDATE_DATOS_REACTIVARUSUARIO)
+						pstm.setLong(1, object.campus);
+						pstm.setLong(2, object.licenciatura);
+						if (object.propedeutico == null) {
+							pstm.setNull(3, java.sql.Types.BIGINT);
+						} else {
+							pstm.setLong(3, object.propedeutico);
+						}
+						pstm.setLong(4, object.periodo);
+						pstm.setLong(5, object.campusestudio);
+						pstm.setInt(6, intento);
+						pstm.setLong(7, Long.valueOf(nuevaSolicitud.getData().get(0)));
+						pstm.executeUpdate();
+						
+						pstm = con.prepareStatement(Statements.UPDATE_DATOS_REACTIVARUSUARIO_AUTODESCRIPCION)
+						pstm.setLong(1,  Long.valueOf(nuevaSolicitud.getData().get(0)));
+						pstm.executeUpdate();
+						con.commit();
+					}
 				}
-				pstm.setLong(4, object.periodo);
-				pstm.setLong(5, object.campusestudio);
-				pstm.setInt(6, intento);
-				pstm.setLong(7, Long.valueOf(nuevaSolicitud.getData().get(0)));
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement(Statements.UPDATE_DATOS_REACTIVARUSUARIO_AUTODESCRIPCION)
-				pstm.setLong(1,  Long.valueOf(nuevaSolicitud.getData().get(0)));
-				pstm.executeUpdate();
-				con.commit();
 			}
 			
-			
-			//Result formateo = new Result();
-			//formateo = formateoVariablesPaseListaProceso(Long.valueOf(object.caseid),context);
-			//errorLog += "Formateo: "+formateo.isSuccess().toString()+" Errores: "+formateo.getError()+" Error_info: "+formateo.getError_info();
-			
-			resultado.setSuccess(true)
-			resultado.setError_info(errorLog)
-			
+			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
 		} catch (Exception ex) {
 			
 			resultado.setSuccess(false);
@@ -2177,27 +2179,9 @@ class ReactivacionDAO {
 			pstm.executeUpdate();
 			errorLog+=", paseLista";
 			
-			errorLog+="INICIO  COSAS DEL INVP";
-			pstm = con.prepareStatement("UPDATE RespuestaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 1";
-			pstm = con.prepareStatement("UPDATE InstanciaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 2";
-			pstm = con.prepareStatement("UPDATE InfoAspiranteTemporal SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 3";
-			pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 4";
-			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 5";
-			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 6";
-			pstm = con.prepareStatement("UPDATE PaseLista SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
-			pstm.executeUpdate();errorLog+=" 7";
-			errorLog+=",FIN COSAS DEL INVP";
-			
 			con.commit();
 			con.close();
 			
-			//---------------------------------------------------------------------------
 			validarConexionBonita();
 			con.setAutoCommit(false);
 			errorLog+=",INICIO lstInformacionEscolar_ref";
@@ -2256,6 +2240,32 @@ class ReactivacionDAO {
 			
 			con.commit();
 			con.close();
+			
+			//Actualizar los datos de las instancias del INVP
+			validarConexion();
+			con.setAutoCommit(false);
+			
+			errorLog+="INICIO  COSAS DEL INVP";
+			pstm = con.prepareStatement("UPDATE RespuestaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 1";
+			pstm = con.prepareStatement("UPDATE InstanciaINVP SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 2";
+			pstm = con.prepareStatement("UPDATE InfoAspiranteTemporal SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 3";
+			pstm = con.prepareStatement("UPDATE IdiomaINVPUsuario SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 4";
+			pstm = con.prepareStatement("UPDATE INVPExamenTerminado SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 5";
+			pstm = con.prepareStatement("UPDATE AspirantesBloqueados SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 6";
+			pstm = con.prepareStatement("UPDATE PaseLista SET username = '${correo} (rechazado)' WHERE username = '${correo}'");
+			pstm.executeUpdate();errorLog+=" 7";
+			errorLog+=",FIN COSAS DEL INVP";
+			
+			con.commit();
+			
+			validarConexion()
+			con.setAutoCommit(false);
 			
 			resultado.setError_info(errorLog);
 			resultado.setSuccess(true);
