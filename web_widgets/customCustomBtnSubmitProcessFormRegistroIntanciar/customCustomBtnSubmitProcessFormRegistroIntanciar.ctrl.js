@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI, $filter) {
 
     'use strict';
 
@@ -16,7 +16,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             blockUI.start();
             vm.bloqueo = true;
             console.log("Alerta");
-
+            debugger;
             $scope.properties.dataToSend.catRegistroInput.nombreusuario = $scope.properties.strRegistro.CorreoElectronico;
             $scope.properties.dataToSend.catRegistroInput.primernombre = $scope.properties.strRegistro.PrimerNombre;
             $scope.properties.dataToSend.catRegistroInput.segundonombre = $scope.properties.strRegistro.SegundoNombre;
@@ -37,7 +37,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
 
             if (!$scope.properties.strRegistro.Validado || $scope.properties.strRegistro.error) {
-                swal("¡" + $scope.properties.campoError + "!", $scope.properties.erroMessage, "warning");
+                swal($filter('translate')('¡Atención!'), $filter('translate')($scope.properties.erroMessage), "warning");
                 blockUI.stop();
                 vm.bloqueo = false;
             } else {
@@ -49,7 +49,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                         $scope.properties.getUserBonita = data.data;
                         if ($scope.properties.getUserBonita !== undefined) {
                             if ($scope.properties.getUserBonita.length > 0) {
-                                swal("Error", "Este correo electrónico ya está registrado.", "error");
+                                swal("Error", $filter('translate')('Este correo electrónico ya está registrado.'), "error");
                                 blockUI.stop();
                                 vm.bloqueo = false;
                             } else {
@@ -178,10 +178,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             })
             .error(function(data, status) {
                 if (data.error.includes("A user with name")) {
-                    swal("Error", "Este correo electrónico ya está registrado.", "error");
+                    swal("Error", $filter('translate')('Este correo electrónico ya está registrado.'), "error");
                     blockUI.stop();
                 } else {
-                    swal("Error", "Ha ocurrido un error inesperado. Inténtalo de nuevo mas tarde.", "error");
+                    swal("Error", $filter('translate')('Ha ocurrido un error inesperado. Inténtalo de nuevo mas tarde.'), "error");
                     blockUI.stop();
                 }
                 // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });

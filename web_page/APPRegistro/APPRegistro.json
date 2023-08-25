@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "APPRegistro",
   "name" : "APPRegistro",
-  "lastUpdate" : 1672791310885,
+  "lastUpdate" : 1693001764000,
   "rows" : [
     [
       {
@@ -346,7 +346,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Siguiente"
+                              "value" : "{{ \"Siguiente\" | translate }}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -462,7 +462,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Anterior"
+                              "value" : "{{ \"Anterior\" | translate }}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -547,6 +547,10 @@
                             "pasoInformacionFamiliar" : {
                               "type" : "variable",
                               "value" : ""
+                            },
+                            "cartaAA" : {
+                              "type" : "variable",
+                              "value" : ""
                             }
                           },
                           "reference" : "4f5422d0-7d51-4f44-b018-3c5448ab7e5f",
@@ -576,7 +580,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Registrar"
+                              "value" : "{{ \"Registrar\" | translate }}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -782,7 +786,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Ya casi está listo.<br>Revisa tu correo electrónico <b>{{strRegistro.CorreoElectronico}}</b>. A tu bandeja llegará un enlace<br>al cual tendrás que acceder para completar tu registro.<br>Presiona Aceptar para continuar."
+                  "value" : "{{ 'Ya casi está listo.' | translate }}<br>\n{{ 'Revisa tu correo electrónico' | translate }} <b>{{strRegistro.CorreoElectronico}}</b>.<br>\n{{ 'A tu bandeja llegará un enlace' | translate }}<br>\n{{ 'al cual tendrás que acceder para completar tu registro.' | translate }}<br>\n{{ 'Presiona Aceptar para continuar.' | translate }}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -814,7 +818,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Aceptar"
+                  "value" : "{{ \"Aceptar\" | translate }}"
                 },
                 "type" : {
                   "type" : "constant",
