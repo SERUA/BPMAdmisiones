@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http) {
+function PbButtonCtrl($scope, $http, $filter) {
     
     $scope.action = function(){
         if(validate()){
@@ -12,14 +12,14 @@ function PbButtonCtrl($scope, $http) {
         let errorMessage = "";
         if($scope.properties.objUser.email === ""){
             isValid = false;
-            errorMessage = "{{ 'Por favor llena el campo Correo electrónico.' | translate }}"
+            errorMessage = $filter('translate')('Por favor llena el campo Correo electrónico.');
         } else if (!regexEmail.test(String($scope.properties.objUser.email))){
             isValid = false;
-            errorMessage = "{{ 'El formato del correo electrónico no es el correcto."
+            errorMessage = $filter('translate')('El formato del correo electrónico no es el correcto.');
         }
         
         if(!isValid){
-            Swal.fire("{{ '¡Atención!' | translate }}", errorMessage, "warning");
+            Swal.fire($filter('translate')('¡Atención!'), errorMessage, "warning");
         }
         
         return isValid;
@@ -40,17 +40,17 @@ function PbButtonCtrl($scope, $http) {
         return $http(req).success(function(data, status) {
             if(data.success){
                 $scope.properties.navigationVar = "login";
-                let message = "{{ 'Revisa tu bandeja de entrada para continuar con el proceso de recuperación de contraseña' | translate }}";
-                Swal.fire("{{ 'Ya casi está listo.' | translate }}", message, "success");
+                let message = $filter('translate')('Revisa tu bandeja de entrada para continuar con el proceso de recuperación de contraseña');
+                Swal.fire($filter('translate')('Ya casi está listo.'), message, "success");
                 
             } else {
                 Swal.fire("Error.", data.error, "error");
             }
         })
         .error(function(data, status) {
-            let errorMessage = "{{ 'Ocurrió un error inesperado. Inténtalo de nuevo mas tarde.' | translate }}";
+            let errorMessage = $filter('translate')('Ocurrió un error inesperado. Inténtalo de nuevo mas tarde.');
             if(data.error.includes("SUserNotFoundException")){
-                errorMessage = "{{ 'El Correo electrónico ingresado no está registrado.' | translate }}"
+                errorMessage = $filter('translate')('El Correo electrónico ingresado no está registrado.');
             }
             Swal.fire("Error.", errorMessage, "error");
            // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });

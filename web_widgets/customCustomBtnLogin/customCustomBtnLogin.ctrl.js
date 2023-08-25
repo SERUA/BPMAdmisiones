@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, $filter) {
 
     'use strict';
   
@@ -59,7 +59,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 // doRequest($scope.properties.action, $scope.properties.url);
                 $scope.validateForm();
             } else {
-                Swal.fire("¡Atención!", "Captcha inválido.", "warning");
+                Swal.fire({ title: $filter('translate')('¡Atención!'), text: $filter('translate')('Captcha inválido.'), icon: 'warning' });
                 $scope.resetCaptcha();
             }
         } else {
@@ -76,11 +76,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         
         if (username === "") {
-            Swal.fire($filter('translate')('¡Atención!'), $filter('translate')('El Correo electrónico no debe ir vacío.'), 'warning');
+            Swal.fire({ title: $filter('translate')('¡Atención!'), text: $filter('translate')('El Correo electrónico no debe ir vacío.'), icon: 'warning' });
         } else if (!re.test(String(username))) {
-            Swal.fire($filter('translate')('¡Atención!'), $filter('translate')('El formato de correo electrónico es inválido.'), 'warning');
+            Swal.fire({ title: $filter('translate')('¡Atención!'), text: $filter('translate')('El formato de correo electrónico es inválido.'), icon: 'warning' });
         } else if (password === "") {
-            Swal.fire($filter('translate')('¡Atención!'), $filter('translate')('La Contraseña no debe ir vacía.'), 'warning');
+            Swal.fire({ title: $filter('translate')('¡Atención!'), text: $filter('translate')('La Contraseña no debe ir vacía.'), icon: 'warning' });
         }
         
         // else if (password.length > 8){
@@ -127,12 +127,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         })
         .error(function(data, status) {
         	console.error(data);
-            Swal.fire({
-                title: '<strong>Atención</strong>',
-                icon: 'error',
-                //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                html:'Correo electronico o Contraseña incorrecta.', showCloseButton: false
-            });
+            Swal.fire({ title: $filter('translate')('<strong>Atención</strong>'), icon: 'error', html: $filter('translate')('Correo electronico o Contraseña incorrecta.'), showCloseButton: false });
             $scope.errorLoginCount ++;
             if($scope.errorLoginCount === 2){
                 $scope.renderCaptcha();
