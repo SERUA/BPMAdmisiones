@@ -59,7 +59,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 // doRequest($scope.properties.action, $scope.properties.url);
                 $scope.validateForm();
             } else {
-                Swal.fire("¡Atención!", "Captcha inválido.", "warning");
+                Swal.fire("{{ '¡Atención!' | translate }}", "{{ 'Captcha inválido.' | translate }}", "warning");
                 $scope.resetCaptcha();
             }
         } else {
@@ -76,11 +76,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         const re = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
         
         if(username  === ""){
-            Swal.fire("¡Atención!", "El Correo electrónico no debe ir vacío.", "warning");
+            Swal.fire("{{ '¡Atención!' | translate }}", "{{ 'El Correo electrónico no debe ir vacío.' | translate }}", "warning");
         } else if (!re.test(String(username))){
-            Swal.fire("¡Atención!", "El formato de correo electrónico es inválido.", "warning");
+            Swal.fire("{{ '¡Atención!' | translate }}", "{{ 'El formato de correo electrónico es inválido.' | translate }}", "warning");
         } else if (password === ""){
-            Swal.fire("¡Atención!", "La Contraseña no debe ir vacía.", "warning");
+            Swal.fire("{{ '¡Atención!' | translate }}", "{{ 'La Contraseña no debe ir vacía.' | translate }}", "warning");
         } 
         
         // else if (password.length > 8){
@@ -128,10 +128,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         .error(function(data, status) {
         	console.error(data);
             Swal.fire({
-                title: '<strong>Atención</strong>',
+                title: '{{ "<strong>Atención</strong>" | translate }}',
                 icon: 'error',
                 //html:($scope.properties.targetUrlOnSuccess.includes('administrativo'))?'Correo electronico o Contraseña incorrecta.':'Correo electronico o Contraseña incorrecta. <br><br><br><br><p class="swal2-title">Recuerda</p> <p>Si iniciaste tu registro <strong>hasta</strong> el jueves 29 de abril del 2021 <br>da clic aquí </p>' + '<a class="btn btn-primary" href="https://servicios.redanahuac.mx/admisiones.php">Iniciar sesión</a> ', showCloseButton: false
-                html:'Correo electronico o Contraseña incorrecta.', showCloseButton: false
+                html:'{{ "Correo electronico o Contraseña incorrecta." | translate }}', showCloseButton: false
             });
             $scope.errorLoginCount ++;
             if($scope.errorLoginCount === 2){
