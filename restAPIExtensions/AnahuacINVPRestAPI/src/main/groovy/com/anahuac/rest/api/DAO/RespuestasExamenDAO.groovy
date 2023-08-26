@@ -398,8 +398,6 @@ class RespuestasExamenDAO {
 	}
 	//
 	
-	
-	
 	public Result generarRespuestasArchivo(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -439,7 +437,11 @@ class RespuestasExamenDAO {
 					errorLog += "|6[" + respuestasArray[rs.getInt("orden") - 1] + "]";
 				}
 			}
+			
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
 		} catch (Exception e) {
+			resultado.setError_info(errorLog);
 			String es = e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(es);
