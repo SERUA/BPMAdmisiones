@@ -140,7 +140,7 @@ class Index implements RestApiController {
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
-					}catch(Exception ou){
+				}catch(Exception ou){
 					result.setSuccess(false)
 					result.setError(ou.getMessage())
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
