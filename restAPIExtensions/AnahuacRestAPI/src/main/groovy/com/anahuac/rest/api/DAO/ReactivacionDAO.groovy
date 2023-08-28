@@ -606,6 +606,10 @@ class ReactivacionDAO {
 				}
 			}
 			
+			//Result formateo = new Result();
+			//formateo = formateoVariablesPaseListaProceso(Long.valueOf(object.caseid),context);
+			//errorLog += "Formateo: "+formateo.isSuccess().toString()+" Errores: "+formateo.getError()+" Error_info: "+formateo.getError_info();
+			
 			resultado.setSuccess(true);
 			resultado.setError_info(errorLog);
 		} catch (Exception ex) {
