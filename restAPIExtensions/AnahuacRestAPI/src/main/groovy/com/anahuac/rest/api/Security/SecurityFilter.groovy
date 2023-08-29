@@ -324,8 +324,11 @@ class SecurityFilter {
 				case "getCatBachillerato":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
-				case "getCatBitacoraCorreo":allow=bonitaRolFilter(context,"ADMISIONES")
-				if(allow){break;}
+				case "getCatBitacoraCorreo":
+					allow=bonitaRolFilter(context,"ADMISIONES")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
 				break;
 				case "getUsuarios":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
