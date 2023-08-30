@@ -2437,7 +2437,24 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						
 						
 						break;
-					
+					case "INDICADORES":
+						errorlog += "INDICADORES"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+
+						where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(TA.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(TAL.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						break;
 					case "IDBANNER":
 						errorlog += "IDBANNER"
 						tipoalumno += " AND LOWER(da.idbanner) ";
