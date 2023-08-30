@@ -109,11 +109,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                         $http(req2)
                             .success(function(data2, status) {
 
-                                var url = "/apps/administrativo/appPsicometricoV3/?taskId=[TASKID]&id=[ID]&intento=[COUNTRECHAZO]";
+                                var url = "/apps/administrativo/appPsicometricoV3/?taskId=[TASKID]&id=[ID]&intento=[COUNTRECHAZO]&sesion=[SESION]";
                                 if (data2.length > 0) {
                                     if (parseFloat(data2[0].processId.version) >= 1.51) {
                                         url = url.replace("[ID]", data2[0].caseId);
                                         url = url.replace("[TASKID]", data2[0].id);
+                                        url = url.replace("[SESION]", rowData.idsesion);
                                         url = url.replace("[COUNTRECHAZO]", rowData.countrechazos == null ? (rowData.countrechazo == null ? "null" : rowData.countrechazo) : rowData.countrechazos);
                                         window.open(url, '_blank');
                                     }
@@ -156,11 +157,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                     $http(req2)
                         .success(function(data2, status) {
 
-                            var url = "/apps/administrativo/appPsicometricoV3/?taskId=[TASKID]&id=[ID]&intento=[COUNTRECHAZO]";
+                            var url = "/apps/administrativo/appPsicometricoV3/?taskId=[TASKID]&id=[ID]&intento=[COUNTRECHAZO]&sesion=[SESION]";
                             if (data2.length > 0) {
                                 if (parseFloat(data2[0].processId.version) >= 1.51) {
                                     url = url.replace("[ID]", data2[0].caseId);
                                     url = url.replace("[TASKID]", data2[0].id);
+                                    url = url.replace("[SESION]", rowData.idsesion);
                                     url = url.replace("[COUNTRECHAZO]", rowData.countrechazos == null ? (rowData.countrechazo == null ? "null" : rowData.countrechazo) : rowData.countrechazos);
                                     window.open(url, '_blank');
                                 }
