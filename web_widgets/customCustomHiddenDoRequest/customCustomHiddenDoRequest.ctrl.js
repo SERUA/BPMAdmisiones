@@ -1,4 +1,4 @@
-function($scope, $http) {
+function($scope, $http, $filter) {
 
     $scope.textTranslate = "";
     $scope.titleTranslate = "";
@@ -23,7 +23,7 @@ function($scope, $http) {
                 if (data.error === "fallo por Cannot invoke method size() on null object") {
                     debugger;
                     //swal("Activado", "El usuario ya se encuentra activado", "success");
-                    $scope.readJson("Activado!", "¡El usuario ya se encuentra activado!");
+                    $scope.readJson($filter('translate')("Activado!"), $filter('translate')("¡El usuario ya se encuentra activado!"));
                     swal({
                         title: $scope.titleTranslate,
                         text: $scope.textTranslate,

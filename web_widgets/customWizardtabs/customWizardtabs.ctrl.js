@@ -1,4 +1,4 @@
-function($scope) {
+function($scope, $filter) {
     $scope.maxCompletedStep = 0;
     //$scope.properties.selectedIndex = 0;
 
@@ -93,8 +93,10 @@ function($scope) {
     });
 
     $scope.$watchCollection("properties.selectedIndex", function(newValue, oldValue) {
-        if ($scope.properties.selectedIndex !== undefined) {
-            $scope.setSelected($scope.properties.selectedIndex);
+        if ($scope.properties.content !== undefined) {
+            for (let item of $scope.properties.content) {
+                item.translatedTitle = getTranslatedTitle(item.titleKey);
+            }
         }
     });
 }
