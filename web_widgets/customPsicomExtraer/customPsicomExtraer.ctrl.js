@@ -17,7 +17,10 @@ function ($scope, $http) {
     $scope.$watch("properties.caseId", ()=>{
         if($scope.properties.caseId){
            getPsicom(); 
-           getSesion($scope.properties.caseId);
+           if(sesionid == null){
+            getSesion($scope.properties.caseId);    
+           }
+           
         }
     });
     
