@@ -1802,7 +1802,7 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						} else {
 							where += " WHERE "
 						}
-						where += " (LOWER(fechaultimamodificacion) ";
+						where += " (LOWER(sda.fechaultimamodificacion) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2322,7 +2322,7 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						} else {
 							where += " WHERE "
 						}
-						where += " (LOWER(fechaultimamodificacion) ";
+						where += " (LOWER(TO_CHAR(sda.fechaultimamodificacion::TIMESTAMP, 'dd-MM-yyyy hh:mm:ss')) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2424,12 +2424,17 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 							where += " AND "
 						} else {
 							where += " WHERE "
-						}
+						}//TO-DO
 						where += " (LOWER(sda.ESTATUSSOLICITUD) like lower('%[valor]%') ";
-						where = where.replace("[valor]", filtro.get("valor"))
+						where = where.replace("[valor]", filtro.get("valor"));
 						
-						where += " OR tp.finalizado IS [valor] )";
-						where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
+						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
+							where += " OR tp.finalizado IS [valor] )";
+							where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
+						} else {
+							where += " )";
+						}
+						
 						
 						break;
 					

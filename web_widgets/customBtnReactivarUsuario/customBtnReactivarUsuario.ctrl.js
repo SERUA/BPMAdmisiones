@@ -286,7 +286,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         return $http(req)
             .success(function(data, status) {
                 $scope.properties.lstContenido = data.data;
-                swal("¡Aspirante transferido correctamente!", "Se ha transferido al aspirante correctamente", "success");
+                swal("¡Aspirante reactivado correctamente!", "Se ha reactivado al aspirante correctamente", "success");
             })
             .error(function(data, status) {
                 notifyParentFrame({
