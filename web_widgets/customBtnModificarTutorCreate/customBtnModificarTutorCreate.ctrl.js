@@ -372,14 +372,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     $scope.properties.tutor.estadoExtranjero = $scope.properties.jsonModificarTutor.estadoExtranjero
                 }
                 if ($scope.properties.tutor.catTitulo === null) {
-                    swal("¡Título!", "Debes seleccionar el título para identificar al tutor", "warning");
+                    swal($filter('translate')("¡Título!"), $filter('translate')("Debes seleccionar el título para identificar al tutor"), "warning");
                     $scope.faltaotro = true;
                 } else if ($scope.properties.tutor.catParentezco === null) {
-                    swal("¡Parentesco!", "Debes seleccionar el parentesco con el tutor", "warning");
+                    swal($filter('translate')("¡Parentesco!"), $filter('translate')("Debes seleccionar el parentesco con el tutor"), "warning");
                     $scope.faltaotro = true;
                 } else if ($scope.properties.otroparentesco) {
                     if ($scope.properties.tutor.otroParentesco === undefined || $scope.properties.tutor.otroParentesco === "") {
-                        swal("¡Parentesco!", "Debes especificar el parentesco con el tutor", "warning");
+                        swal($filter('translate')("¡Parentesco!"), $filter('translate')("Debes especificar el parentesco con el tutor"), "warning");
                         $scope.faltaotro = true;
                     } else {
                         $scope.agregootro = true;
@@ -387,51 +387,51 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }
                 if ($scope.agregootro) {
                     if ($scope.properties.tutor.nombre === "") {
-                        swal("¡Nombre del tutor!", "Debes agregar nombre del tutor", "warning");
+                        swal($filter('translate')("¡Nombre del tutor!"), $filter('translate')("Debes agregar nombre del tutor"), "warning");
                     } else if ($scope.properties.tutor.apellidos === "") {
-                        swal("¡Apellidos del tutor!", "Debes agregar los apellidos del tutor", "warning");
+                        swal($filter('translate')("¡Apellidos del tutor!"), $filter('translate')("Debes agregar los apellidos del tutor"), "warning");
                     } else if ($scope.properties.tutor.correoElectronico === "") {
-                        swal("¡Correo electrónico!", "Debes agregar el correo electrónico del tutor", "warning");
+                        swal($filter('translate')("¡Correo electrónico!"), $filter('translate')("Debes agregar el correo electrónico del tutor"), "warning");
                     } else if (!re.test(String($scope.properties.tutor.correoElectronico.trim()).toLowerCase())) {
-                        swal("¡Correo electrónico!", "El correo electrónico no es valido", "warning");
+                        swal($filter('translate')("¡Correo electrónico!"), $filter('translate')("El correo electrónico no es valido"), "warning");
                     } else if ($scope.properties.tutor.catEgresoAnahuac === null) {
-                        swal("¡Egreso Anahuac!", "Debes seleccionar si tu tutor egresó de la universidad Anahuac", "warning");
+                        swal($filter('translate')("¡Egreso Anáhuac!"), $filter('translate')("Debes seleccionar si tu tutor egresó de la universidad Anáhuac"), "warning");
                     } else if ($scope.properties.tutor.catEgresoAnahuac.descripcion === "Si" || $scope.properties.tutor.catEgresoAnahuac.descripcion === "Sí") {
                         if ($scope.properties.tutor.catCampusEgreso === null) {
-                            swal("¡Campus egresado!", "Debes seleccionar de cúal campus Anáhuac egresó tu tutor", "warning");
+                            swal($filter('translate')("¡Campus egresado!"), $filter('translate')("Debes seleccionar de cúal campus Anáhuac egresó tu tutor"), "warning");
                         } else if ($scope.properties.tutor.catTrabaja === null) {
-                            swal("¿Trabaja?", "Debes seleccionar si tu tutor trabaja", "warning");
+                            swal($filter('translate')("¿Trabaja?"), $filter('translate')("Debes seleccionar si tu tutor trabaja"), "warning");
                         } else if ($scope.properties.tutor.catTrabaja.descripcion === "Si" || $scope.properties.tutor.catTrabaja.descripcion === "Sí") {
                             if ($scope.properties.tutor.empresaTrabaja === "") {
-                                swal("¡Empresa!", "Debes agregar el nombre de la empresa donde tu tutor trabaja", "warning");
+                                swal($filter('translate')("¡Empresa!"), $filter('translate')("Debes agregar el nombre de la empresa donde tu tutor trabaja"), "warning");
                             } else if ($scope.properties.tutor.giroEmpresa === "") {
-                                swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo del tutor", "warning");
+                                swal($filter('translate')("¡Giro empresa!"), $filter('translate')("Debes agregar el giro de la empresa del trabajo del tutor"), "warning");
                             } else if ($scope.properties.tutor.puesto === "") {
-                                swal("¡Puesto!", "Debes agregar el puesto de trabajo del tutor", "warning");
+                                swal($filter('translate')("¡Puesto!"), $filter('translate')("Debes agregar el puesto de trabajo del tutor"), "warning");
                             } else if ($scope.properties.tutor.catEscolaridad === null) {
-                                swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                                swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                             } else if (!$scope.properties.tutor.isTutor) {
                                 console.log("falta tutor");
                             } else if ($scope.properties.tutor.calle === "") {
-                                swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catPais === null) {
-                                swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.numeroExterior === "") {
-                                swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.ciudad === "") {
-                                swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                                swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                                swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                                swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.colonia === "") {
-                                swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
-                                swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                                swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                                swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                             } else {
                                 if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                     $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -546,29 +546,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 closeModal(true);
                             }
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
-                            swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                            swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.calle === "") {
-                            swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catPais === null) {
-                            swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.numeroExterior === "") {
-                            swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.ciudad === "") {
-                            swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                            swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                            swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                            swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.colonia === "") {
-                            swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
-                            swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                            swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                         } else {
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                 $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -683,38 +683,38 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             closeModal(true);
                         }
                     } else if ($scope.properties.tutor.catTrabaja === null) {
-                        swal("¿Trabaja?", "Debes seleccionar si tu tutor trabaja", "warning");
+                        swal($filter('translate')("¿Trabaja?"), $filter('translate')("Debes seleccionar si tu tutor trabaja"), "warning");
                     } else if ($scope.properties.tutor.catTrabaja.descripcion === "Si" || $scope.properties.tutor.catTrabaja.descripcion === "Sí") {
                         if ($scope.properties.tutor.empresaTrabaja === "") {
-                            swal("¡Empresa!", "Debes agregar el nombre de la empresa donde tu tutor trabaja", "warning");
+                            swal($filter('translate')("¡Empresa!"), $filter('translate')("Debes agregar el nombre de la empresa donde tu tutor trabaja"), "warning");
                         } else if ($scope.properties.tutor.giroEmpresa === "") {
-                            swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo del tutor", "warning");
+                            swal($filter('translate')("¡Giro empresa!"), $filter('translate')("Debes agregar el giro de la empresa del trabajo del tutor"), "warning");
                         } else if ($scope.properties.tutor.puesto === "") {
-                            swal("¡Puesto!", "Debes agregar el puesto de trabajo del tutor", "warning");
+                            swal($filter('translate')("¡Puesto!"), $filter('translate')("Debes agregar el puesto de trabajo del tutor"), "warning");
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
-                            swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                            swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.calle === "") {
-                            swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catPais === null) {
-                            swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.numeroExterior === "") {
-                            swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.ciudad === "") {
-                            swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                            swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                            swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                            swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.colonia === "") {
-                            swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
-                            swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                            swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                         } else {
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                 $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -829,29 +829,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             closeModal(true);
                         }
                     } else if ($scope.properties.tutor.catEscolaridad === null) {
-                        swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                        swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                     } else if (!$scope.properties.tutor.isTutor) {
                         console.log("falta tutor");
                     } else if ($scope.properties.tutor.calle === "") {
-                        swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                     } else if ($scope.properties.tutor.catPais === null) {
-                        swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                     } else if ($scope.properties.tutor.numeroExterior === "") {
-                        swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                     } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                        swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                     } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                        swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                     } else if ($scope.properties.tutor.ciudad === "") {
-                        swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                        swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                     } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                        swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                        swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                     } else if ($scope.properties.tutor.colonia === "") {
-                        swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                        swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                     } else if ($scope.properties.tutor.telefono === "") {
-                        swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                        swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                     } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                        swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                        swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                     } else {
                         if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                             $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -968,51 +968,51 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else {
                     if (!$scope.faltaotro) {
                         if ($scope.properties.tutor.nombre === "") {
-                            swal("¡Nombre del tutor!", "Debes agregar nombre del tutor", "warning");
+                            swal($filter('translate')("¡Nombre del tutor!"), $filter('translate')("Debes agregar nombre del tutor"), "warning");
                         } else if ($scope.properties.tutor.apellidos === "") {
-                            swal("¡Apellidos del tutor!", "Debes agregar los apellidos del tutor", "warning");
+                            swal($filter('translate')("¡Apellidos del tutor!"), $filter('translate')("Debes agregar los apellidos del tutor"), "warning");
                         } else if ($scope.properties.tutor.correoElectronico === "") {
-                            swal("¡Correo electrónico!", "Debes agregar el correo electrónico del tutor", "warning");
+                            swal($filter('translate')("¡Correo electrónico!"), $filter('translate')("Debes agregar el correo electrónico del tutor"), "warning");
                         } else if (!re.test(String($scope.properties.tutor.correoElectronico.trim()).toLowerCase())) {
-                            swal("¡Correo electrónico!", "El correo electrónico no es valido", "warning");
+                            swal($filter('translate')("¡Correo electrónico!"), $filter('translate')("El correo electrónico no es valido"), "warning");
                         } else if ($scope.properties.tutor.catEgresoAnahuac === null) {
-                            swal("¡Egreso Anahuac!", "Debes seleccionar si tu tutor egresó de la universidad Anahuac", "warning");
+                            swal($filter('translate')("¡Egreso Anáhuac!"), $filter('translate')("Debes seleccionar si tu tutor egresó de la universidad Anáhuac"), "warning");
                         } else if ($scope.properties.tutor.catEgresoAnahuac.descripcion === "Si" || $scope.properties.tutor.catEgresoAnahuac.descripcion === "Sí") {
                             if ($scope.properties.tutor.catCampusEgreso === null) {
-                                swal("¡Campus egresado!", "Debes seleccionar de cúal campus Anáhuac egresó tu tutor", "warning");
+                                swal($filter('translate')("¡Campus egresado!"), $filter('translate')("Debes seleccionar de cúal campus Anáhuac egresó tu tutor"), "warning");
                             } else if ($scope.properties.tutor.catTrabaja === null) {
-                                swal("¿Trabaja?", "Debes seleccionar si tu tutor trabaja", "warning");
+                                swal($filter('translate')("¿Trabaja?"), $filter('translate')("Debes seleccionar si tu tutor trabaja"), "warning");
                             } else if ($scope.properties.tutor.catTrabaja.descripcion === "Si" || $scope.properties.tutor.catTrabaja.descripcion === "Sí") {
                                 if ($scope.properties.tutor.empresaTrabaja === "") {
-                                    swal("¡Empresa!", "Debes agregar el nombre de la empresa donde tu tutor trabaja", "warning");
+                                    swal($filter('translate')("¡Empresa!"), $filter('translate')("Debes agregar el nombre de la empresa donde tu tutor trabaja"), "warning");
                                 } else if ($scope.properties.tutor.giroEmpresa === "") {
-                                    swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo del tutor", "warning");
+                                    swal($filter('translate')("¡Giro empresa!"), $filter('translate')("Debes agregar el giro de la empresa del trabajo del tutor"), "warning");
                                 } else if ($scope.properties.tutor.puesto === "") {
-                                    swal("¡Puesto!", "Debes agregar el puesto de trabajo del tutor", "warning");
+                                    swal($filter('translate')("¡Puesto!"), $filter('translate')("Debes agregar el puesto de trabajo del tutor"), "warning");
                                 } else if ($scope.properties.tutor.catEscolaridad === null) {
-                                    swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                                    swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                                 } else if (!$scope.properties.tutor.isTutor) {
                                     console.log("falta tutor");
                                 } else if ($scope.properties.tutor.calle === "") {
-                                    swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                                 } else if ($scope.properties.tutor.catPais === null) {
-                                    swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                                 } else if ($scope.properties.tutor.numeroExterior === "") {
-                                    swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                                 } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                                    swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                                 } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                                    swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                                 } else if ($scope.properties.tutor.ciudad === "") {
-                                    swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                                    swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                                 } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                                    swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                                    swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                                 } else if ($scope.properties.tutor.colonia === "") {
-                                    swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                                    swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                                 } else if ($scope.properties.tutor.telefono === "") {
-                                    swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                                    swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                                 } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                                    swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                                    swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                                 } else {
                                     if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                         $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -1127,29 +1127,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                     closeModal(true);
                                 }
                             } else if ($scope.properties.tutor.catEscolaridad === null) {
-                                swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                                swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                             } else if (!$scope.properties.tutor.isTutor) {
                                 console.log("falta tutor");
                             } else if ($scope.properties.tutor.calle === "") {
-                                swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catPais === null) {
-                                swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.numeroExterior === "") {
-                                swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.ciudad === "") {
-                                swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                                swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                                swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                                swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.colonia === "") {
-                                swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
-                                swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                                swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                                swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                             } else {
                                 if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                     $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -1264,38 +1264,38 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 closeModal(true);
                             }
                         } else if ($scope.properties.tutor.catTrabaja === null) {
-                            swal("¿Trabaja?", "Debes seleccionar si tu tutor trabaja", "warning");
+                            swal($filter('translate')("¿Trabaja?"), $filter('translate')("Debes seleccionar si tu tutor trabaja"), "warning");
                         } else if ($scope.properties.tutor.catTrabaja.descripcion === "Si" || $scope.properties.tutor.catTrabaja.descripcion === "Sí") {
                             if ($scope.properties.tutor.empresaTrabaja === "") {
-                                swal("¡Empresa!", "Debes agregar el nombre de la empresa donde tu tutor trabaja", "warning");
+                                swal($filter('translate')("¡Empresa!"), $filter('translate')("Debes agregar el nombre de la empresa donde tu tutor trabaja"), "warning");
                             } else if ($scope.properties.tutor.giroEmpresa === "") {
-                                swal("¡Giro empresa!", "Debes agregar el giro de la empresa del trabajo del tutor", "warning");
+                                swal($filter('translate')("¡Giro empresa!"), $filter('translate')("Debes agregar el giro de la empresa del trabajo del tutor"), "warning");
                             } else if ($scope.properties.tutor.puesto === "") {
-                                swal("¡Puesto!", "Debes agregar el puesto de trabajo del tutor", "warning");
+                                swal($filter('translate')("¡Puesto!"), $filter('translate')("Debes agregar el puesto de trabajo del tutor"), "warning");
                             } else if ($scope.properties.tutor.catEscolaridad === null) {
-                                swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                                swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                             } else if (!$scope.properties.tutor.isTutor) {
                                 console.log("falta tutor");
                             } else if ($scope.properties.tutor.calle === "") {
-                                swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catPais === null) {
-                                swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.numeroExterior === "") {
-                                swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                                swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.ciudad === "") {
-                                swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                                swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                                swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                                swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                             } else if ($scope.properties.tutor.colonia === "") {
-                                swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                                swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                             } else if ($scope.properties.tutor.telefono === "") {
-                                swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                                swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                             } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                                swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                                swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                             } else {
                                 if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                     $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
@@ -1410,29 +1410,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                 closeModal(true);
                             }
                         } else if ($scope.properties.tutor.catEscolaridad === null) {
-                            swal("¡Escolaridad!", "Debes seleccionar la escolaridad del tutor", "warning");
+                            swal($filter('translate')("¡Escolaridad!"), $filter('translate')("Debes seleccionar la escolaridad del tutor"), "warning");
                         } else if (!$scope.properties.tutor.isTutor) {
                             console.log("falta tutor");
                         } else if ($scope.properties.tutor.calle === "") {
-                            swal("¡Calle!", "Debes agregar la calle del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Calle!"), $filter('translate')("Debes agregar la calle del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catPais === null) {
-                            swal("¡País!", "Debes agregar el país del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡País!"), $filter('translate')("Debes agregar el país del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.numeroExterior === "") {
-                            swal("¡Número exterior!", "Debes agregar el número exterior del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Número exterior!"), $filter('translate')("Debes agregar el número exterior del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.catEstado === null && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if (($scope.properties.tutor.estadoExtranjero === null || $scope.properties.tutor.estadoExtranjero === "") && $scope.properties.tutor.catPais.descripcion !== "México") {
-                            swal("¡Estado!", "Debes agregar el estado del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Estado!"), $filter('translate')("Debes agregar el estado del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.ciudad === "") {
-                            swal("¡Ciudad!", "Debes agregar la ciudad de tu tutor", "warning");
+                            swal($filter('translate')("¡Ciudad!"), $filter('translate')("Debes agregar la ciudad de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.delegacionMunicipio === "") {
-                            swal("¡Municipio/Delegación/Poblado!", "Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor", "warning");
+                            swal($filter('translate')("¡Municipio/Delegación/Poblado!"), $filter('translate')("Debes agregar la Ciudad/Municipio/Delegación/Poblado del domicilio de tu tutor"), "warning");
                         } else if ($scope.properties.tutor.colonia === "") {
-                            swal("¡Colonia!", "Debes agregar la colonia del domicilio del tutor", "warning");
+                            swal($filter('translate')("¡Colonia!"), $filter('translate')("Debes agregar la colonia del domicilio del tutor"), "warning");
                         } else if ($scope.properties.tutor.telefono === "") {
-                            swal("¡Teléfono!", "Debes agregar el teléfono del tutor", "warning");
+                            swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del tutor"), "warning");
                         } else if ($scope.properties.tutor.codigoPostal === "" && $scope.properties.tutor.catPais.descripcion === "México") {
-                            swal("¡Código postal!", "Debes agregar el código postal del domicilio del padre", "warning");
+                            swal($filter('translate')("¡Código postal!"), $filter('translate')("Debes agregar el código postal del domicilio del padre"), "warning");
                         } else {
                             if ($scope.properties.tutor.catParentezco.descripcion === "Padre") {
                                 $scope.properties.padre.catTitulo = $scope.properties.tutor.catTitulo;
