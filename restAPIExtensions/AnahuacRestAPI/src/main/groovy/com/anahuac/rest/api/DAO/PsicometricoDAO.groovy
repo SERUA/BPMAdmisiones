@@ -1702,7 +1702,7 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 			//AND ((SELECT COUNT(persistenceid) FROM TestPsicometrico as TP2 WHERE TP2.countRechazo = TP.countRechazo) = 0)
 			
 			//Se agrego el filtro con la fecha para l excluir los casos del INVP //////sda.fecharegistro > '2023-07-27T00:00:00.340974' AND
-			where += " WHERE  sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false )"
+			where += " WHERE tp.finalizado IS NULL AND sda.iseliminado=false and (sda.isAspiranteMigrado is null  or sda.isAspiranteMigrado = false )"
 			if (object.campus != null) {
 				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
 			}
@@ -1740,7 +1740,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				errorlog = consulta + " 1";
 				switch (filtro.get("columna")) {
-
 					case "NOMBRE,EMAIL,CURP":
 						errorlog += "NOMBRE,EMAIL,CURP"
 						if (where.contains("WHERE")) {
@@ -1757,7 +1756,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "PROGRAMA,PERÍODO DE INGRESO,CAMPUS INGRESO":
 						errorlog += "PROGRAMA, PERÍODO DE INGRESO, CAMPUS INGRESO"
 						if (where.contains("WHERE")) {
@@ -1775,7 +1773,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where = where.replace("[valor]", filtro.get("valor"))
 
 						break;
-
 					case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
 						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
 						if (where.contains("WHERE")) {
@@ -1813,7 +1810,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 						//filtrado utilizado en lista roja y rechazado
 					case "NOMBRE,EMAIL,CURP":
 						errorlog += "NOMBRE,EMAIL,CURP"
@@ -1831,7 +1827,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "CAMPUS,PROGRAMA,INGRESO":
 						errorlog += "PROGRAMA,INGRESO,CAMPUS"
 						if (where.contains("WHERE")) {
@@ -1849,7 +1844,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where = where.replace("[valor]", filtro.get("valor"))
 
 						break;
-
 					case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
 						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
 						if (where.contains("WHERE")) {
@@ -1866,7 +1860,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "ESTATUS,TIPO":
 						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
 						if (where.contains("WHERE")) {
@@ -1880,7 +1873,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(R.descripcion) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "INDICADORES":
 						errorlog += "INDICADORES"
 						if (where.contains("WHERE")) {
@@ -1899,7 +1891,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where = where.replace("[valor]", filtro.get("valor"))
 
 						break;
-
 					case "ESTATUS":
 						errorlog += "ESTATUS"
 						if (where.contains("WHERE")) {
@@ -1915,7 +1906,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-						
 					case "IDBANNER":
 						errorlog += "IDBANNER"
 						tipoalumno += " AND LOWER(da.idbanner) ";
@@ -1926,7 +1916,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						}
 						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "ID BANNER":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -1941,7 +1930,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "FECHA SOLICITUD":
 						errorlog += "FECHA SOLICITUD"
 						if (where.contains("WHERE")) {
@@ -1956,10 +1944,8 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 							where += "LIKE LOWER('%[valor]%')"
 						}
 
-
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "SESIÓN,ID SESIÓN,FECHA ENTREVISTA":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -2007,18 +1993,16 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-						/*====================================================================*/
-
 					default:
-
 						//consulta=consulta.replace("[BACHILLERATO]", bachillerato)
 						//consulta=consulta.replace("[WHERE]", where);
-
 						break;
 				}
 
 			}
+			
 			errorlog = consulta + " 2";
+			
 			switch (object.orderby) {
 				case "RESIDEICA":
 					orderby += "residensia";
@@ -2369,7 +2353,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where = where.replace("[valor]", filtro.get("valor"))
 
 						break;
-
 					case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
 						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
 						if (where.contains("WHERE")) {
@@ -2389,7 +2372,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
 					case "ESTATUS,TIPO":
 						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
 						if (where.contains("WHERE")) {
@@ -2403,8 +2385,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " OR LOWER(R.descripcion) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-
-					
 					case "ESTATUS":
 						errorlog += "ESTATUS"
 						if (where.contains("WHERE")) {
@@ -2428,16 +2408,33 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " (LOWER(sda.ESTATUSSOLICITUD) like lower('%[valor]%') ";
 						where = where.replace("[valor]", filtro.get("valor"));
 						
-						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
-							where += " OR tp.finalizado IS [valor] )";
-							where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
-						} else {
-							where += " )";
-						}
 						
+//						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
+//							where += " OR tp.finalizado IS [valor] )";
+//							where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
+//						} else {
+//							where += " )";
+//						}
 						
 						break;
-					
+					case "INDICADORES":
+						errorlog += "INDICADORES"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+
+						where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(TA.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(TAL.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						break;
 					case "IDBANNER":
 						errorlog += "IDBANNER"
 						tipoalumno += " AND LOWER(da.idbanner) ";
@@ -2446,9 +2443,9 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						} else {
 							tipoalumno += "LIKE LOWER('%[valor]%')"
 						}
-						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"));
+						
 						break;
-
 					case "ID BANNER":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -2461,9 +2458,9 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						} else {
 							where += "LIKE LOWER('%[valor]%')"
 						}
-						where = where.replace("[valor]", filtro.get("valor"))
+						where = where.replace("[valor]", filtro.get("valor"));
+						
 						break;
-
 					case "FECHA SOLICITUD":
 						errorlog += "FECHA SOLICITUD"
 						if (where.contains("WHERE")) {
@@ -2478,11 +2475,9 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 							where += "LIKE LOWER('%[valor]%')"
 						}
 
-
-						where = where.replace("[valor]", filtro.get("valor"))
+						where = where.replace("[valor]", filtro.get("valor"));
+						
 						break;
-						/*============================================*/
-					
 					case "SESIÓN,ID SESIÓN,FECHA ENTREVISTA":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -2500,9 +2495,6 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where = where.replace("[valor]", filtro.get("valor"))
 						
 						break;
-					
-						/*====================================================================*/
-
 					default:
 					
 						break;
