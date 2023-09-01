@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, $filter) {
 
     'use strict';
   
@@ -39,19 +39,19 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
           }
           
           if ($scope.properties.contactoJson.catCasoDeEmergencia === null) {
-                  swal("¡Contacto de emergencia!", "Debes de agregar por lo menos un contacto de emergencia", "warning");
-              } else if ($scope.properties.contactoJson.nombre === "") {
-                  swal("¡Nombre!", "Debes agregar el nombre del contacto de emergencia", "warning");
-              } else if ($scope.properties.contactoJson.telefono === "") {
-                  swal("¡Teléfono!", "Debes agregar el teléfono del contacto de emergencia", "warning");
-              } else if ($scope.properties.contactoJson.telefonoCelular === "") {
-                  swal("¡Teléfono celular!", "Debes agregar el teléfono celular del contacto de emergencia!", "warning");
-              } else if ($scope.properties.contactoJson.catCasoDeEmergencia.descripcion === "Otro") {
-                  if ($scope.properties.contactoJson.catParentesco === null) {
-                      swal("¡Parentesco!", "Debes agregar el parentesco del contacto de emergencia", "warning");
-                  } else if ($scope.properties.contactoJson.catParentesco.descripcion === "Otro") {
-                      if ($scope.properties.contactoJson.parentesco === "" || $scope.properties.contactoJson.parentesco === undefined) {
-                          swal("¡Parentesco!", "Debes agregar el parentesco del contacto de emergencia", "warning");
+            swal($filter('translate')("¡Contacto de emergencia!"), $filter('translate')("Debes de agregar por lo menos un contacto de emergencia"), "warning");
+        } else if ($scope.properties.contactoJson.nombre === "") {
+            swal($filter('translate')("¡Nombre!"), $filter('translate')("Debes agregar el nombre del contacto de emergencia"), "warning");
+        } else if ($scope.properties.contactoJson.telefono === "") {
+            swal($filter('translate')("¡Teléfono!"), $filter('translate')("Debes agregar el teléfono del contacto de emergencia"), "warning");
+        } else if ($scope.properties.contactoJson.telefonoCelular === "") {
+            swal($filter('translate')("¡Teléfono celular!"), $filter('translate')("Debes agregar el teléfono celular del contacto de emergencia!"), "warning");
+        } else if ($scope.properties.contactoJson.catCasoDeEmergencia.descripcion === "Otro") {
+            if (!$scope.properties.contactoJson.catParentesco) {
+                swal($filter('translate')("¡Parentesco!"), $filter('translate')("Debes agregar el parentesco del contacto de emergencia"), "warning");
+            } else if ($scope.properties.contactoJson.catParentesco.descripcion === "Otro") {
+                if (!$scope.properties.contactoJson.parentesco || $scope.properties.contactoJson.parentesco === "") {
+                    swal($filter('translate')("¡Parentesco!"), $filter('translate')("Debes agregar el parentesco del contacto de emergencia"), "warning");
                       } else {
                           //$scope.properties.contactoEmergencia.push($scope.properties.contactoJson);
                           $scope.properties.contactoJson = {

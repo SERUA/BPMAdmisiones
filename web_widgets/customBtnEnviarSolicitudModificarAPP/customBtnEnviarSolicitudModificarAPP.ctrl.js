@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, blockUI, $filter) {
 
     'use strict';
   
@@ -13,22 +13,22 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         closeModal($scope.properties.closeOnSuccess);
       } else if ($scope.properties.action === 'Start process') {
           if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.datosVeridicos){
-              swal("¡Aviso!", "Debes aceptar que los datos ingresados son verídicos", "warning");
-          }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad){
-              swal("¡Aviso!", "Debes aceptar el aviso de privacidad", "warning");
-          }else if(!$scope.properties.formInput.catSolicitudDeAdmisionInput.confirmarAutorDatos){
-              swal("¡Aviso!", "Debes aceptar que confirma que eres el autor de los datos de este formulario", "warning");
-          }else{
-              startProcess();
-          }
-      } else if ($scope.properties.action === 'Submit task') {
-          console.log("Enviara a modificar");
-          if(!$scope.properties.catSolicitudDeAdmision.datosVeridicos){
-              swal("¡Aviso!", "Debes aceptar que los datos ingresados son verídicos", "warning");
-          }else if(!$scope.properties.catSolicitudDeAdmision.aceptoAvisoPrivacidad){
-              swal("¡Aviso!", "Debes aceptar el aviso de privacidad", "warning");
-          }else if(!$scope.properties.catSolicitudDeAdmision.confirmarAutorDatos){
-              swal("¡Aviso!", "Debes aceptar que confirma que eres el autor de los datos de este formulario", "warning");
+            swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar que los datos ingresados son verídicos"), "warning");
+        } else if (!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad) {
+            swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar el aviso de privacidad"), "warning");
+        } else if (!$scope.properties.formInput.catSolicitudDeAdmisionInput.confirmarAutorDatos) {
+            swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar que confirma que eres el autor de los datos de este formulario"), "warning");
+        } else {
+            startProcess();
+        }
+        } else if ($scope.properties.action === 'Submit task') {
+            console.log("Sending for modification");
+            if (!$scope.properties.catSolicitudDeAdmision.datosVeridicos) {
+                swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar que los datos ingresados son verídicos"), "warning");
+            } else if (!$scope.properties.catSolicitudDeAdmision.aceptoAvisoPrivacidad) {
+                swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar el aviso de privacidad"), "warning");
+            } else if (!$scope.properties.catSolicitudDeAdmision.confirmarAutorDatos) {
+                swal($filter('translate')("¡Aviso!"), $filter('translate')("Debes aceptar que confirma que eres el autor de los datos de este formulario"), "warning");
           }else{
               blockUI.start();
               $scope.properties.dataToSend.isEnviarSolicitudCont = true;

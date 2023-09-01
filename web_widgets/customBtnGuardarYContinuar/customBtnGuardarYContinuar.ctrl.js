@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, $filter) {
 
     'use strict';
 
@@ -13,11 +13,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
             if (!$scope.properties.formInput.catSolicitudDeAdmisionInput.datosVeridicos) {
-                swal("Aviso!", "Debe aceptar que los datos ingresados son veridicos!", "warning");
+                swal($filter('translate')("Aviso!"), $filter('translate')("Debe aceptar que los datos ingresados son verídicos!"), "warning");
             } else if (!$scope.properties.formInput.catSolicitudDeAdmisionInput.aceptoAvisoPrivacidad) {
-                swal("Aviso!", "Debe aceptar el aviso de privacidad!", "warning");
+                swal($filter('translate')("Aviso!"), $filter('translate')("Debe aceptar el aviso de privacidad!"), "warning");
             } else if (!$scope.properties.formInput.catSolicitudDeAdmisionInput.confirmarAutorDatos) {
-                swal("Aviso!", "Debe aceptar que confirma que es el auto de los datos de este formulario!", "warning");
+                swal($filter('translate')("Aviso!"), $filter('translate')("Debe aceptar que confirma que es el autor de los datos de este formulario!"), "warning");
             } else {
                 startProcess();
             }

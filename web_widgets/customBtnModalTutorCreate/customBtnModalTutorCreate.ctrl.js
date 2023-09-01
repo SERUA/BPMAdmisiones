@@ -1,4 +1,4 @@
-function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService) {
+function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageService, modalService, $filter) {
 
     'use strict';
 
