@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "Reportes",
   "name" : "Reportes",
-  "lastUpdate" : 1674177546157,
+  "lastUpdate" : 1693595759299,
   "rows" : [
     [
       {
@@ -2289,6 +2289,30 @@
     },
     "skip" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "validarTISERUA" : {
+      "type" : "expression",
+      "value" : [
+        "debugger",
+        "",
+        "var isTISERUA;",
+        "",
+        "for (var i = 0; i < $data.lstMembership.length; i++) {",
+        "    if ($data.lstMembership[i].role_id.id === \"10\") {",
+        "        isTISERUA = true;",
+        "        break;",
+        "    }else{",
+        "        isTISERUA = false;",
+        "    }",
+        "}",
+        "",
+        "if (isTISERUA == false) {",
+        "    $data.lstReportes = $data.lstReportes.filter(function (reporte) {",
+        "        return reporte.reporte === 'Lexium';",
+        "    });",
+        "}"
+      ],
       "exposed" : false
     }
   },
