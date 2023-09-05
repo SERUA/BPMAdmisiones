@@ -1589,7 +1589,7 @@ class UsuariosDAO {
 			
 			data.add(usuariobloqueado);
 			resultado.setData(data);
-			resultado.setSuccess(true)
+			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
@@ -1725,6 +1725,80 @@ class UsuariosDAO {
 		
 		return resultado;
 	} 
+	
+	public Result checkToleranciaV2(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Boolean hasTolerance = false;
+		List<Boolean> data = new ArrayList<Boolean>();
+		String errorInfo = "";
+		Boolean examenReiniciado = false;
+		Boolean puedeentrar = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_INVP_INSTANCIA);
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			errorLog += "| 1 ";
+			if(rs.next()) {
+				examenReiniciado = rs.getBoolean("examenReiniciado");
+				errorLog += "| 2 " +  rs.getString("examenReiniciado");
+			} else {
+				errorLog += "| 3 ";
+				examenReiniciado = false;
+			}
+			
+			if(examenReiniciado != true) {
+				errorLog += "| 4 ";
+				closeCon = validarConexion();
+				pstm = con.prepareStatement(Statements.GET_TOLERANCIA_BY_USERNAME);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					errorLog += "| 5 ";
+					hasTolerance = rs.getBoolean("tienetolerancia");
+				} else {
+					errorLog += "| 6 ";
+					throw new Exception("no_tolerancia");
+				}
+			}
+			
+			if(hasTolerance != true || examenReiniciado == true) {
+				errorLog += "| 8 ";
+				pstm = con.prepareStatement(Statements.GET_TOLERANCIATEMP_BY_USERNAME);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					errorLog += "| 9 ";
+					hasTolerance = rs.getBoolean("tienetolerancia");
+				} else {
+					errorLog += "| 10 ";
+					throw new Exception("no_tolerancia");
+				}
+			}
+			
+			errorLog += "| 11 ";
+			
+			data.add(hasTolerance);
+			resultado.setData(data);
+			resultado.setSuccess(true);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 	
 	public Result checkToleranciaTemp(String username) {
 		Result resultado = new Result();
