@@ -298,7 +298,7 @@ class PDFDocumentDAO {
 			info?.each { 
 				comentarios += (comentarios.length() > 1?"<br>":"")+ it?.comentario
 			}
-			columns.put("comentarios",  isNullOrBlanck(comentarios) );
+			columns.put("comentarios",  isNullOrBlanck(comentarios.replace("font-family: Arial, sans-serif", " font-family: SansSerif ")   ) );
 			
 			Properties prop = new Properties();
 			String propFileName = "configuration.properties";
@@ -311,6 +311,7 @@ class PDFDocumentDAO {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 			String plantilla = prop.getProperty("jasperBase64")
+			
 			//columns.put("fotoFondo", prop.getProperty("fondo"));
 			inputStream.close();
 			
@@ -318,7 +319,7 @@ class PDFDocumentDAO {
 			targetStream = new ByteArrayInputStream(file);
 			streamOpen = true;
 			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream)
-			
+
 			JRDataSource dataSource = new JREmptyDataSource();
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
 			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
