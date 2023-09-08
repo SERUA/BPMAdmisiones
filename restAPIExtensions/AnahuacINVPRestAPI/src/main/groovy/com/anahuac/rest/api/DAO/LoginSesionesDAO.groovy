@@ -143,6 +143,15 @@ class LoginSesionesDAO {
 			if(!checkBloqueado.isSuccess()) {
 				throw new Exception(checkBloqueado.getError());
 			} else {
+				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
+				if(!resultBloquear.isSuccess()) {
+					errorlog += " | 12 ";
+					throw new Exception(resultBloquear.getError());
+				} else {
+					errorlog += " | 13 ";
+					resultado = resultBloquear;
+				}
+				
 				resultado.setSuccess(true);
 			}
 		} catch (BonitaException  e) {
@@ -232,7 +241,18 @@ class LoginSesionesDAO {
 					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
 						errorlog += " | getSesionActivaV2::15 "
 						String mensaje = "";
-						if(!rs.getBoolean("sesion_iniciada")) {
+						
+						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
+						errorlog += " | getSesionActivaV2::20 "
+						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
+						errorlog += " | getSesionActivaV2::21 "
+						errorlog += " | finalizada_temp.toString()::" +finalizada_temp.toString() + " | rs.wasNull()::" + rs.wasNull().toString();
+						
+						if(rs.getBoolean("sesion_finalizada") == true && ((sesion_finalizada_temp == true || finalizada_temp == null))) {
+							errorlog += " | getSesionActivaV2::19 ";
+							mensaje = rs.getString("salidahora");
+							throw new Exception("sesion_finalizada|" + mensaje);
+						} else if(!rs.getBoolean("sesion_iniciada")) {
 							errorlog += " | getSesionActivaV2::16 "
 							mensaje = rs.getString("entradahora");
 							throw new Exception("sesion_no_iniciada|" + mensaje);
@@ -244,9 +264,23 @@ class LoginSesionesDAO {
 								throw new Exception("sesion_no_iniciada|" + mensaje);
 							}
 						}
+					} else {
+						errorlog += " | getSesionActivaV2::19 "
+						String mensaje = "";
+						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
+						errorlog += " | getSesionActivaV2::20 "
+						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
+						errorlog += " | getSesionActivaV2::21 "
+						errorlog += " | finalizada_temp.toString()::";
+						
+						if(rs.getBoolean("sesion_finalizada") == true && (sesion_finalizada_temp == true || finalizada_temp == null)) {
+							errorlog += " | getSesionActivaV2::22 ";
+							mensaje = rs.getString("fechafin_temp");
+							throw new Exception("sesion_finalizada|" + mensaje);
+						}
 					}
 				} else {
-					errorlog += " | getSesionActivaV2::19 "
+					errorlog += " | getSesionActivaV2::23 "
 					throw new Exception("no_existe_sesion");
 				}
 			}
