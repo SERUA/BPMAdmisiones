@@ -1762,7 +1762,7 @@ class UsuariosDAO {
 					hasTolerance = rs.getBoolean("tienetolerancia");
 				} else {
 					errorLog += "| 6 ";
-					throw new Exception("no_tolerancia");
+					hasTolerance = false;
 				}
 			}
 			
@@ -1775,13 +1775,17 @@ class UsuariosDAO {
 				if(rs.next()) {
 					errorLog += "| 9 ";
 					hasTolerance = rs.getBoolean("tienetolerancia");
+					if(!hasTolerance) {
+						errorLog += "| 11 ";
+						throw new Exception("no_tolerancia");
+					}
 				} else {
 					errorLog += "| 10 ";
 					throw new Exception("no_tolerancia");
 				}
 			}
 			
-			errorLog += "| 11 ";
+			errorLog += "| 12 ";
 			
 			data.add(hasTolerance);
 			resultado.setData(data);
@@ -1792,9 +1796,10 @@ class UsuariosDAO {
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);
 		} finally {
-			if(closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm)
-			}
+//			if(closeCon) {
+//				new DBConnect().closeObj(con, stm, rs, pstm)
+//			}
+			new DBConnect().closeObj(con, stm, rs, pstm);
 		}
 		
 		return resultado;

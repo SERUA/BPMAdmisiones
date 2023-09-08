@@ -113,8 +113,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             "username":_username,
             "password": _password
         }
-        let url = "../API/extension/AnahuacINVPRestAPI?url=loginINVP&p=0&c=10";
-        
+        // let url = "../API/extension/AnahuacINVPRestAPI?url=loginINVP&p=0&c=10";
+        let url = "../API/extension/AnahuacINVPRestAPI?url=loginV2&p=0&c=10";        
         $http.post(url, data).success(function(_success){
             $("#loading").modal("hide");
             loginPlatform();
