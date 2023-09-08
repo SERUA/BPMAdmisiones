@@ -1,0 +1,741 @@
+package com.anahuac.rest.api.Security
+
+
+import org.bonitasoft.engine.identity.UserMembership
+import org.bonitasoft.engine.identity.UserMembershipCriterion
+
+import org.bonitasoft.web.extension.rest.RestAPIContext
+
+class SecurityFilter {
+	public Boolean bonitaRolFilter(RestAPIContext context,String roleName) {
+		Boolean valid = false;
+		List<UserMembership> uMemberships=context.apiClient.identityAPI.getUserMemberships(context.apiSession.userId, 0, 100, UserMembershipCriterion.ROLE_NAME_ASC);
+		uMemberships.each{
+			it ->
+			if(it.roleName.toLowerCase().equals(roleName.toLowerCase()) || it.roleName.equals("ADMINISTRADOR") || it.roleName.equals("TI SERUA") || it.roleName.equals("SERUA") || it.roleName.equals("TI CAMPUS") || it.roleName.equals("PSICOLOGO") || it.roleName.equals("PSICOLOGO SUPERVISOR") || it.roleName.equals("PASE DE LISTA")) {
+				valid=true
+			}
+		}
+		
+		return valid;
+	} 
+	
+	public Boolean allowedUrl(RestAPIContext context, String url) {
+		
+			Boolean allow= false;
+			switch(url){
+				case "getCatalogosGenericos":
+					allow=bonitaRolFilter(context,"BECAS")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+				break;
+				case "getUserProcessApoyoEducativo":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getCatTipoAoyoByCampus":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+				break;
+				case "getB64FileByUrlAzure":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+				break;
+				case "getSolicitudDeAdmision":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+				break;
+				case "getConfiguracionCampus":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getPRomedioMinimoByCampus":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getDocumentosByTipoApoyo":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+				break;
+				case "getDocumentosByCaseId":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getImagenesByCaseId":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getCatTienesHijos":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getPromedioMinimoByCampus":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getSolicitudByCaseid":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+				break;
+				case "getInfrmacionEscolar":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+				break;
+				case "getConfiguracionPagoEstudioSocEcoAspirante":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+				break;
+				case "getConfiguracionPagoEstudioSocEco":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"TI CAMPUS")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				case "getSDAEGestionEscolar":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "insertUpdateCatProvienenIngresos":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+				break;
+				case "getPromedioMinimoApoyoByCampus":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+				break;
+				case "switchTipoApoyoImagen":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+				break;
+				case "getExisteSDAEGestionEscolar":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "getSDAEGestionEscolarByCarrera":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+				break;
+				case "getInfoBitacora":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+				break;
+				case "getYear":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "getBannerInfo":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+				break;
+				case "getImagenesByTipoApoyo":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Artistica")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ASPIRANTE")
+					if(allow){break;}
+				break;
+				case "getBitacoraSDAEByCaseId":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+				break;
+				case "getCartasNotificaciones":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "getExisteSDAECreditoGE":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "getCreditoGE":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+				case "removerDuplicadosFinan":
+					allow=bonitaRolFilter(context,"TI SERUA")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Config Campus SDAE")
+					if(allow){break;}
+				break;
+			}
+			return allow;
+	}
+	public Boolean allowedUrlPost(RestAPIContext context, String url) {
+		Boolean allow = false;
+	
+		switch (url) {
+			case "getExcelBachilleratos":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+			break;
+			case "simpleSelect":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+			break;
+			case "insertBitacoraSDAE":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Artistica")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Deportiva")
+				if(allow){break;}
+			break;
+			case "getCatTipoAoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Artistica")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Deportiva")
+				if(allow){break;}
+			break;
+			case "getCampusByTipoApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "insertUpdateCatTipoApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "switchCampusTipoApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "updateTipoApoyoVideo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "insertManejoDocumento":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "getImagenesByTipoApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Artistica")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Deportiva")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Becas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Comite de Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ASPIRANTE")
+				if(allow){break;}
+			break;
+			case "selectSolicitudesApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Artistica")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Area Deportiva")
+				if(allow){break;}
+			break;
+			case "getCatGenerico":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertUpdateCatTipoMoneda":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertUpdateCatGenerico":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "getCatManejoDocumento":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "getCatTienesHijos":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "deleteCatManejoDocumentos":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertImagenSocioEconomico":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "deleteImagenSocioEconomico":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertSDAEGestionEscolar":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "updateSDAEGestionEscolar":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				allow=bonitaRolFilter(context,"Config Campus SDAE")
+				if(allow){break;}
+			break;
+			case "insertSDAECreditoGE":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "updateSDAECreditoGE":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertUpdateConfigCampus":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "insertUpdateConfigPagoEstudioSocEco":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "deleteCatTipoApoyo":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+			break;
+			case "selectBandejaMaestra":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "selectAspirantesEnproceso":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "countSolicitudesDeApoyoByEstatus":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+			break;
+			case "selectBandejaMaestra":
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				break;
+			case "selectSolicitudesApoyoCompletadas":
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Comite de Finanzas")
+				if(allow){break;}
+				break;
+			case "selectSolicitudesApoyoFinanzas":
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				break;
+			case "getExcelFile":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				break;
+			case "getExcelFileCierre":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				break;
+			case "getExcelFileBandejaMaestra":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Chat")
+				if(allow){break;}
+				break;
+			case "removerDuplicadosFinan":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				break;
+			case "deleteCartaSDAE":
+				allow=bonitaRolFilter(context,"ADMINISTRADOR")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"TI SERUA")
+				if(allow){break;}
+				break;	
+		}
+		return allow;
+	}
+}
