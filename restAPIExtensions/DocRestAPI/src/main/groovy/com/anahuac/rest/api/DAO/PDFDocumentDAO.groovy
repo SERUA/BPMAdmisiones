@@ -278,7 +278,8 @@ class PDFDocumentDAO {
 			log = 5;
 			
 			info =  getInfoCapacidadAdaptacion(caseid,object.intento)?.getData();
-			columns.put("ajusteMedioFamiliar",  isNullOrBlanck(info?.get(0)?.ajustemediofamiliar.toString()) );
+			def ajusteMedioFamiliarValue = info?.get(0)?.ajustemediofamiliar.toString()
+			def textoSinHtml = ajusteMedioFamiliarValue.replaceAll(/<[^>]+>/, '') 
 			columns.put("califajustemediofamiliar",  isNullOrBlanck(info?.get(0)?.califajustemediofamiliar.toString()) );
 			columns.put("ajusteEscolarPrevio",  isNullOrBlanck(info?.get(0)?.ajusteescolarprevio.toString()) );
 			columns.put("califajusteescolarprevio",  isNullOrBlanck(info?.get(0)?.califajusteescolarprevio.toString()) );
