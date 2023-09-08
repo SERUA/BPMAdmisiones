@@ -278,8 +278,7 @@ class PDFDocumentDAO {
 			log = 5;
 			
 			info =  getInfoCapacidadAdaptacion(caseid,object.intento)?.getData();
-			def ajusteMedioFamiliarValue = info?.get(0)?.ajustemediofamiliar.toString()
-			def textoSinHtml = ajusteMedioFamiliarValue.replaceAll(/<[^>]+>/, '') 
+			columns.put("ajusteMedioFamiliar",  isNullOrBlanck(info?.get(0)?.ajustemediofamiliar.toString()) );
 			columns.put("califajustemediofamiliar",  isNullOrBlanck(info?.get(0)?.califajustemediofamiliar.toString()) );
 			columns.put("ajusteEscolarPrevio",  isNullOrBlanck(info?.get(0)?.ajusteescolarprevio.toString()) );
 			columns.put("califajusteescolarprevio",  isNullOrBlanck(info?.get(0)?.califajusteescolarprevio.toString()) );
@@ -352,11 +351,14 @@ class PDFDocumentDAO {
 	}
 	
 	private String isNullOrBlanck(String text) {
-		if(text == null || text.equals(null) || text.equals("null") || text.equals("") || text.length() == 0) {
-			return "N/A"
-		}
-		
-	    return text;
+    if (text == null || text.equals("null") || text.equals("") || text.length() == 0) {
+        return "N/A";
+    }
+    
+    // Realiza la sustitución de etiquetas HTML
+    text = text.replaceAll("<[^>]+>", "");
+    
+    return text;
 	}
 	
 	private String encodeFileToBase64Binary(String fileName) throws IOException {
