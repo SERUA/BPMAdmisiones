@@ -2391,7 +2391,7 @@ class UsuariosDAO {
 						break;
 					} else if (task.name.equals("Finalizar examen")){
 						encontrado = true;
-						
+						closeCon = validarConexion();
 						pstm = con.prepareStatement(Statements.GET_FECHA_TERMINO_BY_USERNAME);
 						pstm.setString(1, username);
 						rs = pstm.executeQuery();
@@ -2440,9 +2440,7 @@ class UsuariosDAO {
 			resultado.setError_info(errorLog);
 			e.printStackTrace();
 		}  finally {
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm);
-			}
+			new DBConnect().closeObj(con, stm, rs, pstm);
 		}
 		
 		return resultado;
@@ -2522,7 +2520,6 @@ class UsuariosDAO {
 				if(object.caseid != null) {
 					Result resultTimer = updateTimer(Long.valueOf(object.caseid), timer);
 				}
-				
 			}
 			
 			resultado.setSuccess(true);
