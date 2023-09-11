@@ -153,6 +153,16 @@ class IndexGet implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "getSesionIniciada":
+				String username = request.getParameter "username"
+				result = new LoginSesionesDAO().getSesionIniciada(username);
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
 			case "checkToleranciaV2":
 				String username = request.getParameter "username"
 				result = new UsuariosDAO().checkToleranciaV2(username);

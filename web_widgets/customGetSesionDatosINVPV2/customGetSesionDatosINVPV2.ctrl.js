@@ -1,7 +1,7 @@
 function ($scope, $http) {
     $scope.$watch("properties.username", function(){
         if($scope.properties.username){
-            let url = "../API/extension/AnahuacINVPRestGet?url=getSesionActivaV2&p=0&c=10&username=" + $scope.properties.username; 
+            let url = $scope.properties.url + $scope.properties.username; 
             
             $http.get(url).success(function(_success){
                 $scope.properties.sesionInfoV2 = angular.copy(_success);
