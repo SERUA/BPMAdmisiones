@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "Reportes",
   "name" : "Reportes",
-  "lastUpdate" : 1693595759299,
+  "lastUpdate" : 1694219893129,
   "rows" : [
     [
       {
@@ -2296,14 +2296,13 @@
       "value" : [
         "debugger",
         "",
-        "var isTISERUA;",
+        "var isTISERUA = false;",
+        "var validRoleIds = [\"10\", \"3\", \"7\"];",
         "",
         "for (var i = 0; i < $data.lstMembership.length; i++) {",
-        "    if ($data.lstMembership[i].role_id.id === \"10\") {",
+        "    if (validRoleIds.includes($data.lstMembership[i].role_id.id)) {",
         "        isTISERUA = true;",
         "        break;",
-        "    }else{",
-        "        isTISERUA = false;",
         "    }",
         "}",
         "",
