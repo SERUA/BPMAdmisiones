@@ -351,11 +351,14 @@ class PDFDocumentDAO {
 	}
 	
 	private String isNullOrBlanck(String text) {
-		if(text == null || text.equals(null) || text.equals("null") || text.equals("") || text.length() == 0) {
-			return "N/A"
-		}
-		
-	    return text;
+    if (text == null || text.equals("null") || text.equals("") || text.length() == 0) {
+        return "N/A";
+    }
+    
+    // Realiza la sustitución de etiquetas HTML
+    text = text.replaceAll("<[^>]+>", "");
+    
+    return text;
 	}
 	
 	private String encodeFileToBase64Binary(String fileName) throws IOException {
