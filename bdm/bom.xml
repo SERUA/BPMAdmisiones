@@ -4893,8 +4893,85 @@
             <queries/>
             <indexes/>
         </businessObject>
-        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTest">
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatCampus">
             <fields>
+                <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_implementacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_aviso_privacidad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_datos_veridicos" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_autor_datos" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="activado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="grupo_bonita" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_ext" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_int" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="codigo_postal" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="municipio" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatPais" fetchType="LAZY" name="pais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.catalogos.CatEstados" fetchType="LAZY" name="estado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_imagen" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="email" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_guia_examen" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil">
+            <fields>
+                <field type="STRING" length="255" name="attribute" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstatusProceso">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNacionalidad">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatReligion">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatSexo">
+            <fields>
+                <field type="STRING" length="255" name="attribute" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatSiNo">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="attribute" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
@@ -4919,9 +4996,55 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRDatosDeContacto">
+            <fields>
+                <field type="STRING" length="255" name="calle" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_ext" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="numero_int" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_celular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_casa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_contacto" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRDatosPersonales">
+            <fields>
+                <field type="STRING" length="255" name="urlFoto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="LAZY" name="sexo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="LAZY" name="estado_civil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="LAZY" name="nacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="LAZY" name="religion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pasaporte" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_nacimiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_pais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_estado" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRInfoAcademica">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="grado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="programa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="institucion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolicutudAdmision">
             <fields>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="correo_electronico" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="contrasena" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
