@@ -1,12 +1,15 @@
 function customSetValueDetallesSolicitud($scope, $http) {
     $scope.$watch("properties.formOutput", function() {
         if ($scope.properties.formOutput !== undefined && $scope.properties.objDetalleSolicitud !== undefined && $scope.properties.urlTipoAlumno !== undefined && $scope.properties.urlResidencia !== undefined && $scope.properties.urlTipoAdmision !== undefined) {
-
+            
             let tienedescuento = true;
             $scope.properties.isCurpValidado = $scope.properties.objDetalleSolicitud.isCurpValidado;
             $scope.properties.descuento = $scope.properties.objDetalleSolicitud.descuento;
+            debugger;
             if ($scope.properties.descuento !== null && $scope.properties.descuento !== undefined && $scope.properties.descuento !== "" && $scope.properties.descuento > 0) {
                 $scope.properties.descuentoManual = true;
+            } else {
+                $scope.properties.descuentoManual = false;
             }
             $scope.properties.formOutput.detalleSolicitudInput.observacionesDescuento = $scope.properties.objDetalleSolicitud.observacionesDescuento;
             if ($scope.properties.objDetalleSolicitud.promedioCoincide !== null) {

@@ -2416,24 +2416,13 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 //							where += " )";
 //						}
 						
-						break;
-					case "INDICADORES":
-						errorlog += "INDICADORES"
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-
-						where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
-						where = where.replace("[valor]", filtro.get("valor"))
-
-						where += " OR LOWER(TA.descripcion) like lower('%[valor]%') ";
-						where = where.replace("[valor]", filtro.get("valor"))
-
-						where += " OR LOWER(TAL.descripcion) like lower('%[valor]%') )";
-						where = where.replace("[valor]", filtro.get("valor"))
-
+//						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
+//							where += " OR tp.finalizado IS [valor] )";
+//							where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
+//						} else {
+//							where += " )";
+//						}
+						
 						break;
 					case "INDICADORES":
 						errorlog += "INDICADORES"
