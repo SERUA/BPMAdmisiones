@@ -48,6 +48,6 @@ class IndexTest extends Specification {
     // Verificar que la respuesta tenga un estado HTTP 400 cuando "url" es nulo
     apiResponse.httpStatus == 400
     jsonResponse.error == "the parameter url is missing"
-	}
+}
 
 }

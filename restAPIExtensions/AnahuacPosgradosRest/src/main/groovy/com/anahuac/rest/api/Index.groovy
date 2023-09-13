@@ -60,24 +60,24 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "insert":
-					result = new CatalogosDAO().insert(jsonData, context)
+				case "insertCatFiltroSeguridad":
+					result = new CatalogosDAO().insertCatFiltroSeguridad(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "delete":
-					result = new CatalogosDAO().delete(jsonData, context)
+				case "deleteCatFiltroSeguridad":
+					result = new CatalogosDAO().deleteCatFiltroSeguridad(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "modify":
-					result = new CatalogosDAO().modify(jsonData, context)
+				case "updateCatFiltroSeguridad":
+					result = new CatalogosDAO().updateCatFiltroSeguridad(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

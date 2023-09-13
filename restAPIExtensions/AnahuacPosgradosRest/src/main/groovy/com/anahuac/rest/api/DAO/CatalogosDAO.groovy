@@ -327,22 +327,104 @@ class CatalogosDAO {
 		return resultado
 	}
 	
-	public Result insert(String jsonData, RestAPIContext context) {
-        Result result = new Result()
-        result.data = "funciona"
-        return result
-    }
+	public Result insertCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	
+	        long persistenceId = 1;
+	        String rol = "admin";
+	        String servicio = "prueba";
+	
+	        pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, ROL, SERVICIO) VALUES (?, ?, ?)");
+	        pstm.setLong(1, persistenceId);
+	        pstm.setString(2, rol);
+	        pstm.setString(3, servicio);
+	
+	        pstm.execute();
+	        LOGGER.info("Insert completado con éxito.");
+	        resultado.setSuccess(true);
+	    } catch (Exception e) {
+	        LOGGER.error("[ERROR] " + e.getMessage(), e);
+	        resultado.setSuccess(false);
+	        resultado.setError("[insert] " + e.getMessage());
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
 
-    public Result delete(String jsonData, RestAPIContext context) {
-        Result result = new Result()
-        result.data = "funciona"
-        return result
-    }
 
-    public Result modify(String jsonData, RestAPIContext context) {
-        Result result = new Result()
-        result.data = "funciona"
-        return result
-    }
+    public Result deleteCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	
+	        Long id = 1;
+
+	        pstm = con.prepareStatement("DELETE FROM PSGRFILTROSEGURIDAD WHERE PERSISTENCEID = ?");
+	        pstm.setLong(1, id);
+	
+	        int rowsAffected = pstm.executeUpdate();
+	
+	        if (rowsAffected > 0) {
+	            LOGGER.info("Registro eliminado con éxito.");
+	            resultado.setSuccess(true);
+	        } else {
+	            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
+	            resultado.setSuccess(false);
+	            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
+	        }
+	    } catch (Exception e) {
+	        LOGGER.error("[ERROR] " + e.getMessage(), e);
+	        resultado.setSuccess(false);
+	        resultado.setError("[delete] " + e.getMessage());
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
+
+    public Result updateCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	
+	        long persistenceId = 1;
+	        String nuevoRol = "modificación";
+	        String nuevoServicio = "Modificación";
+	
+	        pstm = con.prepareStatement("UPDATE PSGRFILTROSEGURIDAD SET ROL = ?, SERVICIO = ? WHERE PERSISTENCEID = ?");
+	        pstm.setString(1, nuevoRol);
+	        pstm.setString(2, nuevoServicio);
+	        pstm.setLong(3, persistenceId);
+	
+	        pstm.execute();
+	        LOGGER.info("Registro modificado con éxito.");
+	        resultado.setSuccess(true);
+	    } catch (Exception e) {
+	        LOGGER.error("[ERROR] " + e.getMessage(), e);
+	        resultado.setSuccess(false);
+	        resultado.setError("[modify] " + e.getMessage());
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
 	
 }

@@ -4993,7 +4993,14 @@
                 <field type="STRING" length="255" name="servicio" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCatPSGRFiltroSeguridadRol" content="SELECT ROL&#13;&#10;FROM PSGRFiltroSeguridad&#13;&#10;ORDER BY orden ASC;" returnType="com.anahuac.posgrados.config.PSGRFiltroSeguridad">
+                    <queryParameters>
+                        <queryParameter name="rol" className="java.lang.String"/>
+                        <queryParameter name="servicio" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRDatosDeContacto">
