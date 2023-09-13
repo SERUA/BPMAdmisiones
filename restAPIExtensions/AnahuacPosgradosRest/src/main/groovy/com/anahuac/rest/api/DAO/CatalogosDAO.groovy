@@ -327,4 +327,22 @@ class CatalogosDAO {
 		return resultado
 	}
 	
+	public Result insert(String jsonData, RestAPIContext context) {
+        Result result = new Result()
+        result.data = "funciona"
+        return result
+    }
+
+    public Result delete(String jsonData, RestAPIContext context) {
+        Result result = new Result()
+        result.data = "funciona"
+        return result
+    }
+
+    public Result modify(String jsonData, RestAPIContext context) {
+        Result result = new Result()
+        result.data = "funciona"
+        return result
+    }
+	
 }

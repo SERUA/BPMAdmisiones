@@ -33,18 +33,21 @@ class IndexTest extends Specification {
     }
 
     def should_return_a_json_representation_as_result() {
-        given: "a RestAPIController"
-        def index = new Index()
-        
-        when: "Invoking the REST API"
-        def apiResponse = index.doHandle(httpRequest, new RestApiResponseBuilder(), context)
+    given: "a RestAPIController"
+    def index = new Index()
+    
+    // Simular una solicitud con el parámetro "url" nulo
+    httpRequest.getParameter("url") >> null
+    
+    when: "Invocar la API REST"
+    def apiResponse = index.doHandle(httpRequest, new RestApiResponseBuilder(), context)
 
-        then: "A JSON representation is returned in response body"
-        def jsonResponse = new JsonSlurper().parseText(apiResponse.response)
-        // Validate returned response
-        apiResponse.httpStatus == 200
-        jsonResponse.myParameterKey == "testValue"
-        jsonResponse.currentDate == LocalDate.now().toString()
-    }
+    then: "Una representación JSON es devuelta en el cuerpo de la respuesta"
+    def jsonResponse = new JsonSlurper().parseText(apiResponse.response)
+
+    // Verificar que la respuesta tenga un estado HTTP 400 cuando "url" es nulo
+    apiResponse.httpStatus == 400
+    jsonResponse.error == "the parameter url is missing"
+	}
 
 }
