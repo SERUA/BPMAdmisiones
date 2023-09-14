@@ -153,9 +153,11 @@ class UsuariosDAO {
 	public Result updateBusinessAppMenu(AppMenuRole row) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		
+		String errorLog = "";
 		try {
+			errorLog += "1"
 			closeCon = validarConexionBonita();
+			errorLog += "|2"
 			for(Role rol : row.roles) {
 				if(rol.nuevo && !rol.eliminado) {
 					pstm = con.prepareStatement(AppMenuRole.INSERT)
@@ -169,9 +171,11 @@ class UsuariosDAO {
 					pstm.execute();
 				}
 			}
+			errorLog += "|3"
 			
-			resultado.setSuccess(true)
+			resultado.setSuccess(true);
 		} catch (Exception e) {
+			errorLog += ("|" + e.getMessage());
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
