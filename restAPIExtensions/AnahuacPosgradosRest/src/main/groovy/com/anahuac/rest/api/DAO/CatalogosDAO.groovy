@@ -15,8 +15,9 @@ import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatGenerico
-
+import groovy.json.JsonBuilder
 import groovy.json.JsonSlurper
+import com.anahuac.rest.api.util.Sql;
 
 class CatalogosDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CatalogosDAO.class);
@@ -439,5 +440,36 @@ class CatalogosDAO {
 	
 	    return resultado;
 	}
+	
+	public Result getCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+    Result resultado = new Result();
+    Boolean closeCon = false;
+
+    try {
+        closeCon = validarConexion();
+
+        // Crear una instancia de Sql para ejecutar la consulta
+        Sql sql = new Sql(con);
+
+        // Ejecutar la consulta SELECT *
+        def results = sql.rows("SELECT * FROM PSGRFILTROSEGURIDAD")
+
+        // Transformar los resultados en un JSON
+        def jsonResults = new JsonBuilder(results).toString()
+
+        resultado.setData(jsonResults)
+        resultado.setSuccess(true);
+    } catch (Exception e) {
+        LOGGER.error("[ERROR] " + e.getMessage(), e)
+        resultado.setSuccess(false)
+        resultado.setError("[get] " + e.getMessage())
+    } finally {
+        if (closeCon) {
+            new DBConnect().closeObj(con, stm, rs, pstm)
+        }
+    }
+
+    return resultado;
+}
 	
 }
