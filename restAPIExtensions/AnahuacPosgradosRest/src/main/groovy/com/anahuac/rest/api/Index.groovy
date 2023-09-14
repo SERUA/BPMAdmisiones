@@ -45,7 +45,9 @@ class Index implements RestApiController {
 		}catch (Exception e) {
 			jsonData = "{}"
 		}
-
+		
+		String errorLog = "";
+		
 		try {
 			switch(url) {
 				case "simpleSelect":
@@ -89,14 +91,20 @@ class Index implements RestApiController {
 					}
 					break;
 				case "updateBusinessAppMenu":
+					
 					def jsonSlurper = new JsonSlurper();
 					def object = jsonSlurper.parseText(jsonData);
-					
+					errorLog += "1"
 					assert object instanceof Map;
+					errorLog += "|2"
 					AppMenuRole row = new AppMenuRole()
+					errorLog += "|3"
 					row.setDisplayname(object.displayname)
+					errorLog += "|4"
 					row.setId(object.id)
+					errorLog += "|5"
 					row.setRoles(new ArrayList<Role>())
+					errorLog += "|6 :: " + object.roles.size().toString();
 					for(def i=0; i<object.roles.size(); i++) {
 						Role rol = new Role();
 						try {
@@ -109,7 +117,9 @@ class Index implements RestApiController {
 						rol.setNuevo(object.roles[i].nuevo)
 						row.getRoles().add(rol)
 					}
+					errorLog += "|7"
 					result = new UsuariosDAO().updateBusinessAppMenu(row)
+					result.setError_info(errorLog + " ||| " + result.getError_info());
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -119,8 +129,8 @@ class Index implements RestApiController {
 			}
 		} catch (Exception e) {
 			result.setSuccess(false)
-			result.setError("500 INTERNAL SERVER ERROR")
-			result.setError_info(e.getMessage())
+			result.setError("500 INTERNAL SERVER ERROR: " + e.getMessage());
+			result.setError_info(errorLog)
 			return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,new JsonBuilder(result).toString())
 		}
 		
