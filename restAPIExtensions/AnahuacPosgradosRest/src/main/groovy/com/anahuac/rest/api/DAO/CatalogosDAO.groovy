@@ -338,14 +338,20 @@ class CatalogosDAO {
 	
 	        def jsonString = jsonData.toString()
 	        def object = jsonSlurper.parseText(jsonString)
+			pstm = con.prepareStatement(StatementsCatalogos.INSERTCATFILTROSEGURIDAD);
+			pstm.setLong(1, 0);
+			pstm.setString(2, object.rol);
+	        pstm.setString(3, object.servicio);
 	
-	        pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, ROL, SERVICIO) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRFILTROSEGURIDAD), ?, ?)");
-	        pstm.setString(1, object.rol);
-	        pstm.setString(2, object.servicio);
-	
-	        pstm.execute();
-	        LOGGER.info("Insert completado con éxito.");
-	        resultado.setSuccess(true);
+	        int rowsAffected = pstm.executeUpdate();
+			
+	        if (rowsAffected > 0) {
+            LOGGER.info("Registro insertado con éxito.");
+            resultado.setSuccess(true);
+        } else {
+            throw new Exception("No se pudo insertar el registro.");
+            resultado.setSuccess(false);
+        }
 	    } catch (Exception e) {
 	        LOGGER.error("[ERROR] " + e.getMessage(), e)
 	        resultado.setSuccess(false)
@@ -363,93 +369,75 @@ class CatalogosDAO {
 
 
     public Result deleteCatFiltroSeguridad(String jsonData, RestAPIContext context) {
-    Result resultado = new Result();
-    Boolean closeCon = false;
-
-    try {
-        closeCon = validarConexion();
-
-        JsonSlurper jsonSlurper = new JsonSlurper()
-
-        def jsonString = jsonData.toString()
-        def object = jsonSlurper.parseText(jsonString)
-
-        pstm = con.prepareStatement("DELETE FROM PSGRFILTROSEGURIDAD WHERE PERSISTENCEID = ?");
-        pstm.setLong(1, object.id);
-
-        int rowsAffected = pstm.executeUpdate();
-
-        if (rowsAffected > 0) {
-            LOGGER.info("Registro eliminado con éxito.");
-            resultado.setSuccess(true);
-        } else {
-            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
-            resultado.setSuccess(false);
-            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
-        }
-    } catch (Exception e) {
-        LOGGER.error("[ERROR] " + e.getMessage(), e);
-        resultado.setSuccess(false);
-        resultado.setError("[delete] " + e.getMessage());
-    } finally {
-        if (closeCon) {
-            new DBConnect().closeObj(con, stm, rs, pstm);
-        }
-    }
-
-    return resultado;
-}
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	
+	        JsonSlurper jsonSlurper = new JsonSlurper()
+	
+	        def jsonString = jsonData.toString()
+	        def object = jsonSlurper.parseText(jsonString)
+	
+	        pstm = con.prepareStatement(StatementsCatalogos.DELETECATFILTROSEGURIDAD);
+	        pstm.setLong(1, object.persistenceId);
+	
+	        int rowsAffected = pstm.executeUpdate();
+	
+	        if (rowsAffected > 0) {
+	            LOGGER.info("Registro eliminado con éxito.");
+	            resultado.setSuccess(true);
+	        } else {
+	            throw new Exception("No se pudo eliminar el registro.");
+	            resultado.setSuccess(false);
+	        }
+	    } catch (Exception e) {
+	        resultado.setSuccess(false);
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
 
     public Result updateCatFiltroSeguridad(String jsonData, RestAPIContext context) {
-    Result resultado = new Result();
-    Boolean closeCon = false;
-
-    try {
-        // Establecer la conexión y gestionar su ciclo de vida correctamente
-        closeCon = validarConexion();
-
-        // Crear una instancia de JsonSlurper
-        JsonSlurper jsonSlurper = new JsonSlurper()
-
-        // Convertir el objeto en JSON y luego a un objeto Groovy
-        def jsonString = jsonData.toString()
-        def objDatos = jsonSlurper.parseText(jsonString)
-
-        // Obtener los nuevos valores de "rol" y "servicio" desde la solicitud JSON
-        String nuevoRol = objDatos.rol
-        String nuevoServicio = objDatos.servicio
-
-        // Obtener el valor del campo "persistenceId" desde la solicitud JSON
-        Long persistenceId = objDatos.persistenceId
-
-        // Resto del código de actualización
-        pstm = con.prepareStatement("UPDATE PSGRFILTROSEGURIDAD SET ROL = ?, SERVICIO = ? WHERE PERSISTENCEID = ?");
-        pstm.setString(1, nuevoRol);
-        pstm.setString(2, nuevoServicio);
-        pstm.setLong(3, persistenceId);
-
-        int rowsAffected = pstm.executeUpdate();
-
-        if (rowsAffected > 0) {
-            LOGGER.info("Registro modificado con éxito.");
-            resultado.setSuccess(true);
-        } else {
-            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
-            resultado.setSuccess(false);
-            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
-        }
-    } catch (Exception e) {
-        // Capturar excepciones y gestionar errores adecuadamente
-        LOGGER.error("[ERROR] " + e.getMessage(), e);
-        resultado.setSuccess(false);
-        resultado.setError("[update] " + e.getMessage());
-    } finally {
-        if (closeCon) {
-            new DBConnect().closeObj(con, stm, rs, pstm);
-        }
-    }
-
-    return resultado;
-}
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	
+	        JsonSlurper jsonSlurper = new JsonSlurper()
+	
+	        def jsonString = jsonData.toString()
+	        def object = jsonSlurper.parseText(jsonString)
+	
+	        pstm = con.prepareStatement(StatementsCatalogos.UPDATECATFILTROSEGURIDAD);
+	        pstm.setString(1, object.rol);
+	        pstm.setString(2, object.servicio);
+	        pstm.setLong(3, object.persistenceId);
+	
+	        int rowsAffected = pstm.executeUpdate();
+	
+	        if (rowsAffected > 0) {
+	            LOGGER.info("Registro modificado con éxito.");
+	            resultado.setSuccess(true);
+	        } else {
+				throw new Exception("No se pudo modificar el registro.")
+	            resultado.setSuccess(false);
+	        }
+	    } catch (Exception e) {
+	        resultado.setSuccess(false);
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
 	
 }
