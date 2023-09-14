@@ -339,7 +339,7 @@ class CatalogosDAO {
 	        def jsonString = jsonData.toString()
 	        def object = jsonSlurper.parseText(jsonString)
 	
-			pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, PERSISTENCEVERSION, ROL, SERVICIO) VALUES (DEFAULT, 0, ?, ?)");
+	        pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, ROL, SERVICIO) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRFILTROSEGURIDAD), ?, ?)");
 	        pstm.setString(1, object.rol);
 	        pstm.setString(2, object.servicio);
 	
