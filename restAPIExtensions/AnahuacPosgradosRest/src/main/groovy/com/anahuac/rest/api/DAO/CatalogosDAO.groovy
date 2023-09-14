@@ -334,97 +334,122 @@ class CatalogosDAO {
 	    try {
 	        closeCon = validarConexion();
 	
-	        long persistenceId = 1;
-	        String rol = "admin";
-	        String servicio = "prueba";
+	        JsonSlurper jsonSlurper = new JsonSlurper()
 	
-	        pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, ROL, SERVICIO) VALUES (?, ?, ?)");
-	        pstm.setLong(1, persistenceId);
-	        pstm.setString(2, rol);
-	        pstm.setString(3, servicio);
+	        def jsonString = jsonData.toString()
+	        def object = jsonSlurper.parseText(jsonString)
+	
+			pstm = con.prepareStatement("INSERT INTO PSGRFILTROSEGURIDAD (PERSISTENCEID, PERSISTENCEVERSION, ROL, SERVICIO) VALUES (DEFAULT, 0, ?, ?)");
+	        pstm.setString(1, object.rol);
+	        pstm.setString(2, object.servicio);
 	
 	        pstm.execute();
 	        LOGGER.info("Insert completado con éxito.");
 	        resultado.setSuccess(true);
 	    } catch (Exception e) {
-	        LOGGER.error("[ERROR] " + e.getMessage(), e);
-	        resultado.setSuccess(false);
-	        resultado.setError("[insert] " + e.getMessage());
+	        LOGGER.error("[ERROR] " + e.getMessage(), e)
+	        resultado.setSuccess(false)
+	        resultado.setError("[insert] " + e.getMessage())
 	    } finally {
 	        if (closeCon) {
-	            new DBConnect().closeObj(con, stm, rs, pstm);
+	            new DBConnect().closeObj(con, stm, rs, pstm)
 	        }
 	    }
 	
-	    return resultado;
+	    return resultado
 	}
+
+
 
 
     public Result deleteCatFiltroSeguridad(String jsonData, RestAPIContext context) {
-	    Result resultado = new Result();
-	    Boolean closeCon = false;
-	
-	    try {
-	        closeCon = validarConexion();
-	
-	        Long id = 1;
+    Result resultado = new Result();
+    Boolean closeCon = false;
 
-	        pstm = con.prepareStatement("DELETE FROM PSGRFILTROSEGURIDAD WHERE PERSISTENCEID = ?");
-	        pstm.setLong(1, id);
-	
-	        int rowsAffected = pstm.executeUpdate();
-	
-	        if (rowsAffected > 0) {
-	            LOGGER.info("Registro eliminado con éxito.");
-	            resultado.setSuccess(true);
-	        } else {
-	            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
-	            resultado.setSuccess(false);
-	            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
-	        }
-	    } catch (Exception e) {
-	        LOGGER.error("[ERROR] " + e.getMessage(), e);
-	        resultado.setSuccess(false);
-	        resultado.setError("[delete] " + e.getMessage());
-	    } finally {
-	        if (closeCon) {
-	            new DBConnect().closeObj(con, stm, rs, pstm);
-	        }
-	    }
-	
-	    return resultado;
-	}
+    try {
+        closeCon = validarConexion();
+
+        JsonSlurper jsonSlurper = new JsonSlurper()
+
+        def jsonString = jsonData.toString()
+        def object = jsonSlurper.parseText(jsonString)
+
+        pstm = con.prepareStatement("DELETE FROM PSGRFILTROSEGURIDAD WHERE PERSISTENCEID = ?");
+        pstm.setLong(1, object.id);
+
+        int rowsAffected = pstm.executeUpdate();
+
+        if (rowsAffected > 0) {
+            LOGGER.info("Registro eliminado con éxito.");
+            resultado.setSuccess(true);
+        } else {
+            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
+            resultado.setSuccess(false);
+            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
+        }
+    } catch (Exception e) {
+        LOGGER.error("[ERROR] " + e.getMessage(), e);
+        resultado.setSuccess(false);
+        resultado.setError("[delete] " + e.getMessage());
+    } finally {
+        if (closeCon) {
+            new DBConnect().closeObj(con, stm, rs, pstm);
+        }
+    }
+
+    return resultado;
+}
 
     public Result updateCatFiltroSeguridad(String jsonData, RestAPIContext context) {
-	    Result resultado = new Result();
-	    Boolean closeCon = false;
-	
-	    try {
-	        closeCon = validarConexion();
-	
-	        long persistenceId = 1;
-	        String nuevoRol = "modificación";
-	        String nuevoServicio = "Modificación";
-	
-	        pstm = con.prepareStatement("UPDATE PSGRFILTROSEGURIDAD SET ROL = ?, SERVICIO = ? WHERE PERSISTENCEID = ?");
-	        pstm.setString(1, nuevoRol);
-	        pstm.setString(2, nuevoServicio);
-	        pstm.setLong(3, persistenceId);
-	
-	        pstm.execute();
-	        LOGGER.info("Registro modificado con éxito.");
-	        resultado.setSuccess(true);
-	    } catch (Exception e) {
-	        LOGGER.error("[ERROR] " + e.getMessage(), e);
-	        resultado.setSuccess(false);
-	        resultado.setError("[modify] " + e.getMessage());
-	    } finally {
-	        if (closeCon) {
-	            new DBConnect().closeObj(con, stm, rs, pstm);
-	        }
-	    }
-	
-	    return resultado;
-	}
+    Result resultado = new Result();
+    Boolean closeCon = false;
+
+    try {
+        // Establecer la conexión y gestionar su ciclo de vida correctamente
+        closeCon = validarConexion();
+
+        // Crear una instancia de JsonSlurper
+        JsonSlurper jsonSlurper = new JsonSlurper()
+
+        // Convertir el objeto en JSON y luego a un objeto Groovy
+        def jsonString = jsonData.toString()
+        def objDatos = jsonSlurper.parseText(jsonString)
+
+        // Obtener los nuevos valores de "rol" y "servicio" desde la solicitud JSON
+        String nuevoRol = objDatos.rol
+        String nuevoServicio = objDatos.servicio
+
+        // Obtener el valor del campo "persistenceId" desde la solicitud JSON
+        Long persistenceId = objDatos.persistenceId
+
+        // Resto del código de actualización
+        pstm = con.prepareStatement("UPDATE PSGRFILTROSEGURIDAD SET ROL = ?, SERVICIO = ? WHERE PERSISTENCEID = ?");
+        pstm.setString(1, nuevoRol);
+        pstm.setString(2, nuevoServicio);
+        pstm.setLong(3, persistenceId);
+
+        int rowsAffected = pstm.executeUpdate();
+
+        if (rowsAffected > 0) {
+            LOGGER.info("Registro modificado con éxito.");
+            resultado.setSuccess(true);
+        } else {
+            LOGGER.info("No se encontró ningún registro con el ID proporcionado.");
+            resultado.setSuccess(false);
+            resultado.setError("No se encontró ningún registro con el ID proporcionado.");
+        }
+    } catch (Exception e) {
+        // Capturar excepciones y gestionar errores adecuadamente
+        LOGGER.error("[ERROR] " + e.getMessage(), e);
+        resultado.setSuccess(false);
+        resultado.setError("[update] " + e.getMessage());
+    } finally {
+        if (closeCon) {
+            new DBConnect().closeObj(con, stm, rs, pstm);
+        }
+    }
+
+    return resultado;
+}
 	
 }

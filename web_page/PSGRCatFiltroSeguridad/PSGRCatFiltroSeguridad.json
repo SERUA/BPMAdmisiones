@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatFiltroSeguridad",
   "name" : "PSGRCatFiltroSeguridad",
-  "lastUpdate" : 1694641980438,
+  "lastUpdate" : 1694645384820,
   "rows" : [
     [
       {
@@ -27,7 +27,7 @@
             "value" : ""
           }
         },
-        "reference" : "86a46145-558e-4c82-93cb-e84d5689d56d",
+        "reference" : "3d632135-b242-4dc3-a299-843bfb4dd1ef",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -78,10 +78,12 @@
                   "value" : "Select an option"
                 },
                 "availableValues" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "catRoles"
                 },
                 "displayedKey" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "descripcion"
                 },
                 "returnedKey" : {
                   "type" : "constant"
@@ -91,7 +93,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "a7c776ec-2b4f-4d99-b73d-317559e1566e",
+              "reference" : "6538d226-7a1a-4b7a-942f-4de986ac85a6",
               "hasValidationError" : false,
               "id" : "pbSelect"
             },
@@ -154,7 +156,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "b6618770-b62b-4acc-a986-15cc2fcbf25d",
+              "reference" : "cbdf22ab-58c1-4fe8-bb08-e202ad6e9d58",
               "hasValidationError" : false,
               "id" : "pbSelect"
             }
@@ -244,7 +246,7 @@
                   "type" : "variable"
                 }
               },
-              "reference" : "19baa34a-d18a-49d4-be6a-ca9f9f7513f3",
+              "reference" : "19924b70-75b9-42c2-add2-cd927535421a",
               "hasValidationError" : false,
               "id" : "pbButton"
             }
@@ -270,7 +272,20 @@
     }
   ],
   "inactiveAssets" : [ ],
-  "variables" : { },
+  "variables" : {
+    "catRoles" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.config.PSGRFiltroSeguridad?q=getCatPSGRFiltroSeguridadRol&p=0&c=50"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "catServicios" : {
+      "type" : "constant",
+      "exposed" : false
+    }
+  },
   "hasValidationError" : false,
   "uuid" : "d2606191-436d-4dcb-8722-a7b36b79a4a8",
   "type" : "page",
