@@ -117,7 +117,6 @@ class Index implements RestApiController {
 					}
 					break;
 			}
-			
 		} catch (Exception e) {
 			result.setSuccess(false)
 			result.setError("500 INTERNAL SERVER ERROR")

@@ -31,6 +31,9 @@ class IndexGet implements RestApiController {
 		RestApiResponseBuilder rb;
 		Result result = new Result();
 		def url = request.getParameter "url";
+		if (url == null) {
+			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
+        }
 		
 		//MAPEO DE SERVICIOS==================================================
 		try{
