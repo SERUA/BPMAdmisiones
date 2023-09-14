@@ -1,6 +1,7 @@
 package com.anahuac.rest.api;
 
 import groovy.json.JsonBuilder
+import groovy.json.JsonSlurper
 
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
@@ -13,7 +14,10 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Entity.custom.AppMenuRole
+import com.anahuac.rest.api.Entity.db.Role
 import com.anahuac.rest.api.Security.SecurityFilter
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
@@ -78,6 +82,34 @@ class Index implements RestApiController {
 					break;
 				case "updateCatFiltroSeguridad":
 					result = new CatalogosDAO().updateCatFiltroSeguridad(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "updateBusinessAppMenu":
+					def jsonSlurper = new JsonSlurper();
+					def object = jsonSlurper.parseText(jsonData);
+					
+					assert object instanceof Map;
+					AppMenuRole row = new AppMenuRole()
+					row.setDisplayname(object.displayname)
+					row.setId(object.id)
+					row.setRoles(new ArrayList<Role>())
+					for(def i=0; i<object.roles.size(); i++) {
+						Role rol = new Role();
+						try {
+							rol.setId(Long.parseLong(object.roles[i].id))
+						} catch (Exception e) {
+							rol.setId(object.roles[i].id)
+						}
+						
+						rol.setEliminado(object.roles[i].eliminado)
+						rol.setNuevo(object.roles[i].nuevo)
+						row.getRoles().add(rol)
+					}
+					result = new UsuariosDAO().updateBusinessAppMenu(row)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
