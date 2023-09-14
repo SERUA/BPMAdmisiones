@@ -59,9 +59,9 @@ class IndexGet implements RestApiController {
 				
 			}
 		} catch (Exception e) {
-			e.printStackTrace()
-			result.setSuccess(false)
-			result.setError("fallo por "+e.getMessage())
+			e.printStackTrace();
+			result.setSuccess(false);
+			result.setError("fallo por "+e.getMessage());
 		}
 		// Send the result as a JSON representation
 		// You may use buildPagedResponse if your result is multiple

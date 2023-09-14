@@ -92,7 +92,7 @@ function PbTableCtrl($scope, blockUI, $http) {
 
     $scope.guardar = function() {
         doRequest("POST", "../API/extension/posgradosRest?url=updateBusinessAppMenu", {}, $scope.pagina, function(datos) {
-            doRequest("GET", "../API/extension/posgrdosRestGet?url=getBusinessAppMenu", {}, null, function(datos) {
+            doRequest("GET", "../API/extension/posgradosRestGet?url=getBusinessAppMenu", {}, null, function(datos) {
                 $scope.properties.content = datos;
                 $scope.ocultar();
             })

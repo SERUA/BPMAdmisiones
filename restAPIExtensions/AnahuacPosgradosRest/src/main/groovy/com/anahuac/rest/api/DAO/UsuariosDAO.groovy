@@ -178,8 +178,10 @@ class UsuariosDAO {
 			errorLog += ("|" + e.getMessage());
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
+			resultado.setError_info(errorLog);
 			resultado.setError(e.getMessage());
 		} finally {
+			resultado.setError_info(errorLog);
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
