@@ -943,7 +943,15 @@ class PsicometricoDAO {
 				strError+=consultaUpdate;
 				pstm = con.prepareStatement(consultaUpdate);
 				pstm.setString(1, caseId);
-				pstm.setLong(2, testPsicomInput.countRechazo);
+				if (testPsicomInput.countRechazo != null) {
+			    try {
+			        pstm.setLong(2, Long.parseLong(testPsicomInput.countRechazo.toString()));
+			    } catch (NumberFormatException e) {
+			        pstm.setNull(2, Types.INTEGER);
+			    }
+			} else {
+			    pstm.setNull(2, Types.INTEGER);
+			}
 				pstm.executeUpdate();
 			}
 			else {
@@ -981,61 +989,80 @@ class PsicometricoDAO {
 				pstm.setString(12, (testPsicomInput.califAjusteReligioso != null && testPsicomInput.califAjusteReligioso != "") ? testPsicomInput.califAjusteReligioso : "");
 				pstm.setString(13, caseId);
 				pstm.setString(14, (testPsicomInput.conclusioneINVP != null && testPsicomInput.conclusioneINVP != "") ? testPsicomInput.conclusioneINVP : "");
-				if(testPsicomInput.fechaEntrevista != null && testPsicomInput.fechaEntrevista != "") {
-					pstm.setString(15, testPsicomInput.fechaEntrevista);
+				if (testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
+				    pstm.setString(15, testPsicomInput.fechaEntrevista);
+				} else {
+				    pstm.setNull(15, Types.TIMESTAMP);
 				}
-				else {
-					pstm.setNull(15, Types.TIMESTAMP);
+				if (testPsicomInput.finalizado != null) {
+				    // Si no es nulo, verifica su valor
+				    if (testPsicomInput.finalizado == 1) {
+				        // Si es igual a 1, establece true en la sentencia SQL
+				        pstm.setBoolean(16, true);
+				    } else {
+				        // De lo contrario, establece false en la sentencia SQL
+				        pstm.setBoolean(16, false);
+				    }
+				} else {
+				    // Si es nulo, establece el parámetro como nulo
+				    pstm.setNull(16, Types.BOOLEAN);
 				}
-				pstm.setBoolean(16, (testPsicomInput.finalizado != null && testPsicomInput.finalizado != "") ? testPsicomInput.finalizado : false);
 				pstm.setString(17, (testPsicomInput.hasParticipadoActividadesAyuda != null && testPsicomInput.hasParticipadoActividadesAyuda != "") ? testPsicomInput.hasParticipadoActividadesAyuda : "");
 				pstm.setString(18, (testPsicomInput.interpretacionINVP != null && testPsicomInput.interpretacionINVP != "") ? testPsicomInput.interpretacionINVP : "");
 				pstm.setString(19, (testPsicomInput.otroTipoAsistencia != null && testPsicomInput.otroTipoAsistencia != "") ? testPsicomInput.otroTipoAsistencia : "");
 				pstm.setString(20, (testPsicomInput.participacionActividadesVoluntaria != null && testPsicomInput.participacionActividadesVoluntaria != "") ? testPsicomInput.participacionActividadesVoluntaria : "");
 				pstm.setInt(21, 0);
-				pstm.setInt(22, (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.equals("") && testPsicomInput.puntuacionINVP.toString().size()  > 0) ? Integer.parseInt(testPsicomInput.puntuacionINVP+"") : 0);
+				if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty()) {
+				    try {
+				        pstm.setInt(22, Integer.parseInt(testPsicomInput.puntuacionINVP));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(22, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(22, Types.INTEGER);
+				}
 				pstm.setString(23, (testPsicomInput.quienIntegro != null && testPsicomInput.quienIntegro != "") ? testPsicomInput.quienIntegro : "");
 				pstm.setString(24, (testPsicomInput.quienRealizoEntrevista != null && testPsicomInput.quienRealizoEntrevista != "") ? testPsicomInput.quienRealizoEntrevista : "");
 				pstm.setString(25, (testPsicomInput.resumenSalud != null && testPsicomInput.resumenSalud != "") ? testPsicomInput.resumenSalud : "");
 				
-				if(catPersonaSaludable != null) {
-					if(catPersonaSaludable.persistenceId != null && catPersonaSaludable.persistenceId != ""){
-						pstm.setInt(26, catPersonaSaludable.persistenceId);
-					} else {
-						pstm.setNull(26, Types.INTEGER);
-					}
+				if (testPsicomInput.catPersonaSaludable != null) {
+				    if (testPsicomInput.catPersonaSaludable.isEmpty()) {
+				        pstm.setNull(26, Types.INTEGER);
+				    } else {
+				        pstm.setInt(26, catPersonaSaludable.persistenceId);
+				    }
 				} else {
-					pstm.setNull(26, Types.INTEGER);
+				    pstm.setNull(26, Types.INTEGER);
 				}
 				
-				if(catProblemaSaludAtencionContinua != null) {
-					if(catProblemaSaludAtencionContinua.persistenceId != null && catProblemaSaludAtencionContinua.persistenceId != ""){
-						pstm.setInt(27, catProblemaSaludAtencionContinua.persistenceId);
-					} else {
-						pstm.setNull(27, Types.INTEGER);
-					}
+				if (testPsicomInput.catProblemaSaludAtencionContinua != null) {
+				    if (testPsicomInput.catProblemaSaludAtencionContinua.isEmpty()) {
+				        pstm.setNull(27, Types.INTEGER);
+				    } else {
+				        pstm.setInt(27, catProblemaSaludAtencionContinua.persistenceId);
+				    }
 				} else {
-					pstm.setNull(27, Types.INTEGER);
-				}
-				if(catRequieresAsistencia != null) {
-					if(catRequieresAsistencia.persistenceId != null && catRequieresAsistencia.persistenceId != ""){
-						pstm.setInt(28, catRequieresAsistencia.persistenceId);
-					} else {
-						pstm.setNull(28, Types.INTEGER);
-					}
-				} else {
-					pstm.setNull(28, Types.INTEGER);
+				    pstm.setNull(27, Types.INTEGER);
 				}
 				
-				if(catVivesEstadoDiscapacidad != null) {
-					if(catVivesEstadoDiscapacidad.persistenceId != null && catVivesEstadoDiscapacidad.persistenceId != ""){
-						pstm.setInt(29, catVivesEstadoDiscapacidad.persistenceId);
-					}
-					else {
-						pstm.setNull(29, Types.INTEGER);
-					}
-				}else {
-					pstm.setNull(29, Types.INTEGER);
+				if (testPsicomInput.catRequieresAsistencia != null) {
+				    if (testPsicomInput.catRequieresAsistencia.isEmpty()) {
+				        pstm.setNull(28, Types.INTEGER);
+				    } else {
+				        pstm.setInt(28, catRequieresAsistencia.persistenceId);
+				    }
+				} else {
+				    pstm.setNull(28, Types.INTEGER);
+				}
+				
+				if (testPsicomInput.catVivesEstadoDiscapacidad != null) {
+				    if (testPsicomInput.catVivesEstadoDiscapacidad.isEmpty()) {
+				        pstm.setNull(29, Types.INTEGER);
+				    } else {
+				        pstm.setInt(29, catVivesEstadoDiscapacidad.persistenceId);
+				    }
+				} else {
+				    pstm.setNull(29, Types.INTEGER);
 				}
 				
 				pstm.setString(30, (testPsicomInput.fuentesInfluyeronDesicion != null && testPsicomInput.fuentesInfluyeronDesicion != "") ? testPsicomInput.fuentesInfluyeronDesicion : "");
@@ -1043,12 +1070,24 @@ class PsicometricoDAO {
 				pstm.setString(32, (testPsicomInput.problemasSaludAtencionContinua != null && testPsicomInput.problemasSaludAtencionContinua != "") ? testPsicomInput.problemasSaludAtencionContinua : "");
 				pstm.setString(33, (testPsicomInput.tipoDiscapacidad != null && testPsicomInput.tipoDiscapacidad != "") ? testPsicomInput.tipoDiscapacidad : "");
 				pstm.setString(34, (testPsicomInput.hasRecibidoAlgunaTerapia != null && testPsicomInput.hasRecibidoAlgunaTerapia != "") ? testPsicomInput.hasRecibidoAlgunaTerapia : "");
-				pstm.setLong(35, (testPsicomInput.countRechazo != null) ? testPsicomInput.countRechazo : 0);
+				if (testPsicomInput.countRechazo != null) {
+				    try {
+				        pstm.setLong(35, Long.parseLong(testPsicomInput.countRechazo.toString()));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(35, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(35, Types.INTEGER);
+				}
 				//pstm.setLong(36, (testPsicomInput.sesion_pid != null) ? testPsicomInput.sesion_pid : 0 );
-				if(testPsicomInput.sesion_pid == null || Long.parseLong(testPsicomInput.sesion_pid) == 0 ) {
-					pstm.setNull(36, Types.INTEGER);
-				}else {
-					pstm.setLong(36, (testPsicomInput.sesion_pid != null) ? Long.parseLong(testPsicomInput.sesion_pid.toString()): 0 );					
+				if (testPsicomInput.sesion_pid == null || Long.parseLong(testPsicomInput.sesion_pid.toString()) == 0) {
+				    pstm.setNull(36, Types.INTEGER);
+				} else {
+				    try {
+				        pstm.setLong(36, Long.parseLong(testPsicomInput.sesion_pid.toString()));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(36, Types.INTEGER);
+				    }
 				}
 				pstm.executeUpdate();
 			}
@@ -1308,17 +1347,17 @@ class PsicometricoDAO {
 				}
 			}*/
 			
-			if( testPsicomInput.puntuacionINVP != null && testPsicomInput.puntuacionINVP != "" &&  testPsicomInput.fechaEntrevista !="") {
-				String fecha = testPsicomInput.fechaEntrevista.substring(0,10);
-				
-				if(testPsicomInput.fechaEntrevista.substring(0,10).contains("/")) {
-					fecha =  testPsicomInput.fechaEntrevista.substring(6, 10)+"-"+testPsicomInput.fechaEntrevista.substring(3, 5)+"-"+testPsicomInput.fechaEntrevista.substring(0, 2);
-				}
-				
-				strError+= "fecha:"+fecha;
-				
-				Result resultado2 = new Result();
-				resultado2 = integracionEthos(fecha,idBanner,"MMPI",testPsicomInput.puntuacionINVP+"",context);
+			if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty() && testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
+			    String fecha = testPsicomInput.fechaEntrevista.substring(0, 10);
+			    
+			    if (testPsicomInput.fechaEntrevista.substring(0, 10).contains("/")) {
+			        fecha = testPsicomInput.fechaEntrevista.substring(6, 10) + "-" + testPsicomInput.fechaEntrevista.substring(3, 5) + "-" + testPsicomInput.fechaEntrevista.substring(0, 2);
+			    }
+			    
+			    strError += "fecha:" + fecha;
+			    
+			    Result resultado2 = new Result();
+			    resultado2 = integracionEthos(fecha, idBanner, "MMPI", testPsicomInput.puntuacionINVP + "", context);
 				
 				pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
 				pstm.setString(1, idBanner);
