@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1694727788772,
+  "lastUpdate" : 1694218607252,
   "rows" : [
     [
       {
@@ -20,7 +20,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "!showForm"
+            "value" : "!showForm || (objetoSesionV2.error === \"no_sesion_asignada\")"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -527,89 +527,284 @@
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 1,
+                      "lg" : 1
                     },
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "text-center"
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "42d3815b-fd06-461e-a10d-cc0ce05b1a68",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 10
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "examenComenzado !== true"
+                        "value" : "objetoSesionV2.success == false"
                       },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "Aviso de privacidad"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "URL"
-                      },
-                      "targetUrl" : {
-                        "type" : "expression",
-                        "value" : "objSolicitudDeAdmision[0].catCampus.urlAvisoPrivacidad"
-                      },
-                      "pageToken" : {
-                        "type" : "constant"
-                      },
-                      "processName" : {
-                        "type" : "constant"
-                      },
-                      "processVersion" : {
-                        "type" : "constant"
-                      },
-                      "taskId" : {
-                        "type" : "constant"
-                      },
-                      "caseId" : {
-                        "type" : "variable"
-                      },
-                      "target" : {
-                        "type" : "constant",
-                        "value" : "_blank"
-                      },
-                      "appToken" : {
-                        "type" : "constant"
-                      },
-                      "urlParams" : {
-                        "type" : "constant"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "link"
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Estoy de acuerdo y he leído el"
-                      },
-                      "value" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "avisoprivacidad"
+                        "value" : ""
                       }
                     },
-                    "reference" : "1dfabc6e-b761-42e5-bc13-ee40357e3e92",
+                    "reference" : "6a93c764-d07a-4a0f-92f8-6831320a42ac",
                     "hasValidationError" : false,
-                    "id" : "customCustomLink"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "text-center"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "examenComenzado !== true"
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Aviso de privacidad"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "targetUrl" : {
+                              "type" : "expression",
+                              "value" : "objSolicitudDeAdmision[0].catCampus.urlAvisoPrivacidad"
+                            },
+                            "pageToken" : {
+                              "type" : "constant"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "variable"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_blank"
+                            },
+                            "appToken" : {
+                              "type" : "constant"
+                            },
+                            "urlParams" : {
+                              "type" : "constant"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Estoy de acuerdo y he leído el"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "avisoprivacidad"
+                            }
+                          },
+                          "reference" : "1dfabc6e-b761-42e5-bc13-ee40357e3e92",
+                          "hasValidationError" : false,
+                          "id" : "customCustomLink"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "examenComenzado !== true"
+                            },
+                            "disabled" : {
+                              "type" : "expression",
+                              "value" : "!avisoprivacidad"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Comenzar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Start process"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "expression",
+                              "value" : "formInputInstancia"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation",
+                              "value" : "/bonita/apps/aspiranteinvp/examen/"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            },
+                            "ProcessId" : {
+                              "type" : "variable",
+                              "value" : "processListInstanciar[0].id"
+                            },
+                            "inicioexamen" : {
+                              "type" : "variable",
+                              "value" : "inicioexamen"
+                            },
+                            "userData" : {
+                              "type" : "variable",
+                              "value" : "userData"
+                            },
+                            "idioma" : {
+                              "type" : "variable",
+                              "value" : "idioma"
+                            }
+                          },
+                          "reference" : "631928fb-b239-4b44-9180-cdef5df15f2b",
+                          "hasValidationError" : false,
+                          "id" : "customBtnInstanciarExamen"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 1,
+                      "lg" : 1
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "d9063b4a-0aa6-435a-8594-ea98f9bc9b9d",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 10,
+                      "lg" : 10
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -618,96 +813,122 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "examenComenzado !== true"
+                        "value" : "objetoSesionV2.success == true"
                       },
-                      "disabled" : {
-                        "type" : "expression",
-                        "value" : "!avisoprivacidad"
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Comenzar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "center"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Start process"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "expression",
-                        "value" : "formInputInstancia"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation",
-                        "value" : "/bonita/apps/aspiranteinvp/examen/"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      },
-                      "ProcessId" : {
-                        "type" : "variable",
-                        "value" : "processListInstanciar[0].id"
-                      },
-                      "inicioexamen" : {
-                        "type" : "variable",
-                        "value" : "inicioexamen"
-                      },
-                      "userData" : {
-                        "type" : "variable",
-                        "value" : "userData"
-                      },
-                      "idioma" : {
-                        "type" : "variable",
-                        "value" : "idioma"
                       }
                     },
-                    "reference" : "631928fb-b239-4b44-9180-cdef5df15f2b",
+                    "reference" : "007869a5-f785-4b21-aca9-37959b8a6198",
                     "hasValidationError" : false,
-                    "id" : "customBtnInstanciarExamen"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "mensajeError.tipo !== \"sesion_finalizada\""
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<pre  class=\"pre-danger\">La sesión ya ha finalizado.</pre>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "7e2aec88-abf7-40ea-bfa0-9563fa17eaf8",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "mensajeError.tipo !== \"sesion_no_iniciada\""
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<pre  class=\"pre-info\">Tu sesión aún no ha comenzado, estás programado para la fecha <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</b>.</pre>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "bac71c74-9a79-42df-abe2-5284eb59ba30",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ]
+                    ]
                   }
                 ]
               ]
@@ -1240,7 +1461,7 @@
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -1250,74 +1471,212 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "text-center"
+                        "value" : ""
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "examenComenzado !== true"
+                        "value" : "objetoSesionV2.success == false"
                       },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "the privacy notice"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "URL"
-                      },
-                      "targetUrl" : {
-                        "type" : "expression",
-                        "value" : "objSolicitudDeAdmision[0].catCampus.urlAvisoPrivacidad"
-                      },
-                      "pageToken" : {
-                        "type" : "constant"
-                      },
-                      "processName" : {
-                        "type" : "constant"
-                      },
-                      "processVersion" : {
-                        "type" : "constant"
-                      },
-                      "taskId" : {
-                        "type" : "constant"
-                      },
-                      "caseId" : {
-                        "type" : "variable"
-                      },
-                      "target" : {
-                        "type" : "constant",
-                        "value" : "_blank"
-                      },
-                      "appToken" : {
-                        "type" : "constant"
-                      },
-                      "urlParams" : {
-                        "type" : "constant"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "link"
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "I have read and accept"
-                      },
-                      "value" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "noticeprivacy"
+                        "value" : ""
                       }
                     },
-                    "reference" : "6325ec39-3ad7-43ce-bb80-55b55d70fc7f",
+                    "reference" : "b6bbfb3f-db01-46c4-b78c-af76914be8e6",
                     "hasValidationError" : false,
-                    "id" : "customCustomLink"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "text-center"
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "examenComenzado !== true"
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "the privacy notice"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "URL"
+                            },
+                            "targetUrl" : {
+                              "type" : "expression",
+                              "value" : "objSolicitudDeAdmision[0].catCampus.urlAvisoPrivacidad"
+                            },
+                            "pageToken" : {
+                              "type" : "constant"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "variable"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_blank"
+                            },
+                            "appToken" : {
+                              "type" : "constant"
+                            },
+                            "urlParams" : {
+                              "type" : "constant"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "link"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "I have read and accept"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "noticeprivacy"
+                            }
+                          },
+                          "reference" : "6325ec39-3ad7-43ce-bb80-55b55d70fc7f",
+                          "hasValidationError" : false,
+                          "id" : "customCustomLink"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "examenComenzado !== true"
+                            },
+                            "disabled" : {
+                              "type" : "expression",
+                              "value" : "!noticeprivacy"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Start"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Start process"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "expression",
+                              "value" : "formInputInstancia"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation",
+                              "value" : "/bonita/apps/aspiranteinvp/examen/"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            },
+                            "ProcessId" : {
+                              "type" : "variable",
+                              "value" : "processListInstanciar[0].id"
+                            },
+                            "inicioexamen" : {
+                              "type" : "variable",
+                              "value" : "inicioexamen"
+                            },
+                            "userData" : {
+                              "type" : "variable",
+                              "value" : "userData"
+                            },
+                            "idioma" : {
+                              "type" : "variable",
+                              "value" : "idioma"
+                            }
+                          },
+                          "reference" : "a381b94f-d0c3-4178-a004-1fd33fb582ef",
+                          "hasValidationError" : false,
+                          "id" : "customBtnInstanciarExamen"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -1331,99 +1690,573 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "examenComenzado !== true"
+                        "value" : "objetoSesionV2.success == true"
                       },
-                      "disabled" : {
-                        "type" : "expression",
-                        "value" : "!noticeprivacy"
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Start"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "center"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Start process"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "expression",
-                        "value" : "formInputInstancia"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation",
-                        "value" : "/bonita/apps/aspiranteinvp/examen/"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      },
-                      "ProcessId" : {
-                        "type" : "variable",
-                        "value" : "processListInstanciar[0].id"
-                      },
-                      "inicioexamen" : {
-                        "type" : "variable",
-                        "value" : "inicioexamen"
-                      },
-                      "userData" : {
-                        "type" : "variable",
-                        "value" : "userData"
-                      },
-                      "idioma" : {
-                        "type" : "variable",
-                        "value" : "idioma"
                       }
                     },
-                    "reference" : "a381b94f-d0c3-4178-a004-1fd33fb582ef",
+                    "reference" : "ed3f6157-eddc-40c8-ad57-8992f167cb65",
                     "hasValidationError" : false,
-                    "id" : "customBtnInstanciarExamen"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "mensajeError.tipo !== \"sesion_finalizada\""
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<pre  class=\"pre-danger\">Your session has finished.</pre>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "873899a7-4ba3-4aad-8b36-b14d61add705",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "mensajeError.tipo !== \"sesion_no_iniciada\""
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<pre  class=\"pre-danger\">Your session has not started yet. You are scheduled to {{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</pre>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "4a8018bd-750c-4d14-b2fe-2f3d1e8055ef",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ]
+                    ]
                   }
                 ]
               ]
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "objetoSesionV2.error !== \"no_sesion_asignada\""
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "255cb828-2832-4e98-bd7a-f71ba2405d7a",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "color-orange"
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ESP\""
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "NO SESIÓN ASIGNADA"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 2"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "ee83346a-40b6-4687-b9f6-a0ee7610f301",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "86e05680-dd18-443b-af26-d0368ee01223",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [ ]
+              ]
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 10,
+                "lg" : 10
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ESP\""
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br><br><br>\n<pre  class=\"pre-danger\">No existe sesión asignada para este usuario. Contacta con tu aplicador.</pre>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "a50a99a7-aab5-4431-8536-544ded546ad7",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ESP\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Regresar al login"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "POST"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../../../logoutservice?redirect=false"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : "logoutSuccess"
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation",
+                  "value" : "/bonita/apps/login/testinvp/"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "04df8145-1da2-4332-9a72-291d994b2372",
+              "hasValidationError" : false,
+              "id" : "pbButton"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "color-orange"
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ENG\""
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "NO SESSION ASSIGNED"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 2"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "6fa26bbe-5ca9-4df2-9796-1796d42111dc",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "container",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 1,
+                "lg" : 1
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
+                }
+              },
+              "reference" : "d17feb42-c751-4e14-9d4a-1efb4e6fe7c9",
+              "hasValidationError" : false,
+              "id" : "pbContainer",
+              "rows" : [
+                [ ]
+              ]
+            },
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 10,
+                "lg" : 10
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ENG\""
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br><br><br>\n<pre  class=\"pre-danger\">You don't have a session assigned yet. Contact your advisor.</pre>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "34fd98b0-23cf-4216-96dc-65375bd57d79",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "idioma !== \"ENG\""
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Go back to login"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "POST"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation",
+                  "value" : "../../../logoutservice?redirect=false"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "constant"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : "logoutSuccess"
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : "logoutSuccess"
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation",
+                  "value" : "/bonita/apps/login/testinvp/"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                }
+              },
+              "reference" : "6ed878d3-a1d5-4b91-9c3d-cd6b02dbc2d9",
+              "hasValidationError" : false,
+              "id" : "pbButton"
             }
           ]
         ]
@@ -1556,6 +2389,94 @@
         "hasValidationError" : false,
         "id" : "customCustomGetDatosSesion"
       }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<pre>{{ objetoSesionV2  | json }}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "d01aedd7-f0d4-4de6-989b-c4ef0d25dbca",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "username" : {
+            "type" : "expression",
+            "value" : "userData.user_name"
+          },
+          "sesionInfoV2" : {
+            "type" : "variable",
+            "value" : "objetoSesionV2"
+          },
+          "url" : {
+            "type" : "constant",
+            "value" : "../API/extension/AnahuacINVPRestGet?url=getSesionActivaV2&p=0&c=10&username="
+          }
+        },
+        "reference" : "1e786186-d852-46a8-a700-fd00de8dbadd",
+        "hasValidationError" : false,
+        "id" : "customGetSesionDatosINVPV2"
+      }
     ]
   ],
   "assets" : [
@@ -1626,7 +2547,6 @@
         "function getidsesion(){",
         "    let output = 0;",
         "    if($data.objetoSesion){",
-        "        debugger;",
         "        if($data.objetoSesion.persistenceId && $data.objetoSesion.persistenceId !== 0){",
         "            output =  $data.objetoSesion.persistenceId;",
         "        } else if ($data.objetoSesion.idsesion_temp){",
@@ -1808,6 +2728,43 @@
         "    }",
         "}"
       ],
+      "exposed" : false
+    },
+    "objetoSesionV2" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.getSesionActivaV2){",
+        "    return $data.getSesionActivaV2;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "mensajeError" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.objetoSesionV2){",
+        "    if(!$data.objetoSesionV2.success){",
+        "        let parts = $data.objetoSesionV2.error.split(\"|\");",
+        "        return {",
+        "            \"tipo\": parts[0],",
+        "            \"fecha\": formatearFecha(parts[1].slice(0, -6))",
+        "        }    ",
+        "    }",
+        "}",
+        "",
+        "function formatearFecha(fecha) {",
+        "  const partes = fecha.split(\" \");",
+        "  const fechaPartes = partes[0].split(\"-\");",
+        "  const hora = partes[1];",
+        "  ",
+        "  const fechaFormateada = `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]} ${hora}`;",
+        "  return fechaFormateada;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "logoutSuccess" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

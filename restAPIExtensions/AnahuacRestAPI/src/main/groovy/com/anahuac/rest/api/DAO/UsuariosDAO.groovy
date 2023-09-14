@@ -4271,4 +4271,36 @@ class UsuariosDAO {
 		
 		return valid;
 	}
+	
+	public Result validarCorreoEliminado(String correoaspirante) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			
+			String consultaRechazado = "SELECT (COUNT(correoelectronico) > 0) AS existeRechazado FROM CatRegistro WHERE correoelectronico LIKE '%[CORREO]%' AND correoelectronico LIKE '%(rechazado)%'";
+			pstm = con.prepareStatement(consultaRechazado.replace("[CORREO]", correoaspirante));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				if(!rs.getBoolean("existeRechazado")) {
+					resultado.setSuccess(true);
+				} else {
+					throw new Exception("Ya existe un correo  rechazado");
+				}
+			} else {
+				resultado.setSuccess(true);
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError_info(e.getMessage())
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
 }

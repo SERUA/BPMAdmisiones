@@ -272,14 +272,23 @@
                                     ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
+
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  
+                                    ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+                                
                                 <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
                                     ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-                                <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
+                                <!-- <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button> -->
+
+                                <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && row.caseidINVP === null ) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
                                     <span class="glyphicon glyphicon-time"></span>
                                 </button>
-
 
                                 <button  ng-if="row.usuarioBloqueado && !row.resultadoEnviado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
                                     <span class="glyphicon glyphicon-lock"></span>

@@ -549,7 +549,15 @@ class SecurityFilter {
 				case "updateSesionesCaseId":
 				  	allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
 				break;
+				case "getPeriodosReporte2":
+				  	allow=bonitaRolFilter(context,"ADMISIONES");if(allow){break;}
+					allow=bonitaRolFilter(context,"PSICOLOGO");if(allow){break;}
+					allow=bonitaRolFilter(context,"PSICOLOGO SUPERVISOR");if(allow){break;}
+					allow=bonitaRolFilter(context,"TI SERUA");if(allow){break;}
+					allow=bonitaRolFilter(context,"ADMINISTRADOR");if(allow){break;}
+				break;
 			}
+			
 			return allow;
 	}
 	public Boolean allowedUrlPost(RestAPIContext context, String url) {

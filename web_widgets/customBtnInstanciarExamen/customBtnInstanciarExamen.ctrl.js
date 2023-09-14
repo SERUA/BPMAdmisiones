@@ -14,7 +14,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
             // startProcess();
-            checkInstance();
+            // checkInstance();
+            checkToleranciaV2($scope.properties.userData.user_name);
             // checkTolerancia($scope.properties.userData.user_name);
         } else if ($scope.properties.action === 'Submit task') {
             submitTask();
@@ -46,6 +47,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 startProcess();
                 // getTerminoPrueba(_username);
             } else {
+                vm.busy = false;
                 if($scope.properties.idioma === "ESP"){
                     swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen", "error");
                 } else {
@@ -53,6 +55,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 }
             }
         }).error(function(_error){
+            vm.busy = false;
             if(_error.error === "no_sesion_asignada"){
                 if($scope.properties.idioma === "ESP"){
                     swal("Error", "Aún no tienes una sesión asignada. Contacta con tu aplicador.", "error");
@@ -140,7 +143,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      */
     function doRequest(method, url, params) {
         vm.busy = true;
-        debugger;
+        
         var req = {
             method: method,
             url: url,
@@ -324,6 +327,39 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         })
         .finally(function() {
             vm.busy = false;
+        });
+    }
+    // /API/extension/AnahuacINVPRestGet?url=checkToleranciaV2&p=0&c=10&username=
+
+    function checkToleranciaV2(_username){
+        let url = "../API/extension/AnahuacINVPRestGet?url=checkToleranciaV2&p=0&c=10&&username=" + _username;
+
+        $http.get(url).success(function(_success){
+            if(_success.data[0] === true){
+                checkInstance();
+            } else {
+                vm.busy = false;
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó", "error");
+                } else {
+                    swal("Error", "The entry tolerance time for your exam has been exceeded or the test has ended.", "error");
+                }
+            }
+        }).error(function(_error){
+            vm.busy = false;
+            if(_error.error === "no_sesion_asignada"){
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Aún no tienes una sesión asignada. Contacta con tu aplicador.", "error");
+                } else {
+                    swal("Error", "You don't have a session assigned yet. Contact your advisor.", "error");
+                }
+            } else {
+                if($scope.properties.idioma === "ESP"){
+                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó.", "error");
+                } else {
+                    swal("Error", "The entry tolerance time for your exam has been exceeded or the test has ended.", "error");
+                }
+            }
         });
     }
 }
