@@ -28,9 +28,6 @@ class IndexGet implements RestApiController {
 	@Override
 	RestApiResponse doHandle(HttpServletRequest request, RestApiResponseBuilder responseBuilder, RestAPIContext context) {
 		SecurityFilter security = new SecurityFilter();
-		
-		// To retrieve query parameters use the request.getParameter(..) method.
-		// Be careful, parameter values are always returned as String values
 		RestApiResponseBuilder rb;
 		Result result = new Result();
 		def url = request.getParameter "url";
@@ -47,6 +44,16 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 				break;
+				case "getBusinessAppMenu":
+					result = new UsuariosDAO().getBusinessAppMenu();
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				
 			}
 		} catch (Exception e) {
 			e.printStackTrace()
