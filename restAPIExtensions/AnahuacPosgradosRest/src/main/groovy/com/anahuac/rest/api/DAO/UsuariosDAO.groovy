@@ -43,6 +43,8 @@ import com.anahuac.rest.api.Entity.MenuParent
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.AppMenuRole
+import com.anahuac.rest.api.Entity.db.BusinessAppMenu
+import com.anahuac.rest.api.Entity.db.Role
 import com.anahuac.rest.api.Utilities.FileDownload
 import com.anahuac.rest.api.Utilities.LoadParametros
 import groovy.json.JsonSlurper
@@ -76,7 +78,7 @@ class UsuariosDAO {
 			List<MenuParent> rows = new ArrayList<MenuParent>();
 			closeCon = validarConexionBonita();
 			pstm = con.prepareStatement(MenuParent.GET);
-			pstm.setLong(1,context.apiSession.userId);
+			pstm.setLong(1, context.apiSession.userId);
 			rs = pstm.executeQuery();
 			rows = new ArrayList<MenuParent>();
 
@@ -91,6 +93,7 @@ class UsuariosDAO {
 				row.setParent(rs.getString("parent"));
 				row.setParentid(rs.getLong("parentid"));
 				row.setParenttoken(rs.getString("parenttoken"));
+				
 				if(rs.getBoolean("isparent")) {
 					row = new MenuParent();
 					row.setId(rs.getLong("id"));
@@ -104,7 +107,7 @@ class UsuariosDAO {
 					row.setParenttoken(rs.getString("parenttoken"));
 					row.setChild(new ArrayList<Menu>());
 					rows.add(row);
-				}else {
+				} else {
 					Menu menu = new Menu();
 					menu.setId(rs.getLong("id"));
 					menu.setIsparent(rs.getBoolean("isparent"));
@@ -120,10 +123,9 @@ class UsuariosDAO {
 					}
 				}
 			}
-			resultado.setSuccess(true)
 			
-			resultado.setData(rows)
-			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
@@ -140,6 +142,96 @@ class UsuariosDAO {
 			} else {
 				resultado.setError("No entró al crear tabla "+e.getMessage());
 			}
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result updateBusinessAppMenu(AppMenuRole row) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexionBonita();
+			for(Role rol : row.roles) {
+				if(rol.nuevo && !rol.eliminado) {
+					pstm = con.prepareStatement(AppMenuRole.INSERT)
+					pstm.setString(1, row.getDisplayname())
+					pstm.setLong(2, rol.getId())
+					pstm.execute();
+				}else if(!rol.nuevo && rol.eliminado) {
+					pstm = con.prepareStatement(AppMenuRole.DELETE)
+					pstm.setString(1, row.getDisplayname())
+					pstm.setLong(2, rol.getId())
+					pstm.execute();
+				}
+			}
+			
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getBusinessAppMenu() {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			AppMenuRole row = new AppMenuRole()
+			Role role = new Role()
+			List<AppMenuRole> rows = new ArrayList<AppMenuRole>();
+			closeCon = validarConexionBonita();
+			pstm = con.prepareStatement(AppMenuRole.GET)
+			rs = pstm.executeQuery()
+			rows = new ArrayList<BusinessAppMenu>();
+			while(rs.next()) {
+				row = new AppMenuRole()
+				role = new Role()
+				row.setApplicationid(rs.getLong("applicationid"))
+				row.setApplicationpageid(rs.getLong("applicationpageid"))
+				row.setDisplayname(rs.getString("displayname"))
+				row.setId(rs.getLong("id"))
+				row.setIndex_(rs.getInt("index_"))
+				row.setTenantid(rs.getLong("tenantid"))
+				role.setId(rs.getLong("roleid"))
+				role.setName(rs.getString("rolename"))
+				role.setEliminado(false)
+				role.setNuevo(false)
+				row.setRoles(new ArrayList<Role>())
+				
+				if(role.id>0) {
+					row.getRoles().add(role)
+				}
+				
+				if(rows.contains(row)) {
+					if(!rows.get(rows.indexOf(row)).roles.contains(role)) {
+						
+						if(role.id>0) {
+							rows.get(rows.indexOf(row)).roles.add(role)
+						}
+					}
+				}else {
+					rows.add(row);
+				}
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(" "+e.getMessage());
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
