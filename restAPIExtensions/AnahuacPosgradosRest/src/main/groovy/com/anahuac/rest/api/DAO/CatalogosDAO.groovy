@@ -585,7 +585,7 @@ class CatalogosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateCatEstatusProceso] " + e.getMessage())
+			resultado.setError("[getCatEstatusProceso] " + e.getMessage())
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
