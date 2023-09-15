@@ -377,12 +377,12 @@ class CatalogosDAO {
 	        def jsonSlurper = new JsonSlurper();
 	        def object = jsonSlurper.parseText(jsonData)
 			
-			if(object.persistenceId.equals("") || object.persistenceId == null) {
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
 			} 
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATFILTROSEGURIDAD);
-	        pstm.setLong(1, object.persistenceId);
+	        pstm.setLong(1, object.persistenceid);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
@@ -414,14 +414,14 @@ class CatalogosDAO {
 				throw new Exception("El campo \"rol\" no debe ir vacío");
 			} else if(object.servicio.equals("") || object.servicio == null) {
 				throw new Exception("El campo \"servicio\" no debe ir vacío");
-			} else if(object.persistenceId.equals("") || object.persistenceId == null) {
+			} else if(object.persistenceid.equals("") || object.persistenceid == null) {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
 			}
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATFILTROSEGURIDAD);
 	        pstm.setString(1, object.rol);
 	        pstm.setString(2, object.servicio);
-	        pstm.setLong(3, object.persistenceId);
+	        pstm.setLong(3, object.persistenceid);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
