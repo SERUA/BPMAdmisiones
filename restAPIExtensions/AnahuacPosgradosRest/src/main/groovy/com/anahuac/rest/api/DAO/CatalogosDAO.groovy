@@ -461,7 +461,7 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATESTATUSPROCESO);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setInt(3, Integer.parseInt(object.orden));
+			pstm.setInt(3, object.orden);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -503,7 +503,7 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATESTATUSPROCESO);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setInt(3, Integer.parseInt(object.orden));
+			pstm.setInt(3, object.orden);
 			pstm.setLong(4, Long.valueOf(object.persistenceid));
 			
 			if (pstm.executeUpdate() > 0) {

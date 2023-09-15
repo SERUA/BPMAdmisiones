@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatEstatusProceso",
   "name" : "PSGRCatEstatusProceso",
-  "lastUpdate" : 1694797601379,
+  "lastUpdate" : 1694801769346,
   "rows" : [
     [
       {
@@ -166,6 +166,62 @@
                   "type" : "expression",
                   "value" : "navigationVar !== \"tabla\""
                 },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : "navigationVar"
+                },
+                "newValue" : {
+                  "type" : "constant",
+                  "value" : "nuevo"
+                },
+                "objetoCat" : {
+                  "type" : "variable",
+                  "value" : "selectedCat"
+                }
+              },
+              "reference" : "f73fb466-784c-4787-9041-39f617451901",
+              "hasValidationError" : false,
+              "id" : "customPSGRbtnReiniciarCatNavegar"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "navigationVar !== \"tabla\""
+                },
                 "allowHTML" : {
                   "type" : "constant",
                   "value" : true
@@ -240,7 +296,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== \"editar\""
+                  "value" : "navigationVar !== \"editar\" && navigationVar !== \"nuevo\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -580,44 +636,25 @@
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "selectedCat"
                       },
-                      "dataFromSuccess" : {
+                      "urlInsert" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=insertCatEstatusProceso"
+                      },
+                      "urlUpdate" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=updateCatEstatusProceso"
+                      },
+                      "navigationVar" : {
                         "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
+                        "value" : "navigationVar"
                       }
                     },
-                    "reference" : "a36269a8-5392-481e-b01e-86d160a91282",
+                    "reference" : "8dbcbfc7-15b2-41fa-a707-33c3b0d07aef",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "customPSGRBotonGuardarCatV1"
                   }
                 ]
               ]
