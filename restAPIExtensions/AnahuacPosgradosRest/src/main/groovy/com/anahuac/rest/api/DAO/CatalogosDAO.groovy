@@ -16,6 +16,7 @@ import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.PSGRCatEstatusProceso
+import com.anahuac.rest.api.Entity.db.PSGRCatSiNo
 import com.anahuac.rest.api.Entity.db.PSGRFiltroSeguridad
 import groovy.json.JsonSlurper
 
@@ -636,47 +637,161 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	//	GETCATFILTROSEGURIDAD PRIMERO
-	//	public Result getCatFiltroSeguridad(String jsonData) {
-	//	    Result resultado = new Result();
-	//	    Boolean closeCon = false;
-	//	    PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
-	//	    List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
-	//	    String where = "", orderby = "";
-	//
-	//	    try {
-	//	        closeCon = validarConexion();
-	//	        def jsonSlurper = new JsonSlurper();
-	//	        def object = jsonSlurper.parseText(jsonData);
-	//
-	//	        orderby = " ORDER BY orden ASC";
-	//
-	//	        pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-	//	        rs = pstm.executeQuery();
-	//
-	//	        while (rs.next()) {
-	//	            row = new PSGRFiltroSeguridad();
-	//	            row.setPersistenceid(rs.getLong("persistenceid"));
-	//	            row.setRol(rs.getString("rol"));
-	//	            row.setServicio(rs.getString("servicio"));
-	//	            // Agrega más setters para otros campos si es necesario
-	//
-	//	            data.add(row);
-	//	        }
-	//
-	//	        resultado.setData(data);
-	//	        resultado.setSuccess(true);
-	//	    } catch (Exception e) {
-	//	        resultado.setSuccess(false);
-	//	        resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
-	//	    } finally {
-	//	        if (closeCon) {
-	//	            new DBConnect().closeObj(con, stm, rs, pstm);
-	//	        }
-	//	    }
-	//
-	//	    return resultado;
-	//	}
+	public Result insertCatSiNo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
 	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} 
+			
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATSINO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setBoolean(3, Boolean.valueOf(object.es_si_o_no));
+			pstm.setBoolean(4, Boolean.valueOf(object.es_talvez));
+			pstm.setBoolean(5, Boolean.valueOf(object.es_otro));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al insertar el registro en la tabla.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatSiNo] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
 	
+		return resultado;
+	}
+	
+	public Result updateCatSiNo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El registro no existe.");
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATSINO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setBoolean(3, Boolean.valueOf(object.es_si_o_no));
+			pstm.setBoolean(4, Boolean.valueOf(object.es_talvez));
+			pstm.setBoolean(5, Boolean.valueOf(object.es_otro));
+			pstm.setLong(6, Long.valueOf(object.persistenceid));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al actualizar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatSiNo] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result deleteCatSiNo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El registro no existe.");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATSINO);
+			pstm.setLong(1, Long.valueOf(object.persistenceid));
+			
+			pstm.executeUpdate();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatSiNo] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatSiNo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		PSGRCatSiNo row = new PSGRCatSiNo();
+		List<PSGRCatSiNo> data = new ArrayList<PSGRCatSiNo>();
+		String where = "", orderby = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			where = " WHERE eliminado <> true ";
+			orderby = " ORDER BY clave ASC";
+			
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATSINO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new PSGRCatSiNo();
+				row.setPersistenceid(rs.getLong("persistenceid"));
+				row.setClave(rs.getString("clave"));
+				row.setDescripcion(rs.getString("descripcion"));
+				row.setEsSiNo(rs.getBoolean("es_si_o_no"));
+				row.setEsTalvez(rs.getBoolean("es_talvez"));
+				row.setEsOtro(rs.getBoolean("es_otro"));
+				
+				data.add(row);
+			}
+			
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatSiNo] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
 }
