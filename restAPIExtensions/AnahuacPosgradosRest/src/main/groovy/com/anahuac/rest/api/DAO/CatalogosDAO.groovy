@@ -595,7 +595,7 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result getCatFiltroSeguridad() {
+	public Result getCatFiltroSeguridad(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
