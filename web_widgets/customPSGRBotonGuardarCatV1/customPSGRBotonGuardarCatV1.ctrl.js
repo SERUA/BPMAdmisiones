@@ -13,11 +13,14 @@ function PbButtonCtrl($scope, $http) {
     };
 
     function accionCatalogo(_url){
+        vm.busy = true;
         $http.post(_url, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
             $scope.properties.navigationVar = "tabla"
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
-        })
+        }).finally(function(){
+            vm.busy = false;
+        });
     }
 }
