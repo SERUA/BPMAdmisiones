@@ -91,20 +91,14 @@ class Index implements RestApiController {
 					}
 					break;
 				case "updateBusinessAppMenu":
-					
 					def jsonSlurper = new JsonSlurper();
 					def object = jsonSlurper.parseText(jsonData);
-					errorLog += "1"
 					assert object instanceof Map;
-					errorLog += "|2"
-					AppMenuRole row = new AppMenuRole()
-					errorLog += "|3"
-					row.setDisplayname(object.displayname)
-					errorLog += "|4"
-					row.setId(object.id)
-					errorLog += "|5"
-					row.setRoles(new ArrayList<Role>())
-					errorLog += "|6 :: " + object.roles.size().toString();
+					AppMenuRole row = new AppMenuRole();
+					row.setDisplayname(object.displayname);
+					row.setId(object.id);
+					row.setRoles(new ArrayList<Role>());
+					
 					for(def i=0; i<object.roles.size(); i++) {
 						Role rol = new Role();
 						try {
@@ -117,11 +111,43 @@ class Index implements RestApiController {
 						rol.setNuevo(object.roles[i].nuevo)
 						row.getRoles().add(rol)
 					}
-					errorLog += "|7"
-					result = new UsuariosDAO().updateBusinessAppMenu(row)
-					result.setError_info(errorLog + " ||| " + result.getError_info());
+					
+					result = new UsuariosDAO().updateBusinessAppMenu(row);
+					
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "insertCatEstatusProceso":
+					result = new CatalogosDAO().insertCatEstatusProceso(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "updateCatEstatusProceso":
+					result = new CatalogosDAO().updateCatEstatusProceso(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "deleteCatEstatusProceso":
+					result = new CatalogosDAO().deleteCatEstatusProceso(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCatEstatusProceso":
+					result = new CatalogosDAO().getCatEstatusProceso(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}

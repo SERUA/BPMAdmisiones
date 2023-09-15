@@ -15,6 +15,7 @@ import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatGenerico
+import com.anahuac.rest.api.Entity.db.PSGRCatEstatusProceso
 
 import groovy.json.JsonSlurper
 
@@ -440,4 +441,158 @@ class CatalogosDAO {
 	    return resultado;
 	}
 	
+	public Result insertCatEstatusProceso(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+            def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"Orden\" no debe ir vacío");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATESTATUSPROCESO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setInt(3, Integer.parseInt(object.orden));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al insertar el registro en la tabla.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatEstatusProceso] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result updateCatEstatusProceso(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El registro no existe.");
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"Orden\" no debe ir vacío");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATESTATUSPROCESO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setInt(3, Integer.parseInt(object.orden));
+			pstm.setLong(4, Long.valueOf(object.persistenceid));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al actualizar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatEstatusProceso] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result deleteCatEstatusProceso(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El registro no existe.");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATESTATUSPROCESO);
+			pstm.setLong(1, Long.valueOf(object.persistenceid));
+			
+			pstm.executeUpdate();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatEstatusProceso] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatEstatusProceso(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		PSGRCatEstatusProceso row = new PSGRCatEstatusProceso();
+		List<PSGRCatEstatusProceso> data = new ArrayList<PSGRCatEstatusProceso>();
+		String where = "", orderby = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			orderby = " ORDER BY orden ASC";
+			
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATESTATUSPROCESO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new PSGRCatEstatusProceso();
+				row.setPersistenceid(rs.getLong("persistenceid"));
+				row.setClave(rs.getString("clave"));
+				row.setDescripcion(rs.getString("descripcion"));
+				row.setOrden(rs.getInt("orden"));
+				
+				data.add(row);
+			}
+			
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatEstatusProceso] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
 }
