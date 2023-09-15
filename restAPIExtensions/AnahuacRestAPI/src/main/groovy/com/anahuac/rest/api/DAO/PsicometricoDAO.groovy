@@ -1324,84 +1324,85 @@ class PsicometricoDAO {
 					}
 				}
 			}
-			String idBanner=""
-			pstm = con.prepareStatement("SELECT idbanner from detallesolicitud where caseid=?")
-			pstm.setString(1, caseId)
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				idBanner = rs.getString("idbanner")
+			String idBanner = "";
+			pstm = con.prepareStatement("SELECT idbanner from detallesolicitud where caseid=?");
+			pstm.setString(1, caseId);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+			    idBanner = rs.getString("idbanner");
 			}
 			
-			/*if(closeCon && testPsicomInput.puntuacionINVP != null && testPsicomInput.puntuacionINVP != "" &&  testPsicomInput.fechaEntrevista !="") {
-				String fecha = testPsicomInput.fechaEntrevista.substring(0,9)
-				new DBConnect().closeObj(con, stm, rs, pstm);
-				if(testPsicomInput.fechaEntrevista.substring(0,9).contains("/")) {
-					SimpleDateFormat sdfd = new SimpleDateFormat("dd/MM/yyyy")
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
-					fecha = sdf.format(sdfd.parse(testPsicomInput.fechaEntrevista.substring(0,9)))
-				}
-				resultado2=new BannerDAO().integracionBannerEthos(context, idBanner, "MMPI", testPsicomInput.puntuacionINVP+"",fecha)
-				if(!resultado2.success) {
-					
-					strError = "fallo Ethos:" resultado2.error_info + strError;
-				}
-			}*/
-			
-			if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty() && testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
+			if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty() &&
+			    testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
 			    String fecha = testPsicomInput.fechaEntrevista.substring(0, 10);
-			    
+			
 			    if (testPsicomInput.fechaEntrevista.substring(0, 10).contains("/")) {
 			        fecha = testPsicomInput.fechaEntrevista.substring(6, 10) + "-" + testPsicomInput.fechaEntrevista.substring(3, 5) + "-" + testPsicomInput.fechaEntrevista.substring(0, 2);
 			    }
-			    
+			
 			    strError += "fecha:" + fecha;
-			    
+			
 			    Result resultado2 = new Result();
 			    resultado2 = integracionEthos(fecha, idBanner, "MMPI", testPsicomInput.puntuacionINVP + "", context);
-				
-				pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
+			
+			    pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
 				pstm.setString(1, idBanner);
-				pstm.setLong(2, Long.parseLong(testPsicomInput.sesion_pid));
-				rs= pstm.executeQuery();
-				String prueba = "", username2="";
-				if(rs.next()) {
-					prueba = rs.getString("prueba_pid");
-					username2 = rs.getString("username");
+			
+			    if (testPsicomInput.sesion_pid != null) {
+				    try {
+				        long sesionPidLong = Long.parseLong(testPsicomInput.sesion_pid.toString());
+				        pstm.setLong(2, sesionPidLong);
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(2, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(2, Types.INTEGER);
 				}
-				
-				pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
-				pstm.setString(1, username2);
-				pstm.setLong(2, Long.parseLong(prueba));
-				rs= pstm.executeQuery();
-				String pl = '';
-				if(rs.next()) {
-					pl = rs.getString("persistenceid");
+			
+			    rs = pstm.executeQuery();
+			    String prueba = "", username2 = "";
+			    if (rs.next()) {
+			        prueba = rs.getString("prueba_pid");
+			        username2 = rs.getString("username");
+			    }
+			
+			    pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
+			    pstm.setString(1, username2);
+			    if (!prueba.isEmpty()) {
+				    try {
+				        pstm.setLong(2, Long.parseLong(prueba));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(2, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(2, Types.INTEGER); // Otra opción es manejarlo como un valor nulo si prueba está vacío
 				}
-				
-				Result resultPaseLista = new Result();
-				String jsdonPaseLista = "{\"prueba\":${prueba},\"username\":\"${username2}\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
-				if(pl.equals('')) {
-					resultPaseLista = new SesionesDAO().insertPaseLista(jsdonPaseLista);					
-				}else {
-					resultPaseLista = new SesionesDAO().updatePaseLista(jsdonPaseLista);
-				}
-				strError += "INTEGRACION:"+resultado2.isSuccess()+"ERROR:"+resultado2.getError()+"ERROR_INFO:"+resultado2.getError_info();
-				strError += " ||||JSON PASE LISTA ${jsdonPaseLista} |||| PASELISTA:"+resultPaseLista.isSuccess()+"ERROR:"+resultPaseLista.getError()+"ERROR_INFO:"+resultPaseLista.getError_info();
-				
-				if(resultPaseLista.isSuccess()){
-					try {
-						ProcessAPI processAPI = context.getApiClient().getProcessAPI();
-						Map<String, Serializable> rows = new HashMap<String, Serializable>();
-						rows.put("asistenciaEntrevista", true);
-						processAPI.updateProcessDataInstances(caseId, rows);
-					}catch (Exception e) {
-						strError += '||| ERROR PROCESO '+e;
-					}
-					
-
-				}
-				
-				
+			    rs = pstm.executeQuery();
+			    String pl = '';
+			    if (rs.next()) {
+			        pl = rs.getString("persistenceid");
+			    }
+			
+			    Result resultPaseLista = new Result();
+			    String jsonPaseLista = "{\"prueba\":" + prueba + ",\"username\":\"" + username2 + "\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
+			    if (pl.equals('')) {
+			        resultPaseLista = new SesionesDAO().insertPaseLista(jsonPaseLista);
+			    } else {
+			        resultPaseLista = new SesionesDAO().updatePaseLista(jsonPaseLista);
+			    }
+			    strError += "INTEGRACION:" + resultado2.isSuccess() + "ERROR:" + resultado2.getError() + "ERROR_INFO:" + resultado2.getError_info();
+			    strError += " ||||JSON PASE LISTA " + jsonPaseLista + " |||| PASELISTA:" + resultPaseLista.isSuccess() + "ERROR:" + resultPaseLista.getError() + "ERROR_INFO:" + resultPaseLista.getError_info();
+			
+			    if (resultPaseLista.isSuccess()) {
+			        try {
+			            ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+			            Map<String, Serializable> rows = new HashMap<String, Serializable>();
+			            rows.put("asistenciaEntrevista", true);
+			            processAPI.updateProcessDataInstances(caseId, rows);
+			        } catch (Exception e) {
+			            strError += '||| ERROR PROCESO ' + e;
+			        }
+			    }
 			}
 			
 			/*========================================================TEST PSICOMETRICO OBSERVACIONES ACCIONES========================================================*/
