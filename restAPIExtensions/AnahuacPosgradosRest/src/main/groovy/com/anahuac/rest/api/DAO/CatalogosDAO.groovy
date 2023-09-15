@@ -656,9 +656,9 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATSINO);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setBoolean(3, Boolean.valueOf(object.es_si_o_no));
-			pstm.setBoolean(4, Boolean.valueOf(object.es_talvez));
-			pstm.setBoolean(5, Boolean.valueOf(object.es_otro));
+			pstm.setBoolean(3, Boolean.valueOf(object.esSiNo));
+			pstm.setBoolean(4, Boolean.valueOf(object.esTalvez));
+			pstm.setBoolean(5, Boolean.valueOf(object.esOtro));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -698,9 +698,9 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATSINO);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setBoolean(3, Boolean.valueOf(object.es_si_o_no));
-			pstm.setBoolean(4, Boolean.valueOf(object.es_talvez));
-			pstm.setBoolean(5, Boolean.valueOf(object.es_otro));
+			pstm.setBoolean(3, Boolean.valueOf(object.esSiNo));
+			pstm.setBoolean(4, Boolean.valueOf(object.esTalvez));
+			pstm.setBoolean(5, Boolean.valueOf(object.esOtro));
 			pstm.setLong(6, Long.valueOf(object.persistenceid));
 			
 			if (pstm.executeUpdate() > 0) {
