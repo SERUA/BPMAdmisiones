@@ -31,7 +31,7 @@ function PbTableCtrl($scope, $http) {
     });
     
     $scope.getCatalogo = function (){
-        $http.get($scope.properties.urlGet, {}).success(function(_response){
+        $http.post($scope.properties.urlGet, {}).success(function(_response){
             $scope.properties.content = _response;
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
