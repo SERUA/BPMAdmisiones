@@ -378,7 +378,7 @@ class CatalogosDAO {
 	        def object = jsonSlurper.parseText(jsonData)
 			
 			if(object.persistenceid.equals("") || object.persistenceid == null) {
-				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			} 
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATFILTROSEGURIDAD);
