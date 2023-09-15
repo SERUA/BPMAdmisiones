@@ -16,9 +16,8 @@ import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.PSGRCatEstatusProceso
-
+import com.anahuac.rest.api.Entity.db.PSGRFiltroSeguridad
 import groovy.json.JsonSlurper
-import com.anahuac.rest.api.util.Sql;
 
 class CatalogosDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(CatalogosDAO.class);
@@ -330,41 +329,40 @@ class CatalogosDAO {
 	}
 	
 	public Result insertCatFiltroSeguridad(String jsonData, RestAPIContext context) {
-	    Result resultado = new Result();
+		Result resultado = new Result();
 	    Boolean closeCon = false;
 	
 	    try {
 	        closeCon = validarConexion();
-	
-	        JsonSlurper jsonSlurper = new JsonSlurper()
-	
-	        def jsonString = jsonData.toString()
-	        def object = jsonSlurper.parseText(jsonString)
-			pstm = con.prepareStatement(StatementsCatalogos.INSERTCATFILTROSEGURIDAD);
-			pstm.setLong(1, 0);
-			pstm.setString(2, object.rol);
-	        pstm.setString(3, object.servicio);
-	
-	        int rowsAffected = pstm.executeUpdate();
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData);
 			
-	        if (rowsAffected > 0) {
-            LOGGER.info("Registro insertado con éxito.");
-            resultado.setSuccess(true);
-        } else {
-            throw new Exception("No se pudo insertar el registro.");
-            resultado.setSuccess(false);
-        }
+			if(object.rol.equals("") || object.rol == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.servicio.equals("") || object.servicio == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			}
+	
+	        pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATFILTROSEGURIDAD);
+	        pstm.setLong(1, 0);
+	        pstm.setString(2, object.rol);
+	        pstm.setString(3, object.servicio);
+		
+	        if (pstm.executeUpdate() > 0) {
+	            resultado.setSuccess(true);
+	        } else {
+	            throw new Exception("No se pudo insertar el registro.");
+	        }
 	    } catch (Exception e) {
-	        LOGGER.error("[ERROR] " + e.getMessage(), e)
-	        resultado.setSuccess(false)
-	        resultado.setError("[insert] " + e.getMessage())
+	        resultado.setSuccess(false);
+	        resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
 	    } finally {
 	        if (closeCon) {
-	            new DBConnect().closeObj(con, stm, rs, pstm)
+	            new DBConnect().closeObj(con, stm, rs, pstm);
 	        }
 	    }
 	
-	    return resultado
+	    return resultado;
 	}
 
 
@@ -376,26 +374,24 @@ class CatalogosDAO {
 	
 	    try {
 	        closeCon = validarConexion();
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			} 
 	
-	        JsonSlurper jsonSlurper = new JsonSlurper()
-	
-	        def jsonString = jsonData.toString()
-	        def object = jsonSlurper.parseText(jsonString)
-	
-	        pstm = con.prepareStatement(StatementsCatalogos.DELETECATFILTROSEGURIDAD);
+	        pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATFILTROSEGURIDAD);
 	        pstm.setLong(1, object.persistenceId);
 	
-	        int rowsAffected = pstm.executeUpdate();
-	
-	        if (rowsAffected > 0) {
-	            LOGGER.info("Registro eliminado con éxito.");
+	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
 	        } else {
 	            throw new Exception("No se pudo eliminar el registro.");
-	            resultado.setSuccess(false);
 	        }
 	    } catch (Exception e) {
 	        resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
 	    } finally {
 	        if (closeCon) {
 	            new DBConnect().closeObj(con, stm, rs, pstm);
@@ -411,28 +407,30 @@ class CatalogosDAO {
 	
 	    try {
 	        closeCon = validarConexion();
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.rol.equals("") || object.rol == null) {
+				throw new Exception("El campo \"rol\" no debe ir vacío");
+			} else if(object.servicio.equals("") || object.servicio == null) {
+				throw new Exception("El campo \"servicio\" no debe ir vacío");
+			} else if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			}
 	
-	        JsonSlurper jsonSlurper = new JsonSlurper()
-	
-	        def jsonString = jsonData.toString()
-	        def object = jsonSlurper.parseText(jsonString)
-	
-	        pstm = con.prepareStatement(StatementsCatalogos.UPDATECATFILTROSEGURIDAD);
+	        pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATFILTROSEGURIDAD);
 	        pstm.setString(1, object.rol);
 	        pstm.setString(2, object.servicio);
 	        pstm.setLong(3, object.persistenceId);
 	
-	        int rowsAffected = pstm.executeUpdate();
-	
-	        if (rowsAffected > 0) {
-	            LOGGER.info("Registro modificado con éxito.");
+	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
 	        } else {
 				throw new Exception("No se pudo modificar el registro.")
-	            resultado.setSuccess(false);
 	        }
 	    } catch (Exception e) {
 	        resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
 	    } finally {
 	        if (closeCon) {
 	            new DBConnect().closeObj(con, stm, rs, pstm);
@@ -596,4 +594,89 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
+	
+	public Result getCatFiltroSeguridad() {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
+		List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
+		String where = "", orderby = "";
+	
+		try {
+			closeCon = validarConexion();
+	
+			// Hardcodea la orden de la consulta
+			orderby = "";
+	
+			// Supongamos que StatementsCatalogos.SELECT_CATFILTROSEGURIDAD es la consulta que deseas ejecutar
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				row = new PSGRFiltroSeguridad();
+				row.setPersistenceid(rs.getLong("persistenceid"));
+				row.setRol(rs.getString("rol"));
+				row.setServicio(rs.getString("servicio"));
+				// Agrega más setters para otros campos si es necesario
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	//	GETCATFILTROSEGURIDAD PRIMERO
+	//	public Result getCatFiltroSeguridad(String jsonData) {
+	//	    Result resultado = new Result();
+	//	    Boolean closeCon = false;
+	//	    PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
+	//	    List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
+	//	    String where = "", orderby = "";
+	//
+	//	    try {
+	//	        closeCon = validarConexion();
+	//	        def jsonSlurper = new JsonSlurper();
+	//	        def object = jsonSlurper.parseText(jsonData);
+	//
+	//	        orderby = " ORDER BY orden ASC";
+	//
+	//	        pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+	//	        rs = pstm.executeQuery();
+	//
+	//	        while (rs.next()) {
+	//	            row = new PSGRFiltroSeguridad();
+	//	            row.setPersistenceid(rs.getLong("persistenceid"));
+	//	            row.setRol(rs.getString("rol"));
+	//	            row.setServicio(rs.getString("servicio"));
+	//	            // Agrega más setters para otros campos si es necesario
+	//
+	//	            data.add(row);
+	//	        }
+	//
+	//	        resultado.setData(data);
+	//	        resultado.setSuccess(true);
+	//	    } catch (Exception e) {
+	//	        resultado.setSuccess(false);
+	//	        resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+	//	    } finally {
+	//	        if (closeCon) {
+	//	            new DBConnect().closeObj(con, stm, rs, pstm);
+	//	        }
+	//	    }
+	//
+	//	    return resultado;
+	//	}
+	
+	
 }

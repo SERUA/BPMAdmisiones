@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatFiltroSeguridad",
   "name" : "PSGRCatFiltroSeguridad",
-  "lastUpdate" : 1694719341815,
+  "lastUpdate" : 1694799356474,
   "rows" : [
     [
       {
@@ -31,6 +31,118 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Catalogo filtro de seguridad"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 2"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "69a8daa5-8132-4933-86ee-3e5d35c5ba8d",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "headers" : {
+                  "type" : "constant",
+                  "value" : [
+                    "PersistenceID",
+                    "Rol",
+                    "Servicio"
+                  ]
+                },
+                "content" : {
+                  "type" : "expression",
+                  "value" : "urlCat.data"
+                },
+                "columnsKey" : {
+                  "type" : "constant",
+                  "value" : [
+                    "persistenceid",
+                    "rol",
+                    "servicio"
+                  ]
+                },
+                "selectedRow" : {
+                  "type" : "variable",
+                  "value" : "selectedCat"
+                },
+                "striped" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "condensed" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "bordered" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "urlGet" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=getCatFiltroSeguridad"
+                },
+                "reload" : {
+                  "type" : "variable",
+                  "value" : "reload"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : "navigationVar"
+                }
+              },
+              "reference" : "8d9492fc-901b-40c0-a64b-79d0ef9744d2",
+              "hasValidationError" : false,
+              "id" : "customPSGRTABLACATFILTROSEGURIDAD"
+            }
+          ],
           [
             {
               "type" : "component",
@@ -86,7 +198,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "setDatospersistenceId"
+                  "value" : ""
                 },
                 "type" : {
                   "type" : "constant",
@@ -103,7 +215,7 @@
                   "value" : 1
                 }
               },
-              "reference" : "618fb303-acce-4905-be27-3be01a7dd685",
+              "reference" : "817aac5a-5795-420a-a0e6-deaf950d992d",
               "hasValidationError" : false,
               "id" : "pbInput"
             },
@@ -161,7 +273,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "setDatos.rol"
+                  "value" : "rol"
                 },
                 "type" : {
                   "type" : "constant",
@@ -178,7 +290,7 @@
                   "value" : 1
                 }
               },
-              "reference" : "d4a40685-ab35-4933-b641-6998a0cb4f72",
+              "reference" : "d0855347-2ae2-4acd-823a-43244e0deb14",
               "hasValidationError" : false,
               "id" : "pbInput"
             },
@@ -236,7 +348,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "setDatos.servicio"
+                  "value" : "servicio"
                 },
                 "type" : {
                   "type" : "constant",
@@ -253,7 +365,7 @@
                   "value" : 1
                 }
               },
-              "reference" : "ea48c73f-87d4-4661-98c2-f53cfbdadb0e",
+              "reference" : "240bfcaf-72a0-4f42-b6cf-fb27a8db4f75",
               "hasValidationError" : false,
               "id" : "pbInput"
             }
@@ -343,7 +455,7 @@
                   "type" : "variable"
                 }
               },
-              "reference" : "719c4516-c1bb-4565-87c2-b7c17a562464",
+              "reference" : "b0160b6c-4a48-4555-9dc5-0f1b823b38fb",
               "hasValidationError" : false,
               "id" : "pbButton"
             },
@@ -389,14 +501,16 @@
                   "value" : false
                 },
                 "url" : {
-                  "type" : "interpolation"
+                  "type" : "interpolation",
+                  "value" : "../API/extension/posgradosRest?url=insertCatFiltroSeguridad"
                 },
                 "responseStatusCode" : {
                   "type" : "variable",
                   "value" : ""
                 },
                 "dataToSend" : {
-                  "type" : "constant"
+                  "type" : "expression",
+                  "value" : "lstSentDatos"
                 },
                 "dataFromSuccess" : {
                   "type" : "variable",
@@ -519,7 +633,7 @@
                   "type" : "variable"
                 }
               },
-              "reference" : "fa4f110d-9bb9-4841-81a0-5881ec6bd7d8",
+              "reference" : "f6e26897-b1de-4ff3-9f5d-5ecb9e16618d",
               "hasValidationError" : false,
               "id" : "pbButton"
             }
@@ -546,27 +660,94 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "catRoles" : {
-      "type" : "url",
+    "lstCat" : {
+      "type" : "json",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.config.PSGRFiltroSeguridad?q=getCatPSGRFiltroSeguridadRol&p=0&c=50"
+        "[]"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
       "exposed" : false
     },
-    "catServicios" : {
-      "type" : "constant",
-      "exposed" : false
-    },
-    "setDatos" : {
+    "selectedCat" : {
       "type" : "json",
       "value" : [
         "{}"
       ],
+      "exposed" : false
+    },
+    "navigationVar" : {
+      "type" : "constant",
+      "value" : [
+        "tabla"
+      ],
+      "exposed" : false
+    },
+    "reload" : {
+      "type" : "constant",
+      "value" : [
+        "false"
+      ],
+      "exposed" : false
+    },
+    "DEBUGGER" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.lstCat;"
+      ],
+      "exposed" : false
+    },
+    "prueba" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "  {\r",
+        "    \"persistenceid\": \"valor1\",\r",
+        "    \"rol\": \"valor2\",\r",
+        "    \"servicio\": \"valor3\"\r",
+        "  },\r",
+        "  {\r",
+        "    \"persistenceid\": \"valor4\",\r",
+        "    \"rol\": \"valor5\",\r",
+        "    \"servicio\": \"valor6\"\r",
+        "  }\r",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "urlCat" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRest?url=getCatFiltroSeguridad"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstSentDatos" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;\r",
+        "function crearJSON() {\r",
+        "  // Crea un objeto JSON con las variables $data.rol y $data.servicio\r",
+        "  var miJSON = {\r",
+        "    rol: $data.rol,\r",
+        "    servicio: $data.servicio\r",
+        "  };\r",
+        "\r",
+        "  // Convierte el objeto JSON a una cadena JSON\r",
+        "  var jsonString = JSON.stringify(miJSON);\r",
+        "\r",
+        "  // Retorna la cadena JSON\r",
+        "  return jsonString;\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "rol" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "servicio" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

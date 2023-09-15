@@ -91,7 +91,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "getCatFiltroSeguridad":
-					result = new CatalogosDAO().getCatFiltroSeguridad(jsonData, context)
+					result = new CatalogosDAO().getCatFiltroSeguridad()
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
