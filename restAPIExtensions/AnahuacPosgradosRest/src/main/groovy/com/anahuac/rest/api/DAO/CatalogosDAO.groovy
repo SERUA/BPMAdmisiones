@@ -377,12 +377,12 @@ class CatalogosDAO {
 	        def jsonSlurper = new JsonSlurper();
 	        def object = jsonSlurper.parseText(jsonData)
 			
-			if(object.persistenceId.equals("") || object.persistenceId == null) {
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
 			} 
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATFILTROSEGURIDAD);
-	        pstm.setLong(1, object.persistenceId);
+	        pstm.setLong(1, object.persistenceid);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
@@ -414,14 +414,14 @@ class CatalogosDAO {
 				throw new Exception("El campo \"rol\" no debe ir vacío");
 			} else if(object.servicio.equals("") || object.servicio == null) {
 				throw new Exception("El campo \"servicio\" no debe ir vacío");
-			} else if(object.persistenceId.equals("") || object.persistenceId == null) {
+			} else if(object.persistenceid.equals("") || object.persistenceid == null) {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
 			}
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATFILTROSEGURIDAD);
 	        pstm.setString(1, object.rol);
 	        pstm.setString(2, object.servicio);
-	        pstm.setLong(3, object.persistenceId);
+	        pstm.setLong(3, object.persistenceid);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
@@ -438,6 +438,47 @@ class CatalogosDAO {
 	    }
 	
 	    return resultado;
+	}
+	
+	public Result getCatFiltroSeguridad(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
+		List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
+		String where = "", orderby = "";
+	
+		try {
+			closeCon = validarConexion();
+	
+			// Hardcodea la orden de la consulta
+			orderby = "";
+	
+			// Supongamos que StatementsCatalogos.SELECT_CATFILTROSEGURIDAD es la consulta que deseas ejecutar
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				row = new PSGRFiltroSeguridad();
+				row.setPersistenceid(rs.getLong("persistenceid"));
+				row.setRol(rs.getString("rol"));
+				row.setServicio(rs.getString("servicio"));
+				// Agrega más setters para otros campos si es necesario
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 	
 	public Result insertCatEstatusProceso(String jsonData) {
@@ -589,47 +630,6 @@ class CatalogosDAO {
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
-			}
-		}
-	
-		return resultado;
-	}
-	
-	public Result getCatFiltroSeguridad(String jsonData) {
-		Result resultado = new Result();
-		Boolean closeCon = false;
-		PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
-		List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
-		String where = "", orderby = "";
-	
-		try {
-			closeCon = validarConexion();
-	
-			// Hardcodea la orden de la consulta
-			orderby = "";
-	
-			// Supongamos que StatementsCatalogos.SELECT_CATFILTROSEGURIDAD es la consulta que deseas ejecutar
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-			rs = pstm.executeQuery();
-	
-			while (rs.next()) {
-				row = new PSGRFiltroSeguridad();
-				row.setPersistenceid(rs.getLong("persistenceid"));
-				row.setRol(rs.getString("rol"));
-				row.setServicio(rs.getString("servicio"));
-				// Agrega más setters para otros campos si es necesario
-	
-				data.add(row);
-			}
-	
-			resultado.setData(data);
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			resultado.setSuccess(false);
-			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
-		} finally {
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
 		}
 	
