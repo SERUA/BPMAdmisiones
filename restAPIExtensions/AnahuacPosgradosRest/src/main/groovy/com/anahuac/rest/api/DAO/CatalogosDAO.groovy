@@ -442,44 +442,88 @@ class CatalogosDAO {
 	}
 	
 	public Result getCatFiltroSeguridad(String jsonData) {
-		Result resultado = new Result();
-		Boolean closeCon = false;
-		PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
-		List<PSGRFiltroSeguridad> data = new ArrayList<PSGRFiltroSeguridad>();
-		String where = "", orderby = "";
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	    List<PSGRFiltroSeguridad> data = new ArrayList<>();
+	    String where = ""; // Aplicar filtro por defecto para registros no eliminados
+	    String orderby = ""; // Ordenamiento por defecto
 	
-		try {
-			closeCon = validarConexion();
+	    try {
+	        // Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData);
 	
-			// Hardcodea la orden de la consulta
-			orderby = "";
-	
-			// Supongamos que StatementsCatalogos.SELECT_CATFILTROSEGURIDAD es la consulta que deseas ejecutar
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-			rs = pstm.executeQuery();
-	
-			while (rs.next()) {
-				row = new PSGRFiltroSeguridad();
-				row.setPersistenceid(rs.getLong("persistenceid"));
-				row.setRol(rs.getString("rol"));
-				row.setServicio(rs.getString("servicio"));
-				// Agrega más setters para otros campos si es necesario
-	
-				data.add(row);
+	        closeCon = validarConexion();
+			
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				
+				switch (filtro.get("columna")) {
+					case "rol":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(rol) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "servicio":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(servicio) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
 			}
 	
-			resultado.setData(data);
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			resultado.setSuccess(false);
-			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
-		} finally {
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm);
-			}
-		}
+	        // Configurar el ordenamiento según la configuración proporcionada
+//	        String orderByColumn = object.orderby;
+//	        String orientation = object.orientation;
+//	
+//	        if (!orderByColumn.isEmpty() && !orientation.isEmpty()) {
+//	            orderby = " ORDER BY " + orderByColumn + " " + orientation;
+//	        }
 	
-		return resultado;
+	        // Construir la consulta SQL final
+	        String consulta = StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+	
+	        pstm = con.prepareStatement(consulta);
+	        rs = pstm.executeQuery();
+	
+	        while (rs.next()) {
+	            PSGRFiltroSeguridad row = new PSGRFiltroSeguridad();
+	            row.setPersistenceid(rs.getLong("persistenceid"));
+	            row.setRol(rs.getString("rol"));
+	            row.setServicio(rs.getString("servicio"));
+	
+	            data.add(row);
+	        }
+	
+	        resultado.setData(data);
+	        resultado.setSuccess(true);
+	    } catch (Exception e) {
+	        resultado.setSuccess(false);
+	        resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
 	}
 	
 	public Result insertCatEstatusProceso(String jsonData) {
