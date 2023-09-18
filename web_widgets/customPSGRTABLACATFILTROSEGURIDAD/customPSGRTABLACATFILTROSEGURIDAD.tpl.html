@@ -1,16 +1,37 @@
+<div class="row">
+    <div class="col-lg-12">
+        <span>Filtrado por:</span>    
+    </div>
+    <div class="col-lg-12" ng-repeat="row in dataToSend.lstFiltro">
+        <strong>{{row.columna}} {{row.operador}} "{{row.valor}}" </strong><span ng-show="row.columna != 'CAMPUS'"  class="glyphicon glyphicon-remove buttonDelete" ng-click="deleteContent(row)" aria-hidden="true"></span>
+    </div>
+</div>
+
 <div class="table-responsive">
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
             <tr>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                <th>
+                    PersistenceId
+                </th>
+                <th>
+                    Rol
+                </th>
+                <th>
+                    Servicio
                 </th>
                 <th>Acciones</th>
             </tr>
         </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td><input ng-model="dynamicInput['rol']" class="form-control" ng-enter="filterKeyPress('rol',dynamicInput['rol'])"></td>
+                <td><input ng-model="dynamicInput['servicio']" class="form-control" ng-enter="filterKeyPress('servicio',dynamicInput['servicio'])"></td>
+            </tr>
+        </tbody>
         <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-class="{'info': ctrl.isSelected(row)}">
+            <tr ng-repeat="row in properties.content | filter:ctrl.customFilter">
                 <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
                     {{ $eval(column, row) | uiTranslate }}
                 </td>
@@ -22,28 +43,12 @@
                             ng-click="ctrl.handlePencilClick(row)">
                         <span class="glyphicon glyphicon-pencil"></span>
                     </button>
-                    <button type="button" class="btn btn-danger"
-                            ng-click="ctrl.handleTrashClick(row)">
-                        <span class="glyphicon glyphicon-trash"></span>
+                    <button class="btn btn-warning" ng-click="ctrl.selectRowDelete(row)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                     </button>
                 </td> 
             </tr>
         </tbody>
-        <tbody ng-if="ctrl.isArray(properties.content) && !ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-class="{'info': ctrl.isSelected(row)}">
-                <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>
-                <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
-                <td>
-                    <button type="button" class="btn btn-primary"
-                            ng-click="ctrl.handlePencilClick(row)">
-                        <span class="glyphicon glyphicon-pencil"></span>
-                    </button>
-                    <button type="button" class="btn btn-danger"
-                            ng-click="ctrl.handleTrashClick(row)">
-                        <span class="glyphicon glyphicon-trash"></span>
-                    </button>
-                </td>  
-            </tr>
-        </tbody>
+        <!-- Resto del código -->
     </table>
 </div>

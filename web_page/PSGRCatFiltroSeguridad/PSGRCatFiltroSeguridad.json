@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatFiltroSeguridad",
   "name" : "PSGRCatFiltroSeguridad",
-  "lastUpdate" : 1694803375490,
+  "lastUpdate" : 1694828388826,
   "rows" : [
     [
       {
@@ -114,6 +114,62 @@
                   "type" : "expression",
                   "value" : "navigationVar !== \"tabla\""
                 },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "right"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : "navigationVar"
+                },
+                "newValue" : {
+                  "type" : "constant",
+                  "value" : "nuevo"
+                },
+                "objetoCat" : {
+                  "type" : "variable",
+                  "value" : "selectedCat"
+                }
+              },
+              "reference" : "79c92a11-d2ad-4cae-b081-86b99f376ab9",
+              "hasValidationError" : false,
+              "id" : "customPSGRbtnReiniciarCatNavegar"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "navigationVar !== \"tabla\""
+                },
                 "allowHTML" : {
                   "type" : "constant",
                   "value" : true
@@ -165,6 +221,10 @@
                 "navigationVar" : {
                   "type" : "variable",
                   "value" : "navigationVar"
+                },
+                "urlDelete" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=deleteCatFiltroSeguridad"
                 }
               },
               "reference" : "8d9492fc-901b-40c0-a64b-79d0ef9744d2",
@@ -188,7 +248,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== \"editar\""
+                  "value" : "navigationVar !== \"editar\" && navigationVar !== \"nuevo\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -254,7 +314,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "lstCat.data.persistenceid"
+                        "value" : "selectedCat.persistenceid"
                       },
                       "type" : {
                         "type" : "constant",
@@ -329,7 +389,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "rol"
+                        "value" : "selectedCat.rol"
                       },
                       "type" : {
                         "type" : "constant",
@@ -404,7 +464,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "servicio"
+                        "value" : "selectedCat.servicio"
                       },
                       "type" : {
                         "type" : "constant",
@@ -528,44 +588,24 @@
                       },
                       "dataToSend" : {
                         "type" : "expression",
-                        "value" : "lstSentDatos"
+                        "value" : "selectedCat"
                       },
-                      "dataFromSuccess" : {
+                      "urlInsert" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=insertCatFiltroSeguridad"
+                      },
+                      "urlUpdate" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=updateCatFiltroSeguridad"
+                      },
+                      "navigationVar" : {
                         "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
+                        "value" : "navigationVar"
                       }
                     },
-                    "reference" : "19924b70-75b9-42c2-add2-cd927535421a",
+                    "reference" : "86442e3a-e205-49cd-a0ce-955119e5ab3e",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "customPSGRBotonGuardarCatV1PSGRCatFiltroSeguridad"
                   }
                 ]
               ]
@@ -577,10 +617,24 @@
   ],
   "assets" : [
     {
+      "id" : "d42f77d4-c239-4e9b-9e04-75b46a27c913",
+      "name" : "sweetalert.min.js",
+      "type" : "js",
+      "order" : 3,
+      "external" : false
+    },
+    {
       "id" : "a5bf8b7c-50e6-44a7-a271-44ba7b803b18",
       "name" : "localization.json",
       "type" : "json",
       "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "78816363-ca89-4fb1-b89f-82fb020593e3",
+      "name" : "bootstrap.min.js",
+      "type" : "js",
+      "order" : 2,
       "external" : false
     },
     {
@@ -625,6 +679,14 @@
       "type" : "constant",
       "value" : [
         "false"
+      ],
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.navigationVar;"
       ],
       "exposed" : false
     }
