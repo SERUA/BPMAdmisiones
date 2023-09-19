@@ -758,8 +758,9 @@ class CatalogosDAO {
 			pstm.setString(4, object.descripcion);
 			pstm.setString(5, object.usuario_creacion);
 			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
-			timestampActual.setNanos(0);
-			pstm.setTimestamp(6, timestampActual);
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(6, fechaHoraFormateada);
 			pstm.setInt(7, object.orden);
 
 			if (pstm.executeUpdate() > 0) {
