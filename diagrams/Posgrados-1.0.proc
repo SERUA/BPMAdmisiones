@@ -2,7 +2,7 @@
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
     <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados">
-      <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_RS3Wm1ZtEe6T3bm1fu0vzg">
+      <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_RS3WhVZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -117,7 +117,7 @@
           <expectedDuration xmi:type="expression:Expression" xmi:id="_xphwTFZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <elements xmi:type="process:Lane" xmi:id="_J3n3gFZuEe6T3bm1fu0vzg" name="Administración escolar">
+      <elements xmi:type="process:Lane" xmi:id="_J3n3gFZuEe6T3bm1fu0vzg" name="Administración escolar" actor="_uIe_QFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:Task" xmi:id="_JxSpMFZyEe6T3bm1fu0vzg" name="Revisar solicitud" outgoing="_h6RekFZ2Ee6T3bm1fu0vzg" incoming="_zbmnUFZ2Ee6T3bm1fu0vzg _6eVNwFZ3Ee6T3bm1fu0vzg" overrideActorsOfTheLane="false">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_-8pa4VZxEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_-8pa4FZxEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -169,7 +169,7 @@
           <stepSummary xmi:type="expression:Expression" xmi:id="_cTpiY1Z4Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <elements xmi:type="process:Lane" xmi:id="_r3T-MFZwEe6T3bm1fu0vzg" name="Área académica">
+      <elements xmi:type="process:Lane" xmi:id="_r3T-MFZwEe6T3bm1fu0vzg" name="Área académica" actor="_wK1RgFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:Task" xmi:id="_EB7OcFZ5Ee6T3bm1fu0vzg" name="Revisar solicitud 2" outgoing="_HMNZIFZ5Ee6T3bm1fu0vzg" incoming="_6mbkYFZ4Ee6T3bm1fu0vzg" overrideActorsOfTheLane="false">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_6mX6AVZ4Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_6mX6AFZ4Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -206,7 +206,7 @@
           <expectedDuration xmi:type="expression:Expression" xmi:id="_choenFZ5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
       </elements>
-      <elements xmi:type="process:Lane" xmi:id="_uWxqQFZwEe6T3bm1fu0vzg" name="Comité de admisión"/>
+      <elements xmi:type="process:Lane" xmi:id="_uWxqQFZwEe6T3bm1fu0vzg" name="Comité de admisión" actor="_xUXFYFcjEe6aCtvu892Zbw"/>
       <data xmi:type="process:Data" xmi:id="_FPl_oFZyEe6T3bm1fu0vzg" name="isSolicitudCompletada" dataType="_RS3WrFZtEe6T3bm1fu0vzg">
         <defaultValue xmi:type="expression:Expression" xmi:id="_FPl_oVZyEe6T3bm1fu0vzg" content="" returnType="java.lang.Boolean"/>
       </data>
@@ -215,6 +215,9 @@
       </data>
       <data xmi:type="process:Data" xmi:id="_ifcWQFZ4Ee6T3bm1fu0vzg" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg">
         <defaultValue xmi:type="expression:Expression" xmi:id="_ifcWQVZ4Ee6T3bm1fu0vzg" content="" returnType="java.lang.Boolean"/>
+      </data>
+      <data xmi:type="process:Data" xmi:id="_GPolcFckEe6aCtvu892Zbw" name="isReagendar" dataType="_RS3WrFZtEe6T3bm1fu0vzg">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_GPolcVckEe6aCtvu892Zbw" content="" returnType="java.lang.Boolean"/>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_RS3WlFZtEe6T3bm1fu0vzg">
         <targetForm xmi:type="expression:Expression" xmi:id="_RS3WlVZtEe6T3bm1fu0vzg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
@@ -274,7 +277,10 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_2J0hEFZ2Ee6T3bm1fu0vzg" name="Modificar solicitud" target="_5J61AFZ2Ee6T3bm1fu0vzg" source="_jsSOwFZ2Ee6T3bm1fu0vzg">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_2J0hEVZ2Ee6T3bm1fu0vzg"/>
-        <condition xmi:type="expression:Expression" xmi:id="_2J0hElZ2Ee6T3bm1fu0vzg" name="newScript()" content="" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+        <condition xmi:type="expression:Expression" xmi:id="_2J0hElZ2Ee6T3bm1fu0vzg" name="newScript()" content="isModificarSolicitud &amp;&amp; !isSolicitudRechazadaAdminEscolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+          <referencedElements xmi:type="process:Data" xmi:id="_R9ALgFckEe6aCtvu892Zbw" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_R9AykFckEe6aCtvu892Zbw" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+        </condition>
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_5rDzMFZ2Ee6T3bm1fu0vzg" target="_zbjkAFZ2Ee6T3bm1fu0vzg" source="_5J61AFZ2Ee6T3bm1fu0vzg">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_5rEaQFZ2Ee6T3bm1fu0vzg"/>
@@ -294,8 +300,9 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_CJkbIFZ4Ee6T3bm1fu0vzg" name="Solicitud rechazada" target="_CJgwwFZ4Ee6T3bm1fu0vzg" source="_jsSOwFZ2Ee6T3bm1fu0vzg">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_CJlCMFZ4Ee6T3bm1fu0vzg"/>
-        <condition xmi:type="expression:Expression" xmi:id="_CJlCMVZ4Ee6T3bm1fu0vzg" name="newScript()" content="isSolicitudRechazadaAdminEscolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
-          <referencedElements xmi:type="process:Data" xmi:id="_jzvPsFZ4Ee6T3bm1fu0vzg" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+        <condition xmi:type="expression:Expression" xmi:id="_CJlCMVZ4Ee6T3bm1fu0vzg" name="newScript()" content="isSolicitudRechazadaAdminEscolar &amp;&amp; !isModificarSolicitud" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+          <referencedElements xmi:type="process:Data" xmi:id="_UrXPMFckEe6aCtvu892Zbw" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_UrXPMVckEe6aCtvu892Zbw" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
         </condition>
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_cTvB8FZ4Ee6T3bm1fu0vzg" target="_xphwQFZ3Ee6T3bm1fu0vzg" source="_cTpiYFZ4Ee6T3bm1fu0vzg">
@@ -312,13 +319,19 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_RTjckFZ5Ee6T3bm1fu0vzg" name="Sí" target="_cTpiYFZ4Ee6T3bm1fu0vzg" source="_HkkOwFZ5Ee6T3bm1fu0vzg">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_RTjckVZ5Ee6T3bm1fu0vzg"/>
-        <condition xmi:type="expression:Expression" xmi:id="_RTjcklZ5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+        <condition xmi:type="expression:Expression" xmi:id="_RTjcklZ5Ee6T3bm1fu0vzg" name="newScript()" content="isReagendar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+          <referencedElements xmi:type="process:Data" xmi:id="_ItpgAFckEe6aCtvu892Zbw" name="isReagendar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+        </condition>
       </connections>
-      <connections xmi:type="process:SequenceFlow" xmi:id="_a0u34FZ5Ee6T3bm1fu0vzg" target="_choekFZ5Ee6T3bm1fu0vzg" source="_HkkOwFZ5Ee6T3bm1fu0vzg">
+      <connections xmi:type="process:SequenceFlow" xmi:id="_a0u34FZ5Ee6T3bm1fu0vzg" name="Avanzar entrevista" target="_choekFZ5Ee6T3bm1fu0vzg" source="_HkkOwFZ5Ee6T3bm1fu0vzg" isDefault="true">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_a0u34VZ5Ee6T3bm1fu0vzg"/>
         <condition xmi:type="expression:Expression" xmi:id="_a0u34lZ5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
       <actors xmi:type="process:Actor" xmi:id="_RS3Wm1ZtEe6T3bm1fu0vzg" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
+      <actors xmi:type="process:Actor" xmi:id="_nP_dcFcjEe6aCtvu892Zbw" name="Aspirante"/>
+      <actors xmi:type="process:Actor" xmi:id="_uIe_QFcjEe6aCtvu892Zbw" name="Administración escolar"/>
+      <actors xmi:type="process:Actor" xmi:id="_wK1RgFcjEe6aCtvu892Zbw" name="Área académica"/>
+      <actors xmi:type="process:Actor" xmi:id="_xUXFYFcjEe6aCtvu892Zbw" name="Comité de admisión"/>
       <contract xmi:type="process:Contract" xmi:id="_RS3WnFZtEe6T3bm1fu0vzg"/>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_RS3WnVZtEe6T3bm1fu0vzg">
         <name xmi:type="expression:Expression" xmi:id="_RS3WnlZtEe6T3bm1fu0vzg" content="" returnTypeFixed="true"/>
@@ -489,7 +502,7 @@
             </children>
             <children xmi:type="notation:Shape" xmi:id="_chpFoFZ5Ee6T3bm1fu0vzg" type="3005" element="_choekFZ5Ee6T3bm1fu0vzg" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_chpFolZ5Ee6T3bm1fu0vzg" type="5005"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_chpFoVZ5Ee6T3bm1fu0vzg" x="1022" y="174" width="117" height="58"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_chpFoVZ5Ee6T3bm1fu0vzg" x="1094" y="174" width="117" height="58"/>
             </children>
           </children>
           <styles xmi:type="notation:DescriptionStyle" xmi:id="_r3UlQVZwEe6T3bm1fu0vzg"/>
