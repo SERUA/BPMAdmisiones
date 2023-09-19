@@ -5,6 +5,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.sql.Timestamp
 import java.text.SimpleDateFormat
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
@@ -15,6 +16,8 @@ import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatGenerico
+import com.anahuac.rest.api.Entity.db.CatPaisCustomFiltro
+import com.anahuac.rest.api.Entity.db.PSGRCatEstado
 import com.anahuac.rest.api.Entity.db.PSGRCatEstatusProceso
 import com.anahuac.rest.api.Entity.db.PSGRCatSiNo
 import com.anahuac.rest.api.Entity.db.PSGRFiltroSeguridad
@@ -488,16 +491,7 @@ class CatalogosDAO {
 						break;
 				}
 			}
-	
-	        // Configurar el ordenamiento según la configuración proporcionada
-//	        String orderByColumn = object.orderby;
-//	        String orientation = object.orientation;
-//	
-//	        if (!orderByColumn.isEmpty() && !orientation.isEmpty()) {
-//	            orderby = " ORDER BY " + orderByColumn + " " + orientation;
-//	        }
-	
-	        // Construir la consulta SQL final
+
 	        String consulta = StatementsCatalogos.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 	        pstm = con.prepareStatement(consulta);
@@ -524,6 +518,561 @@ class CatalogosDAO {
 	    }
 	
 	    return resultado;
+	}
+	
+	public Result getCatPais(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		String where = "WHERE IS_ELIMINADO=false", orderby = "ORDER BY "
+		String consulta = StatementsCatalogos.GET_CATPAIS;
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			CatPaisCustomFiltro row = new CatPaisCustomFiltro();
+			List < CatPaisCustomFiltro > rows = new ArrayList < CatPaisCustomFiltro > ();
+			errorlog += " Antes de validar conexion "
+			closeCon = validarConexion();
+			errorlog += " Despues de validar conexion "
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				errorlog += " Filtros "
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(clave) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCRIPCIÓN":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA CREACIÓN":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(FECHA_CREACION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ISELIMINADO":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(IS_ELIMINADO) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ORDEN":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(ORDEN) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERSISTENCEID":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(PERSISTENCEID) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERSISTENCEVERSION":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(PERSISTENCEVERSION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "USUARIO CREACIÓN":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(USUARIO_CREACION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			errorlog += " Order by "
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "clave";
+					break;
+				case "DESCRIPCIÓN":
+					orderby += "descripcion";
+					break;
+				case "FECHA CREACIÓN":
+					orderby += "fecha_creacion";
+					break;
+				case "ISELIMINADO":
+					orderby += "is_eliminado";
+					break;
+				case "ORDEN":
+					orderby += "orden";
+					break;
+				case "PERSISTENCEID":
+					orderby += "persistenceId";
+					break;
+				case "PERSISTENCEVERSION":
+					orderby += "persistenceVersion";
+					break;
+				case "USUARIO CREACIÓN":
+					orderby += "usuario_creacion";
+					break;
+				case "ORDEN":
+					orderby += "ORDEN";
+					break;
+				default:
+					orderby += "persistenceid"
+					break;
+			}
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[WHERE]", where);
+			errorlog += " Consulta " + consulta
+			pstm = con.prepareStatement(consulta.replace("*", "COUNT(persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+
+			rs = pstm.executeQuery()
+
+			while (rs.next()) {
+				row = new CatPaisCustomFiltro();
+				row.setClave(rs.getString("clave"))
+				row.setDescripcion(rs.getString("descripcion"));
+				//row.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(rs.getString("fechaCreacion")))
+				row.setFechaCreacion(rs.getString("fecha_creacion"));
+				row.setIsEliminado(rs.getBoolean("is_eliminado"));
+				row.setOrden(rs.getLong("orden"));
+				row.setPersistenceId(rs.getLong("persistenceId"));
+				row.setPersistenceVersion(rs.getLong("persistenceVersion"));
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
+				rows.add(row)
+			}
+			resultado.setSuccess(true)
+
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog += " ERROR " + e.getMessage();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result insertCatEstado(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"orden\" no debe ir vacío");
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.usuario_creacion.equals("") || object.usuario_creacion == null) {
+				throw new Exception("El campo \"usuario_creacion\" no debe ir vacío");
+			} 
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATESTADO);
+			pstm.setBoolean(1, false); // is_eliminado
+			pstm.setString(2, object.pais);
+			pstm.setString(3, object.clave);
+			pstm.setString(4, object.descripcion);
+			pstm.setString(5, object.usuario_creacion);
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(6, fechaHoraFormateada);
+			pstm.setInt(7, object.orden);
+
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+
+
+
+
+	public Result deleteCatEstado(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATESTADO);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+
+	public Result updateCatEstado(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			} else if(object.usuario_creacion.equals("") || object.usuario_creacion == null) {
+				throw new Exception("El campo \"usuario_creacion\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATESTADO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, object.usuario_creacion);
+			pstm.setLong(4, object.persistenceId);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatEstado(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = ""; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			closeCon = validarConexion();
+			
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				
+				switch (filtro.get("columna")) {
+					case "orden":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(orden) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "clave":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(clave) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "descripcion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "usuario_creacion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(usuario_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "fecha_creacion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(fecha_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+
+			String consulta = StatementsCatalogos.SELECT_CATESTADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				PSGRCatEstado row = new PSGRCatEstado();
+				row.setPersistenceId(rs.getLong("persistenceid"));
+				row.setOrden(rs.getLong("orden"));
+				row.setClave(rs.getString("clave"));
+				row.setDescripcion(rs.getString("descripcion"));
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
+				row.setFechaCreacion(rs.getString("fecha_creacion"));
+
+				row.setIsEliminado(rs.getBoolean("is_eliminado"));
+//				row.setPersistenceId(rs.getLong("persistenceId"));
+//				row.setPersistenceVersion(rs.getLong("persistenceVersion"));
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getValidarOrden(Integer parameterP, Integer parameterC, String tabla, Integer orden, String id) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Boolean > lstResultado = new ArrayList < Boolean > ();
+
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			String consulta;
+
+			if (!id.equals(null) && !id.equals(" ") && !id.equals("")) {
+				consulta = StatementsCatalogos.GET_VALIDACION_ORDEN_EDIT;
+			} else {
+				consulta = StatementsCatalogos.GET_VALIDACION_ORDEN;
+			}
+
+			consulta = consulta.replace("[TABLA]", tabla);
+			String errorLog = consulta;
+			
+			pstm = con.prepareStatement(consulta);
+			pstm.setInt(1, orden);
+			if (!id.equals(null) && !id.equals(" ") && !id.equals("")) {
+				pstm.setLong(2, Long.valueOf(id));
+			}
+
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				lstResultado.add(rs.getInt("total") < 1);
+			}
+
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getValidarClave(Integer parameterP, Integer parameterC, String tabla, String clave, String id) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List < Boolean > lstResultado = new ArrayList < Boolean > ();
+
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			String consulta;
+			String errorLog = consulta + ";";
+			if (!id.equals(null) && !id.equals(" ") && !id.equals("")) {
+				consulta = StatementsCatalogos.GET_VALIDACION_CLAVE_EDIT;
+				errorLog += "GET_VALIDACION_CLAVE_EDIT; ";
+			} else {
+				consulta = StatementsCatalogos.GET_VALIDACION_CLAVE;
+				errorLog += "GET_VALIDACION_CLAVE; ";
+			}
+
+			errorLog += consulta + ";";
+			
+			consulta = consulta.replace("[TABLA]", tabla);
+			errorLog += consulta + ";";
+
+			pstm = con.prepareStatement(consulta);
+			pstm.setString(1, clave.toLowerCase());
+			if (!id.equals(null) && !id.equals(" ") && !id.equals("")) {
+				pstm.setLong(2, Long.valueOf(id));
+			}
+
+			rs = pstm.executeQuery();
+
+			while (rs.next()) {
+				lstResultado.add(rs.getInt("total") < 1);
+			}
+
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 	
 	public Result insertCatEstatusProceso(String jsonData) {

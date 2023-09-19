@@ -14,7 +14,7 @@ import org.bonitasoft.web.extension.rest.RestApiResponseBuilder
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
-
+import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Security.SecurityFilter
@@ -59,6 +59,33 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				break;
+				case "getValidarOrden":
+					String tabla = request.getParameter "tabla";
+					String ordenString = request.getParameter "orden";
+					LOGGER.error "ORDEN STRING : : " + ordenString ;
+					Integer orden = Integer.parseInt(ordenString);
+					LOGGER.error "ORDEN : : " + orden.toString();
+					String id = request.getParameter "id";
+					result = new CatalogosDAO().getValidarOrden(0,9999, tabla, orden, id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						 return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+					}else {
+						 return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
+					}
+				break;
+				case "getValidarClave":
+					String tabla = request.getParameter "tabla";
+					String clave = request.getParameter "clave";
+					String id = request.getParameter "id";
+					result = new CatalogosDAO().getValidarClave(0, 9999, tabla, clave, id);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						 return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString());
+					}else {
+						 return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
 				break;
 				
