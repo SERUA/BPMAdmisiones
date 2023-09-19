@@ -42,7 +42,6 @@ class Index implements RestApiController {
 		Result resultadoFiltro = security.allowedUrl(context, url); 
 		if(!resultadoFiltro.isSuccess()){
 			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
-//			return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(resultadoFiltro).toString())
 		}
 		
 		String jsonData = "{}"
