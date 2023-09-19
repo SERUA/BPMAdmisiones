@@ -19,7 +19,6 @@ function PbTableCtrl($scope, $http) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
     $scope.$watch("properties.urlGet", function () {
-        debugger;
         if ($scope.properties.urlGet) {
             $scope.getCatalogo();
         }
@@ -33,7 +32,6 @@ function PbTableCtrl($scope, $http) {
     });
 
     $scope.getCatalogo = function () {
-        debugger;
         $http.post($scope.properties.urlGet, $scope.dataToSend).success(function (_response) {
             $scope.properties.content = _response;
         }).error(function (_response) {
@@ -74,7 +72,6 @@ function PbTableCtrl($scope, $http) {
     };
 
     $scope.filterKeyPress = function (columna, press) {
-        debugger;
         var aplicado = true;
 
         for (let index = 0; index < $scope.dataToSend.lstFiltro.length; index++) {
