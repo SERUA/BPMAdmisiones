@@ -5,7 +5,6 @@ function PbButtonCtrl($scope, $http) {
     var vm = this;
 
     this.action = function action() {
-        debugger;
         $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
         if($scope.properties.navigationVar === "nuevo"){
             accionCatalogo($scope.properties.urlInsert);

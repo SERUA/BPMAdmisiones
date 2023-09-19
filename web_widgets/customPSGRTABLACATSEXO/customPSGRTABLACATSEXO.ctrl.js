@@ -40,6 +40,7 @@ function PbTableCtrl($scope, $http) {
     }
 
     this.handleTrashClick = function (row) {
+        debugger;
         var persistenceid = row.persistenceId; // Obtener el persistenceid del row
         $scope.deleteCatalogo({ persistenceid: persistenceid }) // Enviar persistenceid como objeto JSON
             .then(function () {

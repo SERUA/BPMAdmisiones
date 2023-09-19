@@ -1,8 +1,8 @@
 {
   "modelVersion" : "2.2",
-  "id" : "PSGRCatEstados2",
-  "name" : "PSGRCatEstados2",
-  "lastUpdate" : 1695150811792,
+  "id" : "PSGRCatSexo",
+  "name" : "PSGRCatSexo",
+  "lastUpdate" : 1695154270881,
   "rows" : [
     [
       {
@@ -27,7 +27,7 @@
             "value" : ""
           }
         },
-        "reference" : "fdea409b-165c-4f4d-89b2-740b81ac8acd",
+        "reference" : "91f8f558-a9cc-4be8-af48-0cb50f15d469",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -56,7 +56,7 @@
             "value" : ""
           }
         },
-        "reference" : "b5614bfd-77cb-46d7-8eb1-b38e8e2a7faa",
+        "reference" : "9da74abf-0d31-49a0-8073-686c96f51641",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo estados"
+                  "value" : "Catalogo sexo"
                 },
                 "level" : {
                   "type" : "constant",
@@ -91,7 +91,7 @@
                   "value" : "center"
                 }
               },
-              "reference" : "a229d794-87d6-4e5f-bbd6-2dc210231e1b",
+              "reference" : "ed946d7b-157c-46e0-9d85-4579571f0a15",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -147,7 +147,7 @@
                   "value" : "selectedCat"
                 }
               },
-              "reference" : "6f5624f8-65ac-4f2f-9efe-3898d3f973aa",
+              "reference" : "67aac13c-91f8-4ebb-8e76-4d17444e0573",
               "hasValidationError" : false,
               "id" : "customPSGRbtnReiniciarCatNavegar"
             }
@@ -177,7 +177,6 @@
                 "headers" : {
                   "type" : "constant",
                   "value" : [
-                    "Orden",
                     "Clave",
                     "Descripción",
                     "Usuario_creacion",
@@ -191,7 +190,6 @@
                 "columnsKey" : {
                   "type" : "constant",
                   "value" : [
-                    "orden",
                     "clave",
                     "descripcion",
                     "usuarioCreacion",
@@ -216,7 +214,7 @@
                 },
                 "urlGet" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=getCatEstado"
+                  "value" : "../API/extension/posgradosRest?url=getCatSexo"
                 },
                 "reload" : {
                   "type" : "variable",
@@ -228,12 +226,12 @@
                 },
                 "urlDelete" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=deleteCatEstado"
+                  "value" : "../API/extension/posgradosRest?url=deleteCatSexo"
                 }
               },
-              "reference" : "a8604088-e820-4b27-a442-ebdefe534d9c",
+              "reference" : "b96f0f09-4a1b-47a3-88f0-c842bfc60415",
               "hasValidationError" : false,
-              "id" : "customPSGRTABLACATESTADO"
+              "id" : "customPSGRTABLACATSEXO"
             }
           ],
           [
@@ -259,86 +257,11 @@
                   "value" : ""
                 }
               },
-              "reference" : "65d3b86c-a887-4874-8108-6b8a9c3557c2",
+              "reference" : "4276556a-da3b-44f9-b9dd-855ec580c58c",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
                 [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "minLength" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "maxLength" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "readOnly" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Orden"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "placeholder" : {
-                        "type" : "interpolation"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "selectedCat.orden"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "number"
-                      },
-                      "min" : {
-                        "type" : "constant"
-                      },
-                      "max" : {
-                        "type" : "constant"
-                      },
-                      "step" : {
-                        "type" : "constant",
-                        "value" : 1
-                      }
-                    },
-                    "reference" : "93e1cb00-f5c5-4bf9-8f6a-f451f92f7e6c",
-                    "hasValidationError" : false,
-                    "id" : "pbInput"
-                  },
                   {
                     "type" : "component",
                     "dimension" : {
@@ -410,19 +333,17 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "e0855fd8-3deb-466a-aa02-370117bb103b",
+                    "reference" : "6f2d583e-2f40-4b5f-a962-ae59843a6387",
                     "hasValidationError" : false,
                     "id" : "pbInput"
-                  }
-                ],
-                [
+                  },
                   {
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 6,
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -487,7 +408,7 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "3ed9a75e-fdfd-4f0e-803e-35d955a6e263",
+                    "reference" : "11658a39-6b10-40d2-9680-a27e154cea06",
                     "hasValidationError" : false,
                     "id" : "customInputMinMayCustom"
                   }
@@ -539,7 +460,7 @@
                         "value" : "tabla"
                       }
                     },
-                    "reference" : "551d9059-6901-4c99-a220-283084206241",
+                    "reference" : "8dac3123-8021-4e44-9e6c-9647382eafe9",
                     "hasValidationError" : false,
                     "id" : "customCustomBtnNavigationByVariable"
                   },
@@ -598,11 +519,11 @@
                       },
                       "urlInsert" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=insertCatEstado"
+                        "value" : "../API/extension/posgradosRest?url=insertCatSexo"
                       },
                       "urlUpdate" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=updateCatEstado"
+                        "value" : "../API/extension/posgradosRest?url=updateCatSexo"
                       },
                       "navigationVar" : {
                         "type" : "variable",
@@ -613,7 +534,7 @@
                         "value" : "userData"
                       }
                     },
-                    "reference" : "dab88ed9-1dfd-4dfe-867b-1c04fa974d83",
+                    "reference" : "0a2f0f62-5eab-4658-a3fd-89ce7f24e29c",
                     "hasValidationError" : false,
                     "id" : "customPSGRBotonGuardarCatV1PSGRCatEstado"
                   }
@@ -711,7 +632,7 @@
     }
   },
   "hasValidationError" : false,
-  "uuid" : "b31938d6-f102-46a2-a35d-1b980873e4b9",
+  "uuid" : "8c4e9be4-fb1b-4b1d-99f6-b195161e6125",
   "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

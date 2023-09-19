@@ -111,7 +111,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					case "insertCatEstado":
+				case "insertCatEstado":
 					result = new CatalogosDAO().insertCatEstado(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -137,6 +137,38 @@ class Index implements RestApiController {
 					break;
 				case "getCatEstado":
 					result = new CatalogosDAO().getCatEstado(jsonData)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					case "insertCatSexo":
+					result = new CatalogosDAO().insertCatSexo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "deleteCatSexo":
+					result = new CatalogosDAO().deleteCatSexo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "updateCatSexo":
+					result = new CatalogosDAO().updateCatSexo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCatSexo":
+					result = new CatalogosDAO().getCatSexo(jsonData)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {
