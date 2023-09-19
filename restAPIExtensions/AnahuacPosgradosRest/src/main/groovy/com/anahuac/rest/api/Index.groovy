@@ -38,15 +38,20 @@ class Index implements RestApiController {
 			return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
 		
+		SecurityFilter security = new SecurityFilter();
+		Result resultadoFiltro = security.allowedUrl(context, url); 
+		if(!resultadoFiltro.isSuccess()){
+			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
+		}
 		
 		String jsonData = "{}"
 		try {
-			jsonData = request.reader.readLines().join("\n")
-		}catch (Exception e) {
+			jsonData = request.reader.readLines().join("\n");
+		} catch (Exception e) {
 			jsonData = "{}"
 		}
 		
-		String errorLog = "";
+		String errorLog = resultadoFiltro.getError_info();
 		
 		try {
 			switch(url) {
