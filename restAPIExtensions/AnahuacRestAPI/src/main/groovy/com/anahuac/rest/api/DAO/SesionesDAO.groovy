@@ -3123,7 +3123,9 @@ class SesionesDAO {
 			String es = e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(es+"||||"+error);
-			con.rollback();
+			if(con != null) {
+				con.rollback();
+			}
 		}finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -3196,7 +3198,9 @@ class SesionesDAO {
 			} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			con.rollback();
+			if(con != null) {
+				con.rollback();
+			}
 		}finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
