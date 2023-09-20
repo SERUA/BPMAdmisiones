@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatPais",
   "name" : "PSGRCatPais",
-  "lastUpdate" : 1695232585049,
+  "lastUpdate" : 1695232903398,
   "rows" : [
     [
       {
@@ -122,66 +122,6 @@
         "rows" : [
           [
             {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 6,
-                "lg" : 6
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Filtro específico"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "primary"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Submit task"
-                },
-                "variableDestino" : {
-                  "type" : "variable",
-                  "value" : "lstFiltrosPre"
-                },
-                "variableAcopiar" : {
-                  "type" : "variable",
-                  "value" : "lstFiltros"
-                },
-                "OpenModal" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : "modalFiltroEspecifico"
-                }
-              },
-              "reference" : "d9963d10-cc0a-42df-9892-1cab3f4cf87d",
-              "hasValidationError" : false,
-              "id" : "customButtonSetValor"
-            }
-          ],
-          [
-            {
               "type" : "container",
               "dimension" : {
                 "xs" : 12,
@@ -195,15 +135,15 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "navigationVar !== \"tabla\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
                   "value" : ""
                 }
               },
-              "reference" : "c1beb3a9-baf4-4243-b3f9-69d50242b5e1",
+              "reference" : "4a8e51fd-3c84-457e-98ae-d12ed5bbe8c9",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -212,9 +152,9 @@
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
-                      "sm" : 4,
-                      "md" : 4,
-                      "lg" : 4
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -223,24 +163,65 @@
                       },
                       "hidden" : {
                         "type" : "constant",
+                        "value" : true
+                      },
+                      "disabled" : {
+                        "type" : "constant",
                         "value" : false
                       },
-                      "content" : {
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Filtro específico"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "variableDestino" : {
+                        "type" : "variable",
+                        "value" : "lstFiltrosPre"
+                      },
+                      "variableAcopiar" : {
                         "type" : "variable",
                         "value" : "lstFiltros"
+                      },
+                      "OpenModal" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : "modalFiltroEspecifico"
+                      },
+                      "navigationVar" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "newValue" : {
+                        "type" : "constant"
                       }
                     },
-                    "reference" : "e98fd42d-bda8-4f15-a140-14d144209294",
+                    "reference" : "d9963d10-cc0a-42df-9892-1cab3f4cf87d",
                     "hasValidationError" : false,
-                    "id" : "customListFiltros"
-                  },
+                    "id" : "customButtonSetValor"
+                  }
+                ],
+                [
                   {
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 4,
-                      "md" : 4,
-                      "lg" : 4
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -327,14 +308,16 @@
                     "reference" : "ced878b4-f94a-4b7b-9ec7-55fe17ea10c7",
                     "hasValidationError" : false,
                     "id" : "customCustomBtnDownloadExcel"
-                  },
+                  }
+                ],
+                [
                   {
                     "type" : "component",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 4,
-                      "md" : 4,
-                      "lg" : 4
+                      "md" : 12,
+                      "lg" : 12
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -396,6 +379,34 @@
                     "reference" : "b1e0bb88-6cee-434e-ba27-53a752860317",
                     "hasValidationError" : false,
                     "id" : "customButtonSetValorCatPais"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 4,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "content" : {
+                        "type" : "variable",
+                        "value" : "lstFiltros"
+                      }
+                    },
+                    "reference" : "e98fd42d-bda8-4f15-a140-14d144209294",
+                    "hasValidationError" : false,
+                    "id" : "customListFiltros"
                   }
                 ],
                 [
