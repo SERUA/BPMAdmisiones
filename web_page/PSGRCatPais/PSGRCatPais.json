@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatPais",
   "name" : "PSGRCatPais",
-  "lastUpdate" : 1695150892849,
+  "lastUpdate" : 1695232585049,
   "rows" : [
     [
       {
@@ -380,18 +380,22 @@
                       "modalId" : {
                         "type" : "constant"
                       },
+                      "newValue" : {
+                        "type" : "constant",
+                        "value" : "nuevo"
+                      },
                       "navigationVar" : {
                         "type" : "variable",
                         "value" : "navigationVar"
                       },
-                      "newValue" : {
-                        "type" : "constant",
-                        "value" : "nuevo"
+                      "selected" : {
+                        "type" : "variable",
+                        "value" : "catPais_selectedNR"
                       }
                     },
-                    "reference" : "5e0af741-9f17-4faf-a264-c67e1a87fa9e",
+                    "reference" : "b1e0bb88-6cee-434e-ba27-53a752860317",
                     "hasValidationError" : false,
-                    "id" : "customButtonSetValor"
+                    "id" : "customButtonSetValorCatPais"
                   }
                 ],
                 [
@@ -532,8 +536,8 @@
                     "orden",
                     "clave",
                     "descripcion",
-                    "usuario_creacion",
-                    "fecha_creacion| date:'dd-MM-yyyy HH:mm:ss'"
+                    "usuarioCreacion",
+                    "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
                   ]
                 },
                 "selectedRow" : {
@@ -587,6 +591,14 @@
                 "keyPressFilter" : {
                   "type" : "constant",
                   "value" : true
+                },
+                "urlDelete" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=deleteCatPais"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : "navigationVar"
                 }
               },
               "reference" : "8ef86cac-e715-47c9-b494-074126905964",
@@ -763,7 +775,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPaisInput[0].orden"
+                  "value" : "catPais_selectedNR.orden"
                 },
                 "type" : {
                   "type" : "constant",
@@ -838,7 +850,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPaisInput[0].clave"
+                  "value" : "catPais_selectedNR.clave"
                 },
                 "type" : {
                   "type" : "constant",
@@ -915,7 +927,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPaisInput[0].descripcion"
+                  "value" : "catPais_selectedNR.descripcion"
                 },
                 "type" : {
                   "type" : "constant",
@@ -944,7 +956,7 @@
                 "xs" : 12,
                 "sm" : 6,
                 "md" : 6,
-                "lg" : 4
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -975,26 +987,18 @@
                   "type" : "constant",
                   "value" : "Submit task"
                 },
-                "variableDestino" : {
+                "navigationVar" : {
                   "type" : "variable",
-                  "value" : "editable"
+                  "value" : "navigationVar"
                 },
-                "variableAcopiar" : {
-                  "type" : "variable",
-                  "value" : "'tabla'"
-                },
-                "OpenModal" : {
+                "newValue" : {
                   "type" : "constant",
-                  "value" : false
-                },
-                "modalId" : {
-                  "type" : "expression",
-                  "value" : "formOutputAgregar"
+                  "value" : "tabla"
                 }
               },
-              "reference" : "5a2cec40-2e4b-499c-9de9-6b0c99dbdd69",
+              "reference" : "d5145d43-5a17-4afb-bc33-234919e0b783",
               "hasValidationError" : false,
-              "id" : "customButtonSetValorPais"
+              "id" : "customCustomBtnNavigationByVariable"
             },
             {
               "type" : "component",
@@ -1002,7 +1006,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 6,
-                "lg" : 4
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1031,7 +1035,7 @@
                 },
                 "action" : {
                   "type" : "constant",
-                  "value" : "Start process"
+                  "value" : "Submit task"
                 },
                 "assign" : {
                   "type" : "constant",
@@ -1046,72 +1050,28 @@
                 },
                 "dataToSend" : {
                   "type" : "expression",
-                  "value" : "formOutputAgregar"
+                  "value" : "catPais_selectedNR"
                 },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "lstContenido"
-                },
-                "closeOnSuccess" : {
+                "urlInsert" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : "../API/extension/posgradosRest?url=insertCatPais"
                 },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
+                "urlUpdate" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "../API/extension/posgradosRest?url=updateCatPais"
                 },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "processId" : {
+                "navigationVar" : {
                   "type" : "variable",
-                  "value" : "processAgregarData[0].id"
+                  "value" : "navigationVar"
                 },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "dataToSet" : {
-                  "type" : "variable",
-                  "value" : "\"tabla\""
-                },
-                "dataToChange" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "dataToSet2" : {
-                  "type" : "variable",
-                  "value" : "{     \"lstCatPaisInput\": [         {             \"descripcion\": \"\",              \"is_eliminado\": false,              \"usuario_creacion\": \"\",              \"clave\": \"\",              \"fecha_creacion\": null         }     ] }"
-                },
-                "dataToChange2" : {
-                  "type" : "variable",
-                  "value" : "formOutputAgregar"
-                },
-                "nombreTabla" : {
-                  "type" : "constant",
-                  "value" : "lstCatPaisInput"
+                "userData" : {
+                  "type" : "expression",
+                  "value" : "userData"
                 }
               },
-              "reference" : "7b0d62ec-2e78-41a9-a7fe-d9d25aa6c3ec",
+              "reference" : "202258fb-dda7-43e1-a607-11f4d714252f",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatGenericoOrdenPaisCatPais"
+              "id" : "customPSGRBotonGuardarCatV1PSGRCatSexo"
             }
           ]
         ]
@@ -1813,7 +1773,10 @@
       "exposed" : false
     },
     "catPais_selectedNR" : {
-      "type" : "constant",
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     },
     "countCatPais" : {

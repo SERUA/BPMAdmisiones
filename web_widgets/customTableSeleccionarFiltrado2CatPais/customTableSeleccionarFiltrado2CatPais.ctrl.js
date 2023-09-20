@@ -2,16 +2,20 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     this.isArray = Array.isArray;
 
     this.isClickable = function() {
+        debugger;
         return $scope.properties.isBound('selectedRow');
     };
 
     this.selectRow = function(row) {
+        debugger;
         $scope.properties.selectedRow = row;
-        $scope.properties.isSelected = 'editar';
+        $scope.properties.navigationVar = "editar";
         $scope.properties.selectedRow["todelete"] = false;
+        return $scope.properties.isBound('selectedRow');
     };
 
     this.selectRowDelete = function(row) {
+        debugger;
         swal("¿Esta seguro que desea eliminar?", {
                 buttons: {
                     cancel: "No",
@@ -28,7 +32,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
                         $scope.properties.selectedRow["todelete"] = false;
                         $scope.properties.selectedRow["isEliminado"] = true;
                         $scope.$apply();
-                        startProcess();
+                        this.handleTrashClick(row);
                         break;
                     default:
 
@@ -38,6 +42,50 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         
         $scope.properties.isSelected = 'editar';*/
     };
+
+    this.handleTrashClick = function (row) {
+        debugger;
+        var persistenceid = row.persistenceId; // Obtener el persistenceid del row
+        $scope.deleteCatalogo({ persistenceid: persistenceid }) // Enviar persistenceid como objeto JSON
+            .then(function () {
+                // Actualizar la matriz properties.content después de eliminar el registro
+                var index = $scope.properties.contenido.indexOf(row);
+                if (index !== -1) {
+                    $scope.properties.contenido.splice(index, 1);
+                }
+            });
+    };
+    
+    $scope.deleteCatalogo = function (dataToDelete) {
+        debugger;
+        // Realiza la solicitud HTTP para eliminar el registro utilizando la matriz JSON
+        $scope.busy = true;
+    
+        return $http({
+            method: 'POST',
+            url: $scope.properties.urlDelete,
+            data: dataToDelete,
+            headers: { 'Content-Type': 'application/json;charset=utf-8' }
+        }).then(function (response) {
+            // Procesa la respuesta de eliminación si es necesario
+            swal("OK", "Registro eliminado correctamente", "success");
+            // Actualiza la vista o realiza otras acciones necesarias después de la eliminación
+        }).catch(function (error) {
+            swal("¡Algo ha fallado!", error.data.error, "error");
+        }).finally(function () {
+            $scope.busy = false;
+        });
+    };
+
+    $scope.deleteContent = function(objContent) {
+        debugger;
+        console.log(objContent);
+        var index = $scope.dataToSend.lstFiltro.indexOf(objContent);
+        console.log(index);
+        if(index != -1){
+            $scope.dataToSend.lstFiltro.splice(index, 1);
+        }
+    }
 
     this.isSelected = function(row) {
         return angular.equals(row, $scope.properties.selectedRow);

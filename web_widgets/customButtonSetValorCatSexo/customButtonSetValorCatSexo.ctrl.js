@@ -47,10 +47,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 vm.busy = false;
             });
     }
-    
+
     $scope.changeVariable = function(){
-        debugger;
-        $scope.properties.selected = {};
         $scope.properties.objetoCat = {};
         $scope.properties.navigationVar = $scope.properties.newValue;
     }
