@@ -2661,4 +2661,35 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
+	
+	public Result getCasosActivosSDAE(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false, caso_activo = false;
+		List<Boolean> data = new ArrayList<Boolean>();
+		
+		try {
+			closeCon = validarConexionBonita();
+			
+			pstm = con.prepareStatement("SELECT COUNT(*) > 0 AS caso_activo  FROM process_instance A WHERE A.startedby = (SELECT us.id FROM user_ AS us WHERE us.username = ?) AND A.name = 'Solicitud de apoyo educativo'");
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				caso_activo = rs.getBoolean("caso_activo");
+			} else {
+				caso_activo = false;
+			}
+			
+			data.add(caso_activo);
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCasosArchivadosSDAE] " + e.getMessage());
+		} finally {
+			new DBConnectBonita().closeObj(con, stm, rs, pstm)
+		}
+	
+		return resultado;
+	}
 }
