@@ -13,6 +13,7 @@ import org.slf4j.LoggerFactory
 
 import com.anahuac.catalogos.CatCampus
 import com.anahuac.rest.api.DB.DBConnect
+import com.anahuac.rest.api.DB.DBConnectBonita
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.db.CatConfiguracionPagoEstudioSocEco
@@ -2628,5 +2629,36 @@ class CatalogosDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getCasosArchivadosSDAE(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false, caso_finalizado = false;
+		List<Boolean> data = new ArrayList<Boolean>();
+		
+		try {
+			closeCon = validarConexionBonita();
+			
+			pstm = con.prepareStatement("SELECT COUNT(*) > 0 AS caso_finalizado  FROM arch_process_instance A  WHERE A.startedby = (SELECT us.id FROM user_ AS us WHERE us.username = ?) AND A.name = 'Solicitud de apoyo educativo';");
+			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				caso_finalizado = rs.getBoolean("caso_finalizado");
+			} else {
+				caso_finalizado = false;
+			}
+			
+			data.add(caso_finalizado);
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCasosArchivadosSDAE] " + e.getMessage());
+		} finally {
+			new DBConnectBonita().closeObj(con, stm, rs, pstm)
+		}
+	
+		return resultado;
 	}
 }
