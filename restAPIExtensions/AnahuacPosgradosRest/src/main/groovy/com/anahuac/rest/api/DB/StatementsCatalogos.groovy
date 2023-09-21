@@ -7,6 +7,13 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATFILTROSEGURIDAD = "UPDATE PSGRFiltroSeguridad SET rol = ?, servicio = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATFILTROSEGURIDAD = "SELECT persistenceid, rol, servicio FROM PSGRFiltroSeguridad [WHERE] [ORDERBY]";
 	
+	//PSGRCatPais
+	public static final String INSERT_CATPAIS = "INSERT INTO PSGRCatPais (PERSISTENCEID, CASE_ID, PERSISTENCEVERSION, IS_ELIMINADO, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCatPais), (SELECT COALESCE(MAX(CASE_ID), 0) + 1 FROM PSGRCatPais), ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATPAIS  = "DELETE FROM PSGRCatPais WHERE persistenceid = ?";
+	public static final String UPDATE_CATPAIS  = "UPDATE PSGRCatPais SET clave = ?, descripcion = ?, orden = ?, usuario_creacion = ? WHERE persistenceid = ?;";
+	public static final String SELECT_CATPAIS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPais [WHERE] [ORDERBY]";
+
+	
 	//PSGRCatEstado
 	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (PERSISTENCEID, PERSISTENCEVERSION, CASE_ID, IS_ELIMINADO, PAIS, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATESTADOS), (SELECT COALESCE(MAX(PERSISTENCEVERSION), 0) + 1 FROM PSGRCATESTADOS), (SELECT COALESCE(MAX(CASE_ID), 0) + 1 FROM PSGRCATESTADOS), ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATESTADO  = "DELETE FROM PSGRCatEstados WHERE persistenceid = ?";

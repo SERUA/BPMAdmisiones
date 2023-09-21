@@ -520,6 +520,133 @@ class CatalogosDAO {
 	    return resultado;
 	}
 	
+	public Result insertCatPais(String jsonData, RestAPIContext context) {
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	
+	    try {
+	        closeCon = validarConexion();
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData);
+	
+	        if (object == null || object.isEmpty()) {
+	            throw new Exception("La lista \"lstCatPaisInput\" no debe estar vacía.");
+	        }
+	
+			if (object.orden == null || object.orden.isEmpty()) {
+				throw new Exception("El campo \"Orden\" no debe ir vacío.");
+			} else if (object.clave == null || object.clave.isEmpty()) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío.");
+			} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío.");
+			}
+
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPAIS);
+			pstm.setInt(1, 0);
+			pstm.setBoolean(2, false); // is_eliminado
+			pstm.setString(3, object.clave);
+			pstm.setString(4, object.descripcion);
+			pstm.setString(5, object.usuario_creacion);
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(6, fechaHoraFormateada);
+			pstm.setString(7, object.orden);
+
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+	    } catch (Exception e) {
+	        resultado.setSuccess(false);
+	        resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+	    } finally {
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
+
+
+
+
+	public Result deleteCatPais(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceids.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío" + object);
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATPAIS);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+
+	public Result updateCatPais(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			} else if(object.orden.equals("") || object.usuario_creacion == null) {
+				throw new Exception("El campo \"orden\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPAIS);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setInt(3, object.orden);
+			pstm.setString(4, object.usuario_creacion);
+			pstm.setLong(5, object.persistenceId);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getCatPais(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -1190,6 +1317,255 @@ class CatalogosDAO {
 				row.setDescripcion(rs.getString("descripcion"));
 				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
 				row.setFechaCreacion(rs.getString("fecha_creacion"));
+				row.setIsEliminado(rs.getBoolean("is_eliminado"));
+//				row.setPersistenceId(rs.getLong("persistenceId"));
+//				row.setPersistenceVersion(rs.getLong("persistenceVersion"));
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result insertCatCampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"orden\" no debe ir vacío");
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.usuario_creacion.equals("") || object.usuario_creacion == null) {
+				throw new Exception("El campo \"usuario_creacion\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATESTADO);
+			pstm.setBoolean(1, false); // is_eliminado
+			pstm.setString(2, "México");
+			pstm.setString(3, object.clave);
+			pstm.setString(4, object.descripcion);
+			pstm.setString(5, object.usuario_creacion);
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(6, fechaHoraFormateada);
+			pstm.setInt(7, object.orden);
+
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+
+
+
+
+	public Result deleteCatCampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATESTADO);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+
+	public Result updateCatCampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			} else if(object.usuario_creacion.equals("") || object.usuario_creacion == null) {
+				throw new Exception("El campo \"usuario_creacion\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATESTADO);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, object.usuario_creacion);
+			pstm.setLong(4, object.persistenceId);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatCampus(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = ""; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			closeCon = validarConexion();
+			
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				
+				switch (filtro.get("columna")) {
+					case "orden":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(orden) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "clave":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(clave) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "descripcion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "usuario_creacion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(usuario_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "fecha_creacion":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(fecha_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+
+			String consulta = StatementsCatalogos.SELECT_CATESTADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				PSGRCatEstado row = new PSGRCatEstado();
+				row.setPersistenceId(rs.getLong("persistenceid"));
+				row.setOrden(rs.getLong("orden"));
+				row.setClave(rs.getString("clave"));
+				row.setDescripcion(rs.getString("descripcion"));
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
+				row.setFechaCreacion(rs.getString("fecha_creacion"));
+
 				row.setIsEliminado(rs.getBoolean("is_eliminado"));
 //				row.setPersistenceId(rs.getLong("persistenceId"));
 //				row.setPersistenceVersion(rs.getLong("persistenceVersion"));
