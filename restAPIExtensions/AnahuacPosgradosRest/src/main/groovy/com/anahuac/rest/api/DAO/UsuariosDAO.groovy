@@ -37,11 +37,13 @@ import org.bonitasoft.engine.bpm.contract.FileInputValue
 import org.apache.commons.codec.binary.Base64;
 
 import com.anahuac.rest.api.DB.DBConnect
+import com.anahuac.rest.api.DB.DBConnectBonita
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Menu
 import com.anahuac.rest.api.Entity.MenuParent
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Entity.Usuarios
 import com.anahuac.rest.api.Entity.custom.AppMenuRole
 import com.anahuac.rest.api.Entity.db.BusinessAppMenu
 import com.anahuac.rest.api.Entity.db.Role
