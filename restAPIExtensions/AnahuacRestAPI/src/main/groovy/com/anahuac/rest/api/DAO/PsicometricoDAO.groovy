@@ -943,7 +943,15 @@ class PsicometricoDAO {
 				strError+=consultaUpdate;
 				pstm = con.prepareStatement(consultaUpdate);
 				pstm.setString(1, caseId);
-				pstm.setLong(2, testPsicomInput.countRechazo);
+				if (testPsicomInput.countRechazo != null) {
+			    try {
+			        pstm.setLong(2, Long.parseLong(testPsicomInput.countRechazo.toString()));
+			    } catch (NumberFormatException e) {
+			        pstm.setNull(2, Types.INTEGER);
+			    }
+			} else {
+			    pstm.setNull(2, Types.INTEGER);
+			}
 				pstm.executeUpdate();
 			}
 			else {
@@ -981,61 +989,80 @@ class PsicometricoDAO {
 				pstm.setString(12, (testPsicomInput.califAjusteReligioso != null && testPsicomInput.califAjusteReligioso != "") ? testPsicomInput.califAjusteReligioso : "");
 				pstm.setString(13, caseId);
 				pstm.setString(14, (testPsicomInput.conclusioneINVP != null && testPsicomInput.conclusioneINVP != "") ? testPsicomInput.conclusioneINVP : "");
-				if(testPsicomInput.fechaEntrevista != null && testPsicomInput.fechaEntrevista != "") {
-					pstm.setString(15, testPsicomInput.fechaEntrevista);
+				if (testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
+				    pstm.setString(15, testPsicomInput.fechaEntrevista);
+				} else {
+				    pstm.setNull(15, Types.TIMESTAMP);
 				}
-				else {
-					pstm.setNull(15, Types.TIMESTAMP);
+				if (testPsicomInput.finalizado != null) {
+				    // Si no es nulo, verifica su valor
+				    if (testPsicomInput.finalizado == 1) {
+				        // Si es igual a 1, establece true en la sentencia SQL
+				        pstm.setBoolean(16, true);
+				    } else {
+				        // De lo contrario, establece false en la sentencia SQL
+				        pstm.setBoolean(16, false);
+				    }
+				} else {
+				    // Si es nulo, establece el parámetro como nulo
+				    pstm.setNull(16, Types.BOOLEAN);
 				}
-				pstm.setBoolean(16, (testPsicomInput.finalizado != null && testPsicomInput.finalizado != "") ? testPsicomInput.finalizado : false);
 				pstm.setString(17, (testPsicomInput.hasParticipadoActividadesAyuda != null && testPsicomInput.hasParticipadoActividadesAyuda != "") ? testPsicomInput.hasParticipadoActividadesAyuda : "");
 				pstm.setString(18, (testPsicomInput.interpretacionINVP != null && testPsicomInput.interpretacionINVP != "") ? testPsicomInput.interpretacionINVP : "");
 				pstm.setString(19, (testPsicomInput.otroTipoAsistencia != null && testPsicomInput.otroTipoAsistencia != "") ? testPsicomInput.otroTipoAsistencia : "");
 				pstm.setString(20, (testPsicomInput.participacionActividadesVoluntaria != null && testPsicomInput.participacionActividadesVoluntaria != "") ? testPsicomInput.participacionActividadesVoluntaria : "");
 				pstm.setInt(21, 0);
-				pstm.setInt(22, (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.equals("") && testPsicomInput.puntuacionINVP.toString().size()  > 0) ? Integer.parseInt(testPsicomInput.puntuacionINVP+"") : 0);
+				if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty()) {
+				    try {
+				        pstm.setInt(22, Integer.parseInt(testPsicomInput.puntuacionINVP));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(22, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(22, Types.INTEGER);
+				}
 				pstm.setString(23, (testPsicomInput.quienIntegro != null && testPsicomInput.quienIntegro != "") ? testPsicomInput.quienIntegro : "");
 				pstm.setString(24, (testPsicomInput.quienRealizoEntrevista != null && testPsicomInput.quienRealizoEntrevista != "") ? testPsicomInput.quienRealizoEntrevista : "");
 				pstm.setString(25, (testPsicomInput.resumenSalud != null && testPsicomInput.resumenSalud != "") ? testPsicomInput.resumenSalud : "");
 				
-				if(catPersonaSaludable != null) {
-					if(catPersonaSaludable.persistenceId != null && catPersonaSaludable.persistenceId != ""){
-						pstm.setInt(26, catPersonaSaludable.persistenceId);
-					} else {
-						pstm.setNull(26, Types.INTEGER);
-					}
+				if (testPsicomInput.catPersonaSaludable != null) {
+				    if (testPsicomInput.catPersonaSaludable.isEmpty()) {
+				        pstm.setNull(26, Types.INTEGER);
+				    } else {
+				        pstm.setInt(26, catPersonaSaludable.persistenceId);
+				    }
 				} else {
-					pstm.setNull(26, Types.INTEGER);
+				    pstm.setNull(26, Types.INTEGER);
 				}
 				
-				if(catProblemaSaludAtencionContinua != null) {
-					if(catProblemaSaludAtencionContinua.persistenceId != null && catProblemaSaludAtencionContinua.persistenceId != ""){
-						pstm.setInt(27, catProblemaSaludAtencionContinua.persistenceId);
-					} else {
-						pstm.setNull(27, Types.INTEGER);
-					}
+				if (testPsicomInput.catProblemaSaludAtencionContinua != null) {
+				    if (testPsicomInput.catProblemaSaludAtencionContinua.isEmpty()) {
+				        pstm.setNull(27, Types.INTEGER);
+				    } else {
+				        pstm.setInt(27, catProblemaSaludAtencionContinua.persistenceId);
+				    }
 				} else {
-					pstm.setNull(27, Types.INTEGER);
-				}
-				if(catRequieresAsistencia != null) {
-					if(catRequieresAsistencia.persistenceId != null && catRequieresAsistencia.persistenceId != ""){
-						pstm.setInt(28, catRequieresAsistencia.persistenceId);
-					} else {
-						pstm.setNull(28, Types.INTEGER);
-					}
-				} else {
-					pstm.setNull(28, Types.INTEGER);
+				    pstm.setNull(27, Types.INTEGER);
 				}
 				
-				if(catVivesEstadoDiscapacidad != null) {
-					if(catVivesEstadoDiscapacidad.persistenceId != null && catVivesEstadoDiscapacidad.persistenceId != ""){
-						pstm.setInt(29, catVivesEstadoDiscapacidad.persistenceId);
-					}
-					else {
-						pstm.setNull(29, Types.INTEGER);
-					}
-				}else {
-					pstm.setNull(29, Types.INTEGER);
+				if (testPsicomInput.catRequieresAsistencia != null) {
+				    if (testPsicomInput.catRequieresAsistencia.isEmpty()) {
+				        pstm.setNull(28, Types.INTEGER);
+				    } else {
+				        pstm.setInt(28, catRequieresAsistencia.persistenceId);
+				    }
+				} else {
+				    pstm.setNull(28, Types.INTEGER);
+				}
+				
+				if (testPsicomInput.catVivesEstadoDiscapacidad != null) {
+				    if (testPsicomInput.catVivesEstadoDiscapacidad.isEmpty()) {
+				        pstm.setNull(29, Types.INTEGER);
+				    } else {
+				        pstm.setInt(29, catVivesEstadoDiscapacidad.persistenceId);
+				    }
+				} else {
+				    pstm.setNull(29, Types.INTEGER);
 				}
 				
 				pstm.setString(30, (testPsicomInput.fuentesInfluyeronDesicion != null && testPsicomInput.fuentesInfluyeronDesicion != "") ? testPsicomInput.fuentesInfluyeronDesicion : "");
@@ -1043,12 +1070,24 @@ class PsicometricoDAO {
 				pstm.setString(32, (testPsicomInput.problemasSaludAtencionContinua != null && testPsicomInput.problemasSaludAtencionContinua != "") ? testPsicomInput.problemasSaludAtencionContinua : "");
 				pstm.setString(33, (testPsicomInput.tipoDiscapacidad != null && testPsicomInput.tipoDiscapacidad != "") ? testPsicomInput.tipoDiscapacidad : "");
 				pstm.setString(34, (testPsicomInput.hasRecibidoAlgunaTerapia != null && testPsicomInput.hasRecibidoAlgunaTerapia != "") ? testPsicomInput.hasRecibidoAlgunaTerapia : "");
-				pstm.setLong(35, (testPsicomInput.countRechazo != null) ? testPsicomInput.countRechazo : 0);
+				if (testPsicomInput.countRechazo != null) {
+				    try {
+				        pstm.setLong(35, Long.parseLong(testPsicomInput.countRechazo.toString()));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(35, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(35, Types.INTEGER);
+				}
 				//pstm.setLong(36, (testPsicomInput.sesion_pid != null) ? testPsicomInput.sesion_pid : 0 );
-				if(testPsicomInput.sesion_pid == null || Long.parseLong(testPsicomInput.sesion_pid) == 0 ) {
-					pstm.setNull(36, Types.INTEGER);
-				}else {
-					pstm.setLong(36, (testPsicomInput.sesion_pid != null) ? Long.parseLong(testPsicomInput.sesion_pid.toString()): 0 );					
+				if (testPsicomInput.sesion_pid == null || Long.parseLong(testPsicomInput.sesion_pid.toString()) == 0) {
+				    pstm.setNull(36, Types.INTEGER);
+				} else {
+				    try {
+				        pstm.setLong(36, Long.parseLong(testPsicomInput.sesion_pid.toString()));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(36, Types.INTEGER);
+				    }
 				}
 				pstm.executeUpdate();
 			}
@@ -1285,84 +1324,85 @@ class PsicometricoDAO {
 					}
 				}
 			}
-			String idBanner=""
-			pstm = con.prepareStatement("SELECT idbanner from detallesolicitud where caseid=?")
-			pstm.setString(1, caseId)
-			rs = pstm.executeQuery()
-			if(rs.next()) {
-				idBanner = rs.getString("idbanner")
+			String idBanner = "";
+			pstm = con.prepareStatement("SELECT idbanner from detallesolicitud where caseid=?");
+			pstm.setString(1, caseId);
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+			    idBanner = rs.getString("idbanner");
 			}
 			
-			/*if(closeCon && testPsicomInput.puntuacionINVP != null && testPsicomInput.puntuacionINVP != "" &&  testPsicomInput.fechaEntrevista !="") {
-				String fecha = testPsicomInput.fechaEntrevista.substring(0,9)
-				new DBConnect().closeObj(con, stm, rs, pstm);
-				if(testPsicomInput.fechaEntrevista.substring(0,9).contains("/")) {
-					SimpleDateFormat sdfd = new SimpleDateFormat("dd/MM/yyyy")
-					SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd")
-					fecha = sdf.format(sdfd.parse(testPsicomInput.fechaEntrevista.substring(0,9)))
-				}
-				resultado2=new BannerDAO().integracionBannerEthos(context, idBanner, "MMPI", testPsicomInput.puntuacionINVP+"",fecha)
-				if(!resultado2.success) {
-					
-					strError = "fallo Ethos:" resultado2.error_info + strError;
-				}
-			}*/
+			if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty() &&
+			    testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
+			    String fecha = testPsicomInput.fechaEntrevista.substring(0, 10);
 			
-			if( testPsicomInput.puntuacionINVP != null && testPsicomInput.puntuacionINVP != "" &&  testPsicomInput.fechaEntrevista !="") {
-				String fecha = testPsicomInput.fechaEntrevista.substring(0,10);
-				
-				if(testPsicomInput.fechaEntrevista.substring(0,10).contains("/")) {
-					fecha =  testPsicomInput.fechaEntrevista.substring(6, 10)+"-"+testPsicomInput.fechaEntrevista.substring(3, 5)+"-"+testPsicomInput.fechaEntrevista.substring(0, 2);
-				}
-				
-				strError+= "fecha:"+fecha;
-				
-				Result resultado2 = new Result();
-				resultado2 = integracionEthos(fecha,idBanner,"MMPI",testPsicomInput.puntuacionINVP+"",context);
-				
-				pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
+			    if (testPsicomInput.fechaEntrevista.substring(0, 10).contains("/")) {
+			        fecha = testPsicomInput.fechaEntrevista.substring(6, 10) + "-" + testPsicomInput.fechaEntrevista.substring(3, 5) + "-" + testPsicomInput.fechaEntrevista.substring(0, 2);
+			    }
+			
+			    strError += "fecha:" + fecha;
+			
+			    Result resultado2 = new Result();
+			    resultado2 = integracionEthos(fecha, idBanner, "MMPI", testPsicomInput.puntuacionINVP + "", context);
+			
+			    pstm = con.prepareStatement(Statements.GET_PRUEBAS_IDBANNER_IDSESION);
 				pstm.setString(1, idBanner);
-				pstm.setLong(2, Long.parseLong(testPsicomInput.sesion_pid));
-				rs= pstm.executeQuery();
-				String prueba = "", username2="";
-				if(rs.next()) {
-					prueba = rs.getString("prueba_pid");
-					username2 = rs.getString("username");
+			
+			    if (testPsicomInput.sesion_pid != null) {
+				    try {
+				        long sesionPidLong = Long.parseLong(testPsicomInput.sesion_pid.toString());
+				        pstm.setLong(2, sesionPidLong);
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(2, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(2, Types.INTEGER);
 				}
-				
-				pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
-				pstm.setString(1, username2);
-				pstm.setLong(2, Long.parseLong(prueba));
-				rs= pstm.executeQuery();
-				String pl = '';
-				if(rs.next()) {
-					pl = rs.getString("persistenceid");
+			
+			    rs = pstm.executeQuery();
+			    String prueba = "", username2 = "";
+			    if (rs.next()) {
+			        prueba = rs.getString("prueba_pid");
+			        username2 = rs.getString("username");
+			    }
+			
+			    pstm = con.prepareStatement("SELECT persistenceid from paseLista where username = ? and prueba_pid = ?");
+			    pstm.setString(1, username2);
+			    if (!prueba.isEmpty()) {
+				    try {
+				        pstm.setLong(2, Long.parseLong(prueba));
+				    } catch (NumberFormatException e) {
+				        pstm.setNull(2, Types.INTEGER);
+				    }
+				} else {
+				    pstm.setNull(2, Types.INTEGER); // Otra opción es manejarlo como un valor nulo si prueba está vacío
 				}
-				
-				Result resultPaseLista = new Result();
-				String jsdonPaseLista = "{\"prueba\":${prueba},\"username\":\"${username2}\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
-				if(pl.equals('')) {
-					resultPaseLista = new SesionesDAO().insertPaseLista(jsdonPaseLista);					
-				}else {
-					resultPaseLista = new SesionesDAO().updatePaseLista(jsdonPaseLista);
-				}
-				strError += "INTEGRACION:"+resultado2.isSuccess()+"ERROR:"+resultado2.getError()+"ERROR_INFO:"+resultado2.getError_info();
-				strError += " ||||JSON PASE LISTA ${jsdonPaseLista} |||| PASELISTA:"+resultPaseLista.isSuccess()+"ERROR:"+resultPaseLista.getError()+"ERROR_INFO:"+resultPaseLista.getError_info();
-				
-				if(resultPaseLista.isSuccess()){
-					try {
-						ProcessAPI processAPI = context.getApiClient().getProcessAPI();
-						Map<String, Serializable> rows = new HashMap<String, Serializable>();
-						rows.put("asistenciaEntrevista", true);
-						processAPI.updateProcessDataInstances(caseId, rows);
-					}catch (Exception e) {
-						strError += '||| ERROR PROCESO '+e;
-					}
-					
-
-				}
-				
-				
+			    rs = pstm.executeQuery();
+			    String pl = '';
+			    if (rs.next()) {
+			        pl = rs.getString("persistenceid");
+			    }
+			
+			    Result resultPaseLista = new Result();
+			    String jsonPaseLista = "{\"prueba\":" + prueba + ",\"username\":\"" + username2 + "\",\"asistencia\":true,\"usuarioPaseLista\":\"Reporte OV\"}";
+			    if (pl.equals('')) {
+			        resultPaseLista = new SesionesDAO().insertPaseLista(jsonPaseLista);
+			    } else {
+			        resultPaseLista = new SesionesDAO().updatePaseLista(jsonPaseLista);
+			    }
+			    strError += "INTEGRACION:" + resultado2.isSuccess() + "ERROR:" + resultado2.getError() + "ERROR_INFO:" + resultado2.getError_info();
+			    strError += " ||||JSON PASE LISTA " + jsonPaseLista + " |||| PASELISTA:" + resultPaseLista.isSuccess() + "ERROR:" + resultPaseLista.getError() + "ERROR_INFO:" + resultPaseLista.getError_info();
+			
+			    if (resultPaseLista.isSuccess()) {
+			        try {
+			            ProcessAPI processAPI = context.getApiClient().getProcessAPI();
+			            Map<String, Serializable> rows = new HashMap<String, Serializable>();
+			            rows.put("asistenciaEntrevista", true);
+			            processAPI.updateProcessDataInstances(caseId, rows);
+			        } catch (Exception e) {
+			            strError += '||| ERROR PROCESO ' + e;
+			        }
+			    }
 			}
 			
 			/*========================================================TEST PSICOMETRICO OBSERVACIONES ACCIONES========================================================*/
@@ -2408,6 +2448,13 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 						where += " (LOWER(sda.ESTATUSSOLICITUD) like lower('%[valor]%') ";
 						where = where.replace("[valor]", filtro.get("valor"));
 						
+						
+//						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
+//							where += " OR tp.finalizado IS [valor] )";
+//							where = where.replace("[valor]", (filtro.get("valor") =="Finalizado" ? "true":(filtro.get("valor") == "En proceso"?"false":"NOT NULL") ))
+//						} else {
+//							where += " )";
+//						}
 						
 //						if( filtro.get("valor").equals("Finalizado") || filtro.get("valor").equals("En proceso")) {
 //							where += " OR tp.finalizado IS [valor] )";

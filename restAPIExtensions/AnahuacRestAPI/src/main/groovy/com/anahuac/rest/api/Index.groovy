@@ -2003,7 +2003,8 @@ class Index implements RestApiController {
 					}
 					break;
 				case "reactivarAspirante":
-					result = reDAO.reactivarAspirante(parameterP, parameterC, jsonData, context)
+//					result = reDAO.reactivarAspirante(parameterP, parameterC, jsonData, context)
+					result = reDAO.reactivarAspiranteV2(parameterP, parameterC, jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
