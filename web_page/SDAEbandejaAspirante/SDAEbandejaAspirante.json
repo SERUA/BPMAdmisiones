@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEbandejaAspirante",
   "name" : "SDAEbandejaAspirante",
-  "lastUpdate" : 1693875188282,
+  "lastUpdate" : 1695317565166,
   "rows" : [
     [
       {
@@ -88,7 +88,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "activeCases.length > 0 || archivedCases.length > 0"
+            "value" : "getCasosActivosSDAE[0] || getCasosArchivadosSDAE[0]"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -374,7 +374,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "!archivedCases || archivedCases.length === 0"
+            "value" : "!getCasosArchivadosSDAE[0]"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -545,7 +545,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "activeCases.length === 0"
+            "value" : "!getCasosActivosSDAE[0]"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -3637,9 +3637,7 @@
       "type" : "expression",
       "value" : [
         "if(!$data.assignedTask){\r",
-        "    \r",
         "    let valEstatus = validarEstatus();\r",
-        "    debugger;\r",
         "    return false && !valEstatus;\r",
         "} else {\r",
         "    console.log(\"Validando contenido de la tabla\");\r",
@@ -3650,7 +3648,6 @@
         "        console.log(\"   Existe solicitud\");\r",
         "        console.log(\"       Estatus:\" + $data.buildContent[0].estado);\r",
         "        console.log(\"       Estatus:\" + $data.buildContent[0].estatusFinanciamiento);\r",
-        "        debugger;\r",
         "        validarEstatus();\r",
         "        \r",
         "    }\r",
@@ -3676,6 +3673,26 @@
         "    }\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "getCasosArchivadosSDAE" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?p=0&c=0&url=getCasosArchivadosSDAE&username={{userData.user_name}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "getCasosActivosSDAE" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacBecasRestGET?p=0&c=0&url=getCasosActivosSDAE&username={{userData.user_name}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
