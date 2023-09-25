@@ -43,6 +43,15 @@ import groovy.json.JsonBuilder
 import groovy.json.JsonOutput
 import groovy.json.JsonSlurper
 
+import org.bonitasoft.engine.api.IdentityAPI
+import org.bonitasoft.engine.api.ProcessAPI
+import org.bonitasoft.engine.api.TenantAPIAccessor
+import org.bonitasoft.engine.bpm.flownode.ArchivedFlowNodeInstance
+import org.bonitasoft.engine.identity.User
+import org.bonitasoft.engine.identity.UserCriterion
+import org.bonitasoft.engine.identity.UserSearchDescriptor
+
+
 class BonitaGetsDAO {
 	private static final Logger LOGGER = LoggerFactory.getLogger(BonitaGetsDAO.class)
 	Connection con
