@@ -5,15 +5,22 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
+
+        debugger;
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Add to collection') {
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
-        } else if ($scope.properties.action === 'Start process') {
-            startProcess();
         } else if ($scope.properties.action === 'Submit task') {
+            if($scope.properties.dataToChange = "agregar"){
+                accionCatalogoInsert($scope.properties.urlInsert)
+            }else if($scope.properties.dataToChange = "editar"){
+                $scope.properties.urlUpdate = $scope.properties.urlUpdate;
+                accionCatalogo($scope.properties.urlUpdate) 
+            }
+        } else if ($scope.properties.action === 'Start process') {
             submitTask();
         } else if ($scope.properties.action === 'Open modal') {
             closeModal($scope.properties.closeOnSuccess);
@@ -24,6 +31,39 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             doRequest($scope.properties.action, $scope.properties.url);
         }
     };
+
+    function accionCatalogoInsert(urlInsert){
+        debugger;
+        vm.busy = true;
+
+        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = $scope.properties.dataToSend.lstCatCampusInput[0].estado.clave;
+
+        $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
+            swal("OK", "Guardado correctamente", "success");
+            $scope.properties.navigationVar = "tabla"
+        }).error(function(_response){
+            swal("¡Algo ha fallado!", _response.error, "error");
+        }).finally(function(){
+            vm.busy = false;
+        });
+
+        $scope.properties.dataToChange = "tabla";
+    }
+
+    function accionCatalogo(urlUpdate){
+        debugger;
+        vm.busy = true;
+        $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
+            swal("OK", "Guardado correctamente", "success");
+            $scope.properties.navigationVar = "tabla"
+        }).error(function(_response){
+            swal("¡Algo ha fallado!", _response.error, "error");
+        }).finally(function(){
+            vm.busy = false;
+        });
+
+        $scope.properties.dataToChange = "tabla";
+    }
 
     function openModal(modalId) {
         modalService.open(modalId);
@@ -72,12 +112,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function startProcess() {
-        
+    debugger;
 	if($scope.properties.dataToChange2.id != undefined){
 		if( $scope.properties.dataToChange2.id &&  $scope.properties.dataToChange2.clave && $scope.properties.dataToChange2.orden && $scope.properties.dataToChange2.descripcion && $scope.properties.dataToChange2.grupoBonita && $scope.properties.dataToChange2.urlAvisoPrivacidad  && $scope.properties.dataToChange2.calle && $scope.properties.dataToChange2.colonia && $scope.properties.dataToChange2.numeroExterior && $scope.properties.dataToChange2.numeroInterior && $scope.properties.dataToChange2.codigoPostal && $scope.properties.dataToChange2.municipio && $scope.properties.dataToChange2.pais && $scope.properties.dataToChange2.estados && $scope.properties.dataToChange2.email && $scope.properties.dataToChange2.urlImagen && ValidateEmail($scope.properties.dataToChange2.email) && !duplicados($scope.properties.dataToChange2.id,1,false,$scope.properties.dataToChange2.persistenceId) && !duplicados($scope.properties.dataToChange2.clave,2,false,$scope.properties.dataToChange2.persistenceId) && !duplicados($scope.properties.dataToChange2.orden,3,false,$scope.properties.dataToChange2.persistenceId)) {
 		 if ($scope.properties.processId) {
 		     $scope.properties.dataToChange2.pais.persistenceId_string = $scope.properties.dataToChange2.pais.persistenceId;
-            var prom = doRequest('POST', '../API/bpm/process/' + $scope.properties.processId + '/instantiation', $scope.properties.userId).then(function() {
+             var prom = doRequest('POST', '../API/extension/posgradosRest?url=insertCatCampus', $scope.properties.dataToChange2).then(function(response) {
                 doRequest("GET", $scope.properties.url).then(function() {
                     $scope.properties.dataToChange = $scope.properties.dataToSet;
                     $scope.properties.dataToChange2 = $scope.properties.dataToSet2;
@@ -320,6 +360,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
+        debugger;
         vm.busy = true;
         var datos = angular.copy($scope.properties.dataToSend)
         datos.lstCatCampusInput[0].estado.persistenceId_string = datos.lstCatCampusInput[0].estado.persistenceId+"";
@@ -467,5 +508,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 		
 		return iguales;
 	}
+    
 
 }

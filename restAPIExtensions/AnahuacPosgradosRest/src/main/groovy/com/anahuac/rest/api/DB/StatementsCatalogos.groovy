@@ -26,6 +26,13 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATSEXO  = "UPDATE PSGRCatSexo SET clave = ?, descripcion = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATSEXO  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatSexo [WHERE] [ORDERBY]";
 	
+	//PSGRCatCampus
+	public static final String INSERT_CATCAMPUS = "INSERT INTO PSGRCatCampus (PERSISTENCEID, CALLE, CLAVE, CODIGO_POSTAL, COLONIA, DESCRIPCION, EMAIL, FECHA_CREACION, FECHA_IMPLEMENTACION, GRUPO_BONITA, MUNICIPIO, NUMERO_EXT, NUMERO_INT, ORDEN, URL_AVISO_PRIVACIDAD, URL_IMAGEN, USUARIO_BANNER, ESTADO_PID, PAIS_PID, ID, ACTIVADO, ELIMINADO)  VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATCAMPUS), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATCAMPUS  = "DELETE FROM PSGRCatCampus WHERE persistenceid = ?";
+	public static final String UPDATE_CATCAMPUS  = "UPDATE PSGRCatCampus SET CALLE=?, CLAVE=?, CODIGO_POSTAL=?, COLONIA=?, DESCRIPCION=?, EMAIL=?, FECHA_CREACION=?, FECHA_IMPLEMENTACION=?, GRUPO_BONITA=?, MUNICIPIO=?, NUMERO_EXT=?, NUMERO_INT=?, ORDEN=?, URL_AVISO_PRIVACIDAD=?, URL_IMAGEN=?, USUARIO_BANNER=?, ESTADO_PID=?, PAIS_PID=?, ID=? WHERE PERSISTENCEID=?;";
+	public static final String SELECT_CATCAMPUS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatCampus [WHERE] [ORDERBY]";
+	public static final String GET_CATCAMPUS="SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAIS_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADO_PID  [WHERE] [ORDERBY] [LIMITOFFSET]"
+
 	//PSGRCatPais
 	public static final String GET_CATPAIS="SELECT * FROM PSGRCatPais [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_VALIDACION_ORDEN_EDIT = "SELECT COUNT(PERSISTENCEID) AS  total FROM [TABLA] WHERE ORDEN::Integer = ? AND IS_ELIMINADO = false AND PERSISTENCEID <> ?";

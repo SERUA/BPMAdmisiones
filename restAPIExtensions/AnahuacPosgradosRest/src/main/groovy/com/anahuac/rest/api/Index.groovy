@@ -14,6 +14,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.AppMenuRole
@@ -167,7 +168,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					case "insertCatSexo":
+				case "insertCatSexo":
 					result = new CatalogosDAO().insertCatSexo(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -224,9 +225,20 @@ class Index implements RestApiController {
 					}
 					break;
 				case "getCatCampus":
-					result = new CatalogosDAO().getCatCampus(jsonData)
+					result = new CatalogosDAO().getCatCampus(jsonData, context)
 					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "generateHtml":
+					result = new NotificacionDAO().generateHtml(parameterP, parameterC, jsonData, context);
+					/*result = new Result();
+					result.setSuccess(true);*/
+
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
