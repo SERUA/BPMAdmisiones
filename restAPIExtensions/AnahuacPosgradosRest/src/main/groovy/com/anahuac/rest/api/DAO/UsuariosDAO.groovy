@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory
 import org.bonitasoft.engine.bpm.contract.FileInputValue
 import org.apache.commons.codec.binary.Base64;
 
+import com.anahuac.posgrados.model.PSGRRegistro
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.DBConnectBonita
 import com.anahuac.rest.api.DB.Statements
@@ -410,8 +411,8 @@ class UsuariosDAO {
 	
 	public Result enviarTareaRest(String correo, RestAPIContext context) {
 		Result resultado = new Result();
-		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
-		CatRegistro objCatRegistro = new CatRegistro();
+		List<PSGRRegistro> lstCatRegistro = new ArrayList<PSGRRegistro>();
+		PSGRRegistro objCatRegistro = new PSGRRegistro();
 		String errorLog = "";
 		Boolean closeCon = false;
 		
@@ -507,4 +508,36 @@ class UsuariosDAO {
 		}
 		return resultado;
 	}*/
+	
+	public Result updateNumeroContacto(String nombreUsuario, String numeroContacto) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+				closeCon = validarConexion();
+				con.setAutoCommit(false)
+				pstm = con.prepareStatement("UPDATE CATREGISTRO SET numeroContacto = ? WHERE nombreusuario = ?")
+				pstm.setString(1, numeroContacto)
+				pstm.setString(2, nombreUsuario)
+				pstm.executeUpdate();
+				
+				pstm = con.prepareStatement("UPDATE SolicitudDeAdmision SET telefonocelular = ? WHERE correoelectronico = ?")
+				pstm.setString(1, numeroContacto)
+				pstm.setString(2, nombreUsuario)
+				pstm.executeUpdate();
+				
+				con.commit();
+				resultado.setSuccess(true)
+				
+			} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			con.rollback();
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }
