@@ -265,4 +265,246 @@ class UsuariosDAO {
 		}
 		return retorno;
 	}
+	
+	public Result postRegistrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Result resultadoN = new Result();
+		List < String > lstResultado = new ArrayList < String > ();
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Long resultReq = 0;
+		Long resultReqA = 0;
+		Integer start = 0;
+		Integer end = 99999;
+		Long step = 0;
+		Usuarios objUsuario = new Usuarios();
+	
+		Boolean success = false;
+		String error_log = "";
+		String success_log = "";
+		Boolean closeCon = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			// Datos de la cuenta del Usuario
+			UserCreator creator = new UserCreator(object.nombreusuario, object.password);
+			creator.setFirstName(object.nombre).setLastName(object.apellido);
+			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
+			creator.setProfessionalContactData(proContactDataCreator);
+			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
+			apiClient.login(username, password);
+			closeCon = validarConexion();
+				
+			//Registro del usuario
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.createUser(creator);
+			apiClient.login(user.getUserName(), object.password);
+			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
+			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(false);
+			final User user_update = identityAPI.updateUser(user.getId(), update_user);
+	
+			def str = jsonSlurper.parseText('{"campus": "' + object.campus + '","correo":"' + object.nombreusuario + '", "codigo": "registrar","isEnviar":false}');
+	
+			NotificacionDAO nDAO = new NotificacionDAO();
+			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+object.campus+"\", \"correo\":\"" + object.nombreusuario + "\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + str.correo + "");
+			MailGunDAO dao = new MailGunDAO();
+			resultado = dao.sendEmailPlantilla(str.correo, "Completar Registro", plantilla.replace("\\", ""), "", object.campus, context);
+			CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
+			catBitacoraCorreo.setCodigo("registrar");
+			catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0));
+			catBitacoraCorreo.setMensaje("");
+			catBitacoraCorreo.setPara(str.correo);
+			catBitacoraCorreo.setCampus(object.campus);
+			
+			if(resultado.success) {
+				catBitacoraCorreo.setEstatus("Enviado a Mailgun")
+			}else {
+				catBitacoraCorreo.setEstatus("Fallido")
+			}
+			
+			new NotificacionDAO().insertCatBitacoraCorreos(catBitacoraCorreo);
+			error_log = error_log + " | resultado = dao.sendEmailPlantilla(str.correo,";
+			lstResultado.add(plantilla.replace("\\", ""));
+			Result resultado2 = new Result();
+			resultado2 = updateNumeroContacto(object.nombreusuario,object.numeroContacto);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(error_log)
+			resultado.setData(lstResultado);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result postHabilitarUsaurio(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		Boolean closeCon = false;
+		try {
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
+			apiClient.login(username, password)
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(object.nombreusuario);
+			
+			resultado = enviarTarea(object.nombreusuario, context);
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(true);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+		
+			lstResultado.add(user_update);
+			
+			//enviarTarea(parameterP, parameterC, jsonData, context);
+			
+			lstResultado.add(object.nombreusuario);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	public Result enviarTareaRest(String correo, RestAPIContext context) {
+		Result resultado = new Result();
+		List<CatRegistro> lstCatRegistro = new ArrayList<CatRegistro>();
+		CatRegistro objCatRegistro = new CatRegistro();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			errorLog = errorLog + "";
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
+			lstCatRegistro = catRegistroDAO.findByCorreoelectronico(correo, 0, 1);
+			
+			if(lstCatRegistro.size() == 0) {
+				throw new Exception ("No registro encontrado");
+			}
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.ROOT_PROCESS_INSTANCE_ID, lstCatRegistro.get(0).getCaseId());
+			final SearchOptions searchOptions = searchBuilder.done();
+			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
+			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
+			
+			if(lstHumanTaskInstanceSearch.size() == 0) {
+				throw new Exception ("No tarea  activa ");
+			}
+			
+			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
+				apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
+				break;
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	/*
+	public Result getHabilitarUsaurio(Integer parameterP,Integer parameterC, String correo, RestAPIContext context) {
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		NotificacionDAO nDAO = new NotificacionDAO();
+		
+		Boolean closeCon = false;
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password)
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(correo);
+			if(!user.isEnabled()) {
+				UserUpdater update_user = new UserUpdater();
+				update_user.setEnabled(true);
+				final User user_update= identityAPI.updateUser(user.getId(), update_user);
+				
+//				resultado = enviarTarea(correo, context);
+				Result resultadoTarea = enviarTareaRest(correo, context);
+				
+				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
+				resultado.setError_info(resultadoTarea.error_info);
+			} else {
+				Result resultadoTarea = enviarTareaRest(correo, context);
+				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
+				resultado.setError_info(resultadoTarea.error_info);
+			}
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}*/
 }
