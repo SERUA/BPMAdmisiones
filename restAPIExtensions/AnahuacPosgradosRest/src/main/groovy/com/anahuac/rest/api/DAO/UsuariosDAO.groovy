@@ -36,6 +36,7 @@ import org.slf4j.LoggerFactory
 import org.bonitasoft.engine.bpm.contract.FileInputValue
 import org.apache.commons.codec.binary.Base64;
 
+import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.model.PSGRRegistro
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.DBConnectBonita
@@ -267,7 +268,14 @@ class UsuariosDAO {
 		return retorno;
 	}
 	
-	public Result postRegistrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+	
+	public Result instanciarProceso() {
+		Result resultado = new Result();
+		
+		return resultado;
+	}
+	
+	public Result registrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoN = new Result();
 		List < String > lstResultado = new ArrayList < String > ();
@@ -325,7 +333,7 @@ class UsuariosDAO {
 			plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + str.correo + "");
 			MailGunDAO dao = new MailGunDAO();
 			resultado = dao.sendEmailPlantilla(str.correo, "Completar Registro", plantilla.replace("\\", ""), "", object.campus, context);
-			CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
+			PSGRCatBitacoraCorreos catBitacoraCorreo = new PSGRCatBitacoraCorreos();
 			catBitacoraCorreo.setCodigo("registrar");
 			catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0));
 			catBitacoraCorreo.setMensaje("");

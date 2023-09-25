@@ -2,6 +2,7 @@ package com.anahuac.rest.api.DAO
 
 import com.anahuac.model.DetalleSolicitud
 import com.anahuac.model.ProcesoCaso
+import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
 import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
@@ -1084,7 +1085,7 @@ class NotificacionDAO {
 		return resultado;
 	}
 	
-	public Result insertCatBitacoraCorreos(CatBitacoraCorreo bcorreo) {
+	public Result insertCatBitacoraCorreos(PSGRCatBitacoraCorreos bcorreo) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<CatBitacoraCorreo> data = new ArrayList<CatBitacoraCorreo>()
