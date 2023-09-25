@@ -588,30 +588,30 @@ class NotificacionDAO {
 					pstm.setString(1, object.campus)
 					rs = pstm.executeQuery()
 					if(rs.next()) {
-						dt.ciudadCarta=rs.getString("ciudadCarta");
-						dt.estadoCarta=rs.getString("estadoCarta");
-						dt.documentosEntregar=rs.getString("documentosEntregar");
-						dt.documentosEntregarExtranjero=rs.getString("documentosEntregarExtranjero");
-						dt.notasDocumentos=rs.getString("notasDocumentos");
-						dt.parrafoMatematicas1=rs.getString("parrafoMatematicas1");
-						dt.parrafoMatematicas2=rs.getString("parrafoMatematicas2");
-						dt.parrafoMatematicas3=rs.getString("parrafoMatematicas3");
-						dt.parrafoEspanol1=rs.getString("parrafoEspanol1");
-						dt.parrafoEspanol2=rs.getString("parrafoEspanol2");
-						dt.parrafoEspanol3=rs.getString("parrafoEspanol3");
-						dt.directorAdmisiones=rs.getString("directorAdmisiones");
-						dt.tituloDirectorAdmisiones=rs.getString("tituloDirectorAdmisiones");
-						dt.correoDirectorAdmisiones=rs.getString("correoDirectorAdmisiones");
-						dt.telefonoDirectorAdmisiones=rs.getString("telefonoDirectorAdmisiones");
-						dt.actividadIngreso1=rs.getString("actividadIngreso1");
-						dt.actividadIngreso2=rs.getString("actividadIngreso2");
-						dt.costoSGM=rs.getString("costoSGM");
-						dt.educacionGarantizada=rs.getString("educacionGarantizada");
-						dt.instruccionesPagoBanco=rs.getString("instruccionesPagoBanco");
-						dt.instruccionesPagoCaja=rs.getString("instruccionespagocaja");
-						dt.cancelarSeguroGastosMedicos=rs.getString("cancelarSeguroGastosMedicos");
-						dt.cursoMatematicas1=rs.getString("cursoMatematicas1");
-						dt.cursoMatematicas2=rs.getString("cursoMatematicas2");
+						dt.ciudad_carta=rs.getString("ciudadCarta");
+						dt.estado_carta=rs.getString("estadoCarta");
+						dt.documentos_entregar=rs.getString("documentosEntregar");
+						dt.documentos_entregar_extranjero=rs.getString("documentosEntregarExtranjero");
+						dt.notas_documentos=rs.getString("notasDocumentos");
+						dt.parrafo_matematicas_1=rs.getString("parrafoMatematicas1");
+						dt.parrafo_matematicas_2=rs.getString("parrafoMatematicas2");
+						dt.parrafo_matematicas_3=rs.getString("parrafoMatematicas3");
+						dt.parrafo_espanol_1=rs.getString("parrafoEspanol1");
+						dt.parrafo_espanol_2=rs.getString("parrafoEspanol2");
+						dt.parrafo_espanol_3=rs.getString("parrafoEspanol3");
+						dt.director_admisiones=rs.getString("directorAdmisiones");
+						dt.titulo_director_admisiones=rs.getString("tituloDirectorAdmisiones");
+						dt.correo_director_admisiones=rs.getString("correoDirectorAdmisiones");
+						dt.telefono_director_admisiones=rs.getString("telefonoDirectorAdmisiones");
+						dt.actividad_ingreso_1=rs.getString("actividadIngreso1");
+						dt.actividad_ingreso_2=rs.getString("actividadIngreso2");
+						dt.costo_sgm=rs.getString("costoSGM");
+						dt.educacion_garantizada=rs.getString("educacionGarantizada");
+						dt.instrucciones_pago_banco=rs.getString("instruccionesPagoBanco");
+						dt.instrucciones_pago_caja=rs.getString("instruccionespagocaja");
+						dt.cancelar_seguro_gastos_medicos=rs.getString("cancelarSeguroGastosMedicos");
+						dt.curso_matematicas_1=rs.getString("cursoMatematicas1");
+						dt.curso_matematicas_2=rs.getString("cursoMatematicas2");
 						
 						try{
 							plantilla=plantilla.replace("[CIUDAD-CARTA]",dt.ciudadCarta);
