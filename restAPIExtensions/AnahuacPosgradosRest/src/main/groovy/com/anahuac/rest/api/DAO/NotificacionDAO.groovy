@@ -6,6 +6,7 @@ import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
 import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
+import com.anahuac.posgrados.catalog.PSGRCatNotificacionesDAO
 import com.anahuac.posgrados.catalog.PSGRCatRegistro
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.PropertiesEntity
@@ -205,9 +206,9 @@ class NotificacionDAO {
 			PSGRCatNotificaciones cn = new PSGRCatNotificaciones()
 			try {
 				def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
-				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
+				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "PSGRCatNotificaciones");
 				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
-				def catNotificacionesDAO = context.getApiClient().getDAO(CatNotificacionesDAO.class);
+				def catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
 				catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 				cn=catNotificaciones
 			} catch (Exception e) {
@@ -222,62 +223,62 @@ class NotificacionDAO {
 					rs = pstm.executeQuery()
 					if (rs.next()) {
 						catNotificaciones = new PSGRCatNotificaciones()
-						catNotificaciones.setAngulo_imagen_footer(rs.getString("anguloImagenFooter"))
-						catNotificaciones.setAngulo_imagen_header(rs.getString("anguloImagenHeader"))
+						catNotificaciones.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
+						catNotificaciones.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
 						catNotificaciones.setAsunto(rs.getString("asunto"))
-						catNotificaciones.setBloque_aspirante(rs.getBoolean("bloqueAspirante"))
-						catNotificaciones.setCase_id(rs.getString("caseId"))
+						catNotificaciones.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
+						catNotificaciones.setCase_id(rs.getString("case:id"))
 						catNotificaciones.setCodigo(rs.getString("codigo"))
-						catNotificaciones.setComentario_leon(rs.getString("comentarioLeon"))
+						catNotificaciones.setComentario_leon(rs.getString("comentario_leon"))
 						catNotificaciones.setContenido(rs.getString("contenido"))
-						catNotificaciones.setContenido_correo(rs.getString("contenidoCorreo"))
-						catNotificaciones.setContenido_leonel(rs.getString("contenidoLeonel"))
+						catNotificaciones.setContenido_correo(rs.getString("contenido_correo"))
+						catNotificaciones.setContenido_leonel(rs.getString("contenido_leonel"))
 						catNotificaciones.setDescripcion(rs.getString("descripcion"))
-						catNotificaciones.setDoc_guia_estudio(rs.getString("docGuiaEstudio"))
-						catNotificaciones.setEnlace_banner(rs.getString("enlaceBanner"))
-						catNotificaciones.setEnlace_contacto(rs.getString("enlaceContacto"))
-						catNotificaciones.setEnlace_facebook(rs.getString("enlaceFacebook"))
-						catNotificaciones.setEnlace_footer(rs.getString("enlaceFooter"))
-						catNotificaciones.setEnlace_instagram(rs.getString("enlaceInstagram"))
-						catNotificaciones.setEnlace_twitter(rs.getString("enlaceTwitter"))
-						catNotificaciones.setInformacion_lic(rs.getBoolean("informacionLic"))
-						catNotificaciones.setIs_eliminado(rs.getBoolean("isEliminado"))
-						catNotificaciones.setNombre_imagen_footer(rs.getString("nombreImagenFooter"))
-						catNotificaciones.setNombre_imagen_header(rs.getString("nombreImagenHeader"))
+						catNotificaciones.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
+						catNotificaciones.setEnlace_banner(rs.getString("enlace_banner"))
+						catNotificaciones.setEnlace_contacto(rs.getString("enlace_contacto"))
+						catNotificaciones.setEnlace_facebook(rs.getString("enlace_facebook"))
+						catNotificaciones.setEnlace_footer(rs.getString("enlace_footer"))
+						catNotificaciones.setEnlace_instagram(rs.getString("enlace_instagram"))
+						catNotificaciones.setEnlace_twitter(rs.getString("enlace_twitter"))
+						catNotificaciones.setInformacion_lic(rs.getBoolean("informacion_lic"))
+						catNotificaciones.setIs_eliminado(rs.getBoolean("is_eliminado"))
+						catNotificaciones.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
+						catNotificaciones.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
 						catNotificaciones.setPersistenceId(rs.getLong("persistenceId"))
 						catNotificaciones.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						catNotificaciones.setTexto_footer(rs.getString("textoFooter"))
-						catNotificaciones.setTipo_correo(rs.getString("tipoCorreo"))
+						catNotificaciones.setTexto_footer(rs.getString("texto_footer"))
+						catNotificaciones.setTipo_correo(rs.getString("tipo_correo"))
 						catNotificaciones.setTitulo(rs.getString("titulo"))
 						catNotificaciones.setLst_correo_copia(new ArrayList<String>())
 						catNotificaciones.setLst_variable_notificacion(new ArrayList<String>())
-						procesoCaso.setCaseId(rs.getString("caseId"))
-						cn.setAngulo_imagen_footer(rs.getString("anguloImagenFooter"))
-						cn.setAngulo_imagen_header(rs.getString("anguloImagenHeader"))
+						procesoCaso.setCaseId(rs.getString("case_id"))
+						cn.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
+						cn.setAngulo_imagen_header(rs.getString("angulo_imagenHeader"))
 						cn.setAsunto(rs.getString("asunto"))
-						cn.setBloque_aspirante(rs.getBoolean("bloqueAspirante"))
-						cn.setCase_id(rs.getString("caseId"))
+						cn.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
+						cn.setCase_id(rs.getString("case_id"))
 						cn.setCodigo(rs.getString("codigo"))
-						cn.setComentario_leon(rs.getString("comentarioLeon"))
+						cn.setComentario_leon(rs.getString("comentario_leon"))
 						cn.setContenido(rs.getString("contenido"))
-						cn.setContenido_correo(rs.getString("contenidoCorreo"))
-						cn.setContenido_leonel(rs.getString("contenidoLeonel"))
+						cn.setContenido_correo(rs.getString("contenido_correo"))
+						cn.setContenido_leonel(rs.getString("contenido_leonel"))
 						cn.setDescripcion(rs.getString("descripcion"))
-						cn.setDoc_guia_estudio(rs.getString("docGuiaEstudio"))
-						cn.setEnlace_banner(rs.getString("enlaceBanner"))
-						cn.setEnlace_contacto(rs.getString("enlaceContacto"))
-						cn.setEnlace_facebook(rs.getString("enlaceFacebook"))
-						cn.setEnlace_footer(rs.getString("enlaceFooter"))
-						cn.setEnlace_instagram(rs.getString("enlaceInstagram"))
-						cn.setEnlace_twitter(rs.getString("enlaceTwitter"))
-						cn.setInformacion_lic(rs.getBoolean("informacionLic"))
-						cn.setIs_eliminado(rs.getBoolean("isEliminado"))
-						cn.setNombre_imagen_footer(rs.getString("nombreImagenFooter"))
-						cn.setNombre_imagen_header(rs.getString("nombreImagenHeader"))
+						cn.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
+						cn.setEnlace_banner(rs.getString("enlace_banner"))
+						cn.setEnlace_contacto(rs.getString("enlace_contacto"))
+						cn.setEnlace_facebook(rs.getString("enlace_facebook"))
+						cn.setEnlace_footer(rs.getString("enlace_footer"))
+						cn.setEnlace_instagram(rs.getString("enlace_instagram"))
+						cn.setEnlace_twitter(rs.getString("enlace_twitter"))
+						cn.setInformacion_lic(rs.getBoolean("informacion_lic"))
+						cn.setIs_eliminado(rs.getBoolean("is_eliminado"))
+						cn.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
+						cn.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
 						cn.setPersistenceId(rs.getLong("persistenceId"))
 						cn.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						cn.setTexto_footer(rs.getString("textoFooter"))
-						cn.setTipo_correo(rs.getString("tipoCorreo"))
+						cn.setTexto_footer(rs.getString("texto_footer"))
+						cn.setTipo_correo(rs.getString("tipo_correo"))
 						cn.setTitulo(rs.getString("titulo"))
 						
 					}
@@ -589,110 +590,110 @@ class NotificacionDAO {
 					pstm.setString(1, object.campus)
 					rs = pstm.executeQuery()
 					if(rs.next()) {
-						dt.ciudad_carta=rs.getString("ciudadCarta");
-						dt.estado_carta=rs.getString("estadoCarta");
-						dt.documentos_entregar=rs.getString("documentosEntregar");
-						dt.documentos_entregar_extranjero=rs.getString("documentosEntregarExtranjero");
-						dt.notas_documentos=rs.getString("notasDocumentos");
-						dt.parrafo_matematicas_1=rs.getString("parrafoMatematicas1");
-						dt.parrafo_matematicas_2=rs.getString("parrafoMatematicas2");
-						dt.parrafo_matematicas_3=rs.getString("parrafoMatematicas3");
-						dt.parrafo_espanol_1=rs.getString("parrafoEspanol1");
-						dt.parrafo_espanol_2=rs.getString("parrafoEspanol2");
-						dt.parrafo_espanol_3=rs.getString("parrafoEspanol3");
-						dt.director_admisiones=rs.getString("directorAdmisiones");
-						dt.titulo_director_admisiones=rs.getString("tituloDirectorAdmisiones");
-						dt.correo_director_admisiones=rs.getString("correoDirectorAdmisiones");
-						dt.telefono_director_admisiones=rs.getString("telefonoDirectorAdmisiones");
-						dt.actividad_ingreso_1=rs.getString("actividadIngreso1");
-						dt.actividad_ingreso_2=rs.getString("actividadIngreso2");
-						dt.costo_sgm=rs.getString("costoSGM");
-						dt.educacion_garantizada=rs.getString("educacionGarantizada");
-						dt.instrucciones_pago_banco=rs.getString("instruccionesPagoBanco");
-						dt.instrucciones_pago_caja=rs.getString("instruccionespagocaja");
-						dt.cancelar_seguro_gastos_medicos=rs.getString("cancelarSeguroGastosMedicos");
-						dt.curso_matematicas_1=rs.getString("cursoMatematicas1");
-						dt.curso_matematicas_2=rs.getString("cursoMatematicas2");
+						dt.ciudad_carta=rs.getString("ciudad_carta");
+						dt.estado_carta=rs.getString("estado_carta");
+						dt.documentos_entregar=rs.getString("documentos_entregar");
+						dt.documentos_entregar_extranjero=rs.getString("documentos_entregar_extranjero");
+						dt.notas_documentos=rs.getString("notas_documentos");
+						dt.parrafo_matematicas_1=rs.getString("parrafo_matematicas_1");
+						dt.parrafo_matematicas_2=rs.getString("parrafo_matematicas_2");
+						dt.parrafo_matematicas_3=rs.getString("parrafo_matematicas_3");
+						dt.parrafo_espanol_1=rs.getString("parrafo_espanol_1");
+						dt.parrafo_espanol_2=rs.getString("parrafo_espanol_2");
+						dt.parrafo_espanol_3=rs.getString("parrafo_espanol_3");
+						dt.director_admisiones=rs.getString("director_admisiones");
+						dt.titulo_director_admisiones=rs.getString("titulo_director_admisiones");
+						dt.correo_director_admisiones=rs.getString("correo_director_admisiones");
+						dt.telefono_director_admisiones=rs.getString("telefono_director_admisiones");
+						dt.actividad_ingreso_1=rs.getString("actividad_ingreso_1");
+						dt.actividad_ingreso_2=rs.getString("actividad_ingreso_2");
+						dt.costo_sgm=rs.getString("costo_sgm");
+						dt.educacion_garantizada=rs.getString("educacion_garantizada");
+						dt.instrucciones_pago_banco=rs.getString("instrucciones_pago_banco");
+						dt.instrucciones_pago_caja=rs.getString("instrucciones_pagoc_aja");
+						dt.cancelar_seguro_gastos_medicos=rs.getString("cancelar_seguro_gastos_medicos");
+						dt.curso_matematicas_1=rs.getString("curso_matematicas_1");
+						dt.curso_matematicas_2=rs.getString("curso_matematicas_2");
 						
 						try{
-							plantilla=plantilla.replace("[CIUDAD-CARTA]",dt.ciudadCarta);
+							plantilla=plantilla.replace("[CIUDAD-CARTA]",dt.ciudad_carta);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[CIUDAD-CARTA]","");
 						}
 						try{
-							plantilla=plantilla.replace("[ESTADO-CARTA]",dt.estadoCarta);
+							plantilla=plantilla.replace("[ESTADO-CARTA]",dt.estado_carta);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[ESTADO-CARTA]","");
 						}
 						try{
-							plantilla=plantilla.replace("[DOCUMENTOS-ENTREGAR]",dt.documentosEntregar);
+							plantilla=plantilla.replace("[DOCUMENTOS-ENTREGAR]",dt.documentos_entregar);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[DOCUMENTOS-ENTREGAR]","");
 						}
 						try{
-							plantilla=plantilla.replace("[DOCUMENTOS-EXTRANJEROS]",dt.documentosEntregarExtranjero);
+							plantilla=plantilla.replace("[DOCUMENTOS-EXTRANJEROS]",dt.documentos_entregar_extranjero);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[DOCUMENTOS-EXTRANJEROS]","");
 						}
 						try{
-							plantilla=plantilla.replace("[NOTAS-DOCUMENTOS]",dt.notasDocumentos);
+							plantilla=plantilla.replace("[NOTAS-DOCUMENTOS]",dt.notas_documentos);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[NOTAS-DOCUMENTOS]","");
 						}
 						try{
-							plantilla=plantilla.replace("[DIRECTOR-ADMISIONES]",dt.directorAdmisiones);
+							plantilla=plantilla.replace("[DIRECTOR-ADMISIONES]",dt.director_admisiones);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[DIRECTOR-ADMISIONES]","");
 						}
 						try{
-							plantilla=plantilla.replace("[TITULO-DIRECTOR-ADMISIONES]",dt.tituloDirectorAdmisiones);
+							plantilla=plantilla.replace("[TITULO-DIRECTOR-ADMISIONES]",dt.titulo_director_admisiones);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[TITULO-DIRECTOR-ADMISIONES]","");
 						}
 						try{
-							plantilla=plantilla.replace("[CORREO-DIRECTOR-ADMISIONES]",dt.correoDirectorAdmisiones);
+							plantilla=plantilla.replace("[CORREO-DIRECTOR-ADMISIONES]",dt.correo_director_admisiones);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[CORREO-DIRECTOR-ADMISIONES]","");
 						}
 						try{
-							plantilla=plantilla.replace("[TELEFONO-DIRECTOR-ADMISIONES]",dt.telefonoDirectorAdmisiones);
+							plantilla=plantilla.replace("[TELEFONO-DIRECTOR-ADMISIONES]",dt.telefono_director_admisiones);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[TELEFONO-DIRECTOR-ADMISIONES]","");
 						}
 						try{
-							plantilla=plantilla.replace("[COSTO-SGM]",dt.costoSGM);
+							plantilla=plantilla.replace("[COSTO-SGM]",dt.costo_sgm);
 						}catch(Exception dex){
 							plantilla=plantilla.replace("[COSTO-SGM]","");
 						}
 						try{
-							plantilla=plantilla.replace("[EDUCACION-GARANTIZADA]",dt.educacionGarantizada);
+							plantilla=plantilla.replace("[EDUCACION-GARANTIZADA]",dt.educacion_garantizada);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[EDUCACION-GARANTIZADA]","");
 						}
 						try{
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-BANCO]",dt.instruccionesPagoBanco);
+							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-BANCO]",dt.instrucciones_pago_banco);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-BANCO]","");
 						}
 						try{
-							plantilla=plantilla.replace("[CANCELAR-SEGURO-GASTOS]",dt.cancelarSeguroGastosMedicos);
+							plantilla=plantilla.replace("[CANCELAR-SEGURO-GASTOS]",dt.cancelar_seguro_gastos_medicos);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[CANCELAR-SEGURO-GASTOS]","");
 						}
 						try{
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-CAJA]",dt.instruccionesPagoCaja);
+							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-CAJA]",dt.instrucciones_pago_caja);
 						}
 						catch(Exception dex){
 							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-CAJA]","");
@@ -781,27 +782,27 @@ class NotificacionDAO {
 							plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",dex.getMessage())
 						}
 						try {
-							plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafoMatematicas1:"");
-							plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafoMatematicas2:"");
-							plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafoMatematicas3:"");
-							plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafoEspanol1:"");
-							plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafoEspanol2:"");
-							plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafoEspanol3:"");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividadIngreso1:"");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividadIngreso2:"");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.cursoMatematicas1:"");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.cursoMatematicas2:"");
+							plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafo_matematicas_1:"");
+							plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafo_matematicas_2:"");
+							plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafo_matematicas_3:"");
+							plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafo_espanol_1:"");
+							plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafo_espanol_2:"");
+							plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafo_espanol_3:"");
+							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividad_ingreso_1:"");
+							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividad_ingreso_2:"");
+							plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.curso_matematicas_1:"");
+							plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.curso_matematicas_2:"");
 							try {
-								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costoSGM)
+								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costo_sgm)
 								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",descuento.toString());
 							} catch (Exception e) {
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",dt.costoSGM);
+								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",dt.costo_sgm);
 							}
 							try {
-								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costoSGM)
+								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costo_sgm)
 								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",descuento.toString());
 							} catch (Exception e) {
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",dt.costoSGM);
+								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",dt.costo_sgm);
 							}
 							
 							
@@ -862,24 +863,24 @@ class NotificacionDAO {
 							plantilla=plantilla.replace("<!--[PASOS]-->","<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>");
 							plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]",dt.urlTestVocacional);*/
 							try {
-								plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafoMatematicas1:"");
-								plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafoMatematicas2:"");
-								plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafoMatematicas3:"");
-								plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafoEspanol1:"");
-								plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafoEspanol2:"");
-								plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafoEspanol3:"");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividadIngreso1:"");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividadIngreso2:"");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.cursoMatematicas1:"");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.cursoMatematicas2:"");
+								plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafo_matematicas_1:"");
+								plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafo_matematicas_2:"");
+								plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafo_matematicas_3:"");
+								plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafo_espanol_1:"");
+								plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafo_espanol_2:"");
+								plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafo_espanol_3:"");
+								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividad_ingreso_1:"");
+								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividad_ingreso_2:"");
+								plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.curso_matematicas_1:"");
+								plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.curso_matematicas_2:"");
 							try {
-									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costoSGM)
+									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costo_sgm)
 									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",descuento.toString());
 								} catch (Exception e) {
 									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",e.getMessage());
 								}
 								try {
-									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costoSGM)
+									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costo_sgm)
 									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",descuento.toString());
 								} catch (Exception e) {
 									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",e.getMessage());

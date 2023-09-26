@@ -5097,7 +5097,41 @@
                 <field type="STRING" length="255" name="url_img_header" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCatNotificaciones" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE c.is_eliminado = false&#13;&#10;AND c.case_id = :case_id&#13;&#10;AND c.codigo= :codigo&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="tipo_correo" className="java.lang.String"/>
+                        <queryParameter name="codigo" className="java.lang.String"/>
+                        <queryParameter name="descripcion" className="java.lang.String"/>
+                        <queryParameter name="nombre_imagen_header" className="java.lang.String"/>
+                        <queryParameter name="angulo_imagen_header" className="java.lang.String"/>
+                        <queryParameter name="nombre_imagen_footer" className="java.lang.String"/>
+                        <queryParameter name="angulo_imagen_footer" className="java.lang.String"/>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                        <queryParameter name="asunto" className="java.lang.String"/>
+                        <queryParameter name="titulo" className="java.lang.String"/>
+                        <queryParameter name="bloque_aspirante" className="java.lang.Boolean"/>
+                        <queryParameter name="comentario_leon" className="java.lang.String"/>
+                        <queryParameter name="enlace_facebook" className="java.lang.String"/>
+                        <queryParameter name="enlace_twitter" className="java.lang.String"/>
+                        <queryParameter name="enlace_contacto" className="java.lang.String"/>
+                        <queryParameter name="enlace_instagram" className="java.lang.String"/>
+                        <queryParameter name="texto_footer" className="java.lang.String"/>
+                        <queryParameter name="enlace_footer" className="java.lang.String"/>
+                        <queryParameter name="lst_correo_copia" className="java.lang.String"/>
+                        <queryParameter name="lst_variable_notificacion" className="java.lang.String"/>
+                        <queryParameter name="informacion_lic" className="java.lang.Boolean"/>
+                        <queryParameter name="enlace_banner" className="java.lang.String"/>
+                        <queryParameter name="contenido" className="java.lang.String"/>
+                        <queryParameter name="contenido_correo" className="java.lang.String"/>
+                        <queryParameter name="contenido_leonel" className="java.lang.String"/>
+                        <queryParameter name="doc_guia_estudio" className="java.lang.String"/>
+                        <queryParameter name="url_img_footer" className="java.lang.String"/>
+                        <queryParameter name="url_img_header" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNotificacionesCampus">
