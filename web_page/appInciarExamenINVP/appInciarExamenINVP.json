@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1695425012816,
+  "lastUpdate" : 1695690138491,
   "rows" : [
     [
       {
@@ -1465,8 +1465,37 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 1,
+                      "lg" : 1
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "76587360-44b4-4892-975c-c8f058130937",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 10,
+                      "lg" : 10
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1680,8 +1709,37 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 1,
+                      "lg" : 1
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "210493eb-e2d6-4b88-9a4d-9eed787bffa6",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 10,
+                      "lg" : 10
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1741,7 +1799,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<pre  class=\"pre-danger\">Your session has finished.</pre>"
+                              "value" : "<pre  class=\"pre-info\">Your session has finished.</pre>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1793,7 +1851,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<pre  class=\"pre-danger\">Your session has not started yet. You are scheduled to {{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</pre>"
+                              "value" : "<pre  class=\"pre-info\">Your session has not started yet. You are scheduled at <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</b>.</pre>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1946,7 +2004,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><br>\n<pre  class=\"pre-danger\">No existe sesión asignada para este usuario. Contacta con tu aplicador.</pre>"
+                  "value" : "<br><br><br>\n<pre  class=\"pre-info>No existe sesión asignada para este usuario. Contacta con tu aplicador.</pre>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -2132,7 +2190,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><br>\n<pre  class=\"pre-danger\">You don't have a session assigned yet. Contact your advisor.</pre>"
+                  "value" : "<br><br><br>\n<pre  class=\"pre-info\">You don't have a session assigned yet. Contact your advisor.</pre>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -2384,7 +2442,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{ objetoSesionV2  | json }}</pre>"
+            "value" : "<pre>{{ objetoSesionV2  | json }}</pre>\n<pre>{{ mensajeError | json }}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -2701,18 +2759,18 @@
         "        let parts = $data.objetoSesionV2.error.split(\"|\");",
         "        return {",
         "            \"tipo\": parts[0],",
-        "            \"fecha\": formatearFecha(parts[1].slice(0, -6))",
+        "            \"fecha\": formatearFecha(parts[1])",
         "        }    ",
         "    }",
         "}",
         "",
         "function formatearFecha(fecha) {",
-        "  const partes = fecha.split(\" \");",
-        "  const fechaPartes = partes[0].split(\"-\");",
-        "  const hora = partes[1];",
-        "  ",
-        "  const fechaFormateada = `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]} ${hora}`;",
-        "  return fechaFormateada;",
+        "    const partes = fecha.split(\" \");",
+        "    const fechaPartes = partes[0].split(\"-\");",
+        "    const D = partes[1];",
+        "    ",
+        "    const fechaFormateada = `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]} ${D}`;",
+        "    return fechaFormateada;",
         "}"
       ],
       "exposed" : false
