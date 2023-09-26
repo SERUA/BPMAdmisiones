@@ -3149,7 +3149,7 @@ class ReactivacionDAO {
 			errorLog =", tarea:"+ respuesta;
 			
 			sleep(5000);
-			respuesta = updateDatosSolicitudV4(object.caseid,caseId.toString(),context);
+			respuesta = updateDatosSolicitudV3(object.caseid,caseId.toString(),context);
 			errorLog +="Update:"+ respuesta;
 			
 			Result resultado2 = new Result();
