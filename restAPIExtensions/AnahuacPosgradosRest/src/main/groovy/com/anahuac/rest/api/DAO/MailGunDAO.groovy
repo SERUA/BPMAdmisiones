@@ -5,7 +5,9 @@ import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.anahuac.posgrados.catalog.PSGRCatApiKey
+import com.anahuac.posgrados.catalog.PSGRCatApiKeyDAO
 import com.anahuac.posgrados.catalog.PSGRCatCampus
+import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.EstructuraMailGun
 import groovy.json.JsonSlurper
@@ -41,13 +43,13 @@ class MailGunDAO {
 				assert object.lstCopia instanceof List
 			}
 			
-			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 			for(PSGRCatCampus objCatCampus : lstCatCampus) {
 				objGrupoCampus = new HashMap<String, String>();
 				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
-				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
 				lstGrupoCampus.add(objGrupoCampus);
 			}
 			
@@ -162,13 +164,13 @@ class MailGunDAO {
 				assert object.lstCopia instanceof List
 			}
 			
-			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 			for(PSGRCatCampus objCatCampus : lstCatCampus) {
 				objGrupoCampus = new HashMap<String, String>();
 				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
-				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
 				lstGrupoCampus.add(objGrupoCampus);
 			}
 			
@@ -273,15 +275,15 @@ class MailGunDAO {
 			estructura.setBody(body)
 			errorlog += ", get lstCatApikey"
 
-			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 			for(PSGRCatCampus objCatCampus : lstCatCampus) {
 				objGrupoCampus = new HashMap<String, String>();
 				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
-				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
 				lstGrupoCampus.add(objGrupoCampus);
-				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupoBonita()
+				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupo_bonita()
 			}
 			
 			errorlog += ", for Comparar  "  + lstGrupoCampus.size() + campus
@@ -293,17 +295,17 @@ class MailGunDAO {
 				}
 			}
 			String correoDe =""
-			def daoCatApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class)
+			def daoCatApiKey = context.getApiClient().getDAO(PSGRCatApiKeyDAO.class)
 			for(PSGRCatApiKey ca:daoCatApiKey.find(0,9999)) {
 				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor")
 				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
-					estructura.setSandBox(ca.getMailgunDominio())
+					estructura.setSandBox(ca.getMailgun_dominio())
 					estructura.setApiKey(ca.getMailgun())
 					errorlog += " estructura.sandbox= " + estructura.getSandBox();
-					errorlog += ", estructura.MailgunDominio= " + ca.getMailgunDominio();
+					errorlog += ", estructura.MailgunDominio= " + ca.getMailgun_dominio();
 					errorlog += ", estructura.getMailgun= " + ca.getMailgun();
-					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgunCorreo();
-					correoDe=ca.getMailgunCorreo()
+					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgun_correo();
+					correoDe=ca.getMailgun_correo()
 				}
 			}
 			List<String> ad = new ArrayList<String>()
@@ -348,16 +350,16 @@ class MailGunDAO {
 			estructura.setBody(body);
 			errorlog += ", get lstCatApikey";
 
-			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
 
 			for(PSGRCatCampus objCatCampus : lstCatCampus) {
 				objGrupoCampus = new HashMap<String, String>();
 				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
-				objGrupoCampus.put("valor", objCatCampus.getGrupoBonita());
+				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
 				lstGrupoCampus.add(objGrupoCampus);
-				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupoBonita();
+				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupo_bonita();
 			}
 			
 			errorlog += ", for Comparar  "  + lstGrupoCampus.size() + campus;
@@ -371,19 +373,19 @@ class MailGunDAO {
 			}
 
 			String correoDe = "";
-			def daoCatApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class);
+			def daoCatApiKey = context.getApiClient().getDAO(PSGRCatApiKeyDAO.class);
 
 			for(PSGRCatApiKey ca : daoCatApiKey.find(0,9999)) {
 //				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor");
 				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("descripcion") + "CA = " + ca.getCampus().getDescripcion();
 				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
-					estructura.setSandBox(ca.getMailgunDominioSDAE());
-					estructura.setApiKey(ca.getMailgunSDAE());
+					estructura.setSandBox(ca.getMailgun_dominio_sdae());
+					estructura.setApiKey(ca.getMailgun_sdae());
 					errorlog += " estructura.sandbox= " + estructura.getSandBox();
-					errorlog += ", estructura.MailgunDominio= " + ca.getMailgunDominioSDAE();
-					errorlog += ", estructura.getMailgun= " + ca.getMailgunSDAE();
-					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgunCorreoSDAE();
-					correoDe = ca.getMailgunCorreoSDAE();
+					errorlog += ", estructura.MailgunDominio= " + ca.getMailgun_dominio_sdae();
+					errorlog += ", estructura.getMailgun= " + ca.getMailgun_sdae();
+					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgun_correo_sdae();
+					correoDe = ca.getMailgun_correo_sdae();
 				}
 			}
 

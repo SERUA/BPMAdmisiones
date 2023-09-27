@@ -20,6 +20,7 @@ import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.AppMenuRole
 import com.anahuac.rest.api.Entity.db.Role
 import com.anahuac.rest.api.Security.SecurityFilter
+import com.anahuac.rest.api.DB.DBConnect
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
@@ -233,7 +234,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "generateHtml":
-					result = new NotificacionDAO().generateHtml(parameterP, parameterC, jsonData, context);
+					result = new NotificacionDAO().generateHtml(jsonData, context);
 					/*result = new Result();
 					result.setSuccess(true);*/
 

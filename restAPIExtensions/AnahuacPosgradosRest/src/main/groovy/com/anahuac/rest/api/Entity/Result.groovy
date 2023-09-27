@@ -17,6 +17,15 @@ class Result {
 	private List<?> data;
 	@XmlElement
 	private List<?> additional_data;
+	@XmlElement
+	private String info;
+	
+	public String getInfo() {
+		return info;
+	}
+	public void setInfo(String info) {
+		this.info = info;
+	}
 	
 	public String getError_info() {
 		return error_info;
