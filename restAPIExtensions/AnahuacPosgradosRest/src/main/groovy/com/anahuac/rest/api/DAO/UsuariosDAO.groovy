@@ -268,13 +268,169 @@ class UsuariosDAO {
 		return retorno;
 	}
 	
-	
-	public Result instanciarProceso() {
+	public Result instanciarProceso(String jsonData, org.bonitasoft.engine.api.APIClient apiClient) {
 		Result resultado = new Result();
+		String errorLog = "";
+		
+		try {
+			String username = "";
+			String password = "";
+			
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			apiClient.login(username, password);
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.createUser(creator);
+			apiClient.login(user.getUserName(), object.password);
+			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
+			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(true);
+			final User user_update = identityAPI.updateUser(user.getId(), update_user);
+			Map<String, Serializable> contract = new HashMap<String, Serializable>();
+			contract.put("registroInput", object.registroInput);
+			apiClient.getProcessAPI().startProcess(Long.valueOf(object.processDefinitionId), contract);
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
+	
+	public Result registro(String jsonData) {
+		Result resultado = new Result();
+		Result crearUsuario;
+		Result instanciarCaso;
+		Result desactivarUsuario;
+		String errorLog = "";
+		String username = "";
+		String password = "";
+		
+		try {
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+//			apiClient.login(username, password);
+			apiClient.login("Administrador", "bpm");
+			crearUsuario = registrarUsuario(jsonData, apiClient, objProperties);
+			
+//			errorLog += "[registro] 3 | "  +  crearUsuario.getError_info();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[registro|ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
 		
 		return resultado;
 	}
 	
+	public Result iniciarCaso(String jsonData, org.bonitasoft.engine.api.APIClient apiClient) {
+		Result resultado = new Result();
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Map<String, Serializable> contract = new HashMap<String, Serializable>();
+			Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+			Map<String, Serializable> campus = new HashMap<String, Serializable>();
+			campus.put("persistenceId_string", object.registroInput.campus.persistenceId_string as Serializable);
+			registroInput.put("nombre", object.registroInput.nombre as Serializable);
+			registroInput.put("apellido_paterno", object.registroInput.apellido_paterno as Serializable);
+			registroInput.put("apellido_materno", object.registroInput.apellido_materno as Serializable);
+			registroInput.put("telefono_celular", object.registroInput.telefono_celular as Serializable);
+			registroInput.put("correo_electronico", object.registroInput.correo_electronico as Serializable);
+			registroInput.put("password", object.registroInput.password as Serializable);
+			registroInput.put("acepto_avisoprivacidad", object.registroInput.acepto_avisoprivacidad as Serializable);
+			registroInput.put("campus",  campus as Serializable);
+			contract.put("registroInput", registroInput as Serializable);
+			
+			apiClient.getProcessAPI().startProcessWithInputs(Long.valueOf(object.processDefinitionId), contract);
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[iniciarCaso|ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
+	
+	public Result registrarUsuario(String jsonData, org.bonitasoft.engine.api.APIClient apiClient, PropertiesEntity objProperties){
+		Result resultado = new Result();
+		Result resultadoN = new Result();
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			UserCreator creator = new UserCreator(object.registroInput.correo_electronico, object.registroInput.password);
+			creator.setFirstName(object.registroInput.nombre).setLastName(object.registroInput.apellido_paterno);
+			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.registroInput.correo_electronico);
+			creator.setProfessionalContactData(proContactDataCreator);
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.createUser(creator);
+			apiClient.login(user.getUserName(), object.registroInput.password);
+			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
+			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
+			UserUpdater update_user = new UserUpdater();
+			update_user.setEnabled(true);
+			final User user_enabler = identityAPI.updateUser(user.getId(), update_user);
+			Result resultadoInstanciar = iniciarCaso(jsonData, apiClient);
+			update_user.setEnabled(false);
+			final User user_disabler = identityAPI.updateUser(user.getId(), update_user);
+			
+			Result resultado2 = new Result();
+			resultado2 = updateNumeroContacto(object.registroInput.correo_electronico, object.registroInput.telefono_celular);
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[registrarUsuario|ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	}
+	
+	//TO-DELETE
 	public Result registrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoN = new Result();

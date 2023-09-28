@@ -2681,4 +2681,42 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
+	
+	public Result getProcessDef(String processName) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		Map<String, Object> row = new HashMap<String, Object>();
+		String where = "", orderby = "";
+		
+		try {
+			closeCon = validarConexionBonita();
+			
+			pstm = con.prepareStatement(StatementsCatalogos.GET_PROCESS_DEFINITION);
+			pstm.setLong(1, processName);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("clave", rs.getString("clave"));
+				row.put("valor", rs.getString("valor"));
+				row.put("id_campus", rs.getString("id_campus"));
+				row.put("persistenceid", rs.getString("persistenceid"));
+				
+				data.add(row);
+			}
+			
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getProcessDef] " + e.getMessage());
+		} finally {
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
 }
