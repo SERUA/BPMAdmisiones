@@ -7,14 +7,17 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
-
+import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-
+import com.anahuac.posgrados.catalog.PSGRCatCampus
+import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
+import com.anahuac.posgrados.catalog.PSGRCatGestionEscolar
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
+import com.anahuac.rest.api.Entity.custom.CatDescuentosCustom
 import com.anahuac.rest.api.Entity.db.CatCampusCustomFiltro
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.CatPaisCustomFiltro
@@ -2123,6 +2126,298 @@ class CatalogosDAO {
         }
         return resultado
     }
+	
+	public Result getCatGestionEscolar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "", orderby = "ORDER BY ", errorLog = "", bachillerato = "", campus = ""
+
+		List < String > lstGrupo = new ArrayList < String > ();
+		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (PSGRCatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			if (lstGrupo.size() > 0) {
+				campus += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				campus += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					campus += ") "
+				} else {
+					campus += " OR "
+				}
+			}
+
+			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR
+			PSGRCatGestionEscolar row = new PSGRCatGestionEscolar();
+			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			closeCon = validarConexion();
+
+			where = "WHERE GE.is_eliminado = false and campus.is_eliminado = false and GE.campus = '" + object.campus + "'"
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				def booleanos = filtro.get("valor");
+				switch (filtro.get("columna")) {
+					case "NOMBRE LICENCIATURA":
+						where += " AND LOWER(GE.nombre) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "LIGA":
+						where += " AND LOWER(GE.enlace) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCRIPCION DE CARRERA":
+						where += " AND LOWER(GE.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "INSCRIPCIÓN ENERO":
+						where += " AND LOWER(GE.inscripcionenero) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "INSCRIPCIÓN AGOSTO":
+						where += " AND LOWER(GE.inscripcionagosto) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERSISTENCEVERSION":
+						where += " AND LOWER(GE.PERSISTENCEVERSION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "TIPO LICENCIATURA":
+						where += " AND LOWER(GE.TIPOLICENCIATURA) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "INSCRIPCIÓN MAYO":
+						where += " AND LOWER(GE.inscripcionMayo) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "INSCRIPCIÓN SEPTIEMBRE":
+						where += " AND LOWER(GE.inscripcionSeptiembre) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "PROPEDÉUTICO":
+						where += " AND GE.propedeutico ";
+						where += " = [valor]"
+						errorLog += " Que valor tienen: " + booleanos.toString().equals("Si") + " "
+						where = where.replace("[valor]", (booleanos.toString().equals("Si") ? "true" : booleanos.toString().equals("Sí") ? "true" : "false"))
+						break;
+
+
+					case "PROGRAMA PARCIAL":
+						where += " AND GE.programaparcial ";
+						where += " = [valor]"
+						errorLog += " Que valor tienen: " + booleanos.toString().equals("Si") + " "
+						where = where.replace("[valor]", (booleanos.toString().equals("Si") ? "true" : booleanos.toString().equals("Sí") ? "true" : "false"))
+						break;
+						/* case "CAMPUS":
+							 campus +=" AND LOWER(campus.DESCRIPCION) ";
+							 if(filtro.get("operador").equals("Igual a")) {
+								 campus+="=LOWER('[valor]')"
+							 }else {
+								 campus+="LIKE LOWER('%[valor]%')"
+							 }
+							 campus = campus.replace("[valor]", filtro.get("valor"))
+						break;*/
+				}
+			}
+			switch (object.orderby) {
+				case "NOMBRE LICENCIATURA":
+					orderby += "GE.nombre";
+					break;
+				case "LIGA":
+					orderby += "GE.enlace";
+					break;
+				case "CLAVE":
+					orderby += "GE.clave";
+					break;
+				case "DESCRIPCION DE CARRERA":
+					orderby += "GE.descripcion";
+					break;
+				case "INSCRIPCIÓN ENERO":
+					orderby += "GE.inscripcionenero::Integer";
+					break;
+				case "INSCRIPCIÓN AGOSTO":
+					orderby += "GE.inscripcionagosto::Integer";
+					break;
+				case "INSCRIPCIÓN MAYO":
+					orderby += "GE.inscripcionmayo::Integer";
+					break;
+				case "INSCRIPCIÓN SEPTIEMBRE":
+					orderby += "GE.inscripcionseptiembre::Integer";
+					break;
+				case "PERSISTENCEVERSION":
+					orderby += "GE.PERSISTENCEVERSION";
+					break;
+				case "CAMPUS":
+					orderby += "campus.descripcion";
+					break;
+				case "TIPO LICENCIATURA":
+					orderby += "GE.tipolicenciatura";
+					break;
+				case "PROPEDÉUTICO":
+					orderby += "GE.propedeutico";
+					break;
+				case "PROGRAMA PARCIAL":
+					orderby += "GE.programaparcial";
+					break;
+				default:
+					orderby += "GE.nombre"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			//where+=" "+campus
+			consulta = consulta.replace("[CAMPUS]", campus)
+			consulta = consulta.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorLog += " " + consulta
+			errorLog += " consulta= "
+			errorLog += consulta
+			errorLog += " where = " + where
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+
+			errorLog += "fecha=="
+
+			rs = pstm.executeQuery()
+			while (rs.next()) {
+
+				row = new PSGRCatGestionEscolar()
+				row.setCampus(rs.getString("campus"))
+				//row.setCaseId(rs.getString("caseId"))
+				row.setDescripcion(rs.getString("descripcion"))
+				row.setEnlace(rs.getString("enlace"))
+				try {
+					row.setFechaCreacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
+				} catch (Exception e) {
+					LOGGER.error "[ERROR] " + e.getMessage();
+					errorLog += ", " + e.getMessage()
+				}
+				row.setClave(rs.getString("clave"));
+				row.setInscripcionagosto(rs.getString("inscripcionagosto"))
+				row.setInscripcionenero(rs.getString("inscripcionenero"))
+				row.setIsEliminado(rs.getBoolean("isEliminado"))
+				//row.setMatematicas(rs.getBoolean("matematicas"))
+				row.setNombre(rs.getString("nombre"))
+				row.setPersistenceId(rs.getLong("persistenceId"))
+				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
+				row.setProgramaparcial(rs.getBoolean("programaparcial"))
+				row.setPropedeutico(rs.getBoolean("propedeutico"))
+				row.setUsuarioCreacion(rs.getString("usuarioCreacion"))
+				row.setTipoLicenciatura(rs.getString("tipoLicenciatura"))
+				row.setTipoCentroEstudio(rs.getString("tipoCentroEstudio"))
+				row.setInscripcionMayo(rs.getString("inscripcionMayo"))
+				row.setInscripcionSeptiembre(rs.getString("inscripcionSeptiembre"))
+				row.setUrlImgLicenciatura(rs.getString("urlImgLicenciatura"))
+				row.setIsMedicina(rs.getBoolean("isMedicina"))
+				row.setIdioma(rs.getString("idioma"))
+
+				rows.add(row)
+			}
+
+			resultado.setSuccess(true)
+			resultado.setError(errorLog)
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 	
 	public Result getValidarOrden(Integer parameterP, Integer parameterC, String tabla, Integer orden, String id) {
 		Result resultado = new Result();

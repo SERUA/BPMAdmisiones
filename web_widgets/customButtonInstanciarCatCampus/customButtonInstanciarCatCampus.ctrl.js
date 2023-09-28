@@ -14,9 +14,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Submit task') {
-            if($scope.properties.dataToChange = "agregar"){
+            if($scope.properties.dataToChange == "agregar"){
                 accionCatalogoInsert($scope.properties.urlInsert)
-            }else if($scope.properties.dataToChange = "editar"){
+            }else if($scope.properties.dataToChange == "editar"){
                 $scope.properties.urlUpdate = $scope.properties.urlUpdate;
                 accionCatalogo($scope.properties.urlUpdate) 
             }
