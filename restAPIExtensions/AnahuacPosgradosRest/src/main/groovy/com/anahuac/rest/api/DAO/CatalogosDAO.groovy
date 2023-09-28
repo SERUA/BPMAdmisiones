@@ -884,7 +884,7 @@ class CatalogosDAO {
 	
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATESTADO);
 			pstm.setBoolean(1, false); // is_eliminado
-			pstm.setString(2, "México");
+			pstm.setLong(2, 1);
 			pstm.setString(3, object.clave);
 			pstm.setString(4, object.descripcion);
 			pstm.setString(5, object.usuario_creacion);
@@ -901,7 +901,7 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+			resultado.setError("[insertCatEstado] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
