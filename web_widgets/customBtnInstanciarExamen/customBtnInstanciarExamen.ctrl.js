@@ -340,24 +340,24 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             } else {
                 vm.busy = false;
                 if($scope.properties.idioma === "ESP"){
-                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó", "error");
+                    swal("¡Atención!", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó", "warning");
                 } else {
-                    swal("Error", "The entry tolerance time for your exam has been exceeded or the test has ended.", "error");
+                    swal("Attention!", "The entry tolerance time for your exam has been exceeded or the test has ended.", "warning");
                 }
             }
         }).error(function(_error){
             vm.busy = false;
             if(_error.error === "no_sesion_asignada"){
                 if($scope.properties.idioma === "ESP"){
-                    swal("Error", "Aún no tienes una sesión asignada. Contacta con tu aplicador.", "error");
+                    swal("¡Atención!", "Aún no tienes una sesión asignada. Contacta con tu aplicador.", "warning");
                 } else {
-                    swal("Error", "You don't have a session assigned yet. Contact your advisor.", "error");
+                    swal("Attention!", "You don't have a session assigned yet. Contact your advisor.", "warning");
                 }
             } else {
                 if($scope.properties.idioma === "ESP"){
-                    swal("Error", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó.", "error");
+                    swal("¡Atención!", "Se ha excedido el tiempo de tolerancia de entrada a tu examen o la sesión ya finalizó.", "warning");
                 } else {
-                    swal("Error", "The entry tolerance time for your exam has been exceeded or the test has ended.", "error");
+                    swal("Attention!", "The entry tolerance time for your exam has been exceeded or the test has ended.", "warning");
                 }
             }
         });

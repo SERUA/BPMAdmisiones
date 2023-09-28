@@ -143,13 +143,15 @@ class LoginSesionesDAO {
 			if(!checkBloqueado.isSuccess()) {
 				throw new Exception(checkBloqueado.getError());
 			} else {
+				if(Boolean.valueOf(checkBloqueado.data.get(0)) == true) {
+					errorlog += " | 14 ";
+					throw new Exception("usuario_bloqueado");
+				}
+				
 				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
 				if(!resultBloquear.isSuccess()) {
 					errorlog += " | 12 ";
-					throw new Exception(resultBloquear.getError());
-				} else {
-					errorlog += " | 13 ";
-					resultado = resultBloquear;
+					throw new Exception("usuario_bloqueado");
 				}
 				
 				resultado.setSuccess(true);
@@ -191,6 +193,17 @@ class LoginSesionesDAO {
 			
 			if (rs.next()) {
 				errorlog += " | getSesionActivaV2::3 "
+				
+				if(rs.getBoolean("istemporal") == true  && !rs.getBoolean("sesion_iniciada_temp")) {
+					errorlog += " | getSesionActivaV2::4 "
+					String mensaje = rs.getString("fechainicio_temp");
+					throw new Exception("sesion_no_iniciada|" + mensaje);
+				} else if(rs.getBoolean("istemporal") == true  && rs.getBoolean("sesion_finalizada_temp")) {
+					errorlog += " | getSesionActivaV2::22 ";
+					String mensaje = rs.getString("fechafin_temp");
+					throw new Exception("sesion_finalizada|" + mensaje);
+				}
+				
 				isTemporal = rs.getBoolean("istemporal");
 				examenReiniciado = rs.getBoolean("examenreiniciado");
 				row = new HashMap<String,Object>();
@@ -227,7 +240,7 @@ class LoginSesionesDAO {
 				if(!tieneTolerancia) {
 					errorlog += " | getSesionActivaV2::12 "
 					errorlog += " | " + checkTolerancia.getError_info();
-					throw new Exception("toler");
+//					throw new Exception("toler");
 				}
 			} else {
 				errorlog += " | getSesionActivaV2::13 "

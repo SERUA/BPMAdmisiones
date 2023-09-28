@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
+<xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.01">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.02">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -18,7 +18,7 @@
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_KpjnMF1zEe6Pc6WsAlY1eg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </leftOperand>
             <rightOperand xmi:type="expression:Expression" xmi:id="_4iGGQlgGEe6rXdBVR00FFQ" name="newScript()" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_8rp8oFgGEe6rXdBVR00FFQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_KOPBQF4wEe6xB83abJCRzg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_4iGGQ1gGEe6rXdBVR00FFQ" type="JAVA_METHOD" expression="setCaseid">
               <inputTypes>java.lang.Long</inputTypes>
@@ -506,11 +506,56 @@
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_2_LFUFzEEe6Pc6WsAlY1eg"/>
         <condition xmi:type="expression:Expression" xmi:id="_2_LFUVzEEe6Pc6WsAlY1eg" name="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
-      <actors xmi:type="process:Actor" xmi:id="_RS3Wm1ZtEe6T3bm1fu0vzg" documentation="Este es un ejemplo de actor que está mapeado a cualquier usuario de la organización ACME" name="Employee actor" initiator="true"/>
-      <actors xmi:type="process:Actor" xmi:id="_nP_dcFcjEe6aCtvu892Zbw" name="Aspirante"/>
+      <actors xmi:type="process:Actor" xmi:id="_nP_dcFcjEe6aCtvu892Zbw" name="Aspirante" initiator="true"/>
       <actors xmi:type="process:Actor" xmi:id="_uIe_QFcjEe6aCtvu892Zbw" name="Administración escolar"/>
       <actors xmi:type="process:Actor" xmi:id="_wK1RgFcjEe6aCtvu892Zbw" name="Área académica"/>
       <actors xmi:type="process:Actor" xmi:id="_xUXFYFcjEe6aCtvu892Zbw" name="Comité de admisión"/>
+      <configurations xmi:type="configuration:Configuration" xmi:id="_Igmv4F4yEe6xB83abJCRzg" name="integration" version="7.12.0-004" username="Administrador" password="bpm">
+        <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_Igmv514yEe6xB83abJCRzg">
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_Igmv7V4yEe6xB83abJCRzg" name="Aspirante">
+            <groups xmi:type="actormapping:Groups" xmi:id="_Igmv7l4yEe6xB83abJCRzg"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_Igmv714yEe6xB83abJCRzg"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_Igmv8F4yEe6xB83abJCRzg">
+              <role>ASPIRANTE</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_Igmv8V4yEe6xB83abJCRzg"/>
+          </actorMapping>
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_Igmv8l4yEe6xB83abJCRzg" name="Administración escolar">
+            <groups xmi:type="actormapping:Groups" xmi:id="_Igmv814yEe6xB83abJCRzg"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_Igmv9F4yEe6xB83abJCRzg"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_Igmv9V4yEe6xB83abJCRzg">
+              <role>ADMIN ESCOLAR</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_Igmv9l4yEe6xB83abJCRzg"/>
+          </actorMapping>
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_Igmv914yEe6xB83abJCRzg" name="Área académica">
+            <groups xmi:type="actormapping:Groups" xmi:id="_Igmv-F4yEe6xB83abJCRzg"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_Igmv-V4yEe6xB83abJCRzg"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_Igmv-l4yEe6xB83abJCRzg">
+              <role>AREA ACADEMICA</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_Igmv-14yEe6xB83abJCRzg"/>
+          </actorMapping>
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_Igmv_F4yEe6xB83abJCRzg" name="Comité de admisión">
+            <groups xmi:type="actormapping:Groups" xmi:id="_Igmv_V4yEe6xB83abJCRzg"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_Igmv_l4yEe6xB83abJCRzg"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_Igmv_14yEe6xB83abJCRzg">
+              <role>COMITE DE ADMISION</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_IgmwAF4yEe6xB83abJCRzg"/>
+          </actorMapping>
+        </actorMappings>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv4V4yEe6xB83abJCRzg" id="CONNECTOR"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv4l4yEe6xB83abJCRzg" id="GROOVY_SCRIPT"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv414yEe6xB83abJCRzg" id="ACTOR_FILTER"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv5F4yEe6xB83abJCRzg" id="OTHER"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv5V4yEe6xB83abJCRzg" id="GROOVY_SCRIPT"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Igmv5l4yEe6xB83abJCRzg" id="OTHER"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW8F4yEe6xB83abJCRzg" name="urlEnvioCorreo" value="https://dev.bpm.anahuac.mx/API/extension/posgradosRest?url=generateHtml" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW8V4yEe6xB83abJCRzg" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW8l4yEe6xB83abJCRzg" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW814yEe6xB83abJCRzg" name="urlHubspot" value="[N/A]" typeClassname="java.lang.String"/>
+      </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_G02zgFgCEe6dKZo8YrWYxw" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_Ura6sFgCEe6dKZo8YrWYxw" name="usuario" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_VbqE0FgCEe6dKZo8YrWYxw" name="password" typeClassname="java.lang.String"/>
@@ -553,7 +598,7 @@
         <value xmi:type="expression:Expression" xmi:id="_RS3Wq1ZtEe6T3bm1fu0vzg" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_IoLVoFzAEe6Pc6WsAlY1eg" name="Envio de correos">
+    <elements xmi:type="process:Pool" xmi:id="_IoLVoFzAEe6Pc6WsAlY1eg" name="Envio de correos" version="1.01">
       <elements xmi:type="process:StartEvent" xmi:id="_JclOEFzAEe6Pc6WsAlY1eg" name="Inicio de notificacion" outgoing="_LoXJIFzAEe6Pc6WsAlY1eg">
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_Jcl1IVzAEe6Pc6WsAlY1eg" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_Jcl1IFzAEe6Pc6WsAlY1eg" name="" content="" returnTypeFixed="true"/>
@@ -842,7 +887,7 @@
           </referencedElements>
         </defaultValue>
       </data>
-      <formMapping xmi:type="process:FormMapping" xmi:id="_IuvQoFzAEe6Pc6WsAlY1eg">
+      <formMapping xmi:type="process:FormMapping" xmi:id="_IuvQoFzAEe6Pc6WsAlY1eg" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_IuvQoVzAEe6Pc6WsAlY1eg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
       <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_Iuv3sFzAEe6Pc6WsAlY1eg">
@@ -856,6 +901,30 @@
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_MUG00FzAEe6Pc6WsAlY1eg"/>
         <condition xmi:type="expression:Expression" xmi:id="_MUG00VzAEe6Pc6WsAlY1eg" name="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
       </connections>
+      <actors xmi:type="process:Actor" xmi:id="_YYOv4F4yEe6xB83abJCRzg" name="Iniciador" initiator="true"/>
+      <configurations xmi:type="configuration:Configuration" xmi:id="_Hr1EAF4yEe6xB83abJCRzg" name="integration" version="7.12.0-004" username="Administrador" password="bpm">
+        <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_d8rP4F4yEe6xB83abJCRzg">
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_d8rP4V4yEe6xB83abJCRzg" name="Iniciador">
+            <groups xmi:type="actormapping:Groups" xmi:id="_d8rP4l4yEe6xB83abJCRzg"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_d8rP414yEe6xB83abJCRzg"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_d8rP5F4yEe6xB83abJCRzg">
+              <role>ADMINISTRADOR</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_d8rP5V4yEe6xB83abJCRzg"/>
+          </actorMapping>
+        </actorMappings>
+        <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_Hr1EAV4yEe6xB83abJCRzg" type="CONNECTOR" definitionId="rest-post" definitionVersion="1.3.0" implementationId="rest-post-impl" implementationVersion="1.3.1"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1EAl4yEe6xB83abJCRzg" id="CONNECTOR">
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_Hr1EA14yEe6xB83abJCRzg" id="rest-post-impl-1.3.1">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_Hr1EBF4yEe6xB83abJCRzg" key="rest-post-impl -- 1.3.1" value="bonita-connector-rest-1.3.1.jar" type="CONNECTOR"/>
+          </children>
+        </processDependencies>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1EBV4yEe6xB83abJCRzg" id="GROOVY_SCRIPT"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1EBl4yEe6xB83abJCRzg" id="ACTOR_FILTER"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1EB14yEe6xB83abJCRzg" id="OTHER"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1ECF4yEe6xB83abJCRzg" id="GROOVY_SCRIPT"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_Hr1ECV4yEe6xB83abJCRzg" id="OTHER"/>
+      </configurations>
       <contract xmi:type="process:Contract" xmi:id="_Iuv3slzAEe6Pc6WsAlY1eg">
         <inputs xmi:type="process:ContractInput" xmi:id="_WXQ70FzAEe6Pc6WsAlY1eg" name="correoInput">
           <mapping xmi:type="process:ContractInputMapping" xmi:id="_WXQ70VzAEe6Pc6WsAlY1eg"/>
