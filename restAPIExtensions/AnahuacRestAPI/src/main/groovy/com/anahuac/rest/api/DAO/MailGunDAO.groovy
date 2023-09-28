@@ -230,39 +230,31 @@ class MailGunDAO {
 	}
 	
 	public Result sendEmailRecuperacion(String nombreusuario, String password) {
-		Result resultado = new Result()
-		ProcessDefinition objProcessDefinition
-		Long procesoid = 0L
-		List<String> lstResultado = new ArrayList<String>()
-		//LOGGER.error context.getApiClient().getProcessAPI()
-		
-		try {
-			
-			def correocopia = ""
-		
-			EstructuraMailGun estructura = new EstructuraMailGun()
-			
-			//estructura.setTo("jesusangel6@hotmail.com")
-			estructura.setTo(nombreusuario)
-			estructura.setSubject("Recuperacion de Contraseña")
-			estructura.setBody("<html> <br/> <p>Nombre de usuario: "+nombreusuario+"</p> <br/> <p> Nueva Contraseña: "+password+" </html>")
-			
-			LOGGER.error "estructura para correo "+ estructura
-			
-			JsonNode jsonNode = sendSimpleMessage(estructura)
-			LOGGER.error "================================="
-			LOGGER.error jsonNode.toString()
-			lstResultado.add(jsonNode.toString())
-			resultado.setData(lstResultado)
-			resultado.setSuccess(true)
-		}catch(Exception ex) {
-			LOGGER.error ex.getMessage()
-			resultado.setSuccess(false)
-			resultado.setError(ex.getMessage())
-		}
-		
-		return resultado
-	}
+    Result resultado = new Result()
+
+    try {
+        EstructuraMailGun estructura = new EstructuraMailGun(
+            to: nombreusuario,
+            subject: "Recuperacion de Contraseña",
+            body: "<html> <br/> <p>Nombre de usuario: ${nombreusuario}</p> <br/> <p> Nueva Contraseña: ${password} </html>"
+        )
+
+        LOGGER.error "estructura para correo $estructura"
+
+        JsonNode jsonNode = sendSimpleMessage(estructura)
+
+        LOGGER.error "================================="
+        LOGGER.error jsonNode.toString()
+
+        resultado.setSuccess(true)
+    } catch(Exception ex) {
+        LOGGER.error ex.getMessage()
+        resultado.setSuccess(false)
+        resultado.setError(ex.getMessage())
+    }
+
+    return resultado
+}
 	
 	
 	public Result sendEmailPlantilla(String correo, String asunto, String body, String cc, String campus,RestAPIContext context ) {

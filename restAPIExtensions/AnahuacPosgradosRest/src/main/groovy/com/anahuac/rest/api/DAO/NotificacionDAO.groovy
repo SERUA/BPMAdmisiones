@@ -1048,22 +1048,24 @@ class NotificacionDAO {
 			   
 //			plantilla=plantilla.replace("[header-href]", cn.getEnlaceBanner())
 //			plantilla=plantilla.replace("[footer-href]", cn.getEnlaceFooter())
-			List<String> lstData = new ArrayList();
-			List<String> lstAdditionalData = new ArrayList();
-			lstData.add(plantilla);
-			resultado.setData(lstData);
-			
-			MailGunDAO mgd = new MailGunDAO();
-			lstAdditionalData.add("correo="+correo)
-			lstAdditionalData.add("asunto="+asunto)
-			lstAdditionalData.add("cc="+cc)
+			List<String> lstData = new ArrayList<>();
+	        List<String> lstAdditionalData = new ArrayList<>();
+	        lstData.add(plantilla);
+	        resultado.setData(lstData);
+	        
+	        MailGunDAO mgd = new MailGunDAO(); // Asegúrate de instanciar la clase MailGunDAO adecuadamente
+	        
+	        lstAdditionalData.add("correo=" + correo);
+	        lstAdditionalData.add("asunto=" + asunto);
+	        lstAdditionalData.add("cc=" + cc);
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 //				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				if (plantilla != null) {
-					resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
+				    System.out.println("Contenido de la plantilla: " + plantilla);
+				    resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context);
 				} else {
-					// Manejo de caso en que plantilla es nula, por ejemplo, asignar una cadena vacía
-					resultado = mgd.sendEmailPlantilla(correo, asunto, "", cc, object.campus, context)
+				    // Manejo de caso en que plantilla es nula, por ejemplo, asignar una cadena vacía
+				    resultado = mgd.sendEmailPlantilla(correo, asunto, "", cc, object.campus, context);
 				}
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
