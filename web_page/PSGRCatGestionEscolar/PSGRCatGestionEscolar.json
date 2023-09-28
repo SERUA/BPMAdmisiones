@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1695931037028,
+  "lastUpdate" : 1695936365498,
   "rows" : [
     [
       {
@@ -6310,16 +6310,16 @@
         "var resultado = [];",
         "debugger;",
         "for(var x in $data.lstCampusByUser){",
-        "    for(var index in $data.lstCampusRole){",
-        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
-        "            resultado.push($data.lstCampusRole[index]);",
+        "    for(var index in $data.lstCampusByUser){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusByUser[index].valor){",
+        "            resultado.push($data.lstCampusByUser[index]);",
         "            if($data.lstCampusByUser.length == 1){",
-        "                $data.campusSelected = $data.lstCampusRole[index];",
+        "                $data.campusSelected = $data.lstCampusByUser[index];",
         "            }",
         "        }",
         "    }",
         "}",
-        "",
+        "//lstCampusRole",
         "return resultado;"
       ],
       "exposed" : false
@@ -6327,6 +6327,7 @@
     "lstCampusByUser" : {
       "type" : "expression",
       "value" : [
+        "debugger;",
         "var resultado=[];",
         "",
         "for(var x in $data.lstMembership){",
