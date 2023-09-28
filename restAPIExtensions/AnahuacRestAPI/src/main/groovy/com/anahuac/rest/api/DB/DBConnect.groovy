@@ -39,8 +39,8 @@ class DBConnect {
 		public final Connection getConnectionBonita() throws Exception {
 			Context initContext = new InitialContext();
 			//Bonita instancias etc...
-//			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/bonitaSequenceManagerDS");
-			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/customBonitaDS");
+			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/bonitaSequenceManagerDS");
+//			DataSource dataSource = (DataSource) initContext.lookup("java:/comp/env/customBonitaDS");
 			return dataSource.getConnection();
 		}
 		public void closeObj(Connection con, Statement stm, ResultSet rs, PreparedStatement pstm) {
