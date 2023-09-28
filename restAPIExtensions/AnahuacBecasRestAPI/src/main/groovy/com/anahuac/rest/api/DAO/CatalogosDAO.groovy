@@ -2635,12 +2635,22 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false, caso_finalizado = false;
 		List<Boolean> data = new ArrayList<Boolean>();
-		
+		Long rootprocessinstanceid = 0L;
 		try {
 			closeCon = validarConexionBonita();
 			
-			pstm = con.prepareStatement("SELECT COUNT(*) > 0 AS caso_finalizado  FROM arch_process_instance A  WHERE A.startedby = (SELECT us.id FROM user_ AS us WHERE us.username = ?) AND A.name = 'Solicitud de apoyo educativo';");
+			//Parche para evitar los casos "archivados" fantasma
+			pstm = con.prepareStatement("SELECT rootprocessinstanceid AS caseid_activo FROM process_instance A WHERE A.startedby = (SELECT us.id FROM user_ AS us WHERE us.username = ?) AND A.name = 'Solicitud de apoyo educativo'");
 			pstm.setString(1, username);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				rootprocessinstanceid = rs.getLong("caseid_activo");
+			}
+			
+			pstm = con.prepareStatement("SELECT COUNT(*) > 0 AS caso_finalizado  FROM arch_process_instance A  WHERE A.startedby = (SELECT us.id FROM user_ AS us WHERE us.username = ?) AND A.name = 'Solicitud de apoyo educativo' AND rootprocessinstanceid <> ?;");
+			pstm.setString(1, username);
+			pstm.setLong(2, rootprocessinstanceid);
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {

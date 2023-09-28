@@ -154,7 +154,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else {
                     mensaje = "The tolerance time to start your test has passed. Please contact your facilitator.";
                 }
-            } else if(_error.error === "block"){
+            } else if(_error.error === "block" || _error.error === "usuario_bloqueado"){
                 if(idioma === "es"){
                     mensaje = "Existe una sesión activa con este usuario.<br> Contacta a tu aplicador.";
                 } else {
