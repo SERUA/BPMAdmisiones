@@ -5054,7 +5054,7 @@
                 <field type="BOOLEAN" length="255" name="matematicas" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="inscripcion_enero" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="inscripcion_agosto" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="periodo_disponible" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_disponible" nullable="true" collection="true"/>
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
@@ -5163,21 +5163,40 @@
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="fecha_creacion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="fecha_importacion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_importacion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_eneabled" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_enabled" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="nombre_campus" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_cuatrimestral" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="fecha_inicio" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="fecha_fin" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_semestral" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_anual" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="is_propedeutico" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_cuatrimestral" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_fin" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_semestral" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_anual" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_propedeutico" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="activo" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="activo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPropedeutico">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_ejecucion" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_final" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="persistence_id_cat_recibir_atencion_espiritual" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
