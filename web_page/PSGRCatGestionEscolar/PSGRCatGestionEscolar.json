@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1695936365498,
+  "lastUpdate" : 1696013579977,
   "rows" : [
     [
       {
@@ -116,11 +116,11 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "lstCampus"
+                  "value" : "lstCatCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
-                  "value" : "descripcion"
+                  "value" : ""
                 },
                 "returnedKey" : {
                   "type" : "constant",
@@ -151,8 +151,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "editable != 'tabla' || cargar_catDatos"
+                  "type" : "constant",
+                  "value" : false
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -420,6 +420,13 @@
                                     "value" : true
                                   },
                                   "modalId" : {
+                                    "type" : "constant"
+                                  },
+                                  "navigationVar" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "newValue" : {
                                     "type" : "constant"
                                   }
                                 },
@@ -847,11 +854,19 @@
                       "keyPressFilter" : {
                         "type" : "constant",
                         "value" : true
+                      },
+                      "urlGetCampus" : {
+                        "type" : "constant",
+                        "value" : "/bonita/API/extension/posgradosRest?url=getLstCampus&p=0&c=10"
+                      },
+                      "lstCatCampus" : {
+                        "type" : "expression",
+                        "value" : "lstCatCampus"
                       }
                     },
-                    "reference" : "a3b2eca0-f31c-4e59-a7b8-93beea27d8d1",
+                    "reference" : "bcd49528-c62d-49b8-8b90-63dd0c333651",
                     "hasValidationError" : false,
-                    "id" : "customTableSeleccionarFiltradoGestionEscolar"
+                    "id" : "customTableSeleccionarFiltradoGestionEscolarPSGRCATGESTIONESCOLAR"
                   }
                 ],
                 [
@@ -3102,7 +3117,7 @@
                 },
                 "action" : {
                   "type" : "constant",
-                  "value" : "Start process"
+                  "value" : "Submit task"
                 },
                 "assign" : {
                   "type" : "constant",
@@ -3179,6 +3194,10 @@
                 "lstContenido" : {
                   "type" : "variable",
                   "value" : "lstContenido"
+                },
+                "urlInsert" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=insertCatGestionEscolar"
                 }
               },
               "reference" : "29e6f4fb-ebd3-4348-9864-a82f7cc6bbc6",
@@ -6266,9 +6285,9 @@
       "exposed" : false
     },
     "lstCatCampus" : {
-      "type" : "businessdata",
+      "type" : "json",
       "value" : [
-        "{\"displayValue\":\"getCatCampus [com.anahuac.catalogos.CatCampus]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"getCatCampus\",\"displayName\":\"getCatCampus\"},\"id\":\"com.anahuac.catalogos.CatCampus\",\"filters\":[],\"pagination\":{\"p\":\"0\",\"c\":\"9000\"}}"
+        "[]"
       ],
       "exposed" : false
     },
@@ -6308,18 +6327,18 @@
       "type" : "expression",
       "value" : [
         "var resultado = [];",
-        "debugger;",
+        "",
         "for(var x in $data.lstCampusByUser){",
-        "    for(var index in $data.lstCampusByUser){",
-        "        if($data.lstCampusByUser[x] === $data.lstCampusByUser[index].valor){",
-        "            resultado.push($data.lstCampusByUser[index]);",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
         "            if($data.lstCampusByUser.length == 1){",
-        "                $data.campusSelected = $data.lstCampusByUser[index];",
+        "                $data.campusSelected = $data.lstCampusRole[index];",
         "            }",
         "        }",
         "    }",
         "}",
-        "//lstCampusRole",
+        "",
         "return resultado;"
       ],
       "exposed" : false
@@ -6359,6 +6378,7 @@
     "lstCampusRole" : {
       "type" : "expression",
       "value" : [
+        "debugger;\r",
         "var lstData = []\r",
         "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
@@ -6661,6 +6681,14 @@
         "} else if($data.catGestionEscolar_selected.idioma === undefined || $data.catGestionEscolar_selected.idioma === null){",
         "    $data.catGestionEscolar_selected.idioma = \"Español\";",
         "}"
+      ],
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.lstCatCampus"
       ],
       "exposed" : false
     }

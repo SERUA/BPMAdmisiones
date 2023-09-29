@@ -555,13 +555,19 @@ class CatalogosDAO {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(6, fechaHoraFormateada);
-			pstm.setString(7, object.orden);
-
+			String ordenString = object.orden;
+			try {
+			    int ordenInt = Integer.parseInt(ordenString);
+			    pstm.setInt(7, ordenInt);
+			} catch (NumberFormatException e) {
+			    e.printStackTrace();
+			}
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
 				throw new Exception("No se pudo insertar el registro.");
 			}
+			
 	    } catch (Exception e) {
 	        resultado.setSuccess(false);
 	        resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
@@ -899,6 +905,7 @@ class CatalogosDAO {
 			} else {
 				throw new Exception("No se pudo insertar el registro.");
 			}
+			pstm.setInt(8, 0);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[insertCatEstado] " + e.getMessage());
@@ -2127,6 +2134,180 @@ class CatalogosDAO {
         return resultado
     }
 	
+	public Result insertCatGestionEscolar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+			
+			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
+//			def object = jsonObject.lstCatCampusInput[0]
+	
+			if (object == null) {
+				throw new Exception("El objeto 'object' no debe ser nulo.");
+			} else if (object.CAMPUS == null) {
+				throw new Exception("El objeto 'campus' no debe ser nulo." + object);
+			}
+			
+	//			if (object.orden == null || object.orden.isEmpty()) {
+	//				throw new Exception("El campo \"Orden\" no debe ir vacío.");
+	//			} else if (object.clave == null || object.clave.isEmpty()) {
+	//				throw new Exception("El campo \"Clave\" no debe ir vacío.");
+	//			} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+	//				throw new Exception("El campo \"Descripción\" no debe ir vacío.");
+	//			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGESTIONESCOLAR);
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(1, fechaHoraFormateada);
+			pstm.setBoolean(2, false); // IS_ELIMINADO
+			pstm.setString(3, object.CAMPUS); // CAMPUS
+			pstm.setString(4, object.PROPEDEUTICOS); // PROPEDEUTICOS
+			pstm.setString(5, object.Clave); // Clave
+			pstm.setString(6, object.NOMBRE); // NOMBRE
+			pstm.setString(7, object.DESCRIPCION); // DESCRIPCION
+			pstm.setString(8, object.ENLACE); // ENLACE
+			pstm.setString(9, object.TIPO_CENTRO_ESTUDIO); // TIPO_CENTRO_ESTUDIO
+			Boolean propedeuticoValue = (object.PROPEDEUTICO != null) ? object.PROPEDEUTICO : false;
+			pstm.setBoolean(10, propedeuticoValue); // PROPEDEUTICO
+			Boolean programaParcialValue = (object.PROGRAMA_PARCIAL != null) ? object.PROGRAMA_PARCIAL : false;
+			pstm.setBoolean(11, programaParcialValue); // PROGRAMA_PARCIAL
+			Boolean isMedicina = object.IS_MEDICINA != null ? object.IS_MEDICINA : false;
+			pstm.setBoolean(12, isMedicina); // IS_MEDICINA
+			pstm.setString(13, object.TIPO_LICENCIATURA); // TIPO_LICENCIATURA
+			pstm.setString(14, object.INSCRIPCION_ENERO); // INSCRIPCION_ENERO
+			pstm.setString(15, object.INSCRIPCION_MAYO); // INSCRIPCION_MAYO
+			pstm.setString(16, object.INSCRIPCION_AGOSTO); // INSCRIPCION_AGOSTO
+			pstm.setString(17, object.INSCRIPCION_SEPTIEMBRE); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(18, object.URL_IMG_LICENCIATURA); // URL_IMG_LICENCIATURA
+			pstm.setString(19, object.IDIOMA); // IDIOMA
+			pstm.setString(20, object.usuarioCreacion); // UUSUARIOCREACION
+
+			
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	
+	
+	
+	public Result deleteCatGestionEscolar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío" + object);
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATGESTIONESCOLAR);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result updateCatGestionEscolar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+			
+			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
+//			def object = jsonObject.lstCatCampusInput[0]
+
+			if(object.equals("") || object == null) {
+				throw new Exception("El campo \"object\" no debe ir vacío" + object);
+			}
+//		
+//			if(object.clave.equals("") || object.clave == null) {
+//				throw new Exception("El campo \"clave\" no debe ir vacío" + object);
+//			} else if(object.descripcion.equals("") || object.descripcion == null) {
+//				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+//			} else if(object.orden.equals("") || object.orden == null) {
+//				throw new Exception("El campo \"orden\" no debe ir vacío");
+//			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGESTIONESCOLAR);
+			pstm.setString(1, object.CAMPUS); // CAMPUS
+			pstm.setString(2, object.PROPEDEUTICOS); // PROPEDEUTICOS
+			pstm.setString(3, object.Clave); // Clave
+			pstm.setString(4, object.NOMBRE); // NOMBRE
+			pstm.setString(5, object.DESCRIPCION); // DESCRIPCION
+			pstm.setString(6, object.ENLACE); // ENLACE
+			pstm.setString(7, object.TIPO_CENTRO_ESTUDIO); // TIPO_CENTRO_ESTUDIO
+			Boolean propedeuticoValue = (object.PROPEDEUTICO != null) ? object.PROPEDEUTICO : false;
+			pstm.setBoolean(8, propedeuticoValue); // PROPEDEUTICO
+			Boolean programaParcialValue = (object.PROGRAMA_PARCIAL != null) ? object.PROGRAMA_PARCIAL : false;
+			pstm.setBoolean(9, programaParcialValue); // PROGRAMA_PARCIAL
+			Boolean isMedicina = object.IS_MEDICINA != null ? object.IS_MEDICINA : false;
+			pstm.setBoolean(10, isMedicina); // IS_MEDICINA
+			pstm.setString(11, object.TIPO_LICENCIATURA); // TIPO_LICENCIATURA
+			pstm.setString(12, object.INSCRIPCION_ENERO); // INSCRIPCION_ENERO
+			pstm.setString(13, object.INSCRIPCION_MAYO); // INSCRIPCION_MAYO
+			pstm.setString(14, object.INSCRIPCION_AGOSTO); // INSCRIPCION_AGOSTO
+			pstm.setString(15, object.INSCRIPCION_SEPTIEMBRE); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(16, object.URL_IMG_LICENCIATURA); // URL_IMG_LICENCIATURA
+			pstm.setString(17, object.IDIOMA); // IDIOMA
+			pstm.setString(18, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setLong(19, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getCatGestionEscolar(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -2418,6 +2599,44 @@ class CatalogosDAO {
 		}
 		return resultado
 	}
+	
+	
+	public Result getLstCampus(String jsonData) {
+	    Result resultado = new Result();
+	    Boolean closeCon = false;
+	    List<String> data = new ArrayList<>();
+	
+	    try {
+	        // Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+	        def jsonSlurper = new JsonSlurper();
+	        def object = jsonSlurper.parseText(jsonData);
+	
+	        closeCon = validarConexion();
+	
+	        // Ejecutar la consulta SQL
+	        pstm = con.prepareStatement(StatementsCatalogos.GET_LSTCAMPUS);
+	        rs = pstm.executeQuery();
+	
+	        // Procesar los resultados y llenar la lista data
+	        while (rs.next()) {
+	            data.add(rs.getString("DESCRIPCION"));
+	        }
+	
+	        resultado.setData(data);
+	        resultado.setSuccess(true);
+	    } catch (Exception e) {
+	        resultado.setSuccess(false);
+	        resultado.setError("[getLstCampus] " + e.getMessage());
+	    } finally {
+	        // Cerrar la conexión en caso de que esté abierta
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm);
+	        }
+	    }
+	
+	    return resultado;
+	}
+	
 	
 	public Result getValidarOrden(Integer parameterP, Integer parameterC, String tabla, Integer orden, String id) {
 		Result resultado = new Result();
