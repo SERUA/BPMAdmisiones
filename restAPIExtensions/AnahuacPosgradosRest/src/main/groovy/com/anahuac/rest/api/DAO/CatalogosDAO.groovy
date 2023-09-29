@@ -1533,7 +1533,7 @@ class CatalogosDAO {
         Result resultado = new Result();
         Boolean closeCon = false;
         String where = "WHERE c.ELIMINADO=false", orderby = "ORDER BY ", errorLog = "";
-        String consulta = ("SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAIS_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADO_PID  [WHERE] [ORDERBY] [LIMITOFFSET]")
+        String consulta = ("SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAISES_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADOS_PID  [WHERE] [ORDERBY] [LIMITOFFSET]")
         try {
             def jsonSlurper = new JsonSlurper();
             def object = jsonSlurper.parseText(jsonData);
