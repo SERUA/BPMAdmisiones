@@ -899,13 +899,13 @@ class CatalogosDAO {
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(6, fechaHoraFormateada);
 			pstm.setInt(7, object.orden);
-
+			pstm.setInt(8, 0);  // Establecer el valor para el parámetro 8
+			
 			if (pstm.executeUpdate() > 0) {
-				resultado.setSuccess(true);
+			    resultado.setSuccess(true);
 			} else {
-				throw new Exception("No se pudo insertar el registro.");
+			    throw new Exception("No se pudo insertar el registro.");
 			}
-			pstm.setInt(8, 0);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[insertCatEstado] " + e.getMessage());
@@ -1360,72 +1360,10 @@ class CatalogosDAO {
 			
 			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
 			def object = jsonObject.lstCatCampusInput[0]
-	
 	        if (object == null) {
 			    throw new Exception("El objeto 'object' no debe ser nulo.");
 			}
 			
-			if (object.calle == null || object.calle.isEmpty()) {
-			    throw new Exception("El campo 'calle' no debe estar vacío.");
-			}
-			
-			if (object.clave == null || object.clave.isEmpty()) {
-			    throw new Exception("El campo 'clave' no debe estar vacío.");
-			}
-			
-			if (object.codigoPostal == null || object.codigoPostal.isEmpty()) {
-			    throw new Exception("El campo 'codigoPostal' no debe estar vacío.");
-			}
-			
-			if (object.colonia == null || object.colonia.isEmpty()) {
-			    throw new Exception("El campo 'colonia' no debe estar vacío.");
-			}
-			
-			if (object.descripcion == null || object.descripcion.isEmpty()) {
-			    throw new Exception("El campo 'descripcion' no debe estar vacío.");
-			}
-			
-			if (object.email == null || object.email.isEmpty()) {
-			    throw new Exception("El campo 'email' no debe estar vacío.");
-			}
-			
-			if (object.grupoBonita == null || object.grupoBonita.isEmpty()) {
-			    throw new Exception("El campo 'grupoBonita' no debe estar vacío.");
-			}
-			
-			if (object.municipio == null || object.municipio.isEmpty()) {
-			    throw new Exception("El campo 'municipio' no debe estar vacío.");
-			}
-			
-			if (object.numeroExterior == null || object.numeroExterior.isEmpty()) {
-			    throw new Exception("El campo 'numeroExterior' no debe estar vacío.");
-			}
-			
-			if (object.numeroInterior == null || object.numeroInterior.isEmpty()) {
-			    throw new Exception("El campo 'numeroInterior' no debe estar vacío.");
-			}
-			
-			if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad.isEmpty()) {
-			    throw new Exception("El campo 'urlAvisoPrivacidad' no debe estar vacío.");
-			}
-			
-			if (object.urlImagen == null || object.urlImagen.isEmpty()) {
-			    throw new Exception("El campo 'urlImagen' no debe estar vacío.");
-			}
-			
-			if (object.usuarioBanner == null || object.usuarioBanner.isEmpty()) {
-			    throw new Exception("El campo 'usuarioBanner' no debe estar vacío.");
-			}
-			
-			if (object.estado_pid == null || object.estado_pid.isEmpty()) {
-				throw new Exception("El campo 'estado_pid' no debe estar vacío.");
-			}
-			
-			
-			if (object.id == null || object.id.isEmpty()) {
-			    throw new Exception("El campo 'id' no debe estar vacío.");
-			}
-	
 	//			if (object.orden == null || object.orden.isEmpty()) {
 	//				throw new Exception("El campo \"Orden\" no debe ir vacío.");
 	//			} else if (object.clave == null || object.clave.isEmpty()) {
@@ -1434,39 +1372,37 @@ class CatalogosDAO {
 	//				throw new Exception("El campo \"Descripción\" no debe ir vacío.");
 	//			}
 	
+			
+			
 	        pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATCAMPUS);
-	        pstm.setString(1, object.calle.isEmpty() ? null : object.calle);
-			pstm.setString(2, object.clave.isEmpty() ? null : object.clave);
+	        pstm.setString(1, object.calle);
+			pstm.setString(2, object.clave);
 			pstm.setString(3, object.codigoPostal);
-			pstm.setString(4, object.colonia.isEmpty() ? null : object.colonia);
-			pstm.setString(5, object.descripcion.isEmpty() ? null : object.descripcion);
-			pstm.setString(6, object.email.isEmpty() ? null : object.email);
+			pstm.setString(4, object.colonia);
+			pstm.setString(5, object.descripcion);
+			pstm.setString(6, object.email);
 			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(7, fechaHoraFormateada);
 			pstm.setString(8, fechaHoraFormateada);
-			pstm.setString(9, object.grupoBonita.isEmpty() ? null : object.grupoBonita);
-			pstm.setString(10, object.municipio.isEmpty() ? null : object.municipio);
-			pstm.setString(11, object.numeroExterior.isEmpty() ? null : object.numeroExterior);
-			pstm.setString(12, object.numeroInterior.isEmpty() ? null : object.numeroInterior);
+			pstm.setString(9, object.grupoBonita);
+			pstm.setString(10, object.municipio);
+			pstm.setString(11, object.numeroExterior);
+			pstm.setString(12, object.numeroInterior);
 			String ordenStr = object.orden; // Obtén el valor como cadena
 			int orden = 0; // Valor predeterminado en caso de error
 			
 			try {
 			    orden = Integer.parseInt(ordenStr); // Intenta convertir la cadena a un entero
 			} catch (NumberFormatException e) {
-			    // Maneja el error si la conversión falla
-			    // Puedes lanzar una excepción, asignar un valor predeterminado o tomar alguna otra acción apropiada.
-			    // Por ejemplo, puedes asignar un valor predeterminado o lanzar una excepción si el valor no es válido.
 			}
-			
-			// Luego, puedes usar "orden" en tu consulta SQL
+
 			pstm.setInt(13, orden);
-			pstm.setString(14, object.urlAvisoPrivacidad.isEmpty() ? null : object.urlAvisoPrivacidad);
-			pstm.setString(15, object.urlImagen.isEmpty() ? null : object.urlImagen);
+			pstm.setString(14, object.urlAvisoPrivacidad);
+			pstm.setString(15, object.urlImagen);
 			pstm.setString(16, object.usuarioBanner);
-			pstm.setLong(17, Long.parseLong(object.estado_pid));
+			pstm.setLong(17, object.estado_pid);
 			pstm.setLong(18, 1);
 			pstm.setString(19, object.id);
 			pstm.setBoolean(20, true);

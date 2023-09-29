@@ -346,8 +346,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         debugger;
         if (newValue !== undefined) {
-            // Añade un parámetro para indicar el orden predeterminado
-            doRequestEstado("POST", $scope.properties.urlGetCampus, { orderBy: 'ORDEN' })
+            doRequestEstado("POST", $scope.properties.urlGetCampus)
                 .then(function(response) {
                     // Aquí puedes trabajar con la respuesta en caso de éxito
                     console.log("Datos recibidos:", response.data);

@@ -36,7 +36,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         debugger;
         vm.busy = true;
 
-        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = $scope.properties.dataToSend.lstCatCampusInput[0].estado.clave;
+        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = $scope.properties.dataToSend.lstCatCampusInput[0].estado.persistenceId;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
