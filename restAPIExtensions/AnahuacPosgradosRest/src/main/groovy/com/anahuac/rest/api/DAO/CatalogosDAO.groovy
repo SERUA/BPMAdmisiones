@@ -1444,7 +1444,8 @@ class CatalogosDAO {
 	        }
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATCAMPUS);
-	        pstm.setLong(1, object.persistenceid);
+			pstm.setBoolean(1, true);
+	        pstm.setLong(2, object.persistenceid);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
