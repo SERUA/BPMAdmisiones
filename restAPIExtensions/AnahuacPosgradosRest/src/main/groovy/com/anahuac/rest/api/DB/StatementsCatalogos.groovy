@@ -9,14 +9,14 @@ class StatementsCatalogos {
 	
 	//PSGRCatPais
 	public static final String INSERT_CATPAIS = "INSERT INTO PSGRCatPais (PERSISTENCEID, CASE_ID, ID, PERSISTENCEVERSION, IS_ELIMINADO, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
-	public static final String DELETE_CATPAIS  = "DELETE FROM PSGRCatPais WHERE persistenceid = ?";
+	public static final String DELETE_CATPAIS  = "UPDATE PSGRCatPais SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATPAIS  = "UPDATE PSGRCatPais SET clave = ?, descripcion = ?, orden = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPAIS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPais [WHERE] [ORDERBY]";
 
 	
 	//PSGRCatEstado
 	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (PERSISTENCEID, CASE_ID, IS_ELIMINADO, PAIS_PID, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN, PERSISTENCEVERSION) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?);";
-	public static final String DELETE_CATESTADO  = "DELETE FROM PSGRCatEstados WHERE persistenceid = ?";
+	public static final String DELETE_CATESTADO  = "UPDATE PSGRCatEstados SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATESTADO  = "UPDATE PSGRCatEstados SET clave = ?, descripcion = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATESTADO  = "SELECT persistenceid, orden, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatEstados [WHERE] [ORDERBY]";
 	

@@ -598,7 +598,8 @@ class CatalogosDAO {
 			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATPAIS);
-			pstm.setLong(1, object.persistenceid);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -936,7 +937,8 @@ class CatalogosDAO {
 			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATESTADO);
-			pstm.setLong(1, object.persistenceid);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -999,7 +1001,7 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRCatEstado> data = new ArrayList<>();
-		String where = ""; // Aplicar filtro por defecto para registros no eliminados
+		String where = "WHERE IS_ELIMINADO=false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
 	
 		try {
@@ -1082,10 +1084,24 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
+					case "ISELIMINADO":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(ELIMINADO) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATESTADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATESTADO.replace("[WHERE]", where + " AND is_eliminado = false").replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
