@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappRegistro",
   "name" : "PSGRappRegistro",
-  "lastUpdate" : 1696030835008,
+  "lastUpdate" : 1696033494240,
   "rows" : [
     [
       {
@@ -1017,8 +1017,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "!formInput.registroInput.acepto_avisoprivacidad"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "label" : {
                         "type" : "interpolation",
@@ -1087,6 +1087,10 @@
                       "processId" : {
                         "type" : "expression",
                         "value" : "getProcessDef[0].processid"
+                      },
+                      "navigationVar" : {
+                        "type" : "variable",
+                        "value" : "navigationVar"
                       }
                     },
                     "reference" : "155dca88-d671-4b51-84d9-0ffa54fb4484",
@@ -1280,7 +1284,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "navigationVar !== \"confirmacion\""
+            "value" : "navigationVar !== \"registro_completado\""
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -1331,8 +1335,8 @@
               },
               "propertyValues" : {
                 "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
+                  "type" : "expression",
+                  "value" : "bg-white"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -1347,42 +1351,6 @@
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "Title"
-                      },
-                      "level" : {
-                        "type" : "constant",
-                        "value" : "Level 4"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "center"
-                      }
-                    },
-                    "reference" : "b559a94f-28d8-445c-b2ca-e3462e4f8a48",
-                    "hasValidationError" : false,
-                    "id" : "pbTitle"
-                  }
-                ],
                 [
                   {
                     "type" : "component",
@@ -1423,11 +1391,11 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Neque porro quisquam est qui dolorem ipsum quia dolor sit amet,<br/>consectetur,<br/>adipisci velit..."
+                        "value" : "Ya casi está listo.<br>Revisa tu correo electrónico <b>{{formInput.registroInput.correo_electronico}}</b>. A tu bandeja llegará un enlace<br>al cual tendrás que acceder para completar tu registro.<br>Presiona Aceptar para continuar."
                       },
                       "alignment" : {
                         "type" : "constant",
-                        "value" : "left"
+                        "value" : "center"
                       }
                     },
                     "reference" : "579239d7-7780-4087-9b76-cf6965bacc86",
@@ -1609,6 +1577,13 @@
       "name" : "bootstrap.min.js",
       "type" : "js",
       "order" : 7,
+      "external" : false
+    },
+    {
+      "id" : "5843b83e-ec6a-4c94-9056-917e7b9c8ced",
+      "name" : "sweetalert.min.js",
+      "type" : "js",
+      "order" : 13,
       "external" : false
     },
     {

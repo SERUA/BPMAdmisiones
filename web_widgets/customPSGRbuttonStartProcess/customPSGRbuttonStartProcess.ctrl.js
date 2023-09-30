@@ -11,33 +11,44 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     function validarFormulario(){
-        let valid = false;
+        let valid = true;
         let title = "¡Atención!", message = "";
-        let data = angular.copy($scope.properties,dataToSend);
+        let data = angular.copy($scope.properties.dataToSend);
 
-        if(data.registroInput.nombre){
+        if(!data.registroInput.nombre){
+            valid = false;
             message = "El campo 'Nombre' no debe ir vacío";
-        } else if(data.registroInput.apellido_paterno){
+        } else if(!data.registroInput.apellido_paterno){
+            valid = false;
             message = "El campo 'Apellido paterno' no debe ir vacío";
-        } else if(data.registroInput.telefono_celular){
+        } else if(!data.registroInput.telefono_celular){
+            valid = false;
             message = "El campo 'Teléfono celular' no debe ir vacío";
-        } else if(data.registroInput.correo_electronico){
+        } else if(!data.registroInput.correo_electronico){
+            valid = false;
             message = "El campo 'Correo electrónico' no debe ir vacío";
-        } else if(data.registroInput.confirmar_correo_electronico){
+        } else if(!data.registroInput.confirmar_correo_electronico){
+            valid = false;
             message = "El campo 'Confirmar correo electrónico' no debe ir vacío";
         } else if(data.registroInput.confirmar_correo_electronico !== data.registroInput.confirmar_correo_electronico){
+            valid = false;
             message = "Los correos no counciden";
-        } else if(data.registroInput.password){
+        } else if(!data.registroInput.password){
+            valid = false;
             message = "El campo 'Contraseña' no debe ir vacío";
-        } else if(data.registroInput.confirmar_password){
+        } else if(!data.registroInput.confirmar_password){
+            valid = false;
             message = "El campo 'Confirmar contraseña' no debe ir vacío";
         } else if(data.registroInput.password !== data.registroInput.confirmar_password){
+            valid = false;
             message = "Las contraseñas no coinciden";
-        } else if(data.registroInput.acepto_avisoprivacidad){
-            message = "El campo 'Nombre' no debe ir vacío";
-        } else if(data.registroInput.campus){
+        } else if(!data.registroInput.campus){
+            valid = false;
             message = "El campo 'Universidad a la que deseas ingresar' no debe ir vacío";
-        }
+        } else if(!data.registroInput.acepto_avisoprivacidad){
+            valid = false;
+            message = "Debes aceptar el aviso de privacidad";
+        } 
 
         if(valid === false){
             swal(title, message, "warning");
@@ -92,7 +103,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function startProcess() {
-        var id = $scope.properties.processId;
+        var id = angular.copy($scope.properties.processId);
         if (id) {
             var prom = doRequest('POST', '../API/bpm/process/' + id + '/instantiation', getUserParam()).then(function () {
                 localStorageService.delete($window.location.href);
