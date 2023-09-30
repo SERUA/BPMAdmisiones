@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappRegistro",
   "name" : "PSGRappRegistro",
-  "lastUpdate" : 1696017938166,
+  "lastUpdate" : 1696030835008,
   "rows" : [
     [
       {
@@ -863,6 +863,73 @@
                       },
                       "required" : {
                         "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Universidad a la que deseas ingresar"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Select an option"
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatCampus_query"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "formInput.registroInput.campus"
+                      }
+                    },
+                    "reference" : "82fdc761-22c3-4db3-b9c3-cba2b8527233",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
                         "value" : false
                       },
                       "label" : {
@@ -981,7 +1048,8 @@
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "formInput"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -996,7 +1064,8 @@
                         "value" : ""
                       },
                       "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
+                        "type" : "interpolation",
+                        "value" : ""
                       },
                       "collectionToModify" : {
                         "type" : "variable"
@@ -1014,11 +1083,15 @@
                       },
                       "removeItem" : {
                         "type" : "variable"
+                      },
+                      "processId" : {
+                        "type" : "expression",
+                        "value" : "getProcessDef[0].processid"
                       }
                     },
-                    "reference" : "3d8f14ea-1c34-49e2-b18d-2c41a194fcf0",
+                    "reference" : "155dca88-d671-4b51-84d9-0ffa54fb4484",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "customPSGRbuttonStartProcess"
                   }
                 ]
               ]
@@ -1647,6 +1720,26 @@
         "\tregistroInput: $data.formInput.registroInput",
         "}"
       ],
+      "exposed" : false
+    },
+    "getProcessDef" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getProcessDef&processName=Solicitud%20de%20admisión%20a%20posgrados"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "pSGRCatCampus_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=find&p=0&c=99"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },

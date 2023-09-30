@@ -7,7 +7,10 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
+import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor
 import org.bonitasoft.engine.identity.UserMembership
+import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -59,17 +62,15 @@ class CatalogosDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			assert object instanceof List;
-			
-				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
-				closeCon = validarConexion();
-				for(def row: object) {
-				pstm = con.prepareStatement(row)
-				
-				
-				rs = pstm.executeQuery()
+			List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+			closeCon = validarConexion();
+			for(def row: object) {
+				pstm = con.prepareStatement(row);
+				rs = pstm.executeQuery();
 				rows = new ArrayList<Map<String, Object>>();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
+				
 				while(rs.next()) {
 					Map<String, Object> columns = new LinkedHashMap<String, Object>();
 	
@@ -79,11 +80,11 @@ class CatalogosDAO {
 	
 					rows.add(columns);
 				}
-				resultado.setSuccess(true)
 				
-				resultado.setData(rows)
-				}
-			} catch (Exception e) {
+				resultado.setSuccess(true);
+				resultado.setData(rows);
+			}
+		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
@@ -91,7 +92,8 @@ class CatalogosDAO {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
-		return resultado
+		
+		return resultado;
 	}
 	
 	public Result simpleSelectBonita(String jsonData, RestAPIContext context) {
@@ -104,16 +106,15 @@ class CatalogosDAO {
 			
 			assert object instanceof List;
 			
-				List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
-				closeCon = validarConexionBonita();
-				for(def row: object) {
-				pstm = con.prepareStatement(row)
-				
-				
+			List<Map<String, Object>> rows = new ArrayList<Map<String, Object>>();
+			closeCon = validarConexionBonita();
+			for(def row: object) {
+				pstm = con.prepareStatement(row);
 				rs = pstm.executeQuery()
 				rows = new ArrayList<Map<String, Object>>();
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
+				
 				while(rs.next()) {
 					Map<String, Object> columns = new LinkedHashMap<String, Object>();
 	
@@ -123,11 +124,11 @@ class CatalogosDAO {
 	
 					rows.add(columns);
 				}
-				resultado.setSuccess(true)
 				
-				resultado.setData(rows)
-				}
-			} catch (Exception e) {
+				resultado.setSuccess(true);
+				resultado.setData(rows);
+			}
+		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
@@ -3137,21 +3138,20 @@ class CatalogosDAO {
 		Boolean closeCon = false;
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
-		String where = "", orderby = "";
+		String where = "", orderby = "", errorLog = "";
 		
 		try {
 			closeCon = validarConexionBonita();
 			
 			pstm = con.prepareStatement(StatementsCatalogos.GET_PROCESS_DEFINITION);
-			pstm.setLong(1, processName);
+			pstm.setString(1, processName.replace("%20", " "));
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
 				row = new HashMap<String, Object>();
-				row.put("clave", rs.getString("clave"));
-				row.put("valor", rs.getString("valor"));
-				row.put("id_campus", rs.getString("id_campus"));
-				row.put("persistenceid", rs.getString("persistenceid"));
+				row.put("processid", rs.getString("processid"));
+				row.put("name", rs.getString("name"));
+				row.put("version", rs.getString("version"));
 				
 				data.add(row);
 			}
@@ -3162,6 +3162,7 @@ class CatalogosDAO {
 			resultado.setSuccess(false);
 			resultado.setError("[getProcessDef] " + e.getMessage());
 		} finally {
+			resultado.setError_info(errorLog);
 			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
