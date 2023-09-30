@@ -2,7 +2,7 @@ package com.anahuac.rest.api.DB
 
 class StatementsCatalogos {
 	//PSGRCatFiltroSeguridad
-	public static final String INSERT_CATFILTROSEGURIDAD = "INSERT INTO PSGRFiltroSeguridad (persistenceid, persistenceversion, rol, servicio) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRFiltroSeguridad), ?, ?, ?)";
+	public static final String INSERT_CATFILTROSEGURIDAD = "INSERT INTO PSGRFiltroSeguridad (persistenceid, persistenceversion, rol, servicio) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATcampus), '0')::INTEGER + 1, ?, ?, ?)";
 	public static final String DELETE_CATFILTROSEGURIDAD = "DELETE FROM PSGRFiltroSeguridad WHERE persistenceid = ?";
 	public static final String UPDATE_CATFILTROSEGURIDAD = "UPDATE PSGRFiltroSeguridad SET rol = ?, servicio = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATFILTROSEGURIDAD = "SELECT persistenceid, rol, servicio FROM PSGRFiltroSeguridad [WHERE] [ORDERBY]";
@@ -28,7 +28,7 @@ class StatementsCatalogos {
 	
 	//PSGRCatCampus
 	public static final String INSERT_CATCAMPUS = "INSERT INTO PSGRCatCampus (PERSISTENCEID, CALLE, CLAVE, CODIGO_POSTAL, COLONIA, DESCRIPCION, EMAIL, FECHA_CREACION, FECHA_IMPLEMENTACION, GRUPO_BONITA, MUNICIPIO, NUMERO_EXT, NUMERO_INT, ORDEN, URL_AVISO_PRIVACIDAD, URL_IMAGEN, USUARIO_BANNER, ESTADOS_PID, PAISES_PID, ID, ACTIVADO, ELIMINADO)  VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATcampus), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
-	public static final String DELETE_CATCAMPUS  = "DELETE FROM PSGRCatCampus WHERE persistenceid = ?";
+	public static final String DELETE_CATCAMPUS  = "UPDATE PSGRCatCampus SET eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATCAMPUS  = "UPDATE PSGRCatCampus SET CALLE=?, CLAVE=?, CODIGO_POSTAL=?, COLONIA=?, DESCRIPCION=?, EMAIL=?, FECHA_CREACION=?, FECHA_IMPLEMENTACION=?, GRUPO_BONITA=?, MUNICIPIO=?, NUMERO_EXT=?, NUMERO_INT=?, ORDEN=?, URL_AVISO_PRIVACIDAD=?, URL_IMAGEN=?, USUARIO_BANNER=?, ESTADO_PID=?, PAIS_PID=?, ID=? WHERE PERSISTENCEID=?;";
 	public static final String SELECT_CATCAMPUS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatCampus [WHERE] [ORDERBY]";
 	public static final String GET_CATCAMPUS="SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAIS_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADO_PID  [WHERE] [ORDERBY] [LIMITOFFSET]"
