@@ -10,17 +10,18 @@ import java.text.SimpleDateFormat
 
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor
 import org.bonitasoft.engine.identity.UserMembership
+import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
-import com.anahuac.posgrados.catalog.PSGRCatGestionEscolar
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.CatDescuentosCustom
+import com.anahuac.rest.api.Entity.custom.CatGestionEscolar
 import com.anahuac.rest.api.Entity.db.CatCampusCustomFiltro
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.CatPaisCustomFiltro
@@ -2095,15 +2096,17 @@ class CatalogosDAO {
 		try {
 			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper()
-			def object = jsonSlurper.parseText(jsonData)
+			def jsonObject = jsonSlurper.parseText(jsonData)
 			
 			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
-//			def object = jsonObject.lstCatCampusInput[0]
+			def object = jsonObject.lstCatGestionEscolarInput[0]
 	
 			if (object == null) {
 				throw new Exception("El objeto 'object' no debe ser nulo.");
 			} else if (object.CAMPUS == null) {
 				throw new Exception("El objeto 'campus' no debe ser nulo." + object);
+			} else if (object.clave == null) {
+				throw new Exception("El objeto 'clave' no debe ser nulo." + object);
 			}
 			
 	//			if (object.orden == null || object.orden.isEmpty()) {
@@ -2122,24 +2125,24 @@ class CatalogosDAO {
 			pstm.setBoolean(2, false); // IS_ELIMINADO
 			pstm.setString(3, object.CAMPUS); // CAMPUS
 			pstm.setString(4, object.PROPEDEUTICOS); // PROPEDEUTICOS
-			pstm.setString(5, object.Clave); // Clave
-			pstm.setString(6, object.NOMBRE); // NOMBRE
-			pstm.setString(7, object.DESCRIPCION); // DESCRIPCION
-			pstm.setString(8, object.ENLACE); // ENLACE
-			pstm.setString(9, object.TIPO_CENTRO_ESTUDIO); // TIPO_CENTRO_ESTUDIO
-			Boolean propedeuticoValue = (object.PROPEDEUTICO != null) ? object.PROPEDEUTICO : false;
+			pstm.setString(5, object.clave); // Clave
+			pstm.setString(6, object.nombre); // NOMBRE
+			pstm.setString(7, object.descripcion); // DESCRIPCION
+			pstm.setString(8, object.enlace); // ENLACE
+			pstm.setString(9, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
+			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
 			pstm.setBoolean(10, propedeuticoValue); // PROPEDEUTICO
-			Boolean programaParcialValue = (object.PROGRAMA_PARCIAL != null) ? object.PROGRAMA_PARCIAL : false;
+			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
 			pstm.setBoolean(11, programaParcialValue); // PROGRAMA_PARCIAL
-			Boolean isMedicina = object.IS_MEDICINA != null ? object.IS_MEDICINA : false;
+			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
 			pstm.setBoolean(12, isMedicina); // IS_MEDICINA
-			pstm.setString(13, object.TIPO_LICENCIATURA); // TIPO_LICENCIATURA
-			pstm.setString(14, object.INSCRIPCION_ENERO); // INSCRIPCION_ENERO
-			pstm.setString(15, object.INSCRIPCION_MAYO); // INSCRIPCION_MAYO
-			pstm.setString(16, object.INSCRIPCION_AGOSTO); // INSCRIPCION_AGOSTO
-			pstm.setString(17, object.INSCRIPCION_SEPTIEMBRE); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(18, object.URL_IMG_LICENCIATURA); // URL_IMG_LICENCIATURA
-			pstm.setString(19, object.IDIOMA); // IDIOMA
+			pstm.setString(13, object.tipoLicenciatura); // TIPO_LICENCIATURA
+			pstm.setString(14, object.inscripcionenero); // INSCRIPCION_ENERO
+			pstm.setString(15, object.inscripcionMayo); // INSCRIPCION_MAYO
+			pstm.setString(16, object.inscripcionagosto); // INSCRIPCION_AGOSTO
+			pstm.setString(17, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(18, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+			pstm.setString(19, object.idioma); // IDIOMA
 			pstm.setString(20, object.usuarioCreacion); // UUSUARIOCREACION
 
 			
@@ -2286,7 +2289,7 @@ class CatalogosDAO {
 			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for (UserMembership objUserMembership: lstUserMembership) {
 				for (PSGRCatCampus rowGrupo: lstCatCampus) {
-					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupo_bonita())) {
 						lstGrupo.add(rowGrupo.getDescripcion());
 						break;
 					}
@@ -2307,11 +2310,11 @@ class CatalogosDAO {
 			}
 
 			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR
-			PSGRCatGestionEscolar row = new PSGRCatGestionEscolar();
+			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 
-			where = "WHERE GE.is_eliminado = false and campus.is_eliminado = false and GE.campus = '" + object.campus + "'"
+			where = "WHERE GE.is_eliminado = false and campus.eliminado = false and GE.campus = '" + object.campus + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
@@ -2353,7 +2356,7 @@ class CatalogosDAO {
 						break;
 
 					case "INSCRIPCIÓN ENERO":
-						where += " AND LOWER(GE.inscripcionenero) ";
+						where += " AND LOWER(GE.inscripcion_enero) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2362,7 +2365,7 @@ class CatalogosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "INSCRIPCIÓN AGOSTO":
-						where += " AND LOWER(GE.inscripcionagosto) ";
+						where += " AND LOWER(GE.inscripcion_agosto) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2380,7 +2383,7 @@ class CatalogosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "TIPO LICENCIATURA":
-						where += " AND LOWER(GE.TIPOLICENCIATURA) ";
+						where += " AND LOWER(GE.TIPO_LICENCIATURA) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2390,7 +2393,7 @@ class CatalogosDAO {
 						break;
 
 					case "INSCRIPCIÓN MAYO":
-						where += " AND LOWER(GE.inscripcionMayo) ";
+						where += " AND LOWER(GE.inscripcion_mayo) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2400,7 +2403,7 @@ class CatalogosDAO {
 						break;
 
 					case "INSCRIPCIÓN SEPTIEMBRE":
-						where += " AND LOWER(GE.inscripcionSeptiembre) ";
+						where += " AND LOWER(GE.inscripcion_septiembre) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -2418,7 +2421,7 @@ class CatalogosDAO {
 
 
 					case "PROGRAMA PARCIAL":
-						where += " AND GE.programaparcial ";
+						where += " AND GE.programa_parcial ";
 						where += " = [valor]"
 						errorLog += " Que valor tienen: " + booleanos.toString().equals("Si") + " "
 						where = where.replace("[valor]", (booleanos.toString().equals("Si") ? "true" : booleanos.toString().equals("Sí") ? "true" : "false"))
@@ -2448,16 +2451,16 @@ class CatalogosDAO {
 					orderby += "GE.descripcion";
 					break;
 				case "INSCRIPCIÓN ENERO":
-					orderby += "GE.inscripcionenero::Integer";
+					orderby += "GE.inscripcion_enero::Integer";
 					break;
 				case "INSCRIPCIÓN AGOSTO":
-					orderby += "GE.inscripcionagosto::Integer";
+					orderby += "GE.inscripcion_agosto::Integer";
 					break;
 				case "INSCRIPCIÓN MAYO":
-					orderby += "GE.inscripcionmayo::Integer";
+					orderby += "GE.inscripcion_mayo::Integer";
 					break;
 				case "INSCRIPCIÓN SEPTIEMBRE":
-					orderby += "GE.inscripcionseptiembre::Integer";
+					orderby += "GE.inscripcion_septiembre::Integer";
 					break;
 				case "PERSISTENCEVERSION":
 					orderby += "GE.PERSISTENCEVERSION";
@@ -2466,13 +2469,13 @@ class CatalogosDAO {
 					orderby += "campus.descripcion";
 					break;
 				case "TIPO LICENCIATURA":
-					orderby += "GE.tipolicenciatura";
+					orderby += "GE.tipo_licenciatura";
 					break;
 				case "PROPEDÉUTICO":
 					orderby += "GE.propedeutico";
 					break;
 				case "PROGRAMA PARCIAL":
-					orderby += "GE.programaparcial";
+					orderby += "GE.programa_parcial";
 					break;
 				default:
 					orderby += "GE.nombre"
@@ -2504,34 +2507,34 @@ class CatalogosDAO {
 			rs = pstm.executeQuery()
 			while (rs.next()) {
 
-				row = new PSGRCatGestionEscolar()
+				row = new CatGestionEscolar()
 				row.setCampus(rs.getString("campus"))
 				//row.setCaseId(rs.getString("caseId"))
 				row.setDescripcion(rs.getString("descripcion"))
 				row.setEnlace(rs.getString("enlace"))
 				try {
-					row.setFechaCreacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
+					row.setFechaCreacion(new java.util.Date(rs.getDate("fecha_creacion").getTime()))
 				} catch (Exception e) {
 					LOGGER.error "[ERROR] " + e.getMessage();
 					errorLog += ", " + e.getMessage()
 				}
 				row.setClave(rs.getString("clave"));
-				row.setInscripcionagosto(rs.getString("inscripcionagosto"))
-				row.setInscripcionenero(rs.getString("inscripcionenero"))
-				row.setIsEliminado(rs.getBoolean("isEliminado"))
+				row.setInscripcionagosto(rs.getString("inscripcion_agosto"))
+				row.setInscripcionenero(rs.getString("inscripcion_enero"))
+				row.setIsEliminado(rs.getBoolean("is_eliminado"))
 				//row.setMatematicas(rs.getBoolean("matematicas"))
 				row.setNombre(rs.getString("nombre"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
 				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
-				row.setProgramaparcial(rs.getBoolean("programaparcial"))
+				row.setProgramaparcial(rs.getBoolean("programa_parcial"))
 				row.setPropedeutico(rs.getBoolean("propedeutico"))
-				row.setUsuarioCreacion(rs.getString("usuarioCreacion"))
-				row.setTipoLicenciatura(rs.getString("tipoLicenciatura"))
-				row.setTipoCentroEstudio(rs.getString("tipoCentroEstudio"))
-				row.setInscripcionMayo(rs.getString("inscripcionMayo"))
-				row.setInscripcionSeptiembre(rs.getString("inscripcionSeptiembre"))
-				row.setUrlImgLicenciatura(rs.getString("urlImgLicenciatura"))
-				row.setIsMedicina(rs.getBoolean("isMedicina"))
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"))
+				row.setTipoLicenciatura(rs.getString("tipo_licenciatura"))
+				row.setTipoCentroEstudio(rs.getString("tipo_centro_estudio"))
+				row.setInscripcionMayo(rs.getString("inscripcion_mayo"))
+				row.setInscripcionSeptiembre(rs.getString("inscripcion_septiembre"))
+				row.setUrlImgLicenciatura(rs.getString("url_img_licenciatura"))
+				row.setIsMedicina(rs.getBoolean("is_medicina"))
 				row.setIdioma(rs.getString("idioma"))
 
 				rows.add(row)

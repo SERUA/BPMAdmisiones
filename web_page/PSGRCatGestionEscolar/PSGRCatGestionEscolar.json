@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1696023040779,
+  "lastUpdate" : 1696282832694,
   "rows" : [
     [
       {
@@ -116,7 +116,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "lstCatCampus[0]"
+                  "value" : "lstCatCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -151,8 +151,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "editable != 'tabla' || cargar_catDatos"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -860,7 +860,7 @@
                         "value" : "/bonita/API/extension/posgradosRest?url=getLstCampus&p=0&c=10"
                       },
                       "lstCatCampus" : {
-                        "type" : "expression",
+                        "type" : "variable",
                         "value" : "lstCatCampus"
                       }
                     },
@@ -3198,11 +3198,19 @@
                 "urlInsert" : {
                   "type" : "constant",
                   "value" : "../API/extension/posgradosRest?url=insertCatGestionEscolar"
+                },
+                "lstCatCampus" : {
+                  "type" : "constant",
+                  "value" : "campusSelected"
+                },
+                "campusSelected" : {
+                  "type" : "expression",
+                  "value" : "campusSelected"
                 }
               },
-              "reference" : "29e6f4fb-ebd3-4348-9864-a82f7cc6bbc6",
+              "reference" : "f270645c-657b-4b0a-9ebb-db7c66a66a77",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarGestionEscolar"
+              "id" : "customButtonInstanciarPSGRCatGestionEscolar"
             }
           ]
         ]
@@ -5417,11 +5425,14 @@
                 "lstContenido" : {
                   "type" : "variable",
                   "value" : "lstContenido"
+                },
+                "urlInsert" : {
+                  "type" : "constant"
                 }
               },
-              "reference" : "f6c9317b-a096-4ce7-8137-8fc8a6282587",
+              "reference" : "ec907eed-db7e-4415-b8c1-be3074566d6b",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarGestionEscolar"
+              "id" : "customButtonInstanciarPSGRCatGestionEscolar"
             }
           ]
         ]
@@ -6287,7 +6298,7 @@
     "lstCatCampus" : {
       "type" : "json",
       "value" : [
-        "[]"
+        "{}"
       ],
       "exposed" : false
     },

@@ -57,6 +57,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     }
 
     function doRequest(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -344,37 +345,37 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         doRequest("POST", $scope.properties.urlPost);
     }
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
-        debugger;
-        if (newValue !== undefined) {
-            doRequestEstado("POST", $scope.properties.urlGetCampus)
-                .then(function(response) {
-                    // Aquí puedes trabajar con la respuesta en caso de éxito
-                    console.log("Datos recibidos:", response.data);
-                })
-                .catch(function(error) {
-                    // Aquí puedes manejar los errores
-                    console.error("Error en la solicitud:", error);
-                });
-        }
-        console.log($scope.properties.dataToSend);
-    });
-    
-    function doRequestEstado(method, url) {
-        debugger;
-        return $http({
-            method: method,
-            url: url,
-            data: $scope.properties.dataToSend
-        })
-        .then(function(response) {
-            console.log("Datos recibidos:", response.data);
-            $scope.properties.lstCatCampus = response.data;
-            console.log("Datos Estados:", $scope.properties.lstCatCampus);
-            return response;
-        })
-        .catch(function(error) {
-            console.error("Error en la solicitud HTTP:", error);
-            throw error; // Propagar el error para su posterior manejo si es necesario
-        });
+    debugger;
+    if (newValue !== undefined) {
+        doRequestEstado("POST", $scope.properties.urlGetCampus)
+            .then(function(response) {
+                // Aquí puedes trabajar con la respuesta en caso de éxito
+                console.log("Datos recibidos:", response.data);
+            })
+            .catch(function(error) {
+                // Aquí puedes manejar los errores
+                console.error("Error en la solicitud:", error);
+            });
     }
+    console.log($scope.properties.dataToSend);
+});
+
+function doRequestEstado(method, url) {
+    debugger;
+    return $http({
+        method: method,
+        url: url,
+        data: $scope.properties.dataToSend
+    })
+    .then(function(response) {
+        console.log("Datos recibidos:", response.data);
+        $scope.properties.lstCatCampus = response.data.data; // Asignar response.data.data
+        console.log("Datos Estados:", $scope.properties.lstCatCampus);
+        return response;
+    })
+    .catch(function(error) {
+        console.error("Error en la solicitud HTTP:", error);
+        throw error; // Propagar el error para su posterior manejo si es necesario
+    });
+}
 }
