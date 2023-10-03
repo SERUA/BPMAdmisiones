@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1696357500555,
+  "lastUpdate" : 1696361603349,
   "rows" : [
     [
       {
@@ -457,7 +457,7 @@
                         "value" : "userData.user_id"
                       }
                     },
-                    "reference" : "820e878c-3c28-4724-b7fd-0fee3d1aa420",
+                    "reference" : "649fec12-4c02-4eab-80d4-211fd137af34",
                     "hasValidationError" : false,
                     "id" : "customPSGRcustomBtnWizardValidationTask"
                   }
@@ -557,7 +557,8 @@
                         "value" : false
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "descripcion"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -626,7 +627,8 @@
                         "value" : false
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "nombre"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -695,7 +697,8 @@
                         "value" : false
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "descripcion"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -752,11 +755,11 @@
                         "value" : "Selecciona una opción"
                       },
                       "availableValues" : {
-                        "type" : "expression",
-                        "value" : ""
+                        "type" : "constant"
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "descripcion"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -777,8 +780,8 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 6,
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -815,22 +818,20 @@
                       },
                       "alignment" : {
                         "type" : "constant",
-                        "value" : "center"
+                        "value" : "left"
                       }
                     },
                     "reference" : "5325a57c-3549-4f32-a6ec-3a325a3d099c",
                     "hasValidationError" : false,
                     "id" : "pbText"
-                  }
-                ],
-                [
+                  },
                   {
-                    "type" : "container",
+                    "type" : "component",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
+                      "md" : 6,
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -841,60 +842,30 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "repeatedCollection" : {
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Sí"
+                      },
+                      "value" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "datosPrograma_estudiara_programa_otra_universidad"
+                      },
+                      "catSiNo" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatSiNo_querySINO"
                       }
                     },
-                    "reference" : "ac02983c-7450-4355-b261-f8ab53a8e3ac",
+                    "reference" : "0669fc6f-c758-49c2-98fb-2ebb2c1b02d0",
                     "hasValidationError" : false,
-                    "id" : "pbContainer",
-                    "rows" : [
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "disabled" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Sí"
-                            },
-                            "value" : {
-                              "type" : "variable",
-                              "value" : "datosPrograma_estudiara_programa_otra_universidad"
-                            },
-                            "catSiNo" : {
-                              "type" : "expression",
-                              "value" : "pSGRCatSiNo_querySINO"
-                            }
-                          },
-                          "reference" : "0669fc6f-c758-49c2-98fb-2ebb2c1b02d0",
-                          "hasValidationError" : false,
-                          "id" : "customPSGRcheckboxTitulacion"
-                        }
-                      ]
-                    ]
+                    "id" : "customPSGRcheckboxTitulacion"
                   }
                 ],
                 [
@@ -947,6 +918,46 @@
                     "reference" : "44e7d343-275e-4834-9239-bd881f7937c7",
                     "hasValidationError" : false,
                     "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "value" : {
+                        "type" : "constant",
+                        "value" : "datosPrograma_medios_enteraste"
+                      },
+                      "color" : {
+                        "type" : "constant",
+                        "value" : "RebeccaPurple"
+                      },
+                      "background" : {
+                        "type" : "constant",
+                        "value" : "Yellow"
+                      },
+                      "catMediosEnteraste" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatMedioEnteraste_query"
+                      }
+                    },
+                    "reference" : "3db0c0af-9d15-4378-a450-21845db3ec15",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRwidgetMediosEnteraste"
                   }
                 ],
                 [
@@ -1036,6 +1047,24 @@
                             "required" : {
                               "type" : "constant",
                               "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
                             }
                           },
                           "reference" : "1559d6d5-b99a-42a8-96d2-6e0da3a34863",
@@ -4673,7 +4702,7 @@
                         "value" : false
                       }
                     },
-                    "reference" : "4d002ced-3a1c-41da-9bdf-fcb2f2f92b7e",
+                    "reference" : "c44c0ce6-d9b8-4794-8f4c-7c550761a569",
                     "hasValidationError" : false,
                     "id" : "pbTable"
                   }
@@ -4732,7 +4761,7 @@
                         "value" : false
                       }
                     },
-                    "reference" : "f7e603df-967e-4725-ae1b-2c362d204732",
+                    "reference" : "7c89048b-0bae-4938-a452-d9ab0809aa8b",
                     "hasValidationError" : false,
                     "id" : "pbTable"
                   }
