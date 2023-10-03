@@ -1,8 +1,8 @@
 {
   "modelVersion" : "2.2",
-  "id" : "PSGRCatFiltroSeguridad",
-  "name" : "PSGRCatFiltroSeguridad",
-  "lastUpdate" : 1696363121257,
+  "id" : "PSGRCatPropedeutico",
+  "name" : "PSGRCatPropedeutico",
+  "lastUpdate" : 1696364943723,
   "rows" : [
     [
       {
@@ -27,7 +27,7 @@
             "value" : ""
           }
         },
-        "reference" : "ec300f44-02f8-4578-bdc1-7dc9a3a25410",
+        "reference" : "fd32ab2d-d4e4-4d61-ace3-fead15ec937d",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -56,7 +56,7 @@
             "value" : ""
           }
         },
-        "reference" : "3d632135-b242-4dc3-a299-843bfb4dd1ef",
+        "reference" : "c3e7620b-34ca-4b39-8af3-84855757f1e2",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo filtro de seguridad"
+                  "value" : "Catalogo propedeutico"
                 },
                 "level" : {
                   "type" : "constant",
@@ -91,7 +91,7 @@
                   "value" : "center"
                 }
               },
-              "reference" : "69a8daa5-8132-4933-86ee-3e5d35c5ba8d",
+              "reference" : "70b3f195-9802-40e0-8a7f-b2131bd45559",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -147,7 +147,7 @@
                   "value" : "selectedCat"
                 }
               },
-              "reference" : "79c92a11-d2ad-4cae-b081-86b99f376ab9",
+              "reference" : "69041927-017b-4dbc-9f13-f924de1f6a43",
               "hasValidationError" : false,
               "id" : "customPSGRbtnReiniciarCatNavegar"
             }
@@ -177,8 +177,10 @@
                 "headers" : {
                   "type" : "constant",
                   "value" : [
-                    "Rol",
-                    "Servicio"
+                    "Clave",
+                    "Descripción",
+                    "Usuario_creacion",
+                    "Fecha_creación"
                   ]
                 },
                 "content" : {
@@ -188,8 +190,10 @@
                 "columnsKey" : {
                   "type" : "constant",
                   "value" : [
-                    "rol",
-                    "servicio"
+                    "clave",
+                    "descripcion",
+                    "usuarioCreacion",
+                    "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
                   ]
                 },
                 "selectedRow" : {
@@ -210,7 +214,7 @@
                 },
                 "urlGet" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=getCatFiltroSeguridad"
+                  "value" : "../API/extension/posgradosRest?url=getCatPropedeutico"
                 },
                 "reload" : {
                   "type" : "variable",
@@ -222,12 +226,12 @@
                 },
                 "urlDelete" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=deleteCatFiltroSeguridad"
+                  "value" : "../API/extension/posgradosRest?url=deleteCatPropedeutico"
                 }
               },
-              "reference" : "8d9492fc-901b-40c0-a64b-79d0ef9744d2",
+              "reference" : "a91c2376-66a4-4575-9c21-c9e5d13d7487",
               "hasValidationError" : false,
-              "id" : "customPSGRTABLACATFILTROSEGURIDAD"
+              "id" : "customPSGRTABLACATPROPEDEUTICO"
             }
           ],
           [
@@ -253,7 +257,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "a1dd4c66-0e7e-449e-b159-9b0576ab8bcf",
+              "reference" : "617456be-4ad1-4696-a384-0a228d979805",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -297,7 +301,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Rol"
+                        "value" : "Clave"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -312,7 +316,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "selectedCat.rol"
+                        "value" : "selectedCat.clave"
                       },
                       "type" : {
                         "type" : "constant",
@@ -329,7 +333,7 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "14f04dc4-29b9-48ad-b5ca-7bf7582b3d1b",
+                    "reference" : "b84e1fc9-3e2f-4725-845e-4f624fd1154c",
                     "hasValidationError" : false,
                     "id" : "pbInput"
                   },
@@ -360,7 +364,7 @@
                       },
                       "maxLength" : {
                         "type" : "constant",
-                        "value" : ""
+                        "value" : 1
                       },
                       "readOnly" : {
                         "type" : "constant",
@@ -372,7 +376,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Servicio"
+                        "value" : "Descripción"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -387,7 +391,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "selectedCat.servicio"
+                        "value" : "selectedCat.descripcion"
                       },
                       "type" : {
                         "type" : "constant",
@@ -404,9 +408,9 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "a2af44d1-797f-40c5-912c-b8424c1303f7",
+                    "reference" : "375534f2-57cf-422b-be37-64995b873267",
                     "hasValidationError" : false,
-                    "id" : "pbInput"
+                    "id" : "customInputMinMayCustom"
                   }
                 ],
                 [
@@ -456,7 +460,7 @@
                         "value" : "tabla"
                       }
                     },
-                    "reference" : "bc686af7-5bd0-4a0a-9fed-3d03afe5174a",
+                    "reference" : "d43cd286-019b-4013-ac75-bac3b713a88a",
                     "hasValidationError" : false,
                     "id" : "customCustomBtnNavigationByVariable"
                   },
@@ -515,20 +519,24 @@
                       },
                       "urlInsert" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=insertCatFiltroSeguridad"
+                        "value" : "../API/extension/posgradosRest?url=insertCatPropedeutico"
                       },
                       "urlUpdate" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=updateCatFiltroSeguridad"
+                        "value" : "../API/extension/posgradosRest?url=updateCatPropedeutico"
                       },
                       "navigationVar" : {
                         "type" : "variable",
                         "value" : "navigationVar"
+                      },
+                      "userData" : {
+                        "type" : "expression",
+                        "value" : "userData"
                       }
                     },
-                    "reference" : "86442e3a-e205-49cd-a0ce-955119e5ab3e",
+                    "reference" : "018b704f-0438-4d61-8c55-ef6d9448710d",
                     "hasValidationError" : false,
-                    "id" : "customPSGRBotonGuardarCatV1PSGRCatFiltroSeguridad"
+                    "id" : "customPSGRBotonGuardarCatV1PSGRCatPropedeutico"
                   }
                 ]
               ]
@@ -604,10 +612,27 @@
         "false"
       ],
       "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.navigationVar;",
+        "$data.userData;"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
     }
   },
   "hasValidationError" : false,
-  "uuid" : "d2606191-436d-4dcb-8722-a7b36b79a4a8",
+  "uuid" : "5d430c5e-3f46-4f2e-9663-0fa27d8a6858",
   "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

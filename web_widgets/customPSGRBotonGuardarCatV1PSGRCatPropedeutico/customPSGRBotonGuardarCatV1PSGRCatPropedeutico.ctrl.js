@@ -19,9 +19,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Submit task') {
             debugger;
-            if($scope.properties.dataToChange == "agregar"){
+            if($scope.properties.navigationVar == "nuevo"){
                 accionCatalogoInsert($scope.properties.urlInsert)
-            }else if($scope.properties.dataToChange == "editar"){
+            }else if($scope.properties.navigationVar == "editar"){
                 $scope.properties.urlUpdate = $scope.properties.urlUpdate;
                 accionCatalogo($scope.properties.urlUpdate) 
             } 
@@ -43,7 +43,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         debugger;
         vm.busy = true;
 []
-        $scope.properties.dataToSend.lstCatGestionEscolarInput[0].CAMPUS = $scope.properties.campusSelected;
+        $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
@@ -54,12 +54,15 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
         });
 
-        $scope.properties.dataToChange = "tabla";
+        $scope.properties.navigationVar = "tabla";
     }
 
     function accionCatalogo(urlUpdate){
         debugger;
         vm.busy = true;
+
+        $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
+        
         $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
             $scope.properties.navigationVar = "tabla"
@@ -69,7 +72,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
         });
 
-        $scope.properties.dataToChange = "tabla";
+        $scope.properties.navigationVar = "tabla";
     }
 
     function openModal(modalId) {
