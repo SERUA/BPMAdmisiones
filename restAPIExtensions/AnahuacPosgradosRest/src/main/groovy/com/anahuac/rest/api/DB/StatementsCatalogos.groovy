@@ -12,8 +12,7 @@ class StatementsCatalogos {
 	public static final String DELETE_CATPAIS  = "UPDATE PSGRCatPais SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATPAIS  = "UPDATE PSGRCatPais SET clave = ?, descripcion = ?, orden = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPAIS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPais [WHERE] [ORDERBY]";
-
-	
+ 
 	//PSGRCatEstado
 	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (PERSISTENCEID, CASE_ID, IS_ELIMINADO, PAIS_PID, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN, PERSISTENCEVERSION) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATESTADO  = "UPDATE PSGRCatEstados SET is_eliminado = ? WHERE persistenceid = ?;";
@@ -47,9 +46,6 @@ class StatementsCatalogos {
 	public static final String GET_VALIDACION_CLAVE_EDIT = "SELECT COUNT(PERSISTENCEID) AS  total FROM [TABLA] WHERE LOWER(CLAVE) = ? AND IS_ELIMINADO = false AND PERSISTENCEID <> ?";
 	public static final String GET_VALIDACION_CLAVE = "SELECT COUNT(PERSISTENCEID) AS  total FROM [TABLA] WHERE LOWER(CLAVE) = ? AND IS_ELIMINADO = false";
 	
-	
-	
-	
 	//PSGRCatEstatusProceso
 	public static final String INSERT_CATESTATUSPROCESO = "INSERT INTO PSGRCatEstatusProceso (persistenceid, persistenceversion, clave, descripcion, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatEstatusProceso ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatEstatusProceso) end), 0, ?, ?, ?)";
 	public static final String DELETE_CATESTATUSPROCESO = "DELETE FROM PSGRCatEstatusProceso WHERE persistenceid = ?";
@@ -67,6 +63,12 @@ class StatementsCatalogos {
 	public static final String DELETE_CONFIGURACIONES = "DELETE FROM PSGRConfiguraciones WHERE persistenceid = ?";
 	public static final String UPDATE_CONFIGURACIONES = "UPDATE PSGRConfiguraciones SET clave = ?, valor = ? WHERE persistenceid = ?";
 	public static final String SELECT_CONFIGURACIONES = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRConfiguraciones WHERE id_campus = ?";
+	
+	//PSGRCatEstatusProceso
+	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatEstatusProceso (persistenceid, persistenceversion, clave, descripcion, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatEstatusProceso ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatEstatusProceso) end), 0, ?, ?, ?)";
+	public static final String DELETE_CATMEDIOSENTERASTE = "DELETE FROM PSGRCatEstatusProceso WHERE persistenceid = ?";
+	public static final String UPDATE_CATMEDIOSENTERASTE = "UPDATE PSGRCatEstatusProceso SET clave = ?, descripcion = ?, orden = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATMEDIOSENTERASTE = "SELECT persistenceid, orden, clave, descripcion FROM PSGRCatEstatusProceso [WHERE] [ORDERBY]";
 	
 	public static final String GET_PROCESS_DEFINITION = "SELECT * FROM PROCESS_DEFINITION WHERE name = ? ORDER BY id DESC LIMIT 1";
 }
