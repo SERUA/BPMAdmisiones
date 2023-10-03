@@ -3208,14 +3208,14 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.valor.equals("") || object.valor == null) {
 				throw new Exception("El campo \"Valor\" no debe ir vacío");
-			} else if(object.id_campus.equals("") || object.id_campus == null) {
-				throw new Exception("No campus seleccionado");
+			} else if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"Orden\" no debe ir vacío");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CONFIGURACIONES);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATMEDIOSENTERASTE);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.valor);
-			pstm.setLong(3, Long.valueOf(object.id_campus));
+			pstm.setInt(3, Integer.valueOf(object.orden));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -3224,9 +3224,9 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertConfiguraciones] " + e.getMessage());
+			resultado.setError("[insertCatMediosEnteraste] " + e.getMessage());
 		} finally {
-			if (closeCon) {
+			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
@@ -3252,7 +3252,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Valor\" no debe ir vacío");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CONFIGURACIONES);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATMEDIOSENTERASTE);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.valor);
 			pstm.setLong(3, Long.valueOf(object.persistenceid));
@@ -3266,7 +3266,7 @@ class CatalogosDAO {
 			resultado.setSuccess(false);
 			resultado.setError("[updateConfiguraciones] " + e.getMessage());
 		} finally {
-			if (closeCon) {
+			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
 		}
@@ -3297,7 +3297,7 @@ class CatalogosDAO {
 			resultado.setSuccess(false);
 			resultado.setError("[deleteConfiguraciones] " + e.getMessage());
 		} finally {
-			if (closeCon) {
+			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
@@ -3317,15 +3317,14 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CONFIGURACIONES.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-			pstm.setLong(1, Long.valueOf(object.id_campus));
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATMEDIOSENTERASTE.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
 				row = new HashMap<String, Object>();
 				row.put("clave", rs.getString("clave"));
 				row.put("valor", rs.getString("valor"));
-				row.put("id_campus", rs.getString("id_campus"));
+				row.put("orden", rs.getInt("orden"));
 				row.put("persistenceid", rs.getString("persistenceid"));
 				
 				data.add(row);
@@ -3335,9 +3334,9 @@ class CatalogosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[getConfiguraciones] " + e.getMessage());
+			resultado.setError("[getCatMediosEnteraste] " + e.getMessage());
 		} finally {
-			if (closeCon) {
+			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
