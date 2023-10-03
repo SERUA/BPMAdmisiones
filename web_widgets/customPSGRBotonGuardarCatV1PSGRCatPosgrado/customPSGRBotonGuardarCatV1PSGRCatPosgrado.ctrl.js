@@ -53,7 +53,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).finally(function(){
             vm.busy = false;
         });
-
+        $scope.properties.reload = true;
         $scope.properties.navigationVar = "tabla";
     }
 
@@ -71,7 +71,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).finally(function(){
             vm.busy = false;
         });
-
+        $scope.properties.reload = true;
         $scope.properties.navigationVar = "tabla";
     }
 
