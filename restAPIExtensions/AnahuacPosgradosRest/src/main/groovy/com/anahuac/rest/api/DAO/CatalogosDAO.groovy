@@ -2072,6 +2072,7 @@ class CatalogosDAO {
                 }
                 rows.add(row)
             }
+			errorLog += (" fecha==" + rows)
             resultado.setSuccess(true)
 
             resultado.setData(rows)
@@ -2124,26 +2125,26 @@ class CatalogosDAO {
 			pstm.setString(1, fechaHoraFormateada);
 			pstm.setBoolean(2, false); // IS_ELIMINADO
 			pstm.setString(3, object.CAMPUS); // CAMPUS
-			pstm.setString(4, object.PROPEDEUTICOS); // PROPEDEUTICOS
-			pstm.setString(5, object.clave); // Clave
-			pstm.setString(6, object.nombre); // NOMBRE
-			pstm.setString(7, object.descripcion); // DESCRIPCION
-			pstm.setString(8, object.enlace); // ENLACE
-			pstm.setString(9, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
+//			pstm.setInt(4, 0); // PROPEDEUTICOS
+			pstm.setString(4, object.clave); // Clave
+			pstm.setString(5, object.nombre); // NOMBRE
+			pstm.setString(6, object.descripcion); // DESCRIPCION
+			pstm.setString(7, object.enlace); // ENLACE
+			pstm.setString(8, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
 			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
-			pstm.setBoolean(10, propedeuticoValue); // PROPEDEUTICO
+			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
 			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
-			pstm.setBoolean(11, programaParcialValue); // PROGRAMA_PARCIAL
+			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
 			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
-			pstm.setBoolean(12, isMedicina); // IS_MEDICINA
-			pstm.setString(13, object.tipoLicenciatura); // TIPO_LICENCIATURA
-			pstm.setString(14, object.inscripcionenero); // INSCRIPCION_ENERO
-			pstm.setString(15, object.inscripcionMayo); // INSCRIPCION_MAYO
-			pstm.setString(16, object.inscripcionagosto); // INSCRIPCION_AGOSTO
-			pstm.setString(17, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(18, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
-			pstm.setString(19, object.idioma); // IDIOMA
-			pstm.setString(20, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
+			pstm.setString(12, object.tipoLicenciatura); // TIPO_LICENCIATURA
+			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
+			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
+			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
+			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+			pstm.setString(18, object.idioma); // IDIOMA
+			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
 
 			
 	
@@ -2181,7 +2182,8 @@ class CatalogosDAO {
 			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATGESTIONESCOLAR);
-			pstm.setLong(1, object.persistenceid);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -2225,27 +2227,27 @@ class CatalogosDAO {
 //			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGESTIONESCOLAR);
-			pstm.setString(1, object.CAMPUS); // CAMPUS
-			pstm.setString(2, object.PROPEDEUTICOS); // PROPEDEUTICOS
-			pstm.setString(3, object.Clave); // Clave
-			pstm.setString(4, object.NOMBRE); // NOMBRE
-			pstm.setString(5, object.DESCRIPCION); // DESCRIPCION
-			pstm.setString(6, object.ENLACE); // ENLACE
-			pstm.setString(7, object.TIPO_CENTRO_ESTUDIO); // TIPO_CENTRO_ESTUDIO
-			Boolean propedeuticoValue = (object.PROPEDEUTICO != null) ? object.PROPEDEUTICO : false;
-			pstm.setBoolean(8, propedeuticoValue); // PROPEDEUTICO
-			Boolean programaParcialValue = (object.PROGRAMA_PARCIAL != null) ? object.PROGRAMA_PARCIAL : false;
-			pstm.setBoolean(9, programaParcialValue); // PROGRAMA_PARCIAL
-			Boolean isMedicina = object.IS_MEDICINA != null ? object.IS_MEDICINA : false;
-			pstm.setBoolean(10, isMedicina); // IS_MEDICINA
-			pstm.setString(11, object.TIPO_LICENCIATURA); // TIPO_LICENCIATURA
-			pstm.setString(12, object.INSCRIPCION_ENERO); // INSCRIPCION_ENERO
-			pstm.setString(13, object.INSCRIPCION_MAYO); // INSCRIPCION_MAYO
-			pstm.setString(14, object.INSCRIPCION_AGOSTO); // INSCRIPCION_AGOSTO
-			pstm.setString(15, object.INSCRIPCION_SEPTIEMBRE); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(16, object.URL_IMG_LICENCIATURA); // URL_IMG_LICENCIATURA
-			pstm.setString(17, object.IDIOMA); // IDIOMA
-			pstm.setString(18, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setString(3, object.CAMPUS); // CAMPUS
+//			pstm.setInt(4, 0); // PROPEDEUTICOS
+			pstm.setString(4, object.clave); // Clave
+			pstm.setString(5, object.nombre); // NOMBRE
+			pstm.setString(6, object.descripcion); // DESCRIPCION
+			pstm.setString(7, object.enlace); // ENLACE
+			pstm.setString(8, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
+			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
+			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
+			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
+			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
+			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
+			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
+			pstm.setString(12, object.tipoLicenciatura); // TIPO_LICENCIATURA
+			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
+			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
+			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
+			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+			pstm.setString(18, object.idioma); // IDIOMA
+			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
 			pstm.setLong(19, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -2314,7 +2316,7 @@ class CatalogosDAO {
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 
-			where = "WHERE GE.is_eliminado = false and campus.eliminado = false and GE.campus = '" + object.campus + "'"
+			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
@@ -2488,6 +2490,7 @@ class CatalogosDAO {
 			consulta = consulta.replace("[WHERE]", where);
 
 			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+			errorLog += (" CONSULTA==" + pstm)
 			rs = pstm.executeQuery()
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"))
@@ -2502,7 +2505,7 @@ class CatalogosDAO {
 			pstm.setInt(1, object.limit)
 			pstm.setInt(2, object.offset)
 
-			errorLog += "fecha=="
+//			errorLog += " fecha=="
 
 			rs = pstm.executeQuery()
 			while (rs.next()) {
@@ -2539,7 +2542,7 @@ class CatalogosDAO {
 
 				rows.add(row)
 			}
-
+			
 			resultado.setSuccess(true)
 			resultado.setError(errorLog)
 			resultado.setData(rows)

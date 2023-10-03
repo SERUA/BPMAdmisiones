@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1696282832694,
+  "lastUpdate" : 1696357874318,
   "rows" : [
     [
       {
@@ -794,13 +794,13 @@
                         "value" : [
                           "clave",
                           "nombre",
-                          "\"$\"+inscripcionenero",
-                          "\"$\"+inscripcionMayo",
-                          "\"$\"+inscripcionagosto",
-                          "\"$\"+inscripcionSeptiembre",
-                          "tipoLicenciatura",
+                          "\"$\"+inscripcion_enero",
+                          "\"$\"+inscripcion_mayo",
+                          "\"$\"+inscripcion_agosto",
+                          "\"$\"+inscripcion_septiembre",
+                          "tipo_licenciatura",
                           "propedeutico? \"Sí\":\"No\"",
-                          "programaparcial ? \"Sí\":\"No\""
+                          "programa_parcial ? \"Sí\":\"No\""
                         ]
                       },
                       "selectedRow" : {
@@ -862,6 +862,10 @@
                       "lstCatCampus" : {
                         "type" : "variable",
                         "value" : "lstCatCampus"
+                      },
+                      "urlDelete" : {
+                        "type" : "constant",
+                        "value" : "/bonita/API/extension/posgradosRest?url=deleteCatGestionEscolar"
                       }
                     },
                     "reference" : "bcd49528-c62d-49b8-8b90-63dd0c333651",
@@ -3206,6 +3210,10 @@
                 "campusSelected" : {
                   "type" : "expression",
                   "value" : "campusSelected"
+                },
+                "urlUpdate" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
               "reference" : "f270645c-657b-4b0a-9ebb-db7c66a66a77",
@@ -5427,7 +5435,16 @@
                   "value" : "lstContenido"
                 },
                 "urlInsert" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "campusSelected" : {
+                  "type" : "expression",
+                  "value" : "campusSelected"
+                },
+                "urlUpdate" : {
+                  "type" : "variable",
+                  "value" : "../API/extension/posgradosRest?url=updateCatGestionEscolar"
                 }
               },
               "reference" : "ec907eed-db7e-4415-b8c1-be3074566d6b",
@@ -6579,7 +6596,7 @@
         "    \"orientation\":\"ASC\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
-        "    \"campus\":$data.campusSelected.valor\r",
+        "    \"campus\":$data.campusSelected\r",
         "};"
       ],
       "exposed" : false
