@@ -78,8 +78,6 @@ function ($scope) {
     }
     
     function getElementOnScreen( _id){
-        //let element = document.getElementById(_id);
-        //element.scrollIntoView();
         document.getElementById(_id).scrollIntoView({block: "end", behavior: "smooth"});
     }
     
@@ -91,6 +89,9 @@ function ($scope) {
 
     $scope.$watchCollection("properties.selectedIndex", function(newValue, oldValue) {
         if($scope.properties.selectedIndex !== undefined){
+            if(typeof $scope.properties.selectedIndex === "string"){
+                $scope.properties.selectedIndex = parseInt($scope.properties.selectedIndex);
+            }
             $scope.maxCompletedStep = $scope.properties.selectedIndex;
             $scope.setSelected($scope.properties.selectedIndex);
         }
