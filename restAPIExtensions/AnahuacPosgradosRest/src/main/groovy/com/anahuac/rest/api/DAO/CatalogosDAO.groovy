@@ -3682,15 +3682,15 @@ class CatalogosDAO {
 			//Validaciones en el catálogo
 			if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.valor.equals("") || object.valor == null) {
-				throw new Exception("El campo \"Valor\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			} else if(object.orden.equals("") || object.orden == null) {
 				throw new Exception("El campo \"Orden\" no debe ir vacío");
 			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATMEDIOSENTERASTE);
 			pstm.setString(1, object.clave);
-			pstm.setString(2, object.valor);
+			pstm.setString(2, object.descripcion);
 			pstm.setInt(3, Integer.valueOf(object.orden));
 			
 			if (pstm.executeUpdate() > 0) {
@@ -3722,16 +3722,19 @@ class CatalogosDAO {
 			//Validaciones en el catálogo
 			if(object.persistenceid.equals("") || object.persistenceid == null) {
 				throw new Exception("El registro no existe.");
+			} else if(object.orden.equals("") || object.orden == null) {
+				throw new Exception("El campo \"Orden\" no debe ir vacío");
 			} else if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.valor.equals("") || object.valor == null) {
-				throw new Exception("El campo \"Valor\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATMEDIOSENTERASTE);
 			pstm.setString(1, object.clave);
-			pstm.setString(2, object.valor);
-			pstm.setLong(3, Long.valueOf(object.persistenceid));
+			pstm.setString(2, object.descripcion);
+			pstm.setInt(3, Integer.valueOf(object.orden));
+			pstm.setLong(4, Long.valueOf(object.persistenceid));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -3740,7 +3743,7 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateConfiguraciones] " + e.getMessage());
+			resultado.setError("[updateCatMediosEnteraste] " + e.getMessage());
 		} finally {
 			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -3771,7 +3774,7 @@ class CatalogosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[deleteConfiguraciones] " + e.getMessage());
+			resultado.setError("[deleteCatMediosEnteraste] " + e.getMessage());
 		} finally {
 			if (con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
@@ -3799,7 +3802,7 @@ class CatalogosDAO {
 			while(rs.next()) {
 				row = new HashMap<String, Object>();
 				row.put("clave", rs.getString("clave"));
-				row.put("valor", rs.getString("valor"));
+				row.put("descripcion", rs.getString("descripcion"));
 				row.put("orden", rs.getInt("orden"));
 				row.put("persistenceid", rs.getString("persistenceid"));
 				
