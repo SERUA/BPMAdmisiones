@@ -228,6 +228,17 @@
               <inputTypes>java.lang.Long</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_fPVBIGGAEe6RQJm-wpuHVw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_fPVBIWGAEe6RQJm-wpuHVw" name="datosPersonales" content="datosPersonales" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_gS5W8GGAEe6RQJm-wpuHVw" name="datosPersonales" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_fPVBImGAEe6RQJm-wpuHVw" name="datosPersonalesInput" content="datosPersonalesInput.lugar_nacimiento_ciudad" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_mGklwGGAEe6RQJm-wpuHVw" name="datosPersonalesInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_fPVBI2GAEe6RQJm-wpuHVw" type="JAVA_METHOD" expression="setLugar_nacimiento_ciudad">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_jIMmp2F0Ee6RQJm-wpuHVw">
             <leftOperand xmi:type="expression:Expression" xmi:id="_jIMmqGF0Ee6RQJm-wpuHVw" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jIMmqWF0Ee6RQJm-wpuHVw" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
@@ -280,10 +291,10 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_jIMmxGF0Ee6RQJm-wpuHVw" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jIMmxWF0Ee6RQJm-wpuHVw" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_jIMmxmF0Ee6RQJm-wpuHVw" name="datosProgramaInput.medios_enteraste" content="def pSGRMedioInformacionSolicitudList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;datosProgramaInput?.medios_enteraste.each{&#xD;&#xA;&#x9;//Add PSGRMedioInformacionSolicitud instance&#xD;&#xA;&#x9;pSGRMedioInformacionSolicitudList.add({ currentPSGRMedioInformacionSolicitudInput ->&#xD;&#xA;&#x9;&#x9;def pSGRMedioInformacionSolicitudVar = pSGRMedioInformacionSolicitudDAO.findByPersistenceId(currentPSGRMedioInformacionSolicitudInput.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;if(!pSGRMedioInformacionSolicitudVar) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRMedioInformacionSolicitud` with the persistence id &quot; + currentPSGRMedioInformacionSolicitudInput.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.especifique = currentPSGRMedioInformacionSolicitudInput.especifique&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.cat_medio_enteraste = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated PSGRCatMedioEnteraste using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def pSGRCatMedioEnterasteVar = pSGRCatMedioEnterasteDAO.findByPersistenceId(currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!pSGRCatMedioEnterasteVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatMedioEnteraste` with the persistence id &quot; + currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;pSGRCatMedioEnterasteVar.clave = currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.clave&#xD;&#xA;&#x9;&#x9;&#x9;return pSGRCatMedioEnterasteVar}()&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.caseid = currentPSGRMedioInformacionSolicitudInput.caseid?.trim() ? currentPSGRMedioInformacionSolicitudInput.caseid.toLong() : null&#xD;&#xA;&#x9;&#x9;return pSGRMedioInformacionSolicitudVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return pSGRMedioInformacionSolicitudList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_jIMmx2F0Ee6RQJm-wpuHVw" name="datosProgramaInput" type="COMPLEX" createMode="false"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_jIMmyGF0Ee6RQJm-wpuHVw" name="pSGRMedioInformacionSolicitudDAO" content="pSGRMedioInformacionSolicitudDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitudDAO" returnTypeFixed="true"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_jIMmyWF0Ee6RQJm-wpuHVw" name="pSGRCatMedioEnterasteDAO" content="pSGRCatMedioEnterasteDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatMedioEnterasteDAO" returnTypeFixed="true"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_jIMmxmF0Ee6RQJm-wpuHVw" name="datosProgramaInput.medios_enteraste" content="def pSGRMedioInformacionSolicitudList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;datosProgramaInput?.medios_enteraste.each{&#xD;&#xA;&#x9;//Add PSGRMedioInformacionSolicitud instance&#xD;&#xA;&#x9;pSGRMedioInformacionSolicitudList.add({ currentPSGRMedioInformacionSolicitudInput ->&#xD;&#xA;&#x9;&#x9;def pSGRMedioInformacionSolicitudVar = pSGRMedioInformacionSolicitudDAO.findByPersistenceId(currentPSGRMedioInformacionSolicitudInput.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;if(!pSGRMedioInformacionSolicitudVar) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRMedioInformacionSolicitud` with the persistence id &quot; + currentPSGRMedioInformacionSolicitudInput.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.especifique = currentPSGRMedioInformacionSolicitudInput.especifique&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.cat_medio_enteraste = {&#xD;&#xA;&#x9;&#x9;&#x9;//Retrieve aggregated PSGRCatMedioEnteraste using its DAO and persistenceId&#xD;&#xA;&#x9;&#x9;&#x9;def pSGRCatMedioEnterasteVar = pSGRCatMedioEnterasteDAO.findByPersistenceId(currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;&#x9;&#x9;if (!pSGRCatMedioEnterasteVar) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatMedioEnteraste` with the persistence id &quot; + currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.persistenceId_string?.trim() ? currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;return null&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;pSGRCatMedioEnterasteVar.clave = currentPSGRMedioInformacionSolicitudInput.cat_medio_enteraste?.clave&#xD;&#xA;&#x9;&#x9;&#x9;return pSGRCatMedioEnterasteVar}()&#xD;&#xA;&#x9;&#x9;pSGRMedioInformacionSolicitudVar.seleccionado = currentPSGRMedioInformacionSolicitudInput.seleccionado?.trim() ? Boolean.valueOf(currentPSGRMedioInformacionSolicitudInput.seleccionado) : null&#xD;&#xA;&#x9;&#x9;return pSGRMedioInformacionSolicitudVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return pSGRMedioInformacionSolicitudList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_9mqL8GGAEe6RQJm-wpuHVw" name="pSGRMedioInformacionSolicitudDAO" content="pSGRMedioInformacionSolicitudDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitudDAO" returnTypeFixed="true"/>
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_9mqL8WGAEe6RQJm-wpuHVw" name="datosProgramaInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_9mqL8mGAEe6RQJm-wpuHVw" name="pSGRCatMedioEnterasteDAO" content="pSGRCatMedioEnterasteDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatMedioEnterasteDAO" returnTypeFixed="true"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_jIMmymF0Ee6RQJm-wpuHVw" type="JAVA_METHOD" expression="setMedios_enteraste">
               <inputTypes>java.util.List</inputTypes>
@@ -474,7 +485,7 @@
           <iteratorExpression xmi:type="expression:Expression" xmi:id="_WsYcF1ZxEe6T3bm1fu0vzg" name="multiInstanceIterator" content="multiInstanceIterator" type="MULTIINSTANCE_ITERATOR_TYPE" returnType="java.lang.Object" returnTypeFixed="true"/>
           <completionCondition xmi:type="expression:Expression" xmi:id="_WsYcFlZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <formMapping xmi:type="process:FormMapping" xmi:id="_gI1IalZxEe6T3bm1fu0vzg">
-            <targetForm xmi:type="expression:Expression" xmi:id="_koXzQF1rEe6Pc6WsAlY1eg" name="PSGRsolicitudDELETE" content="65a1e6e4-6a09-4653-97d5-5d2187adc2d0" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+            <targetForm xmi:type="expression:Expression" xmi:id="_lhO2UGF7Ee6RQJm-wpuHVw" name="PSGRFormularioSolicitud" content="a142b125-67e9-4c21-a142-ff74c369572b" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
           </formMapping>
           <filters xmi:type="process:ActorFilter" xmi:id="_9LJ6wF5WEe6xB83abJCRzg" name="Aspirante iniciador" definitionId="bonita-actorfilter-initiator" definitionVersion="1.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_9LJ6wV5WEe6xB83abJCRzg" definitionId="bonita-actorfilter-initiator" version="1.0">
@@ -509,6 +520,21 @@
               <inputs xmi:type="process:ContractInput" xmi:id="_aoRz_2F0Ee6RQJm-wpuHVw" name="nombre" createMode="false"/>
               <inputs xmi:type="process:ContractInput" xmi:id="_aoR0AGF0Ee6RQJm-wpuHVw" name="apellido_paterno" createMode="false"/>
               <inputs xmi:type="process:ContractInput" xmi:id="_aoR0AWF0Ee6RQJm-wpuHVw" name="apellido_materno" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_cdUzkGGAEe6RQJm-wpuHVw" name="lugar_nacimiento_ciudad">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_cdUzkWGAEe6RQJm-wpuHVw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_knO9IGGEEe6RQJm-wpuHVw" name="id_banner">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_knO9IWGEEe6RQJm-wpuHVw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_lbrR0GGEEe6RQJm-wpuHVw" name="alumno_anahuac" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_lbrR0WGEEe6RQJm-wpuHVw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_q1i5gGGEEe6RQJm-wpuHVw" name="campus_alumno" type="COMPLEX">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_q1i5gWGEEe6RQJm-wpuHVw"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_rl1G8GGEEe6RQJm-wpuHVw" name="persistenceId_string">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_rl1G8WGEEe6RQJm-wpuHVw"/>
+                </inputs>
+              </inputs>
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_jIMmkGF0Ee6RQJm-wpuHVw" name="datosProgramaInput" type="COMPLEX" dataReference="datosPrograma" createMode="false">
               <inputs xmi:type="process:ContractInput" xmi:id="_jIMmkWF0Ee6RQJm-wpuHVw" name="posgrado" type="COMPLEX" createMode="false">
@@ -530,7 +556,9 @@
                   <inputs xmi:type="process:ContractInput" xmi:id="_jIMmnWF0Ee6RQJm-wpuHVw" name="persistenceId_string" createMode="false"/>
                   <inputs xmi:type="process:ContractInput" xmi:id="_jIMmnmF0Ee6RQJm-wpuHVw" name="clave" createMode="false"/>
                 </inputs>
-                <inputs xmi:type="process:ContractInput" xmi:id="_jIMmn2F0Ee6RQJm-wpuHVw" name="caseid" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_uvBCQGGAEe6RQJm-wpuHVw" name="seleccionado" type="BOOLEAN">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_uvBCQWGAEe6RQJm-wpuHVw"/>
+                </inputs>
               </inputs>
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_kvZN4GF0Ee6RQJm-wpuHVw" name="datosContactoInput" type="COMPLEX" dataReference="datosContacto" createMode="false">
