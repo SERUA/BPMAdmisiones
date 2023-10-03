@@ -43,8 +43,8 @@ class StatementsCatalogos {
 	
 	//PSGRCatPropedeutico
 	public static final String INSERT_CATPROPEDEUTICO = "INSERT INTO PSGRCatPropedeutico (PERSISTENCEID, IS_ELIMINADO, PERSISTENCEVERSION, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATPROPEDEUTICO), ?, ?, ?, ?, ?, ?);";
-	public static final String DELETE_CATPROPEDEUTICO  = "DELETE FROM PSGRCatPropedeutico WHERE persistenceid = ?";
-	public static final String UPDATE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET clave = ?, descripcion = ?, usuario_creacion = ? WHERE persistenceid = ?;";
+	public static final String DELETE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET clave = ?, descripcion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPROPEDEUTICO  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPropedeutico [WHERE] [ORDERBY]";
 	
 	//PSGRCatPosgrado

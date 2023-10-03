@@ -42,7 +42,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function accionCatalogoInsert(urlInsert){
         debugger;
         vm.busy = true;
-[]
+        
         $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
@@ -53,7 +53,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).finally(function(){
             vm.busy = false;
         });
-
+        $scope.properties.reload = true;
         $scope.properties.navigationVar = "tabla";
     }
 
@@ -71,7 +71,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).finally(function(){
             vm.busy = false;
         });
-
+        $scope.properties.reload = true;
         $scope.properties.navigationVar = "tabla";
     }
 

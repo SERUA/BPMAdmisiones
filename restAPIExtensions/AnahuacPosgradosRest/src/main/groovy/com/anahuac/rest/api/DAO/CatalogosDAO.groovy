@@ -2703,7 +2703,7 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPROPEDEUTICO);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setLong(4, object.persistenceId);
+			pstm.setLong(3, object.persistenceId);
 	
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -2726,7 +2726,7 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRCatEstado> data = new ArrayList<>();
-		String where = ""; // Aplicar filtro por defecto para registros no eliminados
+		String where = "WHERE IS_ELIMINADO=false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
 	
 		try {
@@ -2788,6 +2788,20 @@ class CatalogosDAO {
 							where += " WHERE "
 						}
 						where += " LOWER(fecha_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ISELIMINADO":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(IS_ELIMINADO) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
