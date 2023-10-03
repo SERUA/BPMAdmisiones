@@ -5076,6 +5076,14 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatImageNotificacion">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -5083,6 +5091,17 @@
                 <field type="LONG" length="255" name="case_id" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="titulo" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="codigo" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="fecha_creacion" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5278,6 +5297,14 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.config.PSGRConfiguraciones">
             <fields>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
@@ -5297,21 +5324,31 @@
             <queries/>
             <indexes/>
         </businessObject>
-        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRDatosPersonales">
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRIdiomas">
             <fields>
-                <field type="STRING" length="255" name="urlFoto" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="LAZY" name="sexo" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="LAZY" name="estado_civil" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="LAZY" name="nacionalidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="LAZY" name="religion" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="pasaporte" nullable="true" collection="false"/>
-                <field type="LOCALDATE" length="255" name="fecha_nacimiento" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="lugar_nacimiento_pais" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="lugar_nacimiento_estado" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
-                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="idioma" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="traduce" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="habla" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="escribe" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRInformacionLaboral">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre_empresa" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa" fetchType="LAZY" name="giro_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="puesto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa" fetchType="LAZY" name="tipo_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="telefono_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="ext_telefono_empresa" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="reporta_a" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_inicio" nullable="true" collection="false"/>
+                <field type="TEXT" length="255" name="desc_responsabilidad" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_trabajo_actual" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5321,6 +5358,8 @@
             <fields>
                 <field type="STRING" length="255" name="especifique" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste" fetchType="LAZY" name="cat_medio_enteraste" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="seleccionado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5357,6 +5396,53 @@
                 <field type="STRING" length="255" name="telefono_celular" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="telefono_casa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="correo_contacto" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+            <fields>
+                <field type="STRING" length="255" name="urlFoto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="LAZY" name="sexo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="LAZY" name="estado_civil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="LAZY" name="nacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="LAZY" name="religion" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="pasaporte" nullable="true" collection="false"/>
+                <field type="LOCALDATE" length="255" name="fecha_nacimiento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_pais" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_estado" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="lugar_nacimiento_ciudad" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="apellido_materno" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="id_banner" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="alumno_anahuac" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_alumno" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDocs">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos" fetchType="LAZY" name="documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tamano_documento" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_otro" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiExpLaboral">
+            <fields>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="LAZY" name="trabajas_actualmente" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5386,6 +5472,7 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="LAZY" name="estudiara_programa_otra_universidad" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud" fetchType="LAZY" name="medios_enteraste" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_ingreso" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
