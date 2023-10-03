@@ -23,11 +23,11 @@
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody ng-if="properties.tieneFiltros">
             <tr>
                 <td><input ng-model="dynamicInput['orden']" class="form-control" ng-enter="filterKeyPress('orden',dynamicInput['orden'])"></td>
                 <td><input ng-model="dynamicInput['clave']" class="form-control" ng-enter="filterKeyPress('clave',dynamicInput['clave'])"></td>
-                <td><input ng-model="dynamicInput['valor']" class="form-control" ng-enter="filterKeyPress('valor',dynamicInput['valor'])"></td>
+                <td><input ng-model="dynamicInput['descripcion']" class="form-control" ng-enter="filterKeyPress('descripcion',dynamicInput['descripcion'])"></td>
             </tr>
         </tbody>
         <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
@@ -40,7 +40,7 @@
                 <!--</td>-->
                 <td>{{ row.orden }}</td>
                 <td>{{ row.clave }}</td>
-                <td>{{ row.valor }}</td>
+                <td>{{ row.descripcion }}</td>
                 <td>
                     <button type="button" class="btn btn-primary"
                             ng-click="ctrl.handlePencilClick(row)">
