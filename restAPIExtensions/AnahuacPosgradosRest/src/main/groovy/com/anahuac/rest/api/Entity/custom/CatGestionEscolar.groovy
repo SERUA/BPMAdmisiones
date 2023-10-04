@@ -24,11 +24,17 @@ class CatGestionEscolar {
 	private String url_img_licenciatura;
 	private Boolean is_medicina;
 	private String idioma;
+	private Long campus_referencia_pid;
 	
 	
 	
 	
-	
+	public Long getCampusReferenciaPid() {
+		return campus_referencia_pid;
+	}
+	public void setCampusReferenciaPid(Long campus_referencia_pid) {
+		this.campus_referencia_pid = campus_referencia_pid;
+	}
 	
 	public String getIdioma() {
 		return idioma;

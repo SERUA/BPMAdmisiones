@@ -1,8 +1,8 @@
 {
   "modelVersion" : "2.2",
-  "id" : "PSGRCatEstadoCivil",
-  "name" : "PSGRCatEstadoCivil",
-  "lastUpdate" : 1696374036956,
+  "id" : "PSGRCatReligion",
+  "name" : "PSGRCatReligion",
+  "lastUpdate" : 1696400373479,
   "rows" : [
     [
       {
@@ -27,7 +27,7 @@
             "value" : ""
           }
         },
-        "reference" : "b6486d6c-cdb4-4676-a15b-118efa145ea8",
+        "reference" : "2d7d1343-da00-4e01-9e76-ec19ecb9d6f7",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -56,7 +56,7 @@
             "value" : ""
           }
         },
-        "reference" : "dbe3808b-1cde-45e0-b5fc-e09465e2c31a",
+        "reference" : "200df387-ff0c-4219-8e83-a7457b89ef07",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo estado civíl"
+                  "value" : "Catalogo religion"
                 },
                 "level" : {
                   "type" : "constant",
@@ -91,7 +91,7 @@
                   "value" : "center"
                 }
               },
-              "reference" : "b3c045bc-c63e-4902-b90a-30a0caf7209e",
+              "reference" : "fa7947d8-9bf9-4bba-81ee-ceadba7e02c9",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -147,7 +147,7 @@
                   "value" : "selectedCat"
                 }
               },
-              "reference" : "4b086323-3ae1-4207-982f-ef9abe5e7d60",
+              "reference" : "e46b3604-8b0d-4ee3-a1d7-5ae8909bd99c",
               "hasValidationError" : false,
               "id" : "customPSGRbtnReiniciarCatNavegar"
             }
@@ -192,8 +192,10 @@
                   "value" : [
                     "clave",
                     "descripcion",
-                    "usuarioCreacion",
-                    "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
+                    "id",
+                    "usuarioBanner",
+                    "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'",
+                    "fechaImportacion| date:'dd-MM-yyyy HH:mm:ss'"
                   ]
                 },
                 "selectedRow" : {
@@ -214,7 +216,7 @@
                 },
                 "urlGet" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=getCatSexo"
+                  "value" : "../API/extension/posgradosRest?url=getCatReligion"
                 },
                 "reload" : {
                   "type" : "variable",
@@ -226,12 +228,12 @@
                 },
                 "urlDelete" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=deleteCatSexo"
+                  "value" : "../API/extension/posgradosRest?url=deleteCatReligion"
                 }
               },
-              "reference" : "117886ba-4c12-492d-9e72-f09ebe704d80",
+              "reference" : "3b47a01d-3856-44d5-a6e5-20cf7b1f4dc7",
               "hasValidationError" : false,
-              "id" : "customPSGRTABLACATSEXO"
+              "id" : "customPSGRTABLACATPROPEDEUTICO"
             }
           ],
           [
@@ -257,7 +259,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "279c7ac9-3eb8-4b54-87cd-6164251e415f",
+              "reference" : "fc92a56f-2c09-4b2d-8a57-753e92b455b8",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -267,8 +269,83 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Id banner"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "selectedCat.id"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "9c11bf2f-9b25-480c-a526-d68caf884fe0",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -333,7 +410,7 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "5bda61f9-bfb5-4777-8879-60e931ada511",
+                    "reference" : "ed36802d-a72a-47ce-8bf6-fb1cf1c3e2cd",
                     "hasValidationError" : false,
                     "id" : "pbInput"
                   },
@@ -342,8 +419,8 @@
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
+                      "md" : 4,
+                      "lg" : 4
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -408,7 +485,7 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "c37ba049-6c62-4e5c-9391-97908dffc619",
+                    "reference" : "ae3d5027-420e-44ec-b4d3-e147eee02771",
                     "hasValidationError" : false,
                     "id" : "customInputMinMayCustom"
                   }
@@ -460,7 +537,7 @@
                         "value" : "tabla"
                       }
                     },
-                    "reference" : "8cdfb6b2-0c5e-4305-89ea-09d20e6fee42",
+                    "reference" : "5dc0860e-d3d6-46de-b5d8-36aad7234a58",
                     "hasValidationError" : false,
                     "id" : "customCustomBtnNavigationByVariable"
                   },
@@ -519,11 +596,11 @@
                       },
                       "urlInsert" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=insertCatSexo"
+                        "value" : "../API/extension/posgradosRest?url=insertCatReligion"
                       },
                       "urlUpdate" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=updateCatSexo"
+                        "value" : "../API/extension/posgradosRest?url=updateCatReligion"
                       },
                       "navigationVar" : {
                         "type" : "variable",
@@ -532,11 +609,15 @@
                       "userData" : {
                         "type" : "expression",
                         "value" : "userData"
+                      },
+                      "reload" : {
+                        "type" : "variable",
+                        "value" : "reload"
                       }
                     },
-                    "reference" : "3630dc76-cdce-4509-8145-61f860625cbc",
+                    "reference" : "9c6fe324-205b-4526-a37a-ade0dfb89dba",
                     "hasValidationError" : false,
-                    "id" : "customPSGRBotonGuardarCatV1PSGRCatEstado"
+                    "id" : "customPSGRBotonGuardarCatV1PSGRCatPropedeutico"
                   }
                 ]
               ]
@@ -632,7 +713,7 @@
     }
   },
   "hasValidationError" : false,
-  "uuid" : "0c37f165-832a-49bc-98f7-2d6dc815b4f0",
+  "uuid" : "9d737222-4938-4942-b827-2491268cc784",
   "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }

@@ -1,8 +1,8 @@
 {
   "modelVersion" : "2.2",
-  "id" : "PSGRCatPosgrado",
-  "name" : "PSGRCatPosgrado",
-  "lastUpdate" : 1696378219371,
+  "id" : "PSGRCatNacionalidad",
+  "name" : "PSGRCatNacionalidad",
+  "lastUpdate" : 1696399140491,
   "rows" : [
     [
       {
@@ -27,7 +27,7 @@
             "value" : ""
           }
         },
-        "reference" : "fdece054-fd95-455a-9626-b140a22d692c",
+        "reference" : "6ddc6f90-90ec-433d-b039-f5606b9ad46a",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -56,7 +56,7 @@
             "value" : ""
           }
         },
-        "reference" : "7c755926-03d2-4f33-8bea-ce8b846c579d",
+        "reference" : "d5d5b3c2-ed6f-4fe2-922d-8788b1f69d4c",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo posgrado"
+                  "value" : "Catalogo nacionalidad"
                 },
                 "level" : {
                   "type" : "constant",
@@ -91,7 +91,7 @@
                   "value" : "center"
                 }
               },
-              "reference" : "befb5bed-1fa1-4789-95ec-a5b62133585b",
+              "reference" : "99a2836d-153c-4e7a-ae31-721867ac294c",
               "hasValidationError" : false,
               "id" : "pbTitle"
             }
@@ -111,60 +111,50 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "navigationVar !== \"tabla\""
                 },
                 "disabled" : {
-                  "type" : "expression",
-                  "value" : "editable != 'tabla'"
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelHidden" : {
                   "type" : "constant",
                   "value" : false
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Seleccionar campus"
+                  "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar"
                 },
-                "labelPosition" : {
+                "alignment" : {
                   "type" : "constant",
-                  "value" : "top"
+                  "value" : "right"
                 },
-                "labelWidth" : {
+                "buttonStyle" : {
                   "type" : "constant",
-                  "value" : 4
+                  "value" : "primary"
                 },
-                "placeholder" : {
-                  "type" : "interpolation",
-                  "value" : "Selecciona una opción"
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
                 },
-                "availableValues" : {
-                  "type" : "expression",
-                  "value" : "lstCatCampus"
-                },
-                "displayedKey" : {
-                  "type" : "constant"
-                },
-                "returnedKey" : {
-                  "type" : "constant"
-                },
-                "value" : {
+                "navigationVar" : {
                   "type" : "variable",
-                  "value" : "campusSelected"
+                  "value" : "navigationVar"
+                },
+                "newValue" : {
+                  "type" : "constant",
+                  "value" : "nuevo"
+                },
+                "objetoCat" : {
+                  "type" : "variable",
+                  "value" : "selectedCat"
                 }
               },
-              "reference" : "438ccb9b-bb99-4e91-9692-129c0318a3d9",
+              "reference" : "6e9da30b-9726-421b-a4fa-efddcb394809",
               "hasValidationError" : false,
-              "id" : "pbSelect"
+              "id" : "customPSGRbtnReiniciarCatNavegar"
             }
           ],
           [
             {
-              "type" : "container",
+              "type" : "component",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -178,164 +168,72 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "editable != 'tabla' || cargar_catDatos"
+                  "value" : "navigationVar !== \"tabla\""
                 },
-                "repeatedCollection" : {
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "headers" : {
+                  "type" : "constant",
+                  "value" : [
+                    "Clave",
+                    "Descripción",
+                    "Usuario_creacion",
+                    "Fecha_creación"
+                  ]
+                },
+                "content" : {
                   "type" : "variable",
-                  "value" : ""
+                  "value" : "lstCat"
+                },
+                "columnsKey" : {
+                  "type" : "constant",
+                  "value" : [
+                    "orden",
+                    "clave",
+                    "descripcion",
+                    "id",
+                    "usuarioBanner",
+                    "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
+                  ]
+                },
+                "selectedRow" : {
+                  "type" : "variable",
+                  "value" : "selectedCat"
+                },
+                "striped" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "condensed" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "bordered" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "urlGet" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=getCatNacionalidad"
+                },
+                "reload" : {
+                  "type" : "variable",
+                  "value" : "reload"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : "navigationVar"
+                },
+                "urlDelete" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=deleteCatNacionalidad"
                 }
               },
-              "reference" : "ab28bd02-20b1-4d7a-a808-cb451bdac702",
+              "reference" : "2f518b98-aa30-4e48-8478-b76cbbd6ad6b",
               "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "navigationVar !== \"tabla\""
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "<span class=\"glyphicon glyphicon-plus\"></span> Agregar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Submit task"
-                      },
-                      "navigationVar" : {
-                        "type" : "variable",
-                        "value" : "navigationVar"
-                      },
-                      "newValue" : {
-                        "type" : "constant",
-                        "value" : "nuevo"
-                      },
-                      "objetoCat" : {
-                        "type" : "variable",
-                        "value" : "selectedCat"
-                      }
-                    },
-                    "reference" : "73f9aab1-bd07-40ec-836e-17f6871cc3a6",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRbtnReiniciarCatNavegar"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "expression",
-                        "value" : "navigationVar !== \"tabla\""
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "headers" : {
-                        "type" : "constant",
-                        "value" : [
-                          "Clave",
-                          "Descripción",
-                          "Usuario_creacion",
-                          "Fecha_creación"
-                        ]
-                      },
-                      "content" : {
-                        "type" : "variable",
-                        "value" : "lstCat"
-                      },
-                      "columnsKey" : {
-                        "type" : "constant",
-                        "value" : [
-                          "clave",
-                          "descripcion",
-                          "usuarioCreacion",
-                          "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
-                        ]
-                      },
-                      "selectedRow" : {
-                        "type" : "variable",
-                        "value" : "selectedCat"
-                      },
-                      "striped" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "condensed" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "bordered" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "urlGet" : {
-                        "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=getCatPosgrado"
-                      },
-                      "reload" : {
-                        "type" : "variable",
-                        "value" : "reload"
-                      },
-                      "navigationVar" : {
-                        "type" : "variable",
-                        "value" : "navigationVar"
-                      },
-                      "urlDelete" : {
-                        "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=deleteCatPosgrado"
-                      },
-                      "urlGetCampus" : {
-                        "type" : "constant",
-                        "value" : "/bonita/API/extension/posgradosRest?url=getLstCampus&p=0&c=10"
-                      },
-                      "lstCatCampus" : {
-                        "type" : "variable",
-                        "value" : "lstCatCampus"
-                      }
-                    },
-                    "reference" : "93cfe76b-9148-4f18-88a0-d9e8c8e1d473",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRTABLACATPOSGRADO"
-                  }
-                ]
-              ]
+              "id" : "customPSGRTABLACATPROPEDEUTICO"
             }
           ],
           [
@@ -361,7 +259,7 @@
                   "value" : ""
                 }
               },
-              "reference" : "ec67cbfc-c188-4ad8-88e1-1cd91b5b20c1",
+              "reference" : "27110ef6-ccf3-4891-a2c0-802bc89ae89b",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
@@ -372,7 +270,82 @@
                       "xs" : 12,
                       "sm" : 12,
                       "md" : 6,
-                      "lg" : 6
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Id banner"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "selectedCat.id"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "a28e9248-199f-48a6-a192-75d1ae3c1dea",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 8
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -437,10 +410,12 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "7d32ecf9-bcd1-44bc-93c8-0c61b6b9534e",
+                    "reference" : "ea697622-196c-4293-a891-f6cc6228ea9c",
                     "hasValidationError" : false,
                     "id" : "pbInput"
-                  },
+                  }
+                ],
+                [
                   {
                     "type" : "component",
                     "dimension" : {
@@ -512,9 +487,124 @@
                         "value" : 1
                       }
                     },
-                    "reference" : "bc5930c9-f3c4-49ca-8ce3-dfd266ab7f8d",
+                    "reference" : "62e8b17a-8a7b-44d2-b1b1-8922ac2c399a",
                     "hasValidationError" : false,
                     "id" : "customInputMinMayCustom"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Orden"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "selectedCat.orden"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "number"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "faabea9c-aa28-4b99-8e71-1d3cc9afa470",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Activado"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "selectedCat.is_enabled"
+                      }
+                    },
+                    "reference" : "403051bd-219c-4fab-b7cd-65592953a68d",
+                    "hasValidationError" : false,
+                    "id" : "pbCheckbox"
                   }
                 ],
                 [
@@ -564,7 +654,7 @@
                         "value" : "tabla"
                       }
                     },
-                    "reference" : "0566374f-aa83-47fd-bf63-047742c7a799",
+                    "reference" : "dab6ede7-c9e4-4151-980b-7167aadfdac8",
                     "hasValidationError" : false,
                     "id" : "customCustomBtnNavigationByVariable"
                   },
@@ -623,11 +713,11 @@
                       },
                       "urlInsert" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=insertCatPosgrado"
+                        "value" : "../API/extension/posgradosRest?url=insertCatNacionalidad"
                       },
                       "urlUpdate" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=updateCatPosgradoo"
+                        "value" : "../API/extension/posgradosRest?url=updateCatNacionalidad"
                       },
                       "navigationVar" : {
                         "type" : "variable",
@@ -637,18 +727,14 @@
                         "type" : "expression",
                         "value" : "userData"
                       },
-                      "urlGet" : {
-                        "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=getCatPosgrado"
-                      },
                       "reload" : {
                         "type" : "variable",
                         "value" : "reload"
                       }
                     },
-                    "reference" : "d598f119-e0be-4ad6-b3c7-617f16f8b1ad",
+                    "reference" : "e27fc653-0be7-418d-beb3-87edd5b67146",
                     "hasValidationError" : false,
-                    "id" : "customPSGRBotonGuardarCatV1PSGRCatPosgrado"
+                    "id" : "customPSGRBotonGuardarCatV1PSGRCatPropedeutico"
                   }
                 ]
               ]
@@ -741,24 +827,10 @@
       ],
       "advancedOptions" : { },
       "exposed" : false
-    },
-    "editable" : {
-      "type" : "constant",
-      "value" : [
-        "tabla"
-      ],
-      "exposed" : false
-    },
-    "lstCatCampus" : {
-      "type" : "json",
-      "value" : [
-        "{}"
-      ],
-      "exposed" : false
     }
   },
   "hasValidationError" : false,
-  "uuid" : "0cdabfa2-6a6a-4fc7-bdd1-e7d833873b82",
+  "uuid" : "4e8d98d2-04e9-4357-90b5-f9c24151ebd7",
   "type" : "page",
   "description" : "Page generated with Bonita UI designer"
 }
