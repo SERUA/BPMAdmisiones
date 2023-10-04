@@ -5081,7 +5081,7 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result inertCatPeriodo(String jsonData, RestAPIContext context) {
+	public Result insertCatPeriodo(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 	
@@ -5098,28 +5098,26 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
-			} else if(object.fechainicio.equals("") || object.fechainicio == null) {
+			} else if(object.fecha_inicio.equals("") || object.fecha_inicio == null) {
 				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
-			} else if(object.fechafin.equals("") || object.fechafin == null) {
+			} else if(object.fecha_fin.equals("") || object.fecha_fin == null) {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
-			} else if(object.id_campus.equals("") || object.id_campus == null) {
-				throw new Exception("El campo \"Campus\" no debe ir vacío");
 			}
 		
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
 			pstm.setString(1,  object.clave);
 			pstm.setString(2, object.descripcion);
 			pstm.setString(3, fechaHoraFormateada);
-			pstm.setString(4, formato.format(new Date(object.fechainicio)));
-			pstm.setString(5, formato.format(new Date(object.fechafin)));
+			pstm.setString(4, formato.format(new Date(object.fecha_inicio)));
+			pstm.setString(5, formato.format(new Date(object.fecha_fin)));
 			pstm.setString(6, fechaHoraFormateada);
 			pstm.setString(7, object.id);
 			pstm.setBoolean(8, object.is_anual);
 			pstm.setBoolean(9, object.is_propedeutico);
 			pstm.setBoolean(10, object.is_semestral);
-			pstm.setLong(11, object.id_campus);
+			pstm.setLong(11, object.id_campus != null ? Long.valueOf(object.id_campus) : 0L);
 			pstm.setString(12, '');
 			
 			if (pstm.executeUpdate() > 0) {
@@ -5151,7 +5149,7 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATMEDIOSENTERASTE.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
