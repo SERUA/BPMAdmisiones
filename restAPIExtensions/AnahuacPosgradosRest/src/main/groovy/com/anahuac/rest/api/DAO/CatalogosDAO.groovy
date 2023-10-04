@@ -3572,7 +3572,7 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRCatEstado> data = new ArrayList<>();
-		String where = "WHERE IS_ELIMINADO=false"; // Aplicar filtro por defecto para registros no eliminados
+		String where = "WHERE IS_ELIMINADO = false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
 	
 		try {
@@ -3670,19 +3670,23 @@ class CatalogosDAO {
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "ISELIMINADO":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(IS_ELIMINADO) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+					    if (where.contains("WHERE")) {
+					        where.append(" AND ");
+					    } else {
+					        where.append(" WHERE ");
+					    }
+					    where.append(" IS_ELIMINADO ");
+					
+					    // No es necesario LOWER para booleanos
+					    if (filtro.get("operador").equals("Igual a")) {
+					        where.append("= ?");
+					    } else {
+					        where.append("LIKE ?");
+					        filtro.put("valor", "%" + filtro.get("valor") + "%");  // Ajustar el valor para el LIKE
+					    }
+					
+					    parameterValues.add(filtro.get("valor"));
+					    break;
 				}
 			}
 
