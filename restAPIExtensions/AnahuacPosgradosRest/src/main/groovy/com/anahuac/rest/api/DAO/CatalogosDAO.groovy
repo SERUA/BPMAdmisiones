@@ -3522,6 +3522,39 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
+	
+	public Result deleteCatReligionFisico(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATRELIGIONFISICO);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatReligion] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
 
 	public Result updateCatReligion(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
@@ -3672,7 +3705,7 @@ class CatalogosDAO {
 					    } else {
 					        where.append(" WHERE ");
 					    }
-					    where.append(" IS_ELIMINADO ");
+					    where.append(" IS_ELIMINADO_VALUE ");
 					
 					    // No es necesario LOWER para booleanos
 					    if (filtro.get("operador").equals("Igual a")) {
@@ -3701,7 +3734,7 @@ class CatalogosDAO {
 				row.setUsuarioBanner(rs.getString("usuario_banner"));
 				row.setFechaCreacion(rs.getString("fecha_creacion"));
 				row.setFechaImportacion(rs.getString("fecha_importacion"));
-				row.setIsEliminado(rs.getBoolean("is_eliminado"));
+				row.setIsEliminadoValue(rs.getBoolean("is_eliminado_value"));
 //				row.setPersistenceId(rs.getLong("persistenceId"));
 //				row.setPersistenceVersion(rs.getLong("persistenceVersion"));
 	
@@ -4048,7 +4081,7 @@ class CatalogosDAO {
 			pstm.setString(4, object.clave); // Clave
 			pstm.setString(5, object.descripcion); // DESCRIPCION
 			pstm.setString(6, object.usuarioCreacion); // UUSUARIOCREACION
-			pstm.setLong(7, object.CAMPUS.PERSISTENCEID); // CAMPUS_pid
+			pstm.setLong(7, object.CAMPUS.persistenceid); // CAMPUS_pid
 
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
