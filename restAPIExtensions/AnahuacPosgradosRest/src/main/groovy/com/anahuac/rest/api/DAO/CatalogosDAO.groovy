@@ -2158,12 +2158,6 @@ class CatalogosDAO {
 				throw new Exception("El campo \"enlace\" no debe ir vacío.");
 			} else if (object.tipoCentroEstudio == null || object.tipoCentroEstudio.isEmpty()) {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
-			} else if (object.propedeutico == null || object.propedeutico.isEmpty()) {
-				throw new Exception("El campo \"propedeutico\" no debe ir vacío.");
-			} else if (object.programaparcial == null || object.programaparcial.isEmpty()) {
-				throw new Exception("El campo \"programaparcial\" no debe ir vacío.");
-			} else if (object.isMedicina == null || object.isMedicina.isEmpty()) {
-				throw new Exception("El campo \"isMedicina\" no debe ir vacío.");
 			} else if (object.tipoLicenciatura == null || object.tipoLicenciatura.isEmpty()) {
 				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío.");
 			} else if (object.inscripcionenero == null || object.inscripcionenero.isEmpty()) {
@@ -2188,7 +2182,7 @@ class CatalogosDAO {
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(1, fechaHoraFormateada);
 			pstm.setBoolean(2, false); // IS_ELIMINADO
-			pstm.setString(3, object.CAMPUS); // CAMPUS
+			pstm.setString(3, object.CAMPUS.descripcion); // CAMPUS
 //			pstm.setInt(4, 0); // PROPEDEUTICOS
 			pstm.setString(4, object.clave); // Clave
 			pstm.setString(5, object.nombre); // NOMBRE
@@ -2288,12 +2282,6 @@ class CatalogosDAO {
 				throw new Exception("El campo \"enlace\" no debe ir vacío");
 			} else if(object.tipoCentroEstudio.equals("") || object.tipoCentroEstudio == null) {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío");
-			} else if(object.propedeutico.equals("") || object.propedeutico == null) {
-				throw new Exception("El campo \"propedeutico\" no debe ir vacío");
-			} else if(object.programaparcial.equals("") || object.programaparcial == null) {
-				throw new Exception("El campo \"programaparcial\" no debe ir vacío");
-			} else if(object.isMedicina.equals("") || object.isMedicina == null) {
-				throw new Exception("El campo \"isMedicina\" no debe ir vacío");
 			} else if(object.tipoLicenciatura.equals("") || object.tipoLicenciatura == null) {
 				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío");
 			} else if(object.inscripcionenero.equals("") || object.inscripcionenero == null) {
@@ -3602,7 +3590,7 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRCatEstado> data = new ArrayList<>();
-		String where = "WHERE IS_ELIMINADO = false"; // Aplicar filtro por defecto para registros no eliminados
+		String where = "WHERE IS_ELIMINADO_VALUE = false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
 	
 		try {
@@ -4090,7 +4078,7 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertCatGestionEscolar] " + e.getMessage());
+			resultado.setError("[insertCatPosgrado2] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -4127,7 +4115,7 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[deleteCatGestionEscolar] " + e.getMessage())
+			resultado.setError("[deleteCatPosgrado2] " + e.getMessage())
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -4169,7 +4157,7 @@ class CatalogosDAO {
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateCatGestionEscolar] " + e.getMessage())
+			resultado.setError("[updateCatPosgrado2] " + e.getMessage())
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);

@@ -346,20 +346,20 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         doRequest("POST", $scope.properties.urlPost);
     }
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
-    debugger;
-    if (newValue !== undefined) {
-        doRequestEstado("POST", $scope.properties.urlGetCampus)
-            .then(function(response) {
-                // Aquí puedes trabajar con la respuesta en caso de éxito
-                console.log("Datos recibidos:", response.data);
-            })
-            .catch(function(error) {
-                // Aquí puedes manejar los errores
-                console.error("Error en la solicitud:", error);
-            });
-    }
-    console.log($scope.properties.dataToSend);
-});
+        debugger;
+        if (newValue !== undefined) {
+            doRequestEstado("POST", $scope.properties.urlGetCampus)
+                .then(function(response) {
+                    // Aquí puedes trabajar con la respuesta en caso de éxito
+                    console.log("Datos recibidos:", response.data);
+                })
+                .catch(function(error) {
+                    // Aquí puedes manejar los errores
+                    console.error("Error en la solicitud:", error);
+                });
+        }
+        console.log($scope.properties.dataToSend);
+    });
 
     function doRequestEstado(method, url, params) {
         debugger;
@@ -407,11 +407,13 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         }).then(function (response) {
             // Procesa la respuesta de eliminación si es necesario
             swal("OK", "Registro eliminado correctamente", "success");
-            // Actualiza la vista o realiza otras acciones necesarias después de la eliminación
+            // Llama a doRequest después de la eliminación
+            return doRequest("POST", $scope.properties.urlPost);
         }).catch(function (error) {
             swal("¡Algo ha fallado!", error.data.error, "error");
         }).finally(function () {
             $scope.busy = false;
         });
     };
+
 }
