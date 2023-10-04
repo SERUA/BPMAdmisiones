@@ -2979,9 +2979,6 @@ class CatalogosDAO {
 		return resultado;
 	}
 
-
-
-
 	public Result deleteCatPosgrado(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -5089,4 +5086,111 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
+	
+	public Result inertCatPeriodo(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.fechainicio.equals("") || object.fechainicio == null) {
+				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
+			} else if(object.fechafin.equals("") || object.fechafin == null) {
+				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
+			} else if(object.id.equals("") || object.id == null) {
+				throw new Exception("El campo \"Id\" no debe ir vacío");
+			} else if(object.id_campus.equals("") || object.id_campus == null) {
+				throw new Exception("El campo \"Campus\" no debe ir vacío");
+			}
+		
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
+			pstm.setString(1,  object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, fechaHoraFormateada);
+			pstm.setString(4, formato.format(new Date(object.fechainicio)));
+			pstm.setString(5, formato.format(new Date(object.fechafin)));
+			pstm.setString(6, fechaHoraFormateada);
+			pstm.setString(7, object.id);
+			pstm.setBoolean(8, object.is_anual);
+			pstm.setBoolean(9, object.is_propedeutico);
+			pstm.setBoolean(10, object.is_semestral);
+			pstm.setLong(11, object.id_campus);
+			pstm.setString(12, '');
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[inertCatPeriodo] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatPeriodos(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		Map<String, Object> row = new HashMap<String, Object>();
+		String where = "", orderby = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATMEDIOSENTERASTE.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceid", rs.getLong("persistenceid"));
+				row.put("clave", rs.getString("clave"));
+				row.put("descripcion", rs.getString("descripcion"));
+				row.put("fecha_creacion", rs.getDate("fecha_creacion"));
+				row.put("fecha_inicio", rs.getDate("fecha_inicio"));
+				row.put("fecha_fin", rs.getDate("fecha_fin"));
+				row.put("fecha_importacion", rs.getDate("fecha_importacion"));
+				row.put("id", rs.getString("id"));
+				row.put("is_anual", rs.getBoolean("is_anual"));
+				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
+				row.put("is_semestral", rs.getBoolean("is_semestral"));
+				row.put("id_campus", rs.getBoolean("id_campus"));
+				row.put("usuario_banner", rs.getInt("usuario_banner"));
+				
+				data.add(row);
+			}
+			
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatPeriodos] " + e.getMessage());
+		} finally {
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
 }
