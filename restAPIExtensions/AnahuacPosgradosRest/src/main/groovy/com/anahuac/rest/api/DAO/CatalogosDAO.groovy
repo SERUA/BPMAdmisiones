@@ -5054,7 +5054,7 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result inertCatPeriodo(String jsonData, RestAPIContext context) {
+	public Result insertCatPeriodo(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 	
@@ -5071,9 +5071,9 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
-			} else if(object.fechainicio.equals("") || object.fechainicio == null) {
+			} else if(object.fecha_inicio.equals("") || object.fecha_inicio == null) {
 				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
-			} else if(object.fechafin.equals("") || object.fechafin == null) {
+			} else if(object.fecha_fin.equals("") || object.fecha_fin == null) {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
