@@ -5149,11 +5149,19 @@ class CatalogosDAO {
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
 		String where = "", orderby = "";
+		Integer total_rows = 0;
 		
 		try {
 			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_COUNT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				total_rows = rs.getInt("total_rows");
+			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
@@ -5177,6 +5185,7 @@ class CatalogosDAO {
 				data.add(row);
 			}
 			
+			resultado.setTotalRegistros(total_rows);
 			resultado.setData(data);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
