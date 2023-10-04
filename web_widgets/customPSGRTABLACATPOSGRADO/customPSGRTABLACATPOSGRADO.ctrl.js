@@ -121,4 +121,40 @@ function PbTableCtrl($scope, $http) {
         }); 
     };
 
+    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+        debugger;
+        if (newValue !== undefined) {
+            doRequestEstado("POST", $scope.properties.urlGetCampus)
+                .then(function(response) {
+                    // Aquí puedes trabajar con la respuesta en caso de éxito
+                    console.log("Datos recibidos:", response.data);
+                })
+                .catch(function(error) {
+                    // Aquí puedes manejar los errores
+                    console.error("Error en la solicitud:", error);
+                });
+        }
+        console.log($scope.properties.dataToSend);
+    });
+
+    function doRequestEstado(method, url, params) {
+        debugger;
+        return $http({
+            method: method,
+            url: url,
+            data: angular.copy($scope.properties.dataToFilter),  // Usando dataToFilter en lugar de dataToSend
+            params: params
+        })
+        .then(function(response) {
+            console.log("Datos recibidos:", response.data);
+            $scope.properties.lstCatCampus = response.data.data; // Asignar response.data.data
+            console.log("Datos Estados:", $scope.properties.lstCatCampus);
+            return response;
+        })
+        .catch(function(error) {
+            console.error("Error en la solicitud HTTP:", error);
+            throw error; // Propagar el error para su posterior manejo si es necesario
+        });
+    }
+
 }

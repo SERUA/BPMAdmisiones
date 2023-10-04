@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1696376842315,
+  "lastUpdate" : 1696408607872,
   "rows" : [
     [
       {
@@ -120,7 +120,7 @@
                 },
                 "displayedKey" : {
                   "type" : "constant",
-                  "value" : ""
+                  "value" : "DESCRIPCION"
                 },
                 "returnedKey" : {
                   "type" : "constant",
@@ -794,11 +794,11 @@
                         "value" : [
                           "clave",
                           "nombre",
-                          "\"$\"+inscripcion_enero",
-                          "\"$\"+inscripcion_mayo",
-                          "\"$\"+inscripcion_agosto",
-                          "\"$\"+inscripcion_septiembre",
-                          "tipo_licenciatura",
+                          "\"$\"+inscripcionenero",
+                          "\"$\"+inscripcionMayo",
+                          "\"$\"+inscripcionagosto",
+                          "\"$\"+inscripcionSeptiembre",
+                          "tipoLicenciatura",
                           "propedeutico? \"Sí\":\"No\"",
                           "programa_parcial ? \"Sí\":\"No\""
                         ]
@@ -6596,7 +6596,8 @@
         "    \"orientation\":\"ASC\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
-        "    \"campus\":$data.campusSelected\r",
+        "    \"persistenceid\":$data.campusSelected.PERSISTENCEID,\r",
+        "    \"campus\":$data.campusSelected.DESCRIPCION\r",
         "};"
       ],
       "exposed" : false

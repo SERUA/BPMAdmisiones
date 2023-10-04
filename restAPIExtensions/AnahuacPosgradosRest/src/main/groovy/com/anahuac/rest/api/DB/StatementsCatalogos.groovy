@@ -8,50 +8,76 @@ class StatementsCatalogos {
 	public static final String SELECT_CATFILTROSEGURIDAD = "SELECT persistenceid, rol, servicio FROM PSGRFiltroSeguridad [WHERE] [ORDERBY]";
 	
 	//PSGRCatPais
-	public static final String INSERT_CATPAIS = "INSERT INTO PSGRCatPais (PERSISTENCEID, CASE_ID, ID, PERSISTENCEVERSION, IS_ELIMINADO, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATPAIS = "INSERT INTO PSGRCatPais (persistenceid, case_id, id, persistenceversion, is_eliminado, clave, descripcion, usuario_creacion, fecha_creacion, orden) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(case_id)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPAIS  = "UPDATE PSGRCatPais SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATPAIS  = "UPDATE PSGRCatPais SET clave = ?, descripcion = ?, orden = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPAIS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPais [WHERE] [ORDERBY]";
  
 	//PSGRCatEstado
-	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (PERSISTENCEID, CASE_ID, IS_ELIMINADO, PAIS_PID, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION, ORDEN, PERSISTENCEVERSION) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (persistenceid, case_id, is_eliminado, pais_pid, clave, descripcion, usuario_creacion, fecha_creacion, orden, persistenceversion) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatEstados), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATESTADO  = "UPDATE PSGRCatEstados SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATESTADO  = "UPDATE PSGRCatEstados SET clave = ?, descripcion = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATESTADO  = "SELECT persistenceid, orden, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatEstados [WHERE] [ORDERBY]";
 	
 	//PSGRCatSexo
-	public static final String INSERT_CATSEXO = "INSERT INTO PSGRCatSexo (PERSISTENCEID, IS_ELIMINADO, PERSISTENCEVERSION, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATESTADOS), ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATSEXO = "INSERT INTO PSGRCatSexo (persistenceid, is_eliminado, persistenceversion, clave, descripcion, usuario_creacion, fecha_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatSexo), ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATSEXO  = "DELETE FROM PSGRCatSexo WHERE persistenceid = ?";
 	public static final String UPDATE_CATSEXO  = "UPDATE PSGRCatSexo SET clave = ?, descripcion = ?, usuario_creacion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATSEXO  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatSexo [WHERE] [ORDERBY]";
 	
 	//PSGRCatCampus
-	public static final String INSERT_CATCAMPUS = "INSERT INTO PSGRCatCampus (PERSISTENCEID, CALLE, CLAVE, CODIGO_POSTAL, COLONIA, DESCRIPCION, EMAIL, FECHA_CREACION, FECHA_IMPLEMENTACION, GRUPO_BONITA, MUNICIPIO, NUMERO_EXT, NUMERO_INT, ORDEN, URL_AVISO_PRIVACIDAD, URL_IMAGEN, USUARIO_BANNER, ESTADOS_PID, PAISES_PID, ID, ACTIVADO, ELIMINADO)  VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATcampus), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATCAMPUS = "INSERT INTO PSGRCatCampus (persistenceid, calle, clave, codigo_postal, colonia, descripcion, email, fecha_creacion, fecha_implementacion, grupo_bonita, municipio, numero_ext, numero_int, orden, url_aviso_privacidad, url_imagen, usuario_banner, estados_pid, paises_pid, id, activado, eliminado)  VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCATcampus), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATCAMPUS  = "UPDATE PSGRCatCampus SET eliminado = ? WHERE persistenceid = ?";
-	public static final String UPDATE_CATCAMPUS  = "UPDATE PSGRCatCampus SET CALLE=?, CLAVE=?, CODIGO_POSTAL=?, COLONIA=?, DESCRIPCION=?, EMAIL=?, FECHA_CREACION=?, FECHA_IMPLEMENTACION=?, GRUPO_BONITA=?, MUNICIPIO=?, NUMERO_EXT=?, NUMERO_INT=?, ORDEN=?, URL_AVISO_PRIVACIDAD=?, URL_IMAGEN=?, USUARIO_BANNER=?, ESTADO_PID=?, PAIS_PID=?, ID=? WHERE PERSISTENCEID=?;";
+	public static final String UPDATE_CATCAMPUS  = "UPDATE PSGRCatCampus SET calle=?, clave=?, codigo_postal=?, colonia=?, descripcion=?, email=?, fecha_creacion=?, fecha_implementacion=?, grupo_bonita=?, municipio=?, numero_ext=?, numero_int=?, orden=?, url_aviso_privacidad=?, url_imagen=?, usuario_banner=?, estado_pid=?, pais_pid=?, id=? WHERE persistenceid=?;";
 	public static final String SELECT_CATCAMPUS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatCampus [WHERE] [ORDERBY]";
-	public static final String GET_CATCAMPUS="SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAIS_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADO_PID  [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATCAMPUS= "SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCatCampus c LEFT JOIN PSGRCatPais p ON c.pais_pid  = p.persistenceid  LEFT JOIN PSGRCatEstados e ON  e.persistenceid  = c.estado_pid  [WHERE] [ORDERBY] [LIMITOFFSET]"
 
 	//PSGRCatGestionEscolar
 //	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCATGESTIONESCOLAR as GE  LEFT JOIN psgrcatcampus campus ON campus.grupo_bonita = GE.campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
-	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCATGESTIONESCOLAR as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
-	public static final String INSERT_CATGESTIONESCOLAR = "INSERT INTO PSGRCATGESTIONESCOLAR (PERSISTENCEID, CASE_ID, PERSISTENCEVERSION, FECHA_CREACION, IS_ELIMINADO, CAMPUS, Clave, NOMBRE, DESCRIPCION, ENLACE, TIPO_CENTRO_ESTUDIO, PROPEDEUTICO, PROGRAMA_PARCIAL, IS_MEDICINA, TIPO_LICENCIATURA, INSCRIPCION_ENERO, INSCRIPCION_MAYO, INSCRIPCION_AGOSTO, INSCRIPCION_SEPTIEMBRE, URL_IMG_LICENCIATURA, IDIOMA, USUARIO_CREACION) VALUES (COALESCE((SELECT MAX(PERSISTENCEID)::TEXT FROM PSGRCATGESTIONESCOLAR), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCATGESTIONESCOLAR), '0')::INTEGER + 1, COALESCE((SELECT MAX(PERSISTENCEVERSION)::TEXT FROM PSGRCATGESTIONESCOLAR), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String INSERT_CATGESTIONESCOLAR = "INSERT INTO PSGRCatGestionEscolar (persistenceid, case_id, persistenceversion, fecha_creacion, is_eliminado, campus, clave, nombre, descripcion, enlace, tipo_centro_estudio, propedeutico, programa_parcial, is_medicina, tipo_licenciatura, inscripcion_enero, inscripcion_mayo, inscripcion_agosto, inscripcion_septiembre, url_img_licenciatura, idioma, usuario_creacion) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, COALESCE((SELECT MAX(case_id)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, COALESCE((SELECT MAX(persistenceversion)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET is_eliminado = ? WHERE persistenceid = ?";
-	public static final String UPDATE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET Clave=?, NOMBRE=?, DESCRIPCION=?, ENLACE=?, TIPO_CENTRO_ESTUDIO=?, PROPEDEUTICO=?, PROGRAMA_PARCIAL=?, IS_MEDICINA=?, TIPO_LICENCIATURA=?, INSCRIPCION_ENERO=?, INSCRIPCION_MAYO=?, INSCRIPCION_AGOSTO=?, INSCRIPCION_SEPTIEMBRE=?, URL_IMG_LICENCIATURA=?, IDIOMA=?, USUARIO_CREACION=? WHERE PERSISTENCEID=?;";
-	public static final String GET_LSTCAMPUS  = "SELECT DESCRIPCION FROM PSGRCATCAMPUS WHERE eliminado = false	";
+	public static final String UPDATE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET Clave=?, nombre=?, descripcion=?, enlace=?, tipo_centro_estudio=?, propedeutico=?, programa_parcial=?, is_medicina=?, tipo_licenciatura=?, inscripcion_enero=?, inscripcion_mayo=?, inscripcion_agosto=?, inscripcion_septiembre=?, url_img_licenciatura=?, idioma=?, usuario_creacion=? WHERE persistenceid=?;";
+	public static final String GET_LSTCAMPUS  = "SELECT * FROM PSGRCatCampus WHERE eliminado = false	";
+	
+	//PSGRCatPosgrado2
+	public static final String GET_CATPOSGRADO2 = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatPosgrado as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String INSERT_CATPOSGRADO2 = "INSERT INTO PSGRCatPosgrado (persistenceid, persistenceversion, fecha_registro, is_eliminado, clave, descripcion, usuario_creacion, campus_pid) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatPosgrado), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATPOSGRADO2  = "UPDATE PSGRCatPosgrado SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPOSGRADO2  = "UPDATE PSGRCatPosgrado SET Clave=?, descripcion=? WHERE persistenceid=?;";
+	
 	
 	//PSGRCatPropedeutico
-	public static final String INSERT_CATPROPEDEUTICO = "INSERT INTO PSGRCatPropedeutico (PERSISTENCEID, IS_ELIMINADO, PERSISTENCEVERSION, CLAVE, DESCRIPCION, USUARIO_CREACION, FECHA_CREACION) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATPROPEDEUTICO), ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATPROPEDEUTICO = "INSERT INTO PSGRCatPropedeutico (persistenceid, is_eliminado, persistenceversion, clave, descripcion, usuario_creacion, fecha_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatPropedeutico), ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET is_eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET clave = ?, descripcion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPROPEDEUTICO  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPropedeutico [WHERE] [ORDERBY]";
 	
 	//PSGRCatPosgrado
-	public static final String INSERT_CATPOSGRADO = "INSERT INTO PSGRCatPosgrado (PERSISTENCEID, IS_ELIMINADO, PERSISTENCEVERSION, CLAVE, DESCRIPCION, FECHA_REGISTRO) VALUES ((SELECT COALESCE(MAX(PERSISTENCEID), 0) + 1 FROM PSGRCATPOSGRADO), ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATPOSGRADO = "INSERT INTO PSGRCatPosgrado (persistenceid, is_eliminado, persistenceversion, clave, descripcion, fecha_registro) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatPosgrado), ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPOSGRADO  = "UPDATE PSGRCatPosgrado SET is_eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATPOSGRADO  = "UPDATE PSGRCatPosgrado SET clave = ?, descripcion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPOSGRADO  = "SELECT persistenceid, clave, descripcion, fecha_registro, is_eliminado FROM PSGRCatPosgrado [WHERE] [ORDERBY]";
+	
+	//PSGRCatEstadoCivil
+	public static final String INSERT_CATESTADOCIVIL = "INSERT INTO PSGRCatEstadoCivil (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatEstadoCivil), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATESTADOCIVIL  = "UPDATE PSGRCatEstadoCivil SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATESTADOCIVIL  = "UPDATE PSGRCatEstadoCivil SET ID = ?, CLAVE = ?, descripcion = ? WHERE persistenceid = ?;";
+	public static final String SELECT_CATESTADOCIVIL  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado FROM PSGRCatEstadoCivil [WHERE] [ORDERBY]";
+	
+	//PSGRCatReligion
+	public static final String INSERT_CATRELIGION = "INSERT INTO PSGRCatReligion (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatReligion), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATRELIGION  = "UPDATE PSGRCatReligion SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATRELIGION  = "UPDATE PSGRCatReligion SET ID = ?, CLAVE = ?, descripcion = ? WHERE persistenceid = ?;";
+	public static final String SELECT_CATRELIGION  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado FROM PSGRCatReligion [WHERE] [ORDERBY]";
+	
+	
+	//PSGRCatNacionalidad
+	public static final String INSERT_CATNACIONALIDAD = "INSERT INTO PSGRCatNacionalidad (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, orden) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatNacionalidad), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATNACIONALIDAD  = "UPDATE PSGRCatNacionalidad SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATNACIONALIDAD  = "UPDATE PSGRCatNacionalidad SET ID = ?, CLAVE = ?, descripcion = ?, orden = ?, is_enabled = ? WHERE persistenceid = ?;";
+	public static final String SELECT_CATNACIONALIDAD  = "SELECT persistenceid, orden, clave, descripcion, id, usuario_banner, fecha_creacion, is_eliminado FROM PSGRCatNacionalidad [WHERE] [ORDERBY]";
 	
 	
 	//PSGRCatPais

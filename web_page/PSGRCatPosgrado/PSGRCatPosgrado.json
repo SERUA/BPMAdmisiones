@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatPosgrado",
   "name" : "PSGRCatPosgrado",
-  "lastUpdate" : 1696376855745,
+  "lastUpdate" : 1696436223527,
   "rows" : [
     [
       {
@@ -286,7 +286,7 @@
                           "clave",
                           "descripcion",
                           "usuarioCreacion",
-                          "fechaCreacion| date:'dd-MM-yyyy HH:mm:ss'"
+                          "fechaRegistro| date:'dd-MM-yyyy HH:mm:ss'"
                         ]
                       },
                       "selectedRow" : {
@@ -320,6 +320,14 @@
                       "urlDelete" : {
                         "type" : "constant",
                         "value" : "../API/extension/posgradosRest?url=deleteCatPosgrado"
+                      },
+                      "urlGetCampus" : {
+                        "type" : "constant",
+                        "value" : "/bonita/API/extension/posgradosRest?url=getLstCampus&p=0&c=10"
+                      },
+                      "lstCatCampus" : {
+                        "type" : "variable",
+                        "value" : "lstCatCampus"
                       }
                     },
                     "reference" : "93cfe76b-9148-4f18-88a0-d9e8c8e1d473",
@@ -738,6 +746,13 @@
       "type" : "constant",
       "value" : [
         "tabla"
+      ],
+      "exposed" : false
+    },
+    "lstCatCampus" : {
+      "type" : "json",
+      "value" : [
+        "{}"
       ],
       "exposed" : false
     }
