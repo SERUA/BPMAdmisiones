@@ -42,7 +42,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function accionCatalogoInsert(urlInsert){
         debugger;
         vm.busy = true;
-[]
         $scope.properties.dataToSend.lstCatGestionEscolarInput[0].CAMPUS = $scope.properties.campusSelected;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
@@ -554,6 +553,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
+        ddebugger;
         vm.busy = true;
         var req = {
             method: method,
