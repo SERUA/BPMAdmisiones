@@ -5110,10 +5110,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
-			} 
-//			else if(object.id_campus.equals("") || object.id_campus == null) {
-//				throw new Exception("El campo \"Campus\" no debe ir vacío");
-//			}
+			}
 		
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
 			pstm.setString(1,  object.clave);
@@ -5158,7 +5155,7 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATMEDIOSENTERASTE.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
 			
 			while(rs.next()) {
