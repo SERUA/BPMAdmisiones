@@ -5110,9 +5110,10 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
-			} else if(object.id_campus.equals("") || object.id_campus == null) {
-				throw new Exception("El campo \"Campus\" no debe ir vacío");
-			}
+			} 
+//			else if(object.id_campus.equals("") || object.id_campus == null) {
+//				throw new Exception("El campo \"Campus\" no debe ir vacío");
+//			}
 		
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
 			pstm.setString(1,  object.clave);
@@ -5125,7 +5126,7 @@ class CatalogosDAO {
 			pstm.setBoolean(8, object.is_anual);
 			pstm.setBoolean(9, object.is_propedeutico);
 			pstm.setBoolean(10, object.is_semestral);
-			pstm.setLong(11, object.id_campus);
+			pstm.setLong(11, object.id_campus != null ? Long.valueOf(object.id_campus) : 0L);
 			pstm.setString(12, '');
 			
 			if (pstm.executeUpdate() > 0) {
