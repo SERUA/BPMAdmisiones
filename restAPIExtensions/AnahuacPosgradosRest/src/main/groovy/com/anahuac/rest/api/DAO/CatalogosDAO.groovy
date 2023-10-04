@@ -5163,10 +5163,10 @@ class CatalogosDAO {
 				row.put("persistenceid", rs.getLong("persistenceid"));
 				row.put("clave", rs.getString("clave"));
 				row.put("descripcion", rs.getString("descripcion"));
-				row.put("fecha_creacion", rs.string("fecha_creacion"));
-				row.put("fecha_inicio", rs.string("fecha_inicio"));
-				row.put("fecha_fin", rs.string("fecha_fin"));
-				row.put("fecha_importacion", rs.string("fecha_importacion"));
+				row.put("fecha_creacion", rs.getString("fecha_creacion"));
+				row.put("fecha_inicio", rs.getString("fecha_inicio"));
+				row.put("fecha_fin", rs.getString("fecha_fin"));
+				row.put("fecha_importacion", rs.getString("fecha_importacion"));
 				row.put("id", rs.getString("id"));
 				row.put("is_anual", rs.getBoolean("is_anual"));
 				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
