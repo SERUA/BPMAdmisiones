@@ -41,6 +41,13 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET Clave=?, nombre=?, descripcion=?, enlace=?, tipo_centro_estudio=?, propedeutico=?, programa_parcial=?, is_medicina=?, tipo_licenciatura=?, inscripcion_enero=?, inscripcion_mayo=?, inscripcion_agosto=?, inscripcion_septiembre=?, url_img_licenciatura=?, idioma=?, usuario_creacion=? WHERE persistenceid=?;";
 	public static final String GET_LSTCAMPUS  = "SELECT * FROM PSGRCatCampus WHERE eliminado = false	";
 	
+	//PSGRCatPosgrado2
+	public static final String GET_CATPOSGRADO2 = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatPosgrado as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String INSERT_CATPOSGRADO2 = "INSERT INTO PSGRCatPosgrado (persistenceid, persistenceversion, fecha_registro, is_eliminado, clave, descripcion, usuario_creacion, campus_pid) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatPosgrado), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String DELETE_CATPOSGRADO2  = "UPDATE PSGRCatPosgrado SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPOSGRADO2  = "UPDATE PSGRCatPosgrado SET Clave=?, descripcion=? WHERE persistenceid=?;";
+	
+	
 	//PSGRCatPropedeutico
 	public static final String INSERT_CATPROPEDEUTICO = "INSERT INTO PSGRCatPropedeutico (persistenceid, is_eliminado, persistenceversion, clave, descripcion, usuario_creacion, fecha_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatPropedeutico), ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPROPEDEUTICO  = "UPDATE PSGRCatPropedeutico SET is_eliminado = ? WHERE persistenceid = ?";

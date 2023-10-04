@@ -25,6 +25,8 @@ class CatGestionEscolar {
 	private Boolean is_medicina;
 	private String idioma;
 	private Long campus_referencia_pid;
+	private String fecha_registro;
+	private Long campus_pid;
 	
 	
 	
@@ -91,6 +93,12 @@ class CatGestionEscolar {
 	}
 	public void setPersistenceId(Long persistenceId) {
 		this.persistenceId = persistenceId;
+	}
+	public Long getCampusPid() {
+		return campus_pid;
+	}
+	public void setCampusPid(Long campus_pid) {
+		this.campus_pid = campus_pid;
 	}
 	public Long getPersistenceVersion() {
 		return persistenceVersion;
@@ -163,6 +171,12 @@ class CatGestionEscolar {
 	}
 	public void setFechaCreacion(Date fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
+	}
+	public String getFechaRegistro() {
+		return fecha_registro;
+	}
+	public void setFechaRegistro(String fecha_registro) {
+		this.fecha_registro = fecha_registro;
 	}
 	public String getCampus() {
 		return campus;

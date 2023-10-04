@@ -1436,7 +1436,7 @@ class CatalogosDAO {
 			pstm.setString(14, object.urlAvisoPrivacidad);
 			pstm.setString(15, object.urlImagen);
 			pstm.setString(16, object.usuarioBanner);
-			pstm.setLong(17, object.estado_pid);
+			pstm.setLong(17, Long.valueOf(object.estado_pid));
 			pstm.setLong(18, 1);
 			pstm.setString(19, object.id);
 			pstm.setBoolean(20, true);
@@ -4010,6 +4010,297 @@ class CatalogosDAO {
 		}
 	
 		return resultado;
+	}
+	
+	public Result insertCatPosgrado2(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper()
+			def jsonObject = jsonSlurper.parseText(jsonData)
+			
+			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
+			def object = jsonObject.lstCatGestionEscolarInput[0]
+	
+			if (object == null) {
+				throw new Exception("El objeto 'object' no debe ser nulo.");
+			} else if (object.clave == null || object.clave.isEmpty()) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío.");
+			} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío.");
+			} else if (object.usuarioCreacion == null || object.usuarioCreacion.isEmpty()) {
+				throw new Exception("El campo \"usuarioCreacion\" no debe ir vacío.");
+			} 
+//			else if (object.CAMPUS.PERSISTENCEID == null || object.CAMPUS.PERSISTENCEID.isEmpty()) {
+//				throw new Exception("El campo \"CAMPUS.PERSISTENCEID\" no debe ir vacío.");
+//			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPOSGRADO2);
+			pstm.setLong(1, 0); // PERSISTENCEVERSION
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(2, fechaHoraFormateada);
+			pstm.setBoolean(3, false); // IS_ELIMINADO
+			pstm.setString(4, object.clave); // Clave
+			pstm.setString(5, object.descripcion); // DESCRIPCION
+			pstm.setString(6, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setLong(7, object.CAMPUS.PERSISTENCEID); // CAMPUS_pid
+
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatGestionEscolar] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	
+	
+	
+	public Result deleteCatPosgrado2(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío" + object);
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATPOSGRADO2);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatGestionEscolar] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result updateCatPosgrado2(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper()
+			def jsonObject = jsonSlurper.parseText(jsonData)
+			
+			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
+			def object = jsonObject.lstCatGestionEscolarInput[0]
+
+			if(object.equals("") || object == null) {
+				throw new Exception("El campo \"object\" no debe ir vacío" + object);
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPOSGRADO2);
+			pstm.setString(1, object.clave);       // Clave
+			pstm.setString(2, object.descripcion); // DESCRIPCION
+			pstm.setLong(3, object.persistenceId); // persistenceid
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatGestionEscolar] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatPosgrado2(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "", orderby = "ORDER BY ", errorLog = "", bachillerato = "", campus = ""
+
+		List < String > lstGrupo = new ArrayList < String > ();
+		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (PSGRCatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupo_bonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			if (lstGrupo.size() > 0) {
+				campus += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				campus += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					campus += ") "
+				} else {
+					campus += " OR "
+				}
+			}
+
+			String consulta = StatementsCatalogos.GET_CATPOSGRADO2
+			CatGestionEscolar row = new CatGestionEscolar();
+			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			closeCon = validarConexion();
+//			throw new Exception("El campo \"Descripción\" no debe ir vacío"+ object);
+			where = "WHERE GE.is_eliminado = false and campus.eliminado = false and GE.campus_pid = '" + object.persistenceid + "'"
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				def booleanos = filtro.get("valor");
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCRIPCION DE CARRERA":
+						where += " AND LOWER(GE.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERSISTENCEVERSION":
+						where += " AND LOWER(GE.PERSISTENCEVERSION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "GE.clave";
+					break;
+				case "DESCRIPCION DE CARRERA":
+					orderby += "GE.descripcion";
+					break;
+				case "PERSISTENCEVERSION":
+					orderby += "GE.PERSISTENCEVERSION";
+					break;
+				case "CAMPUS":
+					orderby += "campus.descripcion";
+					break;
+				default:
+					orderby += "GE.persistenceid"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			//where+=" "+campus
+			consulta = consulta.replace("[CAMPUS]", campus)
+			consulta = consulta.replace("[WHERE]", where);
+
+			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorLog += " " + consulta
+			errorLog += " consulta= "
+			errorLog += consulta
+			errorLog += " where = " + where
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+
+			errorLog += "fecha=="
+
+			rs = pstm.executeQuery()
+			while (rs.next()) {
+
+				row = new CatGestionEscolar()
+				row.setCampusPid(rs.getLong("campus_pid"))
+				//row.setCaseId(rs.getString("caseId"))
+				row.setDescripcion(rs.getString("descripcion"))
+				row.setFechaRegistro(rs.getString("fecha_registro"));
+				row.setClave(rs.getString("clave"));
+				row.setIsEliminado(rs.getBoolean("is_eliminado"))
+				//row.setMatematicas(rs.getBoolean("matematicas"))
+				row.setPersistenceId(rs.getLong("persistenceId"))
+//				row.setCampusReferenciaPid(rs.getLong("campus_referencia_pid"))
+				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"))				
+
+				rows.add(row)
+			}
+
+			resultado.setSuccess(true)
+			resultado.setError(errorLog)
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 	
 	
