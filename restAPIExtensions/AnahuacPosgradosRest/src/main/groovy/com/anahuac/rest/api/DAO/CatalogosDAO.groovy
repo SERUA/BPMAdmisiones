@@ -5118,8 +5118,8 @@ class CatalogosDAO {
 			pstm.setString(1,  object.clave);
 			pstm.setString(2, object.descripcion);
 			pstm.setString(3, fechaHoraFormateada);
-			pstm.setString(4, formato.format(new Date(object.fechainicio)));
-			pstm.setString(5, formato.format(new Date(object.fechafin)));
+			pstm.setString(4, formato.format(new Date(object.fecha_inicio)));
+			pstm.setString(5, formato.format(new Date(object.fecha_fin)));
 			pstm.setString(6, fechaHoraFormateada);
 			pstm.setString(7, object.id);
 			pstm.setBoolean(8, object.is_anual);
