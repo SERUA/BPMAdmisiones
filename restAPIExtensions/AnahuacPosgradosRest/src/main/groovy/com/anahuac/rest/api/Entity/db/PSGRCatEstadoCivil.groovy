@@ -20,6 +20,8 @@ class PSGRCatEstadoCivil {
 	@XmlElement
 	private Boolean is_eliminado;
 	@XmlElement
+	private Boolean is_eliminado_value;
+	@XmlElement
 	private Long orden;
 	@XmlElement
 	private String id;
@@ -71,6 +73,12 @@ class PSGRCatEstadoCivil {
 	}
 	public void setIsEliminado(Boolean is_eliminado) {
 		this.is_eliminado = is_eliminado;
+	}
+	public Boolean getIsEliminadoValue() {
+		return is_eliminado_value;
+	}
+	public void setIsEliminadoValue(Boolean is_eliminado_value) {
+		this.is_eliminado_value = is_eliminado_value;
 	}
 	public Long getOrden() {
 		return orden;

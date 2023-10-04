@@ -67,10 +67,11 @@ class StatementsCatalogos {
 	public static final String SELECT_CATESTADOCIVIL  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado FROM PSGRCatEstadoCivil [WHERE] [ORDERBY]";
 	
 	//PSGRCatReligion
-	public static final String INSERT_CATRELIGION = "INSERT INTO PSGRCatReligion (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatReligion), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATRELIGION = "INSERT INTO PSGRCatReligion (persistenceid, is_eliminado_value, persistenceversion, id, is_enabled_value, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatReligion), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATRELIGION  = "UPDATE PSGRCatReligion SET is_eliminado = ? WHERE persistenceid = ?";
+	public static final String DELETE_CATRELIGIONFISICO  = "DELETE FROM PSGRCatReligion WHERE persistenceid = ?";
 	public static final String UPDATE_CATRELIGION  = "UPDATE PSGRCatReligion SET ID = ?, CLAVE = ?, descripcion = ? WHERE persistenceid = ?;";
-	public static final String SELECT_CATRELIGION  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado FROM PSGRCatReligion [WHERE] [ORDERBY]";
+	public static final String SELECT_CATRELIGION  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado_value FROM PSGRCatReligion [WHERE] [ORDERBY]";
 	
 	
 	//PSGRCatNacionalidad
