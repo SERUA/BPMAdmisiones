@@ -5171,8 +5171,8 @@ class CatalogosDAO {
 				row.put("is_anual", rs.getBoolean("is_anual"));
 				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
-				row.put("id_campus", rs.getBoolean("id_campus"));
-				row.put("usuario_banner", rs.getInt("usuario_banner"));
+				row.put("id_campus", rs.getLong("id_campus"));
+				row.put("usuario_banner", rs.getString("usuario_banner"));
 				
 				data.add(row);
 			}
