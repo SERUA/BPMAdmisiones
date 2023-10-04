@@ -5090,16 +5090,19 @@ class CatalogosDAO {
 	public Result insertCatPeriodo(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-	
+		String errorLog = "";
+		
 		try {
+			errorLog += "1 | ";
 			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-			String fechaHoraFormateada = formato.format(timestampActual);
+			String fechaHoraFormateada = formato.format(new Date());
 			
+			errorLog += "2 | ";
 			if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
@@ -5111,30 +5114,60 @@ class CatalogosDAO {
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
 			}
-		
+			
+			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
+			Date fecha_fin = sdfEntrada.parse(object.fecha_fin);
+			
+			errorLog += "3 | ";
+			Long idCampus = 0L;
+			if(object.id_campus == null) {
+				errorLog += "4 | ";
+				idCampus = 0L;
+			} else {
+				errorLog += "5 | ";
+				idCampus = Long.valueOf(object.id_campus);
+			}
+			
+			errorLog += "6 | ";
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
+			errorLog += "7 | ";
 			pstm.setString(1,  object.clave);
+			errorLog += "8 | ";
 			pstm.setString(2, object.descripcion);
+			errorLog += "9 | ";
 			pstm.setString(3, fechaHoraFormateada);
-			pstm.setString(4, formato.format(new Date(object.fecha_inicio)));
-			pstm.setString(5, formato.format(new Date(object.fecha_fin)));
+			errorLog += "10 | ";
+			pstm.setString(4, formato.format(fecha_inicio));
+			errorLog += "11 | ";
+			pstm.setString(5, formato.format(fecha_fin));
+			errorLog += "12 | ";
 			pstm.setString(6, fechaHoraFormateada);
+			errorLog += "13 | ";
 			pstm.setString(7, object.id);
+			errorLog += "14 | ";
 			pstm.setBoolean(8, object.is_anual);
-			pstm.setBoolean(9, object.is_propedeutico);
+			errorLog += "15 | ";
+			pstm.setBoolean(9, false);
+			errorLog += "16 | ";
 			pstm.setBoolean(10, object.is_semestral);
-			pstm.setLong(11, object.id_campus != null ? Long.valueOf(object.id_campus) : 0L);
+			errorLog += "17 | ";
+			pstm.setLong(11, idCampus);
+			errorLog += "18 | ";
 			pstm.setString(12, '');
+			errorLog += "19 | ";
 			
 			if (pstm.executeUpdate() > 0) {
+				errorLog += "20 | ";
 				resultado.setSuccess(true);
 			} else {
+				errorLog += "21 | ";
 				throw new Exception("No se pudo insertar el registro.");
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[inertCatPeriodo] " + e.getMessage());
+			resultado.setError("[insertCatPeriodo] " + e.getMessage());
 		} finally {
+			resultado.setError_info(errorLog);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
