@@ -20,9 +20,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if ($scope.properties.action === 'Submit task') {
             debugger;
             if($scope.properties.navigationVar == "nuevo"){
-                accionCatalogoInsert($scope.properties.urlInsert)
+                accionCatalogoInsert($scope.properties.urlInsert, $scope.properties.urlPost)
             }else if($scope.properties.navigationVar == "editar"){
-                $scope.properties.urlUpdate = $scope.properties.urlUpdate;
+                $scope.properties.urlUpdate = $scope.properties.urlUpdate,  $scope.properties.urlPost;
                 accionCatalogo($scope.properties.urlUpdate) 
             } 
         } else if ($scope.properties.action === 'Start process') {
@@ -39,40 +39,46 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
     };
 
-    function accionCatalogoInsert(urlInsert){
+    function accionCatalogoInsert(urlInsert, urlPost) {
         debugger;
         vm.busy = true;
-        
+    
         $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
-
-        $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
+    
+        $http.post(urlInsert, $scope.properties.dataToSend).then(function (response) {
+            // Procesa la respuesta de la inserción si es necesario
             swal("OK", "Guardado correctamente", "success");
-            $scope.properties.navigationVar = "tabla"
-        }).error(function(_response){
-            swal("¡Algo ha fallado!", _response.error, "error");
-        }).finally(function(){
+            $scope.properties.navigationVar = "tabla";
+            $scope.properties.reload = true;
+    
+            // Llama a doRequest después de la inserción
+            return doRequest("POST", $scope.properties.urlPost);
+        }).catch(function (error) {
+            swal("¡Algo ha fallado!", error.data.error, "error");
+        }).finally(function () {
             vm.busy = false;
         });
-        $scope.properties.reload = true;
-        $scope.properties.navigationVar = "tabla";
     }
 
-    function accionCatalogo(urlUpdate){
+    function accionCatalogo(urlUpdate, urlPost) {
         debugger;
         vm.busy = true;
-
+    
         $scope.properties.dataToSend.usuario_creacion = $scope.properties.userData.user_name;
-        
-        $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
+    
+        $http.post(urlUpdate, $scope.properties.dataToSend).then(function (response) {
+            // Procesa la respuesta de la actualización si es necesario
             swal("OK", "Guardado correctamente", "success");
-            $scope.properties.navigationVar = "tabla"
-        }).error(function(_response){
-            swal("¡Algo ha fallado!", _response.error, "error");
-        }).finally(function(){
+            $scope.properties.navigationVar = "tabla";
+            $scope.properties.reload = true;
+    
+            // Llama a doRequest después de la actualización
+            return doRequest("POST", $scope.properties.urlPost);
+        }).catch(function (error) {
+            swal("¡Algo ha fallado!", error.data.error, "error");
+        }).finally(function () {
             vm.busy = false;
         });
-        $scope.properties.reload = true;
-        $scope.properties.navigationVar = "tabla";
     }
 
     function openModal(modalId) {
