@@ -4725,36 +4725,36 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result deleteCatSiNo(String jsonData) {
-		Result resultado = new Result();
-		Boolean closeCon = false;
-	
-		try {
-			closeCon = validarConexion();
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			
-			//Validaciones en el catálogo
-			if(object.persistenceid.equals("") || object.persistenceid == null) {
-				throw new Exception("El registro no existe.");
-			}
-			
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATSINO);
-			pstm.setLong(1, Long.valueOf(object.persistenceid));
-			
-			pstm.executeUpdate();
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			resultado.setSuccess(false);
-			resultado.setError("[deleteCatSiNo] " + e.getMessage());
-		} finally {
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm)
-			}
-		}
-	
-		return resultado;
-	}
+//	public Result deleteCatSiNo(String jsonData) {
+//		Result resultado = new Result();
+//		Boolean closeCon = false;
+//	
+//		try {
+//			closeCon = validarConexion();
+//			def jsonSlurper = new JsonSlurper();
+//			def object = jsonSlurper.parseText(jsonData);
+//			
+//			//Validaciones en el catálogo
+//			if(object.persistenceid.equals("") || object.persistenceid == null) {
+//				throw new Exception("El registro no existe.");
+//			}
+//			
+//			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATSINO);
+//			pstm.setLong(1, Long.valueOf(object.persistenceid));
+//			
+//			pstm.executeUpdate();
+//			resultado.setSuccess(true);
+//		} catch (Exception e) {
+//			resultado.setSuccess(false);
+//			resultado.setError("[deleteCatSiNo] " + e.getMessage());
+//		} finally {
+//			if (closeCon) {
+//				new DBConnect().closeObj(con, stm, rs, pstm)
+//			}
+//		}
+//	
+//		return resultado;
+//	}
 	
 	public Result getCatSiNo(String jsonData) {
 		Result resultado = new Result();

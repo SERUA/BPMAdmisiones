@@ -5,11 +5,22 @@ function PbTableCtrl($scope, $http) {
     //this.isClickable = function () {
     //    return $scope.properties.isBound('selectedRow');
     //};
+    
+    var ctrl = this;
 
-    this.selectRow = function (row) {
+    ctrl.isClickable = function () {
+        return $scope.properties.isBound('selectedRow');
+    };
+
+    this.selectRow = function (event, row) {
         debugger;
-            $scope.properties.selectedRow = row;
-            $scope.properties.navigationVar = "editar";
+        // Verifica si el clic proviene del botón de lápiz
+        if (event.target.classList.contains('glyphicon-pencil')) {
+            if (this.isClickable()) {
+                $scope.properties.selectedRow = row;
+                $scope.properties.navigationVar = "editar";
+            }
+        }
     };
 
     this.isSelected = function (row) {
