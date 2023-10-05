@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRConfiguraciones",
   "name" : "PSGRConfiguraciones",
-  "lastUpdate" : 1695342267248,
+  "lastUpdate" : 1696529637508,
   "rows" : [
     [
       {
@@ -128,6 +128,73 @@
         "rows" : [
           [
             {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "expression",
+                  "value" : "navigationVar != 'tabla'"
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Seleccionar campus"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "placeholder" : {
+                  "type" : "interpolation",
+                  "value" : "Selecciona una opción"
+                },
+                "availableValues" : {
+                  "type" : "expression",
+                  "value" : "lstCatCampus.data"
+                },
+                "displayedKey" : {
+                  "type" : "constant",
+                  "value" : "descripcion"
+                },
+                "returnedKey" : {
+                  "type" : "constant"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "campusSelected"
+                }
+              },
+              "reference" : "39a84037-f28c-48fb-b6d6-77c838b10faf",
+              "hasValidationError" : false,
+              "id" : "pbSelect"
+            }
+          ],
+          [
+            {
               "type" : "container",
               "dimension" : {
                 "xs" : 12,
@@ -142,7 +209,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== 'tabla'"
+                  "value" : "navigationVar != 'tabla' || cargar_catDatos"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -239,7 +306,8 @@
                         "type" : "constant",
                         "value" : [
                           "Clave",
-                          "Valor"
+                          "Valor",
+                          "ID Campus"
                         ]
                       },
                       "content" : {
@@ -250,7 +318,8 @@
                         "type" : "constant",
                         "value" : [
                           "clave",
-                          "valor"
+                          "valor",
+                          "idCampus"
                         ]
                       },
                       "selectedRow" : {
@@ -284,6 +353,30 @@
                       "dataToSend" : {
                         "type" : "variable",
                         "value" : "dataToSend"
+                      },
+                      "lstCampusByUser" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "userId" : {
+                        "type" : "variable",
+                        "value" : "userData"
+                      },
+                      "urlGetCampus" : {
+                        "type" : "constant",
+                        "value" : "/bonita/API/extension/posgradosRest?url=getLstCampusByGurpoBonita&p=0&c=10"
+                      },
+                      "lstCatCampus" : {
+                        "type" : "variable",
+                        "value" : "lstCatCampus"
+                      },
+                      "lstContenido" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToFilter" : {
+                        "type" : "variable",
+                        "value" : "dataToFilter"
                       }
                     },
                     "reference" : "e9f1b272-443f-423d-9e92-a9b943296ad0",
@@ -310,7 +403,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "navigationVar !== \"nuevo\" && navigationVar !== \"editar\""
+                  "value" : "navigationVar  !== \"nuevo\" && navigationVar !== \"editar\""
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -639,6 +732,10 @@
                       "navigationVar" : {
                         "type" : "variable",
                         "value" : "navigationVar"
+                      },
+                      "dataToFilter" : {
+                        "type" : "variable",
+                        "value" : "dataToFilter"
                       }
                     },
                     "reference" : "8fae4397-5791-4257-a22c-c1d932de97b5",
@@ -730,6 +827,94 @@
         "return {",
         "    \"id_campus\": \"1\"",
         "}"
+      ],
+      "exposed" : false
+    },
+    "lstCatCampus" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "dataToFilter" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"lstFiltro\": $data.lstFiltros,\r",
+        "    \"usuario\": parseInt($data.userData.user_id),\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"ASC\",\r",
+        "    \"limit\":20,\r",
+        "    \"offset\":0,\r",
+        "    \"persistenceid\":$data.campusSelected.persistenceid,\r",
+        "    \"campus\":$data.campusSelected.descripcion\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/unusedId"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.lstCatCampus;"
+      ],
+      "exposed" : false
+    },
+    "lstFiltros" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "campusSelected" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "\"clave\": \"\",",
+        "\"descripcion\": \"\",",
+        "\"fechaCreacion\": \"\",",
+        "\"fechaImplementacion\": \"\",",
+        "\"id\": \"\",",
+        "\"isEliminado\": null,",
+        "\"isEnabled\": null,",
+        "\"nombreDocumento\": \"\",",
+        "\"persistenceId\": 0,",
+        "\"persistenceId_string\": \"\",",
+        "\"persistenceVersion\": 0,",
+        "\"persistenceVersion_string\": \"\",",
+        "\"urlAutorDatos\": \"\",",
+        "\"urlAvisoPrivacidad\": \"\",",
+        "\"urlDatosVeridicos\": \"\",",
+        "\"usuarioBanner\": \"\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "cargar_catDatos" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.campusSelected === undefined||$data.campusSelected ===null||$data.campusSelected.length <=1){",
+        "    return true;",
+        "}else{",
+        "    return false;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "editable" : {
+      "type" : "constant",
+      "value" : [
+        "tabla"
       ],
       "exposed" : false
     }
