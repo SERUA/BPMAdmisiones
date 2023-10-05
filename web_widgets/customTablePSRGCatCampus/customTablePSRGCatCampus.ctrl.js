@@ -12,7 +12,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     };
     this.selectRowEditar = function(row) {
-
+        debugger;
         $scope.properties.selectedRow = row;
         $scope.properties.isSelected = 'editar';
     };
@@ -506,6 +506,41 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             console.log("Datos recibidos:", response.data);
             $scope.properties.lstEstados = response.data;
             console.log("Datos Estados:", $scope.properties.lstEstados);
+            return response;
+        })
+        .catch(function(error) {
+            console.error("Error en la solicitud HTTP:", error);
+            throw error; // Propagar el error para su posterior manejo si es necesario
+        });
+    }
+
+    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+        debugger;
+        if (newValue !== undefined) {
+            doRequestPais("POST", $scope.properties.urlPais)
+                .then(function(response) {
+                    // Aquí puedes trabajar con la respuesta en caso de éxito
+                    console.log("Datos recibidos:", response.data);
+                })
+                .catch(function(error) {
+                    // Aquí puedes manejar los errores
+                    console.error("Error en la solicitud:", error);
+                });
+        }
+        console.log($scope.properties.dataToSend);
+    });
+    
+    function doRequestPais(method, url) {
+        debugger;
+        return $http({
+            method: method,
+            url: url,
+            data: $scope.properties.dataToSend
+        })
+        .then(function(response) {
+            console.log("Datos recibidos:", response.data);
+            $scope.properties.lstPais = response.data;
+            console.log("Datos Estados:", $scope.properties.lstPais);
             return response;
         })
         .catch(function(error) {
