@@ -14,9 +14,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Submit task') {
-            if($scope.properties.dataToChange = "agregar"){
+            if($scope.properties.dataToChange == "agregar"){
                 accionCatalogoInsert($scope.properties.urlInsert)
-            }else if($scope.properties.dataToChange = "editar"){
+            }else if($scope.properties.dataToChange == "editar"){
                 $scope.properties.urlUpdate = $scope.properties.urlUpdate;
                 accionCatalogo($scope.properties.urlUpdate) 
             }
@@ -35,8 +35,35 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function accionCatalogoInsert(urlInsert){
         debugger;
         vm.busy = true;
+        var estado_pid;
+        var estadoDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].estado.descripcion;
 
-        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = $scope.properties.dataToSend.lstCatCampusInput[0].estado.persistenceId;
+        var estadoEncontrado = $scope.properties.lstEstados.find(function(estado) {
+            return estado.descripcion === estadoDescripcion;
+        });
+
+        if (estadoEncontrado) {
+            estado_pid = estadoEncontrado.persistenceId;
+        } else {
+            console.error("Estado no encontrado en lstEstados");
+        }
+        
+
+        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = estado_pid;
+
+        var pais_pid;
+        var paisDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].pais.descripcion;
+
+        var paisEncontrado = $scope.properties.lstPais.find(function(pais) {
+            return pais.descripcion === paisDescripcion;
+        });
+
+        if (paisEncontrado) {
+            pais_pid = paisEncontrado.persistenceId;
+        } else {
+            console.error("Estado no encontrado en lstEstados");
+        }
+        $scope.properties.dataToSend.lstCatCampusInput[0].pais_pid = pais_pid;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
@@ -53,6 +80,37 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function accionCatalogo(urlUpdate){
         debugger;
         vm.busy = true;
+
+        var estado_pid;
+        var estadoDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].estado.descripcion;
+
+        var estadoEncontrado = $scope.properties.lstEstados.find(function(estado) {
+            return estado.descripcion === estadoDescripcion;
+        });
+
+        if (estadoEncontrado) {
+            estado_pid = estadoEncontrado.persistenceId;
+        } else {
+            console.error("Estado no encontrado en lstEstados");
+        }
+        
+
+        $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = estado_pid;
+
+        var pais_pid;
+        var paisDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].pais.descripcion;
+
+        var paisEncontrado = $scope.properties.lstPais.data.find(function(pais) {
+            return pais.descripcion === paisDescripcion;
+        });
+
+        if (paisEncontrado) {
+            pais_pid = paisEncontrado.persistenceId;
+        } else {
+            console.error("Estado no encontrado en lstEstados");
+        }
+        $scope.properties.dataToSend.lstCatCampusInput[0].pais_pid = pais_pid;
+
         $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
             $scope.properties.navigationVar = "tabla"

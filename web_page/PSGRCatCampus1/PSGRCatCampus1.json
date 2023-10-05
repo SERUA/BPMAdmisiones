@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatCampus1",
   "name" : "PSGRCatCampus",
-  "lastUpdate" : 1696528688686,
+  "lastUpdate" : 1696541511006,
   "rows" : [
     [
       {
@@ -732,6 +732,14 @@
                 "lstEstados" : {
                   "type" : "variable",
                   "value" : "lstEstados"
+                },
+                "lstPais" : {
+                  "type" : "variable",
+                  "value" : "lstPais"
+                },
+                "urlPais" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=getCatPais"
                 }
               },
               "reference" : "82b16570-366e-464b-a27e-05ee4912b0dd",
@@ -2641,7 +2649,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "lstEstados.estado.descripcion"
+                  "value" : "formOutputAgregar.lstCatCampusInput[0].estado"
                 }
               },
               "reference" : "a7d31232-5719-42d0-b160-1d5c602a6d07",
@@ -3152,6 +3160,14 @@
                 },
                 "userData" : {
                   "type" : "constant"
+                },
+                "lstEstados" : {
+                  "type" : "variable",
+                  "value" : "lstEstados"
+                },
+                "lstPais" : {
+                  "type" : "variable",
+                  "value" : "lstPais"
                 }
               },
               "reference" : "afb522c4-bad9-4b0f-96c9-64d56e1ecaf4",
@@ -4818,6 +4834,14 @@
                 "userData" : {
                   "type" : "expression",
                   "value" : "userData"
+                },
+                "lstEstados" : {
+                  "type" : "variable",
+                  "value" : "lstEstados"
+                },
+                "lstPais" : {
+                  "type" : "variable",
+                  "value" : "lstPais"
                 }
               },
               "reference" : "4429ca30-657e-4c3c-ab79-67a3f2fc5202",
@@ -5244,9 +5268,9 @@
       "exposed" : false
     },
     "lstPais" : {
-      "type" : "businessdata",
+      "type" : "json",
       "value" : [
-        "{\"displayValue\":\"findByDescripcion [com.anahuac.catalogos.CatPais]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByDescripcion\",\"displayName\":\"findByDescripcion\"},\"id\":\"com.anahuac.catalogos.CatPais\",\"filters\":[{\"name\":\"descripcion\",\"type\":\"STRING\",\"collection\":false,\"value\":\"México\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+        "{}"
       ],
       "exposed" : false
     },

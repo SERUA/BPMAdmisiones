@@ -1563,12 +1563,12 @@ class CatalogosDAO {
 			pstm.setString(10, object.municipio.isEmpty() ? null : object.municipio);
 			pstm.setString(11, object.numeroExterior.isEmpty() ? null : object.numeroExterior);
 			pstm.setString(12, object.numeroInterior.isEmpty() ? null : object.numeroInterior);
-			pstm.setInt(13, object.orden);
+			pstm.setLong(13, Long.valueOf(object.orden));
 			pstm.setString(14, object.urlAvisoPrivacidad.isEmpty() ? null : object.urlAvisoPrivacidad);
 			pstm.setString(15, object.urlImagen.isEmpty() ? null : object.urlImagen);
 			pstm.setString(16, object.usuarioBanner);
-			pstm.setLong(17, Long.parseLong(object.estado_pid));
-			pstm.setLong(18, Long.parseLong(object.pais_pid));
+			pstm.setLong(17, object.estado_pid.longValue());
+			pstm.setLong(18, object.pais_pid.longValue());
 			pstm.setString(19, object.id); // ID es de tipo VARCHAR_IGNORECASE, por lo que puedes usar setString
 			pstm.setLong(20, object.persistenceId);
 	
