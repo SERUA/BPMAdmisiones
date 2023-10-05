@@ -25,7 +25,6 @@ function PbTableCtrl($scope, $http) {
     });
 
     $scope.$watch("properties.reload", function () {
-        debugger;
         if ($scope.properties.reload === true) {
             $scope.properties.reload = false;
             $scope.getCatalogo();
