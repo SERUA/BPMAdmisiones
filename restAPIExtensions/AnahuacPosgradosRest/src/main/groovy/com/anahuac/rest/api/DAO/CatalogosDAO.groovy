@@ -5148,7 +5148,6 @@ class CatalogosDAO {
 		String errorLog = "";
 		
 		try {
-			errorLog += "1 | ";
 			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -5157,7 +5156,6 @@ class CatalogosDAO {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = formato.format(new Date());
 			
-			errorLog += "2 | ";
 			if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
@@ -5173,49 +5171,30 @@ class CatalogosDAO {
 			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
 			Date fecha_fin = sdfEntrada.parse(object.fecha_fin);
 			
-			errorLog += "3 | ";
 			Long idCampus = 0L;
 			if(object.id_campus == null) {
-				errorLog += "4 | ";
 				idCampus = 0L;
 			} else {
-				errorLog += "5 | ";
 				idCampus = Long.valueOf(object.id_campus);
 			}
 			
-			errorLog += "6 | ";
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
-			errorLog += "7 | ";
 			pstm.setString(1,  object.clave);
-			errorLog += "8 | ";
 			pstm.setString(2, object.descripcion);
-			errorLog += "9 | ";
 			pstm.setString(3, fechaHoraFormateada);
-			errorLog += "10 | ";
 			pstm.setString(4, formato.format(fecha_inicio));
-			errorLog += "11 | ";
 			pstm.setString(5, formato.format(fecha_fin));
-			errorLog += "12 | ";
 			pstm.setString(6, fechaHoraFormateada);
-			errorLog += "13 | ";
 			pstm.setString(7, object.id);
-			errorLog += "14 | ";
 			pstm.setBoolean(8, object.is_anual);
-			errorLog += "15 | ";
 			pstm.setBoolean(9, false);
-			errorLog += "16 | ";
 			pstm.setBoolean(10, object.is_semestral);
-			errorLog += "17 | ";
 			pstm.setLong(11, idCampus);
-			errorLog += "18 | ";
 			pstm.setString(12, '');
-			errorLog += "19 | ";
 			
 			if (pstm.executeUpdate() > 0) {
-				errorLog += "20 | ";
 				resultado.setSuccess(true);
 			} else {
-				errorLog += "21 | ";
 				throw new Exception("No se pudo insertar el registro.");
 			}
 		} catch (Exception e) {
@@ -5237,11 +5216,19 @@ class CatalogosDAO {
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
 		String where = "", orderby = "";
+		Integer total_rows = 0;
 		
 		try {
 			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			
+			pstm = con.prepareStatement(StatementsCatalogos.SELECT_COUNT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				total_rows = rs.getInt("total_rows");
+			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
@@ -5251,20 +5238,21 @@ class CatalogosDAO {
 				row.put("persistenceid", rs.getLong("persistenceid"));
 				row.put("clave", rs.getString("clave"));
 				row.put("descripcion", rs.getString("descripcion"));
-				row.put("fecha_creacion", rs.getDate("fecha_creacion"));
-				row.put("fecha_inicio", rs.getDate("fecha_inicio"));
-				row.put("fecha_fin", rs.getDate("fecha_fin"));
-				row.put("fecha_importacion", rs.getDate("fecha_importacion"));
+				row.put("fecha_creacion", rs.getString("fecha_creacion"));
+				row.put("fecha_inicio", rs.getString("fecha_inicio"));
+				row.put("fecha_fin", rs.getString("fecha_fin"));
+				row.put("fecha_importacion", rs.getString("fecha_importacion"));
 				row.put("id", rs.getString("id"));
 				row.put("is_anual", rs.getBoolean("is_anual"));
 				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
-				row.put("id_campus", rs.getBoolean("id_campus"));
-				row.put("usuario_banner", rs.getInt("usuario_banner"));
+				row.put("id_campus", rs.getLong("id_campus"));
+				row.put("usuario_banner", rs.getString("usuario_banner"));
 				
 				data.add(row);
 			}
 			
+			resultado.setTotalRegistros(total_rows);
 			resultado.setData(data);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
