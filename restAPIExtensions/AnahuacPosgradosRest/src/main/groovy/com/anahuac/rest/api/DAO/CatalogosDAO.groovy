@@ -1376,35 +1376,35 @@ class CatalogosDAO {
 			def object = jsonObject.lstCatCampusInput[0]
 	        if (object == null) {
 			    throw new Exception("El objeto 'object' no debe ser nulo.");
-			} else if (object.calle == null || object.calle.isEmpty()) {
+			} else if (object.calle == null || object.calle == "") {
 					throw new Exception("El campo \"Calle\" no debe ir vacío.");
-			} else if (object.clave == null || object.clave.isEmpty()) {
+			} else if (object.clave == null || object.clave == "") {
 					throw new Exception("El campo \"Clave\" no debe ir vacío.");
-			} else if (object.codigoPostal == null || object.codigoPostal.isEmpty()) {
+			} else if (object.codigoPostal == null || object.codigoPostal == "") {
 					throw new Exception("El campo \"codigoPostal\" no debe ir vacío.");
-			} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+			} else if (object.descripcion == null || object.descripcion == "") {
 					throw new Exception("El campo \"descripcion\" no debe ir vacío.");
-			} else if (object.email == null || object.email.isEmpty()) {
+			} else if (object.email == null || object.email == "") {
 					throw new Exception("El campo \"email\" no debe ir vacío.");
-			} else if (object.grupoBonita == null || object.grupoBonita.isEmpty()) {
+			} else if (object.grupoBonita == null || object.grupoBonita == "") {
 					throw new Exception("El campo \"grupoBonita\" no debe ir vacío.");
-			} else if (object.municipio == null || object.municipio.isEmpty()) {
+			} else if (object.municipio == null || object.municipio == "") {
 					throw new Exception("El campo \"municipio\" no debe ir vacío.");
-			} else if (object.numeroExterior == null || object.numeroExterior.isEmpty()) {
+			} else if (object.numeroExterior == null || object.numeroExterior == "") {
 					throw new Exception("El campo \"numeroExterior\" no debe ir vacío.");
-			} else if (object.numeroInterior == null || object.numeroInterior.isEmpty()) {
+			} else if (object.numeroInterior == null || object.numeroInterior == "") {
 					throw new Exception("El campo \"numeroInterior\" no debe ir vacío.");
-			} else if (object.orden == null || object.orden.isEmpty()) {
+			} else if (object.orden == null || object.orden == "") {
 					throw new Exception("El campo \"orden\" no debe ir vacío.");
-			} else if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad.isEmpty()) {
+			} else if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad == "") {
 					throw new Exception("El campo \"urlAvisoPrivacidad\" no debe ir vacío.");
-			} else if (object.urlImagen == null || object.urlImagen.isEmpty()) {
+			} else if (object.urlImagen == null || object.urlImagen == "") {
 					throw new Exception("El campo \"urlImagen\" no debe ir vacío.");
-			} else if (object.usuarioBanner == null || object.usuarioBanner.isEmpty()) {
+			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
 					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
-			} else if (object.estado_pid == null || object.estado_pid.isEmpty()) {
+			} else if (object.estado_pid == null || object.estado_pid == "") {
 					throw new Exception("El campo \"estado_pid\" no debe ir vacío.");
-			} else if (object.id == null || object.id.isEmpty()) {
+			} else if (object.id == null || object.id == "") {
 					throw new Exception("El campo \"id\" no debe ir vacío.");
 			}	
 			
@@ -2679,6 +2679,55 @@ class CatalogosDAO {
 	    }
 	
 	    return resultado
+	}
+	
+	public Result getLstCampusByGurpoBonita(String jsonData) {
+		Result resultado = new Result()
+		boolean closeCon = false
+		List<Map<String, Object>> data = []
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper()
+			def jsonObject = jsonSlurper.parseText(jsonData)
+			def lstCatCampus = jsonObject.lstCatCampus
+			
+			closeCon = validarConexion()
+			
+			// Iterar sobre cada campus
+			lstCatCampus.each { campus ->
+			    // Ejecutar la consulta SQL para cada campus
+			    pstm = con.prepareStatement("SELECT * FROM PSGRCatCampus WHERE grupo_bonita = ? AND eliminado = false")
+			    pstm.setString(1, campus)
+			    rs = pstm.executeQuery()
+			
+			    // Obtener los metadatos de las columnas para obtener los nombres de los campos
+			    def metaData = rs.getMetaData()
+			    int columnCount = metaData.getColumnCount()
+			
+			    // Procesar los resultados y llenar la lista data
+			    while (rs.next()) {
+			        def row = [:]
+			        for (int i = 1; i <= columnCount; i++) {
+			            row[metaData.getColumnLabel(i)] = rs.getObject(i)
+			        }
+			        data.add(row)
+			    }
+			}
+	
+			resultado.setData(data)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("[getLstCampus] ${e.message}")
+		} finally {
+			// Cerrar la conexión en caso de que esté abierta
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado
 	}
 	
 	public Result insertCatPropedeutico(String jsonData, RestAPIContext context) {
@@ -4850,7 +4899,7 @@ class CatalogosDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			//Validaciones en el catálogo
-			if(object.persistenceid.equals("") || object.persistenceid == null) {
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
 				throw new Exception("El registro no existe.");
 			} else if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
@@ -4861,7 +4910,7 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CONFIGURACIONES);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.valor);
-			pstm.setLong(3, Long.valueOf(object.persistenceid));
+			pstm.setLong(3, Long.valueOf(object.persistenceId));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -4911,34 +4960,166 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result getConfiguraciones(String jsonData) {
+	public Result getConfiguraciones(String jsonData, RestAPIContext context) {
+//		Result resultado = new Result();
+//		Boolean closeCon = false;
+//		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+//		Map<String, Object> row = new HashMap<String, Object>();
+//		String where = "", orderby = "";
+//		
+//		try {
+//			closeCon = validarConexion();
+//			def jsonSlurper = new JsonSlurper();
+//			def object = jsonSlurper.parseText(jsonData);
+//			
+//			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CONFIGURACIONES.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+//			pstm.setLong(1, Long.valueOf(object.id_campus));
+//			rs = pstm.executeQuery();
+//			
+//			while(rs.next()) {
+//				row = new HashMap<String, Object>();
+//				row.put("clave", rs.getString("clave"));
+//				row.put("valor", rs.getString("valor"));
+//				row.put("id_campus", rs.getString("id_campus"));
+//				row.put("persistenceid", rs.getString("persistenceid"));
+//				
+//				data.add(row);
+//			}
+		
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-		Map<String, Object> row = new HashMap<String, Object>();
-		String where = "", orderby = "";
-		
+		String where = "", orderby = "ORDER BY ", errorLog = "", bachillerato = "", campus = ""
+
+		List < String > lstGrupo = new ArrayList < String > ();
+		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
 		try {
-			closeCon = validarConexion();
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (PSGRCatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupo_bonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			if (lstGrupo.size() > 0) {
+				campus += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				campus += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					campus += ") "
+				} else {
+					campus += " OR "
+				}
+			}
+
+			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
+			CatGestionEscolar row = new CatGestionEscolar();
+			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			closeCon = validarConexion();
+//			throw new Exception("El campo \"Descripción\" no debe ir vacío"+ object);
+			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.persistenceid + "'"
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				def booleanos = filtro.get("valor");
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "VALOR":
+						where += " AND LOWER(GE.valor) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ID CAMPUS":
+						where += " AND LOWER(GE.id_campus) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "GE.clave";
+					break;
+				case "VALOR":
+					orderby += "GE.valor";
+					break;
+				case "ID CAMPUS":
+					orderby += "GE.id_campus";
+					break;
+				default:
+					orderby += "GE.persistenceid"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			//where+=" "+campus
+			consulta = consulta.replace("[CAMPUS]", campus)
+			consulta = consulta.replace("[WHERE]", where);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CONFIGURACIONES.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-			pstm.setLong(1, Long.valueOf(object.id_campus));
-			rs = pstm.executeQuery();
+			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
 			
-			while(rs.next()) {
-				row = new HashMap<String, Object>();
-				row.put("clave", rs.getString("clave"));
-				row.put("valor", rs.getString("valor"));
-				row.put("id_campus", rs.getString("id_campus"));
-				row.put("persistenceid", rs.getString("persistenceid"));
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorLog += " " + consulta
+			errorLog += " consulta= "
+			errorLog += consulta
+			errorLog += " where = " + where
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			errorLog += "fecha=="
+
+			rs = pstm.executeQuery()
+			while (rs.next()) {
+
+				row = new CatGestionEscolar()
+				row.setIdCampus(rs.getLong("id_campus"))
+				row.setValor(rs.getString("valor"))
+				row.setClave(rs.getString("clave"));
+				row.setPersistenceId(rs.getLong("persistenceId"))
 				
-				data.add(row);
+				rows.add(row)
 			}
 			
-			resultado.setData(data);
-			resultado.setSuccess(true);
+			resultado.setSuccess(true)
+			resultado.setError(errorLog)
+			resultado.setData(rows)
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[getConfiguraciones] " + e.getMessage());

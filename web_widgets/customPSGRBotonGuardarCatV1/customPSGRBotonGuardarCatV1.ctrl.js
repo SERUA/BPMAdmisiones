@@ -13,7 +13,9 @@ function PbButtonCtrl($scope, $http) {
     };
 
     function accionCatalogo(_url){
+        debugger;
         vm.busy = true;
+        $scope.properties.dataToSend.id_campus= $scope.properties.dataToFilter.persistenceid;
         $http.post(_url, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
             $scope.properties.navigationVar = "tabla"

@@ -273,6 +273,14 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getLstCampusByGurpoBonita":
+					result = new CatalogosDAO().getLstCampusByGurpoBonita(jsonData)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "insertCatPropedeutico":
 					result = new CatalogosDAO().insertCatPropedeutico(jsonData, context)
 					if (result.isSuccess()) {
@@ -595,9 +603,9 @@ class Index implements RestApiController {
 					}
 					break;
 				case "getConfiguraciones":
-					result = new CatalogosDAO().getConfiguraciones(jsonData);
+					result = new CatalogosDAO().getConfiguraciones(jsonData, context)
 					if (result.isSuccess()) {
-						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
