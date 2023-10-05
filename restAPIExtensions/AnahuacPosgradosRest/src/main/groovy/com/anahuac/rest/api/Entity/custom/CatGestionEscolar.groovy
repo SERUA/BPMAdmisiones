@@ -27,6 +27,8 @@ class CatGestionEscolar {
 	private Long campus_referencia_pid;
 	private String fecha_registro;
 	private Long campus_pid;
+	private Long id_campus;
+	private String valor;
 	
 	
 	
@@ -100,6 +102,12 @@ class CatGestionEscolar {
 	public void setCampusPid(Long campus_pid) {
 		this.campus_pid = campus_pid;
 	}
+	public Long getIdCampus() {
+		return id_campus;
+	}
+	public void setIdCampus(Long id_campus) {
+		this.id_campus = id_campus;
+	}
 	public Long getPersistenceVersion() {
 		return persistenceVersion;
 	}
@@ -117,6 +125,12 @@ class CatGestionEscolar {
 	}
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
+	}
+	public String getValor() {
+		return valor;
+	}
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 	public String getEnlace() {
 		return enlace;

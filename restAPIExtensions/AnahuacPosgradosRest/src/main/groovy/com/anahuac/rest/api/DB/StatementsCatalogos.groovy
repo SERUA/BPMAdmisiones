@@ -39,7 +39,8 @@ class StatementsCatalogos {
 	public static final String INSERT_CATGESTIONESCOLAR = "INSERT INTO PSGRCatGestionEscolar (persistenceid, case_id, persistenceversion, fecha_creacion, is_eliminado, campus, clave, nombre, descripcion, enlace, tipo_centro_estudio, propedeutico, programa_parcial, is_medicina, tipo_licenciatura, inscripcion_enero, inscripcion_mayo, inscripcion_agosto, inscripcion_septiembre, url_img_licenciatura, idioma, usuario_creacion) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, COALESCE((SELECT MAX(case_id)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, COALESCE((SELECT MAX(persistenceversion)::TEXT FROM PSGRCatGestionEscolar), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET is_eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET Clave=?, nombre=?, descripcion=?, enlace=?, tipo_centro_estudio=?, propedeutico=?, programa_parcial=?, is_medicina=?, tipo_licenciatura=?, inscripcion_enero=?, inscripcion_mayo=?, inscripcion_agosto=?, inscripcion_septiembre=?, url_img_licenciatura=?, idioma=?, usuario_creacion=? WHERE persistenceid=?;";
-	public static final String GET_LSTCAMPUS  = "SELECT * FROM PSGRCatCampus WHERE eliminado = false	";
+	public static final String GET_LSTCAMPUS  = "SELECT * FROM PSGRCatCampus WHERE eliminado = false";
+	public static final String GET_LSTCAMPUSBYGRUPOBONITA  = "SELECT * FROM PSGRCatCampus WHERE grupo_bonita = ? AND eliminado = false";
 	
 	//PSGRCatPosgrado2
 	public static final String GET_CATPOSGRADO2 = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatPosgrado as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
@@ -105,6 +106,7 @@ class StatementsCatalogos {
 	public static final String DELETE_CONFIGURACIONES = "DELETE FROM PSGRConfiguraciones WHERE persistenceid = ?";
 	public static final String UPDATE_CONFIGURACIONES = "UPDATE PSGRConfiguraciones SET clave = ?, valor = ? WHERE persistenceid = ?";
 	public static final String SELECT_CONFIGURACIONES = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRConfiguraciones WHERE id_campus = ?";
+	public static final String GET_CONFIGURACIONES = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatMedioEnteraste
 	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatMedioEnteraste (persistenceid, persistenceversion, clave, descripcion, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste) end), 0, ?, ?, ?)";
