@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRcatPeriodoAcciones",
   "name" : "PSGRcatPeriodoAcciones",
-  "lastUpdate" : 1696447022224,
+  "lastUpdate" : 1696465064201,
   "rows" : [
     [
       {
@@ -239,6 +239,13 @@
                 "modalId" : {
                   "type" : "constant",
                   "value" : "modalFiltroEspecifico"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "newValue" : {
+                  "type" : "constant"
                 }
               },
               "reference" : "b1c41b1f-5d58-45a3-8a38-d3b7e7dc9dc4",
@@ -343,7 +350,7 @@
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
-                "sm" : 5,
+                "sm" : 12,
                 "md" : 6,
                 "lg" : 6
               },
@@ -362,7 +369,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "<i class=\"glyphicon glyphicon-plus\"></i>  Agregar"
+                  "value" : "Agregar"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -376,121 +383,26 @@
                   "type" : "constant",
                   "value" : "Submit task"
                 },
-                "variableDestino" : {
+                "navigationVar" : {
                   "type" : "variable",
                   "value" : "editable"
                 },
-                "variableAcopiar" : {
-                  "type" : "variable",
-                  "value" : "'agregar'"
-                },
-                "OpenModal" : {
+                "newValue" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : "nuevo"
                 },
-                "modalId" : {
-                  "type" : "constant"
+                "objetoCat" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar"
+                },
+                "newCatValue" : {
+                  "type" : "expression",
+                  "value" : "{}"
                 }
               },
-              "reference" : "7b33383f-c16a-4ed0-add3-f12eaec399a4",
+              "reference" : "447243db-d0a0-472b-8cc3-cfce163bca4c",
               "hasValidationError" : false,
-              "id" : "customButtonSetValor"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "lstContenido.length <1"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "<i class=\"glyphicon glyphicon-download-alt\"></i> PDF"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "primary"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "POST"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/extension/AnahuacRest?url=getPdfFileCatalogo&p=0&c=10"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "expression",
-                  "value" : "Files"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "fileExtension" : {
-                  "type" : "constant",
-                  "value" : "pdf"
-                }
-              },
-              "reference" : "e5d223da-68fa-4557-b6fb-01ee3df46f20",
-              "hasValidationError" : false,
-              "id" : "customCustomBtnDownloadExcel"
+              "id" : "customPSGRbtnReiniciarCatNavegarV2"
             }
           ],
           [
@@ -549,7 +461,6 @@
                     "Clave",
                     "Descripción",
                     "Usuario Banner",
-                    "Cuatrimestral",
                     "Semestral",
                     "Anual",
                     "Inicio captación",
@@ -566,17 +477,16 @@
                     "clave",
                     "descripcion",
                     "usuarioBanner",
-                    "isCuatrimestral ? \"Sí\":\"No\"",
-                    "isSemestral ? \"Sí\":\"No\"",
-                    "isAnual? \"Sí\":\"No\"",
-                    "fechaInicio | date:'dd-MM-yyyy '",
-                    "fechaFin | date:'dd-MM-yyyy'",
+                    "is_semestral ? \"Sí\":\"No\"",
+                    "is_anual? \"Sí\":\"No\"",
+                    "fecha_inicio | date:'dd-MM-yyyy '",
+                    "fecha_fin | date:'dd-MM-yyyy'",
                     "activo? \"Sí\":\"No\""
                   ]
                 },
                 "selectedRow" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selectedNR"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0]"
                 },
                 "striped" : {
                   "type" : "constant",
@@ -620,14 +530,14 @@
                 },
                 "urlPost" : {
                   "type" : "constant",
-                  "value" : "/bonita/API/extension/AnahuacRest?url=getCatPeriodo&p=0&c=10"
+                  "value" : "/bonita/API/extension/posgradosRest?url=getCatPeriodos&p=0&c=10"
                 },
                 "keyPressFilter" : {
                   "type" : "constant",
                   "value" : true
                 }
               },
-              "reference" : "a67ccde5-471d-4b92-883e-331e47937d14",
+              "reference" : "8b16765b-5975-4f8b-82b0-069600913799",
               "hasValidationError" : false,
               "id" : "customPSGRTableSeleccionarFiltrado2Periodo"
             }
@@ -1432,7 +1342,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.id"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].id"
                 },
                 "type" : {
                   "type" : "constant",
@@ -1512,7 +1422,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.year"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].year"
                 }
               },
               "reference" : "2d301f4b-dbd9-4b89-bcad-455f6ec91a2a",
@@ -1578,7 +1488,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.codigo"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].codigo"
                 },
                 "datosActualizar" : {
                   "type" : "variable",
@@ -1604,8 +1514,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1653,7 +1563,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.descripcion"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].descripcion"
                 },
                 "type" : {
                   "type" : "constant",
@@ -1673,16 +1583,14 @@
               "reference" : "633370e5-dbc6-4eca-847c-8449c6d687d5",
               "hasValidationError" : false,
               "id" : "customInputLimit"
-            }
-          ],
-          [
+            },
             {
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -1730,7 +1638,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.clave"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].clave"
                 },
                 "type" : {
                   "type" : "constant",
@@ -1798,58 +1706,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "catPeriodo_selected.isSemestral || catPeriodo_selected.isAnual"
-                      },
-                      "required" : {
                         "type" : "constant",
                         "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Cuatrimestral"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "catPeriodo_selected.isCuatrimestral"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "00fd75ee-74aa-43ff-b45f-5c8607aef095",
-                    "hasValidationError" : false,
-                    "id" : "customCheckboxLabel"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 4,
-                      "lg" : 4
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "expression",
-                        "value" : "catPeriodo_selected.isCuatrimestral || catPeriodo_selected.isAnual"
                       },
                       "required" : {
                         "type" : "constant",
@@ -1861,7 +1719,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "catPeriodo_selected.isSemestral"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_semestral"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1898,8 +1756,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "catPeriodo_selected.isCuatrimestral || catPeriodo_selected.isSemestral"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "required" : {
                         "type" : "constant",
@@ -1911,7 +1769,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "catPeriodo_selected.isAnual"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_anual"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1927,6 +1785,56 @@
                       }
                     },
                     "reference" : "8288a88e-7b77-467a-8125-76fdfada2959",
+                    "hasValidationError" : false,
+                    "id" : "customCheckboxLabel"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Activo"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].activo"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      }
+                    },
+                    "reference" : "3f6c6a80-a737-41af-ac75-26199dd0444f",
                     "hasValidationError" : false,
                     "id" : "customCheckboxLabel"
                   }
@@ -1978,7 +1886,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.fechaInicio"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fecha_inicio"
                 },
                 "dateFormat" : {
                   "type" : "constant",
@@ -2044,7 +1952,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.fechaFin"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fecha_fin"
                 },
                 "dateFormat" : {
                   "type" : "constant",
@@ -2070,12 +1978,12 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -2086,113 +1994,91 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Activo"
-                },
-                "value" : {
+                "repeatedCollection" : {
                   "type" : "variable",
-                  "value" : "catPeriodo_selected.activo"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                }
-              },
-              "reference" : "3f6c6a80-a737-41af-ac75-26199dd0444f",
-              "hasValidationError" : false,
-              "id" : "customCheckboxLabel"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 8,
-                "lg" : 8
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
                   "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Cancelar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "info"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Submit task"
-                },
-                "variableDestino" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "variableAcopiar" : {
-                  "type" : "variable",
-                  "value" : "'tabla'"
-                },
-                "OpenModal" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "modalId" : {
-                  "type" : "constant"
-                },
-                "variableDestino2" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo_selected"
-                },
-                "variableAcopiar2" : {
-                  "type" : "variable",
-                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"isEliminado\": false, \t\"usuarioCreacion\": \"\", \t\"clave\": \"\" }"
                 }
               },
-              "reference" : "fc50f842-87d3-4b23-b72f-588cbace066e",
+              "reference" : "b3325c18-fba7-4d9b-b85e-b4d90f94369f",
               "hasValidationError" : false,
-              "id" : "customButtonSetValorDoble"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Cancelar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "info"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "variableDestino" : {
+                        "type" : "variable",
+                        "value" : "editable"
+                      },
+                      "variableAcopiar" : {
+                        "type" : "variable",
+                        "value" : "'tabla'"
+                      },
+                      "OpenModal" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "modalId" : {
+                        "type" : "constant"
+                      },
+                      "variableDestino2" : {
+                        "type" : "variable",
+                        "value" : "catPeriodo_selected"
+                      },
+                      "variableAcopiar2" : {
+                        "type" : "variable",
+                        "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"isEliminado\": false, \t\"usuarioCreacion\": \"\", \t\"clave\": \"\" }"
+                      }
+                    },
+                    "reference" : "fc50f842-87d3-4b23-b72f-588cbace066e",
+                    "hasValidationError" : false,
+                    "id" : "customButtonSetValorDoble"
+                  }
+                ]
+              ]
             },
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -2203,218 +2089,87 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Guardar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "primary"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Start process"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
-                },
-                "responseStatusCode" : {
+                "repeatedCollection" : {
                   "type" : "variable",
                   "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "expression",
-                  "value" : "formOutput"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "processId" : {
-                  "type" : "variable",
-                  "value" : "processEditData[0].id"
-                },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "dataToSet" : {
-                  "type" : "variable",
-                  "value" : "\"tabla\""
-                },
-                "dataToChange" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "dataToSet2" : {
-                  "type" : "variable",
-                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"campus\": null,  \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"fechaImportacion\":\"\", \t\"isEliminado\": false, \t\"usuarioBanner\": \"\", \t\"isEnabled\":true, \t\"clave\": \"\", \t\"todelete\": false , \"nombreCampus\":\"\", \"isCuatrimestral\":false,             \"fechaInicio\":null,             \"fechaFin\":null,             \"isSemestral\":false,             \"isAnual\":false }"
-                },
-                "dataToChange2" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo_selected"
                 }
               },
-              "reference" : "49988857-6751-44ec-ae43-4f12f8173206",
+              "reference" : "f89e1634-1303-4182-bd95-453664ef9cc7",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatPeriodo"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "validar != true"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Guardar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "info"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Start process"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "expression",
-                  "value" : "formOutput"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "processId" : {
-                  "type" : "variable",
-                  "value" : "processEditData[0].id"
-                },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "dataToSet" : {
-                  "type" : "variable",
-                  "value" : "\"tabla\""
-                },
-                "dataToChange" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "dataToSet2" : {
-                  "type" : "variable",
-                  "value" : "{ \t\"persistenceId\": 0, \t\"persistenceId_string\": \"0\", \t\"persistenceVersion\": 0, \t\"persistenceVersion_string\": \"0\", \t\"campus\": null,  \t\"descripcion\": \"\", \t\"fechaCreacion\": \"\", \t\"fechaImportacion\":\"\", \t\"isEliminado\": false, \t\"usuarioBanner\": \"\", \t\"isEnabled\":true, \t\"clave\": \"\", \t\"todelete\": false , \"nombreCampus\":\"\" }"
-                },
-                "dataToChange2" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo_selected"
-                }
-              },
-              "reference" : "20395a21-7773-4b50-b8b1-e5dc36707c7b",
-              "hasValidationError" : false,
-              "id" : "customButtonInstanciar"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Guardar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "right"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "expression",
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0]"
+                      },
+                      "urlInsert" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=insertCatPeriodos"
+                      },
+                      "urlUpdate" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=updateCatPeriodos"
+                      },
+                      "navigationVar" : {
+                        "type" : "variable",
+                        "value" : "editable"
+                      }
+                    },
+                    "reference" : "0939498c-548d-475c-a845-309bc9c756d7",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRBotonGuardarCatV1"
+                  }
+                ]
+              ]
             }
           ]
         ]
@@ -2436,7 +2191,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "editable != 'agregar'"
+            "value" : "editable != 'nuevo'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -2670,8 +2425,8 @@
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -2739,16 +2494,14 @@
               "reference" : "b815ef66-478b-49d1-86b9-0baf476637e3",
               "hasValidationError" : false,
               "id" : "customInputLimit"
-            }
-          ],
-          [
+            },
             {
               "type" : "component",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 12,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -2757,7 +2510,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "required" : {
                   "type" : "constant",
@@ -2864,58 +2617,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isSemestral || formOutputAgregar.lstCatPeriodoInput[0].isAnual"
-                      },
-                      "required" : {
                         "type" : "constant",
                         "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Cuatrimestral"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isCuatrimestral"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "9a32e778-92b7-4b5a-9627-4509471e7abd",
-                    "hasValidationError" : false,
-                    "id" : "customCheckboxLabel"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 4,
-                      "lg" : 4
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "expression",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isCuatrimestral"
                       },
                       "required" : {
                         "type" : "constant",
@@ -2927,7 +2630,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isSemestral"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_semestral"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -2964,8 +2667,8 @@
                         "value" : false
                       },
                       "disabled" : {
-                        "type" : "expression",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isSemestral || formOutputAgregar.lstCatPeriodoInput[0].isCuatrimestral"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "required" : {
                         "type" : "constant",
@@ -2977,7 +2680,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].isAnual"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_anual"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3044,7 +2747,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fechaInicio"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fecha_inicio"
                 },
                 "dateFormat" : {
                   "type" : "constant",
@@ -3110,7 +2813,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fechaFin"
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].fecha_fin"
                 },
                 "dateFormat" : {
                   "type" : "constant",
@@ -3136,12 +2839,12 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 12
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -3152,106 +2855,84 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Activo"
-                },
-                "value" : {
+                "repeatedCollection" : {
                   "type" : "variable",
-                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].activo"
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                }
-              },
-              "reference" : "58d20618-a015-434a-a946-bf29b14e8ed7",
-              "hasValidationError" : false,
-              "id" : "customCheckboxLabel"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 8,
-                "lg" : 8
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
                   "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Cancelar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "left"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "info"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Submit task"
-                },
-                "variableDestino" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "variableAcopiar" : {
-                  "type" : "variable",
-                  "value" : "'tabla'"
-                },
-                "OpenModal" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "modalId" : {
-                  "type" : "expression",
-                  "value" : "formOutputAgregar.lstCatPeriodoInput"
                 }
               },
-              "reference" : "543c381d-0f4a-4e41-afc0-20245e131386",
+              "reference" : "473f3d2e-49d1-463b-a1c9-29c5d26cc3b0",
               "hasValidationError" : false,
-              "id" : "customButtonSetValorPeriodo"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Cancelar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "info"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "variableDestino" : {
+                        "type" : "variable",
+                        "value" : "editable"
+                      },
+                      "variableAcopiar" : {
+                        "type" : "variable",
+                        "value" : "'tabla'"
+                      },
+                      "OpenModal" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "modalId" : {
+                        "type" : "expression",
+                        "value" : "formOutputAgregar.lstCatPeriodoInput"
+                      }
+                    },
+                    "reference" : "543c381d-0f4a-4e41-afc0-20245e131386",
+                    "hasValidationError" : false,
+                    "id" : "customButtonSetValorPeriodo"
+                  }
+                ]
+              ]
             },
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
-                "md" : 4,
-                "lg" : 4
+                "md" : 6,
+                "lg" : 6
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -3262,218 +2943,87 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "disabled" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Guardar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "primary"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Start process"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
-                },
-                "responseStatusCode" : {
+                "repeatedCollection" : {
                   "type" : "variable",
                   "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "expression",
-                  "value" : "formOutputAgregar"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "processId" : {
-                  "type" : "variable",
-                  "value" : "processAgregarData[0].id"
-                },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "dataToSet" : {
-                  "type" : "variable",
-                  "value" : "\"tabla\""
-                },
-                "dataToChange" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "dataToSet2" : {
-                  "type" : "variable",
-                  "value" : "{     \"lstCatPeriodoInput\": [         {             \"campus\": null,             \"nombreCampus\":\"\",             \"descripcion\": \"\",              \"isEliminado\": false,              \"usuarioBanner\": \"\",              \"fechaImportacion\":null,             \"clave\": \"\",              \"fechaCreacion\": null,             \"isEnabled\":true,             \"isCuatrimestral\":false,             \"fechaInicio\":null,             \"fechaFin\":null,             \"isSemestral\":false,             \"isAnual\":false,             \"year\":\"\",             \"codigo\":\"\"         }     ] }"
-                },
-                "dataToChange2" : {
-                  "type" : "variable",
-                  "value" : "formOutputAgregar"
                 }
               },
-              "reference" : "69b8585b-e286-4ca0-bd75-713ef32993d0",
+              "reference" : "55a9815a-7f03-4fa0-b194-21a18fd7d960",
               "hasValidationError" : false,
-              "id" : "customButtonInstanciarCatPeriodo"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "disabled" : {
-                  "type" : "expression",
-                  "value" : "validar != true"
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Guardar"
-                },
-                "alignment" : {
-                  "type" : "constant",
-                  "value" : "right"
-                },
-                "buttonStyle" : {
-                  "type" : "constant",
-                  "value" : "info"
-                },
-                "action" : {
-                  "type" : "constant",
-                  "value" : "Start process"
-                },
-                "assign" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "url" : {
-                  "type" : "interpolation",
-                  "value" : "../API/bdm/businessData/com.anahuac.catalogos.CatPeriodo?q=findByNombreCampus&p={{inicio}}&c=10&f=nombreCampus={{campus_selected.valor}}"
-                },
-                "responseStatusCode" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "dataToSend" : {
-                  "type" : "expression",
-                  "value" : "formOutputAgregar"
-                },
-                "dataFromSuccess" : {
-                  "type" : "variable",
-                  "value" : "catPeriodo"
-                },
-                "closeOnSuccess" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "dataFromError" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "targetUrlOnSuccess" : {
-                  "type" : "interpolation"
-                },
-                "collectionToModify" : {
-                  "type" : "variable"
-                },
-                "modalId" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "collectionPosition" : {
-                  "type" : "constant",
-                  "value" : "Last"
-                },
-                "valueToAdd" : {
-                  "type" : "constant"
-                },
-                "removeItem" : {
-                  "type" : "variable"
-                },
-                "processId" : {
-                  "type" : "variable",
-                  "value" : "processAgregarData[0].id"
-                },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "dataToSet" : {
-                  "type" : "variable",
-                  "value" : "\"tabla\""
-                },
-                "dataToChange" : {
-                  "type" : "variable",
-                  "value" : "editable"
-                },
-                "dataToSet2" : {
-                  "type" : "variable",
-                  "value" : "{     \"lstCatPeriodoInput\": [         {             \"campus\": null,             \"nombreCampus\":\"\",             \"descripcion\": \"\",              \"isEliminado\": false,              \"usuarioBanner\": \"\",              \"fechaImportacion\":null,             \"clave\": \"\",              \"fechaCreacion\": null,             \"isEnabled\":true         }     ] }"
-                },
-                "dataToChange2" : {
-                  "type" : "variable",
-                  "value" : "formOutputAgregar"
-                }
-              },
-              "reference" : "f358c199-e4b7-4ae8-b94c-c95002adf3d5",
-              "hasValidationError" : false,
-              "id" : "customButtonInstanciar"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Guardar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "right"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Submit task"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "expression",
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0]"
+                      },
+                      "urlInsert" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=insertCatPeriodo"
+                      },
+                      "urlUpdate" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=updateCatPeriodo"
+                      },
+                      "navigationVar" : {
+                        "type" : "variable",
+                        "value" : "editable"
+                      }
+                    },
+                    "reference" : "024133e3-43a1-47f0-8626-232efb46d0db",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRBotonGuardarCatV1"
+                  }
+                ]
+              ]
             }
           ]
         ]
@@ -3681,46 +3231,46 @@
     "cargar_datos" : {
       "type" : "expression",
       "value" : [
-        "    if($data.editable === \"editar\"){",
-        "        $data.catPeriodo_selected = $data.catPeriodo_selectedNR;",
-        "        if(!$data.catPeriodo_selected.year){",
-        "            $data.catPeriodo_selected.year = parseInt(angular.copy($data.catPeriodo_selected.clave.slice(0,4)))",
-        "            $data.catPeriodo_selected.codigo =  angular.copy($data.catPeriodo_selected.clave.slice(4,6))   ",
-        "        }",
+        "    // if($data.editable === \"editar\"){",
+        "    //     $data.catPeriodo_selected = $data.catPeriodo_selectedNR;",
+        "    //     if(!$data.catPeriodo_selected.year){",
+        "    //         $data.catPeriodo_selected.year = parseInt(angular.copy($data.catPeriodo_selected.clave.slice(0,4)))",
+        "    //         $data.catPeriodo_selected.codigo =  angular.copy($data.catPeriodo_selected.clave.slice(4,6))   ",
+        "    //     }",
         "        ",
-        "    }"
+        "    // }"
       ],
       "exposed" : false
     },
     "validar" : {
       "type" : "expression",
       "value" : [
-        "var validar = true;",
-        "if($data.editable === \"editar\"){",
-        "    if($data.catPeriodo_selected.clave.trim()=== \"\"){",
-        "        validar = false;",
-        "    }else if($data.catPeriodo_selected.descripcion.trim()=== \"\"){",
-        "        validar = false;",
-        "    }else if($data.catPeriodo_selected.campus === null){",
-        "        validar = false;",
-        "    }",
-        "}else if($data.editable === \"agregar\"){",
-        "    if($data.formOutputAgregar.lstCatPeriodoInput[0].clave.trim()=== \"\"){",
-        "        validar = false;",
-        "    }else if($data.formOutputAgregar.lstCatPeriodoInput[0].descripcion.trim()=== \"\"){",
-        "        validar = false;",
-        "    } else if($data.formOutputAgregar.lstCatPeriodoInput[0].usuarioBanner.trim()=== \"\"){",
-        "       $data.formOutputAgregar.lstCatPeriodoInput[0].usuarioBanner = $data.userData.user_name;",
-        "       validar = false;",
-        "    }/*else if($data.formOutputAgregar.lstCatPeriodoInput[0].campus === null){",
+        "// var validar = true;",
+        "// if($data.editable === \"editar\"){",
+        "//     if($data.catPeriodo_selected.clave.trim()=== \"\"){",
+        "//         validar = false;",
+        "//     }else if($data.catPeriodo_selected.descripcion.trim()=== \"\"){",
+        "//         validar = false;",
+        "//     }else if($data.catPeriodo_selected.campus === null){",
+        "//         validar = false;",
+        "//     }",
+        "// }else if($data.editable === \"agregar\"){",
+        "//     if($data.formOutputAgregar.lstCatPeriodoInput[0].clave.trim()=== \"\"){",
+        "//         validar = false;",
+        "//     }else if($data.formOutputAgregar.lstCatPeriodoInput[0].descripcion.trim()=== \"\"){",
+        "//         validar = false;",
+        "//     } else if($data.formOutputAgregar.lstCatPeriodoInput[0].usuarioBanner.trim()=== \"\"){",
+        "//       $data.formOutputAgregar.lstCatPeriodoInput[0].usuarioBanner = $data.userData.user_name;",
+        "//       validar = false;",
+        "//     }/*else if($data.formOutputAgregar.lstCatPeriodoInput[0].campus === null){",
         "        ",
-        "        $data.formOutputAgregar.lstCatPeriodoInput[0].nombreCampus = $data.campus_selected.valor;",
-        "        $data.formOutputAgregar.lstCatPeriodoInput[0].campus= $data.campus_selected;",
-        "        validar = false;",
-        "    }*/",
-        "}",
+        "//         $data.formOutputAgregar.lstCatPeriodoInput[0].nombreCampus = $data.campus_selected.valor;",
+        "//         $data.formOutputAgregar.lstCatPeriodoInput[0].campus= $data.campus_selected;",
+        "//         validar = false;",
+        "//     }*/",
+        "// }",
         "",
-        "return validar;"
+        "// return validar;"
       ],
       "exposed" : false
     },
@@ -3907,7 +3457,7 @@
         "    \"orientation\":\"ASC\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
-        "    //\"campus\":$data.campus_selected.grupoBonita\r",
+        "    // \"campus\":$data.campus_selected.id_campus\r",
         "};"
       ],
       "exposed" : false

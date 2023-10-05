@@ -5143,6 +5143,71 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result updateCatPeriodo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(new Date());
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.fecha_inicio.equals("") || object.fecha_inicio == null) {
+				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
+			} else if(object.fecha_fin.equals("") || object.fecha_fin == null) {
+				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
+			} else if(object.id.equals("") || object.id == null) {
+				throw new Exception("El campo \"Id\" no debe ir vacío");
+			}
+			
+			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
+			Date fecha_fin = sdfEntrada.parse(object.fecha_fin);
+			
+			Long idCampus = 0L;
+			if(object.id_campus == null) {
+				idCampus = 0L;
+			} else {
+				idCampus = Long.valueOf(object.id_campus);
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPERIODO);
+			pstm.setString(1,  object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, formato.format(fecha_inicio));
+			pstm.setString(4, formato.format(fecha_fin));
+			pstm.setString(5, object.id);
+			pstm.setBoolean(6, object.is_anual);
+			pstm.setBoolean(7, false);
+			pstm.setBoolean(8, object.is_semestral);
+			pstm.setLong(9, persistenceid);
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatPeriodo] " + e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getCatPeriodos(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -5165,6 +5230,9 @@ class CatalogosDAO {
 			
 			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
 			rs = pstm.executeQuery();
+			
+//			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+//			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			
 			while(rs.next()) {
 				row = new HashMap<String, Object>();
