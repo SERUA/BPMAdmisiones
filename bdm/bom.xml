@@ -5084,7 +5084,13 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_referencia" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="findById_campus_personalizado" content="SELECT p&#13;&#10;FROM PSGRCatGestionEscolar p&#13;&#10;WHERE p.campus_referencia = :campus_referencia&#13;&#10;ORDER BY p.orden" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+                    <queryParameters>
+                        <queryParameter name="campus_referencia" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa">
@@ -5228,9 +5234,17 @@
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="activo" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="id_campus" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="codigo" nullable="true" collection="false"/>
+                <field type="INTEGER" length="255" name="ano" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="findById_campus_personalizado" content="FROM PSGRCatPeriodo p&#13;&#10;WHERE p.id_campus = :id_campus AND p.fecha_inicio &gt;= CURRENT_TIMESTAMP&#13;&#10;ORDER BY p.fecha_inicio" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+                    <queryParameters>
+                        <queryParameter name="id_campus" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
@@ -5243,7 +5257,13 @@
                 <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="findById_campus_personalizado" content="SELECT p&#13;&#10;FROM PSGRCatPosgrado p&#13;&#10;WHERE p.campus = :campus&#13;&#10;ORDER BY p.fecha_registro" returnType="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPropedeutico">
