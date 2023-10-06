@@ -81,6 +81,10 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATNACIONALIDAD  = "UPDATE PSGRCatNacionalidad SET ID = ?, CLAVE = ?, descripcion = ?, orden = ?, is_enabled = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATNACIONALIDAD  = "SELECT persistenceid, orden, clave, descripcion, id, usuario_banner, fecha_creacion, is_eliminado FROM PSGRCatNacionalidad [WHERE] [ORDERBY]";
 	
+	//ConsultasPersonalizadas
+	public static final String GET_PERIODOBYIDCAMPUS  = "SELECT * FROM PSGRCatPeriodo WHERE id_campus = ?";
+	public static final String GET_POSGRADOBYIDCAMPUS  = "SELECT * FROM PSGRCatPosgrado WHERE campus_pid = ?";
+	public static final String GET_GESTIONESCOLARBYIDCAMPUS  = "SELECT * FROM PSGRCatGestionEscolar WHERE campus_referencia_pid = ?";
 	
 	//PSGRCatPais
 	public static final String GET_CATPAIS="SELECT * FROM PSGRCatPais [WHERE] [ORDERBY] [LIMITOFFSET]"

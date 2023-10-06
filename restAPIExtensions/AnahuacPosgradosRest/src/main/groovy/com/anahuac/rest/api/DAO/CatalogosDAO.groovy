@@ -2775,6 +2775,96 @@ class CatalogosDAO {
 		return resultado
 	}
 	
+	public Result getLstPosgradoByIdCampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result()
+		boolean closeCon = false
+		List<Map<String, Object>> data = []
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+	
+			closeCon = validarConexion()
+	
+			// Ejecutar la consulta SQL
+			pstm = con.prepareStatement(StatementsCatalogos.GET_POSGRADOBYIDCAMPUS)
+			pstm.setLong(1, object.campus);
+			rs = pstm.executeQuery()
+	
+			// Obtener los metadatos de las columnas para obtener los nombres de los campos
+			def metaData = rs.getMetaData()
+			int columnCount = metaData.getColumnCount()
+	
+			// Procesar los resultados y llenar la lista data
+			while (rs.next()) {
+				def row = [:]
+				for (int i = 1; i <= columnCount; i++) {
+					row[metaData.getColumnLabel(i)] = rs.getObject(i)
+				}
+				data.add(row)
+			}
+	
+			resultado.setData(data)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("[getLstCampus] ${e.message}")
+		} finally {
+			// Cerrar la conexión en caso de que esté abierta
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado
+	}
+	
+	public Result getLstGestionEscolarByIdCampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result()
+		boolean closeCon = false
+		List<Map<String, Object>> data = []
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+	
+			closeCon = validarConexion()
+	
+			// Ejecutar la consulta SQL
+			pstm = con.prepareStatement(StatementsCatalogos.GET_GESTIONESCOLARBYIDCAMPUS)
+			pstm.setLong(1, object.campus);
+			rs = pstm.executeQuery()
+	
+			// Obtener los metadatos de las columnas para obtener los nombres de los campos
+			def metaData = rs.getMetaData()
+			int columnCount = metaData.getColumnCount()
+	
+			// Procesar los resultados y llenar la lista data
+			while (rs.next()) {
+				def row = [:]
+				for (int i = 1; i <= columnCount; i++) {
+					row[metaData.getColumnLabel(i)] = rs.getObject(i)
+				}
+				data.add(row)
+			}
+	
+			resultado.setData(data)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("[getLstCampus] ${e.message}")
+		} finally {
+			// Cerrar la conexión en caso de que esté abierta
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado
+	}
+	
 	public Result insertCatPropedeutico(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
