@@ -1,0 +1,59 @@
+<div class="navbar navbar-inverse" role="navigation">
+    <div class="">
+        <div class="navbar-header">
+            <a class="navbar-brand visible-xs text-light" ng-click="ctrl.displayPage(properties.homePageToken)" href="../{{properties.homePageToken}}/">{{ctrl.applicationName}}</a>
+            <!--<a class="navbar-brand visible-xs" ng-click="ctrl.displayPage(properties.homePageToken)" href="../{{properties.homePageToken}}/">{{ctrl.applicationName}}</a>-->
+            <button type="button" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <!--<img class="full-height">-->
+        </div>
+        
+        <div collapse="navCollapsed" class="collapse navbar-responsive-collapse navbar-collapse">
+            <ul class="nav navbar-nav visible-xs text-center">
+                <hr ng-show="ctrl.applicationMenuList.length>0"/>
+                <li ng-if="!properties.isGuestUser"><a ng-click="ctrl.openCurrentSessionModal()" class="btn btn-link btn-account"><span class="max-title-width">{{properties.userName}}</span></a></li>
+                <li ng-if="properties.isGuestUser"><a ng-click="ctrl.logoutAndUpdateSuccessfulLogoutVariable()" class="btn btn-link btn-account"><span class="max-title-width" translate>Sign in</span></a></li>
+                <!--<li><a ng-click="ctrl.openAppSelectionModalnModa()" class="btn btn-link btn-account"><span class="glyphicon glyphicon-th"></span></a></li>-->
+            </ul>
+            <!--<ul class="nav navbar-nav">-->
+            <ul class="bgo">
+
+                <li class="main-app text-center" dropdown >
+                    <button  class="btn btn-link" ng-click="ctrl.displayPage(bandeja);" href="../bandeja/">
+                        <span class="ease-transition">
+                            <img class="side-menu-icon" src="assets/img/Icono_A blanco.png" >             
+                        </span>
+                        <span class="maxTitleWidth ease-transition">Bandeja SDAE Pre-Autorización</span>
+                    </button>
+                </li>
+                <li class="main-app text-center" dropdown >
+                    <button  class="btn btn-link" ng-click="ctrl.displayPage(bandejaAreaDeportiva);" href="../bandejaAreaDeportiva/">
+                        <span class="ease-transition">
+                            <img class="side-menu-icon" src="assets/img/Icono_A blanco.png" >             
+                        </span>
+                        <span class="maxTitleWidth ease-transition">Bandeja SDAE Área Deportiva</span>
+                    </button>
+                </li>
+                <li class="main-app text-center" dropdown >
+                    <button  class="btn btn-link" ng-click="ctrl.displayPage(bandejaAreaArtistica);" href="../bandejaAreaArtistica/">
+                        <span class="ease-transition">
+                            <img class="side-menu-icon" src="assets/img/Icono_A blanco.png" >             
+                        </span>
+                        <span class="maxTitleWidth ease-transition">Bandeja SDAE Área Artistica</span>
+                    </button>
+                </li>
+                <li class="main-app text-center" dropdown >
+                    <button  class="btn btn-link" ng-click="ctrl.displayPage(bandejaBecas);" href="../bandejaBecas/">
+                        <span class="ease-transition">
+                            <img class="side-menu-icon" src="assets/img/Icono_A blanco.png" >             
+                        </span>
+                        <span class="maxTitleWidth ease-transition">Bandeja SDAE Área Becas</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
