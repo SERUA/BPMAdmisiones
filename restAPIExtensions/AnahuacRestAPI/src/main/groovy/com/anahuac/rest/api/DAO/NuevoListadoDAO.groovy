@@ -243,9 +243,9 @@ class NuevoListadoDAO {
 				List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
-					if(filtro.get("columna") != "ALUMNOS REGISTRADOS") {
+					if(filtro.get("columna") != "ALUMNOS REGISTRADOS" || filtro.get("columna") != "CAMPUS" ) {
 						where = WhereIndividual(filtro.get("columna"),filtro.get("valor"),where);						
-					}else {
+					}else if(filtro.get("columna") == "ALUMNOS REGISTRADOS") {
 						registrados = WhereIndividual(filtro.get("columna"),filtro.get("valor"),registrados);
 					}
 				}
