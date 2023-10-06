@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappActivarUsuario",
   "name" : "PSGRappActivarUsuario",
-  "lastUpdate" : 1696629120287,
+  "lastUpdate" : 1696630400507,
   "rows" : [
     [
       {
@@ -51,15 +51,19 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Title"
+                  "value" : "Activando usuario..."
                 },
                 "level" : {
                   "type" : "constant",
-                  "value" : "Level 2"
+                  "value" : "Level 3"
                 },
                 "alignment" : {
                   "type" : "constant",
-                  "value" : "left"
+                  "value" : "center"
+                },
+                "username" : {
+                  "type" : "expression",
+                  "value" : "email"
                 }
               },
               "reference" : "0d4f65f1-5555-4d0c-b0f3-f9d17027782d",
@@ -88,7 +92,15 @@
     }
   ],
   "inactiveAssets" : [ ],
-  "variables" : { },
+  "variables" : {
+    "email" : {
+      "type" : "urlparameter",
+      "value" : [
+        "email"
+      ],
+      "exposed" : false
+    }
+  },
   "hasValidationError" : false,
   "uuid" : "6a0fbea3-c194-44c9-85e6-76648e42e78d",
   "type" : "page",
