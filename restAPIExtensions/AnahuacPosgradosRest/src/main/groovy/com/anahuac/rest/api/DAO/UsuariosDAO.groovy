@@ -516,7 +516,7 @@ class UsuariosDAO {
 			}
 			
 			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 1);
-			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar cuenta y activar usuario");
 			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.ROOT_PROCESS_INSTANCE_ID, lstCatRegistro.get(0).getCaseid());
 			final SearchOptions searchOptions = searchBuilder.done();
 			LOGGER.error "[enviarTareaRest] 5 | ";
