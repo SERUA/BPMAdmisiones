@@ -6,9 +6,40 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     this.action = function action() {
         if(validarFormulario()){
-            startProcess();
+            // startProcess();
+            registro();
         }
     };
+
+    function registro() {
+        let dataToSend = angular.copy($scope.properties.dataToSend);
+        dataToSend["processDefinitionId"] = angular.copy($scope.properties.processId);
+        debugger;
+        var prom = doRequestRegistro('POST', '../API/extension/posgradosRest?url=registro&p=0&c=10', dataToSend).then(function () {
+            localStorageService.delete($window.location.href);
+        });
+    }
+
+    function doRequestRegistro(_method, _url, _data) {
+        vm.busy = true;
+
+        var req = {
+            method: _method,
+            url: _url,
+            data: _data
+        };
+
+        return $http(req)
+            .success(function (data, status) {
+                $scope.properties.navigationVar = "registro_completado";
+            })
+            .error(function (data, status) {
+                swal("Algo ha fallado", "Ha ocurrido un error inesperado, intenta de nuevo mas tarde.", "error");
+            })
+            .finally(function () {
+                vm.busy = false;
+            });
+    }
 
     function validarFormulario(){
         let valid = true;
