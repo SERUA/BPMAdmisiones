@@ -17,6 +17,7 @@ function ($scope, $http) {
     $scope.$watch("properties.caseId", ()=>{
         if($scope.properties.caseId){
            getPsicom(); 
+           getFoto();
            if(sesionid == null){
             getSesion($scope.properties.caseId);    
            }
@@ -43,6 +44,19 @@ function ($scope, $http) {
             .finally(function() {
                 vm.busy = false;
             });
+    }
+
+    function getFoto(){
+        vm.busy = true;
+        let url =  window.location.protocol + "//" + window.location.hostname + "/bonita/API/extension/AnahuacRestGet?url=getFoto&p=0&c=10&caseId=" + $scope.properties.caseId+"&intentos="+$scope.properties.intentos;
+        $http.get(url).success((success)=>{
+            console.log(success);
+            if(success.data.length > 0){
+                $scope.properties.foto = success.data[0].fotografiab64;   
+            }
+        }).error((err)=>{
+            alert("no se pudo obtener le psicom" +  JSON.stringify(err));
+        });
     }
     /*$scope.$watch('properties.idbanner', function(value) {
     if (angular.isDefined(value) && value !== null) {

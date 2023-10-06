@@ -154,6 +154,9 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"ASPIRANTE")
 				if(allow){break;}
 				break;
+				case "getFoto":allow=bonitaRolFilter(context,"ADMISIONES")
+				if(allow){break;}
+				break;
 				case "getPsicometricoCompleto":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
@@ -1598,6 +1601,30 @@ class SecurityFilter {
 		    }
 		    break;
 		  case "selectAspirantesPsicometrico":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		  case "selectReporteOV":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "selectReporteOVbysesion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "selectUsuariosSesion":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
+		case "selectAspirantesOVGeneral":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
 		      break;
