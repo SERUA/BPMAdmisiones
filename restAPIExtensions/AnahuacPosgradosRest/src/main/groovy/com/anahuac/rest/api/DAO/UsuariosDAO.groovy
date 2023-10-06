@@ -38,6 +38,7 @@ import org.apache.commons.codec.binary.Base64;
 
 import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.model.PSGRRegistro
+import com.anahuac.posgrados.model.PSGRRegistroDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.DBConnectBonita
 import com.anahuac.rest.api.DB.Statements
@@ -328,8 +329,10 @@ class UsuariosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-//			apiClient.login(username, password);
-			apiClient.login("Administrador", "bpm");
+			LOGGER.error "[registro] 1: "
+			apiClient.login(username, password);
+			LOGGER.error "[registro] 2 username: " + username + "| password: " + password;
+//			apiClient.login("Administrador", "bpm");
 			crearUsuario = registrarUsuario(jsonData, apiClient, objProperties);
 			
 //			errorLog += "[registro] 3 | "  +  crearUsuario.getError_info();
@@ -357,7 +360,7 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			
+			LOGGER.error "[iniciarCaso] 1 | ";
 			Map<String, Serializable> contract = new HashMap<String, Serializable>();
 			Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
 			Map<String, Serializable> campus = new HashMap<String, Serializable>();
@@ -371,9 +374,9 @@ class UsuariosDAO {
 			registroInput.put("acepto_avisoprivacidad", object.registroInput.acepto_avisoprivacidad as Serializable);
 			registroInput.put("campus",  campus as Serializable);
 			contract.put("registroInput", registroInput as Serializable);
-			
+			LOGGER.error "[iniciarCaso] 2 | " + contract.toString();
 			apiClient.getProcessAPI().startProcessWithInputs(Long.valueOf(object.processDefinitionId), contract);
-			
+			LOGGER.error "[iniciarCaso] 3 | ";
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[iniciarCaso|ERROR] " + e.getMessage();
@@ -397,24 +400,31 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			LOGGER.error "[registrarUsuario] 1 | ";
 			UserCreator creator = new UserCreator(object.registroInput.correo_electronico, object.registroInput.password);
 			creator.setFirstName(object.registroInput.nombre).setLastName(object.registroInput.apellido_paterno);
+			LOGGER.error "[registrarUsuario] 2 | ";
 			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.registroInput.correo_electronico);
 			creator.setProfessionalContactData(proContactDataCreator);
+			LOGGER.error "[registrarUsuario] 3 | ";
 			IdentityAPI identityAPI = apiClient.getIdentityAPI()
 			final User user = identityAPI.createUser(creator);
+			LOGGER.error "[registrarUsuario] 4 | " + user.firstName;
 			apiClient.login(user.getUserName(), object.registroInput.password);
+			LOGGER.error "[registrarUsuario] 5 | ";
 			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
 			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
 			UserUpdater update_user = new UserUpdater();
 			update_user.setEnabled(true);
+			LOGGER.error "[registrarUsuario] 6 | ";
 			final User user_enabler = identityAPI.updateUser(user.getId(), update_user);
+			LOGGER.error "[registrarUsuario] 7 | ";
 			Result resultadoInstanciar = iniciarCaso(jsonData, apiClient);
 			update_user.setEnabled(false);
 			final User user_disabler = identityAPI.updateUser(user.getId(), update_user);
 			
-			Result resultado2 = new Result();
-			resultado2 = updateNumeroContacto(object.registroInput.correo_electronico, object.registroInput.telefono_celular);
+//			Result resultado2 = new Result();
+//			resultado2 = updateNumeroContacto(object.registroInput.correo_electronico, object.registroInput.telefono_celular);
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -430,139 +440,42 @@ class UsuariosDAO {
 		}
 	}
 	
-	//TO-DELETE
-	public Result registrarUsuario(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
-		Result resultado = new Result();
-		Result resultadoN = new Result();
-		List < String > lstResultado = new ArrayList < String > ();
-		Long userLogged = 0L;
-		Long caseId = 0L;
-		Long total = 0L;
-		Long resultReq = 0;
-		Long resultReqA = 0;
-		Integer start = 0;
-		Integer end = 99999;
-		Long step = 0;
-		Usuarios objUsuario = new Usuarios();
-	
-		Boolean success = false;
-		String error_log = "";
-		String success_log = "";
-		Boolean closeCon = false;
-		
-		try {
-			String username = "";
-			String password = "";
-			
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			// Datos de la cuenta del Usuario
-			UserCreator creator = new UserCreator(object.nombreusuario, object.password);
-			creator.setFirstName(object.nombre).setLastName(object.apellido);
-			ContactDataCreator proContactDataCreator = new ContactDataCreator().setEmail(object.nombreusuario);
-			creator.setProfessionalContactData(proContactDataCreator);
-			//inicializa la cuenta con la cual tendras permisos para registrar el usuario
-			apiClient.login(username, password);
-			closeCon = validarConexion();
-				
-			//Registro del usuario
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.createUser(creator);
-			apiClient.login(user.getUserName(), object.password);
-			final IdentityAPI identityAPI2 = apiClient.getIdentityAPI();
-			UserMembership membership = identityAPI2.addUserMembership(user.getId(), identityAPI2.getGroupByPath("/ASPIRANTE").getId(), identityAPI2.getRoleByName("ASPIRANTE").getId())
-			UserUpdater update_user = new UserUpdater();
-			update_user.setEnabled(false);
-			final User user_update = identityAPI.updateUser(user.getId(), update_user);
-	
-			def str = jsonSlurper.parseText('{"campus": "' + object.campus + '","correo":"' + object.nombreusuario + '", "codigo": "registrar","isEnviar":false}');
-	
-			NotificacionDAO nDAO = new NotificacionDAO();
-			resultadoN = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \""+object.campus+"\", \"correo\":\"" + object.nombreusuario + "\", \"codigo\": \"registrar\", \"isEnviar\":false }", context);
-			String plantilla = resultadoN.getData().get(0);
-			plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/bonita/apps/login/activate/?correo=" + str.correo + "");
-			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(str.correo, "Completar Registro", plantilla.replace("\\", ""), "", object.campus, context);
-			PSGRCatBitacoraCorreos catBitacoraCorreo = new PSGRCatBitacoraCorreos();
-			catBitacoraCorreo.setCodigo("registrar");
-			catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0));
-			catBitacoraCorreo.setMensaje("");
-			catBitacoraCorreo.setPara(str.correo);
-			catBitacoraCorreo.setCampus(object.campus);
-			
-			if(resultado.success) {
-				catBitacoraCorreo.setEstatus("Enviado a Mailgun")
-			}else {
-				catBitacoraCorreo.setEstatus("Fallido")
-			}
-			
-			new NotificacionDAO().insertCatBitacoraCorreos(catBitacoraCorreo);
-			error_log = error_log + " | resultado = dao.sendEmailPlantilla(str.correo,";
-			lstResultado.add(plantilla.replace("\\", ""));
-			Result resultado2 = new Result();
-			resultado2 = updateNumeroContacto(object.nombreusuario,object.numeroContacto);
-			resultado.setData(lstResultado);
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
-			resultado.setError_info(error_log)
-			resultado.setData(lstResultado);
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			e.printStackTrace();
-		} finally {
-			if(closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm)
-			}
-		}
-		
-		return resultado;
-	}
-	
-	public Result postHabilitarUsaurio(Integer parameterP,Integer parameterC, String jsonData,RestAPIContext context) {
+	public Result habilitarUsuario(String usernameAspirante, RestAPIContext context) {
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
-		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
 		List<String> lstResultado = new ArrayList<String>();
 		Boolean closeCon = false;
+		
 		try {
 			String username = "";
 			String password = "";
-			
+			LOGGER.error "[habilitarUsuario] 1 | ";
 			/*-------------------------------------------------------------*/
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
 			username = objProperties.getUsuario();
 			password = objProperties.getPassword();
 			/*-------------------------------------------------------------*/
-
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
+			LOGGER.error "[habilitarUsuario] 2 | ";
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			LOGGER.error "[habilitarUsuario] 3 | ";
+			IdentityAPI identityAPI = apiClient.getIdentityAPI();
+			final User user = identityAPI.getUserByUserName(usernameAspirante);
+			LOGGER.error "[habilitarUsuario] 4 | ";
+			resultado = enviarTareaRest(usernameAspirante, context);
 			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient()//context.getApiClient();
-			apiClient.login(username, password)
-			
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.getUserByUserName(object.nombreusuario);
-			
-			resultado = enviarTarea(object.nombreusuario, context);
+			if(!resultado.isSuccess()) {
+				LOGGER.error "[habilitarUsuario] 5 | ";
+				throw new Exception ("No se ha podido activar el usuario. Intente de nuevo mas tarde.");
+			}
 			
 			UserUpdater update_user = new UserUpdater();
+			LOGGER.error "[habilitarUsuario] 6 | ";
 			update_user.setEnabled(true);
+			LOGGER.error "[habilitarUsuario] 7 | ";
 			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-		
-			lstResultado.add(user_update);
-			
-			//enviarTarea(parameterP, parameterC, jsonData, context);
-			
-			lstResultado.add(object.nombreusuario);
-			resultado.setData(lstResultado);
+			LOGGER.error "[habilitarUsuario] 8 | ";
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
@@ -583,41 +496,50 @@ class UsuariosDAO {
 		try {
 			String username = "";
 			String password = "";
-			
+			LOGGER.error "[enviarTareaRest] 1 | ";
 			/*-------------------------------------------------------------*/
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
 			username = objProperties.getUsuario();
 			password = objProperties.getPassword();
 			/*-------------------------------------------------------------*/
-			errorLog = errorLog + "";
+			LOGGER.error "[enviarTareaRest] 2 | ";
 			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
 			apiClient.login(username, password);
-			def catRegistroDAO = context.apiClient.getDAO(CatRegistroDAO.class);
-			lstCatRegistro = catRegistroDAO.findByCorreoelectronico(correo, 0, 1);
+			LOGGER.error "[enviarTareaRest] 3 | ";
+			def catRegistroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+			lstCatRegistro = catRegistroDAO.findByCorreo_electronico(correo, 0, 1);
 			
 			if(lstCatRegistro.size() == 0) {
+				LOGGER.error "[enviarTareaRest] 4 | ";
 				throw new Exception ("No registro encontrado");
 			}
-			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 99999);
-			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar Cuenta");
-			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.ROOT_PROCESS_INSTANCE_ID, lstCatRegistro.get(0).getCaseId());
+			
+			SearchOptionsBuilder searchBuilder = new SearchOptionsBuilder(0, 1);
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.NAME, "Validar cuenta y activar usuario");
+			searchBuilder.filter(HumanTaskInstanceSearchDescriptor.ROOT_PROCESS_INSTANCE_ID, lstCatRegistro.get(0).getCaseid());
 			final SearchOptions searchOptions = searchBuilder.done();
+			LOGGER.error "[enviarTareaRest] 5 | ";
 			SearchResult<HumanTaskInstance>  SearchHumanTaskInstanceSearch = apiClient.getProcessAPI().searchHumanTaskInstances(searchOptions);
 			List<HumanTaskInstance> lstHumanTaskInstanceSearch = SearchHumanTaskInstanceSearch.getResult();
-			
+			LOGGER.error "[enviarTareaRest] 6 | ";
 			if(lstHumanTaskInstanceSearch.size() == 0) {
+				LOGGER.error "[enviarTareaRest] 7 | ";
 				throw new Exception ("No tarea  activa ");
 			}
 			
+			LOGGER.error "[enviarTareaRest] 8 | ";
 			for(HumanTaskInstance objHumanTaskInstance : lstHumanTaskInstanceSearch) {
+				LOGGER.error "[enviarTareaRest] 9 | ";
 				apiClient.getProcessAPI().assignUserTask(objHumanTaskInstance.getId(), context.getApiSession().getUserId());
 				apiClient.getProcessAPI().executeFlowNode(objHumanTaskInstance.getId());
 				break;
 			}
 			
+			LOGGER.error "[enviarTareaRest] 10 | ";
 			resultado.setSuccess(true);
 		} catch (Exception e) {
+			LOGGER.error "[enviarTareaRest|ERROR]" + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();
@@ -625,75 +547,27 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	/*
-	public Result getHabilitarUsaurio(Integer parameterP,Integer parameterC, String correo, RestAPIContext context) {
-		Usuarios objUsuario= new Usuarios();
-		Result resultado = new Result();
-		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
-		List<String> lstResultado = new ArrayList<String>();
-		NotificacionDAO nDAO = new NotificacionDAO();
-		
-		Boolean closeCon = false;
-		
-		try {
-			String username = "";
-			String password = "";
-			
-			LoadParametros objLoad = new LoadParametros();
-			PropertiesEntity objProperties = objLoad.getParametros();
-			username = objProperties.getUsuario();
-			password = objProperties.getPassword();
-			
-			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
-			apiClient.login(username, password)
-			IdentityAPI identityAPI = apiClient.getIdentityAPI()
-			final User user = identityAPI.getUserByUserName(correo);
-			if(!user.isEnabled()) {
-				UserUpdater update_user = new UserUpdater();
-				update_user.setEnabled(true);
-				final User user_update= identityAPI.updateUser(user.getId(), update_user);
-				
-//				resultado = enviarTarea(correo, context);
-				Result resultadoTarea = enviarTareaRest(correo, context);
-				
-				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"activado\", \"isEnviar\":false }", context);
-				resultado.setError_info(resultadoTarea.error_info);
-			} else {
-				Result resultadoTarea = enviarTareaRest(correo, context);
-				resultado = nDAO.generateHtml(parameterP, parameterC, "{\"campus\": \"CAMPUS-PUEBLA\", \"correo\":\""+correo+"\", \"codigo\": \"usado\", \"isEnviar\":false }", context);
-				resultado.setError_info(resultadoTarea.error_info);
-			}
-			resultado.setSuccess(true);
-		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			e.printStackTrace();
-		}
-		return resultado;
-	}*/
-	
 	public Result updateNumeroContacto(String nombreUsuario, String numeroContacto) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
 		try {
-				closeCon = validarConexion();
-				con.setAutoCommit(false)
-				pstm = con.prepareStatement("UPDATE CATREGISTRO SET numeroContacto = ? WHERE nombreusuario = ?")
-				pstm.setString(1, numeroContacto)
-				pstm.setString(2, nombreUsuario)
-				pstm.executeUpdate();
-				
-				pstm = con.prepareStatement("UPDATE SolicitudDeAdmision SET telefonocelular = ? WHERE correoelectronico = ?")
-				pstm.setString(1, numeroContacto)
-				pstm.setString(2, nombreUsuario)
-				pstm.executeUpdate();
-				
-				con.commit();
-				resultado.setSuccess(true)
-				
-			} catch (Exception e) {
+			closeCon = validarConexion();
+			con.setAutoCommit(false)
+			pstm = con.prepareStatement("UPDATE CATREGISTRO SET numeroContacto = ? WHERE nombreusuario = ?")
+			pstm.setString(1, numeroContacto)
+			pstm.setString(2, nombreUsuario)
+			pstm.executeUpdate();
+			
+			pstm = con.prepareStatement("UPDATE SolicitudDeAdmision SET telefonocelular = ? WHERE correoelectronico = ?")
+			pstm.setString(1, numeroContacto)
+			pstm.setString(2, nombreUsuario)
+			pstm.executeUpdate();
+			
+			con.commit();
+			resultado.setSuccess(true)
+			
+		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			con.rollback();

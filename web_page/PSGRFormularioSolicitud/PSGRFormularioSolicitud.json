@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1696549231258,
+  "lastUpdate" : 1696614086765,
   "rows" : [
     [
       {
@@ -188,6 +188,42 @@
                   }
                 ]
               ]
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "value" : {
+                  "type" : "constant",
+                  "value" : "This is the initial value"
+                },
+                "color" : {
+                  "type" : "constant",
+                  "value" : "RebeccaPurple"
+                },
+                "background" : {
+                  "type" : "constant",
+                  "value" : "Yellow"
+                }
+              },
+              "reference" : "9ca65797-ef63-4b61-9630-17e8d313f6d2",
+              "hasValidationError" : false,
+              "id" : "customPSGRwidgetDatosSolicitud"
             }
           ],
           [
@@ -1005,6 +1041,10 @@
                       "catMediosEnteraste" : {
                         "type" : "expression",
                         "value" : "pSGRCatMedioEnteraste_query"
+                      },
+                      "contextValue" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "3db0c0af-9d15-4378-a450-21845db3ec15",
@@ -1592,13 +1632,17 @@
                               "type" : "constant",
                               "value" : false
                             },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
                             "labelHidden" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Default label"
+                              "value" : "Fotografía"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -1608,104 +1652,74 @@
                               "type" : "constant",
                               "value" : 4
                             },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<h1>FOTO</h1>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "30e0d156-98ee-44d0-b507-e0d50e11642c",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "md" : 12,
-                            "sm" : 12,
-                            "xs" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Url Foto"
-                            },
                             "placeholder" : {
-                              "type" : "constant"
+                              "type" : "interpolation"
                             },
-                            "type" : {
+                            "url" : {
                               "type" : "constant",
-                              "value" : "text"
-                            },
-                            "dimension" : {
-                              "type" : "constant",
-                              "value" : 12
+                              "value" : "../API/formFileUpload"
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "datosPersonales.urlFoto"
+                              "value" : ""
                             },
-                            "required" : {
+                            "urlretorno" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "documentName" : {
+                              "type" : "constant"
+                            },
+                            "documentDescription" : {
+                              "type" : "constant"
+                            },
+                            "documentoInfo" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "isObligatorio" : {
+                              "type" : "constant"
+                            },
+                            "urlAzure" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "urlDownloadFile" : {
+                              "type" : "constant"
+                            },
+                            "isMostrar" : {
                               "type" : "constant",
                               "value" : false
                             },
-                            "minLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "min" : {
+                            "idDocumento" : {
                               "type" : "constant"
                             },
-                            "max" : {
+                            "editar" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "idModal" : {
                               "type" : "constant"
                             },
-                            "step" : {
+                            "selectedFile" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "tipoDocumento" : {
                               "type" : "constant",
-                              "value" : 1
+                              "value" : "pdf"
+                            },
+                            "requiereEjemplo" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlEjemplo" : {
+                              "type" : "constant"
                             }
                           },
-                          "reference" : "272552b9-3523-47d8-a81f-6d8a6a9899d0",
+                          "reference" : "cbe21999-c822-476f-b87f-afdb0f1dc00c",
                           "hasValidationError" : false,
-                          "id" : "pbInput",
-                          "description" : ""
+                          "id" : "customSDAEUploadCustomAzure"
                         }
                       ]
                     ]
@@ -2071,7 +2085,8 @@
                               "value" : false
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
@@ -2140,7 +2155,8 @@
                               "value" : false
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
@@ -2209,7 +2225,8 @@
                               "value" : false
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
@@ -2278,7 +2295,8 @@
                               "value" : false
                             },
                             "displayedKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "descripcion"
                             },
                             "returnedKey" : {
                               "type" : "constant"
@@ -2503,7 +2521,7 @@
                             },
                             "showToday" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -2929,10 +2947,12 @@
                                     "value" : "Select an option"
                                   },
                                   "availableValues" : {
-                                    "type" : "constant"
+                                    "type" : "expression",
+                                    "value" : "pSGRCatCampus_query"
                                   },
                                   "displayedKey" : {
-                                    "type" : "constant"
+                                    "type" : "constant",
+                                    "value" : "descripcion"
                                   },
                                   "returnedKey" : {
                                     "type" : "constant"

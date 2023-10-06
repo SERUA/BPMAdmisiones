@@ -67,12 +67,12 @@ class SecurityFilter {
 		
 		try {
 			roleList = getRoleList(context);
-			
 			if(roleList.toLowerCase().contains("administrador") || roleList.toLowerCase().contains("ti serua")) {
 				resultado.setSuccess(true);
 			} else {
 				closeCon = validarConexion();
 				String consulta = "SELECT COUNT(*) > 0 AS tiene_permiso FROM PSGRFiltroSeguridad WHERE servicio = ? AND LOWER(rol) IN [ROLELIST]";
+				
 				pstm = con.prepareStatement(consulta.replace("[ROLELIST]", roleList));
 				pstm.setString(1, serviceName);
 				rs = pstm.executeQuery();
@@ -88,6 +88,7 @@ class SecurityFilter {
 			}
 			
 		} catch (Exception e) {
+			LOGGER.error "[allowedUrl|ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError("[allowedUrl] " + e.getMessage());
 		} finally {
