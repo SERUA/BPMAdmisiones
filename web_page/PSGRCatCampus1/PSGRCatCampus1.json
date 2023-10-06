@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatCampus1",
   "name" : "PSGRCatCampus",
-  "lastUpdate" : 1696552104661,
+  "lastUpdate" : 1696611334098,
   "rows" : [
     [
       {
@@ -5001,9 +5001,13 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {",
-        "\tlstCatCampusInput: $data.lstCatCampus",
-        "}"
+        "return {\r",
+        "  lstCatCampusInput: [{\r",
+        "    estado: {\r",
+        "      persistenceId: $data.lstCatCampus.estado\r",
+        "    }\r",
+        "  }]\r",
+        "};"
       ],
       "exposed" : false
     },
