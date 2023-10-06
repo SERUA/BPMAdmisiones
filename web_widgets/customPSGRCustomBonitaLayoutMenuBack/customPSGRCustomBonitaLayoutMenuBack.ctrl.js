@@ -4,95 +4,95 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     $scope.processVersion=0;
     ctrl.appStarted = false;
     ctrl.disabledByTask = function(name) {
-        let taskName = $scope.properties.currentTaskName;
+        // let taskName = $scope.properties.currentTaskName;
 
-        if (name === "Solicitud") {
-            return false;
-        } else if (!$scope.properties.isCaseStarted) {
-            return true;
-        } else if (name === "Pago" &&
-            (
-                taskName === "Pago de examen" ||
-                taskName === "Esperar pago" ||
-                taskName === "Autodescripción" ||
-                taskName === "Seleccionar cita" ||
-                taskName === "Generar credencial" ||
-                taskName === "Pase de lista Prueba 1" ||
-                taskName === "Pase de lista Prueba 2" ||
-                taskName === "Pase de lista Prueba 3" ||
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"
-            )
-        ) {
-            return false;
-        } else if (name === "Autodescripción" &&
-            (
-                taskName === "Autodescripción" ||
-                taskName === "Seleccionar cita" ||
-                taskName === "Generar credencial" ||
-                taskName === "Pase de lista Prueba 1" ||
-                taskName === "Pase de lista Prueba 2" ||
-                taskName === "Pase de lista Prueba 3" ||
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"
-            )
-        ) {
-            return false;
-        } else if (name === "Cita Exámenes" &&
-            (
-                taskName === "Seleccionar cita" ||
-                taskName === "Generar credencial" ||
-                taskName === "Pase de lista Prueba 1" ||
-                taskName === "Pase de lista Prueba 2" ||
-                taskName === "Pase de lista Prueba 3" ||
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"
-            )
-        ) {
-            return false;
-        } else if (name === "Credencial" &&
-            (
-                taskName === "Pase de lista Prueba 1" ||
-                taskName === "Pase de lista Prueba 2" ||
-                taskName === "Pase de lista Prueba 3" ||
-                taskName === "Generar credencial" ||
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"
-            )
-        ) {
-            return false;
-        } else if (name === "Resultado" &&
-            (
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"
-            )
-        ) {
-            return false;
-        } else {
-            return true;
-        }
+        // if (name === "Solicitud") {
+        //     return false;
+        // } else if (!$scope.properties.isCaseStarted) {
+        //     return true;
+        // } else if (name === "Pago" &&
+        //     (
+        //         taskName === "Pago de examen" ||
+        //         taskName === "Esperar pago" ||
+        //         taskName === "Autodescripción" ||
+        //         taskName === "Seleccionar cita" ||
+        //         taskName === "Generar credencial" ||
+        //         taskName === "Pase de lista Prueba 1" ||
+        //         taskName === "Pase de lista Prueba 2" ||
+        //         taskName === "Pase de lista Prueba 3" ||
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"
+        //     )
+        // ) {
+        //     return false;
+        // } else if (name === "Autodescripción" &&
+        //     (
+        //         taskName === "Autodescripción" ||
+        //         taskName === "Seleccionar cita" ||
+        //         taskName === "Generar credencial" ||
+        //         taskName === "Pase de lista Prueba 1" ||
+        //         taskName === "Pase de lista Prueba 2" ||
+        //         taskName === "Pase de lista Prueba 3" ||
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"
+        //     )
+        // ) {
+        //     return false;
+        // } else if (name === "Cita Exámenes" &&
+        //     (
+        //         taskName === "Seleccionar cita" ||
+        //         taskName === "Generar credencial" ||
+        //         taskName === "Pase de lista Prueba 1" ||
+        //         taskName === "Pase de lista Prueba 2" ||
+        //         taskName === "Pase de lista Prueba 3" ||
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"
+        //     )
+        // ) {
+        //     return false;
+        // } else if (name === "Credencial" &&
+        //     (
+        //         taskName === "Pase de lista Prueba 1" ||
+        //         taskName === "Pase de lista Prueba 2" ||
+        //         taskName === "Pase de lista Prueba 3" ||
+        //         taskName === "Generar credencial" ||
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"
+        //     )
+        // ) {
+        //     return false;
+        // } else if (name === "Resultado" &&
+        //     (
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"
+        //     )
+        // ) {
+        //     return false;
+        // } else {
+        //     return true;
+        // }
     }
 
     ctrl.validateUrl = function(appToken) {
-        let outputToken = appToken;
+        // let outputToken = appToken;
 
-        if (appToken === "nueva_solicitud_SDAE" && $scope.properties.currentTaskName === "Llenado solicitud de apoyo académico") {
-            outputToken = "nueva_solicitud_SDAE";
-        } else if (appToken === "nueva_solicitud_SDAE" && $scope.properties.currentTaskName === "Revisión y control de solicitud de apoyo educativo") {
-            outputToken = "solicitud_completada";
-        } else if (appToken === "nueva_solicitud" && $scope.properties.currentTaskName === "Modificar información") {
-            // outputToken = "modificar_solicitud";
-            outputToken = "solicitud_completada";
-        } else {
-            outputToken = appToken;
-        }
+        // if (appToken === "nueva_solicitud_SDAE" && $scope.properties.currentTaskName === "Llenado solicitud de apoyo académico") {
+        //     outputToken = "nueva_solicitud_SDAE";
+        // } else if (appToken === "nueva_solicitud_SDAE" && $scope.properties.currentTaskName === "Revisión y control de solicitud de apoyo educativo") {
+        //     outputToken = "solicitud_completada";
+        // } else if (appToken === "nueva_solicitud" && $scope.properties.currentTaskName === "Modificar información") {
+        //     // outputToken = "modificar_solicitud";
+        //     outputToken = "solicitud_completada";
+        // } else {
+        //     outputToken = appToken;
+        // }
 
-        return outputToken;
+        // return outputToken;
     }
 
 
@@ -123,49 +123,49 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
             $scope.properties.accionModal = "salir";
             modalService.open($scope.properties.idModalConfirmacionAD);
         } else {
-            ctrl.redirectToPage(token);
+            // ctrl.redirectToPage(token);
         }
     };
 
     ctrl.redirectToPage = function(token) {
         var previousToken = ctrl.pageToken;
         var previousPath = window.location.pathname;
-        if(token=="autodescripcion"){
-            token=($scope.processVersion<1.53)?"autodescripcion":"autodescripcionV2";
-            if(token=="autodescripcionV2"){
-                var taskName = $scope.properties.currentTaskName;
-                if(taskName === "Seleccionar cita" ||
-                taskName === "Generar credencial" ||
-                taskName === "Pase de lista Prueba 1" ||
-                taskName === "Pase de lista Prueba 2" ||
-                taskName === "Pase de lista Prueba 3" ||
-                taskName === "Carga y consulta de resultados" ||
-                taskName === "Resultado final de comité" ||
-                taskName === "Reactivar usuario rechazado"){
-                    token="autodescripcionV2vista";
-                }
-            }
-        }
+        // if(token=="autodescripcion"){
+        //     token=($scope.processVersion<1.53)?"autodescripcion":"autodescripcionV2";
+        //     if(token=="autodescripcionV2"){
+        //         var taskName = $scope.properties.currentTaskName;
+        //         if(taskName === "Seleccionar cita" ||
+        //         taskName === "Generar credencial" ||
+        //         taskName === "Pase de lista Prueba 1" ||
+        //         taskName === "Pase de lista Prueba 2" ||
+        //         taskName === "Pase de lista Prueba 3" ||
+        //         taskName === "Carga y consulta de resultados" ||
+        //         taskName === "Resultado final de comité" ||
+        //         taskName === "Reactivar usuario rechazado"){
+        //             token="autodescripcionV2vista";
+        //         }
+        //     }
+        // }
         
-        ctrl.pageToken = token;
-        var urlPath = "";
-        if (previousToken === "autodescripcion" || previousToken === "autodescripcionV2" || previousToken === "pago_de_examen" || previousToken === "confirmacion_credencial" || previousToken === "verSesiones") {
-            previousPath.substring(0, previousPath.length - previousToken.length - 2) + token + '/' + ($window.location.search === undefined || $window.location.search === "undefined" ? "" : $window.location.search);
-        } else {
-            previousPath.substring(0, previousPath.length - previousToken.length - 1) + token + '/' + ($window.location.search === undefined || $window.location.search === "undefined" ? "" : $window.location.search);
-        }
+        // ctrl.pageToken = token;
+        // var urlPath = "";
+        // if (previousToken === "autodescripcion" || previousToken === "autodescripcionV2" || previousToken === "pago_de_examen" || previousToken === "confirmacion_credencial" || previousToken === "verSesiones") {
+        //     previousPath.substring(0, previousPath.length - previousToken.length - 2) + token + '/' + ($window.location.search === undefined || $window.location.search === "undefined" ? "" : $window.location.search);
+        // } else {
+        //     previousPath.substring(0, previousPath.length - previousToken.length - 1) + token + '/' + ($window.location.search === undefined || $window.location.search === "undefined" ? "" : $window.location.search);
+        // }
 
-        var stateObject = { title: "" + token + "", url: "" + urlPath + "" };
-        if (typeof($window.history.pushState) != "undefined") {
-            $window.history.pushState(stateObject, stateObject.title, stateObject.url);
-        } else {
-            alert("Browser does not support HTML5.");
-        }
+        // var stateObject = { title: "" + token + "", url: "" + urlPath + "" };
+        // if (typeof($window.history.pushState) != "undefined") {
+        //     $window.history.pushState(stateObject, stateObject.title, stateObject.url);
+        // } else {
+        //     alert("Browser does not support HTML5.");
+        // }
 
-        $scope.properties.currentToken = token;
+        // $scope.properties.currentToken = token;
 
-        //make sure the user is still logged in before refreshing the iframe
-        verifySession().then(setTargetedUrl, refreshPage);
+        // //make sure the user is still logged in before refreshing the iframe
+        // verifySession().then(setTargetedUrl, refreshPage);
 
         return false;
     }
@@ -275,106 +275,12 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
         
         let array = window.location.href.split("/");
         let appName = array[array.length - 2];
-        
-        if (appName === "bandeja") {
-            ctrl.pageToken = "bandeja";
-        }else if (appName === "catTipoApoyo") {
-            ctrl.pageToken = "catTipoApoyo";
-        }else if (appName === "preAutorizacion") {
-            ctrl.pageToken = "preAutorizacion";
-        }else if (appName === "catControlDocumental") {
-            ctrl.pageToken = "catControlDocumental";
-        }else if (appName === "bandejaSolicitudesRechazadas") {
-            ctrl.pageToken = "bandejaSolicitudesRechazadas";
-        }else if (appName === "solicitudRechazada") {
-            ctrl.pageToken = "solicitudRechazada";
-        }else if (appName === "bandejaAreaDeportiva") {
-            ctrl.pageToken = "bandejaAreaDeportiva";
-        }else if (appName === "bandejaAreaArtistica") {
-            ctrl.pageToken = "bandejaAreaArtistica";
-        }else if (appName === "revisionAreaDeportiva") {
-            ctrl.pageToken = "revisionAreaDeportiva";
-        }else if (appName === "revisionAreaArtistica") {
-            ctrl.pageToken = "revisionAreaArtistica";
-        }else if (appName === "bandejaBecas") {
-            ctrl.pageToken = "bandejaBecas";
-        }else if (appName === "BandejaFinanzas") {
-            ctrl.pageToken = "BandejaFinanzas";
-        }else if (appName === "BandejaComiteFinanzas") {
-            ctrl.pageToken = "BandejaComiteFinanzas";
-        }
-        
-        
-        
-        /*if ($scope.properties.currentTaskName === "Llenado solicitud de apoyo académico") {
-            ctrl.pageToken = "nueva_solicitud_SDAE";
-        } else{
-            ctrl.pageToken = "";
-        }*/
-
-        $scope.properties.currentToken = ctrl.pageToken;
+        ctrl.pageToken = "pg_home";
 
         ctrl.applicationName = $scope.properties.application.displayName;
         setApplicationMenuList(application);
         setTargetedUrl();
     }
-
-    $scope.$watch("properties.currentTaskName", function() {
-        // if($scope.properties.isCaseStarted !== undefined && $scope.properties.currentTaskName !== undefined && !ctrl.appStarted){
-        //     ctrl.appStarted = true;
-        //     setApplication();    
-        // }
-        console.log("currentTask " + $scope.properties.currentTaskName)
-        doRequest("GET", "../API/identity/user/" + $scope.properties.userId, null, null, function(data) {
-
-            doRequest("GET", "../API/bdm/businessData/com.anahuac.catalogos.CatRegistro?q=findByCorreoelectronico&f=correoelectronico=" + data.userName + "&p=0&c=500", null, null, function(datos1) {
-                doRequest("GET", "../API/bpm/humanTask?p=0&c=10&f=caseId=" + datos1[0].caseId + "&fstate=ready&d=processId", null, null, function(data0) {
-                    if (data0.length > 0) {
-                        $scope.processVersion=data0[0].processId.version;
-                        if (
-                            ($scope.properties.isCaseStarted && $scope.properties.currentTaskName !== "") ||
-                            (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
-                        ) {
-                            ctrl.appStarted = true;
-                            setApplication();
-                        }
-                    } else {
-                        doRequest("GET", "../API/bpm/archivedActivity?f=caseId=" + datos1[0].caseId + "&f=state=aborted", null, null, function(datos2) {
-                            for (let index = 0; index < datos2.length; index++) {
-                                const element = datos2[index].displayName;
-                                if (true) {
-                                    $scope.properties.currentTaskName = "nueva_solicitud";
-                                    break;
-                                }
-
-                            }
-                            if (
-                                ($scope.properties.isCaseStarted && $scope.properties.currentTaskName !== "") ||
-                                (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
-                            ) {
-                                ctrl.appStarted = true;
-                                setApplication();
-                            }
-                        })
-                    }
-
-                })
-            })
-        })
-
-    });
-
-    $scope.$watch("properties.isCaseStarted", function() {
-        if ($scope.properties.isCaseStarted !== undefined && $scope.properties.currentTaskName !== undefined && !ctrl.appStarted) {
-            if (
-                ($scope.properties.isCaseStarted && $scope.properties.currentTaskName !== "") ||
-                (!$scope.properties.isCaseStarted && $scope.properties.currentTaskName === "")
-            ) {
-                ctrl.appStarted = true;
-                setApplication();
-            }
-        }
-    });
 
     $scope.$watch("properties.cambiarPagina", function() {
         if ($scope.properties.cambiarPagina === true) {
