@@ -57,10 +57,15 @@ class CatCampusCustomFiltro {
 	private CatPaisCustomFiltro pais;
 	@XmlElement
 	private PSGRCatEstado estado;
-	
+	@XmlElement
 	private String pais_pid;
 	@XmlElement
 	private String estado_pid;
+	
+	@XmlElement
+	private String paises_relacion_pid;
+	@XmlElement
+	private String estados_relacion_pid;
 	
 	private PSGRCatEstado estados;
 	
@@ -356,6 +361,17 @@ class CatCampusCustomFiltro {
 	public void setPais_pid(String pais_pid) {
 		this.pais_pid = pais_pid;
 	}
+	
+	
+	public String getPaisesRelacionPid() {
+		return paises_relacion_pid;
+	}
+
+
+
+	public void setPaisesRelacionPid(String paises_relacion_pid) {
+		this.paises_relacion_pid = paises_relacion_pid;
+	}
 
 
 
@@ -367,6 +383,17 @@ class CatCampusCustomFiltro {
 
 	public void setEstado_pid(String estado_pid) {
 		this.estado_pid = estado_pid;
+	}
+	
+	
+	public String getEstadosRelacionPid() {
+		return estados_relacion_pid;
+	}
+
+
+
+	public void setEstadosRelacionPid(String estados_relacion_pid) {
+		this.estados_relacion_pid = estados_relacion_pid;
 	}
 	
 	public String getUrlImagen() {
