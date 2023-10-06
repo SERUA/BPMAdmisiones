@@ -52,9 +52,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = estado_pid;
 
         var pais_pid;
-        var paisDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].pais.descripcion;
+        var paisDescripcion = $scope.properties.pais.lstCatCampusInput[0].descripcion;
 
-        var paisEncontrado = $scope.properties.lstPais.find(function(pais) {
+        var paisEncontrado = $scope.properties.lstPais.data.find(function(pais) {
             return pais.descripcion === paisDescripcion;
         });
 
@@ -98,7 +98,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $scope.properties.dataToSend.lstCatCampusInput[0].estado_pid = estado_pid;
 
         var pais_pid;
-        var paisDescripcion = $scope.properties.dataToSend.lstCatCampusInput[0].pais.descripcion;
+        var paisDescripcion = $scope.properties.pais.lstCatCampusInput[0].descripcion;
 
         var paisEncontrado = $scope.properties.lstPais.data.find(function(pais) {
             return pais.descripcion === paisDescripcion;

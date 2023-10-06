@@ -1567,8 +1567,8 @@ class CatalogosDAO {
 			pstm.setString(14, object.urlAvisoPrivacidad.isEmpty() ? null : object.urlAvisoPrivacidad);
 			pstm.setString(15, object.urlImagen.isEmpty() ? null : object.urlImagen);
 			pstm.setString(16, object.usuarioBanner);
-			pstm.setLong(17, object.estado_pid.longValue());
-			pstm.setLong(18, object.pais_pid.longValue());
+			pstm.setLong(17, object.estado_pid);
+			pstm.setLong(18, object.pais_pid);
 			pstm.setString(19, object.id); // ID es de tipo VARCHAR_IGNORECASE, por lo que puedes usar setString
 			pstm.setLong(20, object.persistenceId);
 	
@@ -1593,7 +1593,7 @@ class CatalogosDAO {
         Result resultado = new Result();
         Boolean closeCon = false;
         String where = "WHERE c.ELIMINADO=false", orderby = "ORDER BY ", errorLog = "";
-        String consulta = ("SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAISES_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADOS_PID  [WHERE] [ORDERBY] [LIMITOFFSET]")
+        String consulta = ("SELECT  c.*, p.descripcion as pais, e.clave as cEstado, e.descripcion as dEstado FROM PSGRCATCAMPUS c left join PSGRCATPAIS p ON c.PAISES_RELACION_PID  = p.PERSISTENCEID  left join PSGRCATESTADOS e ON  e.PERSISTENCEID  = c.ESTADOS_RELACION_PID  [WHERE] [ORDERBY] [LIMITOFFSET]")
         try {
             def jsonSlurper = new JsonSlurper();
             def object = jsonSlurper.parseText(jsonData);
@@ -1932,7 +1932,7 @@ class CatalogosDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " LOWER(PAIS) ";
+                        where += " LOWER(PAISES_RELACION_PID) ";
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
@@ -1946,7 +1946,7 @@ class CatalogosDAO {
                         } else {
                             where += " WHERE "
                         }
-                        where += " LOWER(ESTADO) ";
+                        where += " LOWER(ESTADOS_RELACION_PID) ";
                         if (filtro.get("operador").equals("Igual a")) {
                             where += "=LOWER('[valor]')"
                         } else {
@@ -2030,10 +2030,10 @@ class CatalogosDAO {
                     orderby += "EMAIL";
                     break;
                 case "PAÍS":
-                    orderby += "PAIS";
+                    orderby += "PAISES_RELACION_PID";
                     break;
                 case "ESTADO":
-                    orderby += "ESTADO";
+                    orderby += "ESTADOS_RELACION_PID";
                     break;
                 default:
                     orderby += "ORDEN"
@@ -2083,8 +2083,8 @@ class CatalogosDAO {
                 row.setMunicipio(rs.getString("municipio"));
                 row.setUrlImagen(rs.getString("url_imagen"));
                 row.setEmail(rs.getString("email"))
-                row.setPais_pid(rs.getString("pais_pid"))
-                row.setEstado_pid(rs.getString("estado_pid"))
+                row.setPaisesRelacionPid(rs.getString("paises_relacion_pid"))
+                row.setEstadosRelacionPid(rs.getString("estados_relacion_pid"))
                 errorLog += "pais"
                 try {
                     row.setPais(new CatPaisCustomFiltro())
