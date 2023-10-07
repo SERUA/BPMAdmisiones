@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.08">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.09">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -746,6 +746,11 @@
               <referencedElements xmi:type="parameter:Parameter" xmi:id="_6Glv8FzJEe6Pc6WsAlY1eg" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
             </processSource>
           </inputMappings>
+          <inputMappings xmi:type="process:InputMapping" xmi:id="_KszZMGSqEe6An7GXsVy0SA" subprocessTarget="urlLoginInput">
+            <processSource xmi:type="expression:Expression" xmi:id="_KszZMWSqEe6An7GXsVy0SA" name="newScript()" content="urlLogin" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="parameter:Parameter" xmi:id="_NEisoGSqEe6An7GXsVy0SA" name="urlLogin" typeClassname="java.lang.String"/>
+            </processSource>
+          </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_2_Cic1zEEe6Pc6WsAlY1eg" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_2_CidFzEEe6Pc6WsAlY1eg" name="" content="" returnTypeFixed="true"/>
         </elements>
@@ -1246,11 +1251,13 @@
         <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW8V4yEe6xB83abJCRzg" name="usuario" value="Administrador" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW8l4yEe6xB83abJCRzg" name="password" value="bpm2022BPM$" typeClassname="java.lang.String"/>
         <parameters xmi:type="parameter:Parameter" xmi:id="_IgnW814yEe6xB83abJCRzg" name="urlHubspot" value="[N/A]" typeClassname="java.lang.String"/>
+        <parameters xmi:type="parameter:Parameter" xmi:id="_9PHsEGSpEe6An7GXsVy0SA" name="urlLogin" value="https://dev.bpm.anahuac.mx/loginservice?redirectUrl=portal%2Fhomepage&amp;username=[USUARIO]&amp;password=[PASSWORD]&amp;_l=es" typeClassname="java.lang.String"/>
       </configurations>
       <parameters xmi:type="parameter:Parameter" xmi:id="_G02zgFgCEe6dKZo8YrWYxw" name="urlEnvioCorreo" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_Ura6sFgCEe6dKZo8YrWYxw" name="usuario" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_VbqE0FgCEe6dKZo8YrWYxw" name="password" typeClassname="java.lang.String"/>
       <parameters xmi:type="parameter:Parameter" xmi:id="_Wgyg4FgCEe6dKZo8YrWYxw" name="urlHubspot" typeClassname="java.lang.String"/>
+      <parameters xmi:type="parameter:Parameter" xmi:id="_8tciYGSpEe6An7GXsVy0SA" name="urlLogin" typeClassname="java.lang.String"/>
       <contract xmi:type="process:Contract" xmi:id="_RS3WnFZtEe6T3bm1fu0vzg">
         <inputs xmi:type="process:ContractInput" xmi:id="_J85r4FzLEe6Pc6WsAlY1eg" name="registroInput" type="COMPLEX" dataReference="registro">
           <inputs xmi:type="process:ContractInput" xmi:id="_J85r4VzLEe6Pc6WsAlY1eg" name="nombre"/>
@@ -1286,7 +1293,7 @@
         <value xmi:type="expression:Expression" xmi:id="_RS3Wq1ZtEe6T3bm1fu0vzg" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_IoLVoFzAEe6Pc6WsAlY1eg" name="Envio de correos" version="1.01">
+    <elements xmi:type="process:Pool" xmi:id="_IoLVoFzAEe6Pc6WsAlY1eg" name="Envio de correos" version="1.03">
       <elements xmi:type="process:StartEvent" xmi:id="_JclOEFzAEe6Pc6WsAlY1eg" name="Inicio de notificacion" outgoing="_LoXJIFzAEe6Pc6WsAlY1eg">
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_Jcl1IVzAEe6Pc6WsAlY1eg" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_Jcl1IFzAEe6Pc6WsAlY1eg" name="" content="" returnTypeFixed="true"/>
@@ -1299,7 +1306,11 @@
         <connectors xmi:type="process:Connector" xmi:id="_p1EGYFzCEe6Pc6WsAlY1eg" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
           <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_p1EGYVzCEe6Pc6WsAlY1eg" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_p1EGYlzCEe6Pc6WsAlY1eg" key="url">
-              <expression xmi:type="expression:Expression" xmi:id="_p1EGY1zCEe6Pc6WsAlY1eg" name="url()" content="String resultado = urlLogin;&#xD;&#xA;&#xD;&#xA;resultado = resultado.replace(&quot;[USUARIO]&quot;, usuario);&#xD;&#xA;resultado = resultado.replace(&quot;[PASSWORD]&quot;, password);&#xD;&#xA;&#xD;&#xA;return resultado;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true"/>
+              <expression xmi:type="expression:Expression" xmi:id="_p1EGY1zCEe6Pc6WsAlY1eg" name="url()" content="String resultado = urlEnvioCorreo;&#xD;&#xA;&#xD;&#xA;resultado = resultado.replace(&quot;[USUARIO]&quot;, username);&#xD;&#xA;resultado = resultado.replace(&quot;[PASSWORD]&quot;, password);&#xD;&#xA;&#xD;&#xA;return resultado;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                <referencedElements xmi:type="process:Data" xmi:id="_pdswAGSpEe6An7GXsVy0SA" name="urlEnvioCorreo" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                <referencedElements xmi:type="process:Data" xmi:id="_pdswAWSpEe6An7GXsVy0SA" name="password" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                <referencedElements xmi:type="process:Data" xmi:id="_pdswAmSpEe6An7GXsVy0SA" name="username" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+              </expression>
             </parameters>
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_p1EGZFzCEe6Pc6WsAlY1eg" key="contentType">
               <expression xmi:type="expression:Expression" xmi:id="_p1EGZVzCEe6Pc6WsAlY1eg" name="application/json" content="application/json" returnTypeFixed="true"/>
@@ -1408,7 +1419,9 @@
         <connectors xmi:type="process:Connector" xmi:id="_9ilyMFzIEe6Pc6WsAlY1eg" name="sendMail()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
           <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_9ilyMVzIEe6Pc6WsAlY1eg" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_9ilyMlzIEe6Pc6WsAlY1eg" key="url">
-              <expression xmi:type="expression:Expression" xmi:id="_9ilyM1zIEe6Pc6WsAlY1eg" name="url()" content="return urlEnvioCorreo;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true"/>
+              <expression xmi:type="expression:Expression" xmi:id="_9ilyM1zIEe6Pc6WsAlY1eg" name="url()" content="return urlEnvioCorreo;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                <referencedElements xmi:type="process:Data" xmi:id="_sXXr0GSpEe6An7GXsVy0SA" name="urlEnvioCorreo" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+              </expression>
             </parameters>
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_9ilyNFzIEe6Pc6WsAlY1eg" key="contentType">
               <expression xmi:type="expression:Expression" xmi:id="_9ilyNVzIEe6Pc6WsAlY1eg" name="application/json" content="application/json" returnTypeFixed="true"/>
@@ -1436,7 +1449,12 @@
               </expression>
             </parameters>
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_9ilyPFzIEe6Pc6WsAlY1eg" key="body">
-              <expression xmi:type="expression:Expression" xmi:id="_9ilyPVzIEe6Pc6WsAlY1eg" name="&lt;pattern-expression>" type="TYPE_PATTERN" returnTypeFixed="true"/>
+              <expression xmi:type="expression:Expression" xmi:id="_9ilyPVzIEe6Pc6WsAlY1eg" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;&#xD;&#xA;String payload = &quot;{\&quot;campus\&quot;: \&quot;[CAMPUS]\&quot;, \&quot;correo\&quot;:\&quot;[CORREO]\&quot;, \&quot;codigo\&quot;: \&quot;[CODIGO]\&quot;, \&quot;isEnviar\&quot;:true, \&quot;correoAspirante\&quot;:\&quot;[CORREOASPIRANTE]\&quot; }&quot;;&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CAMPUS]&quot;, campus);&#xD;&#xA;payload = payload.replace(&quot;[CORREO]&quot;, correo);&#xD;&#xA;payload = payload.replace(&quot;[CORREOASPIRANTE]&quot;, correodestinatario);&#xD;&#xA;payload = payload.replace(&quot;[CODIGO]&quot;, plantilla);&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                <referencedElements xmi:type="process:Data" xmi:id="_K2iO4GSoEe6An7GXsVy0SA" name="campus" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                <referencedElements xmi:type="process:Data" xmi:id="_K2iO4WSoEe6An7GXsVy0SA" name="correo" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                <referencedElements xmi:type="process:Data" xmi:id="_K2iO4mSoEe6An7GXsVy0SA" name="correodestinatario" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                <referencedElements xmi:type="process:Data" xmi:id="_K2iO42SoEe6An7GXsVy0SA" name="plantilla" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+              </expression>
             </parameters>
             <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_9ilyPlzIEe6Pc6WsAlY1eg" key="do_not_follow_redirect">
               <expression xmi:type="expression:Expression" xmi:id="_9ilyP1zIEe6Pc6WsAlY1eg" name="false" content="false" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -1575,6 +1593,13 @@
           </referencedElements>
         </defaultValue>
       </data>
+      <data xmi:type="process:Data" xmi:id="_B4ENIGSqEe6An7GXsVy0SA" name="urlLogin" dataType="_RS3WsVZtEe6T3bm1fu0vzg">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_B4ENIWSqEe6An7GXsVy0SA" name="init_urlLogin()" content="urlLoginInput" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_HsuTYGSqEe6An7GXsVy0SA" name="urlLoginInput">
+            <mapping xmi:type="process:ContractInputMapping" xmi:id="_HsuTYWSqEe6An7GXsVy0SA"/>
+          </referencedElements>
+        </defaultValue>
+      </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_IuvQoFzAEe6Pc6WsAlY1eg" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_IuvQoVzAEe6Pc6WsAlY1eg" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
@@ -1634,6 +1659,9 @@
         </inputs>
         <inputs xmi:type="process:ContractInput" xmi:id="__jjkYFzIEe6Pc6WsAlY1eg" name="urlenviocorreoInput">
           <mapping xmi:type="process:ContractInputMapping" xmi:id="__jkLcFzIEe6Pc6WsAlY1eg"/>
+        </inputs>
+        <inputs xmi:type="process:ContractInput" xmi:id="_DMGA0GSqEe6An7GXsVy0SA" name="urlLoginInput">
+          <mapping xmi:type="process:ContractInputMapping" xmi:id="_DMGA0WSqEe6An7GXsVy0SA"/>
         </inputs>
       </contract>
       <searchIndexes xmi:type="process:SearchIndex" xmi:id="_IuupkFzAEe6Pc6WsAlY1eg">
