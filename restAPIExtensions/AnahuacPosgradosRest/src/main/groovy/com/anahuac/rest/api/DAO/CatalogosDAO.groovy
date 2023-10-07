@@ -2203,6 +2203,7 @@ class CatalogosDAO {
 			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
 			pstm.setString(18, object.idioma); // IDIOMA
 			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setString(20, object.CAMPUS.persistenceid);
 
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -5632,6 +5633,8 @@ class CatalogosDAO {
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
 				row.put("id_campus", rs.getLong("id_campus"));
 				row.put("usuario_banner", rs.getString("usuario_banner"));
+				row.put("ano", rs.getString("ano"));
+				row.put("codigo", rs.getString("codigo"));
 				
 				data.add(row);
 			}
