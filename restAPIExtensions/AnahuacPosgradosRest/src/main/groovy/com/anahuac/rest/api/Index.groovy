@@ -698,14 +698,22 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;	
-				case "updateCatPeriodo":
-					result = new CatalogosDAO().updateCatPeriodo(jsonData);
+				case "updateCatPeriodos":
+					result = new CatalogosDAO().updateCatPeriodos(jsonData, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
-					break;		
+					break;	
+				case "deleteCatPeriodos":
+					result = new CatalogosDAO().deleteCatPeriodos(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "getCatPeriodos":
 					result = new CatalogosDAO().getCatPeriodos(jsonData);
 					if (result.isSuccess()) {

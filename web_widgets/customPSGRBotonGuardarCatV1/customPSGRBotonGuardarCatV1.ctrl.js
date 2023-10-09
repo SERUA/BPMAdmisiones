@@ -6,6 +6,7 @@ function PbButtonCtrl($scope, $http) {
 
     this.action = function action() {
         if($scope.properties.navigationVar === "nuevo"){
+            $scope.properties.dataToSend.usuario_banner = $scope.properties.userData.user_name;
             accionCatalogo($scope.properties.urlInsert);
         } else {
             accionCatalogo($scope.properties.urlUpdate);
@@ -15,6 +16,7 @@ function PbButtonCtrl($scope, $http) {
     function accionCatalogo(_url){
         debugger;
         vm.busy = true;
+        
         $scope.properties.dataToSend.id_campus= $scope.properties.dataToFilter.persistenceid;
         $http.post(_url, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");

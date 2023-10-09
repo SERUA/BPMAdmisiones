@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRcatPeriodoAcciones",
   "name" : "PSGRcatPeriodoAcciones",
-  "lastUpdate" : 1696465064201,
+  "lastUpdate" : 1696859017892,
   "rows" : [
     [
       {
@@ -476,7 +476,7 @@
                   "value" : [
                     "clave",
                     "descripcion",
-                    "usuarioBanner",
+                    "usuario_banner",
                     "is_semestral ? \"Sí\":\"No\"",
                     "is_anual? \"Sí\":\"No\"",
                     "fecha_inicio | date:'dd-MM-yyyy '",
@@ -535,6 +535,18 @@
                 "keyPressFilter" : {
                   "type" : "constant",
                   "value" : true
+                },
+                "year" : {
+                  "type" : "variable",
+                  "value" : "year"
+                },
+                "formOutputAgregar" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar"
+                },
+                "urlDelete" : {
+                  "type" : "constant",
+                  "value" : "../API/extension/posgradosRest?url=deleteCatPeriodos"
                 }
               },
               "reference" : "8b16765b-5975-4f8b-82b0-069600913799",
@@ -2162,6 +2174,14 @@
                       "navigationVar" : {
                         "type" : "variable",
                         "value" : "editable"
+                      },
+                      "dataToFilter" : {
+                        "type" : "variable",
+                        "value" : "dataToFilter"
+                      },
+                      "userData" : {
+                        "type" : "variable",
+                        "value" : "userData"
                       }
                     },
                     "reference" : "0939498c-548d-475c-a845-309bc9c756d7",
@@ -3016,6 +3036,14 @@
                       "navigationVar" : {
                         "type" : "variable",
                         "value" : "editable"
+                      },
+                      "dataToFilter" : {
+                        "type" : "variable",
+                        "value" : "dataToFilter"
+                      },
+                      "userData" : {
+                        "type" : "variable",
+                        "value" : "userData"
                       }
                     },
                     "reference" : "024133e3-43a1-47f0-8626-232efb46d0db",
@@ -3579,6 +3607,24 @@
         "            \r",
         "        }\r",
         "    }\r",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.formOutputAgregar;",
+        "$data.year;"
+      ],
+      "exposed" : false
+    },
+    "year" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"year\":\"\"",
         "}"
       ],
       "exposed" : false

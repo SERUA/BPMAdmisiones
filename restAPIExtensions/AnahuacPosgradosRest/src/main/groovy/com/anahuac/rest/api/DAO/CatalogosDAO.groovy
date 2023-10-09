@@ -680,6 +680,35 @@ class CatalogosDAO {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				errorlog += " Filtros "
 				switch (filtro.get("columna")) {
+					
+//					case "rol":
+//					if (where.contains("WHERE")) {
+//						where += " AND "
+//					} else {
+//						where += " WHERE "
+//					}
+//					where += " LOWER(rol) ";
+//					if (filtro.get("operador").equals("Igual a")) {
+//						where += "=LOWER('[valor]')"
+//					} else {
+//						where += "LIKE LOWER('%[valor]%')"
+//					}
+//					where = where.replace("[valor]", filtro.get("valor"))
+//					break;
+					case "ORDEN":
+					    if (where.contains("WHERE")) {
+					        where += " AND ";
+					    } else {
+					        where += " WHERE ";
+					    }
+					    where += " orden ";  
+					    if (filtro.get("operador").equals("Igual a")) {
+					        where += "= " + filtro.get("valor");
+					    } else {
+					        // Si filtro.get("valor") es un texto, podrías necesitar comillas simples
+					        where += " = " + filtro.get("valor");
+					    }
+					    break;
 					case "CLAVE":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -708,76 +737,6 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "FECHA CREACIÓN":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(FECHA_CREACION) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-					case "ISELIMINADO":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(IS_ELIMINADO) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-					case "ORDEN":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(ORDEN) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-					case "PERSISTENCEID":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(PERSISTENCEID) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-					case "PERSISTENCEVERSION":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(PERSISTENCEVERSION) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
 					case "USUARIO CREACIÓN":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -792,36 +751,38 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
+					case "FECHA CREACIÓN":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(FECHA_CREACION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
 				}
 			}
 			errorlog += " Order by "
 			switch (object.orderby) {
+				case "ORDEN":
+					orderby += "orden";
+					break;
 				case "CLAVE":
 					orderby += "clave";
 					break;
 				case "DESCRIPCIÓN":
 					orderby += "descripcion";
 					break;
-				case "FECHA CREACIÓN":
-					orderby += "fecha_creacion";
-					break;
-				case "ISELIMINADO":
-					orderby += "is_eliminado";
-					break;
-				case "ORDEN":
-					orderby += "orden";
-					break;
-				case "PERSISTENCEID":
-					orderby += "persistenceId";
-					break;
-				case "PERSISTENCEVERSION":
-					orderby += "persistenceVersion";
-					break;
 				case "USUARIO CREACIÓN":
 					orderby += "usuario_creacion";
 					break;
-				case "ORDEN":
-					orderby += "ORDEN";
+				case "FECHA CREACIÓN":
+					orderby += "fecha_creacion";
 					break;
 				default:
 					orderby += "persistenceid"
@@ -2203,7 +2164,7 @@ class CatalogosDAO {
 			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
 			pstm.setString(18, object.idioma); // IDIOMA
 			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
-			pstm.setString(20, object.CAMPUS.persistenceid);
+			pstm.setLong(20, object.CAMPUS.persistenceid);
 
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -3100,7 +3061,7 @@ class CatalogosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+			resultado.setError("[getCatPropedeutico] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -5507,7 +5468,9 @@ class CatalogosDAO {
 			pstm.setBoolean(9, false);
 			pstm.setBoolean(10, object.is_semestral);
 			pstm.setLong(11, idCampus);
-			pstm.setString(12, '');
+			pstm.setString(12, object.usuario_banner);
+			pstm.setLong(13, object.year);
+			pstm.setLong(14, Long.parseLong(object.codigo));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -5527,7 +5490,7 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result updateCatPeriodo(String jsonData) {
+	public Result updateCatPeriodos(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -5552,9 +5515,8 @@ class CatalogosDAO {
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
 			}
-			
-			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
-			Date fecha_fin = sdfEntrada.parse(object.fecha_fin);
+			Date fecha_inicio = formato.parse(object.fecha_inicio);
+			Date fecha_fin = formato.parse(object.fecha_fin);
 			
 			Long idCampus = 0L;
 			if(object.id_campus == null) {
@@ -5562,7 +5524,6 @@ class CatalogosDAO {
 			} else {
 				idCampus = Long.valueOf(object.id_campus);
 			}
-			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPERIODO);
 			pstm.setString(1,  object.clave);
 			pstm.setString(2, object.descripcion);
@@ -5572,7 +5533,7 @@ class CatalogosDAO {
 			pstm.setBoolean(6, object.is_anual);
 			pstm.setBoolean(7, false);
 			pstm.setBoolean(8, object.is_semestral);
-			pstm.setLong(9, persistenceid);
+			pstm.setLong(9, object.persistenceid);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -5592,12 +5553,45 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result deleteCatPeriodos(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceids.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío" + object);
+			}
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATPERIODO);
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatPais] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getCatPeriodos(String jsonData) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
-		String where = "", orderby = "";
+		String where = " WHERE is_eliminado = false", orderby = "";
 		Integer total_rows = 0;
 		
 		try {
@@ -5633,7 +5627,7 @@ class CatalogosDAO {
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
 				row.put("id_campus", rs.getLong("id_campus"));
 				row.put("usuario_banner", rs.getString("usuario_banner"));
-				row.put("ano", rs.getString("ano"));
+				row.put("year", rs.getString("ano"));
 				row.put("codigo", rs.getString("codigo"));
 				
 				data.add(row);

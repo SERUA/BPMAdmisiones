@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatCampus1",
   "name" : "PSGRCatCampus",
-  "lastUpdate" : 1696611334098,
+  "lastUpdate" : 1696864859191,
   "rows" : [
     [
       {
@@ -2649,7 +2649,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "formOutput.lstCatCampusInput[0].estado"
+                  "value" : "catCampus_selected.estados"
                 }
               },
               "reference" : "a7d31232-5719-42d0-b160-1d5c602a6d07",
@@ -5001,13 +5001,9 @@
     "formOutput" : {
       "type" : "expression",
       "value" : [
-        "return {\r",
-        "  lstCatCampusInput: [{\r",
-        "    estado: {\r",
-        "      persistenceId: $data.lstCatCampus.estado\r",
-        "    }\r",
-        "  }]\r",
-        "};"
+        "return {",
+        "\tlstCatCampusInput: $data.lstCatCampus",
+        "}"
       ],
       "exposed" : false
     },
