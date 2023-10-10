@@ -11,9 +11,9 @@ function PbCheckboxCtrl($scope, $log, widgetNameFactory) {
     $scope.value = null;
     
     $scope.setValue = function(_value, _clave){
-        if(_clave == "si" && _value === true ){
+        if(_clave == "si"){
             $scope.value = true;
-        } else if (_clave == "no" && _value === false){
+        } else if (_clave == "no"){
             $scope.value = false;
         }
     }
@@ -23,4 +23,10 @@ function PbCheckboxCtrl($scope, $log, widgetNameFactory) {
     if (!$scope.properties.isBound('value')) {
         $log.error('the pbCheckbox property named "value" need to be bound to a variable');
     }
+    
+    $scope.$watch("properties.value", function(){
+        if($scope.properties.value){
+             $scope.setValue($scope.value, $scope.properties.value.clave);
+        }
+    });
 }
