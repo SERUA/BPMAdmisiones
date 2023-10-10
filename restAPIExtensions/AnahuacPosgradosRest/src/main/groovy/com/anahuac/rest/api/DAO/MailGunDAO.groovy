@@ -292,16 +292,16 @@ class MailGunDAO {
 			if (catalogosDAO == null) {
 				catalogosDAO = new CatalogosDAO();
 			}
-			
+			errorlog += "campus " + campus;
 			def jsonData = new groovy.json.JsonBuilder(campus: campus).toString()
-
+			errorlog += "jsonData " + jsonData;
 	        Result catConfiguracionesResult = catalogosDAO.getCatConfiguraciones(jsonData)
-	
+			errorlog += "catConfiguracionesResult " + catConfiguracionesResult;
 	        List<Map<String, Object>> configuracionesData = catConfiguracionesResult.getData();
-			
+			errorlog += "configuracionesData " + configuracionesData;
 			def object = new Expando(configuracionesData.first())
 //			throw new Exception("PRUEBA." + object);
-	        
+			errorlog += "Object " + object;
 	        String correoDe = object.mailgun_dominio;
 			// Valores estáticos (reemplaza estos con tus propios valores)
 			//	        apiKey = configuracionesData.valor;
@@ -333,6 +333,11 @@ class MailGunDAO {
 	        LOGGER.error(ex.getMessage());
 	        resultado.setSuccess(false);
 	        resultado.setError(ex.getMessage());
+	    } finally {
+	        // Cerrar la conexión en caso de que esté abierta
+	        if (closeCon) {
+	            new DBConnect().closeObj(con, stm, rs, pstm)
+	        }
 	    }
 	
 	    return resultado;

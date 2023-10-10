@@ -1,6 +1,8 @@
 package com.anahuac.rest.api.DB
 
 class Statements {
+	//Azure
+	public static final String CONFIGURACIONESSSA="SELECT * FROM CATCONFIGURACION WHERE CLAVE = 'SASAzure'";
 	
 	//Banner 
 	public static final String GET_BANNER_API_INFO = "SELECT urltokenbannersdae, usuariobannersdae, urlbannersdae, pwBannerSDAE FROM CATAPIKEY WHERE CAMPUS_PID = ?";
