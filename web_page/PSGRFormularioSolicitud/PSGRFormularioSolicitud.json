@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1696614086765,
+  "lastUpdate" : 1696896501983,
   "rows" : [
     [
       {
@@ -510,58 +510,6 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Default label"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "text" : {
-                        "type" : "interpolation",
-                        "value" : "<pre>{{ errorStep1 | json }}</pre>"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      }
-                    },
-                    "reference" : "0184636b-4c44-4da6-a6ef-f9ca517d1a6f",
-                    "hasValidationError" : false,
-                    "id" : "pbText"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
                         "value" : "color-orange"
                       },
                       "hidden" : {
@@ -843,7 +791,8 @@
                         "value" : "Selecciona una opción"
                       },
                       "availableValues" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "periodos"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -1661,14 +1610,15 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "datosPersonales.urlFoto"
                             },
                             "urlretorno" : {
                               "type" : "variable",
                               "value" : ""
                             },
                             "documentName" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "Foto"
                             },
                             "documentDescription" : {
                               "type" : "constant"
@@ -1682,7 +1632,7 @@
                             },
                             "urlAzure" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "datosPersonales.urlFoto"
                             },
                             "urlDownloadFile" : {
                               "type" : "constant"
@@ -1699,7 +1649,8 @@
                               "value" : true
                             },
                             "idModal" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : "modaltest"
                             },
                             "selectedFile" : {
                               "type" : "variable",
@@ -1717,9 +1668,9 @@
                               "type" : "constant"
                             }
                           },
-                          "reference" : "cbe21999-c822-476f-b87f-afdb0f1dc00c",
+                          "reference" : "ce8d6345-e7cb-4cbd-a350-6472c8e5c351",
                           "hasValidationError" : false,
-                          "id" : "customSDAEUploadCustomAzure"
+                          "id" : "customPSGRUploadCustomAzure"
                         }
                       ]
                     ]
@@ -3875,6 +3826,85 @@
                         "type" : "constant",
                         "value" : false
                       },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "headers" : {
+                        "type" : "constant",
+                        "value" : [
+                          "Grado",
+                          "Programa",
+                          "Institución educativa",
+                          "Decha de inicio",
+                          "Fecha de término",
+                          "Promedio",
+                          "Título",
+                          "País"
+                        ]
+                      },
+                      "content" : {
+                        "type" : "expression",
+                        "value" : "datosAcademicos"
+                      },
+                      "columnsKey" : {
+                        "type" : "constant"
+                      },
+                      "selectedRow" : {
+                        "type" : "variable",
+                        "value" : "selectedEscuela"
+                      },
+                      "striped" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "condensed" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "bordered" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "lstSituacionAuto" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "editar" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "moneda" : {
+                        "type" : "constant"
+                      },
+                      "lstPais" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatPais_query"
+                      }
+                    },
+                    "reference" : "2661359d-9fd7-4638-b2d2-41ac239258f1",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRTableEscuelasV1"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
                       "disabled" : {
                         "type" : "constant",
                         "value" : false
@@ -4053,9 +4083,9 @@
                         "value" : false
                       }
                     },
-                    "reference" : "3543fc58-73e4-4a5e-a100-2a13d348c8ce",
+                    "reference" : "9fa99cce-8929-4be3-8254-876cf8050c87",
                     "hasValidationError" : false,
-                    "id" : "pbTable"
+                    "id" : "customPSGRTablaIdiomasV1"
                   }
                 ],
                 [
@@ -10334,6 +10364,21 @@
         "../API/system.session/1"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "periodos" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPeriodo?q=findByIs_eliminado&p=0&c=999&f=is_eliminado=false"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "selectedEscuela" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     }
   },

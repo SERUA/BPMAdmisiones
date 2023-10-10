@@ -2,6 +2,7 @@ package com.anahuac.rest.api.Entity.custom
 
 class CatGestionEscolar {
 	private Long persistenceId;
+	private String persistenceId_string;
 	private Long persistenceVersion;
 	private String nombre;
 	private String descripcion;
@@ -30,83 +31,17 @@ class CatGestionEscolar {
 	private Long id_campus;
 	private String valor;
 	
-	
-	
-	
-	public Long getCampusReferenciaPid() {
-		return campus_referencia_pid;
-	}
-	public void setCampusReferenciaPid(Long campus_referencia_pid) {
-		this.campus_referencia_pid = campus_referencia_pid;
-	}
-	
-	public String getIdioma() {
-		return idioma;
-	}
-	public void setIdioma(String idioma) {
-		this.idioma = idioma;
-	}
-	
-	public Boolean getIsMedicina() {
-		return is_medicina;
-	}
-	public void setIsMedicina(Boolean is_medicina) {
-		this.is_medicina = is_medicina;
-	}
-	public String getUrlImgLicenciatura() {
-		return url_img_licenciatura;
-	}
-	public void setUrlImgLicenciatura(String url_img_licenciatura) {
-		this.url_img_licenciatura = url_img_licenciatura;
-	}
-	public String getTipoCentroEstudio() {
-		return tipo_centro_estudio;
-	}
-	public void setTipoCentroEstudio(String tipo_centro_estudio) {
-		this.tipo_centro_estudio = tipo_centro_estudio;
-	}
-	public String getInscripcionMayo() {
-		return inscripcion_mayo;
-	}
-	public void setInscripcionMayo(String inscripcion_mayo) {
-		this.inscripcion_mayo = inscripcion_mayo;
-	}
-	public String getInscripcionSeptiembre() {
-		return inscripcion_septiembre;
-	}
-	public void setInscripcionSeptiembre(String inscripcion_septiembre) {
-		this.inscripcion_septiembre = inscripcion_septiembre;
-	}
-	
-	public String getClave() {
-		return clave;
-	}
-	public void setClave(String clave) {
-		this.clave = clave;
-	}
-	public String getTipoLicenciatura() {
-		return Tipo_licenciatura;
-	}
-	public void setTipoLicenciatura(String tipo_licenciatura) {
-		Tipo_licenciatura = tipo_licenciatura;
-	}
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
 	public void setPersistenceId(Long persistenceId) {
 		this.persistenceId = persistenceId;
 	}
-	public Long getCampusPid() {
-		return campus_pid;
+	public String getPersistenceId_string() {
+		return persistenceId_string;
 	}
-	public void setCampusPid(Long campus_pid) {
-		this.campus_pid = campus_pid;
-	}
-	public Long getIdCampus() {
-		return id_campus;
-	}
-	public void setIdCampus(Long id_campus) {
-		this.id_campus = id_campus;
+	public void setPersistenceId_string(String persistenceId_string) {
+		this.persistenceId_string = persistenceId_string;
 	}
 	public Long getPersistenceVersion() {
 		return persistenceVersion;
@@ -126,12 +61,6 @@ class CatGestionEscolar {
 	public void setDescripcion(String descripcion) {
 		this.descripcion = descripcion;
 	}
-	public String getValor() {
-		return valor;
-	}
-	public void setValor(String valor) {
-		this.valor = valor;
-	}
 	public String getEnlace() {
 		return enlace;
 	}
@@ -144,10 +73,10 @@ class CatGestionEscolar {
 	public void setPropedeutico(Boolean propedeutico) {
 		this.propedeutico = propedeutico;
 	}
-	public Boolean getProgramaparcial() {
+	public Boolean getPrograma_parcial() {
 		return programa_parcial;
 	}
-	public void setProgramaparcial(Boolean programa_parcial) {
+	public void setPrograma_parcial(Boolean programa_parcial) {
 		this.programa_parcial = programa_parcial;
 	}
 	public Boolean getMatematicas() {
@@ -156,41 +85,35 @@ class CatGestionEscolar {
 	public void setMatematicas(Boolean matematicas) {
 		this.matematicas = matematicas;
 	}
-	public String getInscripcionenero() {
+	public String getInscripcion_enero() {
 		return inscripcion_enero;
 	}
-	public void setInscripcionenero(String inscripcion_enero) {
+	public void setInscripcion_enero(String inscripcion_enero) {
 		this.inscripcion_enero = inscripcion_enero;
 	}
-	public String getInscripcionagosto() {
+	public String getInscripcion_agosto() {
 		return inscripcion_agosto;
 	}
-	public void setInscripcionagosto(String inscripcion_agosto) {
+	public void setInscripcion_agosto(String inscripcion_agosto) {
 		this.inscripcion_agosto = inscripcion_agosto;
 	}
-	public Boolean getIsEliminado() {
+	public Boolean getIs_eliminado() {
 		return is_eliminado;
 	}
-	public void setIsEliminado(Boolean is_eliminado) {
+	public void setIs_eliminado(Boolean is_eliminado) {
 		this.is_eliminado = is_eliminado;
 	}
-	public String getUsuarioCreacion() {
+	public String getUsuario_creacion() {
 		return usuario_creacion;
 	}
-	public void setUsuarioCreacion(String usuario_creacion) {
+	public void setUsuario_creacion(String usuario_creacion) {
 		this.usuario_creacion = usuario_creacion;
 	}
-	public Date getFechaCreacion() {
+	public Date getFecha_creacion() {
 		return fecha_creacion;
 	}
-	public void setFechaCreacion(Date fecha_creacion) {
+	public void setFecha_creacion(Date fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
-	}
-	public String getFechaRegistro() {
-		return fecha_registro;
-	}
-	public void setFechaRegistro(String fecha_registro) {
-		this.fecha_registro = fecha_registro;
 	}
 	public String getCampus() {
 		return campus;
@@ -198,10 +121,88 @@ class CatGestionEscolar {
 	public void setCampus(String campus) {
 		this.campus = campus;
 	}
-	public String getCaseId() {
+	public String getCase_id() {
 		return case_id;
 	}
-	public void setCaseId(String case_id) {
+	public void setCase_id(String case_id) {
 		this.case_id = case_id;
+	}
+	public String getTipo_licenciatura() {
+		return Tipo_licenciatura;
+	}
+	public void setTipo_licenciatura(String tipo_licenciatura) {
+		Tipo_licenciatura = tipo_licenciatura;
+	}
+	public String getClave() {
+		return clave;
+	}
+	public void setClave(String clave) {
+		this.clave = clave;
+	}
+	public String getTipo_centro_estudio() {
+		return tipo_centro_estudio;
+	}
+	public void setTipo_centro_estudio(String tipo_centro_estudio) {
+		this.tipo_centro_estudio = tipo_centro_estudio;
+	}
+	public String getInscripcion_mayo() {
+		return inscripcion_mayo;
+	}
+	public void setInscripcion_mayo(String inscripcion_mayo) {
+		this.inscripcion_mayo = inscripcion_mayo;
+	}
+	public String getInscripcion_septiembre() {
+		return inscripcion_septiembre;
+	}
+	public void setInscripcion_septiembre(String inscripcion_septiembre) {
+		this.inscripcion_septiembre = inscripcion_septiembre;
+	}
+	public String getUrl_img_licenciatura() {
+		return url_img_licenciatura;
+	}
+	public void setUrl_img_licenciatura(String url_img_licenciatura) {
+		this.url_img_licenciatura = url_img_licenciatura;
+	}
+	public Boolean getIs_medicina() {
+		return is_medicina;
+	}
+	public void setIs_medicina(Boolean is_medicina) {
+		this.is_medicina = is_medicina;
+	}
+	public String getIdioma() {
+		return idioma;
+	}
+	public void setIdioma(String idioma) {
+		this.idioma = idioma;
+	}
+	public Long getCampus_referencia_pid() {
+		return campus_referencia_pid;
+	}
+	public void setCampus_referencia_pid(Long campus_referencia_pid) {
+		this.campus_referencia_pid = campus_referencia_pid;
+	}
+	public String getFecha_registro() {
+		return fecha_registro;
+	}
+	public void setFecha_registro(String fecha_registro) {
+		this.fecha_registro = fecha_registro;
+	}
+	public Long getCampus_pid() {
+		return campus_pid;
+	}
+	public void setCampus_pid(Long campus_pid) {
+		this.campus_pid = campus_pid;
+	}
+	public Long getId_campus() {
+		return id_campus;
+	}
+	public void setId_campus(Long id_campus) {
+		this.id_campus = id_campus;
+	}
+	public String getValor() {
+		return valor;
+	}
+	public void setValor(String valor) {
+		this.valor = valor;
 	}
 }

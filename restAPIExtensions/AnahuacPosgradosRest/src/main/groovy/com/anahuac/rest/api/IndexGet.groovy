@@ -108,6 +108,33 @@ class IndexGet implements RestApiController {
 						 return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString());
 					}
 				break;
+				case "getLstGestionEscolarByIdCampus":
+					String id_campus = request.getParameter "id_campus"
+					result = new CatalogosDAO().getLstGestionEscolarByIdCampus(id_campus, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getLstPeriodoByIdCampus":
+					String id_campus = request.getParameter "id_campus"
+					result = new CatalogosDAO().getLstPeriodoByIdCampus(id_campus, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getLstPosgradoByIdCampus":
+					String id_campus = request.getParameter "id_campus"
+					result = new CatalogosDAO().getLstPosgradoByIdCampus(id_campus, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 			}
 		} catch (Exception e) {
 			e.printStackTrace();
