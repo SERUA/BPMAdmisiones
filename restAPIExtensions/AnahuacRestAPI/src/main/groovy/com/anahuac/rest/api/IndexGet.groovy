@@ -28,6 +28,7 @@ import com.anahuac.rest.api.DAO.ImportacionPAADAO
 import com.anahuac.rest.api.DAO.ListadoDAO
 import com.anahuac.rest.api.DAO.LogDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
+import com.anahuac.rest.api.DAO.NuevoListadoDAO
 import com.anahuac.rest.api.DAO.PsicometricoDAO
 import com.anahuac.rest.api.DAO.ReactivacionDAO
 import com.anahuac.rest.api.DAO.ReportesDAO
@@ -335,6 +336,27 @@ class IndexGet implements RestApiController {
 						cantidad = Long.parseLong(intentos);
 					}
 					result = new PsicometricoDAO().getPsicometricoCompleto(caseId,cantidad, context);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				}catch(Exception e1){
+					result = new Result()
+					result.setSuccess(false)
+					result.setError(e1.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+				case "getFoto":
+				try{
+					String caseId = request.getParameter "caseId";
+					String intentos = request.getParameter "intentos";
+					Long cantidad = 0L;
+					if(intentos != null && !intentos.equals("null") ){
+						cantidad = Long.parseLong(intentos);
+					}
+					result = new NuevoListadoDAO().getFoto(caseId,cantidad, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

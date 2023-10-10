@@ -2704,8 +2704,7 @@ public Result getPsicometricoCompleto(String caseId, Long intentos,RestAPIContex
 			}
 			errorlog = consulta + " 9";
 			resultado.setSuccess(true)
-
-			
+			resultado.setError_info(errorlog);
 			resultado.setData(rows)
 
 		} catch (Exception e) {
