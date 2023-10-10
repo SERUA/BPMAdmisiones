@@ -15,6 +15,8 @@ import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import com.anahuac.catalogos.CatPeriodo
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -2692,33 +2694,63 @@ class CatalogosDAO {
 		return resultado
 	}
 	
-	public Result getLstPeriodoByIdCampus(String jsonData, RestAPIContext context) {
+	public Result getLstPeriodoByIdCampus(String id_campus, RestAPIContext context) {
+		Result resultado = new Result()
+		boolean closeCon = false
+		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
+		Map<String, Object> row = new HashMap<String, Object>();
+	
+		try {
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(StatementsCatalogos.GET_PERIODOBYIDCAMPUS);
+			pstm.setLong(1, Long.valueOf(id_campus));
+			rs = pstm.executeQuery()
+	
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("descripcion", rs.getString("descripcion"));
+				
+				data.add(row);
+			}
+	
+			resultado.setData(data)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("[getLstCampus] ${e.message}")
+		} finally {
+			// Cerrar la conexión en caso de que esté abierta
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado
+	}
+	
+	public Result getLstPosgradoByIdCampus(String id_campus, RestAPIContext context) {
 		Result resultado = new Result()
 		boolean closeCon = false
 		List<Map<String, Object>> data = []
 	
 		try {
-			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
-			def jsonSlurper = new JsonSlurper()
-			def object = jsonSlurper.parseText(jsonData)
-	
 			closeCon = validarConexion()
 	
-			// Ejecutar la consulta SQL
-			pstm = con.prepareStatement(StatementsCatalogos.GET_PERIODOBYIDCAMPUS)
-			pstm.setLong(1, object.campus);
-			rs = pstm.executeQuery()
-	
-			// Obtener los metadatos de las columnas para obtener los nombres de los campos
-			def metaData = rs.getMetaData()
-			int columnCount = metaData.getColumnCount()
-	
-			// Procesar los resultados y llenar la lista data
+			pstm = con.prepareStatement(StatementsCatalogos.GET_POSGRADOBYIDCAMPUS);
+			pstm.setLong(1, Long.valueOf(id_campus));
+			rs = pstm.executeQuery();
+			
 			while (rs.next()) {
-				def row = [:]
-				for (int i = 1; i <= columnCount; i++) {
-					row[metaData.getColumnLabel(i)] = rs.getObject(i)
-				}
+				row = new HashMap<String, Object>();
+				
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("descripcion", rs.getString("descripcion"));
+				
 				data.add(row)
 			}
 	
@@ -2737,88 +2769,41 @@ class CatalogosDAO {
 		return resultado
 	}
 	
-	public Result getLstPosgradoByIdCampus(String jsonData, RestAPIContext context) {
+	public Result getLstGestionEscolarByIdCampus(String id_campus, RestAPIContext context) {
 		Result resultado = new Result()
 		boolean closeCon = false
-		List<Map<String, Object>> data = []
-	
+		List<CatGestionEscolar> data = new ArrayList<CatGestionEscolar>();
+		CatGestionEscolar cgest = new CatGestionEscolar();
+		
+		String errorLog = "";
+		
 		try {
-			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
-			def jsonSlurper = new JsonSlurper()
-			def object = jsonSlurper.parseText(jsonData)
-	
-			closeCon = validarConexion()
-	
-			// Ejecutar la consulta SQL
-			pstm = con.prepareStatement(StatementsCatalogos.GET_POSGRADOBYIDCAMPUS)
-			pstm.setLong(1, object.campus);
-			rs = pstm.executeQuery()
-	
-			// Obtener los metadatos de las columnas para obtener los nombres de los campos
-			def metaData = rs.getMetaData()
-			int columnCount = metaData.getColumnCount()
-	
-			// Procesar los resultados y llenar la lista data
-			while (rs.next()) {
-				def row = [:]
-				for (int i = 1; i <= columnCount; i++) {
-					row[metaData.getColumnLabel(i)] = rs.getObject(i)
-				}
-				data.add(row)
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(StatementsCatalogos.GET_GESTIONESCOLARBYIDCAMPUS);
+			pstm.setLong(1, Long.valueOf(id_campus));
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				cgest = new CatGestionEscolar();
+				
+				cgest.setPersistenceId(rs.getLong("persistenceid"));
+				cgest.setPersistenceId_string(rs.getString("persistenceid"));
+				cgest.setDescripcion(rs.getString("descripcion"));
+				cgest.setNombre(rs.getString("nombre"));
+				cgest.setPropedeutico(rs.getBoolean("propedeutico"));
+				cgest.setIs_medicina(rs.getBoolean("is_medicina"));
+				
+				data.add(cgest);
 			}
 	
-			resultado.setData(data)
-			resultado.setSuccess(true)
+			resultado.setData(data);
+			resultado.setSuccess(true);
 		} catch (Exception e) {
-			resultado.setSuccess(false)
-			resultado.setError("[getLstCampus] ${e.message}")
+			errorLog += " [ERROR] | " e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError("[getLstCampus] ${e.message}");
 		} finally {
-			// Cerrar la conexión en caso de que esté abierta
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm)
-			}
-		}
-	
-		return resultado
-	}
-	
-	public Result getLstGestionEscolarByIdCampus(String jsonData, RestAPIContext context) {
-		Result resultado = new Result()
-		boolean closeCon = false
-		List<Map<String, Object>> data = []
-	
-		try {
-			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
-			def jsonSlurper = new JsonSlurper()
-			def object = jsonSlurper.parseText(jsonData)
-	
-			closeCon = validarConexion()
-	
-			// Ejecutar la consulta SQL
-			pstm = con.prepareStatement(StatementsCatalogos.GET_GESTIONESCOLARBYIDCAMPUS)
-			pstm.setLong(1, object.campus);
-			rs = pstm.executeQuery()
-	
-			// Obtener los metadatos de las columnas para obtener los nombres de los campos
-			def metaData = rs.getMetaData()
-			int columnCount = metaData.getColumnCount()
-	
-			// Procesar los resultados y llenar la lista data
-			while (rs.next()) {
-				def row = [:]
-				for (int i = 1; i <= columnCount; i++) {
-					row[metaData.getColumnLabel(i)] = rs.getObject(i)
-				}
-				data.add(row)
-			}
-	
-			resultado.setData(data)
-			resultado.setSuccess(true)
-		} catch (Exception e) {
-			resultado.setSuccess(false)
-			resultado.setError("[getLstCampus] ${e.message}")
-		} finally {
-			// Cerrar la conexión en caso de que esté abierta
+			resultado.setError_info(errorLog);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}

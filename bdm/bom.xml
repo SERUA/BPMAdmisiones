@@ -5403,9 +5403,9 @@
             <fields>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="nombre_empresa" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa" fetchType="LAZY" name="giro_empresa" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa" fetchType="EAGER" name="giro_empresa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="puesto" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa" fetchType="LAZY" name="tipo_empresa" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa" fetchType="EAGER" name="tipo_empresa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="telefono_empresa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="ext_telefono_empresa" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="reporta_a" nullable="true" collection="false"/>
@@ -5420,7 +5420,9 @@
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud">
             <fields>
                 <field type="STRING" length="255" name="especifique" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste" fetchType="LAZY" name="cat_medio_enteraste" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatMedioEnteraste" fetchType="EAGER" name="cat_medio_enteraste" nullable="true" collection="false">
+                    <description></description>
+                </relationField>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="seleccionado" nullable="true" collection="false"/>
             </fields>
@@ -5438,7 +5440,7 @@
                 <field type="STRING" length="255" name="correo_electronico" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="password" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="acepto_avisoprivacidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="estatus_solicitud" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
@@ -5469,10 +5471,10 @@
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
             <fields>
                 <field type="STRING" length="255" name="urlFoto" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="LAZY" name="sexo" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="LAZY" name="estado_civil" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="LAZY" name="nacionalidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="LAZY" name="religion" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSexo" fetchType="EAGER" name="sexo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil" fetchType="EAGER" name="estado_civil" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatNacionalidad" fetchType="EAGER" name="nacionalidad" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatReligion" fetchType="EAGER" name="religion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="curp" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="pasaporte" nullable="true" collection="false"/>
                 <field type="LOCALDATE" length="255" name="fecha_nacimiento" nullable="true" collection="false"/>
@@ -5485,7 +5487,7 @@
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="id_banner" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="alumno_anahuac" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_alumno" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus_alumno" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5493,7 +5495,7 @@
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiDocs">
             <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos" fetchType="LAZY" name="documento" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos" fetchType="EAGER" name="documento" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="tamano_documento" nullable="true" collection="false"/>
@@ -5505,7 +5507,7 @@
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiExpLaboral">
             <fields>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="LAZY" name="trabajas_actualmente" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="EAGER" name="trabajas_actualmente" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
@@ -5522,7 +5524,7 @@
                 <field type="STRING" length="255" name="fecha_termino" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="promedio" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="titulo" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="LAZY" name="pais" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="EAGER" name="pais" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5531,12 +5533,12 @@
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
             <fields>
                 <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="programa_interes" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="LAZY" name="estudiara_programa_otra_universidad" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud" fetchType="LAZY" name="medios_enteraste" nullable="true" collection="true"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="LAZY" name="periodo_ingreso" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="EAGER" name="posgrado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="EAGER" name="programa_interes" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="EAGER" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="EAGER" name="estudiara_programa_otra_universidad" nullable="true" collection="false"/>
+                <relationField type="COMPOSITION" reference="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud" fetchType="EAGER" name="medios_enteraste" nullable="true" collection="true"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="EAGER" name="periodo_ingreso" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
