@@ -669,7 +669,7 @@ class CatalogosDAO {
 		Boolean closeCon = false;
 		String errorlog = "";
 		String where = "WHERE IS_ELIMINADO=false", orderby = "ORDER BY "
-		String consulta = StatementsCatalogos.GET_CATPAIS;
+		String consulta = StatementsCatalogos.SELECT_CATPAIS;
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);

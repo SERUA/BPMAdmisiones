@@ -15,6 +15,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDao
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Security.SecurityFilter
@@ -131,6 +132,16 @@ class IndexGet implements RestApiController {
 					result = new CatalogosDAO().getLstPosgradoByIdCampus(id_campus, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getB64FileByUrlAzure":
+					String urlAzure = request.getParameter "urlAzure"
+					result = new SolicitudDeAdmisionDao().getB64FileByUrlAzure(urlAzure);
+					responseBuilder.withMediaType("application/json");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
