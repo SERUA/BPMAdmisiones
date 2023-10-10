@@ -2827,6 +2827,50 @@ class CatalogosDAO {
 		return resultado
 	}
 	
+	public Result getCatConfiguraciones(String jsonData) {
+		Result resultado = new Result()
+		boolean closeCon = false
+		List<Map<String, Object>> data = new ArrayList<>();
+		Integer total_rows = 0;
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper()
+			def object = jsonSlurper.parseText(jsonData)
+//			throw new Exception("El valor de 'object cuando llega a configuraciones' es" + object);
+			closeCon = validarConexion()
+	
+			// Ejecutar la consulta SQL
+			pstm = con.prepareStatement(StatementsCatalogos.GET_APYKEYMAILGUN)
+			pstm.setLong(1, object.campus.toLong())
+			rs = pstm.executeQuery();
+			// Obtener los metadatos de las columnas para obtener los nombres de los campos
+	
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+			    Map<String, Object> row = new HashMap<>();
+			    row.put("mailgun_dominio", rs.getString("clave"));
+			    row.put("mailgun_apikey", rs.getString("valor"));
+			    row.put("id_campus", rs.getLong("id_campus"));
+			    data.add(row);
+			}
+
+			resultado.setData(data);
+			resultado.setSuccess(true)
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false)
+			resultado.setError("[getCatConfiguraciones] ${e.message}")
+		} finally {
+			// Cerrar la conexión en caso de que esté abierta
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	public Result insertCatPropedeutico(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;

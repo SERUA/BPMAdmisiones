@@ -1,5 +1,10 @@
 package com.anahuac.rest.api.DAO
 
+import java.sql.Connection
+import java.sql.PreparedStatement
+import java.sql.ResultSet
+import java.sql.Statement
+
 import org.bonitasoft.engine.bpm.process.ProcessDefinition
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
@@ -8,6 +13,8 @@ import com.anahuac.posgrados.catalog.PSGRCatApiKey
 import com.anahuac.posgrados.catalog.PSGRCatApiKeyDAO
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
+import com.anahuac.rest.api.DB.DBConnect
+import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.EstructuraMailGun
 import groovy.json.JsonSlurper
@@ -19,6 +26,26 @@ import com.fasterxml.jackson.databind.ObjectMapper
 
 
 class MailGunDAO {
+	
+	CatalogosDAO catalogosDAO
+	
+	MailGunDAO(CatalogosDAO catalogosDAO) {
+		this.catalogosDAO = catalogosDAO
+	}
+	
+	Connection con;
+	Statement stm;
+	ResultSet rs;
+	PreparedStatement pstm;
+	
+	public Boolean validarConexion() {
+		Boolean retorno = false
+		if (con == null || con.isClosed()) {
+			con = new DBConnect().getConnection();
+			retorno = true
+		}
+		return retorno
+	}
 
 	private static final Logger LOGGER = LoggerFactory.getLogger(MailGunDAO.class)
 	
@@ -258,21 +285,36 @@ class MailGunDAO {
 	    Result resultado = new Result();
 	    List<String> lstResultado = new ArrayList<>();
 	    String errorlog = "";
-	
+		boolean closeCon = false
+		String apiKey = "";  // Declarar la variable fuera del bloque if
 	    try {
-	        // Valores estáticos (reemplaza estos con tus propios valores)
-	        String apiKey = "key-ce8cedb842d444a7546d5cea11719802";
-	        String sandBox = "admisiones.anahuacmexicocampusnorte.mx";
-	        String correoDe = "admisiones.anahuacmexicocampusnorte.mx";
+			
+			if (catalogosDAO == null) {
+				catalogosDAO = new CatalogosDAO();
+			}
+			
+			def jsonData = new groovy.json.JsonBuilder(campus: campus).toString()
+
+	        Result catConfiguracionesResult = catalogosDAO.getCatConfiguraciones(jsonData)
 	
+	        List<Map<String, Object>> configuracionesData = catConfiguracionesResult.getData();
+			
+			def object = new Expando(configuracionesData.first())
+//			throw new Exception("PRUEBA." + object);
+	        
+	        String correoDe = object.mailgun_dominio;
+			// Valores estáticos (reemplaza estos con tus propios valores)
+			//	        apiKey = configuracionesData.valor;
+			//			errorlog = "apikey" + apiKey.toString();
+			//	        String sandBox = "admisiones.anahuacmexicocampusnorte.mx";
 	        EstructuraMailGun estructura = new EstructuraMailGun();
 	        estructura.setTo(correo);
 			
 	        estructura.setCc(cc);
 	        estructura.setSubject(asunto != null ? asunto : "Asunto predeterminado");
 	        estructura.setBody(body != null ? body : "Cuerpo predeterminado");
-	       estructura.setApiKey("key-ce8cedb842d444a7546d5cea11719802");
-		   estructura.setSandBox("admisiones.anahuacmexicocampusnorte.mx");
+			estructura.setApiKey(object.mailgun_apikey);
+			estructura.setSandBox(object.mailgun_dominio);
 	//		throw new Exception("PRUEBA." + estructura);
 	        // Enviar correo con valores estáticos
 	        JsonNode jsonNode = sendSimpleMessage(estructura);
