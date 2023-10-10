@@ -925,14 +925,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                                                         });
                                                     }
                                                 }
-                                                scope.properties.catSolicitudDeAdmision.urlResultadoPAA = "";
+                                                $scope.properties.catSolicitudDeAdmision.urlResultadoPAA = "";
                                             } else {
                                                 if ($scope.properties.collageBoard !== undefined && $scope.properties.collageBoard !== "") {
                                                     $scope.properties.collageBoardarchivo = [];
                                                     $scope.properties.collageBoardarchivo.push({
                                                         "newValue": angular.copy($scope.properties.collageBoard)
                                                     });
-                                                    scope.properties.catSolicitudDeAdmision.urlResultadoPAA = "";
+                                                    $scope.properties.catSolicitudDeAdmision.urlResultadoPAA = "";
                                                 } else {
                                                     $scope.properties.collageBoardarchivo = [];
                                                 }
