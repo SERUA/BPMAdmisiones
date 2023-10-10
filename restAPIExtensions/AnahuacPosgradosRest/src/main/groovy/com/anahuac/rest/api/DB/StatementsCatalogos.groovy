@@ -11,7 +11,7 @@ class StatementsCatalogos {
 	public static final String INSERT_CATPAIS = "INSERT INTO PSGRCatPais (persistenceid, case_id, id, persistenceversion, is_eliminado, clave, descripcion, usuario_creacion, fecha_creacion, orden) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, COALESCE((SELECT MAX(case_id)::TEXT FROM PSGRCatPais), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPAIS  = "UPDATE PSGRCatPais SET is_eliminado = ? WHERE persistenceid = ?;";
 	public static final String UPDATE_CATPAIS  = "UPDATE PSGRCatPais SET clave = ?, descripcion = ?, orden = ?, usuario_creacion = ? WHERE persistenceid = ?;";
-	public static final String SELECT_CATPAIS  = "SELECT persistenceid, clave, descripcion, usuario_creacion, fecha_creacion, is_eliminado FROM PSGRCatPais [WHERE] [ORDERBY]";
+	public static final String SELECT_CATPAIS  = "SELECT * FROM PSGRCatPais [WHERE] [ORDERBY] [LIMITOFFSET]";
  
 	//PSGRCatEstado
 	public static final String INSERT_CATESTADO = "INSERT INTO PSGRCatEstados (persistenceid, case_id, is_eliminado, pais_pid, clave, descripcion, usuario_creacion, fecha_creacion, orden, persistenceversion) VALUES (COALESCE((SELECT MAX(persistenceid)::TEXT FROM PSGRCATESTADOS), '0')::INTEGER + 1, COALESCE((SELECT MAX(CASE_ID)::TEXT FROM PSGRCatEstados), '0')::INTEGER + 1, ?, ?, ?, ?, ?, ?, ?, ?);";

@@ -4468,17 +4468,17 @@ class CatalogosDAO {
 			while (rs.next()) {
 
 				row = new CatGestionEscolar()
-				row.setCampusPid(rs.getLong("campus_pid"))
+				row.setCampus_pid(rs.getLong("campus_pid"))
 				//row.setCaseId(rs.getString("caseId"))
 				row.setDescripcion(rs.getString("descripcion"))
-				row.setFechaRegistro(rs.getString("fecha_registro"));
+				row.setFecha_registro(rs.getString("fecha_registro"));
 				row.setClave(rs.getString("clave"));
-				row.setIsEliminado(rs.getBoolean("is_eliminado"))
+				row.setIs_eliminado(rs.getBoolean("is_eliminado"))
 				//row.setMatematicas(rs.getBoolean("matematicas"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
 //				row.setCampusReferenciaPid(rs.getLong("campus_referencia_pid"))
 				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
-				row.setUsuarioCreacion(rs.getString("usuario_creacion"))				
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))				
 
 				rows.add(row)
 			}
@@ -5126,12 +5126,12 @@ class CatalogosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-
+			throw new Exception("El campo \"context\" no debe ir vacío"+ context);
 			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
 
 			userLogged = context.getApiSession().getUserId();
-
+			throw new Exception("El campo \"userLogged\" no debe ir vacío"+ userLogged);
 			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for (UserMembership objUserMembership: lstUserMembership) {
 				for (PSGRCatCampus rowGrupo: lstCatCampus) {
@@ -5155,7 +5155,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
+			String consulta = StatementsCatalogos.("SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]")
 			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
@@ -5235,7 +5235,7 @@ class CatalogosDAO {
 			while (rs.next()) {
 
 				row = new CatGestionEscolar()
-				row.setIdCampus(rs.getLong("id_campus"))
+				row.setId_campus(rs.getLong("id_campus"))
 				row.setValor(rs.getString("valor"))
 				row.setClave(rs.getString("clave"));
 				row.setPersistenceId(rs.getLong("persistenceId"))
