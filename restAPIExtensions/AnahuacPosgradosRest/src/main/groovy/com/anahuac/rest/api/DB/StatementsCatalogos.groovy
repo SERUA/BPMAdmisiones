@@ -81,6 +81,18 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATNACIONALIDAD  = "UPDATE PSGRCatNacionalidad SET ID = ?, CLAVE = ?, descripcion = ?, orden = ?, is_enabled = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATNACIONALIDAD  = "SELECT persistenceid, orden, clave, descripcion, id, usuario_banner, fecha_creacion, is_eliminado FROM PSGRCatNacionalidad [WHERE] [ORDERBY]";
 	
+	//PSGRCatTipoEmpresa
+	public static final String INSERT_CATTIPOEMPRESA = "INSERT INTO PSGRCatTipoEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoEmpresa), 0,?, ?, ?, false);";
+	public static final String DELETE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET orden = ?, clave = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATTIPOEMPRESA = "SELECT * FROM PSGRCatTipoEmpresa [WHERE] [ORDERBY]";
+	
+	//PSGRCatGiroEmpresa
+	public static final String INSERT_CATGIROEMPRESA = "INSERT INTO PSGRCatGiroEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatGiroEmpresa), 0,?, ?, ?, false);";
+	public static final String DELETE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET orden = ?, clave = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATGIROEMPRESA = "SELECT * FROM PSGRCatGiroEmpresa [WHERE] [ORDERBY]";
+	
 	//ConsultasPersonalizadas
 	public static final String GET_PERIODOBYIDCAMPUS  = "SELECT * FROM PSGRCatPeriodo WHERE id_campus = ?";
 	public static final String GET_POSGRADOBYIDCAMPUS  = "SELECT * FROM PSGRCatPosgrado WHERE campus_pid = ?";
