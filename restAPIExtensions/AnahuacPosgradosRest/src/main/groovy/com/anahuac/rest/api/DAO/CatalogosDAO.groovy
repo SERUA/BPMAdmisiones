@@ -2244,23 +2244,23 @@ class CatalogosDAO {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
 			} else if(object.enlace.equals("") || object.enlace == null) {
 				throw new Exception("El campo \"enlace\" no debe ir vacío");
-			} else if(object.tipoCentroEstudio.equals("") || object.tipoCentroEstudio == null) {
+			} else if(object.tipoCentroEstudio.equals("") || object.tipo_centro_estudio == null) {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío");
-			} else if(object.tipoLicenciatura.equals("") || object.tipoLicenciatura == null) {
+			} else if(object.tipoLicenciatura.equals("") || object.tipo_licenciatura == null) {
 				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío");
-			} else if(object.inscripcionenero.equals("") || object.inscripcionenero == null) {
+			} else if(object.inscripcionenero.equals("") || object.inscripcion_enero == null) {
 				throw new Exception("El campo \"inscripcionenero\" no debe ir vacío");
-			} else if(object.inscripcionMayo.equals("") || object.inscripcionMayo == null) {
+			} else if(object.inscripcionMayo.equals("") || object.inscripcion_mayo == null) {
 				throw new Exception("El campo \"inscripcionMayo\" no debe ir vacío");
-			} else if(object.inscripcionagosto.equals("") || object.inscripcionagosto == null) {
+			} else if(object.inscripcionagosto.equals("") || object.inscripcion_agosto == null) {
 				throw new Exception("El campo \"inscripcionagosto\" no debe ir vacío");
-			} else if(object.inscripcionSeptiembre.equals("") || object.inscripcionSeptiembre == null) {
+			} else if(object.inscripcionSeptiembre.equals("") || object.inscripcion_septiembre == null) {
 				throw new Exception("El campo \"inscripcionSeptiembre\" no debe ir vacío");
-			} else if(object.urlImgLicenciatura.equals("") || object.urlImgLicenciatura == null) {
+			} else if(object.urlImgLicenciatura.equals("") || object.url_img_licenciatura == null) {
 				throw new Exception("El campo \"urlImgLicenciatura\" no debe ir vacío");
 			} else if(object.idioma.equals("") || object.idioma == null) {
 				throw new Exception("El campo \"idioma\" no debe ir vacío");
-			} else if(object.usuarioCreacion.equals("") || object.usuarioCreacion == null) {
+			} else if(object.usuarioCreacion.equals("") || object.usuario_creacion == null) {
 				throw new Exception("El campo \"usuarioCreacion\" no debe ir vacío");
 			} else if(object.persistenceId.equals("") || object.persistenceId == null) {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
@@ -2273,21 +2273,21 @@ class CatalogosDAO {
 			pstm.setString(2, object.nombre); // NOMBRE
 			pstm.setString(3, object.descripcion); // DESCRIPCION
 			pstm.setString(4, object.enlace); // ENLACE
-			pstm.setString(5, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
+			pstm.setString(5, object.tipo_centro_estudio); // TIPO_CENTRO_ESTUDIO
 			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
 			pstm.setBoolean(6, propedeuticoValue); // PROPEDEUTICO
-			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
+			Boolean programaParcialValue = (object.programa_parcial != null) ? object.programa_parcial : false;
 			pstm.setBoolean(7, programaParcialValue); // PROGRAMA_PARCIAL
-			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
+			Boolean isMedicina = object.is_medicina != null ? object.is_medicina : false;
 			pstm.setBoolean(8, isMedicina); // IS_MEDICINA
-			pstm.setString(9, object.tipoLicenciatura); // TIPO_LICENCIATURA
-			pstm.setInt(10, object.inscripcionenero); // INSCRIPCION_ENERO
-			pstm.setString(11, object.inscripcionMayo); // INSCRIPCION_MAYO
-			pstm.setInt(12, object.inscripcionagosto); // INSCRIPCION_AGOSTO
-			pstm.setString(13, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(14, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+			pstm.setString(9, object.tipo_licenciatura); // TIPO_LICENCIATURA
+			pstm.setString(10, object.inscripcion_enero); // INSCRIPCION_ENERO
+			pstm.setString(11, object.inscripcion_mayo); // INSCRIPCION_MAYO
+			pstm.setString(12, object.inscripcion_agosto); // INSCRIPCION_AGOSTO
+			pstm.setString(13, object.inscripcion_septiembre); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(14, object.url_img_licenciatura); // URL_IMG_LICENCIATURA
 			pstm.setString(15, object.idioma); // IDIOMA
-			pstm.setString(16, object.usuarioCreacion); // UUSUARIOCREACION
+			pstm.setString(16, object.usuario_creacion); // UUSUARIOCREACION
 			pstm.setLong(17, object.persistenceId);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -2555,29 +2555,29 @@ class CatalogosDAO {
 				row.setDescripcion(rs.getString("descripcion"))
 				row.setEnlace(rs.getString("enlace"))
 				try {
-					row.setFechaCreacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
+					row.setFecha_creacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
 				} catch (Exception e) {
 					LOGGER.error "[ERROR] " + e.getMessage();
 					errorLog += ", " + e.getMessage()
 				}
 				row.setClave(rs.getString("clave"));
-				row.setInscripcionagosto(rs.getString("inscripcion_agosto"))
-				row.setInscripcionenero(rs.getString("inscripcion_enero"))
-				row.setIsEliminado(rs.getBoolean("is_eliminado"))
+				row.setInscripcion_agosto(rs.getString("inscripcion_agosto"))
+				row.setInscripcion_enero(rs.getString("inscripcion_enero"))
+				row.setIs_eliminado(rs.getBoolean("is_eliminado"))
 				//row.setMatematicas(rs.getBoolean("matematicas"))
 				row.setNombre(rs.getString("nombre"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
-				row.setCampusReferenciaPid(rs.getLong("campus_referencia_pid"))
+				row.setCampus_referencia_pid(rs.getLong("campus_referencia_pid"))
 				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
-				row.setProgramaparcial(rs.getBoolean("programa_parcial"))
+				row.setPrograma_parcial(rs.getBoolean("programa_parcial"))
 				row.setPropedeutico(rs.getBoolean("propedeutico"))
-				row.setUsuarioCreacion(rs.getString("usuario_creacion"))
-				row.setTipoLicenciatura(rs.getString("tipo_licenciatura"))
-				row.setTipoCentroEstudio(rs.getString("tipo_centro_estudio"))
-				row.setInscripcionMayo(rs.getString("inscripcion_mayo"))
-				row.setInscripcionSeptiembre(rs.getString("inscripcion_septiembre"))
-				row.setUrlImgLicenciatura(rs.getString("url_img_licenciatura"))
-				row.setIsMedicina(rs.getBoolean("is_medicina"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
+				row.setTipo_licenciatura(rs.getString("tipo_licenciatura"))
+				row.setTipo_centro_estudio(rs.getString("tipo_centro_estudio"))
+				row.setInscripcion_mayo(rs.getString("inscripcion_mayo"))
+				row.setInscripcion_septiembre(rs.getString("inscripcion_septiembre"))
+				row.setUrl_img_licenciatura(rs.getString("url_img_licenciatura"))
+				row.setIs_medicina(rs.getBoolean("is_medicina"))
 				row.setIdioma(rs.getString("idioma"))
 				
 
@@ -5126,12 +5126,12 @@ class CatalogosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			throw new Exception("El campo \"context\" no debe ir vacío"+ context);
+
 			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
 
 			userLogged = context.getApiSession().getUserId();
-			throw new Exception("El campo \"userLogged\" no debe ir vacío"+ userLogged);
+
 			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for (UserMembership objUserMembership: lstUserMembership) {
 				for (PSGRCatCampus rowGrupo: lstCatCampus) {
@@ -5155,7 +5155,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.("SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]")
+			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
 			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();

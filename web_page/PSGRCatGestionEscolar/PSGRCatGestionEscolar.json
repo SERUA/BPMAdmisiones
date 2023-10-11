@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1696526559376,
+  "lastUpdate" : 1697041098691,
   "rows" : [
     [
       {
@@ -794,11 +794,11 @@
                         "value" : [
                           "clave",
                           "nombre",
-                          "\"$\"+inscripcionenero",
-                          "\"$\"+inscripcionMayo",
-                          "\"$\"+inscripcionagosto",
-                          "\"$\"+inscripcionSeptiembre",
-                          "tipoLicenciatura",
+                          "\"$\"+inscripcion_enero",
+                          "\"$\"+inscripcion_mayo",
+                          "\"$\"+inscripcion_agosto",
+                          "\"$\"+inscripcion_septiembre",
+                          "tipo_licenciatura",
                           "propedeutico? \"Sí\":\"No\"",
                           "programa_parcial ? \"Sí\":\"No\""
                         ]
@@ -3216,7 +3216,12 @@
                   "value" : ""
                 },
                 "urlPost" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "/bonita/API/extension/posgradosRest?url=getLstCampus&p=0&c=10"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
               "reference" : "f270645c-657b-4b0a-9ebb-db7c66a66a77",
@@ -3700,7 +3705,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catGestionEscolar_selected.tipoCentroEstudio"
+                  "value" : "catGestionEscolar_selected.tipo_centro_estudio"
                 }
               },
               "reference" : "34997ebe-3877-42a3-b8bd-35a3f82ea50b",
@@ -4321,7 +4326,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "catGestionEscolar_selected.tipoLicenciatura"
+                        "value" : "catGestionEscolar_selected.tipo_licenciatura"
                       }
                     },
                     "reference" : "c682dc1f-c56c-44b0-89d8-66ebb74e15ae",
@@ -4762,7 +4767,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catGestionEscolar_selected.inscripcionenero"
+                  "value" : "catGestionEscolar_selected.inscripcion_enero"
                 },
                 "type" : {
                   "type" : "constant",
@@ -4839,7 +4844,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catGestionEscolar_selected.inscripcionMayo"
+                  "value" : "catGestionEscolar_selected.inscripcion_mayo"
                 },
                 "type" : {
                   "type" : "constant",
@@ -4915,7 +4920,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catGestionEscolar_selected.inscripcionagosto"
+                  "value" : "catGestionEscolar_selected.inscripcion_agosto"
                 },
                 "type" : {
                   "type" : "constant",
@@ -4991,7 +4996,7 @@
                 },
                 "value" : {
                   "type" : "variable",
-                  "value" : "catGestionEscolar_selected.inscripcionSeptiembre"
+                  "value" : "catGestionEscolar_selected.inscripcion_septiembre"
                 },
                 "type" : {
                   "type" : "constant",
@@ -5448,6 +5453,13 @@
                 "urlUpdate" : {
                   "type" : "constant",
                   "value" : "../API/extension/posgradosRest?url=updateCatGestionEscolar"
+                },
+                "urlPost" : {
+                  "type" : "constant"
+                },
+                "navigationVar" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
               "reference" : "ec907eed-db7e-4415-b8c1-be3074566d6b",
@@ -6189,27 +6201,27 @@
         "    \"descripcion\": null, \r",
         "    \"enlace\": null, \r",
         "    \"propedeutico\": false, \r",
-        "    \"programaparcial\": false, \r",
+        "    \"programa_parcial\": false, \r",
         "    \"matematicas\": false, \r",
-        "    \"inscripcionenero\": null, \r",
-        "    \"inscripcionagosto\": null,\r",
+        "    \"inscripcion_enero\": null, \r",
+        "    \"inscripcion_agosto\": null,\r",
         "    \"periodoDisponible\": [], \r",
         "    \"propedeuticos\":[],\r",
-        "    \"tipocentroestudios\": null, \r",
+        "    \"tipo_centro_estudios\": null, \r",
         "    \"isEliminado\": false, \r",
-        "    \"usuarioCreacion\": null, \r",
+        "    \"usuario_creacion\": null, \r",
         "    \"campus\": null, \r",
         "    \"orden\": null, \r",
         "    \"todelete\": false,\r",
-        "    \"fechaCreacion\":null,\r",
-        "    \"caseId\":null,\r",
+        "    \"fecha_creacion\":null,\r",
+        "    \"case_id\":null,\r",
         "    \"clave\":null,\r",
-        "    \"tipoLicenciatura\":null,\r",
-        "    \"tipoCentroEstudio\":null,\r",
-        "    \"inscripcionMayo\":null,\r",
-        "    \"inscripcionSeptiembre\":null,\r",
-        "    \"urlImgLicenciatura\":false,\r",
-        "    \"isMedicina\":false,\r",
+        "    \"tipo_licenciatura\":null,\r",
+        "    \"tipo_centro_estudio\":null,\r",
+        "    \"inscripcion_mayo\":null,\r",
+        "    \"inscripcion_septiembre\":null,\r",
+        "    \"url_img_licenciatura\":false,\r",
+        "    \"is_medicina\":false,\r",
         "    \"idioma\":\"\"\r",
         "}"
       ],

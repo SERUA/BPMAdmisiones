@@ -67,14 +67,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
-            $scope.properties.navigationVar = "tabla"
+            $scope.properties.dataToChange = "tabla";
+            $scope.properties.doRequest(urlPost);
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
         }).finally(function(){
             vm.busy = false;
         });
 
-        $scope.properties.dataToChange = "tabla";
     }
 
     function accionCatalogo(urlUpdate){

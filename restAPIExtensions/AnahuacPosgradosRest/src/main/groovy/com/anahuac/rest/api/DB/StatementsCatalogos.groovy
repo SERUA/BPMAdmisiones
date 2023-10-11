@@ -65,7 +65,7 @@ class StatementsCatalogos {
 	public static final String INSERT_CATESTADOCIVIL = "INSERT INTO PSGRCatEstadoCivil (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatEstadoCivil), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATESTADOCIVIL  = "UPDATE PSGRCatEstadoCivil SET is_eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATESTADOCIVIL  = "UPDATE PSGRCatEstadoCivil SET ID = ?, CLAVE = ?, descripcion = ? WHERE persistenceid = ?;";
-	public static final String SELECT_CATESTADOCIVIL  = "SELECT persistenceid, clave, descripcion, id, usuario_banner, fecha_creacion, fecha_importacion, is_eliminado FROM PSGRCatEstadoCivil [WHERE] [ORDERBY]";
+	public static final String SELECT_CATESTADOCIVIL  = "SELECT * FROM PSGRCatEstadoCivil [WHERE] [ORDERBY]";
 	
 	//PSGRCatReligion
 	public static final String INSERT_CATRELIGION = "INSERT INTO PSGRCatReligion (persistenceid, is_eliminado_value, persistenceversion, id, is_enabled_value, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatReligion), ?, ?, ?, ?, ?, ?, ?, ?, ?);";

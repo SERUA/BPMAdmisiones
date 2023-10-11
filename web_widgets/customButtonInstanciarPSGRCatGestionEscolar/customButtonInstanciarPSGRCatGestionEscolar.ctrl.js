@@ -46,14 +46,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
-            $scope.properties.navigationVar = "tabla"
+            $scope.properties.dataToChange = "tabla"
+            
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
         }).finally(function(){
             vm.busy = false;
         });
-
-        $scope.properties.dataToChange = "tabla";
     }
 
     function accionCatalogo(urlUpdate){
@@ -61,6 +60,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         vm.busy = true;
         $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
+            doRequest($scope.properties.urlPost)
             $scope.properties.navigationVar = "tabla"
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
