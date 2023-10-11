@@ -4116,7 +4116,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "id":
+					case "idbanner":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -4130,7 +4130,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_banner":
+					case "usuariobanner":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -4144,7 +4144,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_creacion":
+					case "fechacreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
