@@ -12,15 +12,14 @@ function PbTableCtrl($scope, $http) {
         return $scope.properties.isBound('selectedRow');
     };
 
-    this.selectRow = function (event, row) {
+    this.selectRowEdit = function (event, row) {
         debugger;
-        // Verifica si el clic proviene del botón de lápiz
-        if (event.target.classList.contains('glyphicon-pencil')) {
+
             if (this.isClickable()) {
                 $scope.properties.selectedRow = row;
                 $scope.properties.navigationVar = "editar";
             }
-        }
+        
     };
 
     this.isSelected = function (row) {
