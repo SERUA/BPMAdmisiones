@@ -2,8 +2,48 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697062034365,
+  "lastUpdate" : 1697066262965,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "value" : {
+            "type" : "constant",
+            "value" : "This is the initial value"
+          },
+          "color" : {
+            "type" : "constant",
+            "value" : "RebeccaPurple"
+          },
+          "background" : {
+            "type" : "constant",
+            "value" : "Yellow"
+          },
+          "taskId" : {
+            "type" : "variable",
+            "value" : "taskId"
+          }
+        },
+        "reference" : "59e43d40-d3ac-4588-9d48-6f1418afb3a7",
+        "hasValidationError" : false,
+        "id" : "customPSGRgetdatosSolicitud"
+      }
+    ],
     [
       {
         "type" : "container",
@@ -188,54 +228,6 @@
                   }
                 ]
               ]
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "This is the initial value"
-                },
-                "color" : {
-                  "type" : "constant",
-                  "value" : "RebeccaPurple"
-                },
-                "background" : {
-                  "type" : "constant",
-                  "value" : "Yellow"
-                },
-                "taskid" : {
-                  "type" : "variable",
-                  "value" : "taskId"
-                },
-                "userData" : {
-                  "type" : "variable",
-                  "value" : "userData"
-                },
-                "context" : {
-                  "type" : "variable",
-                  "value" : "context"
-                }
-              },
-              "reference" : "9ca65797-ef63-4b61-9630-17e8d313f6d2",
-              "hasValidationError" : false,
-              "id" : "customPSGRwidgetDatosSolicitud"
             }
           ],
           [
@@ -978,7 +970,7 @@
                       "xs" : 12,
                       "sm" : 12,
                       "md" : 6,
-                      "lg" : 12
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1132,7 +1124,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1156,7 +1148,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<pre>taskId: {{ taskId }}</pre>\n<pre>context: {{ context  | json }}</pre>"
+                        "value" : "<pre>taskId: {{ test}}</pre>\n<pre>context: {{ context  | json }}</pre>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1711,7 +1703,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "valued"
                             },
                             "urlretorno" : {
                               "type" : "variable",
@@ -2933,7 +2925,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : ""
+                                    "value" : "datosPersonales.id_banner"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -3012,7 +3004,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : ""
+                                    "value" : "datosPersonales_campus_alumno"
                                   }
                                 },
                                 "reference" : "e24f3640-7ae7-43ba-ad7e-ca0aca89f942",
@@ -5641,7 +5633,8 @@
                         "value" : "pSGRCatSiNo_querySINO"
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "descripcion"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -12440,6 +12433,7 @@
         "\t$data.datosPersonales.estado_civil = $data.datosPersonales_estado_civil;",
         "\t$data.datosPersonales.nacionalidad = $data.datosPersonales_nacionalidad;",
         "\t$data.datosPersonales.religion = $data.datosPersonales_religion;",
+        "\t$data.datosPersonales.campus_alumno = $data.datosPersonales_campus_alumno;",
         "\t$data.datosPrograma.posgrado = $data.datosPrograma_posgrado;",
         "\t$data.datosPrograma.programa_interes = $data.datosPrograma_programa_interes;",
         "\t$data.datosPrograma.programa_interes.periodo_disponible = $data.datosPrograma_programa_interes_periodo_disponible;",
@@ -12475,7 +12469,11 @@
         "\t\t\tlugar_nacimiento_estado: $data.datosPersonales.lugar_nacimiento_estado !== undefined ? $data.datosPersonales.lugar_nacimiento_estado : null,",
         "\t\t\tnombre: $data.datosPersonales.nombre !== undefined ? $data.datosPersonales.nombre : null,",
         "\t\t\tapellido_paterno: $data.datosPersonales.apellido_paterno !== undefined ? $data.datosPersonales.apellido_paterno : null,",
-        "\t\t\tapellido_materno: $data.datosPersonales.apellido_materno !== undefined ? $data.datosPersonales.apellido_materno : null",
+        "\t\t\tapellido_materno: $data.datosPersonales.apellido_materno !== undefined ? $data.datosPersonales.apellido_materno : null,",
+        "\t\t\tid_banner: $data.datosPersonales.id_banner !== undefined ? $data.datosPersonales.id_banner : null,",
+        "\t\t\tcampus_alumno: $data.datosPersonales.campus_alumno ? {",
+        "\t\t\t\tpersistenceId_string: $data.datosPersonales.campus_alumno.persistenceId_string !== undefined ? $data.datosPersonales.campus_alumno.persistenceId_string : null",
+        "\t\t\t} : null,",
         "\t\t},",
         "\t\t//map datosPrograma variable to expected task contract input",
         "\t\tdatosProgramaInput: {",
@@ -12996,6 +12994,14 @@
         "../API/bpm/userTask/{{taskId}}/context"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "test" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "valued" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
