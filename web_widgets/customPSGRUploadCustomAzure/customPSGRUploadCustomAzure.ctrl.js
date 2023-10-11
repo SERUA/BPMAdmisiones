@@ -134,7 +134,6 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                     };
 
                     swal(swalObject).then((value) => {
-                        debugger;
                         if(value){
                             reader.readAsBinaryString(f);
                         }
@@ -163,7 +162,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
         return $http(req)
         .success(function (data, status) {
-            $scope.properties.urlAzure = data.data[0];
+            $scope.properties.urlAzure = angular.copy(data.data[0]);
             uploadComplete(data);
         })
         .error(function (data, status) {
@@ -328,7 +327,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     }
 
     function uploadComplete(response) {
-        $scope.properties.value = response;
+        $scope.properties.value = angular.copy(response);
     }
 
     $scope.$watch("properties.urlAzure", (_new)=>{
