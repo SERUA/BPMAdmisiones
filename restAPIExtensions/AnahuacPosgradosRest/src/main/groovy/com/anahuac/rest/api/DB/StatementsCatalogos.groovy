@@ -84,13 +84,13 @@ class StatementsCatalogos {
 	//PSGRCatTipoEmpresa
 	public static final String INSERT_CATTIPOEMPRESA = "INSERT INTO PSGRCatTipoEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoEmpresa), 0,?, ?, ?, false);";
 	public static final String DELETE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET orden = ?, clave = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATTIPOEMPRESA = "SELECT * FROM PSGRCatTipoEmpresa [WHERE] [ORDERBY]";
 	
 	//PSGRCatGiroEmpresa
 	public static final String INSERT_CATGIROEMPRESA = "INSERT INTO PSGRCatGiroEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatGiroEmpresa), 0,?, ?, ?, false);";
 	public static final String DELETE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET orden = ?, clave = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATGIROEMPRESA = "SELECT * FROM PSGRCatGiroEmpresa [WHERE] [ORDERBY]";
 	
 	//ConsultasPersonalizadas

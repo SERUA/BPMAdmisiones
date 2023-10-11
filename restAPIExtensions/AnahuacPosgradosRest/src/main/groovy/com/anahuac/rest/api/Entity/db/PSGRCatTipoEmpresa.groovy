@@ -23,7 +23,7 @@ class PSGRCatTipoEmpresa {
 	}
 	
 	public Long getOrden() {
-		return persistenceid;
+		return orden;
 	}
 
 	public void setOrden(Long orden) {
