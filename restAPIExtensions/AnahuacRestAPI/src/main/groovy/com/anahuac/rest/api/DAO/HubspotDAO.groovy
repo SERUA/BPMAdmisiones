@@ -530,16 +530,17 @@ class HubspotDAO {
 					objHubSpotData.put("fecha_actualizacion_bpm", dfSalidaSC.format(fechaSC));
 					//objHubSpotData.put("app_estatus_de_contacto", "Standby");
 	
+					// -o-
 					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Miguel Hidalgo");
+						objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+						objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+						objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 					} else {
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Miguel Hidalgo");
+						objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+						objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+						objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 					}
 					//AQUI EMPIEZA LO QUE HIZO JUSQUER
 					closeCon = validarConexion()
@@ -804,15 +805,15 @@ class HubspotDAO {
 							
 							if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
 								objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
-								objHubSpotData.put("preparatoria_bpm_pais", "México");
-								objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-								objHubSpotData.put("preparatoria_bpm_ciudad", "Álvaro Obregón");
+								objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+								objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+								objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 							}
 							else {
 								objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
-								objHubSpotData.put("preparatoria_bpm_pais", "México");
-								objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-								objHubSpotData.put("preparatoria_bpm_ciudad", "Álvaro Obregón");
+								objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+								objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+								objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 							}
 							
 							resultado = createOrUpdateHubspot(object.email, apikeyHubspot, objHubSpotData);
@@ -1840,14 +1841,14 @@ class HubspotDAO {
 					
 					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Azcapotzalco");
+						objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+						objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+						objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 					} else {
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Azcapotzalco");
+						objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+						objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+						objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 					}
 
 					resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspot, objHubSpotData);
@@ -2407,14 +2408,14 @@ class HubspotDAO {
 		  objHubSpotData.put("promedio_bpm",object.promedio);
 		  if (object.catBachilleratos.clave.toLowerCase().equals("otro")) {
 			  objHubSpotData.put("preparatoria_bpm", object.nombrebachillerato);
-			  objHubSpotData.put("preparatoria_bpm_pais", "México");
-			  objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-			  objHubSpotData.put("preparatoria_bpm_ciudad", "Gustavo A. Madero");
+				objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+				objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+				objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 		  } else {
 			  objHubSpotData.put("preparatoria_bpm", object.catBachilleratos.descripcion);
-			  objHubSpotData.put("preparatoria_bpm_pais", "México");
-			  objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-			  objHubSpotData.put("preparatoria_bpm_ciudad", "Gustavo A. Madero");
+				objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+				objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+				objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 		  }
 		  objHubSpotData.put("residencia_bpm",object.catResidencia?.clave);
 		  objHubSpotData.put("tipo_de_alumno_bpm",object.catTipoAlumno?.clave);
@@ -2829,15 +2830,15 @@ class HubspotDAO {
 				
 				if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
 					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Cuauhtémoc");
+					objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getPaisBachillerato());
+					objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getEstadoBachillerato());
+					objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCiudadBachillerato());
 				}
 				else {
 					objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
-						objHubSpotData.put("preparatoria_bpm_pais", "México");
-						objHubSpotData.put("preparatoria_bpm_estado", "Ciudad de México");
-						objHubSpotData.put("preparatoria_bpm_ciudad", "Cuauhtémoc");
+					objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+					objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+					objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 				}
 				lstDetalleSolicitud = objDetalleSolicitudDAO.findByCaseId(String.valueOf(lstCatRegistro.get(0).getCaseId()), 0, 1);
 				
