@@ -28,7 +28,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function doRequest(method, url) {
         let dataToSend = angular.copy($scope.properties.formOutput);
-        dataToSend.solicitudApoyoEducativoInput.pageIndex = $scope.properties.selectedIndex;
+        // dataToSend.solicitudApoyoEducativoInput.pageIndex = $scope.properties.selectedIndex;
 
         var req = {
             method: method,

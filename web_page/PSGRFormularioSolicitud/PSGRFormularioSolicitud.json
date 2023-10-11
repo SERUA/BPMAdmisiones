@@ -2,8 +2,48 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697054078483,
+  "lastUpdate" : 1697066262965,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "value" : {
+            "type" : "constant",
+            "value" : "This is the initial value"
+          },
+          "color" : {
+            "type" : "constant",
+            "value" : "RebeccaPurple"
+          },
+          "background" : {
+            "type" : "constant",
+            "value" : "Yellow"
+          },
+          "taskId" : {
+            "type" : "variable",
+            "value" : "taskId"
+          }
+        },
+        "reference" : "59e43d40-d3ac-4588-9d48-6f1418afb3a7",
+        "hasValidationError" : false,
+        "id" : "customPSGRgetdatosSolicitud"
+      }
+    ],
     [
       {
         "type" : "container",
@@ -188,50 +228,6 @@
                   }
                 ]
               ]
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "This is the initial value"
-                },
-                "color" : {
-                  "type" : "constant",
-                  "value" : "RebeccaPurple"
-                },
-                "background" : {
-                  "type" : "constant",
-                  "value" : "Yellow"
-                },
-                "taskid" : {
-                  "type" : "variable",
-                  "value" : "taskId"
-                },
-                "userData" : {
-                  "type" : "expression",
-                  "value" : "userData"
-                }
-              },
-              "reference" : "9ca65797-ef63-4b61-9630-17e8d313f6d2",
-              "hasValidationError" : false,
-              "id" : "customPSGRwidgetDatosSolicitud"
             }
           ],
           [
@@ -974,7 +970,7 @@
                       "xs" : 12,
                       "sm" : 12,
                       "md" : 6,
-                      "lg" : 12
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -1128,7 +1124,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1152,7 +1148,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<pre>{{ datosPrograma | json }}</pre>\n<pre>{{ datosPrograma.medios_enteraste | json }}</pre>"
+                        "value" : "<pre>taskId: {{ test}}</pre>\n<pre>context: {{ context  | json }}</pre>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1162,54 +1158,6 @@
                     "reference" : "035a15ee-cd19-4f56-9f68-874991faf70b",
                     "hasValidationError" : false,
                     "id" : "pbText"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "datosPrograma.medios_enteraste"
-                      },
-                      "color" : {
-                        "type" : "constant",
-                        "value" : "RebeccaPurple"
-                      },
-                      "background" : {
-                        "type" : "constant",
-                        "value" : "Yellow"
-                      },
-                      "catMediosEnteraste" : {
-                        "type" : "expression",
-                        "value" : "pSGRCatMedioEnteraste_query"
-                      },
-                      "contextValue" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "content" : {
-                        "type" : "variable",
-                        "value" : "datosPrograma.medios_enteraste"
-                      }
-                    },
-                    "reference" : "3db0c0af-9d15-4378-a450-21845db3ec15",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRwidgetMediosEnteraste"
                   }
                 ],
                 [
@@ -1755,7 +1703,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "valued"
                             },
                             "urlretorno" : {
                               "type" : "variable",
@@ -2977,7 +2925,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : ""
+                                    "value" : "datosPersonales.id_banner"
                                   },
                                   "type" : {
                                     "type" : "constant",
@@ -3056,7 +3004,7 @@
                                   },
                                   "value" : {
                                     "type" : "variable",
-                                    "value" : ""
+                                    "value" : "datosPersonales_campus_alumno"
                                   }
                                 },
                                 "reference" : "e24f3640-7ae7-43ba-ad7e-ca0aca89f942",
@@ -3263,18 +3211,19 @@
                       },
                       "taskId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "taskId"
                       },
                       "reloadTask" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "reloadTask"
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "caseid"
                       },
                       "userId" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "userData.user_id"
                       }
                     },
                     "reference" : "d6ed6d42-b4a0-4479-942c-517983afcf77",
@@ -5684,7 +5633,8 @@
                         "value" : "pSGRCatSiNo_querySINO"
                       },
                       "displayedKey" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "descripcion"
                       },
                       "returnedKey" : {
                         "type" : "constant"
@@ -6348,7 +6298,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "selectedIndex != 4"
+                  "value" : "selectedIndex != 5"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -12337,6 +12287,13 @@
       "external" : false
     },
     {
+      "id" : "0eed3d00-45d9-43b2-b6ce-333b5d4e60a4",
+      "name" : "noimageavailabledoc.png",
+      "type" : "img",
+      "order" : 5,
+      "external" : false
+    },
+    {
       "id" : "e3e589d1-02bf-4c83-8daf-b11ded5c88ba",
       "name" : "style.css",
       "type" : "css",
@@ -12355,6 +12312,13 @@
       "name" : "bootstrap.min (1) (1).js",
       "type" : "js",
       "order" : 3,
+      "external" : false
+    },
+    {
+      "id" : "8b3c35d2-43fe-4d59-9d86-ce3e2419c03c",
+      "name" : "pdf.png",
+      "type" : "img",
+      "order" : 6,
       "external" : false
     },
     {
@@ -12469,6 +12433,7 @@
         "\t$data.datosPersonales.estado_civil = $data.datosPersonales_estado_civil;",
         "\t$data.datosPersonales.nacionalidad = $data.datosPersonales_nacionalidad;",
         "\t$data.datosPersonales.religion = $data.datosPersonales_religion;",
+        "\t$data.datosPersonales.campus_alumno = $data.datosPersonales_campus_alumno;",
         "\t$data.datosPrograma.posgrado = $data.datosPrograma_posgrado;",
         "\t$data.datosPrograma.programa_interes = $data.datosPrograma_programa_interes;",
         "\t$data.datosPrograma.programa_interes.periodo_disponible = $data.datosPrograma_programa_interes_periodo_disponible;",
@@ -12504,7 +12469,11 @@
         "\t\t\tlugar_nacimiento_estado: $data.datosPersonales.lugar_nacimiento_estado !== undefined ? $data.datosPersonales.lugar_nacimiento_estado : null,",
         "\t\t\tnombre: $data.datosPersonales.nombre !== undefined ? $data.datosPersonales.nombre : null,",
         "\t\t\tapellido_paterno: $data.datosPersonales.apellido_paterno !== undefined ? $data.datosPersonales.apellido_paterno : null,",
-        "\t\t\tapellido_materno: $data.datosPersonales.apellido_materno !== undefined ? $data.datosPersonales.apellido_materno : null",
+        "\t\t\tapellido_materno: $data.datosPersonales.apellido_materno !== undefined ? $data.datosPersonales.apellido_materno : null,",
+        "\t\t\tid_banner: $data.datosPersonales.id_banner !== undefined ? $data.datosPersonales.id_banner : null,",
+        "\t\t\tcampus_alumno: $data.datosPersonales.campus_alumno ? {",
+        "\t\t\t\tpersistenceId_string: $data.datosPersonales.campus_alumno.persistenceId_string !== undefined ? $data.datosPersonales.campus_alumno.persistenceId_string : null",
+        "\t\t\t} : null,",
         "\t\t},",
         "\t\t//map datosPrograma variable to expected task contract input",
         "\t\tdatosProgramaInput: {",
@@ -12605,13 +12574,6 @@
         "\t\t}))",
         "\t}",
         "}"
-      ],
-      "exposed" : false
-    },
-    "context" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/userTask/{{taskId}}/context"
       ],
       "exposed" : false
     },
@@ -12778,9 +12740,9 @@
       "exposed" : false
     },
     "taskId" : {
-      "type" : "urlparameter",
+      "type" : "constant",
       "value" : [
-        "id"
+        ""
       ],
       "exposed" : false
     },
@@ -12933,7 +12895,7 @@
         "        \"error\": true\r",
         "    }\r",
         "} else {\r",
-        "    valid = false;\r",
+        "    valid = true;\r",
         "    $data.errorStep1 = { \r",
         "        \"errorMessage\": \"\", \r",
         "        \"title\": \"\",\r",
@@ -13024,6 +12986,22 @@
         "\r",
         "return valid;"
       ],
+      "exposed" : false
+    },
+    "context" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "test" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "valued" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
