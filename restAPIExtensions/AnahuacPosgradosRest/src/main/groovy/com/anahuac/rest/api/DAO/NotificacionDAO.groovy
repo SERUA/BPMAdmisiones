@@ -35,10 +35,10 @@ import org.slf4j.LoggerFactory
 import com.anahuac.catalogos.CatRegistroDAO
 import com.anahuac.catalogos.CatNotificacionesDAO
 import com.anahuac.catalogos.CatImageNotificacionDAO
+import com.anahuac.catalogos.CatNotificaciones
 
 
 class NotificacionDAO {
-	
 	private static final Logger LOGGER = LoggerFactory.getLogger(NotificacionDAO.class);
 	Connection con;
 	Statement stm;
@@ -48,10 +48,7 @@ class NotificacionDAO {
 	String periodo =""
 	
 	public Result generateHtml(String jsonData, RestAPIContext context) {
-		Connection con;
-		Statement stm;
-		ResultSet rs;
-		PreparedStatement pstm;
+		
 		Result resultado = new Result();
 		
 		Long userLogged = 0L;
@@ -94,17 +91,16 @@ class NotificacionDAO {
 			
 			userLogged = context.getApiSession().getUserId();
 			errorlog += "| Se obtuvo el usuario " + userLogged;
-			PSGRCatNotificaciones catNotificaciones= null;
-			PSGRProcesoCaso procesoCaso = new PSGRProcesoCaso()
-			PSGRCatNotificaciones cn = new PSGRCatNotificaciones()
+			CatNotificaciones catNotificaciones= null;
+			ProcesoCaso procesoCaso = new ProcesoCaso()
+			CatNotificaciones cn = new CatNotificaciones()
 			try {
 				def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
 				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
-				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCase_id()
-				def catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
-				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(procesoCaso.getCase_id(),object.codigo)
+				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
+				def catNotificacionesDAO = context.getApiClient().getDAO(CatNotificacionesDAO.class);
+				catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 				cn=catNotificaciones
-				errorlog += "| Se obtuvo catNotificaciones " + catNotificaciones;
 			} catch (Exception e) {
 				Boolean closeCon2=false;
 				try {
@@ -116,67 +112,66 @@ class NotificacionDAO {
 					pstm.setString(2, object.codigo)
 					rs = pstm.executeQuery()
 					if (rs.next()) {
-						catNotificaciones = new PSGRCatNotificaciones()
-						catNotificaciones.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
-						catNotificaciones.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
+						catNotificaciones = new CatNotificaciones()
+						catNotificaciones.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
+						catNotificaciones.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
 						catNotificaciones.setAsunto(rs.getString("asunto"))
-						catNotificaciones.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
-						catNotificaciones.setCase_id(rs.getString("case_id"))
+						catNotificaciones.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
+						catNotificaciones.setCaseId(rs.getString("caseId"))
 						catNotificaciones.setCodigo(rs.getString("codigo"))
-						catNotificaciones.setComentario_leon(rs.getString("comentario_leon"))
+						catNotificaciones.setComentarioLeon(rs.getString("comentarioLeon"))
 						catNotificaciones.setContenido(rs.getString("contenido"))
-						catNotificaciones.setContenido_correo(rs.getString("contenido_correo"))
-						catNotificaciones.setContenido_leonel(rs.getString("contenido_leonel"))
+						catNotificaciones.setContenidoCorreo(rs.getString("contenidoCorreo"))
+						catNotificaciones.setContenidoLeonel(rs.getString("contenidoLeonel"))
 						catNotificaciones.setDescripcion(rs.getString("descripcion"))
-						catNotificaciones.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
-						catNotificaciones.setEnlace_banner(rs.getString("enlace_banner"))
-						catNotificaciones.setEnlace_contacto(rs.getString("enlace_contacto"))
-						catNotificaciones.setEnlace_facebook(rs.getString("enlace_facebook"))
-						catNotificaciones.setEnlace_footer(rs.getString("enlace_footer"))
-						catNotificaciones.setEnlace_instagram(rs.getString("enlace_instagram"))
-						catNotificaciones.setEnlace_twitter(rs.getString("enlace_twitter"))
-						catNotificaciones.setInformacion_lic(rs.getBoolean("informacion_lic"))
-						catNotificaciones.setIs_eliminado(rs.getBoolean("is_eliminado"))
-						catNotificaciones.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
-						catNotificaciones.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
+						catNotificaciones.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
+						catNotificaciones.setEnlaceBanner(rs.getString("enlaceBanner"))
+						catNotificaciones.setEnlaceContacto(rs.getString("enlaceContacto"))
+						catNotificaciones.setEnlaceFacebook(rs.getString("enlaceFacebook"))
+						catNotificaciones.setEnlaceFooter(rs.getString("enlaceFooter"))
+						catNotificaciones.setEnlaceInstagram(rs.getString("enlaceInstagram"))
+						catNotificaciones.setEnlaceTwitter(rs.getString("enlaceTwitter"))
+						catNotificaciones.setInformacionLic(rs.getBoolean("informacionLic"))
+						catNotificaciones.setIsEliminado(rs.getBoolean("isEliminado"))
+						catNotificaciones.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
+						catNotificaciones.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
 						catNotificaciones.setPersistenceId(rs.getLong("persistenceId"))
 						catNotificaciones.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						catNotificaciones.setTexto_footer(rs.getString("texto_footer"))
-						catNotificaciones.setTipo_correo(rs.getString("tipo_correo"))
+						catNotificaciones.setTextoFooter(rs.getString("textoFooter"))
+						catNotificaciones.setTipoCorreo(rs.getString("tipoCorreo"))
 						catNotificaciones.setTitulo(rs.getString("titulo"))
-						catNotificaciones.setLst_correo_copia(new ArrayList<String>())
-						catNotificaciones.setLst_variable_notificacion(new ArrayList<String>())
-						procesoCaso.setCase_id(rs.getString("case_id"))
-						cn.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
-						cn.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
+						catNotificaciones.setLstCorreoCopia(new ArrayList<String>())
+						catNotificaciones.setLstVariableNotificacion(new ArrayList<String>())
+						procesoCaso.setCaseId(rs.getString("caseId"))
+						cn.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
+						cn.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
 						cn.setAsunto(rs.getString("asunto"))
-						cn.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
-						cn.setCase_id(rs.getString("case_id"))
+						cn.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
+						cn.setCaseId(rs.getString("caseId"))
 						cn.setCodigo(rs.getString("codigo"))
-						cn.setComentario_leon(rs.getString("comentario_leon"))
+						cn.setComentarioLeon(rs.getString("comentarioLeon"))
 						cn.setContenido(rs.getString("contenido"))
-						cn.setContenido_correo(rs.getString("contenido_correo"))
-						cn.setContenido_leonel(rs.getString("contenido_leonel"))
+						cn.setContenidoCorreo(rs.getString("contenidoCorreo"))
+						cn.setContenidoLeonel(rs.getString("contenidoLeonel"))
 						cn.setDescripcion(rs.getString("descripcion"))
-						cn.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
-						cn.setEnlace_banner(rs.getString("enlace_banner"))
-						cn.setEnlace_contacto(rs.getString("enlace_contacto"))
-						cn.setEnlace_facebook(rs.getString("enlace_facebook"))
-						cn.setEnlace_footer(rs.getString("enlace_footer"))
-						cn.setEnlace_instagram(rs.getString("enlace_instagram"))
-						cn.setEnlace_twitter(rs.getString("enlace_twitter"))
-						cn.setInformacion_lic(rs.getBoolean("informacion_lic"))
-						cn.setIs_eliminado(rs.getBoolean("is_eliminado"))
-						cn.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
-						cn.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
+						cn.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
+						cn.setEnlaceBanner(rs.getString("enlaceBanner"))
+						cn.setEnlaceContacto(rs.getString("enlaceContacto"))
+						cn.setEnlaceFacebook(rs.getString("enlaceFacebook"))
+						cn.setEnlaceFooter(rs.getString("enlaceFooter"))
+						cn.setEnlaceInstagram(rs.getString("enlaceInstagram"))
+						cn.setEnlaceTwitter(rs.getString("enlaceTwitter"))
+						cn.setInformacionLic(rs.getBoolean("informacionLic"))
+						cn.setIsEliminado(rs.getBoolean("isEliminado"))
+						cn.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
+						cn.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
 						cn.setPersistenceId(rs.getLong("persistenceId"))
 						cn.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						cn.setTexto_footer(rs.getString("texto_footer"))
-						cn.setTipo_correo(rs.getString("tipo_correo"))
+						cn.setTextoFooter(rs.getString("textoFooter"))
+						cn.setTipoCorreo(rs.getString("tipoCorreo"))
 						cn.setTitulo(rs.getString("titulo"))
 						
 					}
-					errorlog += "| Se obtuvo catNotificaciones " + catNotificaciones;
 				}catch(Exception ex) {
 					errorlog +=", consulta custom " + ex.getMessage();
 				}finally {
@@ -186,6 +181,8 @@ class NotificacionDAO {
 					
 				}
 			}
+			
+			
 			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
 			
 			errorlog += "| se obtiene el catNotificaciones para generar el b64 del documento "
@@ -195,14 +192,14 @@ class NotificacionDAO {
 			errorlog += "|  lcn"
 			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
-			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
+			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCaseId()
 			
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
 			errorlog+="| seteando mensaje"
+			
+			plantilla=plantilla.replace("[banner-href]", cn.getEnlaceBanner())
 			throw new Exception("procesoCaso" + procesoCaso);
-//			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-//			throw new Exception("procesoCaso" + procesoCaso);
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
 			//7 variable plantilla [titulo]
