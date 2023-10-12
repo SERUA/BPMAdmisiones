@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697079460826,
+  "lastUpdate" : 1697145147408,
   "rows" : [
     [
       {
@@ -278,7 +278,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "required" : {
                   "type" : "constant",
@@ -807,7 +807,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "datosPrograma.periodo"
+                        "value" : "datosPrograma.periodo_ingreso"
                       }
                     },
                     "reference" : "7cda0052-9877-4ffd-85c6-510b6d2574be",
@@ -1156,6 +1156,58 @@
                       }
                     },
                     "reference" : "87febc9f-f2cc-48f5-8db6-4e0afa29c2be",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<pre>{{ formOutput | json }}</pre>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "7bea31b9-792d-494f-be4a-2a8c00196acd",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -4927,6 +4979,10 @@
                       "bordered" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "editar" : {
+                        "type" : "constant",
+                        "value" : true
                       }
                     },
                     "reference" : "9fa99cce-8929-4be3-8254-876cf8050c87",
@@ -5524,6 +5580,58 @@
                 ],
                 [
                   {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<pre>{{ errorStep5 | json }}</pre>\n<pre>{{ datosExpLaboral | json }}</pre>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "1a34efe3-8e1e-42bf-8d9d-418d2738b861",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
@@ -5610,7 +5718,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "datosExpLaboral_trabajas_actualmente"
+                        "value" : "datosExpLaboral.trabajas_actualmente"
                       }
                     },
                     "reference" : "c4de6cb5-fb7e-4eda-99bc-5e78cfd1ca4f",
@@ -5620,7 +5728,7 @@
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -5633,146 +5741,188 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "headers" : {
-                        "type" : "constant",
-                        "value" : [
-                          "Nombre de la empresa",
-                          "Giro",
-                          "Puesto",
-                          "Tipo de empresa",
-                          "Teléfono",
-                          "Extensión",
-                          "Reporta a",
-                          "Fecha de inicio",
-                          "Descripción de responsabilidades"
-                        ]
-                      },
-                      "content" : {
                         "type" : "expression",
-                        "value" : "datosInfoLaboralActual"
+                        "value" : "datosExpLaboral.trabajas_actualmente.clave !== \"si\""
                       },
-                      "columnsKey" : {
-                        "type" : "constant"
-                      },
-                      "selectedRow" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
-                      },
-                      "striped" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "condensed" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "bordered" : {
-                        "type" : "constant",
-                        "value" : false
                       }
                     },
-                    "reference" : "1abf2db3-161d-489c-b9be-a28cdf39ea9b",
+                    "reference" : "10aa9fa8-d326-4016-9882-5eeada4ac29f",
                     "hasValidationError" : false,
-                    "id" : "customPSGRTablaTrabajosV1"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Agregar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "center"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Add to collection"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "dataToSend" : {
-                        "type" : "constant"
-                      },
-                      "dataFromSuccess" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable",
-                        "value" : "datosInfoLaboralActual"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "expression",
-                        "value" : "{}"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      }
-                    },
-                    "reference" : "3cf40ca1-610e-439e-9c2f-07e4d656b898",
-                    "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Nombre de la empresa",
+                                "Giro",
+                                "Puesto",
+                                "Tipo de empresa",
+                                "Teléfono",
+                                "Extensión",
+                                "Reporta a",
+                                "Fecha de inicio",
+                                "Descripción de responsabilidades"
+                              ]
+                            },
+                            "content" : {
+                              "type" : "expression",
+                              "value" : "datosInfoLaboralActual"
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "catGiroEmpresa" : {
+                              "type" : "expression",
+                              "value" : "pSGRCatGiroEmpresa_query"
+                            },
+                            "catTipoEmpresa" : {
+                              "type" : "expression",
+                              "value" : "pSGRCatTipoEmpresa_query"
+                            },
+                            "editar" : {
+                              "type" : "constant",
+                              "value" : true
+                            }
+                          },
+                          "reference" : "1abf2db3-161d-489c-b9be-a28cdf39ea9b",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRTablaTrabajosV1"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Agregar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Add to collection"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "dataToSend" : {
+                              "type" : "constant"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable",
+                              "value" : "datosInfoLaboralActual"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "expression",
+                              "value" : "{}"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            }
+                          },
+                          "reference" : "3cf40ca1-610e-439e-9c2f-07e4d656b898",
+                          "hasValidationError" : false,
+                          "id" : "pbButton"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
@@ -5815,7 +5965,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<br><br>\nEmpleos previos relacionados con el programa a cursar \n<br>"
+                        "value" : "<br>\n<hr>\nEmpleos previos relacionados con el programa a cursar \n<br>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -5885,6 +6035,18 @@
                       "bordered" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "catGiroEmpresa" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatGiroEmpresa_query"
+                      },
+                      "catTipoEmpresa" : {
+                        "type" : "expression",
+                        "value" : "pSGRCatTipoEmpresa_query"
+                      },
+                      "editar" : {
+                        "type" : "constant",
+                        "value" : true
                       }
                     },
                     "reference" : "cd3edcdb-5012-450c-9a93-839049d84b3c",
@@ -6509,7 +6671,8 @@
                         ]
                       },
                       "content" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "datosDocumentos"
                       },
                       "columnsKey" : {
                         "type" : "constant"
@@ -6619,7 +6782,8 @@
                         ]
                       },
                       "content" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "datosDocumentosOtros"
                       },
                       "columnsKey" : {
                         "type" : "constant"
@@ -7582,11 +7746,16 @@
         "    isSolicitudCompletadaInput: $data.formInput.isSolicitudCompletadaInput,\r",
         "    datosPersonalesInput:{\r",
         "        urlFoto: $data.datosPersonales ? ($data.datosPersonales.urlFoto) : null,\r",
-        "        sexo: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.sexo.persistenceId_string} : null,\r",
-        "        estado_civil: $data.datosPersonales ?  {persistenceId_string: $data.datosPersonales.estado_civil.persistenceId_string} : null,\r",
-        "        nacionalidad: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.nacionalidad.persistenceId_string} : null,\r",
-        "        religion: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.religion.persistenceId_string} : null,\r",
-        "        campus_alumno: $data.datosPersonales_campus_alumno ? $data.datosPersonales_campus_alumno : null,\r",
+        "        // sexo: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.sexo.persistenceId_string} : null,\r",
+        "        sexo: getCatalogo($data.datosPersonales, \"sexo\"),\r",
+        "        // estado_civil: $data.datosPersonales ?  {persistenceId_string: $data.datosPersonales.estado_civil.persistenceId_string} : null,\r",
+        "        estado_civil: getCatalogo($data.datosPersonales, \"estado_civil\"),\r",
+        "        // nacionalidad: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.nacionalidad.persistenceId_string} : null,\r",
+        "        nacionalidad: getCatalogo($data.datosPersonales, \"nacionalidad\"),\r",
+        "        // religion: $data.datosPersonales ? {persistenceId_string: $data.datosPersonales.religion.persistenceId_string} : null,\r",
+        "        religion: getCatalogo($data.datosPersonales, \"religion\"),\r",
+        "        // campus_alumno: $data.datosPersonales.campus_alumno ? $data.datosPersonales.campus_alumno : null,\r",
+        "        campus_alumno: getCatalogo($data.datosPersonales, \"campus_alumno\"),\r",
         "        curp: $data.datosPersonales ? ($data.datosPersonales.curp) : null,\r",
         "        pasaporte: $data.datosPersonales ? ($data.datosPersonales.pasaporte) : null,\r",
         "        fecha_nacimiento: $data.datosPersonales ? $data.datosPersonales.fecha_nacimiento : null,\r",
@@ -7603,11 +7772,16 @@
         "        lastIndex: $data.selectedIndex\r",
         "    },\r",
         "    datosProgramaInput: {\r",
-        "        periodo_ingreso: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.periodo_ingreso.persistenceId_string} : null,\r",
-        "        posgrado: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.programa_interes.persistenceId_string} : null,\r",
-        "        programa_interes: $data.datosPrograma_programa_interes ? {persistenceId_string: $data.datosPrograma_programa_interes.persistenceId_string} : null,\r",
-        "        campus:  $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.campus.persistenceId_string} : null,\r",
-        "        estudiara_programa_otra_universidad: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.estudiara_programa_otra_universidad.persistenceId_string}: null, \r",
+        "        // periodo_ingreso: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.periodo_ingreso.persistenceId_string} : null,\r",
+        "        periodo_ingreso:getCatalogo($data.datosPrograma, \"periodo_ingreso\"),\r",
+        "        // posgrado: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.programa_interes.persistenceId_string} : null,\r",
+        "        posgrado: getCatalogo($data.datosPrograma, \"posgrado\"),\r",
+        "        // programa_interes: $data.datosPrograma_programa_interes ? {persistenceId_string: $data.datosPrograma_programa_interes.persistenceId_string} : null,\r",
+        "        programa_interes: getCatalogo($data.datosPrograma, \"programa_interes\"),\r",
+        "        // campus:  $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.campus.persistenceId_string} : null,\r",
+        "        campus:  getCatalogo($data.datosPrograma, \"campus\"),\r",
+        "        // estudiara_programa_otra_universidad: $data.datosPrograma ? {persistenceId_string: $data.datosPrograma.estudiara_programa_otra_universidad.persistenceId_string}: null,\r",
+        "        estudiara_programa_otra_universidad:  getCatalogo($data.datosPrograma, \"estudiara_programa_otra_universidad\"),\r",
         "        medios_enteraste: $data.datosPrograma.medios_enteraste === undefined ? [] : $data.datosPrograma.medios_enteraste.map( it => ({\r",
         "            persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
         "            especifique: it.especifique !== undefined ? it.especifique : null,\r",
@@ -7683,6 +7857,18 @@
         "        tamano_documento: it.tamano_documento !== undefined ? it.tamano_documento : null\r",
         "    }))\r",
         "\r",
+        "}\r",
+        "\r",
+        "function getCatalogo(_objeto, _nombre){\r",
+        "    if(!_objeto){\r",
+        "        return null;\r",
+        "    } else if(_objeto){\r",
+        "        if(_objeto[_nombre]){\r",
+        "            return {persistenceId_string: _objeto[_nombre].persistenceId_string}\r",
+        "        } else {\r",
+        "            return null;\r",
+        "        }\r",
+        "    }\r",
         "}"
       ],
       "exposed" : false
@@ -7983,7 +8169,7 @@
         "        \"title\": \"¡Programa!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if(!$data.datosPrograma.periodo){\r",
+        "} else if(!$data.datosPrograma.periodo_ingreso){\r",
         "    valid = false;\r",
         "    $data.errorStep1 = { \r",
         "        \"errorMessage\": \"Debes seleccionar un valor en el campo 'Período'\", \r",
@@ -8268,21 +8454,21 @@
         "    valid = false;\r",
         "    $data.errorStep4 = { \r",
         "        \"errorMessage\": \"Debes agregar al menos un registro a la tabla de Historial académico\", \r",
-        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"title\": \"¡Información académica!\",\r",
         "        \"error\": true \r",
         "    }\r",
         "} else if(!validarDatosAcademicos()){\r",
         "    valid = false;\r",
         "    $data.errorStep4 = { \r",
         "        \"errorMessage\": \"Si agregaste un  registro en Historial académico, debes llenar toda la información solicitada\", \r",
-        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"title\": \"¡Información académica!\",\r",
         "        \"error\": true \r",
         "    }\r",
         "} else if(!validarDatosIdiomas()){\r",
         "    valid = false;\r",
         "    $data.errorStep4 = { \r",
         "        \"errorMessage\": \"Si agregaste un  registro en Idiomas debes llenar toda la información solicitada\", \r",
-        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"title\": \"¡Información académica!\",\r",
         "        \"error\": true \r",
         "    }\r",
         "} else {\r",
@@ -8299,7 +8485,8 @@
         "function validarDatosAcademicos(){\r",
         "    let output = true;\r",
         "    \r",
-        "    for(let dato in $data.datosAcademicos){\r",
+        "    for(let dato of $data.datosAcademicos){\r",
+        "        debugger;\r",
         "        if(!dato.grado || !dato.programa || !dato.institucion || !dato.fecha_inicio || !dato.fecha_termino || !dato.promedio || !dato.pais){\r",
         "            output = false;\r",
         "        }\r",
@@ -8311,7 +8498,7 @@
         "function validarDatosIdiomas(){\r",
         "    let output = true;\r",
         "\r",
-        "    for(let dato in $data.datosIdiomas){\r",
+        "    for(let dato of $data.datosIdiomas){\r",
         "        if(!dato.idioma || !dato.traduce || !dato.habla || !dato.escribe){\r",
         "            output = false;\r",
         "        }\r",
@@ -8332,7 +8519,91 @@
     "validStep5" : {
       "type" : "expression",
       "value" : [
-        "return true"
+        "let valid = true;\r",
+        "debugger;\r",
+        "if(!$data.datosExpLaboral){\r",
+        "    valid = false;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"Debes llenar toda la información  solicitada en el formulario \", \r",
+        "        \"title\": \"¡Experiencia laboral!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosExpLaboral.trabajas_actualmente){\r",
+        "    valid = false;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"Debes seleccionar un valor en el campo '¿Trabajas actualmente?' \", \r",
+        "        \"title\": \"¡Experiencia laboral!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if($data.datosExpLaboral.trabajas_actualmente.clave === \"si\" && !validarLista($data.datosInfoLaboralActual)){\r",
+        "    valid = false;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"Si seleccionaste 'Sí' en el campo '¿Trabajas actualmente?' debes agregar al menos un valor a la tabla de información laboral\", \r",
+        "        \"title\": \"¡Experiencia laboral!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "}  else if(!validarInfoLaboralActual() && $data.datosExpLaboral.trabajas_actualmente.clave === \"si\"){\r",
+        "    valid = false;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"Si agregaste un  registro en Información laboral, debes llenar toda la información solicitada\", \r",
+        "        \"title\": \"¡Experiencia laboral!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!validarInfoLaboralPrevio()){\r",
+        "    valid = false;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"Si agregaste un  registro en Empleos previos relacionados con el programa a cursar debes llenar toda la información solicitada\", \r",
+        "        \"title\": \"¡Experiencia laboral!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else {\r",
+        "    valid = true;\r",
+        "    $data.errorStep5 = { \r",
+        "        \"errorMessage\": \"\", \r",
+        "        \"title\": \"\",\r",
+        "        \"error\": false\r",
+        "    } \r",
+        "}\r",
+        "\r",
+        "return valid;\r",
+        "\r",
+        "function validarLista(_lista){\r",
+        "    if(!_lista){\r",
+        "        return false;\r",
+        "    } else if (_lista.length === 0){\r",
+        "        return false;\r",
+        "    } else {\r",
+        "        return true;\r",
+        "    }\r",
+        "}\r",
+        "\r",
+        "function validarInfoLaboralActual(){\r",
+        "    let output = true;\r",
+        "    \r",
+        "    if($data.datosInfoLaboralActual){\r",
+        "        for(let dato of $data.datosInfoLaboralActual){\r",
+        "            if(!dato.giro_empresa || !dato.tipo_empresa || !dato.nombre_empresa || !dato.puesto || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
+        "                output = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "} \r",
+        "\r",
+        "function validarInfoLaboralPrevio(){\r",
+        "    let output = true;\r",
+        "    \r",
+        "    if($data.datosLaboralPrevio){\r",
+        "        for(let dato of $data.datosLaboralPrevio){\r",
+        "            if(!dato.giro_empresa || !dato.tipo_empresa || !dato.nombre_empresa || !dato.puesto || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
+        "                output = false;\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "\r",
+        "    return output;\r",
+        "} "
       ],
       "exposed" : false
     },
@@ -8341,6 +8612,52 @@
       "value" : [
         "{ \"errorMessage\": \"\", \"title\": \"\", \"error\": false }"
       ],
+      "exposed" : false
+    },
+    "pSGRCatTipoEmpresa_query" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByIs_eliminado [com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa]\",\"businessObjectName\":\"PSGRCatTipoEmpresa\",\"query\":{\"name\":\"findByIs_eliminado\",\"displayName\":\"findByIs_eliminado\"},\"id\":\"com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa\",\"filters\":[{\"name\":\"is_eliminado\",\"type\":\"BOOLEAN\",\"collection\":false,\"value\":\"false\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "pSGRCatGiroEmpresa_query" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByIs_eliminado [com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa]\",\"businessObjectName\":\"PSGRCatGiroEmpresa\",\"query\":{\"name\":\"findByIs_eliminado\",\"displayName\":\"findByIs_eliminado\"},\"id\":\"com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa\",\"filters\":[{\"name\":\"is_eliminado\",\"type\":\"BOOLEAN\",\"collection\":false,\"value\":\"false\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
+      ],
+      "exposed" : false
+    },
+    "cargado" : {
+      "type" : "constant",
+      "value" : [
+        "false"
+      ],
+      "exposed" : false
+    },
+    "setSelectedIndexPRimeraVez" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.registro){",
+        "    if($data.cargado !== true){",
+        "        if($data.registro[\"lastIndex\"] < 7){",
+        "            $data.selectedIndex = $data.registro[\"lastIndex\"] + 1; ",
+        "            $data.cargado = true;",
+        "        } else {",
+        "            $data.selectedIndex = $data.registro[\"lastIndex\"];",
+        "            $data.cargado = true;",
+        "        }",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "registro" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.registro_ref.link}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

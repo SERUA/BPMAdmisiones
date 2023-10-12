@@ -24,9 +24,9 @@
                 <td><input class="form-control responsive-tbl" ng-model="row.promedio" ng-disabled="!properties.editar" type="text"></td>
                 <td><input ng-model="row.titulo" ng-disabled="!properties.editar" type="checkbox"></td>
                 <td>
-                    <select class="form-control responsive-tbl" ng-disabled="!properties.editar" name="" id="" ng-model="row.pais" placeholder="Selecciona una opción">
+                    <select class="form-control responsive-tbl" ng-disabled="!properties.editar" name="" id="" ng-model="row.pais.option.persistenceId_string" placeholder="Selecciona una opción">
                         <option value="">Seleccionar...</option>
-                        <option ng-repeat="option in properties.lstPais" value="{{option.persistenceId}}">{{option.descripcion}}</option>
+                        <option ng-repeat="option in properties.lstPais" ng-value="option.option.persistenceId_string">{{option.descripcion}}</option>
                     </select>
                 </td>
                 <td ng-if="properties.editar">

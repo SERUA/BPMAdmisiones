@@ -14,13 +14,13 @@
             </tr>
         </thead>
         <tbody >
-            <tr>
+            <tr ng-repeat="row in properties.content">
                 <td><input class="form-control" ng-model="row.idioma"></td>
                 <td><input class="form-control" ng-model="row.traduce"></td>
                 <td><input class="form-control" ng-model="row.habla"></td>
                 <td><input class="form-control" ng-model="row.escribe"></td>
                 <td ng-if="properties.editar">
-                    <button class="btn btn-link" ng-click="removeItem(row)" >
+                    <button class="btn btn-link" ng-click="removeItem(row)">
                         <span class="glyphicon glyphicon-trash"></span>
                     </button>
                 </td>
