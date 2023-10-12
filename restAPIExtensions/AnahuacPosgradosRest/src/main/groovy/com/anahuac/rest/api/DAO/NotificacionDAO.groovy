@@ -8,6 +8,7 @@ import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
 import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
 import com.anahuac.posgrados.catalog.PSGRCatNotificacionesDAO
 import com.anahuac.posgrados.catalog.PSGRCatRegistro
+import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
@@ -90,128 +91,20 @@ class NotificacionDAO {
 			
 			assert object instanceof Map;
 			Boolean closeConPlantilla=false;
-			/*-------------------ENG/ESP-----------------------------------*/
-			/*try {
-				closeConPlantilla = validarConexion();
-				pstm = con.prepareStatement(Statements.SELECT_IDIOMA_BY_USERNAME);
-				pstm.setString(1, object.correo);
-					
-				rs = pstm.executeQuery();
-					
-				if(rs.next()) {
-					idioma = rs.getString("idioma");
-				}
-					
-			} catch (Exception e) {
-				errorlog = "Error generateHtml - select_idioma_by_username: "+rs+" object: "+object+" idioma: "+idioma+" exception: "+e;
-			} finally {
-				if(closeConPlantilla) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}
-			}
 			
-			/*-------------------CARTAS, REGISTRO, REESTABLECER, RECUPERAR, ACTIVADO, ETC-----------------------------------*/
-			/*if(idioma == "ENG") {
-				if(object.codigo.equals("registrar") || object.codigo.equals("reestablecer")) {
-					object.codigo+="-eng";
-					errorlog = "Registrar // Reestablecer";
-					
-				} else if(object.codigo.equals("recuperar")) {
-					object.codigo="reestablecer-eng";
-					errorlog = "Recuperar";
-					
-				} else if(object.codigo.equals("activado")) {
-					object.codigo+="-eng";
-					errorlog = "Activado";
-					
-				} else if(object.codigo.equals("carta-aceptar")) {
-					object.codigo+="-eng";
-					errorlog = "Carta-aceptar";
-					
-				} else if(object.codigo.equals("carta-rechazo")) {
-					object.codigo+="-eng";
-					errorlog = "Carta-rechazo";
-					
-				} else if(object.codigo.equals("carta-informacion")) {
-					object.codigo+="-eng";
-					errorlog = "Carta-informacion";
-					
-				} else if(object.codigo.equals("examenentrevista")) {
-					object.codigo+="-eng";
-					errorlog = "Examen entrevista";
-					
-				} else if(object.codigo.equals("transferencia")) {
-					object.codigo+="-eng";
-					errorlog = "Transferencia";
-					
-				} else if(object.codigo.equals("carta-propedeutico")) {
-					object.codigo+="-eng";
-					errorlog = "Carta-propedeutico";
-					
-				} else if(object.codigo.equals("carta-pdu")) {
-					object.codigo+="-eng";
-					errorlog = "Carta-pdu";
-					
-				} else if(object.codigo.equals("enviada")) {
-					object.codigo+="-eng";
-					errorlog = "Enviada";
-					
-				} else if(object.codigo.equals("cambios")) {
-					object.codigo+="-eng";
-					errorlog = "Cambios";
-					
-				} else if(object.codigo.equals("rechazada")) {
-					object.codigo+="-eng";
-					errorlog = "Rechazada";
-					
-				} else if(object.codigo.equals("listaroja")) {
-					object.codigo+="-eng";
-					errorlog = "Listaroja";
-					
-				} else if(object.codigo.equals("validada")) {
-					object.codigo+="-eng";
-					errorlog = "Validada";
-					
-				} else if(object.codigo.equals("pago")) {
-					object.codigo+="-eng";
-					errorlog = "Pago";
-					
-				} else if(object.codigo.equals("validada-aa")) {
-					object.codigo+="-eng";
-					errorlog = "Validada-aa";
-					
-				} else if(object.codigo.equals("recordatorio")) {
-					object.codigo+="-eng";
-					errorlog = "recordatorio";
-					
-				} else if(object.codigo.equals("autodescripcion")) {
-					object.codigo+="-eng";
-					errorlog = "Autodescripcion";
-					
-				} else if(object.codigo.equals("credencial")) {
-					object.codigo+="-eng";
-					errorlog = "Credencial";
-					
-				} else if(object.codigo.equals("validada-100")) {
-					object.codigo+="-eng";
-					errorlog = "Validada-100";
-					
-				}
-			}*/
-			/*--------------------FIN-------------------------------------*/
 			userLogged = context.getApiSession().getUserId();
 			errorlog += "| Se obtuvo el usuario " + userLogged;
 			PSGRCatNotificaciones catNotificaciones= null;
-			ProcesoCaso procesoCaso = new ProcesoCaso()
+			PSGRProcesoCaso procesoCaso = new PSGRProcesoCaso()
 			PSGRCatNotificaciones cn = new PSGRCatNotificaciones()
 			try {
 				def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
 				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
-				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
+				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCase_id()
 				def catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
-				catNotificaciones = catNotificacionesDAO.getCat_notificaciones(procesoCaso.getCaseId(),object.codigo)
+				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(procesoCaso.getCase_id(),object.codigo)
 				cn=catNotificaciones
-				throw new Exception("catNotificaciones" + catNotificaciones);
+				errorlog += "| Se obtuvo catNotificaciones " + catNotificaciones;
 			} catch (Exception e) {
 				Boolean closeCon2=false;
 				try {
@@ -221,7 +114,6 @@ class NotificacionDAO {
 					pstm = con.prepareStatement(Statements.GET_CAT_NOTIFICACIONES_CAMPUS_PROCESO_CODIGO)
 					pstm.setString(1, object.campus)
 					pstm.setString(2, object.codigo)
-					
 					rs = pstm.executeQuery()
 					if (rs.next()) {
 						catNotificaciones = new PSGRCatNotificaciones()
@@ -254,7 +146,7 @@ class NotificacionDAO {
 						catNotificaciones.setTitulo(rs.getString("titulo"))
 						catNotificaciones.setLst_correo_copia(new ArrayList<String>())
 						catNotificaciones.setLst_variable_notificacion(new ArrayList<String>())
-						procesoCaso.setCaseId(rs.getString("case_id"))
+						procesoCaso.setCase_id(rs.getString("case_id"))
 						cn.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
 						cn.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
 						cn.setAsunto(rs.getString("asunto"))
@@ -284,6 +176,7 @@ class NotificacionDAO {
 						cn.setTitulo(rs.getString("titulo"))
 						
 					}
+					errorlog += "| Se obtuvo catNotificaciones " + catNotificaciones;
 				}catch(Exception ex) {
 					errorlog +=", consulta custom " + ex.getMessage();
 				}finally {
@@ -293,7 +186,6 @@ class NotificacionDAO {
 					
 				}
 			}
-			
 			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
 			
 			errorlog += "| se obtiene el catNotificaciones para generar el b64 del documento "
@@ -303,19 +195,19 @@ class NotificacionDAO {
 			errorlog += "|  lcn"
 			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
-			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCaseId()
+			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
 			
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
 			errorlog+="| seteando mensaje"
-			
-			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-			throw new Exception("DESPUES DEL PRIMER REMPLACE");
+			throw new Exception("procesoCaso" + procesoCaso);
+//			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
+//			throw new Exception("procesoCaso" + procesoCaso);
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
 			//7 variable plantilla [titulo]
 			errorlog += "| Variable7"
-			plantilla=plantilla.replace("[titulo]",cn.getTitulo())
+//			plantilla=plantilla.replace("[titulo]",cn.getTitulo())
 			
 			Calendar cal = Calendar.getInstance();
 			//cal.add(Calendar.HOUR_OF_DAY, -6)
@@ -333,31 +225,31 @@ class NotificacionDAO {
 			//9 variable plantilla [contenido]
 			errorlog += "| Variable9"
 			if(!cn.getContenido_correo().equals("")) {
-				plantilla=plantilla.replace("<!--[CONTENIDO]-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td class=\"col-12\"style=\"font-size: initial; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [contenido]</td> </tr> </tbody> </table>")
-				plantilla=plantilla.replace("[contenido]", cn.getContenido_correo())
+//				plantilla=plantilla.replace("<!--[CONTENIDO]-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td class=\"col-12\"style=\"font-size: initial; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [contenido]</td> </tr> </tbody> </table>")
+//				plantilla=plantilla.replace("[contenido]", cn.getContenido_correo())
 				
-				plantilla=plantilla.replace("[HOST]", objProperties.getUrlHost())
+//				plantilla=plantilla.replace("[HOST]", objProperties.getUrlHost())
 				if(object.mensaje != null) {
 					errorlog += "| mensaje " + object.mensaje
-					plantilla = plantilla.replace("[MENSAJE]", object.mensaje);
+//					plantilla = plantilla.replace("[MENSAJE]", object.mensaje);
 				}
 			}
 			
 			if(idioma == "ENG") {
 				String[] MonthEng = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-				plantilla=plantilla.replace("[DAY] / [MONTH] / [YEAR] | [HOUR]:[MIN]","[MONTH] / [DAY] / [YEAR] | [HOUR]:[MIN]");
-				
-				plantilla=plantilla.replace("[MONTH]",MonthEng[mes])
-				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
-				plantilla=plantilla.replace("[YEAR]",annio)
-				plantilla=plantilla.replace("[HOUR]",hora)
-				plantilla=plantilla.replace("[MIN]",minuto)
+//				plantilla=plantilla.replace("[DAY] / [MONTH] / [YEAR] | [HOUR]:[MIN]","[MONTH] / [DAY] / [YEAR] | [HOUR]:[MIN]");
+//				
+//				plantilla=plantilla.replace("[MONTH]",MonthEng[mes])
+//				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
+//				plantilla=plantilla.replace("[YEAR]",annio)
+//				plantilla=plantilla.replace("[HOUR]",hora)
+//				plantilla=plantilla.replace("[MIN]",minuto)
 			} else {
-				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
-				plantilla=plantilla.replace("[MONTH]",Month[mes])
-				plantilla=plantilla.replace("[YEAR]",annio)
-				plantilla=plantilla.replace("[HOUR]",hora)
-				plantilla=plantilla.replace("[MIN]",minuto)
+//				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
+//				plantilla=plantilla.replace("[MONTH]",Month[mes])
+//				plantilla=plantilla.replace("[YEAR]",annio)
+//				plantilla=plantilla.replace("[HOUR]",hora)
+//				plantilla=plantilla.replace("[MIN]",minuto)
 			}
 			//8 Seccion table atributos usuario
 			errorlog += "| Variable8.1 listado de correos copia"
@@ -387,14 +279,14 @@ class NotificacionDAO {
 			rs = pstm.executeQuery()
 				if (rs.next()) {
 					errorlog += "| Variable15.1"
-					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner")==null?"":rs.getString("IdBanner"))
+//					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner")==null?"":rs.getString("IdBanner"))
 					errorlog += "| Variable15.2"
 					if(object.isEnviar) {
-						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",rs.getString("ObservacionesRechazo")==null?"[RECHAZO-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesRechazo"):"[RECHAZO-COMENTARIOS]")
+//						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",rs.getString("ObservacionesRechazo")==null?"[RECHAZO-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesRechazo"):"[RECHAZO-COMENTARIOS]")
 						errorlog += "| Variable15.3"
-						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
+//						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
 						errorlog += "| Variable15.3"
-						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
+//						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
 					}
 					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
 					
@@ -411,9 +303,9 @@ class NotificacionDAO {
 							errorlog += "| se va castear map string string por data"
 							Map<String, String> conektaData =(Map<String, String>) resultado.getData().get(0)
 							errorlog += "| casteo exitoso"
-							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
-							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
-							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
+//							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
+//							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
+//							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
 						}
 						
 					}
@@ -1068,7 +960,7 @@ class NotificacionDAO {
 				} else {
 					String campusAsString = object.campus.toString()
 					
-					asunto = "Asunto del correo";
+//					asunto = "Asunto del correo";
 					body = "Cuerpo del correo";
 					cc = "correo_cc@example.com";
 				    // Manejo de caso en que plantilla es nula, por ejemplo, asignar una cadena vacía
