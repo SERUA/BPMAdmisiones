@@ -460,12 +460,12 @@ class NuevoListadoDAO {
 				String conteo = NuevoStatements.COUNT_LISTA_REPORTE_OV_EXPECIFICO;
 				conteo=conteo.replace("[WHERE]", where);
 				conteo=conteo.replace("[CAMPUS]", campus);
+				errorlog = conteo;
 				pstm = con.prepareStatement(conteo);
 				rs= pstm.executeQuery();
 				while(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
 				}
-
 
 				consulta=consulta.replace("[CAMPUS]", campus);		
 				consulta=consulta.replace("[WHERE]", where);				
@@ -509,6 +509,20 @@ class NuevoListadoDAO {
 								}
 							}
 							columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("urlfoto")) {
+							String encoded = "";
+							boolean noAzure = false;
+							try {
+								String urlFoto = rs.getString("urlfoto");
+								if (urlFoto != null && !urlFoto.isEmpty()) {
+									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+								}
+							} catch (Exception e) {
+								columns.put("fotografiabpm", "");
+								if(noAzure){
+									columns.put("fotografiab64", "");
+								}
+							}
 						}else {
 							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
 						}
@@ -545,7 +559,7 @@ class NuevoListadoDAO {
 				if (rs.next()) {
 					SSA = rs.getString("valor")
 				}
-				String consulta = NuevoStatements.GET_FOTO_BY_CASEID_INTENTO+" WHERE CASEID =${caseId} AND countrechazos Is Not Distinct From "+intentos;
+				String consulta = NuevoStatements.GET_FOTO_BY_CASEID_INTENTO+" WHERE CASEID =${caseId} ";
 				//pstm.setString(1, caseId);
 				pstm = con.prepareStatement(consulta);
 				rs = pstm.executeQuery()
@@ -571,8 +585,7 @@ class NuevoListadoDAO {
 					}
 					rows.add(columns);
 				}
-				
-
+				resultado.setInfo(consulta);			
 				resultado.setData(rows)
 				resultado.setSuccess(true)
 			} catch (Exception e) {
@@ -600,6 +613,11 @@ class NuevoListadoDAO {
 					where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
 
+					break;
+				case "CORREO":
+					where += " AND "
+					where += "LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+					where = where.replace("[valor]", filtro.get("valor"))
 					break;
 				
 				case "ULTIMA MODIFICACION":
@@ -644,7 +662,12 @@ class NuevoListadoDAO {
 					where = where.replace("[valor]", filtro.get("valor"))
 					where += " OR LOWER(CAST(Sesion.persistenceid AS varchar)) like lower('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
-					where += " OR LOWER( CAST(TO_CHAR(P.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
+					where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				case "FECHA ENTREVISTA":
+					where += " AND "
+					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
 				case "ID SESIÓN":
@@ -737,10 +760,8 @@ class NuevoListadoDAO {
 		}
 		switch (filtro) {
 			case "NOMBRE,EMAIL":
-				
 				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-
 				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
@@ -751,7 +772,7 @@ class NuevoListadoDAO {
 				break;
 
 			case "NOMBRE DEL ALUMNO":
-				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+				where += " LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
 			
@@ -792,11 +813,16 @@ class NuevoListadoDAO {
 				where = where.replace("[valor]", valor)
 				where += " OR LOWER(CAST(Sesion.persistenceid AS varchar)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-				where += " OR LOWER( CAST(TO_CHAR(P.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
+				where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
-			case "ID SESIÓN":
 				
+			case "FECHA ENTREVISTA":
+				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+				break;
+				
+			case "ID SESIÓN":
 				where += "  LOWER(CAST(Sesion.persistenceid AS varchar)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
@@ -877,7 +903,7 @@ class NuevoListadoDAO {
 				orderby += "Sesion.nombre";
 				break;
 			case "FECHA ENTREVISTA":
-				orderby += "P.APLICACION";
+				orderby += "Pruebas.APLICACION";
 				break;
 			case "ID SESIÓN":
 				orderby += "Sesion.persistenceid";
