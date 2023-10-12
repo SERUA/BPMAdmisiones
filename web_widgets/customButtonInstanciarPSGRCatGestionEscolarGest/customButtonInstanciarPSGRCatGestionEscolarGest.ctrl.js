@@ -59,8 +59,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         vm.busy = true;
         $http.post(urlUpdate, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
-            doRequest($scope.properties.urlPost)
             $scope.properties.dataToChange = "tabla";
+            doRequest($scope.properties.urlPost)
         }).error(function(_response){
             swal("¡Algo ha fallado!", _response.error, "error");
         }).finally(function(){

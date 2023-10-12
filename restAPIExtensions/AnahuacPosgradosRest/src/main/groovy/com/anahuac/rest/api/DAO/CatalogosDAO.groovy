@@ -683,35 +683,19 @@ class CatalogosDAO {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				errorlog += " Filtros "
 				switch (filtro.get("columna")) {
-					
-//					case "rol":
-//					if (where.contains("WHERE")) {
-//						where += " AND "
-//					} else {
-//						where += " WHERE "
-//					}
-//					where += " LOWER(rol) ";
-//					if (filtro.get("operador").equals("Igual a")) {
-//						where += "=LOWER('[valor]')"
-//					} else {
-//						where += "LIKE LOWER('%[valor]%')"
-//					}
-//					where = where.replace("[valor]", filtro.get("valor"))
-//					break;
 					case "ORDEN":
-					    if (where.contains("WHERE")) {
-					        where += " AND ";
-					    } else {
-					        where += " WHERE ";
-					    }
-					    where += " orden ";  
-					    if (filtro.get("operador").equals("Igual a")) {
-					        where += "= " + filtro.get("valor");
-					    } else {
-					        // Si filtro.get("valor") es un texto, podrías necesitar comillas simples
-					        where += " = " + filtro.get("valor");
-					    }
-					    break;
+				        if (where.contains("WHERE")) {
+				            where += " AND ";
+				        } else {
+				            where += " WHERE ";
+				        }
+				        where += " CAST(orden AS TEXT) ";
+				        if (filtro.get("operador").equals("Igual a")) {
+				            where += "= '" + filtro.get("valor") + "'";
+				        } else {
+				            where += " LIKE '%" + filtro.get("valor") + "%'";
+				        }
+				        break;
 					case "CLAVE":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -978,19 +962,18 @@ class CatalogosDAO {
 				
 				switch (filtro.get("columna")) {
 					case "orden":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(orden) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+				        if (where.contains("WHERE")) {
+				            where += " AND ";
+				        } else {
+				            where += " WHERE ";
+				        }
+				        where += " CAST(orden AS TEXT) ";
+				        if (filtro.get("operador").equals("Igual a")) {
+				            where += "= '" + filtro.get("valor") + "'";
+				        } else {
+				            where += " LIKE '%" + filtro.get("valor") + "%'";
+				        }
+				        break;
 					case "clave":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -1263,7 +1246,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_creacion":
+					case "usuarioCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -1283,7 +1266,7 @@ class CatalogosDAO {
 						} else {
 							where += " WHERE "
 						}
-						where += " LOWER(fecha_creacion) ";
+						where += " LOWER(fechaCreacion) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -1340,37 +1323,39 @@ class CatalogosDAO {
 			def object = jsonObject.lstCatCampusInput[0]
 	        if (object == null) {
 			    throw new Exception("El objeto 'object' no debe ser nulo.");
-			} else if (object.calle == null || object.calle == "") {
-					throw new Exception("El campo \"Calle\" no debe ir vacío.");
+			} else if (object.id == null || object.id == "") {
+					throw new Exception("El campo \"id\" no debe ir vacío.");
 			} else if (object.clave == null || object.clave == "") {
 					throw new Exception("El campo \"Clave\" no debe ir vacío.");
-			} else if (object.codigoPostal == null || object.codigoPostal == "") {
-					throw new Exception("El campo \"codigoPostal\" no debe ir vacío.");
+			} else if (object.orden == null || object.orden == "") {
+					throw new Exception("El campo \"Orden\" no debe ir vacío.");
 			} else if (object.descripcion == null || object.descripcion == "") {
 					throw new Exception("El campo \"descripcion\" no debe ir vacío.");
-			} else if (object.email == null || object.email == "") {
-					throw new Exception("El campo \"email\" no debe ir vacío.");
-			} else if (object.grupoBonita == null || object.grupoBonita == "") {
-					throw new Exception("El campo \"grupoBonita\" no debe ir vacío.");
-			} else if (object.municipio == null || object.municipio == "") {
-					throw new Exception("El campo \"municipio\" no debe ir vacío.");
+			} else if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad == "") {
+					throw new Exception("El campo \"urlAvisoPrivacidad\" no debe ir vacío.");
+			} else if (object.calle == null || object.calle == "") {
+					throw new Exception("El campo \"Calle\" no debe ir vacío.");
 			} else if (object.numeroExterior == null || object.numeroExterior == "") {
 					throw new Exception("El campo \"numeroExterior\" no debe ir vacío.");
 			} else if (object.numeroInterior == null || object.numeroInterior == "") {
 					throw new Exception("El campo \"numeroInterior\" no debe ir vacío.");
-			} else if (object.orden == null || object.orden == "") {
-					throw new Exception("El campo \"orden\" no debe ir vacío.");
-			} else if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad == "") {
-					throw new Exception("El campo \"urlAvisoPrivacidad\" no debe ir vacío.");
-			} else if (object.urlImagen == null || object.urlImagen == "") {
-					throw new Exception("El campo \"urlImagen\" no debe ir vacío.");
-			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
-					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
+			} else if (object.codigoPostal == null || object.codigoPostal == "") {
+					throw new Exception("El campo \"codigoPostal\" no debe ir vacío.");
+			} else if (object.municipio == null || object.municipio == "") {
+					throw new Exception("El campo \"municipio\" no debe ir vacío.");
 			} else if (object.estado_pid == null || object.estado_pid == "") {
 					throw new Exception("El campo \"estado_pid\" no debe ir vacío.");
-			} else if (object.id == null || object.id == "") {
-					throw new Exception("El campo \"id\" no debe ir vacío.");
-			}	
+			} else if (object.urlImagen == null || object.urlImagen == "") {
+					throw new Exception("El campo \"urlImagen\" no debe ir vacío.");
+			} else if (object.email == null || object.email == "") {
+					throw new Exception("El campo \"email\" no debe ir vacío.");
+			} else if (object.grupoBonita == null || object.grupoBonita == "") {
+					throw new Exception("El campo \"grupoBonita\" no debe ir vacío.");
+			} else if (object.orden == null || object.orden == "") {
+					throw new Exception("El campo \"orden\" no debe ir vacío.");
+			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
+					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
+			}
 			
 	        pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATCAMPUS);
 	        pstm.setString(1, object.calle);
@@ -1473,42 +1458,40 @@ class CatalogosDAO {
 			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
 			def object = jsonObject.lstCatCampusInput[0]
 
-			if(object.equals("") || object == null) {
-				throw new Exception("El campo \"object\" no debe ir vacío" + object);
-			}
-		
-			if(object.calle.equals("") || object.calle == null) {
-				throw new Exception("El campo \"calle\" no debe ir vacío" + object);
-			} else if(object.clave.equals("") || object.clave == null) {
-				throw new Exception("El campo \"clave\" no debe ir vacío");
-			} else if(object.codigoPostal.equals("") || object.codigoPostal == null) {
-				throw new Exception("El campo \"codigoPostal\" no debe ir vacío");
-			} else if(object.colonia.equals("") || object.colonia == null) {
-				throw new Exception("El campo \"colonia\" no debe ir vacío");
-			} else if(object.descripcion.equals("") || object.descripcion == null) {
-				throw new Exception("El campo \"descripcion\" no debe ir vacío");
-			} else if(object.email.equals("") || object.email == null) {
-				throw new Exception("El campo \"email\" no debe ir vacío");
-			} else if(object.grupoBonita.equals("") || object.grupoBonita == null) {
-				throw new Exception("El campo \"grupoBonita\" no debe ir vacío");
-			} else if(object.municipio.equals("") || object.municipio == null) {
-				throw new Exception("El campo \"municipio\" no debe ir vacío");
-			} else if(object.numeroExterior.equals("") || object.numeroExterior == null) {
-				throw new Exception("El campo \"numeroExterior\" no debe ir vacío");
-			} else if(object.numeroInterior.equals("") || object.numeroInterior == null) {
-				throw new Exception("El campo \"numeroInterior\" no debe ir vacío");
-			} else if(object.orden.equals("") || object.orden == null) {
-				throw new Exception("El campo \"orden\" no debe ir vacío");
-			} else if(object.urlAvisoPrivacidad.equals("") || object.urlAvisoPrivacidad == null) {
-				throw new Exception("El campo \"urlAvisoPrivacidad\" no debe ir vacío");
-			} else if(object.urlImagen.equals("") || object.urlImagen == null) {
-				throw new Exception("El campo \"urlImagen\" no debe ir vacío");
-			} else if(object.usuarioBanner.equals("") || object.usuarioBanner == null) {
-				throw new Exception("El campo \"usuarioBanner\" no debe ir vacío");
-			} else if(object.estado_pid.equals("") || object.estado_pid == null) {
-				throw new Exception("El campo \"estado_pid\" no debe ir vacío");
-			} else if(object.id.equals("") || object.id == null) {
-				throw new Exception("El campo \"id\" no debe ir vacío");
+			if (object == null) {
+			    throw new Exception("El objeto 'object' no debe ser nulo.");
+			} else if (object.id == null || object.id == "") {
+					throw new Exception("El campo \"id\" no debe ir vacío.");
+			} else if (object.clave == null || object.clave == "") {
+					throw new Exception("El campo \"Clave\" no debe ir vacío.");
+			} else if (object.orden == null || object.orden == "") {
+					throw new Exception("El campo \"Orden\" no debe ir vacío.");
+			} else if (object.descripcion == null || object.descripcion == "") {
+					throw new Exception("El campo \"descripcion\" no debe ir vacío.");
+			} else if (object.urlAvisoPrivacidad == null || object.urlAvisoPrivacidad == "") {
+					throw new Exception("El campo \"urlAvisoPrivacidad\" no debe ir vacío.");
+			} else if (object.calle == null || object.calle == "") {
+					throw new Exception("El campo \"Calle\" no debe ir vacío.");
+			} else if (object.numeroExterior == null || object.numeroExterior == "") {
+					throw new Exception("El campo \"numeroExterior\" no debe ir vacío.");
+			} else if (object.numeroInterior == null || object.numeroInterior == "") {
+					throw new Exception("El campo \"numeroInterior\" no debe ir vacío.");
+			} else if (object.codigoPostal == null || object.codigoPostal == "") {
+					throw new Exception("El campo \"codigoPostal\" no debe ir vacío.");
+			} else if (object.municipio == null || object.municipio == "") {
+					throw new Exception("El campo \"municipio\" no debe ir vacío.");
+			} else if (object.estado_pid == null || object.estado_pid == "") {
+					throw new Exception("El campo \"estado_pid\" no debe ir vacío.");
+			} else if (object.urlImagen == null || object.urlImagen == "") {
+					throw new Exception("El campo \"urlImagen\" no debe ir vacío.");
+			} else if (object.email == null || object.email == "") {
+					throw new Exception("El campo \"email\" no debe ir vacío.");
+			} else if (object.grupoBonita == null || object.grupoBonita == "") {
+					throw new Exception("El campo \"grupoBonita\" no debe ir vacío.");
+			} else if (object.orden == null || object.orden == "") {
+					throw new Exception("El campo \"orden\" no debe ir vacío.");
+			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
+					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
 			}
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATCAMPUS);
@@ -1924,8 +1907,8 @@ class CatalogosDAO {
                 case "CLAVE":
                     orderby += "clave";
                     break;
-                case "DESCRIPCIÓN":
-                    orderby += "descripción";
+                case "DESCRIPCION":
+                    orderby += "descripcion";
                     break;
                 case "FECHA CREACIÓN":
                     orderby += "fecha_creacion";
@@ -1975,13 +1958,13 @@ class CatalogosDAO {
                 case "COLONIA":
                     orderby += "COLONIA";
                     break;
-                case "NÚMERO INTERIOR":
+                case "NUMEROINTERIOR":
                     orderby += "NUMERO_INT";
                     break;
-                case "NÚMERO EXTERIOR":
+                case "NUMEROEXTERIOR":
                     orderby += "NUMERO_EXT";
                     break;
-                case "CÓDIGO POSTAL":
+                case "CODIGOPOSTAL":
                     orderby += "CODIGO_POSTAL";
                     break;
                 case "MUNICIPIO":
@@ -1993,7 +1976,7 @@ class CatalogosDAO {
                 case "EMAIL":
                     orderby += "EMAIL";
                     break;
-                case "PAÍS":
+                case "PAIS":
                     orderby += "PAISES_RELACION_PID";
                     break;
                 case "ESTADO":
@@ -3023,7 +3006,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_creacion":
+					case "usuarioCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -3037,7 +3020,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_creacion":
+					case "fechaCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -3508,7 +3491,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_banner":
+					case "usuarioCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -3522,27 +3505,13 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_creacion":
+					case "fechaCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
 						where += " LOWER(fecha_creacion) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
-					case "fecha_importacion":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(fecha_importacion) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
@@ -3821,7 +3790,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_banner":
+					case "usuarioBanner":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -3835,7 +3804,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_creacion":
+					case "fechaCreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -3849,7 +3818,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_importacion":
+					case "fechaImplementacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -4404,8 +4373,35 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "DESCRIPCION DE CARRERA":
+					case "DESCRIPCIÓN":
 						where += " AND LOWER(GE.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+//					case "ID CAMPUS":
+//						where += " AND LOWER(GE.descripcion) ";
+//						if (filtro.get("operador").equals("Igual a")) {
+//							where += "=LOWER('[valor]')"
+//						} else {
+//							where += "LIKE LOWER('%[valor]%')"
+//						}
+//						where = where.replace("[valor]", filtro.get("valor"))
+//						break;
+					case "USUARIO_CREACION":
+						where += " AND LOWER(GE.usuario_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA_CREACIÓN":
+						where += " AND LOWER(GE.fecha_registro) ";
 						if (filtro.get("operador").equals("Igual a")) {
 							where += "=LOWER('[valor]')"
 						} else {
