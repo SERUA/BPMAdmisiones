@@ -209,8 +209,9 @@ class NotificacionDAO {
 				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
 				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
 				def catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
-				catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
+				catNotificaciones = catNotificacionesDAO.getCat_notificaciones(procesoCaso.getCaseId(),object.codigo)
 				cn=catNotificaciones
+				throw new Exception("catNotificaciones" + catNotificaciones);
 			} catch (Exception e) {
 				Boolean closeCon2=false;
 				try {
@@ -220,6 +221,7 @@ class NotificacionDAO {
 					pstm = con.prepareStatement(Statements.GET_CAT_NOTIFICACIONES_CAMPUS_PROCESO_CODIGO)
 					pstm.setString(1, object.campus)
 					pstm.setString(2, object.codigo)
+					
 					rs = pstm.executeQuery()
 					if (rs.next()) {
 						catNotificaciones = new PSGRCatNotificaciones()
@@ -291,7 +293,6 @@ class NotificacionDAO {
 					
 				}
 			}
-			
 			
 			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
 			
