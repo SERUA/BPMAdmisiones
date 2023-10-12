@@ -5199,7 +5199,27 @@
                 <field type="STRING" length="255" name="url_img_header" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="get_cat_notificaciones" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE c.is_eliminado = false&#13;&#10;AND c.case_id = :case_id&#13;&#10;AND c.codigo= :codigo&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="codigo" className="java.lang.String"/>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="getCat_notificaciones_becas" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.codigo like ('%BC_%')&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters/>
+                </query>
+                <query name="findByCase_id_tipo_correo" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.tipo_correo in ('Notificaciones Admisiones' ,'Cartas Admisiones','Notificación de admisiones' ,'Carta de admisiones')&#13;&#10;AND c.case_id = :case_id&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+                <query name="findByCase_id_tipo_correo_sdae" content="SELECT c &#13;&#10;FROM PSGRCatNotificaciones c &#13;&#10;WHERE  c.tipo_correo in ('Notificaciones SDAE BC', 'Notificaciones SDAE FNZ', 'Cartas SDAE BC','Cartas SDAE FNZ')&#13;&#10;AND c.case_id = :case_id&#13;&#10;ORDER BY c.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatNotificaciones">
+                    <queryParameters>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatNotificacionesCampus">
@@ -5434,6 +5454,23 @@
             </fields>
             <uniqueConstraints/>
             <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRProcesoCaso">
+            <fields>
+                <field type="STRING" length="255" name="case_id" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="campus" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="proceso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries>
+                <query name="getCase_id" content="SELECT p &#13;&#10;FROM PSGRProcesoCaso p &#13;&#10;WHERE p.campus = :campus&#13;&#10;AND p.proceso = :proceso&#13;&#10;ORDER BY p.persistenceId DESC" returnType="com.anahuac.posgrados.model.PSGRProcesoCaso">
+                    <queryParameters>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                        <queryParameter name="proceso" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRRegistro">
