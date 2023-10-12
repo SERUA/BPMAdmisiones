@@ -372,6 +372,18 @@
               <inputTypes>java.util.List</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_miDZsGlIEe6bkuRQZidCNQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_miDZsWlIEe6bkuRQZidCNQ" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_noUeMGlIEe6bkuRQZidCNQ" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_miDZsmlIEe6bkuRQZidCNQ" name="newScript()" content="//Retrieve aggregated PSGRCatCampus using its DAO and persistenceId&#xD;&#xA;def pSGRCatPeriodoVar = pSGRCatPeriodoDAO.findByPersistenceId(datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatPeriodoVar) {&#xD;&#xA;&#x9;if (datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatCampus` with the persistence id &quot; + datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCatPeriodoVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_HaNigGlJEe6bkuRQZidCNQ" name="datosProgramaInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_HaNigWlJEe6bkuRQZidCNQ" name="pSGRCatPeriodoDAO" content="pSGRCatPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodoDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_miDZs2lIEe6bkuRQZidCNQ" type="JAVA_METHOD" expression="setPeriodo_ingreso">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatPeriodo</inputTypes>
+            </operator>
+          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_kvZN52F0Ee6RQJm-wpuHVw">
             <leftOperand xmi:type="expression:Expression" xmi:id="_kvZN6GF0Ee6RQJm-wpuHVw" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_kvZN6WF0Ee6RQJm-wpuHVw" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
@@ -662,6 +674,12 @@
                 </inputs>
                 <inputs xmi:type="process:ContractInput" xmi:id="_uvBCQGGAEe6RQJm-wpuHVw" name="seleccionado" type="BOOLEAN">
                   <mapping xmi:type="process:ContractInputMapping" xmi:id="_uvBCQWGAEe6RQJm-wpuHVw"/>
+                </inputs>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_iWEhcGlIEe6bkuRQZidCNQ" name="periodo_ingreso" type="COMPLEX">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_iWEhcWlIEe6bkuRQZidCNQ"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_jkqbgGlIEe6bkuRQZidCNQ" name="persistenceId_string">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_jkqbgWlIEe6bkuRQZidCNQ"/>
                 </inputs>
               </inputs>
             </inputs>
