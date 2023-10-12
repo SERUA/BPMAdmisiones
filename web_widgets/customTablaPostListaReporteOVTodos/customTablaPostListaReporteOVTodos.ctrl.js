@@ -230,14 +230,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             .finally(function() {});
     }
     $scope.lstCampus = [];
-    $(function() {
+   /* $(function() {
         doRequest("POST", $scope.properties.urlPost);
-    })
-
+    })*/
+    function limpiarFiltro(){
+        $scope.properties.lstContenido = [];
+        $scope.lstPaginado = [];
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+    }
 
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         if (newValue !== undefined) {
-            doRequest("POST", $scope.urlPost3);
+            if(newValue.campus !== undefined ){
+                if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+                    doRequest("POST", $scope.urlPost3);
+                }else{
+                    limpiarFiltro()
+                }
+            }
         }
         console.log($scope.properties.dataToSend);
 

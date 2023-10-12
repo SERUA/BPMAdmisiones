@@ -127,12 +127,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if(newValue.campus !== undefined && $scope.activado != "0"){
-                doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
+                if(!$scope.primerCheck){
+                   if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+                		doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
+                	}
+                }else{
+                    $scope.primerCheck = false;
+                }
             }
         }
         console.log($scope.properties.dataToSend);
-
     });
+    
     $scope.setOrderBy = function(order) {
         if ($scope.properties.dataToSend.orderby == order) {
             $scope.properties.dataToSend.orientation = ($scope.properties.dataToSend.orientation == "ASC") ? "DESC" : "ASC";
@@ -408,9 +414,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     });
     
     
-    
+    $scope.primerCheck=true;
     $(document).ready(function() {
-        $("#banner").prop('disabled', true);
+        $(".banner").prop('disabled', true);
         $(".sesion").prop('disabled', true);
         
         $('input.chk').on('change', function() {
@@ -418,23 +424,46 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.activado = index + 1 +'';
             $scope.seccionSesion = false;
             $scope.properties.ocultarFiltro = false;
-            $scope.$apply();
             if (index == 0) {
-                $("#banner").prop('disabled', false);
+            	$("#chkidbanner").prop('disabled', true);
+            	$("#chksesiones").prop('disabled', false);
+                $(".banner").prop('disabled', false);
                 $(".sesion").prop('disabled', true);
             } else {
-                $("#banner").prop('disabled', true);
+            	$("#chkidbanner").prop('disabled', false);
+            	$("#chksesiones").prop('disabled', true);
+                $(".banner").prop('disabled', true);
                 $(".sesion").prop('disabled', false);
             }
-            $scope.properties.lstContenido = [];
+            limpiarFiltro();
+            $scope.$apply();
             //limpiarFiltro();
-            doRequest("POST", ($scope.activado != "2" ? $scope.properties.urlPost : $scope.properties.urlPost2));
+            //doRequest("POST", ($scope.activado != "2" ? $scope.properties.urlPost : $scope.properties.urlPost2));
         });
     });
     
     
     function limpiarFiltro(){
-        $scope.properties.dataToSend.lstFiltro = [];
+        $scope.properties.lstContenido = [];
+        $scope.primerCheck = true;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+		let index = null;
+        index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
+        if(index != null){
+        	if(index==0){
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        	}else{
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        		$scope.properties.dataToSend.lstFiltro.splice(0,index);
+        	}
+        
+        }else{
+        	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
+        }
     }
 
     $scope.cargarSesion =function(info){
