@@ -10,6 +10,7 @@
                 <th>Extensión</th>
                 <th>Reporta a</th>
                 <th>Fecha de inicio</th>
+                <!--<th>Fecha de término</th>-->
                 <th>Descripción de responsabilidades</th>
                 <th>Acciones</th>
             </tr>
@@ -18,21 +19,24 @@
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td><input maxlength="30" class="form-control" ng-model="row.nombre_empresa"></td>
                 <td>
-                    <select class="form-control" ng-model="row.giro_empresa">
-                        <option>Seleccione una opción</option>
+                    <select class="form-control responsive-tbl" ng-model="row.giro_empresa.persistenceId_string" placeholder="Selecciona una opción">
+                        <option value="">Seleccionar...</option>
+                        <option ng-repeat="option in properties.catGiroEmpresa" ng-value="option.persistenceId_string">{{option.descripcion}}</option>
                     </select>
                 </td>
                 <td><input maxlength="50" class="form-control" ng-model="row.puesto"></td>
                 <td>
-                    <select class="form-control" ng-model="row.tipo_empresa">
-                        <option>Seleccione una opción</option>
+                    <select class="form-control responsive-tbl" ng-model="row.tipo_empresa.persistenceId_string" placeholder="Selecciona una opción">
+                        <option value="">Seleccionar...</option>
+                        <option ng-repeat="option in properties.catTipoEmpresa" ng-value="option.persistenceId_string">{{option.descripcion}}</option>
                     </select>
                 </td>
                 <td><input maxlength="14" class="form-control" ng-model="row.telefono_empresa"></td>
                 <td><input maxlength="4" class="form-control" ng-model="row.ext_telefono_empresa"></td>
                 <td><input maxlength="30" class="form-control" ng-model="row.reporta_a"></td>
                 <td><input class="form-control" ng-model="row.fecha_inicio" type="date"></td>
-                <td><input maxlength="200" class="form-control" ng-model="row.fecha_inicio" type="date"></td>
+                <!--<td><input maxlength="200" class="form-control" ng-model="row.fecha_termino" type="date"></td>-->
+                <td><input maxlength="30" class="form-control" ng-model="row.desc_responsabilidad"></td>
                 <td ng-if="properties.editar">
                     <button class="btn btn-link" ng-click="removeItem(row)" >
                         <span class="glyphicon glyphicon-trash"></span>

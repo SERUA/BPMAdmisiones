@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.14">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.15">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -372,6 +372,18 @@
               <inputTypes>java.util.List</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_miDZsGlIEe6bkuRQZidCNQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_miDZsWlIEe6bkuRQZidCNQ" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_noUeMGlIEe6bkuRQZidCNQ" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_miDZsmlIEe6bkuRQZidCNQ" name="newScript()" content="//Retrieve aggregated PSGRCatCampus using its DAO and persistenceId&#xD;&#xA;def pSGRCatPeriodoVar = pSGRCatPeriodoDAO.findByPersistenceId(datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatPeriodoVar) {&#xD;&#xA;&#x9;if (datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatCampus` with the persistence id &quot; + datosProgramaInput?.periodo_ingreso?.persistenceId_string?.trim() ? datosProgramaInput.periodo_ingreso.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCatPeriodoVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_HaNigGlJEe6bkuRQZidCNQ" name="datosProgramaInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_HaNigWlJEe6bkuRQZidCNQ" name="pSGRCatPeriodoDAO" content="pSGRCatPeriodoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatPeriodoDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_miDZs2lIEe6bkuRQZidCNQ" type="JAVA_METHOD" expression="setPeriodo_ingreso">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatPeriodo</inputTypes>
+            </operator>
+          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_kvZN52F0Ee6RQJm-wpuHVw">
             <leftOperand xmi:type="expression:Expression" xmi:id="_kvZN6GF0Ee6RQJm-wpuHVw" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_kvZN6WF0Ee6RQJm-wpuHVw" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
@@ -556,8 +568,8 @@
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_SzrmAGelEe6tZtxct1LlLA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
             <rightOperand xmi:type="expression:Expression" xmi:id="_SDYKcmelEe6tZtxct1LlLA" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_a58igGelEe6tZtxct1LlLA" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_a58igWelEe6tZtxct1LlLA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_csuBMGklEe6bkuRQZidCNQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_csuBMWklEe6bkuRQZidCNQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_SDYKc2elEe6tZtxct1LlLA" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -572,6 +584,15 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_HsFcFWiNEe6xz654-6OqsQ" type="JAVA_METHOD" expression="setLastIndex">
               <inputTypes>java.lang.Integer</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_WGJV0GklEe6bkuRQZidCNQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_WGJV0WklEe6bkuRQZidCNQ" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WqD7MGklEe6bkuRQZidCNQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_WGJV0mklEe6bkuRQZidCNQ" name="newScript()" content="'solicitud_iniciada'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <operator xmi:type="expression:Operator" xmi:id="_WGJV02klEe6bkuRQZidCNQ" type="JAVA_METHOD" expression="setEstatus_solicitud">
+              <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WsYcE1ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -653,6 +674,12 @@
                 </inputs>
                 <inputs xmi:type="process:ContractInput" xmi:id="_uvBCQGGAEe6RQJm-wpuHVw" name="seleccionado" type="BOOLEAN">
                   <mapping xmi:type="process:ContractInputMapping" xmi:id="_uvBCQWGAEe6RQJm-wpuHVw"/>
+                </inputs>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_iWEhcGlIEe6bkuRQZidCNQ" name="periodo_ingreso" type="COMPLEX">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_iWEhcWlIEe6bkuRQZidCNQ"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_jkqbgGlIEe6bkuRQZidCNQ" name="persistenceId_string">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_jkqbgWlIEe6bkuRQZidCNQ"/>
                 </inputs>
               </inputs>
             </inputs>
