@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1697041098691,
+  "lastUpdate" : 1697065082376,
   "rows" : [
     [
       {
@@ -428,11 +428,15 @@
                                   },
                                   "newValue" : {
                                     "type" : "constant"
+                                  },
+                                  "formOutputAgregar" : {
+                                    "type" : "variable",
+                                    "value" : "formOutputAgregar"
                                   }
                                 },
-                                "reference" : "71d114e9-c66d-4ea3-a7f4-70d268b02159",
+                                "reference" : "fcf49b36-5620-4b82-874e-9426a28953b4",
                                 "hasValidationError" : false,
-                                "id" : "customButtonSetValor"
+                                "id" : "customButtonSetValorLimpGestionEscolar"
                               }
                             ]
                           ]
@@ -4744,7 +4748,7 @@
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "catGestionEscolar_selected.tipoLicenciatura == undefined || catGestionEscolar_selected.tipoLicenciatura == \"Anual\""
+                  "value" : "catGestionEscolar_selected.tipo_licenciatura == undefined || catGestionEscolar_selected.tipo_licenciatura == \"Anual\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -4821,7 +4825,7 @@
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "catGestionEscolar_selected.tipoLicenciatura != \"Cuatrimestral\""
+                  "value" : "catGestionEscolar_selected.tipo_licenciatura != \"Cuatrimestral\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -4897,7 +4901,7 @@
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "catGestionEscolar_selected.tipoLicenciatura == undefined || catGestionEscolar_selected.tipoLicenciatura == \"Cuatrimestral\""
+                  "value" : "catGestionEscolar_selected.tipo_licenciatura == undefined || catGestionEscolar_selected.tipo_licenciatura == \"Cuatrimestral\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -4973,7 +4977,7 @@
                 },
                 "readOnly" : {
                   "type" : "expression",
-                  "value" : "catGestionEscolar_selected.tipoLicenciatura != \"Cuatrimestral\""
+                  "value" : "catGestionEscolar_selected.tipo_licenciatura != \"Cuatrimestral\""
                 },
                 "labelHidden" : {
                   "type" : "constant",
@@ -6672,13 +6676,14 @@
       "type" : "expression",
       "value" : [
         "if($data.editable  === \"editar\"){",
-        "    if($data.catGestionEscolar_selected.tipoLicenciatura === \"Cuatrimestral\"){",
+        "    debugger;",
+        "    if($data.catGestionEscolar_selected.tipo_licenciatura === \"Cuatrimestral\"){",
         "        $data.catGestionEscolar_selected.inscripcionagosto = \"0\";",
-        "    }else if($data.catGestionEscolar_selected.tipoLicenciatura === \"Anual\"){",
+        "    }else if($data.catGestionEscolar_selected.tipo_licenciatura === \"Anual\"){",
         "        $data.catGestionEscolar_selected.inscripcionenero = \"0\";",
         "        $data.catGestionEscolar_selected.inscripcionMayo = \"0\";",
         "        $data.catGestionEscolar_selected.inscripcionSeptiembre = \"0\";",
-        "    }else if($data.catGestionEscolar_selected.tipoLicenciatura === \"Semestral\"){",
+        "    }else if($data.catGestionEscolar_selected.tipo_licenciatura === \"Semestral\"){",
         "        $data.catGestionEscolar_selected.inscripcionMayo = \"0\";",
         "        $data.catGestionEscolar_selected.inscripcionSeptiembre = \"0\";",
         "    }",

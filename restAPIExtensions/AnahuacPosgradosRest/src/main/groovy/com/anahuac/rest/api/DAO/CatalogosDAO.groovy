@@ -4075,19 +4075,18 @@ class CatalogosDAO {
 				
 				switch (filtro.get("columna")) {
 					case "orden":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(orden) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+				        if (where.contains("WHERE")) {
+				            where += " AND ";
+				        } else {
+				            where += " WHERE ";
+				        }
+				        where += " CAST(orden AS TEXT) ";
+				        if (filtro.get("operador").equals("Igual a")) {
+				            where += "= '" + filtro.get("valor") + "'";
+				        } else {
+				            where += " LIKE '%" + filtro.get("valor") + "%'";
+				        }
+				        break;
 					case "clave":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -4116,7 +4115,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "id":
+					case "idbanner":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -4130,7 +4129,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "usuario_banner":
+					case "usuariobanner":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
@@ -4144,7 +4143,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "fecha_creacion":
+					case "fechacreacion":
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {

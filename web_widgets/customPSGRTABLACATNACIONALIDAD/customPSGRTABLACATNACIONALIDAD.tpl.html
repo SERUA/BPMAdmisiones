@@ -1,0 +1,66 @@
+<div class="row">
+    <div class="col-lg-12">
+        <span>Filtrado por:</span>    
+    </div>
+    <div class="col-lg-12" ng-repeat="row in dataToSend.lstFiltro">
+        <strong>{{row.columna}} {{row.operador}} "{{row.valor}}" </strong><span ng-show="row.columna != 'CAMPUS'"  class="glyphicon glyphicon-remove buttonDelete" ng-click="deleteContent(row)" aria-hidden="true"></span>
+    </div>
+</div>
+
+<div class="table-responsive">
+    <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+        <thead>
+            <tr>
+                <th>
+                    Orden
+                </th>
+                <th>
+                    Clave
+                </th>
+                <th>
+                    Descripción
+                </th>
+                <th>
+                    ID banner
+                </th>
+                <th>
+                    Usuario banner
+                </th>
+                <th>
+                    Fecha creación
+                </th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><input ng-model="dynamicInput['orden']" class="form-control" ng-enter="filterKeyPress('orden',dynamicInput['orden'])"></td>
+                <td><input ng-model="dynamicInput['clave']" class="form-control" ng-enter="filterKeyPress('clave',dynamicInput['clave'])"></td>
+                <td><input ng-model="dynamicInput['descripcion']" class="form-control" ng-enter="filterKeyPress('descripcion',dynamicInput['descripcion'])"></td>
+                <td><input ng-model="dynamicInput['idbanner']" class="form-control" ng-enter="filterKeyPress('idbanner',dynamicInput['idbanner'])"></td>
+                <td><input ng-model="dynamicInput['usuariobanner']" class="form-control" ng-enter="filterKeyPress('usuariobanner',dynamicInput['usuariobanner'])"></td>
+                <td><input ng-model="dynamicInput['fechacreacion']" class="form-control" ng-enter="filterKeyPress('fechacreacion',dynamicInput['fechacreacion'])"></td>
+            </tr>
+        </tbody>
+        <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
+            <tr ng-repeat="row in properties.content | filter:ctrl.customFilter">
+                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
+                    {{ $eval(column, row) | uiTranslate }}
+                </td>
+                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
+                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                </td>
+                <td>
+                    <button type="button" class="btn btn-primary"
+                            ng-click="ctrl.handlePencilClick(row)">
+                        <span class="glyphicon glyphicon-pencil"></span>
+                    </button>
+                    <button class="btn btn-warning" ng-click="ctrl.selectRowDelete(row)">
+                        <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+                    </button>
+                </td> 
+            </tr>
+        </tbody>
+        <!-- Resto del código -->
+    </table>
+</div>
