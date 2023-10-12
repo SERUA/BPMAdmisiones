@@ -4075,19 +4075,18 @@ class CatalogosDAO {
 				
 				switch (filtro.get("columna")) {
 					case "orden":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(orden) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+				        if (where.contains("WHERE")) {
+				            where += " AND ";
+				        } else {
+				            where += " WHERE ";
+				        }
+				        where += " CAST(orden AS TEXT) ";
+				        if (filtro.get("operador").equals("Igual a")) {
+				            where += "= '" + filtro.get("valor") + "'";
+				        } else {
+				            where += " LIKE '%" + filtro.get("valor") + "%'";
+				        }
+				        break;
 					case "clave":
 						if (where.contains("WHERE")) {
 							where += " AND "
