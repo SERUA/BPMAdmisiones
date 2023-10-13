@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697154286817,
+  "lastUpdate" : 1697169775358,
   "rows" : [
     [
       {
@@ -51,7 +51,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 1,
-          "lg" : 2
+          "lg" : 1
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -80,7 +80,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 10,
-          "lg" : 8
+          "lg" : 10
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -260,83 +260,6 @@
               "reference" : "f04fb089-5da2-4ecf-abc5-70115c7b2072",
               "hasValidationError" : false,
               "id" : "customPSGRwizardSolicitud"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "required" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "minLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "maxLength" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "readOnly" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "labelHidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "label" : {
-                  "type" : "interpolation",
-                  "value" : "Index"
-                },
-                "labelPosition" : {
-                  "type" : "constant",
-                  "value" : "top"
-                },
-                "labelWidth" : {
-                  "type" : "constant",
-                  "value" : 4
-                },
-                "placeholder" : {
-                  "type" : "interpolation"
-                },
-                "value" : {
-                  "type" : "variable",
-                  "value" : "selectedIndex"
-                },
-                "type" : {
-                  "type" : "constant",
-                  "value" : "number"
-                },
-                "min" : {
-                  "type" : "constant"
-                },
-                "max" : {
-                  "type" : "constant"
-                },
-                "step" : {
-                  "type" : "constant",
-                  "value" : 1
-                }
-              },
-              "reference" : "02b050d5-690c-4d2b-8004-23c9f5d698f2",
-              "hasValidationError" : false,
-              "id" : "pbInput"
             }
           ],
           [
@@ -1995,7 +1918,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Apellido_materno"
+                              "value" : "Apellido materno"
                             },
                             "placeholder" : {
                               "type" : "constant"
@@ -6506,11 +6429,11 @@
                       },
                       "wizardLength" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "wizardContent.length"
                       },
                       "selectedIndex" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "selectedIndex"
                       },
                       "action" : {
                         "type" : "constant",
@@ -6518,7 +6441,7 @@
                       },
                       "isValidStep" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "true"
                       },
                       "errorMessage" : {
                         "type" : "constant"
@@ -6528,19 +6451,19 @@
                       },
                       "formOutput" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "formOutput"
                       },
                       "taskId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "taskId"
                       },
                       "reloadTask" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "datosPersonales_religion"
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "caseid"
                       },
                       "userId" : {
                         "type" : "expression",
@@ -7013,11 +6936,11 @@
                       },
                       "wizardLength" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "wizardContent.length"
                       },
                       "selectedIndex" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "selectedIndex"
                       },
                       "action" : {
                         "type" : "constant",
@@ -7025,7 +6948,7 @@
                       },
                       "isValidStep" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "true"
                       },
                       "errorMessage" : {
                         "type" : "constant"
@@ -7129,8 +7052,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "selectedIndex != 6"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -7141,7 +7064,664 @@
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
-                [ ]
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "color-orange"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Manifiesto <hr>"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 4"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "159e8d13-3e52-4e6d-bbad-c24af0e99e5c",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Manifiesto que los datos asentados por mí y los documentos entregados son auténticos. Acepto que la Universidad Anáhuac aplique mi baja  definitiva en el caso que compruebe falsedad en alguno de ellos y que no me expida ningún certificado o constancia de estudios a menos que  haya entregado toda la documentación correspondiente. Si soy admitido(a) por la Universidad Anáhuac, acepto cumplir con las obligaciones académicas y administrativas contenidas en el Reglamento  General."
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "varManifiesto.datos"
+                      }
+                    },
+                    "reference" : "ca02a3e7-0363-4606-9064-a4479b0d4d8b",
+                    "hasValidationError" : false,
+                    "id" : "pbCheckbox"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "92521071-77d8-4684-9dbd-121027ddb79c",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Nombre y firma del solicitante"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "text"
+                      },
+                      "min" : {
+                        "type" : "constant"
+                      },
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
+                        "type" : "constant",
+                        "value" : 1
+                      }
+                    },
+                    "reference" : "2ae5aa9d-0811-4aa6-8104-216365c29912",
+                    "hasValidationError" : false,
+                    "id" : "pbInput"
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "6f6c5f20-0a27-4589-81a6-cad068223624",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 4,
+                      "lg" : 4
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Fecha de la solicitud"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "fechaSolicitud"
+                      },
+                      "dateFormat" : {
+                        "type" : "constant",
+                        "value" : "MM/dd/yyyy"
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
+                      "showToday" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "todayLabel" : {
+                        "type" : "interpolation",
+                        "value" : "Today"
+                      }
+                    },
+                    "reference" : "a3ec318c-30bd-467d-bbea-37170262b478",
+                    "hasValidationError" : false,
+                    "id" : "pbDatePicker"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "4b09a855-5b51-408c-b35d-39b80e7c9b5b",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Otorgo mi consentimiento para que los datos personales que proporciono sea tratados, durante el tiempo que resulte adecuado, por la  Universidad Anáhuac, institución de educación superio que opera a través de Investigaciones y Estudios Superiores, S.C., únicamente para las  finalidades establecidas en el presente Aviso de Privacidad, el cual manifiesto que conozco y que fue puesto a mi disposición previamente en el  vínculo de internet: https://www.anahuac.mx/mexico/proteccion-de-datos-personales/AvisosdePrivacidad/AdministracionEscolarCampusNorte Aviso de privacidad Para conocer nuesro Aviso de Privacidad consulte la página www.anahuac.mx/mexico."
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "varManifiesto.consentimiento"
+                      }
+                    },
+                    "reference" : "0f006be7-adca-4f55-9e16-48be2c0f86c6",
+                    "hasValidationError" : false,
+                    "id" : "pbCheckbox"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br><br><br>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "9409e693-ebac-4a7d-9eee-8ecf5e676687",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Anterior"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "info"
+                      },
+                      "wizardLength" : {
+                        "type" : "variable",
+                        "value" : "wizardContent.length"
+                      },
+                      "selectedIndex" : {
+                        "type" : "variable",
+                        "value" : "selectedIndex"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Anterior"
+                      },
+                      "isValidStep" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "errorMessage" : {
+                        "type" : "constant"
+                      },
+                      "messageTitle" : {
+                        "type" : "constant"
+                      },
+                      "formOutput" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "taskId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "reloadTask" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "caseId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "userId" : {
+                        "type" : "constant"
+                      }
+                    },
+                    "reference" : "071620e3-ca12-4ad3-908c-97c8fae725d8",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRcustomBtnWizardValidationTask"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 6,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Enviar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "right"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "wizardLength" : {
+                        "type" : "variable",
+                        "value" : "wizardContent.length"
+                      },
+                      "selectedIndex" : {
+                        "type" : "variable",
+                        "value" : "selectedIndex"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Siguiente"
+                      },
+                      "isValidStep" : {
+                        "type" : "variable",
+                        "value" : "validStep7"
+                      },
+                      "errorMessage" : {
+                        "type" : "expression",
+                        "value" : "errorStep7.errorMessage"
+                      },
+                      "messageTitle" : {
+                        "type" : "expression",
+                        "value" : "errorStep7.title"
+                      },
+                      "formOutput" : {
+                        "type" : "variable",
+                        "value" : "formOutput"
+                      },
+                      "taskId" : {
+                        "type" : "variable",
+                        "value" : "taskId"
+                      },
+                      "reloadTask" : {
+                        "type" : "variable",
+                        "value" : "reloadTask"
+                      },
+                      "caseId" : {
+                        "type" : "variable",
+                        "value" : "caseid"
+                      },
+                      "userId" : {
+                        "type" : "expression",
+                        "value" : "userData.user_id"
+                      }
+                    },
+                    "reference" : "77f5752c-4f0e-44ba-8f1b-e80b27cd23b7",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRcustomBtnWizardValidationTaskFinalizar"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br><br><br>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "6fb4d7a4-3618-4722-836a-841a4c10bae7",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
               ]
             }
           ]
@@ -8522,7 +9102,6 @@
         "    let output = true;\r",
         "    \r",
         "    for(let dato of $data.datosAcademicos){\r",
-        "        debugger;\r",
         "        if(!dato.grado || !dato.programa || !dato.institucion || !dato.fecha_inicio || !dato.fecha_termino || !dato.promedio || !dato.pais){\r",
         "            output = false;\r",
         "        }\r",
@@ -8556,7 +9135,7 @@
       "type" : "expression",
       "value" : [
         "let valid = true;\r",
-        "debugger;\r",
+        "\r",
         "if(!$data.datosExpLaboral){\r",
         "    valid = false;\r",
         "    $data.errorStep5 = { \r",
@@ -8674,17 +9253,17 @@
     "setSelectedIndexPRimeraVez" : {
       "type" : "expression",
       "value" : [
-        "if($data.registro){",
-        "    if($data.cargado !== true){",
-        "        if($data.registro[\"lastIndex\"] < 7){",
-        "            $data.selectedIndex = $data.registro[\"lastIndex\"] + 1; ",
-        "            $data.cargado = true;",
-        "        } else {",
-        "            $data.selectedIndex = $data.registro[\"lastIndex\"];",
-        "            $data.cargado = true;",
-        "        }",
-        "    }",
-        "}"
+        "// if($data.registro){",
+        "//     if($data.cargado !== true){",
+        "//         if($data.registro[\"lastIndex\"] < 7 && $data.registro[\"lastIndex\"] > 0){",
+        "//             $data.selectedIndex = $data.registro[\"lastIndex\"] + 1; ",
+        "//             $data.cargado = true;",
+        "//         } else {",
+        "//             $data.selectedIndex = $data.registro[\"lastIndex\"];",
+        "//             $data.cargado = true;",
+        "//         }",
+        "//     }",
+        "// }"
       ],
       "exposed" : false
     },
@@ -8694,6 +9273,78 @@
         "../{{context.registro_ref.link}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "fechaSolicitud" : {
+      "type" : "expression",
+      "value" : [
+        "function obtenerFechaActual() {\r",
+        "    const fecha = new Date();\r",
+        "    const dia = String(fecha.getDate()).padStart(2, '0');\r",
+        "    const mes = String(fecha.getMonth() + 1).padStart(2, '0');\r",
+        "    const anio = fecha.getFullYear();\r",
+        "    return `${dia}/${mes}/${anio}`;\r",
+        "}\r",
+        "\r",
+        "return obtenerFechaActual();"
+      ],
+      "exposed" : false
+    },
+    "navVar" : {
+      "type" : "constant",
+      "value" : [
+        "solicitud"
+      ],
+      "exposed" : false
+    },
+    "varManifiesto" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"datos\":false,",
+        "    \"consentimiento\":false",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "validStep7" : {
+      "type" : "expression",
+      "value" : [
+        "let valid = true;\r",
+        "\r",
+        "// varManifiesto\t{ \"datos\":false, \"consentimiento\":false }\r",
+        "if(!$data.varManifiesto.datos){\r",
+        "    valid = false;\r",
+        "    $data.errorStep7 = { \r",
+        "        \"errorMessage\": \"Debes aceptar el campo 'Manifiesto que los datos asentados por mí y los documentos entregados son auténticos' \", \r",
+        "        \"title\": \"¡Manifiesto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.varManifiesto.consentimiento){\r",
+        "    valid = false;\r",
+        "    $data.errorStep7 = { \r",
+        "        \"errorMessage\": \"Debes aceptar el campo 'Otorgo mi consentimiento para que los datos personales que proporciono sea tratados, durante el tiempo que resulte adecuado, por la Universidad Anáhuac' \", \r",
+        "        \"title\": \"¡Manifiesto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else {\r",
+        "    valid = true;\r",
+        "    $data.errorStep7 = { \r",
+        "        \"errorMessage\": \"\", \r",
+        "        \"title\": \"\",\r",
+        "        \"error\": false\r",
+        "    } \r",
+        "}\r",
+        "\r",
+        "return valid;\r"
+      ],
+      "exposed" : false
+    },
+    "errorStep7" : {
+      "type" : "json",
+      "value" : [
+        "\t{ \"errorMessage\": \"\", \"title\": \"\", \"error\": false }"
+      ],
       "exposed" : false
     }
   },
