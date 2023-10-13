@@ -157,6 +157,12 @@ class SecurityFilter {
 				case "getFoto":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;
+				case "getCarreraByCampus":allow=bonitaRolFilter(context,"ADMISIONES")
+				if(allow){break;}
+				break;
+				case "getPeriodo":allow=bonitaRolFilter(context,"ADMISIONES")
+				if(allow){break;}
+				break;
 				case "getPsicometricoCompleto":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
 				break;

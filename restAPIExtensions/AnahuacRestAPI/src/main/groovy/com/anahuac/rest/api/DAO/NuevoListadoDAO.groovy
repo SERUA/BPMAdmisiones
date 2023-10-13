@@ -60,20 +60,18 @@ class NuevoListadoDAO {
 		String where = "", campus = "",  orderby = "ORDER BY ", errorlog = "";
 		List < String > lstGrupo = new ArrayList < String > ();
 		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
-
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
 		Long userLogged = 0L;
 		Long caseId = 0L;
 		Long total = 0L;
-		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
 
 			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999);
-
 			userLogged = context.getApiSession().getUserId();
-
 			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for (UserMembership objUserMembership: lstUserMembership) {
 				for (CatCampus rowGrupo: lstCatCampus) {
@@ -355,8 +353,7 @@ class NuevoListadoDAO {
 								columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
 							}
 
-						}
-						if(metaData.getColumnLabel(i).toLowerCase().equals("responsableid")) {
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("responsableid")) {
 							User usr;
 							String responsables = rs.getString(i);
 							String nombres= "";
@@ -600,6 +597,126 @@ class NuevoListadoDAO {
 		return resultado
 	}
 	
+	public Result getCarreraByCampus(String Campus,RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "",campus="";
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		try {
+			
+			if(Campus == null || Campus.equals("null") || Campus.length()<1){
+				errorlog ="1";
+				List < String > lstGrupo = new ArrayList < String > ();
+				List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+				Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+				def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+				List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999);
+				Long userLogged = 0L;
+				
+				userLogged = context.getApiSession().getUserId();
+				List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+				for (UserMembership objUserMembership: lstUserMembership) {
+					for (CatCampus rowGrupo: lstCatCampus) {
+						if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+							lstGrupo.add(rowGrupo.getGrupoBonita());
+							break;
+						}
+					}
+				}
+				errorlog ="2";
+				
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					campus += "campus ='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						campus += ") "
+					} else {
+						campus += " OR "
+					}
+				}
+				
+				errorlog ="3";
+				closeCon = validarConexion();
+				String consulta = NuevoStatements.GET_CARRERAS_BY_CAMPUSMULTIPLE.replace("[CAMPUS]", campus);
+				errorlog ="4: "+ consulta;
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, Campus);
+				rs = pstm.executeQuery()
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				errorlog = consulta + " 8";
+				while (rs.next()) {
+					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					}
+					rows.add(columns);
+				}
+			}else {
+				closeCon = validarConexion();
+				String consulta = NuevoStatements.GET_CARRERAS_BY_CAMPUS;
+				pstm = con.prepareStatement(consulta);
+				pstm.setString(1, Campus);
+				rs = pstm.executeQuery()
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				errorlog = consulta + " 8";
+				while (rs.next()) {
+					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					}
+					rows.add(columns);
+				}
+			}
+			
+			resultado.setData(rows)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorlog);
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
+	
+	public Result getPeriodo() {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		try {
+			closeCon = validarConexion();
+			String consulta = NuevoStatements.GET_PERIODOS;
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery()
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorlog = consulta + " 8";
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+				}
+				rows.add(columns);
+			}
+			resultado.setData(rows)
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado;
+	}
+	
 	public String Where(def lstFiltro,String where,String specific = "") {
 		
 		for (Map < String, Object > filtro: (List < Map < String, Object >> ) lstFiltro) {
@@ -655,6 +772,29 @@ class NuevoListadoDAO {
 					}
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
+				
+				case "CAMPUS VPD":
+					where += " AND "
+					where += " LOWER(campusEstudio.descripcion) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+				
+				case "CAMPUS DE LA SESIÓN":
+					where += " AND "
+					where += " LOWER(campus.descripcion) ";
+					if (filtro.get("operador").equals("Igual a")) {
+						where += "=LOWER('[valor]')"
+					} else {
+						where += "LIKE LOWER('%[valor]%')"
+					}
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					
 
 				case "SESIÓN,ID SESIÓN,FECHA ENTREVISTA": 
 					where += " AND "
@@ -665,7 +805,7 @@ class NuevoListadoDAO {
 					where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
-				case "FECHA ENTREVISTA":
+				case "FECHA DE LA ENTREVISTA":
 					where += " AND "
 					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
@@ -780,14 +920,25 @@ class NuevoListadoDAO {
 				where += " LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor);
 				break;
+				
+			case "CAMPUS VPD":
+				where += " LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor);
+				break;
 
 			case "PERIODO":
 				where += " LOWER(periodo.DESCRIPCION) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
+				
 			case "CAMPUS":
 				where += "  LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)	
+				break;
+				
+			case "CAMPUS DE LA SESIÓN":
+				where += "  LOWER(campus.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
 				break;
 			
 			case "ULTIMA MODIFICACION":
@@ -817,7 +968,7 @@ class NuevoListadoDAO {
 				where = where.replace("[valor]", valor)
 				break;
 				
-			case "FECHA ENTREVISTA":
+			case "FECHA DE LA ENTREVISTA":
 				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
@@ -889,6 +1040,9 @@ class NuevoListadoDAO {
 				break;
 			case "CAMPUS":
 				orderby += "campus.DESCRIPCION"
+				break;
+			case "CAMPUSVPD":
+				orderby += "campusEstudio.DESCRIPCION"
 				break;
 			case "ESTATUS":
 				orderby += "sda.ESTATUSSOLICITUD";

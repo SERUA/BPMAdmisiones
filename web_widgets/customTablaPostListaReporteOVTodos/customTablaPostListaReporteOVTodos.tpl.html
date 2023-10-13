@@ -9,7 +9,7 @@
     <div ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
         <div class="row">
             <div class="col-xs-2">
-              <label>id Banner</label>
+              <label>id banner</label>
             </div>
             <div class="col-xs-2">
                 <input ng-model="dynamicInput['idb']"  class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['idb'])">
@@ -32,13 +32,26 @@
                 <label>Carrera:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['carrera']" class="form-control" ng-enter="filterKeyPress('CARRERA',dynamicInput['carrera'])">
+               <!-- <input ng-model="dynamicInput['carrera']" class="form-control" ng-enter="filterKeyPress('CARRERA',dynamicInput['carrera'])"> -->
+               <select class="form-control" ng-model="carreraSelected" ng-change="filterSelectCarrera()">
+                <option value="">
+                    Seleccionar Carrera
+                </option>
+                <option ng-repeat="carrera in carreraLista" ng-value="{{carrera.persistenceid}}">{{carrera.nombre}}</option>
+              </select>
+            
             </div>
             <div class="col-xs-2">
                 <label>Periodo:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['pariodos']" class="form-control" ng-enter="filterKeyPress('PERIODO',dynamicInput['pariodos'])">
+                <!--<input ng-model="dynamicInput['pariodos']" class="form-control" ng-enter="filterKeyPress('PERIODO',dynamicInput['pariodos'])"> -->
+                <select class="form-control" ng-model="peridoSelected" ng-change="filterSelectPeriodo()">
+                    <option value="">
+                        Seleccionar periodo
+                    </option>
+                    <option ng-repeat="periodo in periodoLista" value="{{periodo.descripcion}}">{{periodo.clave}} - {{periodo.descripcion}}</option>
+                </select>
             </div>
             <div class="col-xs-2">
                 <label>Fecha entrevista (dd-mm-aaaa):</label>
@@ -283,11 +296,3 @@
                 recordatorio</button></div>
     </div>
 </div>
-
-
-
-
-
-
-
-
