@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappRegistro",
   "name" : "PSGRappRegistro",
-  "lastUpdate" : 1696621864661,
+  "lastUpdate" : 1697170190003,
   "rows" : [
     [
       {
@@ -1430,8 +1430,8 @@
                         "value" : "URL"
                       },
                       "targetUrl" : {
-                        "type" : "constant",
-                        "value" : "../apps/login/posgrados/"
+                        "type" : "expression",
+                        "value" : "url"
                       },
                       "pageToken" : {
                         "type" : "constant"
@@ -1450,7 +1450,7 @@
                       },
                       "target" : {
                         "type" : "constant",
-                        "value" : "_self"
+                        "value" : "_top"
                       },
                       "appToken" : {
                         "type" : "constant"
@@ -1729,6 +1729,13 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "url" : {
+      "type" : "expression",
+      "value" : [
+        "return window.location.protocol + \"//\" + window.location.hostname + \"/apps/login/posgrados/\""
+      ],
       "exposed" : false
     }
   },

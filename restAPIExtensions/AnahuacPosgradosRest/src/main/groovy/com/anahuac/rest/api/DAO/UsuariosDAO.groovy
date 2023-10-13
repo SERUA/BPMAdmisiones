@@ -449,7 +449,7 @@ class UsuariosDAO {
 		try {
 			String username = "";
 			String password = "";
-			LOGGER.error "[habilitarUsuario] 1 | ";
+			LOGGER.error "[habilitarUsuario] 1 | " + usernameAspirante;
 			/*-------------------------------------------------------------*/
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
@@ -462,6 +462,7 @@ class UsuariosDAO {
 			LOGGER.error "[habilitarUsuario] 3 | ";
 			IdentityAPI identityAPI = apiClient.getIdentityAPI();
 			final User user = identityAPI.getUserByUserName(usernameAspirante);
+			
 			LOGGER.error "[habilitarUsuario] 4 | ";
 			resultado = enviarTareaRest(usernameAspirante, context);
 			
