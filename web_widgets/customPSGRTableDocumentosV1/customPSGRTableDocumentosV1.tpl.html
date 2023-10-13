@@ -2,26 +2,32 @@
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
             <tr>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
-                </th>
+                <th>Documento</th>
+                <th>Tamaño</th>
+                <th>Acciones</th>
             </tr>
         </thead>
-        <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
+        <tbody >
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    {{ $eval(column, row) | uiTranslate }}
+                <td>
+                    {{row.documento.descripcion}}
                 </td>
-                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                <td>
+                    {{ row.tamano_documento }}
                 </td>
-            </tr>
-        </tbody>
-        <tbody ng-if="ctrl.isArray(properties.content) && !ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>
-                <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
+                <td>
+                    <input id="inputArchivo" style="display: none" ng-disabled="!properties.editar" class="file-upload-input"
+                    ng-class="{'file-upload-input--disabled':$isUploading}" name="{{ctrl.name}}"
+                    type="file" ng-required="properties.required" ng-model="archivoSeleccionado"
+                    accept="image/jpg, image/jpeg, image/png, application/pdf" />
+                    
+                    <button type="button" class="btn btn-link" ng-if="!row.url_azure" ng-click="activarInputArchivo()">
+                        <span class="glyphicon glyphicon-upload"></span>
+                    </button>
+                    <button type="button" class="btn btn-link" ng-if="row.url_azure">
+                        <span class="glyphicon glyphicon-eye-open"></span>
+                    </button>
+                </td>
             </tr>
         </tbody>
     </table>

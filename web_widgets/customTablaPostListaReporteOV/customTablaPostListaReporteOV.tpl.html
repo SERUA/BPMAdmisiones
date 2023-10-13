@@ -6,7 +6,7 @@
             </option>
         </select>
     </div>
-    <div ng-id="seccionSesion == false">
+    <div >
         <div ng-show="!((properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'  ) && seccionSesion)">
             <table>
                 <tbody>
@@ -15,12 +15,16 @@
                         <td style="position:relative; left:60px;">
                             <label>id banner</label>
                         </td>
+                        <td style="position:relative; left:70px;">
+                            <label>Correo</label>
+                        </td>
                     </tr>
                     <tr>
                         <td>
                             <input type="checkbox" id="idbanner" name="idbanner" value="idbanner" class="chk">
                         </td>
-                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['banner']" id='banner' class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])"></td>
+                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['banner']" id='banner' class="form-control banner" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])" ></td>
+                        <td style="position:relative; left:70px;"><input ng-model="dynamicInput['correo']"  class="form-control banner" ng-enter="filterKeyPress('CORREO',dynamicInput['correo'])" ></td>
                     </tr>
                     
                     <tr>
@@ -31,13 +35,17 @@
                         <td style="position:relative; left:70px;">
                             <label>nombre de la sesion</label>
                         </td>
+                        <td style="position:relative; left:80px;">
+                            <label>fecha entrevista (dd-mm-aaaa)</label>
+                        </td>
                     </tr>
                     <tr>
                         <td>
                             <input type="checkbox" id="sesiones" name="sesiones" value="sesiones" class="chk">
                         </td>
-                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['idsesion']"  class="form-control sesion" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])"></td>
-                        <td style="position:relative; left:70px;"><input ng-model="dynamicInput['sesion']"  class="form-control sesion" ng-enter="filterKeyPress('SESIÓN',dynamicInput['sesion'])"></td>
+                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['idsesion']"  class="form-control sesion" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])" ></td>
+                        <td style="position:relative; left:70px;"><input ng-model="dynamicInput['sesion']"  class="form-control sesion" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['sesion'])" ></td>
+                        <td style="position:relative; left:80px;"><input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA ENTREVISTA',dynamicInput['fechaentrevista'])" ></td>
                     </tr>
                     
                 </tbody>
@@ -77,17 +85,13 @@
                             ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
                     <th> Acciones</th>
                 </tr>
-                <tr>
-                    <td><input ng-model="dynamicInput['banner']" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])"></td>
-                    <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL',dynamicInput['nombre'])"></td>
-                    <td><input ng-model="dynamicInput['sesion']" class="form-control" ng-enter="filterKeyPress('SESIÓN,ID SESIÓN,FECHA ENTREVISTA',dynamicInput['sesion'])"></td>
-                    <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
-                    <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
-                    <td></td>
-                </tr> 
             </thead>
             <tbody>
-                
+                <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                	<td colspan="6" style="text-align: center;">
+                        <b>sin registros</b>
+                    </td>
+                </tr>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                     
                     <td class="max-size">
@@ -169,7 +173,7 @@
                     </th>
                     <th> Acciones</th>
                 </tr>
-                <tr>
+                <!--<tr>
                     <td><input ng-model="dynamicInput['idsesion']" class="form-control" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])"></td>
                     <td><input ng-model="dynamicInput['nombresesion']" class="form-control" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['nombresesion'])"></td>
                     <td><input ng-model="dynamicInput['idprueba']" class="form-control" ng-enter="filterKeyPress('ID DE LA PRUEBA',dynamicInput['idprueba'])"></td>
@@ -178,10 +182,14 @@
                     <td><input ng-model="dynamicInput['alumnosregistrados']" class="form-control" ng-enter="filterKeyPress('ALUMNOS REGISTRADOS',dynamicInput['alumnosregistrados'])"></td>
                     <td><input ng-model="dynamicInput['fecha']" class="form-control" ng-enter="filterKeyPress('FECHA, LUGAR',dynamicInput['fecha'])"></td>
                     <td></td>
-                </tr> 
+                </tr> -->
             </thead>
             <tbody>
-                
+                <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                	<td colspan="8" style="text-align: center;">
+                        <b>sin registros</b>
+                    </td>
+                </tr>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                     
                     <td class="max-size">
