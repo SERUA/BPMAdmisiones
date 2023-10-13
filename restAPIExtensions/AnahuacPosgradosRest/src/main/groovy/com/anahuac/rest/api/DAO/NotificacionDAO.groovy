@@ -105,7 +105,6 @@ class NotificacionDAO {
 				if (cn != null && cn.getEnlaceBanner() != null) {
 					
 					Boolean closeCon2=false;
-					try {
 						closeCon2 = validarConexion();
 						String ordenpago = ""
 						String campus_id =""
@@ -173,15 +172,10 @@ class NotificacionDAO {
 							cn.setTipoCorreo(rs.getString("tipoCorreo"))
 							cn.setTitulo(rs.getString("titulo"))
 						}
-						throw new Exception("catNotificaciones" + cn.setEnlaceBanner());
-					}catch(Exception ex) {
-						errorlog +=", consulta custom " + ex.getMessage();
-					}finally {
 					if(closeCon2) {
 						new DBConnect().closeObj(con, stm, rs, pstm);
 					}
-						
-					}
+					
 				}
 				
 			
