@@ -18,7 +18,7 @@ function WidgetlivingApplicationIFrameController($scope, $element, $interval, $s
         iframe.setAttribute("src",  $sce.trustAsResourceUrl($scope.properties.src));
         iframe.setAttribute("width", "100%");
         iframe.style.border = "0";
-        iframe.style.height = "97vh";
+        iframe.style.height = "96vh";
         $element.append(iframe);
     });
     

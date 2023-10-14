@@ -5,88 +5,27 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
-        if(validarFormulario()){
-            // startProcess();
-            registro();
+        if ($scope.properties.action === 'Remove from collection') {
+            removeFromCollection();
+            closeModal($scope.properties.closeOnSuccess);
+        } else if ($scope.properties.action === 'Add to collection') {
+            if(validar()){
+                addToCollection();
+                closeModal($scope.properties.closeOnSuccess);
+            } 
+        } else if ($scope.properties.action === 'Start process') {
+            startProcess();
+        } else if ($scope.properties.action === 'Submit task') {
+            submitTask();
+        } else if ($scope.properties.action === 'Open modal') {
+            closeModal($scope.properties.closeOnSuccess);
+            openModal($scope.properties.modalId);
+        } else if ($scope.properties.action === 'Close modal') {
+            closeModal(true);
+        } else if ($scope.properties.url) {
+            doRequest($scope.properties.action, $scope.properties.url);
         }
     };
-
-    function registro() {
-        let dataToSend = angular.copy($scope.properties.dataToSend);
-        dataToSend["processDefinitionId"] = angular.copy($scope.properties.processId);
-        debugger;
-        var prom = doRequestRegistro('POST', '../API/extension/posgradosRest?url=registro&p=0&c=10', dataToSend).then(function () {
-            localStorageService.delete($window.location.href);
-        });
-    }
-
-    function doRequestRegistro(_method, _url, _data) {
-        vm.busy = true;
-
-        var req = {
-            method: _method,
-            url: _url,
-            data: _data
-        };
-
-        return $http(req)
-            .success(function (data, status) {
-                $scope.properties.navigationVar = "registro_completado";
-            })
-            .error(function (data, status) {
-                swal("Algo ha fallado", "Ha ocurrido un error inesperado, intenta de nuevo mas tarde.", "error");
-            })
-            .finally(function () {
-                vm.busy = false;
-            });
-    }
-
-    function validarFormulario(){
-        let valid = true;
-        let title = "¡Atención!", message = "";
-        let data = angular.copy($scope.properties.dataToSend);
-
-        if(!data.registroInput.nombre){
-            valid = false;
-            message = "El campo 'Nombre' no debe ir vacío";
-        } else if(!data.registroInput.apellido_paterno){
-            valid = false;
-            message = "El campo 'Apellido paterno' no debe ir vacío";
-        } else if(!data.registroInput.telefono_celular){
-            valid = false;
-            message = "El campo 'Teléfono celular' no debe ir vacío";
-        } else if(!data.registroInput.correo_electronico){
-            valid = false;
-            message = "El campo 'Correo electrónico' no debe ir vacío";
-        } else if(!data.registroInput.confirmar_correo_electronico){
-            valid = false;
-            message = "El campo 'Confirmar correo electrónico' no debe ir vacío";
-        } else if(data.registroInput.confirmar_correo_electronico !== data.registroInput.confirmar_correo_electronico){
-            valid = false;
-            message = "Los correos no coinciden";
-        } else if(!data.registroInput.password){
-            valid = false;
-            message = "El campo 'Contraseña' no debe ir vacío";
-        } else if(!data.registroInput.confirmar_password){
-            valid = false;
-            message = "El campo 'Confirmar contraseña' no debe ir vacío";
-        } else if(data.registroInput.password !== data.registroInput.confirmar_password){
-            valid = false;
-            message = "Las contraseñas no coinciden";
-        } else if(!data.registroInput.campus){
-            valid = false;
-            message = "El campo 'Universidad a la que deseas ingresar' no debe ir vacío";
-        } else if(!data.registroInput.acepto_avisoprivacidad){
-            valid = false;
-            message = "Debes aceptar el aviso de privacidad";
-        } 
-
-        if(valid === false){
-            swal(title, message, "warning");
-        }
-
-        return valid;
-    }
 
     function openModal(modalId) {
         modalService.open(modalId);
@@ -117,6 +56,40 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
     }
 
+    function validar(){
+        let valido = true;
+        let mensaje = "";
+
+        if(!$scope.properties.valueToAdd.grado){
+            mensaje = "El campo 'Grado' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.programa){
+            mensaje = "El campo 'Programa' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.institucion){
+            mensaje = "El campo 'Institución' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.fecha_inicio){
+            mensaje = "El campo 'Fecha de inicio' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.fecha_termino){
+            mensaje = "El campo 'Fecha término' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.promedio){
+            mensaje = "El campo 'Promedio' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.pais){
+            mensaje = "El campo 'País' no debe ir vacío";
+            valido = false;
+        }
+
+        if(!valido){
+            swal("¡Atención!", mensaje, "warning");
+        }
+
+        return valido;
+    }
+
     function addToCollection() {
         if (!$scope.properties.collectionToModify) {
             $scope.properties.collectionToModify = [];
@@ -130,11 +103,21 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             $scope.properties.collectionToModify.unshift(item);
         } else {
             $scope.properties.collectionToModify.push(item);
+            $scope.properties.valueToAdd = {
+                "grado": "",
+                "programa": "",
+                "institucion": "",
+                "fecha_inicio": "",
+                "fecha_termino": "",
+                "promedio": "",
+                "titulo": false,
+                "pais": null
+            }
         }
     }
 
     function startProcess() {
-        var id = angular.copy($scope.properties.processId);
+        var id = getUrlParam('id');
         if (id) {
             var prom = doRequest('POST', '../API/bpm/process/' + id + '/instantiation', getUserParam()).then(function () {
                 localStorageService.delete($window.location.href);
@@ -169,8 +152,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     redirectIfNeeded();
                 }
                 closeModal($scope.properties.closeOnSuccess);
-
-                $scope.properties.navigationVar = "registro_completado";
             })
             .error(function (data, status) {
                 $scope.properties.dataFromError = data;
