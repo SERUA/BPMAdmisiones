@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappRegistro",
   "name" : "PSGRappRegistro",
-  "lastUpdate" : 1697170190003,
+  "lastUpdate" : 1697234769460,
   "rows" : [
     [
       {
@@ -178,7 +178,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "bg-white"
+                  "value" : "bg-white padding-in"
                 },
                 "hidden" : {
                   "type" : "expression",
@@ -252,8 +252,7 @@
                         "value" : true
                       },
                       "minLength" : {
-                        "type" : "constant",
-                        "value" : 1
+                        "type" : "constant"
                       },
                       "maxLength" : {
                         "type" : "constant",
@@ -299,11 +298,15 @@
                       "step" : {
                         "type" : "constant",
                         "value" : 1
+                      },
+                      "idInput" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
-                    "reference" : "8b313e72-d705-4175-bb81-7dd0cc8354b3",
+                    "reference" : "0ef0f160-d4de-4b7b-85f0-f2a2b76f2ea9",
                     "hasValidationError" : false,
-                    "id" : "customPSGRInputLimit"
+                    "id" : "customPSGRinputMinMay"
                   },
                   {
                     "type" : "component",
@@ -374,11 +377,15 @@
                       "step" : {
                         "type" : "constant",
                         "value" : 1
+                      },
+                      "idInput" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
-                    "reference" : "84a0234b-38a5-4d11-9912-8be0bec4cd87",
+                    "reference" : "241819fa-0e56-4a4e-a1a4-2af100a39700",
                     "hasValidationError" : false,
-                    "id" : "customPSGRInputLimit"
+                    "id" : "customPSGRinputMinMay"
                   }
                 ],
                 [
@@ -451,11 +458,15 @@
                       "step" : {
                         "type" : "constant",
                         "value" : 1
+                      },
+                      "idInput" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
-                    "reference" : "f7ab0188-10a5-41bf-aff8-dd1aee5272dc",
+                    "reference" : "498e4709-613f-42cf-952b-f8734c2af029",
                     "hasValidationError" : false,
-                    "id" : "customPSGRInputLimit"
+                    "id" : "customPSGRinputMinMay"
                   },
                   {
                     "type" : "component",
@@ -934,16 +945,16 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Estoy de acuerdo y he leido el <a>Aviso de privacidad</a>"
+                        "value" : "Estoy de acuerdo y he leido el <a target=\"_blank\" href=\"https://qa.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\">Aviso de privacidad</a>"
                       },
                       "value" : {
                         "type" : "variable",
                         "value" : "formInput.registroInput.acepto_avisoprivacidad"
                       }
                     },
-                    "reference" : "455980b5-2c01-4863-968a-891eceda7fb5",
+                    "reference" : "fd8ff988-9396-4b75-99f4-3742306b92d8",
                     "hasValidationError" : false,
-                    "id" : "pbCheckbox"
+                    "id" : "customPSGRcheckboxAvisoPrivacidad"
                   }
                 ],
                 [
@@ -1336,7 +1347,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "bg-white"
+                  "value" : "bg-white padding-in"
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -1580,6 +1591,13 @@
       "external" : false
     },
     {
+      "id" : "cb17a166-46bc-4ce7-ba4d-a14488140098",
+      "name" : "capitalizacion.js",
+      "type" : "js",
+      "order" : 16,
+      "external" : false
+    },
+    {
       "id" : "86fab1d5-6655-408c-af9b-b6c6022650d4",
       "name" : "style.css",
       "type" : "css",
@@ -1735,6 +1753,24 @@
       "type" : "expression",
       "value" : [
         "return window.location.protocol + \"//\" + window.location.hostname + \"/apps/login/posgrados/\""
+      ],
+      "exposed" : false
+    },
+    "formateaarNombre" : {
+      "type" : "expression",
+      "value" : [
+        "\r",
+        "if($data.formInput.registroInput.nombre != null && $data.formInput.registroInput.nombre.trim().length>0){\r",
+        "    $data.formInput.registroInput.nombre = capitalizeName($data.formInput.registroInput.nombre);\r",
+        "}\r",
+        "\r",
+        "if($data.formInput.registroInput.apellido_paterno != null && $data.formInput.registroInput.apellido_paterno.trim().length>0){\r",
+        "    $data.formInput.registroInput.apellido_paterno = capitalizeName( $data.formInput.registroInput.apellido_paterno);\r",
+        "}\r",
+        "\r",
+        "if($data.formInput.registroInput.apellido_materno != null && $data.formInput.registroInput.apellido_materno.trim().length>0){\r",
+        "    $data.formInput.registroInput.apellido_materno = capitalizeName($data.formInput.registroInput.apellido_materno);\r",
+        "}"
       ],
       "exposed" : false
     }
