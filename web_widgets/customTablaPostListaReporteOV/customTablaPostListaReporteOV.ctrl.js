@@ -146,7 +146,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSend.orderby = order;
             $scope.properties.dataToSend.orientation = "ASC";
         }
-        doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
+        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+            doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
+        }
     }
 
     $scope.filterKeyPress = function(columna, press) {
@@ -429,11 +431,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             	$("#chksesiones").prop('disabled', false);
                 $(".banner").prop('disabled', false);
                 $(".sesion").prop('disabled', true);
+                $('.sesion').val('');
             } else {
             	$("#chkidbanner").prop('disabled', false);
             	$("#chksesiones").prop('disabled', true);
                 $(".banner").prop('disabled', true);
                 $(".sesion").prop('disabled', false);
+                $('.banner').val('');
             }
             limpiarFiltro();
             $scope.$apply();

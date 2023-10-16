@@ -190,28 +190,27 @@ class Index implements RestApiController {
 			}
 			break;
 			case "instantiation":
-			String errorlog = " "
-			try {
-				errorlog = "[1] "
-				def jsonSlurper = new JsonSlurper();
-				def object = jsonSlurper.parseText(jsonData);
-				//assert object instanceof Map
-				Map<String, Serializable> contract = new HashMap<String, Serializable>();
-				Map<String, Serializable> instanciaINVPInput = new HashMap<String, Serializable>();
-
-				contract.put("idUsuarioInput",Long.valueOf(object.idUsuarioInput))
-				instanciaINVPInput.put("username", object.instanciaINVPInput.username);
-				instanciaINVPInput.put("idsesion", Long.valueOf(object.instanciaINVPInput.idsesion));
-				contract.put("terminarExamenInput", object.terminarExamenInput);
-				contract.put("instanciaINVPInput", instanciaINVPInput);
-				errorlog+="[5] "
-				Long processId = context.getApiClient().getProcessAPI().getLatestProcessDefinitionId("Examen INVP");
-				errorlog+="[6] " + contract.toMapString()
-				ProcessInstance processInstance = context.getApiClient().getProcessAPI().startProcessWithInputs(processId, contract);
-				errorlog+="[7] "
-				Long caseId = processInstance.getRootProcessInstanceId();
+				String errorlog = " "
+				try {
+					def jsonSlurper = new JsonSlurper();
+					def object = jsonSlurper.parseText(jsonData);
+					
+					Map<String, Serializable> contract = new HashMap<String, Serializable>();
+					Map<String, Serializable> instanciaINVPInput = new HashMap<String, Serializable>();
+	
+					contract.put("idUsuarioInput",Long.valueOf(object.idUsuarioInput))
+					instanciaINVPInput.put("username", object.instanciaINVPInput.username);
+					instanciaINVPInput.put("idsesion", Long.valueOf(object.instanciaINVPInput.idsesion));
+					contract.put("terminarExamenInput", object.terminarExamenInput);
+					contract.put("instanciaINVPInput", instanciaINVPInput);
+					
+					Long processId = context.getApiClient().getProcessAPI().getLatestProcessDefinitionId("Examen INVP");
+					ProcessInstance processInstance = context.getApiClient().getProcessAPI().startProcessWithInputs(processId, contract);
+					Long caseId = processInstance.getRootProcessInstanceId();
+					Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.instanciaINVPInput.username);
+					
 					return buildResponse(responseBuilder, HttpServletResponse.SC_OK,"{\"caseId\": "+caseId+"}")
-				}catch(Exception ex) {
+				} catch(Exception ex) {
 					result.setSuccess(false)
 					result.setError(ex.getMessage())
 					result.setError_info(errorlog)
@@ -219,31 +218,31 @@ class Index implements RestApiController {
 				}
 			break;
 			case "updateSesion":
-			try{
-				result =  lses.updateUsuarioSesion(jsonData);
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
+				try{
+					result =  lses.updateUsuarioSesion(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
-				}catch(Exception ou){
-				result.setSuccess(false)
-				result.setError(ou.getMessage())
-				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-			}
 			case "checkInstance":
-			try{
-				result =  lses.checkInstance(jsonData);
-				if (result.isSuccess()) {
-					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
-				}else {
+				try{
+					result =  lses.checkInstance(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
-				}catch(Exception ou){
-				result.setSuccess(false)
-				result.setError(ou.getMessage())
-				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-			}
 			case "getSesionActiva":
 				try{
 					result =  lses.getSesionActiva(jsonData);

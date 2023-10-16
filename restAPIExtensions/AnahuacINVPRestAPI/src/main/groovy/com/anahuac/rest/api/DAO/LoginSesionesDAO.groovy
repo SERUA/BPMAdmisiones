@@ -148,11 +148,11 @@ class LoginSesionesDAO {
 					throw new Exception("usuario_bloqueado");
 				}
 				
-				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
-				if(!resultBloquear.isSuccess()) {
-					errorlog += " | 12 ";
-					throw new Exception("usuario_bloqueado");
-				}
+//				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
+//				if(!resultBloquear.isSuccess()) {
+//					errorlog += " | 12 ";
+//					throw new Exception("usuario_bloqueado");
+//				}
 				
 				resultado.setSuccess(true);
 			}

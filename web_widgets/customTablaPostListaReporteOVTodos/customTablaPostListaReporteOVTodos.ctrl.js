@@ -254,6 +254,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         console.log($scope.properties.dataToSend);
 
     });
+
+
     $scope.setOrderBy = function(order) {
         if ($scope.properties.dataToSend.orderby == order) {
             $scope.properties.dataToSend.orientation = ($scope.properties.dataToSend.orientation == "ASC") ? "DESC" : "ASC";
@@ -261,7 +263,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSend.orderby = order;
             $scope.properties.dataToSend.orientation = "ASC";
         }
-        doRequest("POST", $scope.urlPost3);
+        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+            doRequest("POST", $scope.urlPost3);
+        }
     }
 
     $scope.filterKeyPress = function(columna, press) {
@@ -505,44 +509,115 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             });
     }
 
-    $scope.Transferencia = function(row) {
-        let sedeExamen;
-        if (row.transferencia == row.campus) {
-            sedeExamen = "MISMO CAMPUS"
-        } else {
-            sedeExamen = "TRANSFERENCIA"
-        }
-        return sedeExamen;
-    }
-
-
     $scope.getCatCampus();
 
-    $scope.viewDownloadSolicitud = function(rowData) {
+    $scope.isPeriodoVencido = function(periodofin) {
+        var fecha = new Date(periodofin.slice(0, 10))
+        return fecha < new Date();
+    }
+    
+    $(function() {
+        doRequestPeriodo();
+    })
 
+    function doRequestPeriodo() {
+        blockUI.start();
         var req = {
             method: "GET",
-            url: `/API/bpm/task?p=0&c=10&f=caseId%3d${rowData.caseid}&f=isFailed%3dfalse`
+            url: "/bonita/API/extension/AnahuacRestGet?url=getPeriodo&p=0&c=100",
         };
 
         return $http(req)
             .success(function(data, status) {
-                var url = "/apps/administrativo/descargarSolicitud/?id=[TASKID]&caseId=[CASEID]&displayConfirmation=false";
-                if (data.length > 0) {
-                    url = url.replace("[TASKID]", data[0].id);
-                } else {
-                    url = url.replace("[TASKID]", "");
-                }
-                url = url.replace("[CASEID]", rowData.caseid);
-                window.open(url, '_blank');
+                console.log(data)
+                $scope.periodoLista = data;
             })
             .error(function(data, status) {
-                console.error(data);
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
-            .finally(function() {});
+            .finally(function() {
+
+                blockUI.stop();
+            });
     }
-    $scope.isPeriodoVencido = function(periodofin) {
-        var fecha = new Date(periodofin.slice(0, 10))
-        return fecha < new Date();
+    
+    function doRequestCarrera() {
+        blockUI.start();
+        var req = {
+            method: "GET",
+            url: "/bonita/API/extension/AnahuacRestGet?url=getCarreraByCampus&p=0&c=100&campus="+$scope.properties.campusSeleccionado,
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+                console.log(data.data)
+                $scope.carreraLista = data.data;
+            })
+            .error(function(data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function() {
+
+                blockUI.stop();
+            });
+    }
+
+    $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
+        if (newValue !== undefined) {
+            doRequestCarrera();
+        }
+    });
+
+    $scope.peridoSelected = "";
+    $scope.periodoLista = [];
+    $scope.carreraSelected = "";
+    $scope.carreraLista =[];
+
+    $scope.filterSelectCarrera = function() {
+        var aplicado = true;
+        for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSend.lstFiltro[index];
+            if (element.columna == "CARRERA") {
+                if($scope.peridoSelected == ""){
+                    $scope.properties.dataToSend.lstFiltro.splice(index,index+1);
+                }else{
+                    $scope.properties.dataToSend.lstFiltro[index].valor = $scope.carreraSelected;
+                    $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
+                }
+                aplicado = false;
+            }
+
+        }
+        if (aplicado) {
+            var obj = { "columna": "CARRERA", "operador": "Que contengan", "valor": $scope.carreraSelected }
+            $scope.properties.dataToSend.lstFiltro.push(obj);
+        }
+        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+            doRequest("POST", $scope.urlPost3);
+        }
+    }
+
+    $scope.filterSelectPeriodo = function() {
+        var aplicado = true;
+        for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSend.lstFiltro[index];
+            if (element.columna == "PERIODO") {
+                if($scope.peridoSelected == ""){
+                    $scope.properties.dataToSend.lstFiltro.splice(index,index+1);
+                }else{
+                    $scope.properties.dataToSend.lstFiltro[index].valor = $scope.peridoSelected;
+                    $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
+                }
+                aplicado = false;
+            }
+
+        }
+        if (aplicado) {
+            var obj = { "columna": "PERIODO", "operador": "Que contengan", "valor": $scope.peridoSelected }
+            $scope.properties.dataToSend.lstFiltro.push(obj);
+        }
+        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+            doRequest("POST", $scope.urlPost3);
+        }
     }
 }
