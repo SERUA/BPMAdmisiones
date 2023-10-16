@@ -9,6 +9,11 @@ import org.bonitasoft.engine.bpm.process.ProcessDefinition
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
+
+import com.anahuac.catalogos.CatApiKey
+import com.anahuac.catalogos.CatApiKeyDAO
+import com.anahuac.catalogos.CatCampus
+import com.anahuac.catalogos.CatCampusDAO
 import com.anahuac.posgrados.catalog.PSGRCatApiKey
 import com.anahuac.posgrados.catalog.PSGRCatApiKeyDAO
 import com.anahuac.posgrados.catalog.PSGRCatCampus
@@ -281,66 +286,100 @@ class MailGunDAO {
 	}
 	
 	
-	public Result sendEmailPlantilla(String correo, String asunto, String body, String cc, String campus, RestAPIContext context) {
-	    Result resultado = new Result();
-	    List<String> lstResultado = new ArrayList<>();
-	    String errorlog = "";
-		boolean closeCon = false
-		String apiKey = "";  // Declarar la variable fuera del bloque if
-	    try {
+	public Result sendEmailPlantilla(String correo, String asunto, String body, String cc, String campus,RestAPIContext context ) {
+		Result resultado = new Result()
+		ProcessDefinition objProcessDefinition
+		Long procesoid = 0L
+		List<String> lstResultado = new ArrayList<String>()
+		Map<String, String> objGrupoSelected = new HashMap<String, String>();
+		Map<String, String> objGrupoCampus = new HashMap<String, String>();
+		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
+		String errorlog = ""
+		def jsonData
+		def object
+		Result catConfiguracionesResult
+		try {
+			
+			def correocopia = ""
+			errorlog += "Constructor EstructuraMailGun"
+			EstructuraMailGun estructura = new EstructuraMailGun()
+			
+			estructura.setTo(correo)
+			estructura.setCc(cc)
+			estructura.setSubject(asunto)
+			estructura.setBody(body)
+			errorlog += ", get lstCatApikey"
+
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
+			lstGrupoCampus = new ArrayList<Map<String, String>>();
+			for(PSGRCatCampus objCatCampus : lstCatCampus) {
+				objGrupoCampus = new HashMap<String, String>();
+				objGrupoCampus.put("persistenceid", objCatCampus.getPersistenceId());
+				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
+				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
+				lstGrupoCampus.add(objGrupoCampus);
+				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupo_bonita()
+			}
+			
+			errorlog += ", for Comparar  "  + lstGrupoCampus.size() + campus
+			for(Map<String, String> row : lstGrupoCampus) {
+				errorlog += row.get("valor") + campus
+				if(row.get("valor").equals(campus)) {
+					objGrupoSelected = row;
+					errorlog += " OBJGRUPOSELECTED " + row
+				}
+			}
 			
 			if (catalogosDAO == null) {
 				catalogosDAO = new CatalogosDAO();
 			}
-			errorlog += "campus " + campus;
-			def jsonData = new groovy.json.JsonBuilder(campus: campus).toString()
-			errorlog += "jsonData " + jsonData;
-	        Result catConfiguracionesResult = catalogosDAO.getCatConfiguraciones(jsonData)
-			errorlog += "catConfiguracionesResult " + catConfiguracionesResult;
-	        List<Map<String, Object>> configuracionesData = catConfiguracionesResult.getData();
-			errorlog += "configuracionesData " + configuracionesData;
-			def object = new Expando(configuracionesData.first())
-//			throw new Exception("PRUEBA." + object);
-			errorlog += "Object " + object;
-	        String correoDe = object.mailgun_dominio;
-			// Valores estáticos (reemplaza estos con tus propios valores)
-			//	        apiKey = configuracionesData.valor;
-			//			errorlog = "apikey" + apiKey.toString();
-			//	        String sandBox = "admisiones.anahuacmexicocampusnorte.mx";
-	        EstructuraMailGun estructura = new EstructuraMailGun();
-	        estructura.setTo(correo);
 			
-	        estructura.setCc(cc);
-	        estructura.setSubject(asunto != null ? asunto : "Asunto predeterminado");
-	        estructura.setBody(body != null ? body : "Cuerpo predeterminado");
+			
+			jsonData = new groovy.json.JsonBuilder(campus: lstGrupoCampus.first().get("persistenceid")).toString()
+			
+			catConfiguracionesResult = catalogosDAO.getCatConfiguraciones(jsonData)
+			List<Map<String, Object>> configuracionesData = catConfiguracionesResult.getData();
+			object = new Expando(configuracionesData.first())
+			String correoDe = object.mailgun_dominio;
+//			estructura.setTo(correo);
 			estructura.setApiKey(object.mailgun_apikey);
 			estructura.setSandBox(object.mailgun_dominio);
-	//		throw new Exception("PRUEBA." + estructura);
-	        // Enviar correo con valores estáticos
-	        JsonNode jsonNode = sendSimpleMessage(estructura);
-	//		throw new Exception("PRUEBA." + jsonNode);
-	        lstResultado.add(jsonNode.toString());
-	        resultado.setData(lstResultado);
-	        resultado.setSuccess(true);
-	        resultado.setInfo(errorlog);
-	
-	        // Agregar el correoDe estático al resultado
-	        List<String> ad = new ArrayList<>();
-	        ad.add(correoDe);
-	        resultado.setAdditional_data(ad);
-	    } catch (Exception ex) {
-	        resultado.setInfo(errorlog);
-	        LOGGER.error(ex.getMessage());
-	        resultado.setSuccess(false);
-	        resultado.setError(ex.getMessage());
-	    } finally {
-	        // Cerrar la conexión en caso de que esté abierta
-	        if (closeCon) {
-	            new DBConnect().closeObj(con, stm, rs, pstm)
-	        }
-	    }
-	
-	    return resultado;
+			
+//			String correoDe =""
+//			def daoCatApiKey = context.getApiClient().getDAO(CatApiKeyDAO.class)
+//			for(CatApiKey ca:daoCatApiKey.find(0,9999)) {
+//				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor")
+//				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
+//					estructura.setSandBox(ca.getMailgunDominio())
+//					estructura.setApiKey(ca.getMailgun())
+//					errorlog += " estructura.sandbox= " + estructura.getSandBox();
+//					errorlog += ", estructura.MailgunDominio= " + ca.getMailgunDominio();
+//					errorlog += ", estructura.getMailgun= " + ca.getMailgun();
+//					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgunCorreo();
+//					correoDe=ca.getMailgunCorreo()
+//				}
+//			}
+			List<String> ad = new ArrayList<String>()
+			ad.add(correoDe)
+			resultado.setAdditional_data(ad)
+			//errorlog += ", estructura" + estructura.toString()
+			JsonNode jsonNode = sendSimpleMessage(estructura)
+			errorlog += ",jsonNode"
+			
+			lstResultado.add(jsonNode.toString())
+			errorlog += ",jsonNode.toString()= "+jsonNode.toString()
+			resultado.setData(lstResultado)
+			resultado.setSuccess(true)
+			resultado.setInfo(errorlog);
+		}catch(Exception ex) {
+			resultado.setInfo(errorlog);
+			LOGGER.error ex.getMessage()
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		}
+		
+		return resultado
 	}
 	
 	public Result sendEmailPlantillaSDAE(String correo, String asunto, String body, String cc, String campus,RestAPIContext context ) {
@@ -423,34 +462,25 @@ class MailGunDAO {
 	}
 	
 	public static JsonNode sendSimpleMessage(EstructuraMailGun estructura) throws UnirestException {
-	    HttpResponse<String> response = (estructura.getCc().equals(""))
-	            ? Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
-	                .basicAuth("api", estructura.getApiKey())
-	                .field("from", "Universidad Anáhuac <servicios@" + estructura.getSandBox() + ">")
-	                .field("to", estructura.getTo())
-	                .field("subject", estructura.getSubject())
-	                .field("html", estructura.getBody().replace("\\", ""))
-	                .field("text", "Fallback text content")  // Agregado para asegurar que al menos uno de 'text' o 'html' esté presente
-	                .asString()
-	            : Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
-	                .basicAuth("api", estructura.getApiKey())
-	                .field("from", "Universidad Anáhuac <servicios@" + estructura.getSandBox() + ">")
-	                .field("to", estructura.getTo())
-	                .field("cc", estructura.getCc())
-	                .field("subject", estructura.getSubject())
-	                .field("html", estructura.getBody().replace("\\", ""))
-	                .field("text", "Fallback text content")  // Agregado para asegurar que al menos uno de 'text' o 'html' esté presente
-	                .asString();
-	
-	    // Manejar la respuesta y convertirla a JsonNode si es necesario
-	    JsonNode jsonNode = null;
-	    try {
-	        jsonNode = new ObjectMapper().readTree(response.getBody());
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
-	
-	    return jsonNode;
+				HttpResponse<JsonNode> request = (estructura.getCc().equals(""))?Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
+					.basicAuth("api", estructura.getApiKey())
+					.field("from", "Universidad Anáhuac <servicios@"+ estructura.getSandBox() +">")
+					.field("to", estructura.getTo())
+					//.field("to", "ricardo.riveroll@anahuac.mx")
+					//.field("cc", estructura.getCc())
+					.field("subject", estructura.getSubject())
+					.field("html", estructura.getBody().replace("\\", ""))
+					.asJson():Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
+					.basicAuth("api", estructura.getApiKey())
+					.field("from", "Universidad Anáhuac <servicios@"+ estructura.getSandBox() +">")
+					.field("to", estructura.getTo())
+					//.field("to", "ricardo.riveroll@anahuac.mx")
+					.field("cc", estructura.getCc())
+					.field("subject", estructura.getSubject())
+					.field("html", estructura.getBody().replace("\\", ""))
+					.asJson()
+		
+				return request.getBody()
 	}
 	
 	

@@ -93,6 +93,10 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATGIROEMPRESA = "SELECT * FROM PSGRCatGiroEmpresa [WHERE] [ORDERBY]";
 	
+	//PSGRCatNotificaciones
+	public static final String INSERT_CATNOTIFICACIONES = "INSERT INTO psgrcatnotificaciones (persistenceid, anguloimagenfooter, anguloimagenheader, asunto, bloqueaspirante, caseid, codigo, comentarioleon, contenido, contenidocorreo, contenidoleonel, descripcion, docguiaestudio, enlacebanner, enlacecontacto, enlacefacebook, enlacefooter, enlaceinstagram, enlacetwitter, informacionlic, iseliminado, nombreimagenfooter, nombreimagenheader, persistenceversion, textofooter, tipocorreo, titulo, urlimgfooter, urlimgheader) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
+	
+	
 	//ConsultasPersonalizadas
 	public static final String GET_PERIODOBYIDCAMPUS  = "SELECT * FROM PSGRCatPeriodo WHERE id_campus = ?";
 	public static final String GET_POSGRADOBYIDCAMPUS  = "SELECT * FROM PSGRCatPosgrado WHERE campus_pid = ?";
