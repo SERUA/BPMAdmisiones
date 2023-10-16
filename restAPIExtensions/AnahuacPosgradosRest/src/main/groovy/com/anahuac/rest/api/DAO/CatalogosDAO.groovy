@@ -4917,43 +4917,81 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			if(object.clave.equals("") || object.clave == null) {
-				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.orden.equals("") || object.orden == null) {
-				throw new Exception("El campo \"orden\" no debe ir vacío");
-			} else if(object.descripcion.equals("") || object.descripcion == null) {
-				throw new Exception("El campo \"Descripción\" no debe ir vacío");
-			}
+//			if(object.clave.equals("") || object.clave == null) {
+//				throw new Exception("El campo \"Clave\" no debe ir vacío");
+//			} else if(object.orden.equals("") || object.orden == null) {
+//				throw new Exception("El campo \"orden\" no debe ir vacío");
+//			} else if(object.descripcion.equals("") || object.descripcion == null) {
+//				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+//			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATNOTIFICACIONES);
-            pstm.setString(1, object.anguloimagenfooter);
-            pstm.setString(2, object.anguloimagenheader);
-            pstm.setString(3, object.asunto);
-            pstm.setString(4, object.bloqueaspirante);
-            pstm.setString(5, object.caseid);
-            pstm.setString(6, object.codigo);
-            pstm.setString(7, object.comentarioleon);
-            pstm.setString(8, object.contenido);
-            pstm.setString(0, object.contenidocorreo);
-            pstm.setString(10, object.contenidoleonel);
-            pstm.setString(11, object.descripcion);
-            pstm.setString(12, object.docguiaestudio);
-            pstm.setString(13, object.enlacebanner);
-            pstm.setString(14, object.enlacecontacto);
-            pstm.setString(15, object.enlacefacebook);
-            pstm.setString(16, object.enlacefooter);
-            pstm.setString(17, object.enlaceinstagram);
-            pstm.setString(18, object.enlacetwitter);
-            pstm.setString(19, object.informacionlic);
-            pstm.setString(20, object.iseliminado);
-            pstm.setString(21, object.nombreimagenfooter);
-            pstm.setString(22, object.nombreimagenheader);
-            pstm.setString(23, object.persistenceversion);
-            pstm.setString(24, object.textofooter);
-            pstm.setString(25, object.tipocorreo);
-            pstm.setString(26, object.titulo);
-            pstm.setString(27, object.urlimgfooter);
-            pstm.setString(28, object.urlimgheader);
+			pstm.setString(1, object.anguloimagenfooter);
+			pstm.setString(2, object.anguloimagenheader);
+			pstm.setString(3, object.asunto);
+			pstm.setBoolean(4, object.bloqueaspirante);
+			pstm.setString(5, object.caseid);
+			pstm.setString(6, object.codigo);
+			pstm.setString(7, object.comentarioleon);
+			pstm.setString(8, object.contenido);
+			pstm.setString(9, object.contenidocorreo);
+			pstm.setString(10, object.contenidoleonel);
+			pstm.setString(11, object.descripcion);
+			pstm.setString(12, object.docguiaestudio);
+			pstm.setString(13, object.enlacebanner);
+			pstm.setString(14, object.enlacecontacto);
+			pstm.setString(15, object.enlacefacebook);
+			pstm.setString(16, object.enlacefooter);
+			pstm.setString(17, object.enlaceinstagram);
+			pstm.setString(18, object.enlacetwitter);
+			pstm.setBoolean(19, object.informacionlic);
+			pstm.setBoolean(20, object.iseliminado);
+			pstm.setString(21, object.nombreimagenfooter);
+			pstm.setString(22, object.nombreimagenheader);
+			pstm.setLong(23, object.persistenceversion);
+			pstm.setString(24, object.textofooter);
+			pstm.setString(25, object.tipocorreo);
+			pstm.setString(26, object.titulo);
+			pstm.setString(27, object.urlimgfooter);
+			pstm.setString(28, object.urlimgheader);
+		
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result insertCatProcesoCaso(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+//			if(object.clave.equals("") || object.clave == null) {
+//				throw new Exception("El campo \"Clave\" no debe ir vacío");
+//			} else if(object.orden.equals("") || object.orden == null) {
+//				throw new Exception("El campo \"orden\" no debe ir vacío");
+//			} else if(object.descripcion.equals("") || object.descripcion == null) {
+//				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+//			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPROCESOCASO);
+			pstm.setString(1, object.campus);
+			pstm.setString(2, object.proceso);
 		
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);

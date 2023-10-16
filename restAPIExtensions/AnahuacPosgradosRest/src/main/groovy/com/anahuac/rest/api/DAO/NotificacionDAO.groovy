@@ -1,14 +1,17 @@
 package com.anahuac.rest.api.DAO
 
 import com.anahuac.model.DetalleSolicitud
-import com.anahuac.model.ProcesoCaso
+//import com.anahuac.model.ProcesoCaso
 import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
+import com.anahuac.posgrados.catalog.PSGRCatImageNotificacionDAO
 import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
 import com.anahuac.posgrados.catalog.PSGRCatNotificacionesDAO
 import com.anahuac.posgrados.catalog.PSGRCatRegistro
+import com.anahuac.posgrados.catalog.PSGRCatRegistroDAO
 import com.anahuac.posgrados.model.PSGRProcesoCaso
+import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
@@ -19,7 +22,7 @@ import groovy.json.JsonSlurper
 
 
 import com.anahuac.rest.api.DB.Statements
-import com.anahuac.model.ProcesoCasoDAO
+//import com.anahuac.model.ProcesoCasoDAO
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
 
@@ -34,13 +37,13 @@ import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 
-import com.anahuac.catalogos.CatRegistroDAO
-import com.anahuac.catalogos.CatNotificacionesDAO
-import com.anahuac.catalogos.CatRegistro
+//import com.anahuac.catalogos.CatRegistroDAO
+//import com.anahuac.catalogos.CatNotificacionesDAO
+//import com.anahuac.catalogos.CatRegistro
 import com.anahuac.catalogos.CatDocumentosTextos
 import com.anahuac.catalogos.CatImageNotificacion
 import com.anahuac.catalogos.CatImageNotificacionDAO
-import com.anahuac.catalogos.CatNotificaciones
+//import com.anahuac.catalogos.CatNotificaciones
 
 
 class NotificacionDAO {
@@ -95,19 +98,21 @@ class NotificacionDAO {
 			
 			userLogged = context.getApiSession().getUserId();
 			errorlog += "| Se obtuvo el usuario " + userLogged;
-			CatNotificaciones catNotificaciones= null;
-			ProcesoCaso procesoCaso = new ProcesoCaso()
-			CatNotificaciones cn = new CatNotificaciones()
+			PSGRCatNotificaciones catNotificaciones= null;
+			PSGRProcesoCaso procesoCaso = new PSGRProcesoCaso()
+			PSGRCatNotificaciones cn = new PSGRCatNotificaciones()
+			def catNotificacionesDAO
 			try {
-				def procesoCasoDAO = context.getApiClient().getDAO(ProcesoCasoDAO.class);
-				procesoCaso = procesoCasoDAO.getCaseId(object.campus, "CatNotificaciones");
-				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCaseId()
-				def catNotificacionesDAO = context.getApiClient().getDAO(CatNotificacionesDAO.class);
-				catNotificaciones = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
+				def procesoCasoDAO = context.getApiClient().getDAO(PSGRProcesoCasoDAO.class);
+				procesoCaso = procesoCasoDAO.getCase_id(object.campus, "CatNotificaciones");
+				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCase_id()
+				catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
+				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(procesoCaso.getCase_id(),object.codigo)
 				cn=catNotificaciones
 			} catch (Exception e) {
 				Boolean closeCon2=false;
 				try {
+					
 					closeCon2 = validarConexion();
 					String ordenpago = ""
 					String campus_id =""
@@ -116,63 +121,63 @@ class NotificacionDAO {
 					pstm.setString(2, object.codigo)
 					rs = pstm.executeQuery()
 					if (rs.next()) {
-						catNotificaciones = new CatNotificaciones()
-						catNotificaciones.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
-						catNotificaciones.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
+						catNotificaciones = new PSGRCatNotificaciones()
+						catNotificaciones.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
+						catNotificaciones.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
 						catNotificaciones.setAsunto(rs.getString("asunto"))
-						catNotificaciones.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
-						catNotificaciones.setCaseId(rs.getString("caseId"))
+						catNotificaciones.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
+						catNotificaciones.setCase_id(rs.getString("case_id"))
 						catNotificaciones.setCodigo(rs.getString("codigo"))
-						catNotificaciones.setComentarioLeon(rs.getString("comentarioLeon"))
+						catNotificaciones.setComentario_leon(rs.getString("comentario_leon"))
 						catNotificaciones.setContenido(rs.getString("contenido"))
-						catNotificaciones.setContenidoCorreo(rs.getString("contenidoCorreo"))
-						catNotificaciones.setContenidoLeonel(rs.getString("contenidoLeonel"))
+						catNotificaciones.setContenido_correo(rs.getString("contenido_correo"))
+						catNotificaciones.setContenido_leonel(rs.getString("contenido_leonel"))
 						catNotificaciones.setDescripcion(rs.getString("descripcion"))
-						catNotificaciones.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
-						catNotificaciones.setEnlaceBanner(rs.getString("enlaceBanner"))
-						catNotificaciones.setEnlaceContacto(rs.getString("enlaceContacto"))
-						catNotificaciones.setEnlaceFacebook(rs.getString("enlaceFacebook"))
-						catNotificaciones.setEnlaceFooter(rs.getString("enlaceFooter"))
-						catNotificaciones.setEnlaceInstagram(rs.getString("enlaceInstagram"))
-						catNotificaciones.setEnlaceTwitter(rs.getString("enlaceTwitter"))
-						catNotificaciones.setInformacionLic(rs.getBoolean("informacionLic"))
-						catNotificaciones.setIsEliminado(rs.getBoolean("isEliminado"))
-						catNotificaciones.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
-						catNotificaciones.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
+						catNotificaciones.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
+						catNotificaciones.setEnlace_banner(rs.getString("enlace_banner"))
+						catNotificaciones.setEnlace_contacto(rs.getString("enlace_contacto"))
+						catNotificaciones.setEnlace_facebook(rs.getString("enlace_facebook"))
+						catNotificaciones.setEnlace_footer(rs.getString("enlace_footer"))
+						catNotificaciones.setEnlace_instagram(rs.getString("enlace_instagram"))
+						catNotificaciones.setEnlace_twitter(rs.getString("enlace_twitter"))
+						catNotificaciones.setInformacion_lic(rs.getBoolean("informacion_lic"))
+						catNotificaciones.setIs_eliminado(rs.getBoolean("is_eliminado"))
+						catNotificaciones.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
+						catNotificaciones.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
 						catNotificaciones.setPersistenceId(rs.getLong("persistenceId"))
 						catNotificaciones.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						catNotificaciones.setTextoFooter(rs.getString("textoFooter"))
-						catNotificaciones.setTipoCorreo(rs.getString("tipoCorreo"))
+						catNotificaciones.setTexto_footer(rs.getString("texto_footer"))
+						catNotificaciones.setTipo_correo(rs.getString("tipo-correo"))
 						catNotificaciones.setTitulo(rs.getString("titulo"))
-						catNotificaciones.setLstCorreoCopia(new ArrayList<String>())
-						catNotificaciones.setLstVariableNotificacion(new ArrayList<String>())
-						procesoCaso.setCaseId(rs.getString("caseId"))
-						cn.setAnguloImagenFooter(rs.getString("anguloImagenFooter"))
-						cn.setAnguloImagenHeader(rs.getString("anguloImagenHeader"))
+						catNotificaciones.setLst_correo_copia(new ArrayList<String>())
+						catNotificaciones.setLst_variable_notificacion(new ArrayList<String>())
+						procesoCaso.setCase_id(rs.getString("case_id"))
+						cn.setAngulo_imagen_footer(rs.getString("angulo_imagen_footer"))
+						cn.setAngulo_imagen_header(rs.getString("angulo_imagen_header"))
 						cn.setAsunto(rs.getString("asunto"))
-						cn.setBloqueAspirante(rs.getBoolean("bloqueAspirante"))
-						cn.setCaseId(rs.getString("caseId"))
+						cn.setBloque_aspirante(rs.getBoolean("bloque_aspirante"))
+						cn.setCase_id(rs.getString("case_id"))
 						cn.setCodigo(rs.getString("codigo"))
-						cn.setComentarioLeon(rs.getString("comentarioLeon"))
+						cn.setComentario_leon(rs.getString("comentario_leon"))
 						cn.setContenido(rs.getString("contenido"))
-						cn.setContenidoCorreo(rs.getString("contenidoCorreo"))
-						cn.setContenidoLeonel(rs.getString("contenidoLeonel"))
+						cn.setContenido_correo(rs.getString("contenido_correo"))
+						cn.setContenido_leonel(rs.getString("contenido_leonel"))
 						cn.setDescripcion(rs.getString("descripcion"))
-						cn.setDocGuiaEstudio(rs.getString("docGuiaEstudio"))
-						cn.setEnlaceBanner(rs.getString("enlaceBanner"))
-						cn.setEnlaceContacto(rs.getString("enlaceContacto"))
-						cn.setEnlaceFacebook(rs.getString("enlaceFacebook"))
-						cn.setEnlaceFooter(rs.getString("enlaceFooter"))
-						cn.setEnlaceInstagram(rs.getString("enlaceInstagram"))
-						cn.setEnlaceTwitter(rs.getString("enlaceTwitter"))
-						cn.setInformacionLic(rs.getBoolean("informacionLic"))
-						cn.setIsEliminado(rs.getBoolean("isEliminado"))
-						cn.setNombreImagenFooter(rs.getString("nombreImagenFooter"))
-						cn.setNombreImagenHeader(rs.getString("nombreImagenHeader"))
+						cn.setDoc_guia_estudio(rs.getString("doc_guia_estudio"))
+						cn.setEnlace_banner(rs.getString("enlace_banner"))
+						cn.setEnlace_contacto(rs.getString("enlace_contacto"))
+						cn.setEnlace_facebook(rs.getString("enlace_facebook"))
+						cn.setEnlace_footer(rs.getString("enlace_footer"))
+						cn.setEnlace_instagram(rs.getString("enlace_instagram"))
+						cn.setEnlace_twitter(rs.getString("enlace_twitter"))
+						cn.setInformacion_lic(rs.getBoolean("informacion_lic"))
+						cn.setIs_eliminado(rs.getBoolean("is_eliminado"))
+						cn.setNombre_imagen_footer(rs.getString("nombre_imagen_footer"))
+						cn.setNombre_imagen_header(rs.getString("nombre_imagen_header"))
 						cn.setPersistenceId(rs.getLong("persistenceId"))
 						cn.setPersistenceVersion(rs.getLong("persistenceVersion"))
-						cn.setTextoFooter(rs.getString("textoFooter"))
-						cn.setTipoCorreo(rs.getString("tipoCorreo"))
+						cn.setTexto_footer(rs.getString("texto_footer"))
+						cn.setTipo_correo(rs.getString("tipo_correo"))
 						cn.setTitulo(rs.getString("titulo"))
 						
 					}
@@ -185,7 +190,7 @@ class NotificacionDAO {
 					
 				}
 			}
-			
+			throw new Exception("El campo \"cn\" no debe ir vacío" + catNotificaciones.persistenceid);
 			
 			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
 			
@@ -196,13 +201,13 @@ class NotificacionDAO {
 			errorlog += "|  lcn"
 			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
-			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCaseId()
+			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
 			
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
 			errorlog+="| seteando mensaje"
 			
-			plantilla=plantilla.replace("[banner-href]", cn.getEnlaceBanner())
+			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
 			
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
@@ -225,9 +230,9 @@ class NotificacionDAO {
 			
 			//9 variable plantilla [contenido]
 			errorlog += "| Variable9"
-			if(!cn.getContenidoCorreo().equals("")) {
+			if(!cn.getContenido_correo().equals("")) {
 				plantilla=plantilla.replace("<!--[CONTENIDO]-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td class=\"col-12\"style=\"font-size: initial; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [contenido]</td> </tr> </tbody> </table>")
-				plantilla=plantilla.replace("[contenido]", cn.getContenidoCorreo())
+				plantilla=plantilla.replace("[contenido]", cn.getContenido_correo())
 				
 				plantilla=plantilla.replace("[HOST]", objProperties.getUrlHost())
 				if(object.mensaje != null) {
@@ -260,9 +265,9 @@ class NotificacionDAO {
 			correo=object.correo;
 			errorlog += "| Variable8.3 cn.getAsunto()=" + cn.getAsunto()
 			asunto=cn.getAsunto();
-			errorlog += "| Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLstCorreoCopia().size()
-			if(cn.getLstCorreoCopia().size()>0) {
-				for(String row: cn.getLstCorreoCopia()) {
+			errorlog += "| Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLst_correo_copia().size()
+			if(cn.getLst_correo_copia().size()>0) {
+				for(String row: cn.getLst_correo_copia()) {
 					if(cc == "") {
 						cc = row
 					}else {
@@ -330,7 +335,7 @@ class NotificacionDAO {
 			try {
 				def catImageNotificacion = context.apiClient.getDAO(CatImageNotificacionDAO.class);
 				errorlog += "| Variable9.1 catImageNotificacion.findByCaseId"
-				List<CatImageNotificacion> lci = catImageNotificacion.findByCaseId(Long.valueOf(procesoCaso.getCaseId()), 0, 999)
+				List<CatImageNotificacion> lci = catImageNotificacion.findByCaseId(Long.valueOf(procesoCaso.getCase_id()), 0, 999)
 				Integer numero= 0;
 				errorlog += "| Variable9.2 lci.size()=" + lci.size()
 				if(lci.size()>0) {
@@ -364,9 +369,9 @@ class NotificacionDAO {
 			
 			
 			errorlog += "| Variable13"
-			if(!cn.getContenidoLeonel().equals("") ) {
+			if(!cn.getContenido_leonel().equals("") ) {
 				plantilla=plantilla.replace("<!--Leonel-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td width=\"25%\" style=\"text-align: right;\"> <img style=\"width: 145px;\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Leoneldmnisiones_Mesa%20de%20trabajo%201.png\"> </td> <td class=\"col-6\"> <div class=\"arrow_box\" style=\"position: relative; background: #ff5900; border: 4px solid #ff5900;border-radius: 50px;\"> <h6 class=\"logo\" style=\"font-size: 12px; padding: 10px; color: white; font-weight: 500;font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [leonel]</h6> </div> </td> </tr> </tbody> </table>"+"<hr>")
-				plantilla=plantilla.replace("[leonel]", cn.getContenidoLeonel())
+				plantilla=plantilla.replace("[leonel]", cn.getContenido_leonel())
 			}
 			
 			errorlog += "| Variable15"
@@ -1061,7 +1066,7 @@ class NotificacionDAO {
 		return retorno;
 	}
 	
-	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog,Boolean isEnviar) {
+	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar) {
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
@@ -1265,14 +1270,14 @@ class NotificacionDAO {
 		return plantilla
 	}
 	
-	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, CatNotificaciones cn, String errorlog) {
+	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog) {
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px; \"> [valor] </span> </font> </td> </tr>"
 		try {
-		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(CatRegistroDAO.class);
-		List<CatRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoelectronico(correo, 0, 99)
+		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRCatRegistroDAO.class);
+		List<PSGRCatRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 99)
 		if(objSolicitudDeAdmision.size()>0) {
 			/*for(String variables:cn.getLstVariableNotificacion()) {
 				if(variables.equals("Nombre")) {
@@ -1285,9 +1290,9 @@ class NotificacionDAO {
 				
 				
 			}*/
-			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).getPrimernombre()+" "+objSolicitudDeAdmision.get(0).getSegundonombre()+" "+objSolicitudDeAdmision.get(0).getApellidopaterno()+" "+objSolicitudDeAdmision.get(0).getApellidomaterno())
-			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).getPrimernombre()+" "+objSolicitudDeAdmision.get(0).getSegundonombre())
-			plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreoelectronico())
+			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).getPrimer_nombre()+" "+objSolicitudDeAdmision.get(0).getSegundo_nombre()+" "+objSolicitudDeAdmision.get(0).getApellidopaterno()+" "+objSolicitudDeAdmision.get(0).getApellidomaterno())
+			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).getPrimer_nombre()+" "+objSolicitudDeAdmision.get(0).getSegundo_nombre())
+			plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreo_electronico())
 			errorlog += ", Variable14"
 		}
 		errorlog += ", Variable10 tablaUsuario"
