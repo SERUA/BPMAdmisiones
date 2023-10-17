@@ -27,6 +27,7 @@ import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
 
 import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -1409,29 +1410,29 @@ class NotificacionDAO {
 			
 			while(rs.next()) {
 				row = new PSGRCatNotificaciones();
-				row.angulo_imagen_footer = rs.getString("anguloImagenFooter");
-				row.angulo_imagen_header = rs.getString("anguloImagenHeader");
+				row.angulo_imagen_footer = rs.getString("angulo_imagen_footer");
+				row.angulo_imagen_header = rs.getString("angulo_imagen_header");
 				row.asunto = rs.getString("asunto");
-				row.case_id = rs.getString("caseId");
+				row.case_id = rs.getString("case_id");
 				row.codigo = rs.getString("codigo");
-				row.comentario_leon = rs.getString("comentarioLeon");
+				row.comentario_leon = rs.getString("comentario_leon");
 				row.contenido  = rs.getString("contenido");
-				row.contenido_correo = rs.getString("contenidoCorreo");
-				row.contenido_leonel = rs.getString("contenidoLeonel");
+				row.contenido_correo = rs.getString("contenido_correo");
+				row.contenido_leonel = rs.getString("contenido_leonel");
 				row.descripcion = rs.getString("descripcion");
-				row.doc_guia_estudio = rs.getString("docGuiaEstudio");
-				row.enlace_banner = rs.getString("enlaceBanner");
-				row.enlace_contacto = rs.getString("enlaceContacto");
-				row.enlace_facebook = rs.getString("enlaceFacebook");
-				row.enlace_footer = rs.getString("enlaceFooter");
-				row.enlace_instagram = rs.getString("enlaceInstagram");
-				row.enlace_twitter = rs.getString("enlaceTwitter");
-				row.nombreImagenFooter = rs.getString("nombreImagenFooter");
-				row.textoFooter  = rs.getString("textoFooter");
-				row.tipoCorreo = rs.getString("tipoCorreo");
+				row.doc_guia_estudio = rs.getString("doc_guia_estudio");
+				row.enlace_banner = rs.getString("enlace_banner");
+				row.enlace_contacto = rs.getString("enlace_contacto");
+				row.enlace_facebook = rs.getString("enlace_facebook");
+				row.enlace_footer = rs.getString("enlace-footer");
+				row.enlace_instagram = rs.getString("enlace_instagram");
+				row.enlace_twitter = rs.getString("enlace_twitter");
+				row.nombre_imagen_footer = rs.getString("nombre_imagen_footer");
+				row.texto_footer  = rs.getString("texto_footer");
+				row.tipo_correo = rs.getString("tipo_correo");
 				row.titulo = rs.getString("titulo");
-				row.urlImgFooter = rs.getString("urlImgFooter");
-				row.urlImgHeader = rs.getString("urlImgHeader");
+				row.url_img_footer = rs.getString("url_img_footer");
+				row.url_img_header = rs.getString("url_img_header");
 				rows.add(row);
 			}
 			

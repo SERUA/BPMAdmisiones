@@ -21,5 +21,6 @@ class Statements {
 	
 	//CARTAS
 	public static final String GET_CARTAS_NOTIFICACIONES_ALT="SELECT c.* FROM psgrcatnotificaciones c INNER JOIN psgrprocesocaso pc on pc.case_id=c.case_id and pc.campus=? WHERE c.tipo_correo <> 'Notificación de SDAE'";
+	public static final String GET_CARTAS_NOTIFICACIONES_ESTATUS="SELECT c.* FROM PSGRcatnotificaciones c INNER JOIN psgrprocesocaso pc on pc.case_id=c.case_id and pc.campus = ? WHERE c.tipo_correo IN ([ESTATUS])";
 	
 }
