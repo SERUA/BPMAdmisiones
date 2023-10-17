@@ -194,6 +194,7 @@ class NuevoListadoDAO {
 		Long userLogged = 0L;
 		Long total = 0L;
 		String where ="", orderby="ORDER BY ", errorlog="", role="", campus="", group="",registrados="";
+		Boolean isPsicologo = false;
 		List<String> lstGrupo = new ArrayList<String>();
 		Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		try {
@@ -245,6 +246,8 @@ class NuevoListadoDAO {
 						where = WhereIndividual(filtro.get("columna"),filtro.get("valor"),where);						
 					}else if(filtro.get("columna") == "ALUMNOS REGISTRADOS") {
 						registrados = WhereIndividual(filtro.get("columna"),filtro.get("valor"),registrados);
+					}else if(filtro.get("columna") == "PSICOLOGO") {
+						isPsicologo = true;
 					}
 				}
 				
@@ -264,8 +267,8 @@ class NuevoListadoDAO {
 				
 				consulta=consulta.replace("[GROUPBY]", groupBy)
 				
-				errorlog+="consulta: "+ consulta.replace("* from (", "count(*) registros from ( ").replace("[LIMITOFFSET]", "").replace("[ORDERBY]","");
-				pstm = con.prepareStatement(consulta.replace("* from (", "count(*) registros from ( ").replace("[LIMITOFFSET]", "").replace("[ORDERBY]",""));
+				errorlog+="consulta: "+ consulta.replace("* FROM (", "count(*) registros from ( ").replace("[LIMITOFFSET]", "").replace("[ORDERBY]","");
+				pstm = con.prepareStatement(consulta.replace("* FROM (", "count(*) registros from ( ").replace("[LIMITOFFSET]", "").replace("[ORDERBY]",""));
 				rs= pstm.executeQuery();
 				while(rs.next()) {
 					resultado.setTotalRegistros(rs.getInt("registros"))
@@ -287,7 +290,23 @@ class NuevoListadoDAO {
 				while (rs.next()) {
 					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 					for (int i = 1; i <= columnCount; i++) {
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						if(metaData.getColumnLabel(i).toLowerCase().equals("responsables")) {
+							User usr;
+							String responsables = rs.getString(i);
+							String nombres= "";
+							if(!responsables.equals("null") && responsables != null) {
+								String[] arrOfStr = responsables.split(",");
+								for (String a: arrOfStr) {
+									if(Long.parseLong(a)>0) {
+										usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(a))
+										nombres+=(nombres.length()>1?", ":"")+usr.getFirstName()+" "+usr.getLastName();
+									}
+								}
+							}
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+						}else {							
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						}
 					}
 					rows.add(columns);
 				}
@@ -484,7 +503,8 @@ class NuevoListadoDAO {
 				while (rs.next()) {
 					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 					for (int i = 1; i <= columnCount; i++) {
-						if(metaData.getColumnLabel(i).toLowerCase().equals("finalizado")){
+						
+						 if(metaData.getColumnLabel(i).toLowerCase().equals("finalizado")){
 							String info = rs.getString(i);
 							if(info.equals("null") || info == null){
 								columns.put(metaData.getColumnLabel(i).toLowerCase(), "s");
@@ -807,7 +827,7 @@ class NuevoListadoDAO {
 					break;
 				case "FECHA DE LA ENTREVISTA":
 					where += " AND "
-					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
 				case "ID SESIÓN":
@@ -895,7 +915,7 @@ class NuevoListadoDAO {
 	}
 	
 	public String WhereIndividual(String filtro,String valor,String where,String specific = "") {
-		if(specific.equals("")){
+		if(specific.equals("") && !filtro.equals("PSICOLOGO")) {
 			where += " AND "
 		}
 		switch (filtro) {
@@ -964,12 +984,12 @@ class NuevoListadoDAO {
 				where = where.replace("[valor]", valor)
 				where += " OR LOWER(CAST(Sesion.persistenceid AS varchar)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-				where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
+				where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
 				
 			case "FECHA DE LA ENTREVISTA":
-				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
+				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
 				
@@ -1052,6 +1072,12 @@ class NuevoListadoDAO {
 				break;
 			case "SOLICITUD":
 				orderby += "sda.caseid::INTEGER";
+				break;
+			case "PROGRAMA":
+				orderby += "gestionescolar.NOMBRE"
+				break;
+			case "INGRESO":
+				orderby += "periodo.DESCRIPCION"
 				break;
 			case "SESIÓN":
 				orderby += "Sesion.nombre";
