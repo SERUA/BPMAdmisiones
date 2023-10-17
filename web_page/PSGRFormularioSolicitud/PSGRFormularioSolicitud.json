@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697498395924,
+  "lastUpdate" : 1697509357349,
   "rows" : [
     [
       {
@@ -3999,14 +3999,14 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!datosContacto.pais || datosContacto.pais.descripcion !== \"México\""
+                        "value" : "datosContacto.pais.descripcion !== \"México\""
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
                       }
                     },
-                    "reference" : "139d0557-1c56-440c-9f4a-c6db12042868",
+                    "reference" : "e6619087-4994-47ad-8330-fbb36945c349",
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
@@ -4026,7 +4026,7 @@
                             },
                             "hidden" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             },
                             "required" : {
                               "type" : "constant",
@@ -4034,11 +4034,11 @@
                             },
                             "minLength" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : 1
                             },
                             "maxLength" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : 5
                             },
                             "readOnly" : {
                               "type" : "constant",
@@ -4065,17 +4065,19 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "datosContacto..cp"
+                              "value" : "datosContacto.cp"
                             },
                             "type" : {
                               "type" : "constant",
-                              "value" : "text"
+                              "value" : "number"
                             },
                             "min" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : 1
                             },
                             "max" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : 99999
                             },
                             "step" : {
                               "type" : "constant",
@@ -4084,11 +4086,19 @@
                             "lstCP" : {
                               "type" : "variable",
                               "value" : "cpBusqueda"
+                            },
+                            "listaCP" : {
+                              "type" : "variable",
+                              "value" : "cpBusqueda"
+                            },
+                            "cpBusqueda" : {
+                              "type" : "variable",
+                              "value" : "cpBusqueda"
                             }
                           },
-                          "reference" : "b6b3d35d-ed3e-4bf9-85df-22437f4462b5",
+                          "reference" : "5d46b5f9-eb4f-4e67-be91-e3097b3e1fa9",
                           "hasValidationError" : false,
-                          "id" : "customSDAEInputLimitCP"
+                          "id" : "customPSGRInputLimitCP"
                         }
                       ],
                       [
@@ -4107,7 +4117,7 @@
                             },
                             "hidden" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             },
                             "disabled" : {
                               "type" : "constant",
@@ -4127,7 +4137,7 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "Open modal"
                             },
                             "assign" : {
                               "type" : "constant",
@@ -4163,7 +4173,7 @@
                             },
                             "modalId" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "modaldatosCPModificar"
                             },
                             "collectionPosition" : {
                               "type" : "constant",
@@ -4177,23 +4187,23 @@
                             },
                             "estado" : {
                               "type" : "variable",
-                              "value" : "datosContacto.estado"
+                              "value" : "codigoBusqueda.estado"
                             },
                             "ciudad" : {
                               "type" : "variable",
-                              "value" : "datosContacto.ciudad"
+                              "value" : "codigoBusqueda.ciudad"
                             },
                             "municipio" : {
                               "type" : "variable",
-                              "value" : "datosContacto.municipio"
+                              "value" : "codigoBusqueda.municipio"
                             },
                             "asentamiento" : {
                               "type" : "variable",
-                              "value" : "datosContacto.colonia"
+                              "value" : "codigoBusqueda.colonia"
                             },
                             "estadoExtranjero" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "codigoBusqueda.estadoExtranjero"
                             },
                             "cp" : {
                               "type" : "variable",
@@ -4201,7 +4211,7 @@
                             },
                             "haveCiudad" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "codigoBusqueda.haveciudad"
                             }
                           },
                           "reference" : "9ce2dfe7-46dd-4a82-9504-cd2d429973e3",
@@ -6344,7 +6354,7 @@
                             },
                             "selectedRow" : {
                               "type" : "variable",
-                              "value" : ""
+                              "value" : "nuevaEmpresaTrabajo"
                             },
                             "striped" : {
                               "type" : "constant",
@@ -6416,7 +6426,7 @@
                             },
                             "action" : {
                               "type" : "constant",
-                              "value" : "Submit task"
+                              "value" : "Open modal"
                             },
                             "assign" : {
                               "type" : "constant",
@@ -6452,7 +6462,7 @@
                             },
                             "modalId" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "modalEmpresaTrabajasActual"
                             },
                             "collectionPosition" : {
                               "type" : "constant",
@@ -6695,6 +6705,9 @@
                       "editar" : {
                         "type" : "constant",
                         "value" : true
+                      },
+                      "modalId" : {
+                        "type" : "constant"
                       }
                     },
                     "reference" : "cd3edcdb-5012-450c-9a93-839049d84b3c",
@@ -6904,22 +6917,23 @@
                       },
                       "formOutput" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "formOutput"
                       },
                       "taskId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "taskId"
                       },
                       "reloadTask" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "reloadTask"
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "caseid"
                       },
                       "userId" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "userData.user_id"
                       }
                     },
                     "reference" : "e6bbf609-3007-4905-8377-f233f0bcbca0",
@@ -7656,22 +7670,23 @@
                       },
                       "formOutput" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "formOutput"
                       },
                       "taskId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "taskId"
                       },
                       "reloadTask" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "reloadTask"
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "caseid"
                       },
                       "userId" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "userData.user_id"
                       }
                     },
                     "reference" : "46f5222a-6c46-49dd-9d8d-ebf7aa860804",
@@ -10381,10 +10396,12 @@
                           "value" : "Select an option"
                         },
                         "availableValues" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "pSGRCatGiroEmpresa_query"
                         },
                         "displayedKey" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "descripcion"
                         },
                         "returnedKey" : {
                           "type" : "constant"
@@ -10444,10 +10461,12 @@
                           "value" : "Select an option"
                         },
                         "availableValues" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "pSGRCatTipoEmpresa_query"
                         },
                         "displayedKey" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "descripcion"
                         },
                         "returnedKey" : {
                           "type" : "constant"
@@ -10733,7 +10752,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajo.telefono_empresa"
+                          "value" : "nuevaEmpresaTrabajo.fecha_inicio"
                         },
                         "dateFormat" : {
                           "type" : "constant",
@@ -10809,7 +10828,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajo.telefono_empresa"
+                          "value" : "nuevaEmpresaTrabajo.desc_responsabilidad"
                         }
                       },
                       "reference" : "132e1c4c-2fa4-4a7c-bd2a-b6d90156a68d",
@@ -11020,7 +11039,7 @@
                               },
                               "closeOnSuccess" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "dataFromError" : {
                                 "type" : "variable",
@@ -11116,10 +11135,11 @@
                               },
                               "lista" : {
                                 "type" : "variable",
-                                "value" : ""
+                                "value" : "datosInfoLaboralActual"
                               },
                               "valor" : {
-                                "type" : "constant"
+                                "type" : "expression",
+                                "value" : "nuevaEmpresaTrabajo"
                               }
                             },
                             "reference" : "c31c51b2-309d-44b9-9981-22d1c6c2aae7",
@@ -11128,6 +11148,445 @@
                           }
                         ]
                       ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modaldatosCPModificar"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : "lg"
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "49f9bde3-77dc-4584-b7c2-84feb3da4a60",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "2f1e536e-7e94-4eed-9873-7ea4d76eef38",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-header"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "bd2f1de0-1afc-4d71-85cb-e4ca16a2af0b",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [ ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-body"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "074998c9-8bd7-420e-931e-f46d6daf0695",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<label class=\"color-orange\">Favor de seleccionar el asentamiento correspondiente a su código postal y dar clic al botón aceptar.</label>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "2cff9f74-2deb-45c0-8d5e-96afe9625ae2",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "headers" : {
+                          "type" : "constant",
+                          "value" : [
+                            "Código postal",
+                            "Asentamiento",
+                            "Tipo de Asentamiento",
+                            "Municipio",
+                            "Estado",
+                            "Ciudad"
+                          ]
+                        },
+                        "content" : {
+                          "type" : "expression",
+                          "value" : "cpBusqueda"
+                        },
+                        "columnsKey" : {
+                          "type" : "constant",
+                          "value" : [
+                            "codigoPostal",
+                            "asentamiento",
+                            "tipoAsentamiento",
+                            "municipio",
+                            "estado",
+                            "ciudad"
+                          ]
+                        },
+                        "selectedRow" : {
+                          "type" : "variable",
+                          "value" : "selectedCP"
+                        },
+                        "striped" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "condensed" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "bordered" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "formOutput" : {
+                          "type" : "variable",
+                          "value" : "datosContacto"
+                        }
+                      },
+                      "reference" : "a6e12bbb-f4b0-4e8a-9d1e-a0fdd96d79e5",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRTableCP"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : "modal-footer"
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "587fdeb2-038b-4f37-a8d6-8c6e095a53fa",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Cerrar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "info"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "b7ccb281-af7a-418d-b562-2369ad576372",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Aceptar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "e5d5248a-5f08-4857-9893-36e37156e193",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
                     }
                   ]
                 ]
@@ -11367,11 +11826,11 @@
         "        telefono_casa: $data.datosContacto !== undefined ? $data.datosContacto.telefono_casa : \"\",\r",
         "        correo_contacto: $data.datosContacto !== undefined ? $data.datosContacto.correo_contacto : \"\", \r",
         "        cp:  $data.datosContacto !== undefined ? $data.datosContacto.cp : \"\", \r",
-        "        pais:  getCatalogo($data.datosPrograma, \"pais\"), \r",
-        "        estado:  $data.estado !== undefined ? $data.datosContacto.estado : \"\", \r",
-        "        municipio:  $data.municipio !== undefined ? $data.datosContacto.municipio : \"\", \r",
-        "        ciudad:  $data.ciudad !== undefined ? $data.datosContacto.ciudad : \"\", \r",
-        "        colonia:  $data.colonia !== undefined ? $data.datosContacto.colonia : \"\"\r",
+        "        pais:  getCatalogo($data.datosContacto, \"pais\"), \r",
+        "        estado:  $data.datosContacto !== undefined ? $data.datosContacto.estado : \"\", \r",
+        "        municipio:  $data.datosContacto !== undefined ? $data.datosContacto.municipio : \"\", \r",
+        "        ciudad:  $data.datosContacto !== undefined ? $data.datosContacto.ciudad : \"\", \r",
+        "        colonia:  $data.datosContacto !== undefined ? $data.datosContacto.colonia : \"\"\r",
         "    },\r",
         "    datosAcademicosInput: $data.datosAcademicos === undefined ? [] : $data.datosAcademicos.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
@@ -11398,6 +11857,8 @@
         "    }, \r",
         "    datosInfoLaboralActualInput: $data.datosInfoLaboralActual === undefined ? [] : $data.datosInfoLaboralActual.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
+        "        giro_empresa:  getCatalogo(it, \"giro_empresa\"),\r",
+        "        tipo_empresa:  getCatalogo(it, \"tipo_empresa\"),\r",
         "        nombre_empresa: it.nombre_empresa !== undefined ? it.nombre_empresa : null,\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
@@ -11405,18 +11866,20 @@
         "        reporta_a: it.reporta_a !== undefined ? it.reporta_a : null,\r",
         "        fecha_inicio: it.fecha_inicio !== undefined ? it.fecha_inicio : null,\r",
         "        desc_responsabilidad: it.desc_responsabilidad !== undefined ? it.desc_responsabilidad : null,\r",
-        "        es_trabajo_actual: it.es_trabajo_actual !== undefined ? it.es_trabajo_actual : null\r",
+        "        es_trabajo_actual: true\r",
         "    })),\r",
         "    datosLaboralPrevioInput: $data.datosLaboralPrevio === undefined ? [] : $data.datosLaboralPrevio.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
         "        nombre_empresa: it.nombre_empresa !== undefined ? it.nombre_empresa : null,\r",
+        "        giro_empresa:  getCatalogo(it, \"giro_empresa\"),\r",
+        "        tipo_empresa:  getCatalogo(it, \"tipo_empresa\"),\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
         "        ext_telefono_empresa: it.ext_telefono_empresa !== undefined ? it.ext_telefono_empresa : null,\r",
         "        reporta_a: it.reporta_a !== undefined ? it.reporta_a : null,\r",
         "        fecha_inicio: it.fecha_inicio !== undefined ? it.fecha_inicio : null,\r",
         "        desc_responsabilidad: it.desc_responsabilidad !== undefined ? it.desc_responsabilidad : null,\r",
-        "        es_trabajo_actual: it.es_trabajo_actual !== undefined ? it.es_trabajo_actual : null\r",
+        "        es_trabajo_actual: false\r",
         "    })),\r",
         "    datosDocumentosInput: $data.datosDocumentos === undefined  ? [] : $data.datosDocumentos.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
@@ -11885,14 +12348,14 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"mex\" && !$data.datosPersonales.curp){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !$data.datosPersonales.curp){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' no debe ir vacío\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave !== \"mex\" && !$data.datosPersonales.pasaporte){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Pasaporte' no debe ir vacío\", \r",
@@ -12209,17 +12672,12 @@
     "setSelectedIndexPRimeraVez" : {
       "type" : "expression",
       "value" : [
-        "// if($data.registro){",
-        "//     if($data.cargado !== true){",
-        "//         if($data.registro[\"lastIndex\"] < 7 && $data.registro[\"lastIndex\"] > 0){",
-        "//             $data.selectedIndex = $data.registro[\"lastIndex\"] + 1; ",
-        "//             $data.cargado = true;",
-        "//         } else {",
-        "//             $data.selectedIndex = $data.registro[\"lastIndex\"];",
-        "//             $data.cargado = true;",
-        "//         }",
-        "//     }",
-        "// }"
+        "if($data.registro){",
+        "    if($data.cargado !== true){",
+        "        $data.selectedIndex = $data.registro[\"lastIndex\"] + 1;",
+        "        $data.cargado = true;",
+        "    }",
+        "}"
       ],
       "exposed" : false
     },
@@ -12341,6 +12799,14 @@
         "    \"desc_responsabilidad\":\"\"\r",
         "}"
       ],
+      "exposed" : false
+    },
+    "codigoBusqueda" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "selectedCP" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
