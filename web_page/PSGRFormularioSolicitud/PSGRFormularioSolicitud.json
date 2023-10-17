@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697510305737,
+  "lastUpdate" : 1697567442753,
   "rows" : [
     [
       {
@@ -6680,7 +6680,7 @@
                       },
                       "selectedRow" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "nuevaEmpresaTrabajoPrevio"
                       },
                       "striped" : {
                         "type" : "constant",
@@ -6707,7 +6707,8 @@
                         "value" : true
                       },
                       "modalId" : {
-                        "type" : "constant"
+                        "type" : "constant",
+                        "value" : "modalEmpresaTrabajasPrevio"
                       }
                     },
                     "reference" : "cd3edcdb-5012-450c-9a93-839049d84b3c",
@@ -6732,6 +6733,104 @@
                       "hidden" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Agregar"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Open modal"
+                      },
+                      "assign" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "url" : {
+                        "type" : "interpolation"
+                      },
+                      "responseStatusCode" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "dataToSend" : {
+                        "type" : "constant"
+                      },
+                      "dataFromSuccess" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "closeOnSuccess" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "dataFromError" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "targetUrlOnSuccess" : {
+                        "type" : "interpolation"
+                      },
+                      "collectionToModify" : {
+                        "type" : "variable"
+                      },
+                      "modalId" : {
+                        "type" : "constant",
+                        "value" : "modalEmpresaTrabajasPrevio"
+                      },
+                      "collectionPosition" : {
+                        "type" : "constant",
+                        "value" : "Last"
+                      },
+                      "valueToAdd" : {
+                        "type" : "constant"
+                      },
+                      "removeItem" : {
+                        "type" : "variable"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "nuevaEmpresaTrabajoPrevio"
+                      },
+                      "newValue" : {
+                        "type" : "expression",
+                        "value" : "{     \"giro_empresa\": null,     \"nombre_empresa\":\"\",     \"puesto\":\"\",     \"tipo_empresa\":\"\",     \"telefono_empresa\":\"\",     \"ext_telefono_empresa\":\"\",     \"reporta_a\":\"\",     \"fecha_inicio\":\"\",     \"desc_responsabilidad\":\"\" }"
+                      }
+                    },
+                    "reference" : "5137649e-55d8-40b6-b373-b9fc696eb905",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRbotonLimpiarVarModal"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -10116,7 +10215,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal-footer"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -10151,11 +10250,11 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "Erperiencia laboral actual"
+                          "value" : "Experiencia laboral actual"
                         },
                         "level" : {
                           "type" : "constant",
-                          "value" : "Level 3"
+                          "value" : "Level 4"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -10182,7 +10281,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal-body"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -10221,15 +10320,15 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 1
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : 1
+                          "value" : 50
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -10296,15 +10395,15 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 1
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : 1
+                          "value" : 50
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -10368,8 +10467,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "required" : {
                           "type" : "constant",
@@ -10433,8 +10532,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "required" : {
                           "type" : "constant",
@@ -10505,15 +10604,15 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 1
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : 1
+                          "value" : 14
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -10540,13 +10639,15 @@
                         },
                         "type" : {
                           "type" : "constant",
-                          "value" : "text"
+                          "value" : "number"
                         },
                         "min" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 1
                         },
                         "max" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 99999999999999
                         },
                         "step" : {
                           "type" : "constant",
@@ -10580,15 +10681,15 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 0
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : 1
+                          "value" : 4
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -10615,13 +10716,15 @@
                         },
                         "type" : {
                           "type" : "constant",
-                          "value" : "text"
+                          "value" : "number"
                         },
                         "min" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 0
                         },
                         "max" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 9999
                         },
                         "step" : {
                           "type" : "constant",
@@ -10657,15 +10760,15 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 1
                         },
                         "maxLength" : {
                           "type" : "constant",
-                          "value" : 1
+                          "value" : 50
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -10727,8 +10830,8 @@
                           "value" : false
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "required" : {
                           "type" : "constant",
@@ -10795,8 +10898,8 @@
                           "value" : false
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajo.ver"
                         },
                         "required" : {
                           "type" : "constant",
@@ -10804,7 +10907,7 @@
                         },
                         "minLength" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : 1
                         },
                         "maxLength" : {
                           "type" : "constant",
@@ -10816,7 +10919,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Descripción de responsabilidades:"
+                          "value" : "Descripción de responsabilidades: (Máximo 250 caracteres)"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -10851,7 +10954,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal-footer"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -11097,7 +11200,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Submit"
+                                "value" : "Guardar"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -11131,7 +11234,7 @@
                               },
                               "closeOnSuccess" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "lista" : {
                                 "type" : "variable",
@@ -11143,6 +11246,1099 @@
                               }
                             },
                             "reference" : "c31c51b2-309d-44b9-9981-22d1c6c2aae7",
+                            "hasValidationError" : false,
+                            "id" : "customPSGReditarTabla"
+                          }
+                        ]
+                      ]
+                    }
+                  ]
+                ]
+              }
+            ]
+          ]
+        }
+      }
+    ],
+    [
+      {
+        "type" : "modalContainer",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "modalId" : {
+            "type" : "constant",
+            "value" : "modalEmpresaTrabajasPrevio"
+          },
+          "size" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "animation" : {
+            "type" : "constant",
+            "value" : true
+          }
+        },
+        "reference" : "481d90e1-4814-4cc9-9a0e-0154f81667ac",
+        "hasValidationError" : false,
+        "id" : "pbModalContainer",
+        "container" : {
+          "type" : "container",
+          "dimension" : {
+            "xs" : 12
+          },
+          "propertyValues" : { },
+          "reference" : "9584df04-c6cc-47f1-ac3d-2219e7ef4c05",
+          "hasValidationError" : false,
+          "id" : "pbContainer",
+          "rows" : [
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "6ab5ff78-0458-4c7e-9b47-5acb021f7476",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Experiencia laboral previa"
+                        },
+                        "level" : {
+                          "type" : "constant",
+                          "value" : "Level 4"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "f165cd6f-7113-4d1a-8cca-5108691da5b9",
+                      "hasValidationError" : false,
+                      "id" : "pbTitle"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "509972f0-488e-47fd-a896-442d9425a5f1",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 50
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Nombre empresa:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.nombre_empresa"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "fc80034a-1fac-4503-97fc-5950e738157a",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRInputLimit"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 50
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Puesto:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.puesto"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "7109d529-9467-47df-846a-171e82c4db2f",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRInputLimit"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Giro de la empresa:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Select an option"
+                        },
+                        "availableValues" : {
+                          "type" : "constant"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.giro_empresa"
+                        }
+                      },
+                      "reference" : "4cc3002a-8bb3-41b1-b26b-bff034167e47",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Tipo de empresa:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Select an option"
+                        },
+                        "availableValues" : {
+                          "type" : "constant"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.tipo_empresa"
+                        }
+                      },
+                      "reference" : "54dc82c0-1940-4bff-bfa0-e3d77027ae75",
+                      "hasValidationError" : false,
+                      "id" : "pbSelect"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 14
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Teléfono de la empresa:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.telefono_empresa"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "number"
+                        },
+                        "min" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "max" : {
+                          "type" : "constant",
+                          "value" : 99999999999999
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "18720ae4-e0a1-4f3b-841d-86f3449054e5",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRInputLimit"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 0
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Extensión:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ext_telefono_empresa"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "number"
+                        },
+                        "min" : {
+                          "type" : "constant",
+                          "value" : 0
+                        },
+                        "max" : {
+                          "type" : "constant",
+                          "value" : 9999
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "4e9105d9-0d9c-431d-bd94-7bff8b150ca0",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRInputLimit"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 50
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Reporta a:"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation"
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.reporta_a"
+                        },
+                        "type" : {
+                          "type" : "constant",
+                          "value" : "text"
+                        },
+                        "min" : {
+                          "type" : "constant"
+                        },
+                        "max" : {
+                          "type" : "constant"
+                        },
+                        "step" : {
+                          "type" : "constant",
+                          "value" : 1
+                        }
+                      },
+                      "reference" : "361afdca-e2fd-481c-9d62-4adf50667abb",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRInputLimit"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Date"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.fecha_inicio"
+                        },
+                        "dateFormat" : {
+                          "type" : "constant",
+                          "value" : "dd/MM/yyyy"
+                        },
+                        "placeholder" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona una fecha (dd/MM/yyyy)"
+                        },
+                        "showToday" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "todayLabel" : {
+                          "type" : "interpolation",
+                          "value" : "Today"
+                        }
+                      },
+                      "reference" : "3041727d-983b-43cf-b319-d32b3b9785a7",
+                      "hasValidationError" : false,
+                      "id" : "pbDatePicker"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "readOnly" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "required" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "minLength" : {
+                          "type" : "constant",
+                          "value" : 1
+                        },
+                        "maxLength" : {
+                          "type" : "constant",
+                          "value" : 250
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Descripción de responsabilidades: (Máximo 250 caracteres)"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "value" : {
+                          "type" : "variable",
+                          "value" : "nuevaEmpresaTrabajoPrevio.desc_responsabilidad"
+                        }
+                      },
+                      "reference" : "c5fde101-a0ed-4589-afbd-05fdc4320683",
+                      "hasValidationError" : false,
+                      "id" : "customCustomTextAreaLimit"
+                    }
+                  ]
+                ]
+              }
+            ],
+            [
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "081e86de-ad49-4d05-bfd6-f379935a75da",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Cerrar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "info"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Close modal"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        }
+                      },
+                      "reference" : "47282294-9626-45f6-8e43-9de71918ef9b",
+                      "hasValidationError" : false,
+                      "id" : "pbButton"
+                    },
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 6,
+                        "lg" : 6
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "865f9184-5114-4339-b548-2c960b029090",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "!nuevaEmpresaTrabajoPrevio.editar"
+                              },
+                              "disabled" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Agregar"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "right"
+                              },
+                              "buttonStyle" : {
+                                "type" : "constant",
+                                "value" : "primary"
+                              },
+                              "action" : {
+                                "type" : "constant",
+                                "value" : "Add to collection"
+                              },
+                              "assign" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "url" : {
+                                "type" : "interpolation"
+                              },
+                              "responseStatusCode" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "dataToSend" : {
+                                "type" : "constant"
+                              },
+                              "dataFromSuccess" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "closeOnSuccess" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "dataFromError" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "targetUrlOnSuccess" : {
+                                "type" : "interpolation"
+                              },
+                              "collectionToModify" : {
+                                "type" : "variable",
+                                "value" : "datosLaboralPrevio"
+                              },
+                              "modalId" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "collectionPosition" : {
+                                "type" : "constant",
+                                "value" : "Last"
+                              },
+                              "valueToAdd" : {
+                                "type" : "expression",
+                                "value" : "nuevaEmpresaTrabajoPrevio"
+                              },
+                              "removeItem" : {
+                                "type" : "variable"
+                              }
+                            },
+                            "reference" : "4f2d32b1-61c0-4a3c-9934-7c0b081d250a",
+                            "hasValidationError" : false,
+                            "id" : "customPSGRbuttonAgregarTrabajo"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "!nuevaEmpresaTrabajoPrevio.editar"
+                              },
+                              "disabled" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Guardar"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "right"
+                              },
+                              "buttonStyle" : {
+                                "type" : "constant",
+                                "value" : "primary"
+                              },
+                              "action" : {
+                                "type" : "constant",
+                                "value" : "Submit task"
+                              },
+                              "assign" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "url" : {
+                                "type" : "interpolation"
+                              },
+                              "responseStatusCode" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "dataToSend" : {
+                                "type" : "constant"
+                              },
+                              "dataFromSuccess" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "closeOnSuccess" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "lista" : {
+                                "type" : "variable",
+                                "value" : "datosLaboralPrevio"
+                              },
+                              "valor" : {
+                                "type" : "expression",
+                                "value" : "nuevaEmpresaTrabajoPrevio"
+                              }
+                            },
+                            "reference" : "2764942b-9bff-4e2b-b85e-007b9b1b29ae",
                             "hasValidationError" : false,
                             "id" : "customPSGReditarTabla"
                           }
@@ -12807,6 +14003,23 @@
     },
     "selectedCP" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "nuevaEmpresaTrabajoPrevio" : {
+      "type" : "json",
+      "value" : [
+        "{\r",
+        "    \"giro_empresa\": null,\r",
+        "    \"nombre_empresa\":\"\",\r",
+        "    \"puesto\":\"\",\r",
+        "    \"tipo_empresa\":\"\",\r",
+        "    \"telefono_empresa\":\"\",\r",
+        "    \"ext_telefono_empresa\":\"\",\r",
+        "    \"reporta_a\":\"\",\r",
+        "    \"fecha_inicio\":\"\",\r",
+        "    \"desc_responsabilidad\":\"\"\r",
+        "}"
+      ],
       "exposed" : false
     }
   },
