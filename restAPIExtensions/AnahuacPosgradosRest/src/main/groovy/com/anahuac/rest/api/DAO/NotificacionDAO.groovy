@@ -107,7 +107,7 @@ class NotificacionDAO {
 				procesoCaso = procesoCasoDAO.getCase_id(object.campus, "CatNotificaciones");
 				errorlog += "| Despues con el campus " + object.campus + " se obtuvo el caseid " + procesoCaso.getCase_id()
 				catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
-				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(procesoCaso.getCase_id(),object.codigo)
+				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(object.codigo, procesoCaso.getCase_id())
 				cn=catNotificaciones
 			} catch (Exception e) {
 				Boolean closeCon2=false;
@@ -190,7 +190,6 @@ class NotificacionDAO {
 					
 				}
 			}
-			throw new Exception("El campo \"cn\" no debe ir vacío" + catNotificaciones.persistenceid);
 			
 			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
 			
@@ -208,7 +207,7 @@ class NotificacionDAO {
 			errorlog+="| seteando mensaje"
 			
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-			
+
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
 			//7 variable plantilla [titulo]
@@ -945,8 +944,8 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[firma]", "")
 			}
 			   
-			plantilla=plantilla.replace("[header-href]", cn.getEnlaceBanner())
-		    plantilla=plantilla.replace("[footer-href]", cn.getEnlaceFooter())
+			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner())
+		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer())
 			List<String> lstData = new ArrayList();
 			List<String> lstAdditionalData = new ArrayList();
 			lstData.add(plantilla);
