@@ -27,6 +27,7 @@ import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
 
 import java.awt.image.BufferedImage
+import java.nio.charset.StandardCharsets
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
@@ -1336,5 +1337,118 @@ class NotificacionDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getCartasNotificaciones(String campus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		try {
+
+			PSGRCatNotificaciones row = new PSGRCatNotificaciones()
+			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
+			closeCon = validarConexion();
+			String consulta = Statements.GET_CARTAS_NOTIFICACIONES_ALT;
+			pstm = con.prepareStatement(consulta)
+			pstm.setString(1, campus)
+			rs = pstm.executeQuery()
+				while(rs.next()) {
+					row = new PSGRCatNotificaciones()
+					row.angulo_imagen_footer = rs.getString("angulo_imagen_footer")
+					row.angulo_imagen_header = rs.getString("angulo_imagen_header")
+					row.asunto = rs.getString("asunto")
+					row.case_id = rs.getString("case_id")
+					row.codigo = rs.getString("codigo")
+					row.comentario_leon = rs.getString("comentario_leon")
+					row.contenido  = rs.getString("contenido")
+					row.contenido_correo = rs.getString("contenido_correo")
+					row.contenido_leonel = rs.getString("contenido_leonel")
+					row.descripcion = rs.getString("descripcion")
+					row.doc_guia_estudio = rs.getString("doc_guia_estudio")
+					row.enlace_banner = rs.getString("enlace_banner")
+					row.enlace_contacto = rs.getString("enlace_contacto")
+					row.enlace_facebook = rs.getString("enlace_facebook")
+					row.enlace_footer = rs.getString("enlace_footer")
+					row.enlace_instagram = rs.getString("enlace_instagram")
+					row.enlace_twitter = rs.getString("enlace_twitter")
+					row.nombre_imagen_footer = rs.getString("nombre_imagen_footer")
+					row.texto_footer  = rs.getString("texto_footer")
+					row.tipo_correo = rs.getString("tipo_correo")
+					row.titulo = rs.getString("titulo")
+					row.url_img_footer = rs.getString("url_img_footer")
+					row.url_img_header = rs.getString("url_img_header")
+					row.persistenceId = rs.getLong("persistenceid")
+					rows.add(row)
+				}
+				resultado.setSuccess(true)
+				resultado.setData(rows)
+			} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getCartasNotificacionesByEstatus(String campus, String filtroEstatus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+			PSGRCatNotificaciones row = new PSGRCatNotificaciones();
+			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
+			String url = java.net.URLDecoder.decode(filtroEstatus, StandardCharsets.UTF_8.name());
+			String consulta = Statements.GET_CARTAS_NOTIFICACIONES_ESTATUS.replace("[ESTATUS]", url);
+			errorLog += " campus :: " + campus;
+			errorLog += " consulta :: " + consulta;
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(consulta);
+			pstm.setString(1, campus);
+			rs = pstm.executeQuery();
+			
+			while(rs.next()) {
+				row = new PSGRCatNotificaciones();
+				row.angulo_imagen_footer = rs.getString("angulo_imagen_footer");
+				row.angulo_imagen_header = rs.getString("angulo_imagen_header");
+				row.asunto = rs.getString("asunto");
+				row.case_id = rs.getString("case_id");
+				row.codigo = rs.getString("codigo");
+				row.comentario_leon = rs.getString("comentario_leon");
+				row.contenido  = rs.getString("contenido");
+				row.contenido_correo = rs.getString("contenido_correo");
+				row.contenido_leonel = rs.getString("contenido_leonel");
+				row.descripcion = rs.getString("descripcion");
+				row.doc_guia_estudio = rs.getString("doc_guia_estudio");
+				row.enlace_banner = rs.getString("enlace_banner");
+				row.enlace_contacto = rs.getString("enlace_contacto");
+				row.enlace_facebook = rs.getString("enlace_facebook");
+				row.enlace_footer = rs.getString("enlace-footer");
+				row.enlace_instagram = rs.getString("enlace_instagram");
+				row.enlace_twitter = rs.getString("enlace_twitter");
+				row.nombre_imagen_footer = rs.getString("nombre_imagen_footer");
+				row.texto_footer  = rs.getString("texto_footer");
+				row.tipo_correo = rs.getString("tipo_correo");
+				row.titulo = rs.getString("titulo");
+				row.url_img_footer = rs.getString("url_img_footer");
+				row.url_img_header = rs.getString("url_img_header");
+				rows.add(row);
+			}
+			
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
 	}
 }

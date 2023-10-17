@@ -15,6 +15,7 @@ import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDao
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
@@ -142,6 +143,27 @@ class IndexGet implements RestApiController {
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCartasNotificaciones":
+					String campus =request.getParameter "campus"
+					result = new NotificacionDAO().getCartasNotificaciones(campus)
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCartasNotificacionesByEstatus":
+					String campus = request.getParameter "campus"
+					String estatus = request.getParameter "estatus"
+					result = new NotificacionDAO().getCartasNotificacionesByEstatus(campus, estatus);
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
