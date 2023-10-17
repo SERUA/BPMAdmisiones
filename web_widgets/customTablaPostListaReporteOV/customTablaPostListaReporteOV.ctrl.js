@@ -427,14 +427,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.seccionSesion = false;
             $scope.properties.ocultarFiltro = false;
             if (index == 0) {
-            	$("#chkidbanner").prop('disabled', true);
-            	$("#chksesiones").prop('disabled', false);
+            	$("#idbanner").prop('disabled', true);
+            	$("#sesiones").prop('disabled', false);
                 $(".banner").prop('disabled', false);
                 $(".sesion").prop('disabled', true);
                 $('.sesion').val('');
             } else {
-            	$("#chkidbanner").prop('disabled', false);
-            	$("#chksesiones").prop('disabled', true);
+            	$("#idbanner").prop('disabled', false);
+            	$("#sesiones").prop('disabled', true);
                 $(".banner").prop('disabled', true);
                 $(".sesion").prop('disabled', false);
                 $('.banner').val('');

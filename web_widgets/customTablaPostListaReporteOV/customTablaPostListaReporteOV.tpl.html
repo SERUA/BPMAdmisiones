@@ -18,9 +18,6 @@
                         <td style="position:relative; left:70px;">
                             <label>Correo</label>
                         </td>
-                        <td style="position:relative; left:80px;">
-                            <label>Campus VPD</label>
-                        </td>
                     </tr>
                     <tr>
                         <td>
@@ -28,7 +25,6 @@
                         </td>
                         <td style="position:relative; left:60px;"><input ng-model="dynamicInput['banner']" id='banner' class="form-control banner" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])" ></td>
                         <td style="position:relative; left:70px;"><input ng-model="dynamicInput['correo']"  class="form-control banner" ng-enter="filterKeyPress('CORREO',dynamicInput['correo'])" ></td>
-                        <td style="position:relative; left:80px;"><input ng-model="dynamicInput['campusvpd']"  class="form-control banner" ng-enter="filterKeyPress('CAMPUS VPD',dynamicInput['campusvpd'])" ></td>
                     </tr>
                     
                     <tr>
@@ -40,11 +36,11 @@
                             <label>Nombre de la sesión</label>
                         </td>
                         <td style="position:relative; left:80px;">
-                            <label>Fecha de la entrevista (dd-mm-aaaa)</label>
+                            <label>Fecha de la entrevista (aaaa-mm-dd)</label>
                         </td>
-                        <td style="position:relative; left:90px;">
+                        <!--<td style="position:relative; left:90px;">
                             <label>Campus de la sesión</label>
-                        </td>
+                        </td>-->
                     </tr>
                     <tr>
                         <td>
@@ -53,7 +49,7 @@
                         <td style="position:relative; left:60px;"><input ng-model="dynamicInput['idsesion']"  class="form-control sesion" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])" ></td>
                         <td style="position:relative; left:70px;"><input ng-model="dynamicInput['sesion']"  class="form-control sesion" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['sesion'])" ></td>
                         <td style="position:relative; left:80px;"><input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" ></td>
-                        <td style="position:relative; left:90px;"><input ng-model="dynamicInput['campussesion']"  class="form-control sesion" ng-enter="filterKeyPress('CAMPUS DE LA SESIÓN',dynamicInput['campussesion'])" ></td>
+                        <!--<td style="position:relative; left:90px;"><input ng-model="dynamicInput['psicologo']"  class="form-control sesion" ng-enter="filterKeyPress('PSICOLOGO',dynamicInput['psicologo'])" ></td> -->
                     </tr>
                     
                 </tbody>
@@ -73,10 +69,17 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUSVPD')">Campus VPD<i class="glyphicon"
-                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                ng-show="properties.dataToSend.orderby=='CAMPUSVPD'"></i></span>
-                            </th>
+                            ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CURP')">CURP<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='CURP'"></i></span></th>
+                            
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('CAMPUSVPD')">Campus<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='CAMPUSVPD'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='INGRESO'"></i></span></th>
                             
                     <th>  <span style="cursor:pointer" ng-click="setOrderBy('SESIÓN')">Sesión<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -99,7 +102,7 @@
             </thead>
             <tbody>
                 <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                	<td colspan="6" style="text-align: center;">
+                	<td colspan="7" style="text-align: center;">
                         <b>sin registros</b>
                     </td>
                 </tr>
@@ -111,7 +114,12 @@
                     <td class="max-size">
                         <b>{{row.apellidopaterno}} {{row.apellidomaterno}} {{row.primernombre}} {{row.segundonombre}}</b><br> 
                         {{row.correoelectronico}}<br>
-                        {{row.campus}} 
+                        {{row.curp}} 
+                    </td>
+                    <td class="max-size">
+                        <b>{{row.campus}}</b><br> 
+                        {{row.licenciatura}}<br> 
+                        {{row.ingreso}}
                     </td>
                     <td>
                         <b>{{row.sesion }}</b><br> 
@@ -174,6 +182,9 @@
                             ng-show="properties.dataToSend.orderby=='CUPO PRUEBA'"></i></span> 
                     </th>
                     <th>
+                        <span style="cursor:pointer">Psicólogos</span>
+                    </th>
+                    <th>
                         <span style="cursor:pointer" ng-click="setOrderBy('ALUMNOS REGISTRADOS')">Alumnos registrados<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='ALUMNOS REGISTRADOS'"></i></span> 
@@ -200,7 +211,7 @@
             </thead>
             <tbody>
                 <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                	<td colspan="8" style="text-align: center;">
+                	<td colspan="9" style="text-align: center;">
                         <b>sin registros</b>
                     </td>
                 </tr>
@@ -221,6 +232,9 @@
                     </td>
                     <td>
                         <b>{{row.cupo}}</b>
+                    </td>
+                    <td>
+                        <b>{{row.responsables}}</b>
                     </td>
                     <td>
                         <b>{{row.registrados}}</b>
