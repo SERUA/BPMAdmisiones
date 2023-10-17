@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697567442753,
+  "lastUpdate" : 1697572183174,
   "rows" : [
     [
       {
@@ -8138,7 +8138,7 @@
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "nombreCompleto"
                       },
                       "type" : {
                         "type" : "constant",
@@ -8205,13 +8205,21 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "readOnly" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
                       "required" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "minLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "maxLength" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : true
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -8229,29 +8237,31 @@
                         "type" : "constant",
                         "value" : 4
                       },
+                      "placeholder" : {
+                        "type" : "interpolation"
+                      },
                       "value" : {
                         "type" : "variable",
                         "value" : "fechaSolicitud"
                       },
-                      "dateFormat" : {
+                      "type" : {
                         "type" : "constant",
-                        "value" : "MM/dd/yyyy"
+                        "value" : "text"
                       },
-                      "placeholder" : {
-                        "type" : "interpolation"
+                      "min" : {
+                        "type" : "constant"
                       },
-                      "showToday" : {
+                      "max" : {
+                        "type" : "constant"
+                      },
+                      "step" : {
                         "type" : "constant",
-                        "value" : false
-                      },
-                      "todayLabel" : {
-                        "type" : "interpolation",
-                        "value" : "Today"
+                        "value" : 1
                       }
                     },
-                    "reference" : "a3ec318c-30bd-467d-bbea-37170262b478",
+                    "reference" : "f99bca1c-4fbe-4809-8e66-bc994a692f88",
                     "hasValidationError" : false,
-                    "id" : "pbDatePicker"
+                    "id" : "pbInput"
                   }
                 ],
                 [
@@ -11312,7 +11322,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal.header"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -11378,7 +11388,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal-body"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -11592,10 +11602,12 @@
                           "value" : "Select an option"
                         },
                         "availableValues" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "pSGRCatGiroEmpresa_query"
                         },
                         "displayedKey" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "descripcion"
                         },
                         "returnedKey" : {
                           "type" : "constant"
@@ -11655,10 +11667,12 @@
                           "value" : "Select an option"
                         },
                         "availableValues" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "pSGRCatTipoEmpresa_query"
                         },
                         "displayedKey" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : "descripcion"
                         },
                         "returnedKey" : {
                           "type" : "constant"
@@ -12047,7 +12061,7 @@
                 "propertyValues" : {
                   "cssClasses" : {
                     "type" : "constant",
-                    "value" : ""
+                    "value" : "modal-footer"
                   },
                   "hidden" : {
                     "type" : "constant",
@@ -12193,7 +12207,7 @@
                               },
                               "hidden" : {
                                 "type" : "expression",
-                                "value" : "!nuevaEmpresaTrabajoPrevio.editar"
+                                "value" : "nuevaEmpresaTrabajoPrevio.editar"
                               },
                               "disabled" : {
                                 "type" : "constant",
@@ -12834,6 +12848,13 @@
       "name" : "sweetalert.min.js",
       "type" : "js",
       "order" : 4,
+      "external" : false
+    },
+    {
+      "id" : "c495d0c7-2970-4c7c-a794-74967a60306d",
+      "name" : "capitalizacion.js",
+      "type" : "js",
+      "order" : 9,
       "external" : false
     },
     {
@@ -14019,6 +14040,15 @@
         "    \"fecha_inicio\":\"\",\r",
         "    \"desc_responsabilidad\":\"\"\r",
         "}"
+      ],
+      "exposed" : false
+    },
+    "nombreCompleto" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.datosPersonales.nombre ",
+        "    + \" \" + $data.datosPersonales.apellido_paterno ",
+        "    + \" \" + $data.datosPersonales.apellido_materno;"
       ],
       "exposed" : false
     }
