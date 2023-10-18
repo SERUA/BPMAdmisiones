@@ -4973,7 +4973,13 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="LAZY" name="paises_relacion" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatCampus">
+                    <queryParameters>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos">
@@ -5025,7 +5031,13 @@
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatEstadoCivil p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.persistenceId ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatEstadoCivil">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatEstados">
@@ -5102,6 +5114,32 @@
                         <queryParameter name="campus_referencia" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGestionEscolar p &#13;&#10;WHERE p.is_eliminado = :is_eliminado &#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+                    <queryParameters>
+                        <queryParameter name="nombre" className="java.lang.String"/>
+                        <queryParameter name="descripcion" className="java.lang.String"/>
+                        <queryParameter name="enlace" className="java.lang.String"/>
+                        <queryParameter name="propedeutico" className="java.lang.Boolean"/>
+                        <queryParameter name="programa_parcial" className="java.lang.Boolean"/>
+                        <queryParameter name="matematicas" className="java.lang.Boolean"/>
+                        <queryParameter name="inscripcion_enero" className="java.lang.String"/>
+                        <queryParameter name="inscripcion_agosto" className="java.lang.String"/>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="usuario_creacion" className="java.lang.String"/>
+                        <queryParameter name="fecha_creacion" className="java.time.LocalDateTime"/>
+                        <queryParameter name="campus" className="java.lang.String"/>
+                        <queryParameter name="case_id" className="java.lang.String"/>
+                        <queryParameter name="orden" className="java.lang.Integer"/>
+                        <queryParameter name="clave" className="java.lang.String"/>
+                        <queryParameter name="tipo_licenciatura" className="java.lang.String"/>
+                        <queryParameter name="url_img_licenciatura" className="java.lang.String"/>
+                        <queryParameter name="tipo_centro_estudio" className="java.lang.String"/>
+                        <queryParameter name="inscripcion_mayo" className="java.lang.String"/>
+                        <queryParameter name="inscripcion_septiembre" className="java.lang.String"/>
+                        <queryParameter name="is_medicina" className="java.lang.Boolean"/>
+                        <queryParameter name="idioma" className="java.lang.String"/>
+                    </queryParameters>
+                </query>
             </queries>
             <indexes/>
         </businessObject>
@@ -5113,7 +5151,13 @@
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGiroEmpresa p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGiroEmpresa">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatImageNotificacion">
