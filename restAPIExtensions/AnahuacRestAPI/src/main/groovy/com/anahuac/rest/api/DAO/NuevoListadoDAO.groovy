@@ -624,7 +624,7 @@ class NuevoListadoDAO {
 		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 		try {
 			
-			if(Campus == null || Campus.equals("null") || Campus.length()<1){
+			if(Campus == null || Campus.equals("null") || Campus.length()<1 || Campus.equals("undefined") ){
 				errorlog ="1";
 				List < String > lstGrupo = new ArrayList < String > ();
 				List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
@@ -643,8 +643,9 @@ class NuevoListadoDAO {
 						}
 					}
 				}
-				errorlog ="2";
-				
+				if (lstGrupo.size() > 0) {
+					campus += " ("
+				}
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
 					campus += "campus ='" + campusMiembro + "'"
@@ -660,7 +661,6 @@ class NuevoListadoDAO {
 				String consulta = NuevoStatements.GET_CARRERAS_BY_CAMPUSMULTIPLE.replace("[CAMPUS]", campus);
 				errorlog ="4: "+ consulta;
 				pstm = con.prepareStatement(consulta);
-				pstm.setString(1, Campus);
 				rs = pstm.executeQuery()
 				ResultSetMetaData metaData = rs.getMetaData();
 				int columnCount = metaData.getColumnCount();
@@ -765,7 +765,7 @@ class NuevoListadoDAO {
 					} else {
 						where += "LIKE LOWER('%[valor]%')"
 					}
-					where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+					where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'DD-MM-YYYYTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
 					where += "LIKE LOWER('%[valor]%'))";
 
 					where = where.replace("[valor]", filtro.get("valor"))
@@ -827,7 +827,7 @@ class NuevoListadoDAO {
 					break;
 				case "FECHA DE LA ENTREVISTA":
 					where += " AND "
-					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') ";
+					where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
 				case "ID SESIÓN":
@@ -963,7 +963,7 @@ class NuevoListadoDAO {
 			
 			case "ULTIMA MODIFICACION":
 				where += " (LOWER(sda.fechaultimamodificacion) LIKE LOWER('%[valor]%')";
-				where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+				where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'DD-MM-YYYYTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
 				where += "LIKE LOWER('%[valor]%'))";
 				where = where.replace("[valor]", valor)
 				break;
@@ -984,12 +984,12 @@ class NuevoListadoDAO {
 				where = where.replace("[valor]", valor)
 				where += " OR LOWER(CAST(Sesion.persistenceid AS varchar)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-				where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') )";
+				where += " OR LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
 				
 			case "FECHA DE LA ENTREVISTA":
-				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'YYYY-MM-DD') as varchar)) LIKE LOWER('%[valor]%') ";
+				where += " LOWER( CAST(TO_CHAR(Pruebas.aplicacion, 'DD-MM-YYYY') as varchar)) LIKE LOWER('%[valor]%') ";
 				where = where.replace("[valor]", valor)
 				break;
 				

@@ -1524,9 +1524,8 @@ class ImportacionPAADAO {
 				}
 				errorlog=consulta+" 9";
 				resultado.setSuccess(true)
-				
-				
 				resultado.setData(rows)
+				resultado.setError_info(errorlog);
 				
 			} catch (Exception e) {
 				
