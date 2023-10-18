@@ -145,7 +145,7 @@ class StatementsCatalogos {
 	
 	//PSGRCatMedioEnteraste
 	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatMedioEnteraste (persistenceid, persistenceversion, clave, descripcion, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste) end), 0, ?, ?, ?)";
-	public static final String DELETE_CATMEDIOSENTERASTE = "DELETE FROM PSGRCatMedioEnteraste WHERE persistenceid = ?";
+	public static final String DELETE_CATMEDIOSENTERASTE = "UPDATE PSGRCatMedioEnteraste SET is_eliminado = true WHERE persistenceid = ?";
 	public static final String UPDATE_CATMEDIOSENTERASTE = "UPDATE PSGRCatMedioEnteraste SET clave = ?, descripcion = ?, orden = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATMEDIOSENTERASTE = "SELECT persistenceid, orden, clave, descripcion FROM PSGRCatMedioEnteraste [WHERE] [ORDERBY]";
 	
