@@ -995,16 +995,26 @@ class ListadoDAO {
 			//}
 			
 			if (object.caseId != null) {
-				where += " AND SDAE.caseId = "+object.caseId +" "
+				where += " AND SDAE.caseId = " + object.caseId + " ";
 			}
 			
-			if (object.caseId == null) {
+			Boolean filtroCampus = false;
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				switch (filtro.get("columna")) {
+					case "CAMPUS": 
+					filtroCampus = true
+					break;
+				}
+			}
+			
+			if (object.caseId == null && filtroCampus != true) {
 				if (lstGrupo.size() > 0) {
 					where += " AND ("
 				}
+				
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
-					where += "campus.descripcion='" + campusMiembro + "'"
+					where += "campus.descripcion='" + campusMiembro + "'";
 					if (i == (lstGrupo.size() - 1)) {
 						where += ") "
 					} else {
@@ -1012,7 +1022,6 @@ class ListadoDAO {
 					}
 				}
 			}
-
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
@@ -1033,7 +1042,6 @@ class ListadoDAO {
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 					errorlog = consulta + " 1";
 					switch (filtro.get("columna")) {
-	
 						case "NOMBRE,EMAIL,CURP":
 							errorlog += "NOMBRE,EMAIL,CURP"
 							if (where.contains("WHERE")) {
@@ -1050,7 +1058,6 @@ class ListadoDAO {
 							where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-	
 						case "PROGRAMA,INGRESO,CAMPUS":
 							errorlog += "PROGRAMA,INGRESO,CAMPUS"
 							if (where.contains("WHERE")) {
@@ -1068,7 +1075,6 @@ class ListadoDAO {
 							where = where.replace("[valor]", filtro.get("valor"))
 	
 							break;
-	
 						case "TIPO APOYO,PROMEDIO":
 							if (where.contains("WHERE")) {
 								where += " AND "
@@ -1081,7 +1087,6 @@ class ListadoDAO {
 							where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "CAMPUS":
 							errorlog += "CAMPUS"
 							where += " AND LOWER(campus.DESCRIPCION) ";
@@ -1144,7 +1149,6 @@ class ListadoDAO {
 							}
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
-							
 						case "ESTATUS":
 							if (where.contains("WHERE")) {
 								where += " AND "
@@ -1185,7 +1189,6 @@ class ListadoDAO {
 						default:
 							break;
 					}
-	
 				}
 			}
 			
