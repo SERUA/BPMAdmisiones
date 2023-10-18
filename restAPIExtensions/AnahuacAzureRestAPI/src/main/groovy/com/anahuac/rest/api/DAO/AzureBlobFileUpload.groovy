@@ -56,8 +56,6 @@ class AzureBlobFileUpload {
 		List<String> data = new ArrayList<String>();
 		Boolean closeCon=false;
         try {
-			
-			
 			closeCon = validarConexion();
 			
 			pstm = con.prepareStatement(Statements.CONFIGURACIONES)

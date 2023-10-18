@@ -60,6 +60,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.properties.lstContenido = data.data;
                 $scope.value = data.totalRegistros;
                 $scope.loadPaginado();
+                
+                if($scope.properties.lstContenido.length < 1){
+                   swal("Sin registros", "", "info"); 
+                }
                 console.log(data.data)
             })
             .error(function(data, status) {

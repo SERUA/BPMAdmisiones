@@ -78,6 +78,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.value = data.totalRegistros;
                 $scope.loadPaginado();
                 console.log(data.data)
+                if($scope.properties.lstContenido.length < 1){
+                   swal("Sin registros", "", "info"); 
+                }
             })
             .error(function(data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
@@ -568,6 +571,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     });
 
+    $scope.$watch("filtroCampus", function(newValue, oldValue) {
+        if (newValue !== undefined) {
+        	if(newValue == "Todos los campus"){
+        		doRequestCarrera();
+        	}
+            
+        }
+    });
+
+
     $scope.peridoSelected = "";
     $scope.periodoLista = [];
     $scope.carreraSelected = "";
@@ -620,4 +633,28 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             doRequest("POST", $scope.urlPost3);
         }
     }
+    
+   $scope.limpiarFiltros = function(){
+        $scope.properties.lstContenido = [];
+        $scope.primerCheck = true;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+		let index = null;
+        index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
+        if(index != null){
+        	if(index==0){
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        	}else{
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        		$scope.properties.dataToSend.lstFiltro.splice(0,index);
+        	}
+        
+        }else{
+        	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
+        }
+    }
+    
 }
