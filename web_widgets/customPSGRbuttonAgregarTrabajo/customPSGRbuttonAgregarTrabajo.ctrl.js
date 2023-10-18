@@ -63,7 +63,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         if(!$scope.properties.valueToAdd.nombre_empresa){
             mensaje = "El campo 'Nombre empresa' no debe ir vacío";
             valido = false;
-        } else if(!$scope.properties.valueToAdd.puesto){
+        } else if(!$scope.properties.valueToAdd.puesto_trabajo){
             mensaje = "El campo 'Puesto' no debe ir vacío";
             valido = false;
         } else if(!$scope.properties.valueToAdd.giro_empresa){
@@ -75,7 +75,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if(!$scope.properties.valueToAdd.telefono_empresa){
             mensaje = "El campo 'Teléfono de la empresa' no debe ir vacío";
             valido = false;
-        } else if(!$scope.properties.valueToAdd.reporta_a){
+        } else if(!$scope.properties.valueToAdd.reporta_a_puesto){
             mensaje = "El campo 'Reporta a' no debe ir vacío";
             valido = false;
         } else if(!$scope.properties.valueToAdd.fecha_inicio){
