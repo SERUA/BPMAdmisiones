@@ -753,8 +753,8 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "deleteCatFiltroSeguridad":
-					result = new CatalogosDAO().deleteCatFiltroSeguridad(jsonData, context);
+				case "deleteCatMediosEnteraste":
+					result = new CatalogosDAO().deleteCatMediosEnteraste(jsonData);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

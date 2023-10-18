@@ -5903,7 +5903,7 @@ class CatalogosDAO {
 				throw new Exception("El registro no existe.");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CONFIGURACIONES);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATMEDIOSENTERASTE);
 			pstm.setLong(1, Long.valueOf(object.persistenceid));
 			
 			pstm.executeUpdate();
