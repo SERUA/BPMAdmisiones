@@ -481,7 +481,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "insertCatTipoEmpresa":
+				case "insertCatTipoEmpleado":
 					result = new CatalogosDAO().insertCatTipoEmpresa(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -489,7 +489,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "deleteCatTipoEmpresa":
+				case "deleteCatTipoEmpleado":
 					result = new CatalogosDAO().deleteCatTipoEmpresa(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -497,7 +497,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "updateCatTipoEmpresa":
+				case "updateCatTipoEmpleado":
 					result = new CatalogosDAO().updateCatTipoEmpresa(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
@@ -505,7 +505,7 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "getCatTipoEmpresa":
+				case "getCatTipoEmpleado":
 					result = new CatalogosDAO().getCatTipoEmpresa(jsonData)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
@@ -539,6 +539,70 @@ class Index implements RestApiController {
 					break;
 				case "getCatGiroEmpresa":
 					result = new CatalogosDAO().getCatGiroEmpresa(jsonData)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "insertCatGradoEstudio":
+					result = new CatalogosDAO().insertCatGradoEstudio(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "deleteCatGradoEstudio":
+					result = new CatalogosDAO().deleteCatGradoEstudio(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "updateCatGradoEstudio":
+					result = new CatalogosDAO().updateCatGradoEstudio(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCatGradoEstudio":
+					result = new CatalogosDAO().getCatGradoEstudio(jsonData)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "insertCatPuestoTrabajo":
+					result = new CatalogosDAO().insertCatPuestoTrabajo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "deleteCatPuestoTrabajo":
+					result = new CatalogosDAO().deleteCatPuestoTrabajo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "updateCatPuestoTrabajo":
+					result = new CatalogosDAO().updateCatPuestoTrabajo(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCatPuestoTrabajo":
+					result = new CatalogosDAO().getCatPuestoTrabajo(jsonData)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {

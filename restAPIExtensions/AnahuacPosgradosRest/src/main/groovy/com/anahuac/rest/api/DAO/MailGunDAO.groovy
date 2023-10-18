@@ -14,8 +14,6 @@ import com.anahuac.catalogos.CatApiKey
 import com.anahuac.catalogos.CatApiKeyDAO
 import com.anahuac.catalogos.CatCampus
 import com.anahuac.catalogos.CatCampusDAO
-import com.anahuac.posgrados.catalog.PSGRCatApiKey
-import com.anahuac.posgrados.catalog.PSGRCatApiKeyDAO
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -427,19 +425,19 @@ class MailGunDAO {
 			String correoDe = "";
 			def daoCatApiKey = context.getApiClient().getDAO(PSGRCatApiKeyDAO.class);
 
-			for(PSGRCatApiKey ca : daoCatApiKey.find(0,9999)) {
-//				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor");
-				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("descripcion") + "CA = " + ca.getCampus().getDescripcion();
-				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
-					estructura.setSandBox(ca.getMailgun_dominio_sdae());
-					estructura.setApiKey(ca.getMailgun_sdae());
-					errorlog += " estructura.sandbox= " + estructura.getSandBox();
-					errorlog += ", estructura.MailgunDominio= " + ca.getMailgun_dominio_sdae();
-					errorlog += ", estructura.getMailgun= " + ca.getMailgun_sdae();
-					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgun_correo_sdae();
-					correoDe = ca.getMailgun_correo_sdae();
-				}
-			}
+//			for(PSGRCatApiKey ca : daoCatApiKey.find(0,9999)) {
+////				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor");
+//				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("descripcion") + "CA = " + ca.getCampus().getDescripcion();
+//				if(ca.getCampus().getDescripcion().equals(objGrupoSelected.get("descripcion"))) {
+//					estructura.setSandBox(ca.getMailgun_dominio_sdae());
+//					estructura.setApiKey(ca.getMailgun_sdae());
+//					errorlog += " estructura.sandbox= " + estructura.getSandBox();
+//					errorlog += ", estructura.MailgunDominio= " + ca.getMailgun_dominio_sdae();
+//					errorlog += ", estructura.getMailgun= " + ca.getMailgun_sdae();
+//					errorlog += ", estructura.getMailgunCorreo= " + ca.getMailgun_correo_sdae();
+//					correoDe = ca.getMailgun_correo_sdae();
+//				}
+//			}
 
 			List<String> ad = new ArrayList<String>()
 			ad.add(correoDe);

@@ -81,17 +81,29 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATNACIONALIDAD  = "UPDATE PSGRCatNacionalidad SET ID = ?, CLAVE = ?, descripcion = ?, orden = ?, is_enabled = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATNACIONALIDAD  = "SELECT persistenceid, orden, clave, descripcion, id, usuario_banner, fecha_creacion, is_eliminado FROM PSGRCatNacionalidad [WHERE] [ORDERBY]";
 	
-	//PSGRCatTipoEmpresa
-	public static final String INSERT_CATTIPOEMPRESA = "INSERT INTO PSGRCatTipoEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoEmpresa), 0,?, ?, ?, false);";
-	public static final String DELETE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATTIPOEMPRESA = "UPDATE PSGRCatTipoEmpresa SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
-	public static final String SELECT_CATTIPOEMPRESA = "SELECT * FROM PSGRCatTipoEmpresa [WHERE] [ORDERBY]";
+	//PSGRCatTipoEmpleado
+	public static final String INSERT_CATTIPOEMPLEADO = "INSERT INTO PSGRCatTipoEmleado (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoEmleado), 0,?, ?, ?, false);";
+	public static final String DELETE_CATTIPOEMPLEADO = "UPDATE PSGRCatTipoEmleado SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATTIPOEMPLEADO = "UPDATE PSGRCatTipoEmleado SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATTIPOEMPLEADO = "SELECT * FROM PSGRCatTipoEmleado [WHERE] [ORDERBY]";
 	
 	//PSGRCatGiroEmpresa
 	public static final String INSERT_CATGIROEMPRESA = "INSERT INTO PSGRCatGiroEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatGiroEmpresa), 0,?, ?, ?, false);";
 	public static final String DELETE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET is_eliminado = true WHERE persistenceid = ?";
 	public static final String UPDATE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATGIROEMPRESA = "SELECT * FROM PSGRCatGiroEmpresa [WHERE] [ORDERBY]";
+	
+	//PSGRCatGradoEstudio
+	public static final String INSERT_CATGRADOESTUDIO = "INSERT INTO PSGRCatGradoEstudio (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatGradoEstudio), 0,?, ?, ?, false);";
+	public static final String DELETE_CATGRADOESTUDIO = "UPDATE PSGRCatGradoEstudio SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATGRADOESTUDIO = "UPDATE PSGRCatGradoEstudio SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATGRADOESTUDIO = "SELECT * FROM PSGRCatGradoEstudio [WHERE] [ORDERBY]";
+	
+	//PSGRCatPuestoTrabajo
+	public static final String INSERT_CATPUESTOTRABAJO = "INSERT INTO PSGRCatPuestoTrabajo (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatPuestoTrabajo), 0,?, ?, ?, false);";
+	public static final String DELETE_CATPUESTOTRABAJO = "UPDATE PSGRCatPuestoTrabajo SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATPUESTOTRABAJO = "UPDATE PSGRCatPuestoTrabajo SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATPUESTOTRABAJO = "SELECT * FROM PSGRCatPuestoTrabajo [WHERE] [ORDERBY]";
 	
 	//PSGRCatNotificaciones
 	public static final String INSERT_CATNOTIFICACIONES = "INSERT INTO PSGRCatNotificaciones (persistenceid, angulo_imagen_footer, angulo_imagen_header, asunto, bloque_aspirante, case_id, codigo, comentario_leon, contenido, contenido_correo, contenido_leonel, descripcion, doc_guia_estudio, enlace_banner, enlace_contacto, enlace_facebook, enlace_footer, enlace_instagram, enlace_twitter, informacion_lic, is_eliminado, nombre_imagen_footer, nombre_imagen_header, persistenceversion, texto_footer, tipo_correo, titulo, url_img_footer, url_img_header) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatNotificaciones), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
