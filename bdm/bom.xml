@@ -5130,7 +5130,13 @@
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGradoEstudio p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatImageNotificacion">
@@ -5380,7 +5386,13 @@
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatPuestoTrabajo p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatRegistro">
@@ -5468,7 +5480,13 @@
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatTipoEmpleado p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoEmpresa">
