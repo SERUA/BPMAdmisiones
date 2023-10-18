@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.18">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.19">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -31,6 +31,15 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_lc71kmekEe6tZtxct1LlLA" name="newScript()" content="'aspirante_registrado'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
             <operator xmi:type="expression:Operator" xmi:id="_lc71k2ekEe6tZtxct1LlLA" type="JAVA_METHOD" expression="setEstatus_solicitud">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_Yd5hYGyIEe6idIwxV0xQow">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_Yd5hYWyIEe6idIwxV0xQow" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Zf6_EGyIEe6idIwxV0xQow" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_Yd5hYmyIEe6idIwxV0xQow" name="newScript()" content="return -1" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Integer"/>
+            <operator xmi:type="expression:Operator" xmi:id="_Yd5hY2yIEe6idIwxV0xQow" type="JAVA_METHOD" expression="setLastIndex">
+              <inputTypes>java.lang.Integer</inputTypes>
             </operator>
           </operations>
           <operations xmi:type="expression:Operation" xmi:id="_LlvxMGSbEe6An7GXsVy0SA">
@@ -75,13 +84,55 @@
               <inputTypes>java.util.List</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_Yd5hYGyIEe6idIwxV0xQow">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_Yd5hYWyIEe6idIwxV0xQow" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Zf6_EGyIEe6idIwxV0xQow" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+          <operations xmi:type="expression:Operation" xmi:id="_9udKUG3nEe63hKdJYdGuxA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_9udKUW3nEe63hKdJYdGuxA" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_-ii5sG3nEe63hKdJYdGuxA" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Yd5hYmyIEe6idIwxV0xQow" name="newScript()" content="return -1" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Integer"/>
-            <operator xmi:type="expression:Operator" xmi:id="_Yd5hY2yIEe6idIwxV0xQow" type="JAVA_METHOD" expression="setLastIndex">
-              <inputTypes>java.lang.Integer</inputTypes>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_9udKUm3nEe63hKdJYdGuxA" name="newScript()" content="registro.getCampus()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatCampus">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_BQRrQG3oEe63hKdJYdGuxA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_9udKU23nEe63hKdJYdGuxA" type="JAVA_METHOD" expression="setCampus">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatCampus</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_v2U84G3nEe63hKdJYdGuxA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_v2U84W3nEe63hKdJYdGuxA" name="datosPersonales" content="datosPersonales" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_wlH8kG3nEe63hKdJYdGuxA" name="datosPersonales" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_v2U84m3nEe63hKdJYdGuxA" name="newScript()" content="import com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales;&#xD;&#xA;&#xD;&#xA;return new PSGRSolAdmiDatosPersonales();" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            <operator xmi:type="expression:Operator" xmi:id="_v2U8423nEe63hKdJYdGuxA" type="CREATE_BUSINESS_DATA"/>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_h0_wIG3nEe63hKdJYdGuxA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_h0_wIW3nEe63hKdJYdGuxA" name="datosPersonales" content="datosPersonales" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jbHZYG3nEe63hKdJYdGuxA" name="datosPersonales" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_h0_wIm3nEe63hKdJYdGuxA" name="newScript()" content="registro.getNombre()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_oml_wG3nEe63hKdJYdGuxA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_h0_wI23nEe63hKdJYdGuxA" type="JAVA_METHOD" expression="setNombre">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_o3LZcG3nEe63hKdJYdGuxA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_o3LZcW3nEe63hKdJYdGuxA" name="datosPersonales" content="datosPersonales" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_pkWBcG3nEe63hKdJYdGuxA" name="datosPersonales" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_o3LZcm3nEe63hKdJYdGuxA" name="newScript()" content="registro.getApellido_paterno()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_rxcyMG3nEe63hKdJYdGuxA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_o3LZc23nEe63hKdJYdGuxA" type="JAVA_METHOD" expression="setApellido_paterno">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_r8QUAG3nEe63hKdJYdGuxA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_r8QUAW3nEe63hKdJYdGuxA" name="datosPersonales" content="datosPersonales" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_sf9eAG3nEe63hKdJYdGuxA" name="datosPersonales" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_r8QUAm3nEe63hKdJYdGuxA" name="newScript()" content="registro.getApellido_materno()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_uSPT8G3nEe63hKdJYdGuxA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_r8QUA23nEe63hKdJYdGuxA" type="JAVA_METHOD" expression="setApellido_materno">
+              <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_RS3Wi1ZtEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
