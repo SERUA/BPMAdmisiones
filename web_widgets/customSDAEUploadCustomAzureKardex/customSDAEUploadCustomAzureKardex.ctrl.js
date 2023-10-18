@@ -195,7 +195,8 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
     this.forceSubmit = function (event) {
         $scope.procesar = false;
-        $scope.documetObject["filename"] = event.target.files[0].name;
+        // $scope.documetObject["filename"] = event.target.files[0].name;
+        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + new Date().getTime() + "_" +  event.target.files[0].name;
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         
