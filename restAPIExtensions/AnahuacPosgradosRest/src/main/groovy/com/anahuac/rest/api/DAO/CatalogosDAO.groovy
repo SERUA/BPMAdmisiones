@@ -4925,7 +4925,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGRADOESTUDIO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -4963,7 +4963,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATGRADOESTUDIO);
 			pstm.setLong(1, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -5000,7 +5000,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGRADOESTUDIO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5085,7 +5085,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATGIROEMPRESA.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATGRADOESTUDIO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
@@ -5131,7 +5131,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPUESTOTRABAJO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5169,7 +5169,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATPUESTOTRABAJO);
 			pstm.setLong(1, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -5206,7 +5206,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGIROEMPRESA);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPUESTOTRABAJO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5291,7 +5291,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATGIROEMPRESA.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATPUESTOTRABAJO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
