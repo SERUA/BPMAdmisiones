@@ -311,7 +311,7 @@ class NuevoListadoDAO {
 					rows.add(columns);
 				}
 					
-				resultado.setError_info(consulta+" errorLog = "+errorlog)
+				resultado.setError_info("errorLog = "+errorlog)
 				resultado.setData(rows)
 				resultado.setSuccess(true)
 			} catch (Exception e) {
@@ -394,7 +394,7 @@ class NuevoListadoDAO {
 				}
 				
 				List<Integer> list = [finalizados,proceso,iniciar];
-				resultado.setError_info(consulta+" errorLog = "+errorlog)
+				resultado.setError_info(" errorLog = "+errorlog)
 				resultado.setData(rows)
 				resultado.setSuccess(true)
 				resultado.setAdditional_data(list);		

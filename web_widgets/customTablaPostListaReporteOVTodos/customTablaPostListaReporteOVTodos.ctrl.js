@@ -79,7 +79,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 console.log(data.data)
                 if($scope.properties.lstContenido.length < 1){
-                   swal("Sin registros", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aun no llena su autodescripcion", "", "info"); 
                 }
             })
             .error(function(data, status) {
