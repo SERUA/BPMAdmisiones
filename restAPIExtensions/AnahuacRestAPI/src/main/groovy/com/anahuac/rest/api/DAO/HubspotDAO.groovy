@@ -530,7 +530,7 @@ class HubspotDAO {
 					objHubSpotData.put("fecha_actualizacion_bpm", dfSalidaSC.format(fechaSC));
 					//objHubSpotData.put("app_estatus_de_contacto", "Standby");
 	
-					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
+					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
 						//objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
 						// -o-
 						closeCon = validarConexion();
@@ -818,7 +818,7 @@ class HubspotDAO {
 							objHubSpotData.put("residencia_bpm", residencia);
 							objHubSpotData.put("estatus_admision_bpm", "Validado");
 							
-							if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
+							if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
 								//objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
 								objHubSpotData.put("preparatoria_bpm", "b1");
 								objHubSpotData.put("preparatoria_bpm_pais", "b2");
