@@ -5548,9 +5548,9 @@
                 <field type="LOCALDATE" length="255" name="fecha_inicio" nullable="true" collection="false"/>
                 <field type="TEXT" length="255" name="desc_responsabilidad" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="es_trabajo_actual" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado" fetchType="LAZY" name="tipo_empleado" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="LAZY" name="reporta_a_puesto" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="LAZY" name="puesto_trabajo" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado" fetchType="EAGER" name="tipo_empleado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="EAGER" name="reporta_a_puesto" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo" fetchType="EAGER" name="puesto_trabajo" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5687,7 +5687,7 @@
                 <field type="STRING" length="255" name="promedio" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="titulo" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPais" fetchType="EAGER" name="pais" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio" fetchType="LAZY" name="grado_estudio" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGradoEstudio" fetchType="EAGER" name="grado_estudio" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>

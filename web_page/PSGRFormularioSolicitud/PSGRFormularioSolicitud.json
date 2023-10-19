@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697673756635,
+  "lastUpdate" : 1697676493128,
   "rows" : [
     [
       {
@@ -1610,7 +1610,7 @@
                             },
                             "caseid" : {
                               "type" : "expression",
-                              "value" : "registro.caseId"
+                              "value" : "datosPersonales.caseid"
                             }
                           },
                           "reference" : "ce8d6345-e7cb-4cbd-a350-6472c8e5c351",
@@ -1658,7 +1658,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "{{registro.caseId}}"
+                              "value" : "{{datosPersonales.caseid}} <br>\n{{registro.caseid}}"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -11566,7 +11566,7 @@
                           "value" : "nuevaEmpresaTrabajoPrevio.puesto_trabajo"
                         }
                       },
-                      "reference" : "36d26811-dbe9-4c8c-aba8-5ef5575a3ef4",
+                      "reference" : "11888f93-acaa-4b25-99ff-4e70fabbfd01",
                       "hasValidationError" : false,
                       "id" : "pbSelect"
                     }
@@ -11921,7 +11921,7 @@
                           "value" : "nuevaEmpresaTrabajoPrevio.reporta_a"
                         }
                       },
-                      "reference" : "84a6632e-46a9-41c3-81e0-48021157df46",
+                      "reference" : "efff4ddd-be8d-4529-9bdb-3617bb504cdb",
                       "hasValidationError" : false,
                       "id" : "pbSelect"
                     },
@@ -13728,21 +13728,24 @@
         "        \"title\": \"¡Información académica!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if(!validarDatosAcademicos()){\r",
-        "    valid = false;\r",
-        "    $data.errorStep4 = { \r",
-        "        \"errorMessage\": \"Si agregaste un  registro en Historial académico, debes llenar toda la información solicitada\", \r",
-        "        \"title\": \"¡Información académica!\",\r",
-        "        \"error\": true \r",
-        "    }\r",
-        "} else if(!validarDatosIdiomas()){\r",
+        "} \r",
+        "// else if(!validarDatosAcademicos()){\r",
+        "//     valid = false;\r",
+        "//     $data.errorStep4 = { \r",
+        "//         \"errorMessage\": \"Si agregaste un  registro en Historial académico, debes llenar toda la información solicitada\", \r",
+        "//         \"title\": \"¡Información académica!\",\r",
+        "//         \"error\": true \r",
+        "//     }\r",
+        "// } \r",
+        "else if(!validarDatosIdiomas()){\r",
         "    valid = false;\r",
         "    $data.errorStep4 = { \r",
         "        \"errorMessage\": \"Si agregaste un  registro en Idiomas debes llenar toda la información solicitada\", \r",
         "        \"title\": \"¡Información académica!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else {\r",
+        "} \r",
+        "else {\r",
         "    valid = true;\r",
         "    $data.errorStep4 = { \r",
         "        \"errorMessage\": \"\", \r",
