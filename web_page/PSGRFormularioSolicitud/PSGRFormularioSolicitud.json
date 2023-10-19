@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697678785340,
+  "lastUpdate" : 1697737007634,
   "rows" : [
     [
       {
@@ -10539,7 +10539,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Tipo de empresa:"
+                          "value" : "Tipo de empleado:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -10789,7 +10789,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajo.reporta_a"
+                          "value" : "nuevaEmpresaTrabajo.reporta_a_puesto"
                         }
                       },
                       "reference" : "efed7f6b-3925-4f93-bd21-7609a5a15bde",
@@ -11616,7 +11616,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Tipo de empresa:"
+                          "value" : "Tipo de empleado:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -11866,7 +11866,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajoPrevio.reporta_a"
+                          "value" : "nuevaEmpresaTrabajoPrevio.reporta_a_puesto"
                         }
                       },
                       "reference" : "efff4ddd-be8d-4529-9bdb-3617bb504cdb",
@@ -13032,7 +13032,7 @@
         "    datosInfoLaboralActualInput: $data.datosInfoLaboralActual === undefined ? [] : $data.datosInfoLaboralActual.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
         "        giro_empresa:  getCatalogo(it, \"giro_empresa\"),\r",
-        "        // tipo_empresa:  getCatalogo(it, \"tipo_empresa\"),\r",
+        "        tipo_empresa:  null,\r",
         "        nombre_empresa: it.nombre_empresa !== undefined ? it.nombre_empresa : null,\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
@@ -13048,7 +13048,7 @@
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
         "        nombre_empresa: it.nombre_empresa !== undefined ? it.nombre_empresa : null,\r",
         "        giro_empresa:  getCatalogo(it, \"giro_empresa\"),\r",
-        "        tipo_empresa:  getCatalogo(it, \"tipo_empresa\"),\r",
+        "        tipo_empresa:  null,\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
         "        ext_telefono_empresa: it.ext_telefono_empresa !== undefined ? it.ext_telefono_empresa : null,\r",
@@ -13756,28 +13756,31 @@
         "        \"title\": \"¡Experiencia laboral!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosExpLaboral.trabajas_actualmente.clave === \"si\" && !validarLista($data.datosInfoLaboralActual)){\r",
+        "// } else if($data.datosExpLaboral.trabajas_actualmente.clave === \"si\" && !validarLista($data.datosInfoLaboralActual)){\r",
+        "} else if($data.datosExpLaboral.trabajas_actualmente.clave === \"si\" && !$data.datosInfoLaboralActual){\r",
         "    valid = false;\r",
         "    $data.errorStep5 = { \r",
         "        \"errorMessage\": \"Si seleccionaste 'Sí' en el campo '¿Trabajas actualmente?' debes agregar al menos un valor a la tabla de información laboral\", \r",
         "        \"title\": \"¡Experiencia laboral!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "}  else if(!validarInfoLaboralActual() && $data.datosExpLaboral.trabajas_actualmente.clave === \"si\"){\r",
-        "    valid = false;\r",
-        "    $data.errorStep5 = { \r",
-        "        \"errorMessage\": \"Si agregaste un  registro en Información laboral, debes llenar toda la información solicitada\", \r",
-        "        \"title\": \"¡Experiencia laboral!\",\r",
-        "        \"error\": true \r",
-        "    }\r",
-        "} else if(!validarInfoLaboralPrevio()){\r",
-        "    valid = false;\r",
-        "    $data.errorStep5 = { \r",
-        "        \"errorMessage\": \"Si agregaste un  registro en Empleos previos relacionados con el programa a cursar debes llenar toda la información solicitada\", \r",
-        "        \"title\": \"¡Experiencia laboral!\",\r",
-        "        \"error\": true \r",
-        "    }\r",
-        "} else {\r",
+        "}  \r",
+        "// else if(!validarInfoLaboralActual() && $data.datosExpLaboral.trabajas_actualmente.clave === \"si\"){\r",
+        "//     valid = false;\r",
+        "//     $data.errorStep5 = { \r",
+        "//         \"errorMessage\": \"Si agregaste un  registro en Información laboral, debes llenar toda la información solicitada\", \r",
+        "//         \"title\": \"¡Experiencia laboral!\",\r",
+        "//         \"error\": true \r",
+        "//     }\r",
+        "// } else if(!validarInfoLaboralPrevio()){\r",
+        "//     valid = false;\r",
+        "//     $data.errorStep5 = { \r",
+        "//         \"errorMessage\": \"Si agregaste un  registro en Empleos previos relacionados con el programa a cursar debes llenar toda la información solicitada\", \r",
+        "//         \"title\": \"¡Experiencia laboral!\",\r",
+        "//         \"error\": true \r",
+        "//     }\r",
+        "// } \r",
+        "else {\r",
         "    valid = true;\r",
         "    $data.errorStep5 = { \r",
         "        \"errorMessage\": \"\", \r",
@@ -14025,7 +14028,7 @@
     "pSGRCatPuestoTrabajo_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo?q=getCat&p=0&c=99&is_eliminado=false"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -14033,7 +14036,7 @@
     "pSGRCatTipoEmpleado_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado?q=getCat&p=0&c=99&is_eliminado=false"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
       "advancedOptions" : { },
       "exposed" : false
