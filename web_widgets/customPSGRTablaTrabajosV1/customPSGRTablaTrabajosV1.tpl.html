@@ -15,7 +15,7 @@
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td class="text-left">
                     {{row.nombre_empresa}} <br> 
-                    {{row.puesto}}
+                    {{row.puesto_trabajo.descripcion}}
                 </td>
                 <td class="text-left">
                     {{row.giro_empresa.descripcion}}<br>
@@ -25,7 +25,7 @@
                     {{row.telefono_empresa}}<br>
                     {{row.ext_telefono_empresa}}
                 </td>
-                <td class="text-left">{{row.reporta_a}}</td>
+                <td class="text-left">{{row.reporta_a_puesto.descripcion}}</td>
                 <td class="text-left">{{row.fecha_inicio | date:'dd/MM/yyyy'}}</td>
                 <td class="text-left">{{row.desc_responsabilidad}}</td>
                 <td class="text-left" ng-if="properties.editar">
