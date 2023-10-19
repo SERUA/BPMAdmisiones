@@ -26,7 +26,7 @@ class DocumentosTextosDAO {
 		}
 		return retorno
 	}
-	public Result getDocumentosTextos(Long campus_pid) {
+	public Result getDocumentosTextos(Long campus) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		try {

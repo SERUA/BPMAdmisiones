@@ -12,6 +12,8 @@ import com.anahuac.posgrados.catalog.PSGRCatRegistro
 import com.anahuac.posgrados.catalog.PSGRCatRegistroDAO
 import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
+import com.anahuac.posgrados.model.PSGRRegistro
+import com.anahuac.posgrados.model.PSGRRegistroDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
@@ -1067,39 +1069,39 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar) {
-		plantilla = plantilla.replace(" [NOMBRE-COMPLETO] ", "PRUEBA");
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
 		try {
-		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
-		List<SolicitudDeAdmision> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(correo, 0, 999)
+		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
 		if(objSolicitudDeAdmision.size()>0) {
-			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId());
-			if(documentosTextos.data.size()>0) {
-				def dt = documentosTextos.data.get(0);
-				if(objSolicitudDeAdmision.get(0).necesitoAyuda && cn.getCodigo().equals("registrar")) {
-					plantilla=plantilla.replace("<!--[PASOS]-->", "<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>")
-					plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]", dt.urlTestVocacional)
-				}
-				if(!cn.docGuiaEstudio.equals("")) {
-					plantilla=plantilla.replace("<!-- GUIA DE ESTUDIO-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-12\"> <div class=\"row\" > <div class=\"col-12 form-group color-titulo\"> <a href=\"[guia-src]\" target=\"_blank\" style=\"text-decoration: underline; cursor: pointer;\"><img style=\"\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Gu%C3%ADa%20de%20estudios.png\" alt=\"no disponible\"></a> </div> </div> </td> </tr> </tbody> </table> <hr>")
-					plantilla=plantilla.replace("[guia-src]", dt.urlGuiaExamenCB)
-				}
-				if(!dt.tipsCB.equals("")) {
-					plantilla=plantilla.replace("[TIPS]", dt.tipsCB)
-				}else {
-					plantilla=plantilla.replace("[TIPS]", "")
-				}
-			}
-			if(objSolicitudDeAdmision.get(0).getCatSexo()!=null) {
-				plantilla=plantilla.replace("o(a)", objSolicitudDeAdmision.get(0).getCatSexo().getDescripcion().equals("Masculino")?"o":"a")
-			}else {
-				plantilla=plantilla.replace("o(a)", "o")
-			}
-			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).getPrimerNombre()+" "+objSolicitudDeAdmision.get(0).getSegundoNombre()+" "+objSolicitudDeAdmision.get(0).getApellidoPaterno()+" "+objSolicitudDeAdmision.get(0).getApellidoMaterno())
-			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).getPrimerNombre()+" "+objSolicitudDeAdmision.get(0).getSegundoNombre())
+			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
+//			if(documentosTextos.data.size()>0) {
+//				def dt = documentosTextos.data.get(0);
+//				if(objSolicitudDeAdmision.get(0).necesitoAyuda && cn.getCodigo().equals("registrar")) {
+//					plantilla=plantilla.replace("<!--[PASOS]-->", "<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>")
+//					plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]", dt.urlTestVocacional)
+//				}
+//				if(!cn.docGuiaEstudio.equals("")) {
+//					plantilla=plantilla.replace("<!-- GUIA DE ESTUDIO-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-12\"> <div class=\"row\" > <div class=\"col-12 form-group color-titulo\"> <a href=\"[guia-src]\" target=\"_blank\" style=\"text-decoration: underline; cursor: pointer;\"><img style=\"\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Gu%C3%ADa%20de%20estudios.png\" alt=\"no disponible\"></a> </div> </div> </td> </tr> </tbody> </table> <hr>")
+//					plantilla=plantilla.replace("[guia-src]", dt.urlGuiaExamenCB)
+//				}
+//				if(!dt.tipsCB.equals("")) {
+//					plantilla=plantilla.replace("[TIPS]", dt.tipsCB)
+//				}else {
+//					plantilla=plantilla.replace("[TIPS]", "")
+//				}
+//			}
+//			if(objSolicitudDeAdmision.get(0).getCatSexo()!=null) {
+//				plantilla=plantilla.replace("o(a)", objSolicitudDeAdmision.get(0).getCatSexo().getDescripcion().equals("Masculino")?"o":"a")
+//			}else {
+//				plantilla=plantilla.replace("o(a)", "o")
+//			}
+			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
+			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre)
+			plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).campus().getDescripcion())
 			plantilla=plantilla.replace("[UNIVERSIDAD]", objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
 			plantilla=plantilla.replace("[LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getNombre())
 			//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
@@ -1127,7 +1129,7 @@ class NotificacionDAO {
 			}
 			plantilla=plantilla.replace("[CAMPUSEXAMEN]",objSolicitudDeAdmision.get(0).getCatCampus().getDescripcion())
 			try {
-				plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
+				plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).campus().getDescripcion())
 			} catch (Exception e) {
 				plantilla=plantilla.replace("[CAMPUS]","CAMPUS PREVIEW")
 			}
@@ -1272,7 +1274,6 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog) {
-		plantilla = plantilla.replace(" [NOMBRE-COMPLETO] ", "PRUEBA");
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
