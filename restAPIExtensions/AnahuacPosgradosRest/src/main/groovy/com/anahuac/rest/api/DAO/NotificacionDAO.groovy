@@ -1073,11 +1073,16 @@ class NotificacionDAO {
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
-		try {
+		
 		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
 		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
+		Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
+		throw new Exception("El campo \"Clave\" no debe ir vacío" + objSolicitudDeAdmision.get(0).campus().getDescripcion());
+		
+		try {
+		
 		if(objSolicitudDeAdmision.size()>0) {
-			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
+			
 //			if(documentosTextos.data.size()>0) {
 //				def dt = documentosTextos.data.get(0);
 //				if(objSolicitudDeAdmision.get(0).necesitoAyuda && cn.getCodigo().equals("registrar")) {
@@ -1101,7 +1106,6 @@ class NotificacionDAO {
 //			}
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
 			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre)
-			plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).campus().getDescripcion())
 			plantilla=plantilla.replace("[UNIVERSIDAD]", objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
 			plantilla=plantilla.replace("[LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getNombre())
 			//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
