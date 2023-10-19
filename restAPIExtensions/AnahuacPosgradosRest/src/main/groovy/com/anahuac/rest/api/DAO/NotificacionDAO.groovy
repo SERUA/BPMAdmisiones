@@ -4,6 +4,7 @@ import com.anahuac.model.DetalleSolicitud
 //import com.anahuac.model.ProcesoCaso
 import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
+import com.anahuac.posgrados.catalog.PSGRCatGestionEscolarDAO
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacionDAO
 import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
@@ -14,6 +15,8 @@ import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
 import com.anahuac.posgrados.model.PSGRRegistro
 import com.anahuac.posgrados.model.PSGRRegistroDAO
+import com.anahuac.posgrados.model.PSGRSolAdmiPrograma
+import com.anahuac.posgrados.model.PSGRSolAdmiProgramaDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
@@ -1073,16 +1076,16 @@ class NotificacionDAO {
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
-		
 		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+		def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
 		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
-		Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
-		throw new Exception("El campo \"Clave\" no debe ir vacío" + objSolicitudDeAdmision.get(0).campus().getDescripcion());
-		
+		def caseid = objSolicitudDeAdmision.get(0).caseid;
+		throw new Exception("El campo \"Clave\" no debe ir vacío" + caseid);
 		try {
 		
+		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objSolicitudDeAdmisionDAO.findByCaseid(caseid, 0, 999)
 		if(objSolicitudDeAdmision.size()>0) {
-			
+			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
 //			if(documentosTextos.data.size()>0) {
 //				def dt = documentosTextos.data.get(0);
 //				if(objSolicitudDeAdmision.get(0).necesitoAyuda && cn.getCodigo().equals("registrar")) {
@@ -1106,8 +1109,8 @@ class NotificacionDAO {
 //			}
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
 			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre)
-			plantilla=plantilla.replace("[UNIVERSIDAD]", objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
-			plantilla=plantilla.replace("[LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getNombre())
+//			plantilla=plantilla.replace("[UNIVERSIDAD]", objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
+			plantilla=plantilla.replace("[LICENCIATURA]", objPSGRSolAdmiProgramaDAO.get(0).programa_interes.nombre)
 			//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
 			//plantilla=plantilla.replace("[LICENCIATURA-COSTO2]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero)
 			//plantilla=plantilla.replace("[LICENCIATURA-COSTO3]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo)
@@ -1131,9 +1134,9 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("<!--PROPEDEUTICO-->", "<tr> <td valign=\"top\" style=\"text-align: justify;text-align: left;\"> <font face=\"'Source Sans Pro', sans-serif\" color=\"#4F4E4D\"> <span style=\"color: #4F4E4D;\"> Propedéutico: </span> </font> </td> <td valign=\"top\" style=\"text-align: justify;text-align: left;\"> <font face=\"'Source Sans Pro', sans-serif\" color=\"#4F4E4D\"> <span style=\"color: #FF5900;\"> [PROPEDEUTICO] </span> </font> </td> </tr>")
 				plantilla=plantilla.replace("[PROPEDEUTICO]", objSolicitudDeAdmision.get(0).getCatPropedeutico().getDescripcion())
 			}
-			plantilla=plantilla.replace("[CAMPUSEXAMEN]",objSolicitudDeAdmision.get(0).getCatCampus().getDescripcion())
+			plantilla=plantilla.replace("[CAMPUSEXAMEN]",objSolicitudDeAdmision.get(0).campus.descripcion)
 			try {
-				plantilla=plantilla.replace("[CAMPUS]",objSolicitudDeAdmision.get(0).campus().getDescripcion())
+				plantilla=plantilla.replace("[CAMPUS]", objSolicitudDeAdmision.get(0).campus.descripcion)
 			} catch (Exception e) {
 				plantilla=plantilla.replace("[CAMPUS]","CAMPUS PREVIEW")
 			}
