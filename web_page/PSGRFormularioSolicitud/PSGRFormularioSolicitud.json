@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697672899653,
+  "lastUpdate" : 1697673756635,
   "rows" : [
     [
       {
@@ -11522,21 +11522,13 @@
                           "type" : "constant",
                           "value" : false
                         },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
                         "required" : {
                           "type" : "constant",
                           "value" : true
-                        },
-                        "minLength" : {
-                          "type" : "constant",
-                          "value" : 1
-                        },
-                        "maxLength" : {
-                          "type" : "constant",
-                          "value" : 50
-                        },
-                        "readOnly" : {
-                          "type" : "expression",
-                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -11555,30 +11547,28 @@
                           "value" : 4
                         },
                         "placeholder" : {
-                          "type" : "interpolation"
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "pSGRCatPuestoTrabajo_query"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajoPrevio.puesto"
-                        },
-                        "type" : {
-                          "type" : "constant",
-                          "value" : "text"
-                        },
-                        "min" : {
-                          "type" : "constant"
-                        },
-                        "max" : {
-                          "type" : "constant"
-                        },
-                        "step" : {
-                          "type" : "constant",
-                          "value" : 1
+                          "value" : "nuevaEmpresaTrabajoPrevio.puesto_trabajo"
                         }
                       },
-                      "reference" : "7109d529-9467-47df-846a-171e82c4db2f",
+                      "reference" : "36d26811-dbe9-4c8c-aba8-5ef5575a3ef4",
                       "hasValidationError" : false,
-                      "id" : "customPSGRInputLimit"
+                      "id" : "pbSelect"
                     }
                   ],
                   [
@@ -11887,21 +11877,13 @@
                           "type" : "constant",
                           "value" : false
                         },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
+                        },
                         "required" : {
                           "type" : "constant",
                           "value" : false
-                        },
-                        "minLength" : {
-                          "type" : "constant",
-                          "value" : 1
-                        },
-                        "maxLength" : {
-                          "type" : "constant",
-                          "value" : 50
-                        },
-                        "readOnly" : {
-                          "type" : "expression",
-                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -11920,30 +11902,28 @@
                           "value" : 4
                         },
                         "placeholder" : {
-                          "type" : "interpolation"
+                          "type" : "interpolation",
+                          "value" : "Selecciona una opción"
+                        },
+                        "availableValues" : {
+                          "type" : "expression",
+                          "value" : "pSGRCatPuestoTrabajo_query"
+                        },
+                        "displayedKey" : {
+                          "type" : "constant",
+                          "value" : "descripcion"
+                        },
+                        "returnedKey" : {
+                          "type" : "constant"
                         },
                         "value" : {
                           "type" : "variable",
                           "value" : "nuevaEmpresaTrabajoPrevio.reporta_a"
-                        },
-                        "type" : {
-                          "type" : "constant",
-                          "value" : "text"
-                        },
-                        "min" : {
-                          "type" : "constant"
-                        },
-                        "max" : {
-                          "type" : "constant"
-                        },
-                        "step" : {
-                          "type" : "constant",
-                          "value" : 1
                         }
                       },
-                      "reference" : "361afdca-e2fd-481c-9d62-4adf50667abb",
+                      "reference" : "84a6632e-46a9-41c3-81e0-48021157df46",
                       "hasValidationError" : false,
-                      "id" : "customPSGRInputLimit"
+                      "id" : "pbSelect"
                     },
                     {
                       "type" : "component",
@@ -13777,7 +13757,7 @@
         "    let output = true;\r",
         "    \r",
         "    for(let dato of $data.datosAcademicos){\r",
-        "        if(!dato.grado || !dato.programa || !dato.institucion || !dato.fecha_inicio || !dato.fecha_termino || !dato.promedio || !dato.pais){\r",
+        "        if(!dato.grado_estudio || !dato.programa || !dato.institucion || !dato.fecha_inicio || !dato.fecha_termino || !dato.promedio || !dato.pais){\r",
         "            output = false;\r",
         "        }\r",
         "    }\r",
@@ -13872,7 +13852,7 @@
         "    \r",
         "    if($data.datosInfoLaboralActual){\r",
         "        for(let dato of $data.datosInfoLaboralActual){\r",
-        "            if(!dato.giro_empresa || !dato.tipo_empresa || !dato.nombre_empresa || !dato.puesto || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
+        "            if(!dato.giro_empresa || !dato.tipo_empleado || !dato.nombre_empresa || !dato.puesto_trabajo || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a_puesto || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
         "                output = false;\r",
         "            }\r",
         "        }\r",
@@ -13886,7 +13866,7 @@
         "    \r",
         "    if($data.datosLaboralPrevio){\r",
         "        for(let dato of $data.datosLaboralPrevio){\r",
-        "            if(!dato.giro_empresa || !dato.tipo_empresa || !dato.nombre_empresa || !dato.puesto || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
+        "            if(!dato.giro_empresa || !dato.tipo_empleado || !dato.nombre_empresa || !dato.puesto_trabajo || !dato.telefono_empresa || !dato.ext_telefono_empresa || !dato.reporta_a_puesto || !dato.fecha_inicio || !dato.desc_responsabilidad){\r",
         "                output = false;\r",
         "            }\r",
         "        }\r",
