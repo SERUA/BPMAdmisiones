@@ -1,9 +1,25 @@
 .div-circular {
+    background: white;
     width: 21vh;
     height: 21vh;
     border: 3px solid #031d42;
     border-radius: 50%;
     text-align: center;
+    cursor: pointer;
+}
+
+.div-circular.finished{
+    background: #28a745;
+    cursor: default;
+}
+
+.div-circular.current{
+    background: #ff5900;
+}
+
+/*.div-circular:hover {*/
+.div-circular:not(.finished):hover {
+    transform: scale(1.15);
 }
 
 .circle-1{
@@ -49,7 +65,7 @@
     color: #eb5b1c;
 }
 
-.title-sol{
+.div-circular>.title-sol{
     position: relative;
     /*transform: translateX(-50%);*/
     /*left: 50%; */
@@ -57,9 +73,21 @@
     color: #031d42;
 }
 
+.div-circular:not(.finished)>.title-sol{
+    color: #031d42;
+}
+
+.div-circular.finished>.title-sol, .div-circular.current>.title-sol , .div-circular.finished>.title-count , .div-circular.current>.title-count{
+    color: white;
+}
+
 .icon-float{
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
     bottom: -4vh;
+    width: auto;
+    height: auto;
+    max-width: 8vw;
+    max-height: 8vw;
 }

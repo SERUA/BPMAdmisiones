@@ -62,7 +62,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 
                 if($scope.properties.lstContenido.length < 1){
-                   swal("Sin registros", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aun no llena su autodescripcion", "", "info"); 
                 }
                 console.log(data.data)
             })
@@ -524,6 +524,29 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.seccionSesion = false;
         $scope.properties.ocultarFiltro = false;
         $scope.activado =angular.copy($scope.copiaActivado);
+    }
+    
+    $scope.limpiesaFiltros = function(){
+        $scope.properties.lstContenido = [];
+        $scope.primerCheck = true;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+		let index = null;
+        index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
+        if(index != null){
+        	if(index==0){
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        	}else{
+        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
+        		$scope.properties.dataToSend.lstFiltro.splice(0,index);
+        	}
+        
+        }else{
+        	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
+        }
     }
 
 }
