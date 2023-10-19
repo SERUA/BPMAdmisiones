@@ -5,6 +5,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
 
+import com.anahuac.catalogos.CatDocumentosTextos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.Entity.Result
@@ -30,15 +31,15 @@ class DocumentosTextosDAO {
 		Boolean closeCon = false;
 		try {
 
-			PSGRCatDocumentosTextos row = new PSGRCatDocumentosTextos()
-			List<PSGRCatDocumentosTextos> rows = new ArrayList<PSGRCatDocumentosTextos>();
+			CatDocumentosTextos row = new CatDocumentosTextos()
+			List<CatDocumentosTextos> rows = new ArrayList<CatDocumentosTextos>();
 			closeCon = validarConexion();
 			String consulta = GET
 			pstm = con.prepareStatement(consulta)
 			pstm.setLong(1, campus_pid)
 			rs = pstm.executeQuery()
 				while(rs.next()) {
-					row = new PSGRCatDocumentosTextos()
+					row = new CatDocumentosTextos()
 					row.setNoSabes(rs.getString("noSabes"))
 					row.setTipsCB(rs.getString("tipsCB"))
 					row.setUrlGuiaExamenCB(rs.getString("urlGuiaExamenCB"))
@@ -82,11 +83,11 @@ class DocumentosTextosDAO {
 		}
 		return resultado
 	}
-	public Result insertDocumentosTextos(PSGRCatDocumentosTextos row) {
+	public Result insertDocumentosTextos(CatDocumentosTextos row) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		try {
-			List<PSGRCatDocumentosTextos> rows = new ArrayList<PSGRCatDocumentosTextos>();
+			List<CatDocumentosTextos> rows = new ArrayList<CatDocumentosTextos>();
 			closeCon = validarConexion();
 			String consulta = GET
 			pstm = con.prepareStatement(consulta)

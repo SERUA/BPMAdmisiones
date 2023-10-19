@@ -1067,6 +1067,7 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar) {
+		plantilla = plantilla.replace(" [NOMBRE-COMPLETO] ", "PRUEBA");
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
@@ -1271,6 +1272,7 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog) {
+		plantilla = plantilla.replace(" [NOMBRE-COMPLETO] ", "PRUEBA");
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
