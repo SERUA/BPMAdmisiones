@@ -60,7 +60,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         let valido = true;
         let mensaje = "";
 
-        if(!$scope.properties.valueToAdd.grado){
+        if(!$scope.properties.valueToAdd.grado_estudio){
             mensaje = "El campo 'Grado' no debe ir vacío";
             valido = false;
         } else if(!$scope.properties.valueToAdd.programa){
