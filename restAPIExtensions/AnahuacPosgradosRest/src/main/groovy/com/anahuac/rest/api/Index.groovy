@@ -481,8 +481,8 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "insertCatTipoEmpleado":
-					result = new CatalogosDAO().insertCatTipoEmpresa(jsonData, context)
+				case "insertCatTipoEmleado":
+					result = new CatalogosDAO().insertCatTipoEmleado(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -490,7 +490,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "deleteCatTipoEmpleado":
-					result = new CatalogosDAO().deleteCatTipoEmpresa(jsonData, context)
+					result = new CatalogosDAO().deleteCatTipoEmpleado(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -498,7 +498,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "updateCatTipoEmpleado":
-					result = new CatalogosDAO().updateCatTipoEmpresa(jsonData, context)
+					result = new CatalogosDAO().updateCatTipoEmpleado(jsonData, context)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -506,7 +506,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "getCatTipoEmpleado":
-					result = new CatalogosDAO().getCatTipoEmpresa(jsonData)
+					result = new CatalogosDAO().getCatTipoEmpleado(jsonData)
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {
