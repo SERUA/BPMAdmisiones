@@ -6337,7 +6337,7 @@ class CatalogosDAO {
 		Boolean closeCon = false;
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
-		String where = "", orderby = "";
+		String where = "WHERE IS_ELIMINADO=false", orderby = "";
 		
 		try {
 			closeCon = validarConexion();
