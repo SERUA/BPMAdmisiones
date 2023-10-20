@@ -643,6 +643,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.finalP = 10;
         $scope.value = 0;
 		let index = null;
+		$('#banner2').val('');
+		$('#nombrealumno2').val('');
+		$('#correoelectronico2').val('');
+		$('#carrera2').val('');
+		$('#periodo2').val('');
+		$('#fechaentrevista2').val('');
         index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
         if(index != null){
         	if(index==0){
