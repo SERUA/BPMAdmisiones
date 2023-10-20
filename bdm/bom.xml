@@ -5095,9 +5095,10 @@
                         <queryParameter name="campus_referencia" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
-                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGestionEscolar p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatGestionEscolar p &#13;&#10;LEFT JOIN p.campus_referencia c&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar">
                     <queryParameters>
                         <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
             </queries>
@@ -5349,9 +5350,10 @@
                         <queryParameter name="campus" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
-                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatPosgrado p &#13;&#10;WHERE p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatPosgrado p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatPosgrado">
                     <queryParameters>
                         <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
             </queries>
