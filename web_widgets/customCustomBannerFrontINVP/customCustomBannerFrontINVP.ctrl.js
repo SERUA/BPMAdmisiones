@@ -8,14 +8,34 @@ function ($scope, modalService, $http) {
         modalService.open(modalId);
     }
     
+    // $scope.action = function(){
+    //     if($scope.properties.pageToken === "examen"){
+    //         $scope.properties.accionModal = "logout";
+    //         modalService.open($scope.properties.idModalLogout);
+    //     } else {
+    //         $scope.logout();
+    //     }
+    // };
+    
     $scope.action = function(){
         if($scope.properties.pageToken === "examen"){
-            $scope.properties.accionModal = "logout";
-            modalService.open($scope.properties.idModalLogout);
+            let url = "../API/extension/AnahuacINVPRestGet?url=getInfoRespuestas&p=0&c=10&username=" + $scope.properties.userData.user_name
+                
+            return $http({
+                method: "GET",
+                url: url
+            }).success(function (data, status) {
+                $scope.properties.datosRespuestas = data.data[0];
+                $scope.properties.accionModal = "logout";
+                modalService.open($scope.properties.idModalLogout); 
+            })
+            .error(function (data, status) {
+                swal("Error", "No se pudo obtener la información d las respuestas.", "error")
+            });
         } else {
             $scope.logout();
         }
-    };
+    }
     
     function getIdiomaUsuario(){
         var req = {
