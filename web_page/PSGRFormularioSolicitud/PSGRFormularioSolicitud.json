@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697765436593,
+  "lastUpdate" : 1697772587275,
   "rows" : [
     [
       {
@@ -2393,48 +2393,13 @@
                                   "lg" : 12
                                 },
                                 "propertyValues" : {
-                                  "labelHidden" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "hidden" : {
-                                    "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
-                                  },
-                                  "labelPosition" : {
-                                    "type" : "constant",
-                                    "value" : "top"
-                                  },
                                   "cssClasses" : {
                                     "type" : "constant",
                                     "value" : ""
                                   },
-                                  "labelWidth" : {
-                                    "type" : "constant",
-                                    "value" : 1
-                                  },
-                                  "readOnly" : {
-                                    "type" : "constant",
-                                    "value" : false
-                                  },
-                                  "label" : {
-                                    "type" : "interpolation",
-                                    "value" : "CURP:"
-                                  },
-                                  "placeholder" : {
-                                    "type" : "constant"
-                                  },
-                                  "type" : {
-                                    "type" : "constant",
-                                    "value" : "text"
-                                  },
-                                  "dimension" : {
-                                    "type" : "constant",
-                                    "value" : 12
-                                  },
-                                  "value" : {
-                                    "type" : "variable",
-                                    "value" : "datosPersonales.curp"
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -2446,7 +2411,38 @@
                                   },
                                   "maxLength" : {
                                     "type" : "constant",
-                                    "value" : ""
+                                    "value" : 18
+                                  },
+                                  "readOnly" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "CURP:"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "datosPersonales.curp"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "text"
                                   },
                                   "min" : {
                                     "type" : "constant"
@@ -2459,10 +2455,9 @@
                                     "value" : 1
                                   }
                                 },
-                                "reference" : "581ff1eb-95ce-4af4-a4fa-8b04787966c1",
+                                "reference" : "2d2ca046-347f-47e6-a9d3-90a01fa06536",
                                 "hasValidationError" : false,
-                                "id" : "pbInput",
-                                "description" : ""
+                                "id" : "customPSGRinputCurp"
                               }
                             ],
                             [
@@ -2678,166 +2673,362 @@
                           "description" : ""
                         },
                         {
-                          "type" : "component",
+                          "type" : "container",
                           "dimension" : {
-                            "md" : 6,
-                            "sm" : 12,
                             "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
                             "lg" : 6
                           },
                           "propertyValues" : {
-                            "labelHidden" : {
+                            "cssClasses" : {
                               "type" : "constant",
-                              "value" : false
+                              "value" : ""
                             },
                             "hidden" : {
                               "type" : "constant",
                               "value" : false
                             },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "País de nacimiento:"
-                            },
-                            "placeholder" : {
-                              "type" : "constant"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "text"
-                            },
-                            "dimension" : {
-                              "type" : "constant",
-                              "value" : 12
-                            },
-                            "value" : {
+                            "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "datosPersonales.lugar_nacimiento_pais"
-                            },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "minLength" : {
-                              "type" : "constant",
                               "value" : ""
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "min" : {
-                              "type" : "constant"
-                            },
-                            "max" : {
-                              "type" : "constant"
-                            },
-                            "step" : {
-                              "type" : "constant",
-                              "value" : 1
                             }
                           },
-                          "reference" : "8074c111-25d5-4e6a-9975-4f723a04196c",
+                          "reference" : "18be5a6f-898b-4db9-a078-01d624d92369",
                           "hasValidationError" : false,
-                          "id" : "pbInput",
-                          "description" : ""
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "md" : 12,
+                                  "sm" : 12,
+                                  "xs" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "readOnly" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "País de nacimiento:"
+                                  },
+                                  "placeholder" : {
+                                    "type" : "constant"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "text"
+                                  },
+                                  "dimension" : {
+                                    "type" : "constant",
+                                    "value" : 12
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "datosPersonales.lugar_nacimiento_pais"
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "minLength" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "maxLength" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "min" : {
+                                    "type" : "constant"
+                                  },
+                                  "max" : {
+                                    "type" : "constant"
+                                  },
+                                  "step" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  }
+                                },
+                                "reference" : "8074c111-25d5-4e6a-9975-4f723a04196c",
+                                "hasValidationError" : false,
+                                "id" : "pbInput",
+                                "description" : ""
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "País de nacimiento:"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation",
+                                    "value" : "Seleccionia una opción"
+                                  },
+                                  "availableValues" : {
+                                    "type" : "expression",
+                                    "value" : "pSGRCatPais_query"
+                                  },
+                                  "displayedKey" : {
+                                    "type" : "constant",
+                                    "value" : "descripcion"
+                                  },
+                                  "returnedKey" : {
+                                    "type" : "constant",
+                                    "value" : "descripcion"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "datosPersonales.lugar_nacimiento_pais"
+                                  }
+                                },
+                                "reference" : "f70f3163-1a92-4741-8563-200dd638dced",
+                                "hasValidationError" : false,
+                                "id" : "pbSelect"
+                              }
+                            ]
+                          ]
                         }
                       ],
                       [
                         {
-                          "type" : "component",
+                          "type" : "container",
                           "dimension" : {
-                            "md" : 6,
-                            "sm" : 12,
                             "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
                             "lg" : 6
                           },
                           "propertyValues" : {
-                            "labelHidden" : {
+                            "cssClasses" : {
                               "type" : "constant",
-                              "value" : false
+                              "value" : ""
                             },
                             "hidden" : {
                               "type" : "constant",
                               "value" : false
                             },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 1
-                            },
-                            "readOnly" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Estado de nacimiento:"
-                            },
-                            "placeholder" : {
-                              "type" : "constant"
-                            },
-                            "type" : {
-                              "type" : "constant",
-                              "value" : "text"
-                            },
-                            "dimension" : {
-                              "type" : "constant",
-                              "value" : 12
-                            },
-                            "value" : {
+                            "repeatedCollection" : {
                               "type" : "variable",
-                              "value" : "datosPersonales.lugar_nacimiento_estado"
-                            },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "minLength" : {
-                              "type" : "constant",
                               "value" : ""
-                            },
-                            "maxLength" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "min" : {
-                              "type" : "constant"
-                            },
-                            "max" : {
-                              "type" : "constant"
-                            },
-                            "step" : {
-                              "type" : "constant",
-                              "value" : 1
                             }
                           },
-                          "reference" : "85275c67-3571-4a38-9692-02b69b391b48",
+                          "reference" : "b03fb2e7-f162-44a2-9866-feb2b8e00dc1",
                           "hasValidationError" : false,
-                          "id" : "pbInput",
-                          "description" : ""
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "md" : 12,
+                                  "sm" : 12,
+                                  "xs" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "datosPersonales.lugar_nacimiento_pais === \"México\""
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  },
+                                  "readOnly" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Estado de nacimiento:"
+                                  },
+                                  "placeholder" : {
+                                    "type" : "constant"
+                                  },
+                                  "type" : {
+                                    "type" : "constant",
+                                    "value" : "text"
+                                  },
+                                  "dimension" : {
+                                    "type" : "constant",
+                                    "value" : 12
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "datosPersonales.lugar_nacimiento_estado"
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "minLength" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "maxLength" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "min" : {
+                                    "type" : "constant"
+                                  },
+                                  "max" : {
+                                    "type" : "constant"
+                                  },
+                                  "step" : {
+                                    "type" : "constant",
+                                    "value" : 1
+                                  }
+                                },
+                                "reference" : "85275c67-3571-4a38-9692-02b69b391b48",
+                                "hasValidationError" : false,
+                                "id" : "pbInput",
+                                "description" : ""
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "expression",
+                                    "value" : "datosPersonales.lugar_nacimiento_pais !== \"México\""
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Estado de nacimiento:"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation",
+                                    "value" : "Select an option"
+                                  },
+                                  "availableValues" : {
+                                    "type" : "expression",
+                                    "value" : "pSGRCatEstados_query"
+                                  },
+                                  "displayedKey" : {
+                                    "type" : "constant",
+                                    "value" : "descripcion"
+                                  },
+                                  "returnedKey" : {
+                                    "type" : "constant",
+                                    "value" : "descripcion"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : "datosPersonales.lugar_nacimiento_estado"
+                                  }
+                                },
+                                "reference" : "d2f790c8-3a21-4d4e-842f-0cec440b0ded",
+                                "hasValidationError" : false,
+                                "id" : "pbSelect"
+                              }
+                            ]
+                          ]
                         },
                         {
                           "type" : "component",
@@ -4665,7 +4856,7 @@
                       },
                       "required" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "minLength" : {
                         "type" : "constant",
@@ -9790,13 +9981,15 @@
                         },
                         "type" : {
                           "type" : "constant",
-                          "value" : "text"
+                          "value" : "number"
                         },
                         "min" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 1
                         },
                         "max" : {
-                          "type" : "constant"
+                          "type" : "constant",
+                          "value" : 3
                         },
                         "step" : {
                           "type" : "constant",
@@ -13544,7 +13737,14 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && $data.datosPersonales.curp.length !== 18){\r",
+        "    valid = false;\r",
+        "    $data.errorStep2 = { \r",
+        "        \"errorMessage\": \"El campo 'CURP' debe tener 18 caracteres\", \r",
+        "        \"title\": \"¡Datos personales!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "}  else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Pasaporte' no debe ir vacío\", \r",
@@ -14064,6 +14264,14 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "pSGRCatEstados_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatEstados?q=find&p=0&c=999"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

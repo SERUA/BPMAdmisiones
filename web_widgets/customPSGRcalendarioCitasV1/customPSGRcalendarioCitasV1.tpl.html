@@ -79,27 +79,13 @@
                 <h4 class="modal-title" align="center"><strong>Seleccionar entrevista</strong></h4>
             </div>
             <div class="modal-body row">
-                <div class="col-xs-6 col-xs-offset-3" ng-if="jsonEntrevista.psicologos[0].lstFechasDisponibles.length==0">
-                    <table class="table table-striped">
-                        <thead>
-                            <tr >
-                                <th>Seleccionar fecha disponible</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr ng-repeat="ap in aplicaciones" style="height: 60px;">
-                                <td class="text-center"><label style="cursor: pointer; outline: none;     margin-top: 9px;" ng-click="selectFecha(ap);"><span class="label label-success" style="padding: 15px;font-size: 15px;">{{ap.aplicacion.split("-")[2]+"-"+ap.aplicacion.split("-")[1]+"-"+ap.aplicacion.split("-")[0]}}</span></label></td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-                <div class="col-xs-6 col-xs-offset-3" ng-if="jsonEntrevista.psicologos[0].lstFechasDisponibles.length>0">
+                <div class="col-xs-6 col-xs-offset-3">
                     <h3 class="text-center">{{fechaSelected}}</h3>
                     <table class="table table-striped">
                         <tbody>
-                            <tr ng-repeat="disponibles in jsonEntrevista.psicologos[0].lstFechasDisponibles" style="height: 60px;">
+                            <tr ng-repeat="disponibles in entrevistas" style="height: 60px;">
                                 <td>{{disponibles.horario}}</td>
-                                <td class="text-center"><label style="cursor: pointer; outline: none;     margin-top: 9px;" ng-click="selectEntrevista(disponibles);"><span style="padding: 15px;font-size: 15px;" class="label label-{{(disponibles.ocupado)?'default':(disponibles.disponible)?'success':'default'}}">{{(disponibles.ocupado)?'Ocupado':(disponibles.disponible)?"Disponible":"No Disponible"}}</span></label></td>
+                                <td class="text-center"><label style="cursor: pointer; outline: none;     margin-top: 9px;" ng-click="seleccionarHorario(disponibles.horario)"><span style="padding: 15px;font-size: 15px;" class="label label-{{(disponibles.ocupado)?'default':(disponibles.disponible)?'success':'default'}}">{{(disponibles.ocupado)?'Ocupado':(disponibles.disponible)?"Disponible":"No Disponible"}}</span></label></td>
                             </tr>
                         </tbody>
                     </table>
@@ -108,7 +94,7 @@
             <div class="modal-footer">
                 <div class="col-xs-12">
                     <div class="col-xs-6 text-left">
-                        <button class="btn btn-info" ng-if="jsonEntrevista.psicologos[0].lstFechasDisponibles.length>0" ng-click="jsonEntrevista.psicologos[0].lstFechasDisponibles=[] ">
+                        <button class="btn btn-info" ng-if="entrevistas.psicologos[0].lstFechasDisponibles.length>0" ng-click="entrevistas.psicologos[0].lstFechasDisponibles=[] ">
                             Cancelar
                         </button>
                     </div>

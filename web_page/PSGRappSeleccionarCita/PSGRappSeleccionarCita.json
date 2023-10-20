@@ -2,8 +2,36 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappSeleccionarCita",
   "name" : "PSGRappSeleccionarCita",
-  "lastUpdate" : 1697751570941,
+  "lastUpdate" : 1697769109913,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "taskId" : {
+            "type" : "variable",
+            "value" : "taskId"
+          }
+        },
+        "reference" : "2974996e-aafa-47f9-8267-7b7532b7da5e",
+        "hasValidationError" : false,
+        "id" : "customPSGRgetdatosSolicitud"
+      }
+    ],
     [
       {
         "type" : "container",
@@ -113,43 +141,44 @@
             "value" : false
           },
           "events" : {
-            "type" : "constant"
+            "type" : "expression",
+            "value" : "registro"
           },
           "idUsuario" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "userData.user_id"
           },
           "lstSalas" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "jsonSala.lstResultado"
           },
           "jsonEntrevistas" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "jsonEntrevistas"
           },
           "hideCalendario" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "hideCalendario"
           },
           "usuario" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "userData"
           },
           "detalleSolicitud" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "{}"
           },
           "isCorrectTask" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "true"
           },
           "isMedicina" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "false"
           },
           "solicitudDeAdmision" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "{}"
           }
         },
         "reference" : "64aafd46-5b62-45b1-85d1-d4d3b1a48ead",
@@ -181,6 +210,13 @@
       "external" : false
     },
     {
+      "id" : "132210f0-3882-4987-ab10-77e67c5417aa",
+      "name" : "sweetalert.min.js",
+      "type" : "js",
+      "order" : 4,
+      "external" : false
+    },
+    {
       "id" : "ba4d1e22-bd7f-4c78-bad1-e3e74c566672",
       "name" : "style.css",
       "type" : "css",
@@ -202,6 +238,49 @@
       "value" : [
         "return false;"
       ],
+      "exposed" : false
+    },
+    "jsonEntrevistas" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "    {\r",
+        "        \"end_date\": \"10/19/2023 18:00\",\r",
+        "        \"id\": 2574,\r",
+        "        \"color\": \"#969696\",\r",
+        "        \"text\": \"6 SESI\\u00d3N 6 <i class=\\\"small material-icons\\\">do_not_disturb</i>\",\r",
+        "        \"start_date\": \"10/19/2023 15:00\"\r",
+        "    }\r",
+        "]"
+      ],
+      "exposed" : false
+    },
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/1"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "taskId" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "context" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "registro" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.registro_ref.link}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
