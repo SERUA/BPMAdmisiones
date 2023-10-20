@@ -7,9 +7,9 @@ function PbTableCtrl($scope, modalService) {
     };
 
     this.selectRow = function (row) {
-        if (this.isClickable()) {
-            $scope.properties.selectedRow = row;
-        }
+        // if (this.isClickable()) {
+        //     $scope.properties.selectedRow = row;
+        // }
     };
 
     this.isSelected = function(row) {
@@ -17,7 +17,22 @@ function PbTableCtrl($scope, modalService) {
     }
     
     $scope.removeItem = function(_row){
-        $scope.properties.content.splice($scope.properties.content.indexOf(_row), 1);
+        $scope.selectedRow = _row;
+         swal({
+            "title": "Confirmación",
+            "text": "¿Estás seguro que deseas borrar el registro?",
+            icon: "warning",
+            buttons: [
+                'Cancelar',
+                'Eliminar'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $scope.properties.content.splice($scope.properties.content.indexOf(_row), 1);
+                $scope.$apply();
+            }
+        })
     }
     
     $scope.editar = function(_row, _index){

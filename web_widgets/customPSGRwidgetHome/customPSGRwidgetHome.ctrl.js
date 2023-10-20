@@ -1,6 +1,10 @@
 
 function ($scope, $http) {
     
+    $scope.redirectTo = function(_url){
+        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/pg_aspirante/" + _url;
+    }
+    
     getCasosIniciados();
     
     function getCasosIniciados(){

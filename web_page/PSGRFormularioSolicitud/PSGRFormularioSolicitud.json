@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1697772587275,
+  "lastUpdate" : 1697779263860,
   "rows" : [
     [
       {
@@ -112,8 +112,8 @@
             "value" : "bg-white"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!taskId"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -2455,7 +2455,7 @@
                                     "value" : 1
                                   }
                                 },
-                                "reference" : "2d2ca046-347f-47e6-a9d3-90a01fa06536",
+                                "reference" : "f87a12c8-2c06-4f67-9ef4-90823d7d206c",
                                 "hasValidationError" : false,
                                 "id" : "customPSGRinputCurp"
                               }
@@ -13395,7 +13395,7 @@
     "pSGRCatPosgrado_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPosgrado?q=getCat&p=0&c=99&f=is_eliminado=false&f=campus={datosPrograma.campus.persistenceid}"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPosgrado?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -13424,9 +13424,8 @@
     "pSGRCatReligion_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatReligion?q=find&p=0&c=99&f=is_eliminado=false"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatReligion?q=find&p=0&c=99"
       ],
-      "advancedOptions" : { },
       "exposed" : false
     },
     "datosPersonales_estado_civil" : {
@@ -13439,7 +13438,7 @@
     "pSGRCatGestionEscolar_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatGestionEscolar?q=getCat&p=0&c=99&f=is_eliminado=false&f=campus_referencia={datosPrograma.campus.persistenceid}"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatGestionEscolar?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -13497,11 +13496,7 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatSiNo?q=findByEs_si_o_no&p=0&c=99&f=es_si_o_no=true"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "selectedIndex" : {
@@ -14235,11 +14230,7 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPuestoTrabajo?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "pSGRCatTipoEmpleado_query" : {
@@ -14247,11 +14238,7 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "pSGRCatGradoEstudio_query" : {
@@ -14259,11 +14246,7 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatGradoEstudio?q=getCat&p=0&c=99&f=is_eliminado=false"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "pSGRCatEstados_query" : {
