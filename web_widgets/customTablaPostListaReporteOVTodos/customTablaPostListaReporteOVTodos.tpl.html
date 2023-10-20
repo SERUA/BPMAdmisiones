@@ -9,22 +9,22 @@
     <div ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
         <div class="row">
             <div class="col-xs-2">
-              <label>Id banner</label>
+              <label>Id banner:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['idb']"  class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['idb'])">
+                <input ng-model="dynamicInput['idb']" id="banner2" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['idb'])">
             </div>
             <div class="col-xs-2">
                 <label>Nombre del alumno:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['nombrealumno']"  class="form-control" ng-enter="filterKeyPress('NOMBRE DEL ALUMNO',dynamicInput['nombrealumno'])">
+                <input ng-model="dynamicInput['nombrealumno']" id="nombrealumno2" class="form-control" ng-enter="filterKeyPress('NOMBRE DEL ALUMNO',dynamicInput['nombrealumno'])">
             </div>
             <div class="col-xs-2">
                 <label>Correo:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['correoelectronico']" class="form-control" ng-enter="filterKeyPress('CORREO',dynamicInput['correoelectronico'])">
+                <input ng-model="dynamicInput['correoelectronico']" id="correoelectronico2" class="form-control" ng-enter="filterKeyPress('CORREO',dynamicInput['correoelectronico'])">
             </div>
         </div>
         <div class="row">
@@ -38,11 +38,11 @@
             </div>
             <div class="col-xs-2">
                <!-- <input ng-model="dynamicInput['carrera']" class="form-control" ng-enter="filterKeyPress('CARRERA',dynamicInput['carrera'])"> -->
-               <select class="form-control" ng-model="carreraSelected" ng-change="filterSelectCarrera()">
+               <select class="form-control" ng-model="carreraSelected" ng-change="filterSelectCarrera()" id="carrera2">
                 <option value="">
                     Seleccionar Carrera
                 </option>
-                <option ng-repeat="carrera in carreraLista" ng-value="{{carrera.persistenceid}}">{{carrera.nombre}}</option>
+                <option ng-repeat="carrera in carreraLista" value="{{carrera.nombre}}">{{carrera.nombre}}</option>
               </select>
             
             </div>
@@ -51,7 +51,7 @@
             </div>
             <div class="col-xs-2">
                 <!--<input ng-model="dynamicInput['pariodos']" class="form-control" ng-enter="filterKeyPress('PERIODO',dynamicInput['pariodos'])"> -->
-                <select class="form-control" ng-model="peridoSelected" ng-change="filterSelectPeriodo()">
+                <select class="form-control" ng-model="peridoSelected" ng-change="filterSelectPeriodo()" id="periodo2">
                     <option value="">
                         Seleccionar periodo
                     </option>
@@ -59,10 +59,10 @@
                 </select>
             </div>
             <div class="col-xs-2">
-                <label>Fecha entrevista (dd-mm-aaaa):</label>
+                <label>Fecha de la entrevista:</label>
             </div>
             <div class="col-xs-2">
-                <input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA ENTREVISTA',dynamicInput['fechaentrevista'])" >
+                <input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" id="fechaentrevista2" >
             </div>
             
         </div>

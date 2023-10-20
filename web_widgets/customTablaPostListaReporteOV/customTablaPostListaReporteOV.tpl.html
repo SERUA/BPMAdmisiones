@@ -8,54 +8,55 @@
     </div>
     <div >
         <div ng-show="!((properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'  ) && seccionSesion)">
-            <table>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td style="position:relative; left:60px;">
-                            <label>Id banner</label>
-                        </td>
-                        <td style="position:relative; left:70px;">
-                            <label>Correo</label>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="idbanner" name="idbanner" value="idbanner" class="chk">
-                        </td>
-                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['banner']" id='banner' class="form-control banner" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])" ></td>
-                        <td style="position:relative; left:70px;"><input ng-model="dynamicInput['correo']"  class="form-control banner" ng-enter="filterKeyPress('CORREO',dynamicInput['correo'])" ></td>
-                    </tr>
-                    <tr>
-                    	<td> <br/>  </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td style="position:relative; left:60px;">
-                            <label>Id sesión</label>
-                        </td>
-                        <td style="position:relative; left:70px;">
-                            <label>Nombre de la sesión</label>
-                        </td>
-                        <td style="position:relative; left:80px;">
-                            <label>Fecha de la entrevista (dd-mm-aaaa)</label>
-                        </td>
-                        <!--<td style="position:relative; left:90px;">
-                            <label>Campus de la sesión</label>
-                        </td>-->
-                    </tr>
-                    <tr>
-                        <td>
-                            <input type="checkbox" id="sesiones" name="sesiones" value="sesiones" class="chk">
-                        </td>
-                        <td style="position:relative; left:60px;"><input ng-model="dynamicInput['idsesion']"  class="form-control sesion" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])" ></td>
-                        <td style="position:relative; left:70px;"><input ng-model="dynamicInput['sesion']"  class="form-control sesion" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['sesion'])" ></td>
-                        <td style="position:relative; left:80px;"><input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" ></td>
-                        <!--<td style="position:relative; left:90px;"><input ng-model="dynamicInput['psicologo']"  class="form-control sesion" ng-enter="filterKeyPress('PSICOLOGO',dynamicInput['psicologo'])" ></td> -->
-                    </tr>
-                    
-                </tbody>
-            </table>
+
+            <div class="row">
+                <div class="col-xs-1">
+                    <input type="checkbox" id="idbanner" name="idbanner" value="idbanner" class="chk">
+                </div>
+                <div class="col-xs-1">
+                  <label>Id banner:</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="dynamicInput['banner']" id='banner1' class="form-control banner" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])" >
+                </div>
+                <div class="col-xs-2">
+                    <label>Correo:</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="dynamicInput['correo']" id="correo1"  class="form-control banner" ng-enter="filterKeyPress('CORREO',dynamicInput['correo'])" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-2">
+                    <br/>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-xs-1">
+                    <input type="checkbox" id="sesiones" name="sesiones" value="sesiones" class="chk">
+                </div>
+                <div class="col-xs-1">
+                    <label>Id sesión:</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="dynamicInput['idsesion']" id="sesion1"  class="form-control sesion" ng-enter="filterKeyPress('ID SESIÓN',dynamicInput['idsesion'])" >
+                </div>
+                <div class="col-xs-2">
+                    <label>Nombre de la sesión:</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="dynamicInput['sesion']" id="nombresesion1" class="form-control sesion" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['sesion'])" >
+                </div>
+                <div class="col-xs-2">
+                    <label>Fecha de la entrevista:</label>
+                </div>
+                <div class="col-xs-2">
+                    <input ng-model="dynamicInput['fechaentrevista']" id="fechaentrevista1"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" >
+                </div>
+            </div>
+
             <br/>
             <div class="row">
                 <div class = "col-xs-2">
