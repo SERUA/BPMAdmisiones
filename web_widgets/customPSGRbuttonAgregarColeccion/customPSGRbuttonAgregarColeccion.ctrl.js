@@ -72,10 +72,20 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if(!$scope.properties.valueToAdd.fecha_inicio){
             mensaje = "El campo 'Fecha de inicio' no debe ir vacío";
             valido = false;
-        } else if(!$scope.properties.valueToAdd.fecha_termino){
+        }  else if($scope.properties.valueToAdd.fecha_inicio >= new Date()){
+            mensaje = "El campo 'Fecha de inicio' debe ser anterior a hoy";
+            valido = false;
+        } 
+        
+        else if(!$scope.properties.valueToAdd.fecha_termino){
             mensaje = "El campo 'Fecha término' no debe ir vacío";
             valido = false;
-        } else if(!$scope.properties.valueToAdd.promedio){
+        }  else if($scope.properties.valueToAdd.fecha_termino >= new Date() ){
+            mensaje = "El campo 'Fecha término' debe ser anterior a hoy";
+            valido = false;
+        } 
+        
+        else if(!$scope.properties.valueToAdd.promedio){
             mensaje = "El campo 'Promedio' no debe ir vacío";
             valido = false;
         } else if(!$scope.properties.valueToAdd.pais){

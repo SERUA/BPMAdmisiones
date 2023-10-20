@@ -17,8 +17,25 @@ function PbTableCtrl($scope, modalService) {
     }
     
     $scope.removeItem = function(_row){
-        $scope.properties.content.splice($scope.properties.content.indexOf(_row), 1);
+        $scope.selectedRow = _row;
+        // swal("Atención", "¿Estás seguro que deseas borrar el registro?", "warning")
+         swal({
+            "title": "Confirmación",
+            "text": "¿Estás seguro que deseas borrar el registro?",
+            icon: "warning",
+            buttons: [
+                'Cancelar',
+                'Eliminar'
+            ],
+            dangerMode: true,
+        }).then(function (isConfirm) {
+            if (isConfirm) {
+                $scope.properties.content.splice($scope.properties.content.indexOf(_row), 1);
+                $scope.$apply();
+            }
+        })
     }
+    
     
     $scope.editar = function(_row, _index){
         $scope.properties.selectedRow = angular.copy(_row);
@@ -37,6 +54,5 @@ function PbTableCtrl($scope, modalService) {
     
     function openModal(modalId) {
         modalService.open(modalId);
-    }    
-            
+    }
 }
