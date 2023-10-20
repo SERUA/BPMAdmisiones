@@ -144,7 +144,7 @@ class StatementsCatalogos {
 	public static final String GET_CONFIGURACIONES = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatMedioEnteraste
-	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatMedioEnteraste (persistenceid, persistenceversion, clave, descripcion, orden) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste) end), 0, ?, ?, ?)";
+	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatMedioEnteraste (persistenceid, persistenceversion, clave, descripcion, orden, is_eliminado) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste) end), 0, ?, ?, ?, false)";
 	public static final String DELETE_CATMEDIOSENTERASTE = "UPDATE PSGRCatMedioEnteraste SET is_eliminado = true WHERE persistenceid = ?";
 	public static final String UPDATE_CATMEDIOSENTERASTE = "UPDATE PSGRCatMedioEnteraste SET clave = ?, descripcion = ?, orden = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATMEDIOSENTERASTE = "SELECT persistenceid, orden, clave, descripcion FROM PSGRCatMedioEnteraste [WHERE] [ORDERBY]";
