@@ -435,13 +435,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             	$("#sesiones").prop('disabled', false);
                 $(".banner").prop('disabled', false);
                 $(".sesion").prop('disabled', true);
-                $('.sesion').val('');
+		        $('#sesion1').val('');
+		        $('#nombresesion1').val('');
+		        $('#fechaentrevista1').val('');
             } else {
             	$("#idbanner").prop('disabled', false);
             	$("#sesiones").prop('disabled', true);
                 $(".banner").prop('disabled', true);
                 $(".sesion").prop('disabled', false);
-                $('.banner').val('');
+                $('#banner1').val('');
+		        $('#correo1').val('');
             }
             limpiarFiltro();
             $scope.$apply();
@@ -535,6 +538,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.finalP = 10;
         $scope.value = 0;
 		let index = null;
+		$('#banner1').val('');
+		$('#correo1').val('');
+		$('#sesion1').val('');
+		$('#nombresesion1').val('');
+		$('#fechaentrevista1').val('');
         index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
         if(index != null){
         	if(index==0){
@@ -547,6 +555,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }else{
         	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
         }
+        
+        
     }
 
 }
