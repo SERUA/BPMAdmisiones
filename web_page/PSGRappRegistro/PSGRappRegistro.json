@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappRegistro",
   "name" : "PSGRappRegistro",
-  "lastUpdate" : 1697234769460,
+  "lastUpdate" : 1697820486506,
   "rows" : [
     [
       {
@@ -268,7 +268,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Nombre:"
+                        "value" : "Nombre(s):"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -945,7 +945,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Estoy de acuerdo y he leido el <a target=\"_blank\" href=\"https://qa.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\">Aviso de privacidad</a>"
+                        "value" : "Estoy de acuerdo y he leido el <a class=\"color-orange\" target=\"_blank\" href=\"https://qa.bpm.anahuac.mx/apps/login/AvisoPrivacidad/\">Aviso de privacidad</a>"
                       },
                       "value" : {
                         "type" : "variable",
@@ -1402,7 +1402,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Ya casi está listo.<br>Revisa tu correo electrónico <b>{{formInput.registroInput.correo_electronico}}</b>. A tu bandeja llegará un enlace<br>al cual tendrás que acceder para completar tu registro.<br>Presiona Aceptar para continuar."
+                        "value" : "Estimado: <b>{{ nombreCompleto }}</b>, ya casi esta listo.\n<br>Revisa tu correo electrónico <b>{{formInput.registroInput.correo_electronico}}</b>. \n<br>A tu bandeja llegará un enlace<br>al cual tendrás que acceder para completar tu registro."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1771,6 +1771,29 @@
         "if($data.formInput.registroInput.apellido_materno != null && $data.formInput.registroInput.apellido_materno.trim().length>0){\r",
         "    $data.formInput.registroInput.apellido_materno = capitalizeName($data.formInput.registroInput.apellido_materno);\r",
         "}"
+      ],
+      "exposed" : false
+    },
+    "nombreCompleto" : {
+      "type" : "expression",
+      "value" : [
+        "let nombreCompleto = \"\";",
+        "",
+        "nombreCompleto += ($data.formInput.registroInput.nombre + \" \" + $data.formInput.registroInput.apellido_paterno);",
+        "",
+        "if($data.formInput.registroInput.apellido_materno){",
+        "    nombreCompleto += (\" \" + $data.formInput.registroInput.apellido_materno);",
+        "}",
+        "",
+        "return nombreCompleto;"
+      ],
+      "exposed" : false
+    },
+    "formatearCorreo" : {
+      "type" : "expression",
+      "value" : [
+        "$data.formInput.registroInput.correo_electronico = $data.formInput.registroInput.correo_electronico.toLowerCase();",
+        "$data.formInput.registroInput.confirmar_correo_electronico = $data.formInput.registroInput.confirmar_correo_electronico.toLowerCase();"
       ],
       "exposed" : false
     }
