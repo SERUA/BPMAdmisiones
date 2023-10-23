@@ -780,6 +780,7 @@ class CatalogosDAO {
 				row.setIsDeportiva(rs.getBoolean("ISDEPORTIVA"));
 				row.setIsFinanciamiento(rs.getBoolean("ISFINANCIAMIENTO"));
 				row.setIsAcademica(rs.getBoolean("ISACADEMICA"));
+				row.setIsConvenio(rs.getBoolean("ISCONVENIO"));
 				row.setUrlEjemploCurriculum(rs.getString("URLEJEMPLOCURRICULUM"));
 				row.setRequiereCurriculum(rs.getBoolean("REQUIERECURRICULUM"));
 				row.setPromedioMinimo(rs.getDouble("PROMEDIOMINIMO"));
