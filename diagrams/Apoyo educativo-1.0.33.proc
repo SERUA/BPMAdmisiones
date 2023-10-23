@@ -9800,6 +9800,17 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_2dsBougnEeyECL7oCT207Q" type="ASSIGNMENT"/>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_hYHSoHHTEe6yYZrreMOfSQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_hYHSoXHTEe6yYZrreMOfSQ" name="varConvenio" content="varConvenio" type="TYPE_VARIABLE" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:Data" xmi:id="_jQoTcHHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_hYHSonHTEe6yYZrreMOfSQ" name="varConvenioInput()" content="varConvenioInput" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_oE1CQHHTEe6yYZrreMOfSQ" name="varConvenioInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_oE1CQXHTEe6yYZrreMOfSQ"/>
+              </referencedElements>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_hYHSo3HTEe6yYZrreMOfSQ" type="ASSIGNMENT"/>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WW-xNGdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_WW-xNWdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_WW-xNmdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -9846,6 +9857,9 @@
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_YGjrIOgnEeyECL7oCT207Q" name="correoPreautorizacionInput">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="_YGkSMOgnEeyECL7oCT207Q"/>
+            </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_eaV58HHTEe6yYZrreMOfSQ" name="varConvenioInput" type="BOOLEAN">
+              <mapping xmi:type="process:ContractInputMapping" xmi:id="_eaV58XHTEe6yYZrreMOfSQ"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_aNw1jGdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
@@ -15763,6 +15777,9 @@
       <data xmi:type="process:Data" xmi:id="_m44-8K5UEe2zQeBam_JcGA" name="fechaExpiraPropuesta" dataType="_PpGy3Wc7EeyAHufroJpG_Q">
         <defaultValue xmi:type="expression:Expression" xmi:id="_m44-8a5UEe2zQeBam_JcGA" content="" returnType="java.util.Date"/>
       </data>
+      <data xmi:type="process:Data" xmi:id="_dmxH8HHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_dmxH8XHTEe6yYZrreMOfSQ" content="" returnType="java.lang.Boolean"/>
+      </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_41FZn2dAEeyAHufroJpG_Q" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_41FZoGdAEeyAHufroJpG_Q" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
@@ -16132,9 +16149,10 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_DbCj0GqIEe2VQ4CrkpncwQ" name="Pago validado" target="_DgCdYGdiEeyAHufroJpG_Q" source="_A_yCUGqIEe2VQ4CrkpncwQ">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_DbCj0WqIEe2VQ4CrkpncwQ"/>
-        <condition xmi:type="expression:Expression" xmi:id="_DbCj0mqIEe2VQ4CrkpncwQ" name="newScript()" content="varPagoValidado || pagoDeshabilitado" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
-          <referencedElements xmi:type="process:Data" xmi:id="_rQ8TIGqOEe2VQ4CrkpncwQ" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
-          <referencedElements xmi:type="process:Data" xmi:id="_rQ8TIWqOEe2VQ4CrkpncwQ" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+        <condition xmi:type="expression:Expression" xmi:id="_DbCj0mqIEe2VQ4CrkpncwQ" name="newScript()" content="varPagoValidado || pagoDeshabilitado || varConvenio" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQHHTEe6yYZrreMOfSQ" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQXHTEe6yYZrreMOfSQ" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQnHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
         </condition>
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_xCQsAHDlEe2tz_AbVoltJg" target="_UCb3oMKGEeyz9euiAvfMAA" source="_qDimYHDlEe2tz_AbVoltJg">

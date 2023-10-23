@@ -99,6 +99,7 @@ function ($scope, modalService, $http) {
     })
     
     $scope.$watch("properties.cerrarSesion", function(){
+        debugger;
         if($scope.properties.pageToken === "examen" || $scope.properties.pageToken === "presentar"){  
             getTaskInfo();
         }else if($scope.properties.pageToken === "termino"){

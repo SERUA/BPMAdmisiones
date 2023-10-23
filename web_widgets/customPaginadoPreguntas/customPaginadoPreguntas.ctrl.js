@@ -272,10 +272,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
+                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
                     }
                 } else {
-                    mensaje = "Se detecta una falla de conexión. No cierres el navegador, verifica tu conexión de internet y contacta a tu aplicador."
+                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
                 }
                 
                 Swal.fire({

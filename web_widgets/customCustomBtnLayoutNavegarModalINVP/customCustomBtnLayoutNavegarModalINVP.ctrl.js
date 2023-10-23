@@ -13,8 +13,9 @@ function PbButtonCtrl($scope, modalService) {
             if (isConfirm) {
                 localStorage.setItem('terminado', "true");
                 $scope.properties.navigationVar = $scope.properties.newValue;
+                modalService.close();
             } else {
-                swal("Cancelled", "Your imaginary file is safe :)", "error");
+                modalService.close();
             }
         })
             
