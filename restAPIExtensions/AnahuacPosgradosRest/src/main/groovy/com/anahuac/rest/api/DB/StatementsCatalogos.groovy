@@ -108,6 +108,7 @@ class StatementsCatalogos {
 	//PSGRCatNotificaciones
 	public static final String INSERT_CATNOTIFICACIONES = "INSERT INTO PSGRCatNotificaciones (persistenceid, angulo_imagen_footer, angulo_imagen_header, asunto, bloque_aspirante, case_id, codigo, comentario_leon, contenido, contenido_correo, contenido_leonel, descripcion, doc_guia_estudio, enlace_banner, enlace_contacto, enlace_facebook, enlace_footer, enlace_instagram, enlace_twitter, informacion_lic, is_eliminado, nombre_imagen_footer, nombre_imagen_header, persistenceversion, texto_footer, tipo_correo, titulo, url_img_footer, url_img_header) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatNotificaciones), ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String INSERT_CATPROCESOCASO = "INSERT INTO PSGRProcesoCaso (persistenceid,case_id, persistenceversion, campus, proceso) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRProcesoCaso),(CAST((SELECT COALESCE(MAX(case_id::integer), 0) + 1 FROM PSGRProcesoCaso) AS text)), 0,?, ?);";
+	public static final String INSERT_CATNOTIFICACIONESCAMPUS = "INSERT INTO PSGRCatNotificacionesCampus (persistenceid, persistenceversion, catcampus_pid, catnotificacionesfirma_pid, codigo, copia, footer, header) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatNotificacionesCampus), 0, ?, ?, ?, ?, ?, ?);";
 	
 	
 	//ConsultasPersonalizadas

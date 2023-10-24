@@ -5422,6 +5422,48 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result insertCatNotificacionescampus(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+//			if(object.clave.equals("") || object.clave == null) {
+//				throw new Exception("El campo \"Clave\" no debe ir vacío");
+//			} else if(object.orden.equals("") || object.orden == null) {
+//				throw new Exception("El campo \"orden\" no debe ir vacío");
+//			} else if(object.descripcion.equals("") || object.descripcion == null) {
+//				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+//			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATNOTIFICACIONESCAMPUS);
+			pstm.setLong(1, object.catcampus_pid);
+			pstm.setLong(2, object.catnotificacionesfirma_pid);
+			pstm.setString(3, object.codigo);
+			pstm.setString(4, object.copia);
+			pstm.setString(5, object.footer);
+			pstm.setString(6, object.header);
+		
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	
 	public Result getValidarOrden(Integer parameterP, Integer parameterC, String tabla, Integer orden, String id) {
 		Result resultado = new Result();
