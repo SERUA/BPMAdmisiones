@@ -194,7 +194,10 @@ class LoginSesionesDAO {
 			if (rs.next()) {
 				errorlog += " | getSesionActivaV2::3 "
 				
-				if(rs.getBoolean("istemporal") == true  && !rs.getBoolean("sesion_iniciada_temp")) {
+				if(rs.getBoolean("istemporal") == true  && rs.getBoolean("existe_sesion") == false) {
+					errorlog += " | getSesionActivaV2::4.1 ";
+					throw new Exception("no_existe_sesion");
+				}  else if(rs.getBoolean("istemporal") == true  && !rs.getBoolean("sesion_iniciada_temp")) {
 					errorlog += " | getSesionActivaV2::4 "
 					String mensaje = rs.getString("fechainicio_temp");
 					throw new Exception("sesion_no_iniciada|" + mensaje);
@@ -557,6 +560,11 @@ class LoginSesionesDAO {
 				
 				if(rs.next()) {
 					errorlog += " | getSesionActivaLogin::14 "
+					if(rs.getBoolean("sesion_finalizada_admin")) {
+						errorlog += " | getSesionActivaLogin::23 "
+						throw new Exception("sesion_finalizada| ");
+					}
+					
 					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
 						errorlog += " | getSesionActivaLogin::15 "
 						String mensaje = "";
@@ -1363,5 +1371,43 @@ class LoginSesionesDAO {
 		}
 		
 		return resultado;
+	}
+	
+	public Result getInfoRespuestas(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			List<Map<String,Integer>> rows = new ArrayList<Map<String,Integer>>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_INFO_RESPUESTAS_USUARIO);
+			pstm.setString(1, username);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String,Integer>(); 
+				row.put("total_preguntas", rs.getInt("total_preguntas"));
+				row.put("total_respuestas", rs.getInt("total_respuestas"));
+				rows.add(row);
+			}
+			
+			resultado.setSuccess(true);
+			resultado.setData(rows);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR getInfoRespuestas ] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 }

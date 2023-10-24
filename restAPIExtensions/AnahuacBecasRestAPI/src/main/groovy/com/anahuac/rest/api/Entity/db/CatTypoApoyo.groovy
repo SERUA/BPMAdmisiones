@@ -18,6 +18,7 @@ class CatTypoApoyo {
 	private Boolean isDeportiva;
 	private Boolean isFinanciamiento;
 	private Boolean isAcademica;
+	private Boolean isConvenio;
 	private Boolean isObligatorioDoc;
 	private Boolean requiereCurriculum;
 	private String urlEjemploCurriculum;
@@ -143,5 +144,11 @@ class CatTypoApoyo {
 	}
 	public void setPromedioMinimo(Double promedioMinimo) {
 		this.promedioMinimo = promedioMinimo;
+	}
+	public Boolean getIsConvenio() {
+		return isConvenio;
+	}
+	public void setIsConvenio(Boolean isConvenio) {
+		this.isConvenio = isConvenio;
 	}
 }

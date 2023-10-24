@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.46",
   "id" : "FrontINVPLayoutApplication",
   "name" : "FrontINVPLayoutApplication",
-  "lastUpdate" : 1691108595057,
+  "lastUpdate" : 1698082844158,
   "rows" : [
     [
       {
@@ -112,6 +112,13 @@
                       "userData" : {
                         "type" : "variable",
                         "value" : "userData"
+                      },
+                      "idsesion" : {
+                        "type" : "constant"
+                      },
+                      "datosRespuestas" : {
+                        "type" : "variable",
+                        "value" : "datosRespuestas"
                       }
                     },
                     "reference" : "464075de-5fe5-4668-9523-c0d1cec91b55",
@@ -2611,7 +2618,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "¿Estás seguro que deseas terminar el examen?"
+                                      "value" : "¿Realmente deseas enviar <b>{{datosRespuestas.total_respuestas}}</b> respuestas de <b>{{datosRespuestas.total_preguntas}}</b> preguntas?"
                                     },
                                     "level" : {
                                       "type" : "constant",
@@ -2623,42 +2630,6 @@
                                     }
                                   },
                                   "reference" : "21fe4458-86d8-420c-a276-11d3f1a76df6",
-                                  "hasValidationError" : false,
-                                  "id" : "pbTitle"
-                                }
-                              ],
-                              [
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 12,
-                                    "lg" : 12
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "text" : {
-                                      "type" : "interpolation",
-                                      "value" : "Si sales ya no podrás regresar a concluirlo."
-                                    },
-                                    "level" : {
-                                      "type" : "constant",
-                                      "value" : "Level 4"
-                                    },
-                                    "alignment" : {
-                                      "type" : "constant",
-                                      "value" : "center"
-                                    }
-                                  },
-                                  "reference" : "0da24978-1fe2-4722-85cd-3184ef400002",
                                   "hasValidationError" : false,
                                   "id" : "pbTitle"
                                 }
@@ -2713,7 +2684,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "Are you sure you want to end the test?"
+                                      "value" : "Are you sure you want to send <b>{{datosRespuestas.total_respuestas}}</b> answers of <b>{{datosRespuestas.total_preguntas}}</b>  questions?"
                                     },
                                     "level" : {
                                       "type" : "constant",
@@ -2725,42 +2696,6 @@
                                     }
                                   },
                                   "reference" : "87bf67ca-7f91-42a4-a805-e5d070365610",
-                                  "hasValidationError" : false,
-                                  "id" : "pbTitle"
-                                }
-                              ],
-                              [
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 12,
-                                    "lg" : 12
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "text" : {
-                                      "type" : "interpolation",
-                                      "value" : "If you leave, you cannot go back to finish."
-                                    },
-                                    "level" : {
-                                      "type" : "constant",
-                                      "value" : "Level 4"
-                                    },
-                                    "alignment" : {
-                                      "type" : "constant",
-                                      "value" : "center"
-                                    }
-                                  },
-                                  "reference" : "3a3d3951-d5ce-4408-a604-32c038538c36",
                                   "hasValidationError" : false,
                                   "id" : "pbTitle"
                                 }
@@ -2937,7 +2872,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "Terminar"
+                                      "value" : "Enviar"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -3107,7 +3042,7 @@
                                     },
                                     "label" : {
                                       "type" : "interpolation",
-                                      "value" : "End"
+                                      "value" : "Send"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -3931,6 +3866,13 @@
         "../API/system/session/unusedId"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "datosRespuestas" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     }
   },

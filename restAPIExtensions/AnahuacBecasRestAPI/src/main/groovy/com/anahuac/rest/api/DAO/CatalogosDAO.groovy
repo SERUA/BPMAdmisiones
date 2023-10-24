@@ -780,6 +780,7 @@ class CatalogosDAO {
 				row.setIsDeportiva(rs.getBoolean("ISDEPORTIVA"));
 				row.setIsFinanciamiento(rs.getBoolean("ISFINANCIAMIENTO"));
 				row.setIsAcademica(rs.getBoolean("ISACADEMICA"));
+				row.setIsConvenio(rs.getBoolean("ISCONVENIO"));
 				row.setUrlEjemploCurriculum(rs.getString("URLEJEMPLOCURRICULUM"));
 				row.setRequiereCurriculum(rs.getBoolean("REQUIERECURRICULUM"));
 				row.setPromedioMinimo(rs.getDouble("PROMEDIOMINIMO"));
@@ -987,7 +988,9 @@ class CatalogosDAO {
 				row.setIsDeportiva(rs.getBoolean("ISDEPORTIVA"));
 				row.setIsFinanciamiento(rs.getBoolean("ISFINANCIAMIENTO"));
 				row.setIsAcademica(rs.getBoolean("ISACADEMICA"));
-
+				row.setIsAcademica(rs.getBoolean("ISACADEMICA"));
+				row.setIsConvenio(rs.getBoolean("ISCONVENIO"));
+				
 				rows.add(row);
 			}
 			errorLog +=" 6";
@@ -1340,7 +1343,8 @@ class CatalogosDAO {
 				pstm.setBoolean(5, objCatGenerico.isDeportiva);
 				pstm.setBoolean(6, objCatGenerico.isAcademica);
 				pstm.setBoolean(7, objCatGenerico.isFinanciamiento);
-				pstm.setLong(8, objCatGenerico.persistenceId);
+				pstm.setBoolean(8, objCatGenerico.isConvenio);
+				pstm.setLong(9, objCatGenerico.persistenceId);
 				pstm.execute();
 			}else {
 				errorLog+= " insert";
@@ -1352,6 +1356,7 @@ class CatalogosDAO {
 				pstm.setBoolean(5, objCatGenerico.isDeportiva);
 				pstm.setBoolean(6, objCatGenerico.isAcademica);
 				pstm.setBoolean(7, objCatGenerico.isFinanciamiento);
+				pstm.setBoolean(8, objCatGenerico.isConvenio);
 				pstm.execute();
 			}
 			errorLog+= " salio";

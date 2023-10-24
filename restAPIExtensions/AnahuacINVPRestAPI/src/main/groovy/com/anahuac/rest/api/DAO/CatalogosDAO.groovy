@@ -696,13 +696,13 @@ public Result getCatPreguntas(String jsonData) {
 				switch (filtro.get("columna")) {
 
 					case "No.":
-						errorlog += "id_sesion "
+						errorlog += "ses.persistenceid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " ( LOWER(id_sesion) like lower('%[valor]%') )";
+						where += " ( LOWER(ses.persistenceid::VARCHAR) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Nombre":
