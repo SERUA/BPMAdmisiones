@@ -47,6 +47,28 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         });
     }
     
+    function doRequestRefresh(method, url, params) {
+        blockUI.start();
+        
+        var req = {
+            method: method,
+            url: url,
+            data: angular.copy([{columna: "No.", operador: "Que contengan", valor: $scope.selectedSesion.idSesion}]),
+            params: params
+        };
+  
+        return $http(req)
+        .success(function(data, status) {
+            $scope.selectedSesion = data[0];
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+            blockUI.stop();
+        });
+    }
 
     $scope.lstPaginadoAsp = [];
     $scope.valorSeleccionadoAsp = 1;
@@ -188,6 +210,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.verSesion = function(_sesion){
         $scope.selectedSesion = angular.copy(_sesion);
+        console.log($scope.selectedSesion)
         getAspirantesSesion($scope.selectedSesion.idSesion);
     }
 
@@ -964,6 +987,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.refreshAspirantes = function(){
         getAspirantesSesion($scope.selectedSesion.idSesion);
     }
+    
+    // $scope.refreshAspirantes = function () {
+    //     // $scope.verSesion($scope.selectedSesion);
+    //     doRequestRefresh("POST", $scope.properties.urlPost);
+    // }
     
     $scope.refreshSesiones = function(){
         doRequest("POST", $scope.properties.urlPost);

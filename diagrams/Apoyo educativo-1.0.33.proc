@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PpGysGc7EeyAHufroJpG_Q" name="Apoyo educativo" version="1.0.33" author="jesus" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.1.01">
+    <elements xmi:type="process:Pool" xmi:id="_PpGysWc7EeyAHufroJpG_Q" name="Financiamiento educativo" version="1.1.02">
       <elements xmi:type="process:Lane" xmi:id="_PpGysmc7EeyAHufroJpG_Q" name="Aspirante" actor="_KaQV8GdAEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_PpGys2c7EeyAHufroJpG_Q" name="entrada de proceso" outgoing="_gxpA8Gc7EeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PpGytGc7EeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -5049,7 +5049,7 @@
         <value xmi:type="expression:Expression" xmi:id="_PpGy22c7EeyAHufroJpG_Q" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.14">
+    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.17">
       <elements xmi:type="process:Lane" xmi:id="_EmGwkGdBEeyAHufroJpG_Q" name="Aspirante" actor="_Frl3UGdUEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_HtHk0GdBEeyAHufroJpG_Q" name="Solicitud de beca aspirante" outgoing="_KMB3QGdBEeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_HtHk0mdBEeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -9800,6 +9800,17 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_2dsBougnEeyECL7oCT207Q" type="ASSIGNMENT"/>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_hYHSoHHTEe6yYZrreMOfSQ">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_hYHSoXHTEe6yYZrreMOfSQ" name="varConvenio" content="varConvenio" type="TYPE_VARIABLE" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:Data" xmi:id="_jQoTcHHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_hYHSonHTEe6yYZrreMOfSQ" name="varConvenioInput()" content="varConvenioInput" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_oE1CQHHTEe6yYZrreMOfSQ" name="varConvenioInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_oE1CQXHTEe6yYZrreMOfSQ"/>
+              </referencedElements>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_hYHSo3HTEe6yYZrreMOfSQ" type="ASSIGNMENT"/>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WW-xNGdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_WW-xNWdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_WW-xNmdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -9846,6 +9857,9 @@
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_YGjrIOgnEeyECL7oCT207Q" name="correoPreautorizacionInput">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="_YGkSMOgnEeyECL7oCT207Q"/>
+            </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_eaV58HHTEe6yYZrreMOfSQ" name="varConvenioInput" type="BOOLEAN">
+              <mapping xmi:type="process:ContractInputMapping" xmi:id="_eaV58XHTEe6yYZrreMOfSQ"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_aNw1jGdBEeyAHufroJpG_Q" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
@@ -11001,10 +11015,11 @@
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_cr03JUQyEe2jUMfQ199BSg" key="body">
-                <expression xmi:type="expression:Expression" xmi:id="_cr03JkQyEe2jUMfQ199BSg" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;&#xD;&#xA;String payload = &quot;{\&quot;campus\&quot;: \&quot;[CAMPUS]\&quot;, \&quot;correo\&quot;:\&quot;[CORREO]\&quot;, \&quot;codigo\&quot;: \&quot;[CODIGO]\&quot;, \&quot;isEnviar\&quot;:true }&quot;;&#xD;&#xA;&#xD;&#xA;ArrayList&lt;SolicitudDeAdmision> lstSol = new ArrayList&lt;SolicitudDeAdmision>();&#xD;&#xA;lstSol = solicitudDeAdmisionDAO.findByCaseId(solicitudApoyoEducativo.caseIdAdmisiones, 0, 1);&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CAMPUS]&quot;, lstSol.get(0).getCatCampus().getGrupoBonita());&#xD;&#xA;payload = payload.replace(&quot;[CORREO]&quot;, lstSol.get(0).getCorreoElectronico());&#xD;&#xA;&#xD;&#xA;//payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;if(varPagoValidado != true){&#xD;&#xA;&#x9;payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_gbflgKGiEe2s3fGU7m9OXw" name="solicitudApoyoEducativo" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.SolicitudApoyoEducativo"/>
-                  <referencedElements xmi:type="expression:Expression" xmi:id="_gbflgaGiEe2s3fGU7m9OXw" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
-                  <referencedElements xmi:type="process:Data" xmi:id="_gbflgqGiEe2s3fGU7m9OXw" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+                <expression xmi:type="expression:Expression" xmi:id="_cr03JkQyEe2jUMfQ199BSg" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;&#xD;&#xA;String payload = &quot;{\&quot;campus\&quot;: \&quot;[CAMPUS]\&quot;, \&quot;correo\&quot;:\&quot;[CORREO]\&quot;, \&quot;codigo\&quot;: \&quot;[CODIGO]\&quot;, \&quot;isEnviar\&quot;:true }&quot;;&#xD;&#xA;&#xD;&#xA;ArrayList&lt;SolicitudDeAdmision> lstSol = new ArrayList&lt;SolicitudDeAdmision>();&#xD;&#xA;lstSol = solicitudDeAdmisionDAO.findByCaseId(solicitudApoyoEducativo.caseIdAdmisiones, 0, 1);&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CAMPUS]&quot;, lstSol.get(0).getCatCampus().getGrupoBonita());&#xD;&#xA;payload = payload.replace(&quot;[CORREO]&quot;, lstSol.get(0).getCorreoElectronico());&#xD;&#xA;&#xD;&#xA;//payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;if(varPagoValidado != true &amp;&amp; pagoDeshabilitado != true &amp;&amp; varConvenio != true){&#xD;&#xA;&#x9;payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_iSAEwHKTEe6LqfQTSCCl0g" name="solicitudApoyoEducativo" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.SolicitudApoyoEducativo"/>
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_iSAEwXKTEe6LqfQTSCCl0g" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_iSAEwnKTEe6LqfQTSCCl0g" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_iSAEw3KTEe6LqfQTSCCl0g" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_cr03KUQyEe2jUMfQ199BSg" key="do_not_follow_redirect">
@@ -15763,6 +15778,9 @@
       <data xmi:type="process:Data" xmi:id="_m44-8K5UEe2zQeBam_JcGA" name="fechaExpiraPropuesta" dataType="_PpGy3Wc7EeyAHufroJpG_Q">
         <defaultValue xmi:type="expression:Expression" xmi:id="_m44-8a5UEe2zQeBam_JcGA" content="" returnType="java.util.Date"/>
       </data>
+      <data xmi:type="process:Data" xmi:id="_dmxH8HHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_dmxH8XHTEe6yYZrreMOfSQ" content="" returnType="java.lang.Boolean"/>
+      </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_41FZn2dAEeyAHufroJpG_Q" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_41FZoGdAEeyAHufroJpG_Q" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
       </formMapping>
@@ -16132,9 +16150,10 @@
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_DbCj0GqIEe2VQ4CrkpncwQ" name="Pago validado" target="_DgCdYGdiEeyAHufroJpG_Q" source="_A_yCUGqIEe2VQ4CrkpncwQ">
         <decisionTable xmi:type="decision:DecisionTable" xmi:id="_DbCj0WqIEe2VQ4CrkpncwQ"/>
-        <condition xmi:type="expression:Expression" xmi:id="_DbCj0mqIEe2VQ4CrkpncwQ" name="newScript()" content="varPagoValidado || pagoDeshabilitado" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
-          <referencedElements xmi:type="process:Data" xmi:id="_rQ8TIGqOEe2VQ4CrkpncwQ" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
-          <referencedElements xmi:type="process:Data" xmi:id="_rQ8TIWqOEe2VQ4CrkpncwQ" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+        <condition xmi:type="expression:Expression" xmi:id="_DbCj0mqIEe2VQ4CrkpncwQ" name="newScript()" content="varPagoValidado || pagoDeshabilitado || varConvenio" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean" returnTypeFixed="true">
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQHHTEe6yYZrreMOfSQ" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQXHTEe6yYZrreMOfSQ" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+          <referencedElements xmi:type="process:Data" xmi:id="_tIKZQnHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
         </condition>
       </connections>
       <connections xmi:type="process:SequenceFlow" xmi:id="_xCQsAHDlEe2tz_AbVoltJg" target="_UCb3oMKGEeyz9euiAvfMAA" source="_qDimYHDlEe2tz_AbVoltJg">

@@ -265,7 +265,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.filterKeyPressAspirantes = function(columna, press) {
         var aplicado = true;
-        debugger;
+        
         for (let index = 0; index < $scope.properties.dataToSendAsp.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSendAsp.lstFiltro[index];
             if (element.columna == columna) {
@@ -909,7 +909,36 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.refreshAspirantes = function () {
-        getAspirantesSesion($scope.selectedSesion.idSesion);
+        $scope.verSesion($scope.selectedSesion);
+        // getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
+    
+    // $scope.refreshAspirantes = function () {
+    //     // $scope.verSesion($scope.selectedSesion);
+    //     doRequestRefresh();
+    // }
+
+    function doRequestRefresh(method, url, params) {
+        blockUI.start();
+        
+        var req = {
+            method: method,
+            url: url,
+            data: angular.copy({columna: "No.", operador: "Que contengan", valor: $scope.selectedSesion.idSesion}),
+            params: params
+        };
+  
+        return $http(req)
+        .success(function(data, status) {
+            $scope.selectedSesion = data[0];
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+            blockUI.stop();
+        });
     }
     
     $scope.refreshSesiones = function(){

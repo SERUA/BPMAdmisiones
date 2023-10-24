@@ -1609,14 +1609,27 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						
 						if(rs.next()) {
 							errorlog += " | 6";
-							costoCredito = rs.getInt("CREDITOAGOSTO");
 							Integer creditosSemestre = rs.getInt("creditosemestre");
 							Double parcialidades = rs.getDouble("parcialidad");
 							errorlog += " | 7";
-							Double montoInscripcion = inscripcionagosto;
-							Double montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
-							Double montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Double montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
+							Double montoInscripcion = 0;
+							
+							if(periodoArray[0].toLowerCase().contains("enero")) {
+								montoInscripcion = inscripcionenero;
+								costoCredito = rs.getInt("CREDITOENERO");
+							} else {
+								montoInscripcion = inscripcionagosto;
+								costoCredito = rs.getInt("CREDITOAGOSTO");
+							}
+							
+							Double montoBeca = (montoInscripcion - (montoInscripcion * (porcentajebecaautorizacion * 0.01)));
+							Double montoBecaFinanciamiento = (montoInscripcion - (montoInscripcion * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+							Double montoFinanciamiento = montoInscripcion * (porcentajecreditoautorizacion * 0.01);
+							
+//							Double montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
+//							Double montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
+//							Double montoFinanciamiento = inscripcionagosto * (porcentajecreditoautorizacion * 0.01);
+//							
 							Double montoCreditos = costoCredito;
 							errorlog += " | 8";
 							Double montoColegiaturaNormal = montoCreditos * creditosSemestre; //48 para el ejemplo en pantalla
