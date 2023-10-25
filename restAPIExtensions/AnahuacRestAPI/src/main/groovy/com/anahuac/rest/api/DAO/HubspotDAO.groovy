@@ -530,10 +530,26 @@ class HubspotDAO {
 					objHubSpotData.put("fecha_actualizacion_bpm", dfSalidaSC.format(fechaSC));
 					//objHubSpotData.put("app_estatus_de_contacto", "Standby");
 	
-					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
-						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
+						//objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+						// -o-
+						closeCon = validarConexion();
+						pstm = con.prepareStatement("SELECT bachillerato, paisBachillerato, estadoBachillerato, ciudadBachillerato FROM SolicitudDeAdmision where caseid=?");
+						pstm.setLong(1, lstSolicitudDeAdmision.get(0).getCaseId());
+						rs = pstm.executeQuery();
+						//ResultSetMetaData metaData = rs.getMetaData();
+						if(rs.next()) {
+							objHubSpotData.put("preparatoria_bpm", rs.getString("bachillerato"));
+							objHubSpotData.put("preparatoria_bpm_pais", rs.getString("paisBachillerato"));
+							objHubSpotData.put("preparatoria_bpm_estado", rs.getString("estadoBachillerato"));
+							objHubSpotData.put("preparatoria_bpm_ciudad", rs.getString("ciudadBachillerato"));
+							rs.close();
+						}
 					} else {
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
+						objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+						objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+						objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 					}
 					//AQUI EMPIEZA LO QUE HIZO JUSQUER
 					closeCon = validarConexion()
@@ -796,11 +812,25 @@ class HubspotDAO {
 							objHubSpotData.put("residencia_bpm", residencia);
 							objHubSpotData.put("estatus_admision_bpm", "Validado");
 							
-							if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().equals("otro")) {
-								objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+							if(lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
+								//objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
+								closeCon = validarConexion();
+								pstm = con.prepareStatement("SELECT bachillerato, paisBachillerato, estadoBachillerato, ciudadBachillerato FROM SolicitudDeAdmision where caseid=?");
+								pstm.setLong(1, lstSolicitudDeAdmision.get(0).getCaseId());
+								rs= pstm.executeQuery();
+								if(rs.next()) {
+									objHubSpotData.put("preparatoria_bpm", rs.getString("bachillerato"));
+									objHubSpotData.put("preparatoria_bpm_pais", rs.getString("paisBachillerato"));
+									objHubSpotData.put("preparatoria_bpm_estado", rs.getString("estadoBachillerato"));
+									objHubSpotData.put("preparatoria_bpm_ciudad", rs.getString("ciudadBachillerato"));
+									rs.close();
+								}
 							}
 							else {
 								objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
+								objHubSpotData.put("preparatoria_bpm_pais", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getPais());
+								objHubSpotData.put("preparatoria_bpm_estado", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getEstado());
+								objHubSpotData.put("preparatoria_bpm_ciudad", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getCiudad());
 							}
 							
 							resultado = createOrUpdateHubspot(object.email, apikeyHubspot, objHubSpotData);
@@ -2390,7 +2420,7 @@ class HubspotDAO {
 		  if (object.catBachilleratos.clave.toLowerCase().equals("otro")) {
 			  objHubSpotData.put("preparatoria_bpm", object.nombrebachillerato);
 		  } else {
-			  objHubSpotData.put("preparatoria_bpm", object.catBachilleratos.descripcion);
+				objHubSpotData.put("preparatoria_bpm", object.catBachilleratos.descripcion);
 		  }
 		  objHubSpotData.put("residencia_bpm",object.catResidencia?.clave);
 		  objHubSpotData.put("tipo_de_alumno_bpm",object.catTipoAlumno?.clave);
