@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1697583471952,
+  "lastUpdate" : 1698186529379,
   "rows" : [
     [
       {
@@ -24837,8 +24837,9 @@
       "type" : "expression",
       "value" : [
         "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if (objectTutor.catParentezco.descripcion === \"Padre\"){\r",
+        "    if (objectTutor.catParentezco.descripcion === \"Padre\"  && objectTutor.desconozcoDatosPadres !== null ){\r",
         "        $data.padre = objectTutor;\r",
+        "        \r",
         "        break;\r",
         "    } \r",
         "}"
@@ -24849,7 +24850,7 @@
       "type" : "expression",
       "value" : [
         "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if(objectTutor.catParentezco.descripcion === \"Madre\"){\r",
+        "    if(objectTutor.catParentezco.descripcion === \"Madre\" && objectTutor.desconozcoDatosPadres !== null ){\r",
         "        $data.madre = objectTutor;\r",
         "        break;\r",
         "    }\r",
