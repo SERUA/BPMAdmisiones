@@ -115,7 +115,9 @@ class NotificacionDAO {
 				catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
 				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(object.codigo, procesoCaso.getCase_id())
 				cn=catNotificaciones
+				throw new Exception("El campo \"Clave\" no debe ir vacío"+ cn.getCase_id());
 			} catch (Exception e) {
+				
 				Boolean closeCon2=false;
 				try {
 					
@@ -206,7 +208,7 @@ class NotificacionDAO {
 			errorlog += "|  lcn"
 			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
-			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
+//			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
 			
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
@@ -1046,7 +1048,7 @@ class NotificacionDAO {
 					row.setFooter(rs.getString("footer"))
 					row.setHeader(rs.getString("header"))
 					row.setCopia(rs.getString("copia"))
-					row.setTipoCorreo(rs.getString("tipoCorreo"))
+					row.setTipoCorreo(rs.getString("tipo_correo"))
 					rows.add(row)
 				}
 				resultado.setSuccess(true)
@@ -1348,10 +1350,11 @@ class NotificacionDAO {
 	}
 	
 	public Result getCartasNotificaciones(String campus) {
+		throw new Exception("El campo \"Clave\" no debe ir vacío");
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		try {
-
+			
 			PSGRCatNotificaciones row = new PSGRCatNotificaciones()
 			List<CatNotificacionesCampus> rows = new ArrayList<CatNotificacionesCampus>();
 			closeCon = validarConexion();
@@ -1457,6 +1460,90 @@ class NotificacionDAO {
 			}
 		}
 		
+		return resultado;
+	}
+	
+	public Result updateCatNotificacionesAlt(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			List<?> rows = new ArrayList<?>();
+			closeCon = validarConexion();
+			
+			if(object.persistenceId != null) {
+				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES_SDAE);
+				pstm.setString(1, object.angulo_imagen_footer);
+				pstm.setString(2, object.angulo_imagen_header);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentario_leon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenido_correo);
+				pstm.setString(7, object.contenido_leonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.doc_guia_estudio);
+				pstm.setString(10, object.enlace_banner);
+				pstm.setString(11, object.enlace_contacto);
+				pstm.setString(12, object.enlace_facebook);
+				pstm.setString(13, object.enlace_footer);
+				pstm.setString(14, object.enlace_instagram);
+				pstm.setString(15, object.enlace_twitter);
+				pstm.setString(16, object.nombre_imagen_footer);
+				pstm.setString(17, object.texto_footer);
+				pstm.setString(18, object.tipo_correo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.url_img_footer);
+				pstm.setString(21, object.url_img_header);
+				pstm.setLong(22, Long.valueOf(object.persistenceId));
+				
+			} else {
+				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
+				
+				pstm.setString(1, object.anguloImagenFooter);
+				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(3, object.asunto);
+				pstm.setString(4, object.comentarioLeon);
+				pstm.setString(5, object.contenido);
+				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(7, object.contenidoLeonel);
+				pstm.setString(8, object.descripcion);
+				pstm.setString(9, object.docGuiaEstudio);
+				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(11, object.enlaceContacto);
+				pstm.setString(12, object.enlaceFacebook);
+				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(14, object.enlaceInstagram);
+				pstm.setString(15, object.enlaceTwitter);
+				pstm.setString(16, object.nombreImagenFooter);
+				pstm.setString(17, object.textoFooter);
+				pstm.setString(18, object.tipoCorreo);
+				pstm.setString(19, object.titulo);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
+				pstm.setString(22, object.codigo);
+				pstm.setString(23, object.caseId);
+			}
+			
+			pstm.execute();
+			
+			resultado.setSuccess(true);
+			rows.add(object);
+			resultado.setError_info(errorLog);
+			resultado.setData(rows);
+		} catch (Exception e) {
+			errorLog += " | " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
 		return resultado;
 	}
 }
