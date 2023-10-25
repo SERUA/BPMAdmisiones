@@ -115,9 +115,7 @@ class NotificacionDAO {
 				catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
 				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(object.codigo, procesoCaso.getCase_id())
 				cn=catNotificaciones
-				throw new Exception("El campo \"Clave\" no debe ir vacío"+ cn.getCase_id());
 			} catch (Exception e) {
-				
 				Boolean closeCon2=false;
 				try {
 					
@@ -208,7 +206,7 @@ class NotificacionDAO {
 			errorlog += "|  lcn"
 			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
-//			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
+			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
 			
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
@@ -947,8 +945,8 @@ class NotificacionDAO {
 					
 				}
 			} catch (Exception e) {
-				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAnguloImagenHeader())
-				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTextoFooter())
+				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAngulo_imagen_header())
+				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTexto_footer())
 				plantilla=plantilla.replace("[firma]", "")
 			}
 			   
