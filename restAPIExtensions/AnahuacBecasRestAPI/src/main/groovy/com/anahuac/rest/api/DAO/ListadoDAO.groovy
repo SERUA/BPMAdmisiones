@@ -3371,11 +3371,23 @@ class ListadoDAO {
 			header14.setCellValue("Asignado a");
 			header14.setCellStyle(style);
 			Cell header15 = headersRow.createCell(14);
-			header15.setCellValue("Fecha de creación de la solicitud");
+			header15.setCellValue("Nombre Bachillerato");
 			header15.setCellStyle(style);
 			Cell header16 = headersRow.createCell(15);
-			header16.setCellValue("Última modificación");
+			header16.setCellValue("Ciudad Bachillerato");
 			header16.setCellStyle(style);
+			Cell header17 = headersRow.createCell(16);
+			header17.setCellValue("Estado Bachillerato");
+			header17.setCellStyle(style);
+			Cell header18 = headersRow.createCell(17);
+			header18.setCellValue("País Bachillerato");
+			header18.setCellStyle(style);
+			Cell header19 = headersRow.createCell(18);
+			header19.setCellValue("Fecha de creación de la solicitud");
+			header19.setCellStyle(style);
+			Cell header20 = headersRow.createCell(19);
+			header20.setCellValue("Última modificación");
+			header20.setCellStyle(style);
 	
 			DateFormat dfSalida = new SimpleDateFormat("dd/MM/yyyy");
 			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -3427,18 +3439,27 @@ class ListadoDAO {
 				} else {
 					cell14.setCellValue("Aspirante");
 				}
+				
+				Cell cell15 = row.createCell(14);
+				cell15.setCellValue(lstParams.get(i).descripcion_bachillerato);
+				Cell cell16 = row.createCell(15);
+				cell16.setCellValue(lstParams.get(i).ciudad_bachillerato);
+				Cell cell17 = row.createCell(16);
+				cell17.setCellValue(lstParams.get(i).estado_bachillerato);
+				Cell cell18 = row.createCell(17);
+				cell18.setCellValue(lstParams.get(i).pais_bachillerato);
 	
 				String fechaRegistroString = lstParams.get(i).fecharegistro;
 	
 				if (fechaRegistroString != null) {
 					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
 					String fechaFormateada = dformat.format(fechaRegistro);
-					Cell cell15 = row.createCell(14);
+					Cell cell19 = row.createCell(18);
 //					cell15.setCellValue(fechaFormateada);
-					cell15.setCellValue(fechaRegistroString);
+					cell19.setCellValue(fechaRegistroString);
 				} else {
-					Cell cell15 = row.createCell(14);
-					cell15.setCellValue("N/A");
+					Cell cell19 = row.createCell(18);
+					cell19.setCellValue("N/A");
 				}
 	
 				String fechaUltimaModificacionString = lstParams.get(i).fechaultimamodificacion;
@@ -3446,17 +3467,18 @@ class ListadoDAO {
 				if (fechaUltimaModificacionString != null) {
 					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
 					String fechaFormateada = dformat.format(fechaUltimaModificacion);
-					Cell cell16 = row.createCell(15);
+					Cell cell20 = row.createCell(19);
 //					cell16.setCellValue(fechaFormateada);
-					cell16.setCellValue(fechaUltimaModificacionString);
+					cell20.setCellValue(fechaUltimaModificacionString);
 				} else {
-					Cell cell16 = row.createCell(15);
-					cell16.setCellValue("N/A");
+					Cell cell20 = row.createCell(19);
+					cell20.setCellValue("N/A");
 				}
+				
 			}
 	
-			for (int i = 0; i <= rowCount + 3; ++i) {
-				sheet.autoSizeColumn(i);
+			for (int i = 0; i <= rowCount + 19; ++i) {
+			    sheet.autoSizeColumn(i);
 			}
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
