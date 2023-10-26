@@ -69,7 +69,7 @@ function PbTableCtrl($scope, $http) {
 
     this.handleTrashClick = function (row) {
         debugger;
-        var persistenceid = row.persistenceid; // Obtener el persistenceid del row
+        var persistenceid = row.persistenceId; // Obtener el persistenceid del row
         $scope.deleteCatalogo({ persistenceid: persistenceid }) // Enviar persistenceid como objeto JSON
             .then(function () {
                 // Actualizar la matriz properties.content después de eliminar el registro

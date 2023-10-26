@@ -5333,8 +5333,6 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
-			} else if(object.id.equals("") || object.id == null) {
-				throw new Exception("El campo \"id\" no debe ir vacío");
 			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPARENTESCO);
@@ -5344,7 +5342,7 @@ class CatalogosDAO {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(3, fechaHoraFormateada);//fecha_creacion
-			pstm.setLong(4, object.usuario_banner);
+			pstm.setString(4, object.usuario_banner);
 		
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -5410,17 +5408,15 @@ class CatalogosDAO {
 			
 			if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.orden.equals("") || object.orden == null) {
-				throw new Exception("El campo \"orden\" no debe ir vacío");
 			} else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPARENTESCO);
 			pstm.setString(1, object.clave);
-			pstm.setLong(2, object.orden);
-			pstm.setString(3, object.descripcion);
-			pstm.setLong(4, object.persistenceid);
+			pstm.setString(2, object.descripcion);
+			pstm.setLong(3, object.persistenceId);
+			
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -5456,20 +5452,6 @@ class CatalogosDAO {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				
 				switch (filtro.get("columna")) {
-					case "orden":
-						if (where.contains("WHERE")) {
-							where += " AND "
-						} else {
-							where += " WHERE "
-						}
-						where += " LOWER(orden) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
 					case "clave":
 						if (where.contains("WHERE")) {
 							where += " AND "
@@ -5507,12 +5489,12 @@ class CatalogosDAO {
 			rs = pstm.executeQuery();
 	
 			while (rs.next()) {
-				PSGRCatTipoEmpresa row = new PSGRCatTipoEmpresa();
-				row.setPersistenceid(rs.getLong("persistenceid"));
+				CatPaisCustomFiltro row = new CatPaisCustomFiltro();
+				row.setPersistenceId(rs.getLong("persistenceid"));
 				row.setClave(rs.getString("clave"));
-				row.setOrden(rs.getLong("orden"));
 				row.setDescripcion(rs.getString("descripcion"));
-	
+				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
+				row.setFechaCreacion(rs.getString("fecha_creacion"));
 				data.add(row);
 			}
 	

@@ -106,9 +106,9 @@ class StatementsCatalogos {
 	public static final String SELECT_CATPUESTOTRABAJO = "SELECT * FROM PSGRCatPuestoTrabajo [WHERE] [ORDERBY]";
 	
 	//PSGRCatParentesco
-	public static final String INSERT_CATPARENTESCO = "INSERT INTO PSGRCatParentesco (persistenceid, id, persistenceversion, clave, descripcion, is_eliminado, fecha_creacion, usuario_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatParentesco), (SELECT COALESCE(MAX(id), 0) + 1 FROM PSGRCatParentesco), 0, ?, ?, false, ?, ? );";
+	public static final String INSERT_CATPARENTESCO = "INSERT INTO PSGRCatParentesco (persistenceid, persistenceversion, clave, descripcion, is_eliminado, fecha_creacion, usuario_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatParentesco), 0, ?, ?, false, ?, ? );";
 	public static final String DELETE_CATPARENTESCO = "UPDATE PSGRCatParentesco SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATPARENTESCO = "UPDATE PSGRCatParentesco SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPARENTESCO = "UPDATE PSGRCatParentesco SET clave = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATPARENTESCO = "SELECT * FROM PSGRCatParentesco [WHERE] [ORDERBY]";
 	
 	//PSGRCatNotificaciones
