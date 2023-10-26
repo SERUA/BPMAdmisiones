@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.23">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.24">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -727,6 +727,73 @@
               <inputTypes>com.anahuac.posgrados.catalog.PSGRCatPais</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_UIdYgHOWEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_UIdYgXOWEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_U1uuMHOWEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_UIdYgnOWEe6LqfQTSCCl0g" name="datosContactoInput.cnem_apellido_paterno" content="datosContactoInput?.cnem_apellido_paterno" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_UdQ48HOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_UIdYg3OWEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_apellido_paterno">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_WPBcYHOWEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_WPBcYXOWEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WxDLYHOWEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_WPBcYnOWEe6LqfQTSCCl0g" name="datosContactoInput.cnem_apellido_materno" content="datosContactoInput?.cnem_apellido_materno" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_Wgf8AHOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_WPBcY3OWEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_apellido_materno">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_ZXfCIHOWEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_ZXfCIXOWEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_cRjmkHOWEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_ZXfCInOWEe6LqfQTSCCl0g" name="datosContactoInput.cnem_nombre" content="datosContactoInput?.cnem_nombre" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_X_V4kHOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_ZXfCI3OWEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_nombre">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_dYKCQHOWEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_dYKCQXOWEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_dzBZUHOWEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_dYKCQnOWEe6LqfQTSCCl0g" name="datosContactoInput.cnem_telefono_celular" content="datosContactoInput?.cnem_telefono_celular" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_tGresHOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_dYKCQ3OWEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_telefono_celular">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_XAv-0HOXEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_XAv-0XOXEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_XkF8cHOXEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_XAv-0nOXEe6LqfQTSCCl0g" name="datosContactoInput.cnem_correo_electronico" content="datosContactoInput?.cnem_correo_electronico" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_ul6c0HOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_XAv-03OXEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_correo_electronico">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_aGUBkHOXEe6LqfQTSCCl0g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_aGUBkXOXEe6LqfQTSCCl0g" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_agbxwHOXEe6LqfQTSCCl0g" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_aGUBknOXEe6LqfQTSCCl0g" name="datosContactoInput.cnem_apellido_materno" content="datosContactoInput?.cnem_parentesco&#xD;&#xA;&#xD;&#xA;//Retrieve aggregated PSGRCatSexo using its DAO and persistenceId&#xD;&#xA;def psgrCatParentesco = pSGRCatParentescoDAO.findByPersistenceId(datosContactoInput?.cnem_parentesco?.persistenceId_string?.trim() ? datosContactoInput.cnem_parentesco.persistenceId_string.toLong() : null)&#xD;&#xA;if (!psgrCatParentesco) {&#xD;&#xA;&#x9;if (datosContactoInput?.cnem_parentesco?.persistenceId_string?.trim() ? datosContactoInput.pais.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatParentescoDAO` with the persistence id &quot; + datosContactoInput?.cnem_parentesco?.persistenceId_string?.trim() ? datosContactoInput.cnem_parentesco.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return psgrCatParentesco" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatParentesco">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_xTtf0HOYEe6LqfQTSCCl0g" name="datosContactoInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_xTtf0XOYEe6LqfQTSCCl0g" name="pSGRCatParentescoDAO" content="pSGRCatParentescoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatParentescoDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_aGUBk3OXEe6LqfQTSCCl0g" type="JAVA_METHOD" expression="setCnem_parentesco">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatParentesco</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WsYcE1ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_WsYcFFZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_WsYcFVZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -842,6 +909,27 @@
               </inputs>
               <inputs xmi:type="process:ContractInput" xmi:id="_bJGI4GxzEe6idIwxV0xQow" name="colonia">
                 <mapping xmi:type="process:ContractInputMapping" xmi:id="_bJGI4WxzEe6idIwxV0xQow"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_5GaHcHOVEe6LqfQTSCCl0g" name="cnem_nombre">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_5GaHcXOVEe6LqfQTSCCl0g"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_7ElrYHOVEe6LqfQTSCCl0g" name="cnem_apellido_paterno">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_7ElrYXOVEe6LqfQTSCCl0g"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_7XMeUHOVEe6LqfQTSCCl0g" name="cnem_apellido_materno">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_7XMeUXOVEe6LqfQTSCCl0g"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_7sk4cHOVEe6LqfQTSCCl0g" name="cnem_parentesco" type="COMPLEX">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_7sk4cXOVEe6LqfQTSCCl0g"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_-YLjEHOVEe6LqfQTSCCl0g" name="persistenceId_string">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_-YLjEXOVEe6LqfQTSCCl0g"/>
+                </inputs>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_A0U1YHOWEe6LqfQTSCCl0g" name="cnem_telefono_celular">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_A0U1YXOWEe6LqfQTSCCl0g"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_BZILkHOWEe6LqfQTSCCl0g" name="cnem_correo_electronico">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_BZILkXOWEe6LqfQTSCCl0g"/>
               </inputs>
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_qkeK4GF0Ee6RQJm-wpuHVw" name="datosAcademicosInput" type="COMPLEX" multiple="true" dataReference="datosAcademicos" createMode="false">

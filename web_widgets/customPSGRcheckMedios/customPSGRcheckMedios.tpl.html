@@ -3,6 +3,6 @@
         <input type="checkbox" ng-change="resetEspecifique()" name="{{ctrl.name}}" ng-model="properties.value" ng-required="properties.required" ng-disabled="properties.disabled"> <ng-bind-html ng-bind-html="properties.label | uiTranslate"/>
         
     </label>
-    <input class="form-control" placeholder="Especifique" ng-model="properties.especifique" ng-if="properties.value" ng-maxlength="50">
+    <input class="form-control" ng-disabled="properties.disabled" placeholder="Especifique" ng-model="properties.especifique" ng-if="properties.value" ng-maxlength="50">
     <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
 </div>

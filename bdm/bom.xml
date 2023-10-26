@@ -5299,6 +5299,15 @@
             </queries>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatParentesco">
+            <fields>
+                <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
             <fields>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
@@ -5640,6 +5649,12 @@
                 <field type="STRING" length="255" name="ciudad" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="municipio" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="colonia" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_nombre" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_apellido_paterno" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_apellido_materno" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatParentesco" fetchType="EAGER" name="cnem_parentesco" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_telefono_celular" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="cnem_correo_electronico" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
