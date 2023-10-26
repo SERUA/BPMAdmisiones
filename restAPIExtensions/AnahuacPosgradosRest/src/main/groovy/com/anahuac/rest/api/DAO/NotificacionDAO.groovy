@@ -1348,7 +1348,6 @@ class NotificacionDAO {
 	}
 	
 	public Result getCartasNotificaciones(String campus) {
-		throw new Exception("El campo \"Clave\" no debe ir vacío");
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		try {
