@@ -5309,7 +5309,13 @@
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="query" content="SELECT p &#13;&#10;FROM PSGRCatParentesco p &#13;&#10;WHERE p.is_eliminado =: is_eliminado" returnType="com.anahuac.posgrados.catalog.PSGRCatParentesco">
+                    <queryParameters>
+                        <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatPeriodo">
