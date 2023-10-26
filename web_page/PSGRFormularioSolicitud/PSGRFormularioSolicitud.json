@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1698358800263,
+  "lastUpdate" : 1698359493822,
   "rows" : [
     [
       {
@@ -8850,19 +8850,242 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "selectedIndex != 6"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
                   "value" : ""
                 }
               },
-              "reference" : "2e748504-2556-4bfb-b525-af04a26c2650",
+              "reference" : "da0493df-4115-49cb-9744-5acdaacc5bb1",
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
-                [ ]
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "events" : {
+                        "type" : "expression",
+                        "value" : "registro"
+                      },
+                      "idUsuario" : {
+                        "type" : "variable",
+                        "value" : "userData.user_id"
+                      },
+                      "lstSalas" : {
+                        "type" : "variable",
+                        "value" : "[]"
+                      },
+                      "jsonEntrevistas" : {
+                        "type" : "variable",
+                        "value" : "jsonEntrevistas"
+                      },
+                      "hideCalendario" : {
+                        "type" : "variable",
+                        "value" : "hideCalendario"
+                      },
+                      "usuario" : {
+                        "type" : "variable",
+                        "value" : "userData"
+                      },
+                      "detalleSolicitud" : {
+                        "type" : "variable",
+                        "value" : "{}"
+                      },
+                      "isCorrectTask" : {
+                        "type" : "variable",
+                        "value" : "true"
+                      },
+                      "isMedicina" : {
+                        "type" : "variable",
+                        "value" : "false"
+                      },
+                      "solicitudDeAdmision" : {
+                        "type" : "variable",
+                        "value" : "{}"
+                      }
+                    },
+                    "reference" : "2acfa1ad-44bb-40ca-9bfc-4155e54bfb78",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRcalendarioCitasV1"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Anterior"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "info"
+                      },
+                      "wizardLength" : {
+                        "type" : "variable",
+                        "value" : "wizardContent.length"
+                      },
+                      "selectedIndex" : {
+                        "type" : "variable",
+                        "value" : "selectedIndex"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Anterior"
+                      },
+                      "isValidStep" : {
+                        "type" : "variable",
+                        "value" : "true"
+                      },
+                      "errorMessage" : {
+                        "type" : "constant"
+                      },
+                      "messageTitle" : {
+                        "type" : "constant"
+                      },
+                      "formOutput" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "taskId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "reloadTask" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "caseId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "userId" : {
+                        "type" : "constant"
+                      }
+                    },
+                    "reference" : "8066dc94-c58e-4348-ac26-c6d5fd028c9d",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRcustomBtnWizardValidationTask"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Siguiente"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "right"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "primary"
+                      },
+                      "wizardLength" : {
+                        "type" : "variable",
+                        "value" : "wizardContent.length"
+                      },
+                      "selectedIndex" : {
+                        "type" : "variable",
+                        "value" : "selectedIndex"
+                      },
+                      "action" : {
+                        "type" : "constant",
+                        "value" : "Siguiente"
+                      },
+                      "isValidStep" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "errorMessage" : {
+                        "type" : "constant"
+                      },
+                      "messageTitle" : {
+                        "type" : "constant"
+                      },
+                      "formOutput" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "taskId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "reloadTask" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "caseId" : {
+                        "type" : "variable",
+                        "value" : ""
+                      },
+                      "userId" : {
+                        "type" : "constant"
+                      }
+                    },
+                    "reference" : "117df7ec-15e6-4532-9f62-21676e17db8e",
+                    "hasValidationError" : false,
+                    "id" : "customPSGRcustomBtnWizardValidationTask"
+                  }
+                ]
               ]
             }
           ],
@@ -13787,260 +14010,6 @@
                     "reference" : "d595f9e2-5297-47af-8912-4263e6f855e2",
                     "hasValidationError" : false,
                     "id" : "pbText"
-                  }
-                ]
-              ]
-            }
-          ],
-          [
-            {
-              "type" : "container",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "hidden" : {
-                  "type" : "expression",
-                  "value" : "selectedIndex != 7"
-                },
-                "repeatedCollection" : {
-                  "type" : "variable",
-                  "value" : ""
-                }
-              },
-              "reference" : "a5c2cbff-31af-4996-ba56-5f25127aff3f",
-              "hasValidationError" : false,
-              "id" : "pbContainer",
-              "rows" : [
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "events" : {
-                        "type" : "expression",
-                        "value" : "registro"
-                      },
-                      "idUsuario" : {
-                        "type" : "variable",
-                        "value" : "userData.user_id"
-                      },
-                      "lstSalas" : {
-                        "type" : "variable",
-                        "value" : "[]"
-                      },
-                      "jsonEntrevistas" : {
-                        "type" : "variable",
-                        "value" : "jsonEntrevistas"
-                      },
-                      "hideCalendario" : {
-                        "type" : "variable",
-                        "value" : "hideCalendario"
-                      },
-                      "usuario" : {
-                        "type" : "variable",
-                        "value" : "userData"
-                      },
-                      "detalleSolicitud" : {
-                        "type" : "variable",
-                        "value" : "{}"
-                      },
-                      "isCorrectTask" : {
-                        "type" : "variable",
-                        "value" : "true"
-                      },
-                      "isMedicina" : {
-                        "type" : "variable",
-                        "value" : "false"
-                      },
-                      "solicitudDeAdmision" : {
-                        "type" : "variable",
-                        "value" : "{}"
-                      }
-                    },
-                    "reference" : "09c58464-3e40-4632-b787-7fef13a2148d",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRcalendarioCitasV1"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Anterior"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "info"
-                      },
-                      "wizardLength" : {
-                        "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Anterior"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : "true"
-                      },
-                      "errorMessage" : {
-                        "type" : "constant"
-                      },
-                      "messageTitle" : {
-                        "type" : "constant"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "caseId" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "userId" : {
-                        "type" : "constant"
-                      }
-                    },
-                    "reference" : "0bb3a546-b634-4714-93e4-c7e3b278226d",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRcustomBtnWizardValidationTask"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 6,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Siguiente"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "wizardLength" : {
-                        "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Siguiente"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "errorMessage" : {
-                        "type" : "constant"
-                      },
-                      "messageTitle" : {
-                        "type" : "constant"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "caseId" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "userId" : {
-                        "type" : "constant"
-                      }
-                    },
-                    "reference" : "a34e3dae-27de-4aa7-b7af-2515d66f3f0d",
-                    "hasValidationError" : false,
-                    "id" : "customPSGRcustomBtnWizardValidationTask"
                   }
                 ]
               ]
@@ -19484,6 +19453,10 @@
         "    },{\r",
         "        \"title\" : \"Revisar\",\r",
         "        \"value\" : \"revisar\",\r",
+        "        \"isValid\": true\r",
+        "    },{\r",
+        "        \"title\" : \"Cita de entrevista\",\r",
+        "        \"value\" : \"cita\",\r",
         "        \"isValid\": true\r",
         "    },{\r",
         "        \"title\" : \"Enviar\",\r",
