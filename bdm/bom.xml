@@ -5470,7 +5470,14 @@
                 <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
-            <queries/>
+            <queries>
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatSiNo p &#13;&#10;WHERE p.es_si_o_no= : es_si_o_no AND p.eliminado =: eliminado&#13;&#10;ORDER BY p.persistenceId" returnType="com.anahuac.posgrados.catalog.PSGRCatSiNo">
+                    <queryParameters>
+                        <queryParameter name="es_si_o_no" className="java.lang.Boolean"/>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+            </queries>
             <indexes/>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatTipoEmpleado">
