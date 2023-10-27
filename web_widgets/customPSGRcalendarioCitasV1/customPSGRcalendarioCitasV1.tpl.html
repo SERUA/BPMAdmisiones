@@ -1,12 +1,4 @@
-<!--<div class="col-md-12">-->
-<!--    <div class="btn-group btn-group-md" role="group" aria-label="Large button group">-->
-<!--        <button type="button" class="btn btn-default" style="background-color: #ff5900;color:white;">{{properties.detalleSolicitud[0].catResidencia.descripcion}}</button>-->
-<!--        <button type="button" class="btn btn-default" style="background-color: black;color: white;">{{(properties.usuario[0].catCampus.descripcion=='Anáhuac Mayab')?'Anáhuac Mérida': properties.usuario[0].catCampus.descripcion}}</button>-->
-<!--        <button type="button" class="btn btn-default" style="background-color: black;color: white;">{{properties.usuario[0].catGestionEscolar.nombre}}</button>-->
-<!--    </div>-->
-<!--</div>-->
-<!--<br><br><br>-->
-<div class="panel panel-danger col-md-12" ng-hide="properties.hideCalendario==true || properties.isCorrectTask==false">
+<div class="panel panel-danger col-md-12" ng-hide="properties.cita.cita_horario">
     <div class="panel-heading" style="background-color: #ff5900" align="center"><strong style="color:white;">Calendario de entrevistas</strong></div>
     <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;'>
         <div class="dhx_cal_navline">
@@ -24,53 +16,15 @@
         <div class="dhx_cal_data"></div>
     </div>
 </div>
-<div class="col-lg-12" ng-show="properties.hideCalendario==true || properties.isCorrectTask==false" style="text-align: center;">
+<div class="col-lg-12" ng-show="properties.cita.cita_horario" style="text-align: center;">
     <div class="row">
-        <h2>Sesión: {{sesion.nombre}}</h2>
-        <h2>Descripción: {{sesion.descripcion}}</h2>
-    </div>
-    <div class="row">
-        <ul class="list-group col-lg-6 col-md-6" ng-hide="asistenciaCollegeBoard || properties.detalleSolicitud[0].cbCoincide">
-            <li class="list-group-item btn-primary" style="text-align: left;"><strong>Examen de aptitudes y conocimientos</strong></li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonCollage.nombre}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonCollage.descripcion}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left; font-size: 14px;"><strong>*Fecha:{{jsonCollage.aplicacion.split("-")[2]+"-"+jsonCollage.aplicacion.split("-")[1]+"-"+jsonCollage.aplicacion.split("-")[0]}}</strong></li>
-            <li ng-if="properties.isCorrectTask" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonCollage.entrada}} - {{jsonCollage.salida}}</li>
-            <li ng-if="!properties.isCorrectTask" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonCollage.horario}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>{{(jsonCollage.online)?'*URL':'*Lugar'}}:</strong>{{jsonCollage.lugar}}</li>
-            <li ng-hide="jsonCollage.online" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonCollage.calle}}, {{(jsonCollage.numero_int!='' && jsonCollage.numero_int!=null)?"#" + jsonCollage.numero_int:''}} {{jsonCollage.colonia}}</li>
-        </ul>
-        <ul class="list-group col-lg-6 col-md-6" ng-hide="asistenciaPsicometrico">
-            <li class="list-group-item btn-primary" style="text-align: left;"><strong>Psicométrico</strong></li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonPsicometrico.nombre}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonPsicometrico.descripcion}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left; font-size: 14px;"><strong>*Fecha:{{jsonPsicometrico.aplicacion.split("-")[2]+"-"+jsonPsicometrico.aplicacion.split("-")[1]+"-"+jsonPsicometrico.aplicacion.split("-")[0]}}</strong></li>
-            <li ng-if="properties.isCorrectTask" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonPsicometrico.entrada}} - {{jsonPsicometrico.salida}}</li>
-            <li ng-if="!properties.isCorrectTask" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{jsonPsicometrico.horario}}</li>
-            <li class="list-group-item list-group-item-default" style="text-align: left;"><strong>{{(jsonPsicometrico.online)?'*URL':'*Lugar'}}:</strong>{{jsonPsicometrico.lugar}}</li>
-            <li ng-hide="jsonPsicometrico.online" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonPsicometrico.calle}}, {{(jsonPsicometrico.numero_int!=''&& jsonPsicometrico.numero_int!=null)?'#'+jsonPsicometrico.numero_int:''}} {{jsonPsicometrico.colonia}}</li>
-        </ul>
-        <ul class="list-group col-lg-6 col-md-6" ng-hide="asistenciaEntrevista">
-            <li title="{{entrevistaSelected?'Editar':'Elige'}} entrevista" style="cursor: pointer; text-align: left;" class="list-group-item btn-primary" ng-click="properties.isCorrectTask?getPruebasFechas():null"><strong> {{entrevistaSelected?'Editar':'Elige'}} Entrevista  <i class="small material-icons">add_alarm</i></strong></li>
-            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Nombre cita:</strong>{{jsonEntrevista.nombre}}</li>
-            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Descripción:</strong>{{jsonEntrevista.descripcion}}</li>
-            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left; font-size: 14px;"><strong>*Fecha:{{jsonEntrevista.aplicacion.split("-")[2]+"-"+jsonEntrevista.aplicacion.split("-")[1]+"-"+jsonEntrevista.aplicacion.split("-")[0]}}</strong></li>
-            <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Hora:</strong>{{datosSelected.horario}}
-                <li ng-show="entrevistaSelected" class="list-group-item list-group-item-default" style="text-align: left;"><strong>{{(jsonEntrevista.online)?'*URL':'*Lugar'}}:</strong>{{jsonEntrevista.lugar}}</li>
-                <li ng-show="entrevistaSelected && jsonEntrevista.online==false" class="list-group-item list-group-item-default" style="text-align: left;"><strong>*Dirección:</strong>{{jsonEntrevista.calle}}, {{(jsonEntrevista.numero_int!='' && jsonEntrevista.numero_int!=null)?'#'+jsonEntrevista.numero_int:''}} {{jsonEntrevista.colonia}}</li>
-        </ul>
-    </div>
-    <div class="col-lg-12 col-md-12" ng-if="properties.isCorrectTask">
-        <div class="row col-lg-6 col-md-6" style="text-align: center;">
-            <button class="btn btn-info" ng-click="setShowCalendar()">Atrás</button>
-        </div>
-        <div ng-show="entrevistaSelected || asistenciaEntrevista" class="row col-lg-6 col-md-6" style="text-align: center;">
-            <button class="btn btn-primary" ng-click="insertSesionAspirante()">Confirmar sesión</button>
-        </div>
+        <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
+        <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
+        <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
+        <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null">Cambiar fecha y hora de la cita</button>
     </div>
 </div>
 
-<!-- Modal -->
 <div id="modalConfirmar" class="modal fade" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -83,9 +37,9 @@
                     <h3 class="text-center">{{fechaSelected}}</h3>
                     <table class="table table-striped">
                         <tbody>
-                            <tr ng-repeat="disponibles in entrevistas" style="height: 60px;">
-                                <td>{{disponibles.horario}}</td>
-                                <td class="text-center"><label style="cursor: pointer; outline: none;     margin-top: 9px;" ng-click="seleccionarHorario(disponibles.horario)"><span style="padding: 15px;font-size: 15px;" class="label label-{{(disponibles.ocupado)?'default':(disponibles.disponible)?'success':'default'}}">{{(disponibles.ocupado)?'Ocupado':(disponibles.disponible)?"Disponible":"No Disponible"}}</span></label></td>
+                            <tr ng-repeat="disponible in entrevistas" style="height: 60px;">
+                                <td>{{disponible.hora_inicio}} - {{disponible.hora_fin}}</td>
+                                <td class="text-center"><label style="cursor: pointer; outline: none; margin-top: 9px;" ng-click="seleccionarHorario(disponible)"><span style="padding: 15px;font-size: 15px;" class="label label-{{(disponible.ocupado)?'default':(disponible.disponible)?'success':'default'}}">{{(disponible.ocupado)?'Ocupado':(disponible.disponible)?"Disponible":"No Disponible"}}</span></label></td>
                             </tr>
                         </tbody>
                     </table>

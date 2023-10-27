@@ -6,8 +6,8 @@ function($scope, $http, blockUI, $window) {
     };
 
     $scope.seleccionarHorario = function (_horario){
-        $scope.seleccionada.horario = _horario;
-        let horario = _horario;
+        $scope.horario = _horario;
+        let horario = _horario.hora_inicio + " - " + _horario.hora_fin
         
         swal({
             "title": "Confirmación",
@@ -20,7 +20,12 @@ function($scope, $http, blockUI, $window) {
         }).then(function (isConfirm) {
             if (isConfirm) {
                 swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
-                    window.top.location.href = window.location.protocol + "//" + window.location.hostname +"/apps/pg_aspirante/pg_home/";
+                    $scope.properties.cita = {
+                        "cita_horario": angular.copy($scope.horario)
+                    };
+                    
+                    $scope.$apply();
+                    $("#modalConfirmar").modal("hide");
                 })
             }
         })
@@ -95,40 +100,75 @@ function($scope, $http, blockUI, $window) {
         buscarEntrevista(id);
         $scope.$apply();
 
-        $("#modalConfirmar").modal("show");
+        // $("#modalConfirmar").modal("show");
     })
 
     function buscarEntrevista(_id) {
         for (let evento of eventos) {
             if (evento.id === parseInt(_id)) {
                 $scope.seleccionada = angular.copy(evento);
+                let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
+                $http.get(url).success(function(_data){
+                    $scope.entrevistas = angular.copy(_data);
+                    $scope.$apply();
+                    $("#modalConfirmar").modal("show");
+                })
             }
         }
     }
+    var eventos = [];
 
-    var eventos = generarEventosPorMes(10, 2023);//Solo octubre
+    function loadFechas(){
+        let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
+        
+        $http.get(url).success(function(_data){
+            if(_data){
+                eventos = construirEventos(_data);
+                scheduler.clearAll();
+                scheduler.parse(eventos, "json");
+            }
+        }).error(function(){
 
-    scheduler.clearAll();
-    scheduler.parse(eventos, "json");
-
-    $scope.entrevistaSelected = false;
-    $scope.sesion_aspirante = {
-        "persistenceId": 0,
-        "persistenceVersion": 0,
-        "responsabledisponible_pid": 0,
-        "sesiones_pid": 0,
-        "username": ""
+        });
     }
 
-    $scope.horaInicio = new Date();
-    $scope.horaFin = new Date();
-    $scope.fechaCalendario = "";
-    $scope.resultadoMostrarAudiencia = {};
-    $scope.resultadoMostrarAudiencia.idSala = 0;
-    $scope.resultadoMostrarAudiencia.idTipo_Audiencia = 0;
-    $scope.resultadoMostrarAudiencia.text = "";
-    $scope.resultadoMostrarAudiencia.id = 0;
-    $scope.eliminado = "false";
+    loadFechas();
+
+    function construirEventos(_sesiones){
+        let eventos = []
+        for(let sesion of _sesiones){
+            var evento = {
+                "end_date": sesion.fecha_entrevista + " 21:00",
+                "id": sesion.persistenceId,
+                "color": "#ff5900",
+                "text": sesion.nombre,
+                "start_date": sesion.fecha_entrevista + " 7:00"
+            };
+
+            eventos.push(evento);
+        }
+
+        return eventos;
+    }
+
+    // $scope.entrevistaSelected = false;
+    // $scope.sesion_aspirante = {
+    //     "persistenceId": 0,
+    //     "persistenceVersion": 0,
+    //     "responsabledisponible_pid": 0,
+    //     "sesiones_pid": 0,
+    //     "username": ""
+    // }
+
+    // $scope.horaInicio = new Date();
+    // $scope.horaFin = new Date();
+    // $scope.fechaCalendario = "";
+    // $scope.resultadoMostrarAudiencia = {};
+    // $scope.resultadoMostrarAudiencia.idSala = 0;
+    // $scope.resultadoMostrarAudiencia.idTipo_Audiencia = 0;
+    // $scope.resultadoMostrarAudiencia.text = "";
+    // $scope.resultadoMostrarAudiencia.id = 0;
+    // $scope.eliminado = "false";
 
     $scope.show_minical = function () {
         if (scheduler.isCalendarVisible()) {
@@ -145,26 +185,7 @@ function($scope, $http, blockUI, $window) {
             });
         }
     }
-
-    $scope.entrevistas = [
-        {
-            "horario": "08:00 - 08:30",
-            "persistenceId": 186756,
-            "disponible": true,
-            "ocupado": false,
-            "responsableId": 73876,
-            "persistenceVersion": null
-        },
-        {
-            "horario": "08:30 - 09:00",
-            "persistenceId": 186757,
-            "disponible": true,
-            "ocupado": false,
-            "responsableId": 73876,
-            "persistenceVersion": null
-        }
-    ]
-
+    
     var selectorFecha = $("div.dhx_cal_date").text();
     var fechaReporte = convertidorFechaCalendario(selectorFecha);
 
@@ -216,17 +237,17 @@ function($scope, $http, blockUI, $window) {
         return fecha;
     }
 
-    $scope.modalConfirmar = function () {
-        $("#modalConfirmar").modal('show')
-    }
+    // $scope.modalConfirmar = function () {
+    //     $("#modalConfirmar").modal('show')
+    // }
 
-    $scope.closeModal = function () {
-        $("#modalConfirmar").modal('hide')
-    }
+    // $scope.closeModal = function () {
+    //     $("#modalConfirmar").modal('hide')
+    // }
 
-    $scope.modalEntrevista = function () {
-        $("#modalEntrevista").modal('show')
-    }
+    // $scope.modalEntrevista = function () {
+    //     $("#modalEntrevista").modal('show')
+    // }
 
     $scope.setShowCalendar = function () {
         $scope.properties.hideCalendario = false;

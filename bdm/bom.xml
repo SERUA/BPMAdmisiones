@@ -5556,7 +5556,9 @@
         </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRCitaAspirante">
             <fields>
-                <field type="STRING" length="255" name="cita_horario" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaHorario" fetchType="EAGER" name="cita_horario" nullable="true" collection="false"/>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5577,7 +5579,7 @@
             <fields>
                 <field type="STRING" length="255" name="hora_inicio" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="hora_fin" nullable="true" collection="false"/>
-                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaEntrevista" fetchType="LAZY" name="cita_entrevista" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.model.PSGRCitaEntrevista" fetchType="EAGER" name="cita_entrevista" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
