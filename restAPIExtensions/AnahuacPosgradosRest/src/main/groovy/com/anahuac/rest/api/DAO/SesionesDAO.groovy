@@ -7908,9 +7908,16 @@ class SesionesDAO {
 			
 			while (rs.next()) {
 				row = new HashMap<String, Object>();
+				SesionesPosibles sesion = new SesionesPosibles();
+				sesion.setNombre(rs.getString("nombre"));
+				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
+				row.put("cita_entrevista", sesion);
 				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("ocupado", false);
+				row.put("disponible", true);
 				
 				rows.add(row);
 			}

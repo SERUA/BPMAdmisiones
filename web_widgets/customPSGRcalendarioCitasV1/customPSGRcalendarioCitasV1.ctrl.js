@@ -6,8 +6,8 @@ function($scope, $http, blockUI, $window) {
     };
 
     $scope.seleccionarHorario = function (_horario){
-        $scope.seleccionada.horario = _horario;
-        let horario = _horario;
+        $scope.horario = _horario;
+        let horario = _horario.hora_inicio + " - " + _horario.hora_fin
         
         swal({
             "title": "Confirmación",
@@ -20,49 +20,54 @@ function($scope, $http, blockUI, $window) {
         }).then(function (isConfirm) {
             if (isConfirm) {
                 swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
-                    $scope.properties.citaAspirante["cita_horario"] = $scope.seleccionada.horario;
+                    $scope.properties.cita = {
+                        "cita_horario": angular.copy($scope.horario)
+                    };
+                    
+                    $scope.$apply();
+                    $("#modalConfirmar").modal("hide");
                 })
             }
         })
     }
 
-    // function fechaAStringConFormato(fecha) {
-    //     var dia = fecha.getDate();
-    //     var mes = fecha.getMonth() + 1;
-    //     var ano = fecha.getFullYear();
-    //     dia = dia < 10 ? '0' + dia : dia;
-    //     mes = mes < 10 ? '0' + mes : mes;
+    function fechaAStringConFormato(fecha) {
+        var dia = fecha.getDate();
+        var mes = fecha.getMonth() + 1;
+        var ano = fecha.getFullYear();
+        dia = dia < 10 ? '0' + dia : dia;
+        mes = mes < 10 ? '0' + mes : mes;
       
-    //     return dia + '/' + mes + '/' + ano;
-    // }
+        return dia + '/' + mes + '/' + ano;
+    }
 
-    // function generarEventosPorMes(mes, ano) {
-    //     var eventos = [];
-    //     var ultimoDia = new Date(ano, mes, 0).getDate();
+    function generarEventosPorMes(mes, ano) {
+        var eventos = [];
+        var ultimoDia = new Date(ano, mes, 0).getDate();
 
-    //     for (var dia = 1; dia <= ultimoDia; dia++) {
+        for (var dia = 1; dia <= ultimoDia; dia++) {
 
-    //         var fechaInicio = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 7:00";
-    //         var fechaFin = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 21:00";
+            var fechaInicio = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 7:00";
+            var fechaFin = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 21:00";
 
-    //         var fecha = mes + '/' + dia + '/' + ano;
-    //         var fechaHoy = new Date();
-    //         var fechaGenerada = new Date(fecha);
+            var fecha = mes + '/' + dia + '/' + ano;
+            var fechaHoy = new Date();
+            var fechaGenerada = new Date(fecha);
 
-    //         if (fechaGenerada >= fechaHoy) {
-    //             var evento = {
-    //                 "end_date": fechaFin,
-    //                 "id": dia,
-    //                 "color": "#ff5900",
-    //                 "text": `DÍA ${dia}`,
-    //                 "start_date": fechaInicio
-    //             };
-    //             eventos.push(evento);
-    //         }
-    //     }
+            if (fechaGenerada >= fechaHoy) {
+                var evento = {
+                    "end_date": fechaFin,
+                    "id": dia,
+                    "color": "#ff5900",
+                    "text": `DÍA ${dia}`,
+                    "start_date": fechaInicio
+                };
+                eventos.push(evento);
+            }
+        }
 
-    //     return eventos;
-    // }
+        return eventos;
+    }
 
     $scope.contadorVerificarTask = 0;
     var vm = this;
@@ -95,30 +100,32 @@ function($scope, $http, blockUI, $window) {
         buscarEntrevista(id);
         $scope.$apply();
 
-        $("#modalConfirmar").modal("show");
+        // $("#modalConfirmar").modal("show");
     })
 
     function buscarEntrevista(_id) {
         for (let evento of eventos) {
             if (evento.id === parseInt(_id)) {
                 $scope.seleccionada = angular.copy(evento);
+                let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
+                $http.get(url).success(function(_data){
+                    $scope.entrevistas = angular.copy(_data);
+                    $scope.$apply();
+                    $("#modalConfirmar").modal("show");
+                })
             }
         }
     }
-
-    // var eventos = generarEventosPorMes(10, 2023);//Solo octubre
-
-    // scheduler.clearAll();
-    // scheduler.parse(eventos, "json");
+    var eventos = [];
 
     function loadFechas(){
         let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
         
         $http.get(url).success(function(_data){
-            debugger;
             if(_data){
+                eventos = construirEventos(_data);
                 scheduler.clearAll();
-                scheduler.parse(construirEventos(_data), "json");
+                scheduler.parse(eventos, "json");
             }
         }).error(function(){
 
@@ -132,7 +139,7 @@ function($scope, $http, blockUI, $window) {
         for(let sesion of _sesiones){
             var evento = {
                 "end_date": sesion.fecha_entrevista + " 21:00",
-                "id": _sesiones.persistenceId_string,
+                "id": sesion.persistenceId,
                 "color": "#ff5900",
                 "text": sesion.nombre,
                 "start_date": sesion.fecha_entrevista + " 7:00"
@@ -144,24 +151,24 @@ function($scope, $http, blockUI, $window) {
         return eventos;
     }
 
-    $scope.entrevistaSelected = false;
-    $scope.sesion_aspirante = {
-        "persistenceId": 0,
-        "persistenceVersion": 0,
-        "responsabledisponible_pid": 0,
-        "sesiones_pid": 0,
-        "username": ""
-    }
+    // $scope.entrevistaSelected = false;
+    // $scope.sesion_aspirante = {
+    //     "persistenceId": 0,
+    //     "persistenceVersion": 0,
+    //     "responsabledisponible_pid": 0,
+    //     "sesiones_pid": 0,
+    //     "username": ""
+    // }
 
-    $scope.horaInicio = new Date();
-    $scope.horaFin = new Date();
-    $scope.fechaCalendario = "";
-    $scope.resultadoMostrarAudiencia = {};
-    $scope.resultadoMostrarAudiencia.idSala = 0;
-    $scope.resultadoMostrarAudiencia.idTipo_Audiencia = 0;
-    $scope.resultadoMostrarAudiencia.text = "";
-    $scope.resultadoMostrarAudiencia.id = 0;
-    $scope.eliminado = "false";
+    // $scope.horaInicio = new Date();
+    // $scope.horaFin = new Date();
+    // $scope.fechaCalendario = "";
+    // $scope.resultadoMostrarAudiencia = {};
+    // $scope.resultadoMostrarAudiencia.idSala = 0;
+    // $scope.resultadoMostrarAudiencia.idTipo_Audiencia = 0;
+    // $scope.resultadoMostrarAudiencia.text = "";
+    // $scope.resultadoMostrarAudiencia.id = 0;
+    // $scope.eliminado = "false";
 
     $scope.show_minical = function () {
         if (scheduler.isCalendarVisible()) {
@@ -178,26 +185,7 @@ function($scope, $http, blockUI, $window) {
             });
         }
     }
-
-    $scope.entrevistas = [
-        {
-            "horario": "08:00 - 08:30",
-            "persistenceId": 186756,
-            "disponible": true,
-            "ocupado": false,
-            "responsableId": 73876,
-            "persistenceVersion": null
-        },
-        {
-            "horario": "08:30 - 09:00",
-            "persistenceId": 186757,
-            "disponible": true,
-            "ocupado": false,
-            "responsableId": 73876,
-            "persistenceVersion": null
-        }
-    ]
-
+    
     var selectorFecha = $("div.dhx_cal_date").text();
     var fechaReporte = convertidorFechaCalendario(selectorFecha);
 
@@ -249,17 +237,17 @@ function($scope, $http, blockUI, $window) {
         return fecha;
     }
 
-    $scope.modalConfirmar = function () {
-        $("#modalConfirmar").modal('show')
-    }
+    // $scope.modalConfirmar = function () {
+    //     $("#modalConfirmar").modal('show')
+    // }
 
-    $scope.closeModal = function () {
-        $("#modalConfirmar").modal('hide')
-    }
+    // $scope.closeModal = function () {
+    //     $("#modalConfirmar").modal('hide')
+    // }
 
-    $scope.modalEntrevista = function () {
-        $("#modalEntrevista").modal('show')
-    }
+    // $scope.modalEntrevista = function () {
+    //     $("#modalEntrevista").modal('show')
+    // }
 
     $scope.setShowCalendar = function () {
         $scope.properties.hideCalendario = false;

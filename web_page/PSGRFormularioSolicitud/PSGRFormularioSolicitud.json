@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1698369488422,
+  "lastUpdate" : 1698374521614,
   "rows" : [
     [
       {
@@ -8878,6 +8878,58 @@
                       },
                       "hidden" : {
                         "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<pre>{{ citaAspirante | json }}</pre>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "f96b058f-a327-483d-bb7a-b0535831fa38",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
                         "value" : false
                       },
                       "events" : {
@@ -8919,6 +8971,10 @@
                       "solicitudDeAdmision" : {
                         "type" : "variable",
                         "value" : "{}"
+                      },
+                      "cita" : {
+                        "type" : "variable",
+                        "value" : "citaAspirante"
                       }
                     },
                     "reference" : "2acfa1ad-44bb-40ca-9bfc-4155e54bfb78",
@@ -9053,32 +9109,35 @@
                       },
                       "isValidStep" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "validStep6"
                       },
                       "errorMessage" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "errorStep6.errorMessage"
                       },
                       "messageTitle" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "errorStep6.title"
                       },
                       "formOutput" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "formOutput"
                       },
                       "taskId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "taskId"
                       },
                       "reloadTask" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "reloadTask"
                       },
                       "caseId" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "caseid"
                       },
                       "userId" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "userData.user_id"
                       }
                     },
                     "reference" : "117df7ec-15e6-4532-9f62-21676e17db8e",
@@ -20288,6 +20347,54 @@
       "type" : "constant",
       "value" : [
         "false"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.citaAspirante_ref.link}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "validStep6" : {
+      "type" : "expression",
+      "value" : [
+        "let valid = true;\r",
+        "\r",
+        "// varManifiesto\t{ \"datos\":false, \"consentimiento\":false }\r",
+        "if(!$data.citaAspirante){\r",
+        "    valid = false;\r",
+        "    $data.errorStep6 = { \r",
+        "        \"errorMessage\": \"Debes seleccionar una fecha de entrevista para continuar\", \r",
+        "        \"title\": \"¡Manifiesto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "}  else {\r",
+        "    valid = true;\r",
+        "    $data.errorStep6 = { \r",
+        "        \"errorMessage\": \"\", \r",
+        "        \"title\": \"\",\r",
+        "        \"error\": false\r",
+        "    } \r",
+        "}\r",
+        "\r",
+        "return valid;\r"
+      ],
+      "exposed" : false
+    },
+    "validStep8" : {
+      "type" : "expression",
+      "value" : [
+        "return \"hello\";"
+      ],
+      "exposed" : false
+    },
+    "errorStep6" : {
+      "type" : "json",
+      "value" : [
+        "{ \"errorMessage\": \"\", \"title\": \"\", \"error\": false }"
       ],
       "exposed" : false
     }
