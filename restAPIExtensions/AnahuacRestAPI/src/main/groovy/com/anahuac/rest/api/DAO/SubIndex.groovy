@@ -50,7 +50,7 @@ class SubIndex {
 		return result;
 	}
 
-	def lista_SesionesDAO__Media = ["getSesionesCalendarizadas","getLastFechaExamenByUsername","getSesionesCalendarizadasPasadas","getSesionesAspirantesPasados","insertPaseLista","updatePrepaSolicitudDeAdmision","updatePaseLista","getSesionesAspirantesReporte","getAspirantes3Asistencias","updateAceptado","getSesionesCalendarizadasPsicologoSupervisor","getSesionesPsicologoAdministradorAspirantes","updateAspirantesPruebas","insertAspirantesPruebas","postBitacoraSesiones","postAspiranteSesionesByUsername","getSesionesINVP","getSesionesINVPTabla","getSesionesINVPTablaProcesadas","getUsersByPrueba2","postResultadosINVPIndividuales","insertRespuesta","postSelectAspirantePrueba","postGetIdSesionByIdBanner","postGetIdSesionByCaseId","PostUpdateDeleteCatEscalaINVP","getSesiones"];
+	def lista_SesionesDAO__Media = ["getSesionesAspirantes","getSesionesCalendarizadas","getLastFechaExamenByUsername","getSesionesCalendarizadasPasadas","getSesionesAspirantesPasados","insertPaseLista","updatePrepaSolicitudDeAdmision","updatePaseLista","getSesionesAspirantesReporte","getAspirantes3Asistencias","updateAceptado","getSesionesCalendarizadasPsicologoSupervisor","getSesionesPsicologoAdministradorAspirantes","updateAspirantesPruebas","insertAspirantesPruebas","postBitacoraSesiones","postAspiranteSesionesByUsername","getSesionesINVP","getSesionesINVPTabla","getSesionesINVPTablaProcesadas","getUsersByPrueba2","postResultadosINVPIndividuales","insertRespuesta","postSelectAspirantePrueba","postGetIdSesionByIdBanner","postGetIdSesionByCaseId","PostUpdateDeleteCatEscalaINVP","getSesiones"];
 	public Result SesionesDAO_urls_Media(String url,Integer parameterP,Integer parameterC,String jsonData,RestAPIContext context) {
 		SesionesDAO sDAO = new SesionesDAO();
 		Result result = new Result();
@@ -68,7 +68,6 @@ class SubIndex {
 					
 					case "getSesionesCalendarizadasPasadas":
 					result = sDAO.getSesionesCalendarizadasPasadas(jsonData, context)
-
 					break;
 					
 					case "getSesionesAspirantesPasados":
