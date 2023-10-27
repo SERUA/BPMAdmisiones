@@ -213,7 +213,7 @@ class NotificacionDAO {
 			errorlog+="| seteando mensaje"
 			
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-
+			throw new Exception("El campo \"Clave\" no debe ir vacío");
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
 			//7 variable plantilla [titulo]
