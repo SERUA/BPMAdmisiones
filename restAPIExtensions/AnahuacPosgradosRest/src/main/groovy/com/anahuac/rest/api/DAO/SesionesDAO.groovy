@@ -7890,4 +7890,45 @@ class SesionesDAO {
 			return null; // Manejo de errores
 		}
 	}
+	
+	public Result getHorariosByIdSesion(Long idSesion) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIOS_BY_SESION);
+			pstm.setLong(1, idSesion);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("hora_fin", rs.getString("hora_fin"));
+				row.put("hora_inicio", rs.getString("hora_inicio"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if(con != null) {
+				con.rollback();
+			}
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 }

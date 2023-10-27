@@ -27,4 +27,5 @@ class Statements {
 	
 	//SESIONES
 	public static final String GET_SESIONES_POSIBLES = "SELECT persistenceid, persistenceid::VARCHAR AS persistenceId_string, descripcion_entrevista, duracion_entrevista_minutos, nombre, fecha_entrevista FROM PSGRCitaEntrevista  WHERE DATE(fecha_entrevista::TIMESTAMP) >= DATE(now()) ORDER BY fecha_entrevista ASC ";
+	public static final String GET_HORARIOS_BY_SESION = "SELECT persistenceid, hora_fin, hora_inicio FROM PSGRCitaHorario WHERE cita_entrevista_pid = ? ORDER BY hora_inicio::TIME ASC";
 }

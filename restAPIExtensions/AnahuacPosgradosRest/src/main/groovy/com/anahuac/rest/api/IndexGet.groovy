@@ -178,6 +178,16 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getHorariosByIdSesion":
+					String idSesion = request.getParameter "idSesion"
+					result = new SesionesDAO().getHorariosByIdSesion(Long.valueOf(idSesion));
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 					
 			}
 		} catch (Exception e) {

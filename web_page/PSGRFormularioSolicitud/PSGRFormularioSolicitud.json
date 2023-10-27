@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1698363560393,
+  "lastUpdate" : 1698369488422,
   "rows" : [
     [
       {
@@ -19095,6 +19095,9 @@
         "        cnem_telefono_celular: $data.datosContacto !== undefined ? $data.datosContacto.cnem_telefono_celular : \"\",\r",
         "        cnem_correo_electronico:  $data.datosContacto !== undefined ? $data.datosContacto.cnem_correo_electronico : \"\"\r",
         "    },\r",
+        "    citaAspiranteInput: {\r",
+        "      cita_horario: getCatalogo($data.citaAspirante, \"cita_horario\")\r",
+        "    },\r",
         "    datosAcademicosInput: $data.datosAcademicos === undefined ? [] : $data.datosAcademicos.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
         "        // grado: it.grado !== undefined ? it.grado : null,\r",
@@ -19161,7 +19164,6 @@
         "        url_azure: it.url_azure !== undefined ? it.url_azure : null,\r",
         "        tamano_documento: it.tamano_documento !== undefined ? it.tamano_documento : null\r",
         "    }))\r",
-        "\r",
         "}\r",
         "\r",
         "function getCatalogo(_objeto, _nombre){\r",

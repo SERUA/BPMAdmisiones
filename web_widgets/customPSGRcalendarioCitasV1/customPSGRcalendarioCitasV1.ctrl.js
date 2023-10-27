@@ -20,49 +20,49 @@ function($scope, $http, blockUI, $window) {
         }).then(function (isConfirm) {
             if (isConfirm) {
                 swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
-                    window.top.location.href = window.location.protocol + "//" + window.location.hostname +"/apps/pg_aspirante/pg_home/";
+                    $scope.properties.citaAspirante["cita_horario"] = $scope.seleccionada.horario;
                 })
             }
         })
     }
 
-    function fechaAStringConFormato(fecha) {
-        var dia = fecha.getDate();
-        var mes = fecha.getMonth() + 1;
-        var ano = fecha.getFullYear();
-        dia = dia < 10 ? '0' + dia : dia;
-        mes = mes < 10 ? '0' + mes : mes;
+    // function fechaAStringConFormato(fecha) {
+    //     var dia = fecha.getDate();
+    //     var mes = fecha.getMonth() + 1;
+    //     var ano = fecha.getFullYear();
+    //     dia = dia < 10 ? '0' + dia : dia;
+    //     mes = mes < 10 ? '0' + mes : mes;
       
-        return dia + '/' + mes + '/' + ano;
-    }
+    //     return dia + '/' + mes + '/' + ano;
+    // }
 
-    function generarEventosPorMes(mes, ano) {
-        var eventos = [];
-        var ultimoDia = new Date(ano, mes, 0).getDate();
+    // function generarEventosPorMes(mes, ano) {
+    //     var eventos = [];
+    //     var ultimoDia = new Date(ano, mes, 0).getDate();
 
-        for (var dia = 1; dia <= ultimoDia; dia++) {
+    //     for (var dia = 1; dia <= ultimoDia; dia++) {
 
-            var fechaInicio = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 7:00";
-            var fechaFin = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 21:00";
+    //         var fechaInicio = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 7:00";
+    //         var fechaFin = mes + "/" + (dia < 10 ? "0" + dia : dia) + "/ " + ano + " 21:00";
 
-            var fecha = mes + '/' + dia + '/' + ano;
-            var fechaHoy = new Date();
-            var fechaGenerada = new Date(fecha);
+    //         var fecha = mes + '/' + dia + '/' + ano;
+    //         var fechaHoy = new Date();
+    //         var fechaGenerada = new Date(fecha);
 
-            if (fechaGenerada >= fechaHoy) {
-                var evento = {
-                    "end_date": fechaFin,
-                    "id": dia,
-                    "color": "#ff5900",
-                    "text": `DÍA ${dia}`,
-                    "start_date": fechaInicio
-                };
-                eventos.push(evento);
-            }
-        }
+    //         if (fechaGenerada >= fechaHoy) {
+    //             var evento = {
+    //                 "end_date": fechaFin,
+    //                 "id": dia,
+    //                 "color": "#ff5900",
+    //                 "text": `DÍA ${dia}`,
+    //                 "start_date": fechaInicio
+    //             };
+    //             eventos.push(evento);
+    //         }
+    //     }
 
-        return eventos;
-    }
+    //     return eventos;
+    // }
 
     $scope.contadorVerificarTask = 0;
     var vm = this;
@@ -106,10 +106,43 @@ function($scope, $http, blockUI, $window) {
         }
     }
 
-    var eventos = generarEventosPorMes(10, 2023);//Solo octubre
+    // var eventos = generarEventosPorMes(10, 2023);//Solo octubre
 
-    scheduler.clearAll();
-    scheduler.parse(eventos, "json");
+    // scheduler.clearAll();
+    // scheduler.parse(eventos, "json");
+
+    function loadFechas(){
+        let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
+        
+        $http.get(url).success(function(_data){
+            debugger;
+            if(_data){
+                scheduler.clearAll();
+                scheduler.parse(construirEventos(_data), "json");
+            }
+        }).error(function(){
+
+        });
+    }
+
+    loadFechas();
+
+    function construirEventos(_sesiones){
+        let eventos = []
+        for(let sesion of _sesiones){
+            var evento = {
+                "end_date": sesion.fecha_entrevista + " 21:00",
+                "id": _sesiones.persistenceId_string,
+                "color": "#ff5900",
+                "text": sesion.nombre,
+                "start_date": sesion.fecha_entrevista + " 7:00"
+            };
+
+            eventos.push(evento);
+        }
+
+        return eventos;
+    }
 
     $scope.entrevistaSelected = false;
     $scope.sesion_aspirante = {
