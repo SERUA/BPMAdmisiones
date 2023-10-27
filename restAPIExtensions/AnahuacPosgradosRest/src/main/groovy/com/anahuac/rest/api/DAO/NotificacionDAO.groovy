@@ -115,7 +115,9 @@ class NotificacionDAO {
 				catNotificacionesDAO = context.getApiClient().getDAO(PSGRCatNotificacionesDAO.class);
 				catNotificaciones = catNotificacionesDAO.get_cat_notificaciones(object.codigo, procesoCaso.getCase_id())
 				cn=catNotificaciones
+				
 			} catch (Exception e) {
+				
 				Boolean closeCon2=false;
 				try {
 					
@@ -211,9 +213,8 @@ class NotificacionDAO {
 			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
 			errorlog += "|  lstDoc"
 			errorlog+="| seteando mensaje"
-			
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-			throw new Exception("El campo \"Clave\" no debe ir vacío");
+			
 			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
 			//7 variable plantilla [titulo]
