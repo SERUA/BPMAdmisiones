@@ -16,6 +16,7 @@ import org.slf4j.LoggerFactory
 import java.nio.charset.StandardCharsets
 import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
+import com.anahuac.rest.api.DAO.SesionesDAO
 import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDao
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
@@ -168,6 +169,16 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getSesionesV1":
+					result = new SesionesDAO().getSesionesV1();
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

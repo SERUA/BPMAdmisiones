@@ -7,6 +7,9 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.text.DateFormat
 import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
+
 import org.bonitasoft.engine.api.APIClient
 import org.bonitasoft.engine.api.ProcessAPI
 import org.bonitasoft.engine.bpm.data.DataInstance
@@ -16,6 +19,7 @@ import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.rest.api.DB.DBConnect
+import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.Calendario
@@ -24,6 +28,7 @@ import com.anahuac.rest.api.Entity.custom.PruebasCustom
 import com.anahuac.rest.api.Entity.custom.ResponsableCustom
 import com.anahuac.rest.api.Entity.custom.SesionCustom
 import com.anahuac.rest.api.Entity.custom.SesionesAspiranteCustom
+import com.anahuac.rest.api.Entity.custom.SesionesPosibles
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
 import com.anahuac.rest.api.Entity.db.Responsable
 import com.anahuac.rest.api.Entity.db.ResponsableDisponible
@@ -7825,5 +7830,64 @@ class SesionesDAO {
 		calendar.setTime(date);
 		return calendar;
 
+	}
+	
+	
+	public Result getSesionesV1() {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		SesionesPosibles row = new SesionesPosibles();
+		List < SesionesPosibles > rows = new ArrayList < SesionesPosibles > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new SesionesPosibles();
+				
+				row.setPersistenceId(rs.getLong("persistenceid"));
+				row.setPersistenceId_string(rs.getString("persistenceId_string"));
+				row.setFecha_entrevista(convertirFecha(rs.getString("fecha_entrevista")));
+				row.setNombre(rs.getString("nombre"));
+				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true)
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if(con != null) {
+				con.rollback();
+			}
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public static String convertirFecha(String fechaString) {
+		try {
+			DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+			DateTimeFormatter formatoSalida = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+
+			LocalDateTime fecha = LocalDateTime.parse(fechaString, formatoEntrada);
+			String fechaFormateada = fecha.format(formatoSalida);
+
+			return fechaFormateada;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null; // Manejo de errores
+		}
 	}
 }
