@@ -1474,8 +1474,8 @@ class NotificacionDAO {
 			
 			if(object.persistenceId != null) {
 				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES_SDAE);
-				pstm.setString(1, object.angulo_imagen_footer);
-				pstm.setString(2, object.angulo_imagen_header);
+				pstm.setString(1, object.angulo_imagen_header);
+				pstm.setString(2, object.angulo_imagen_footer);
 				pstm.setString(3, object.asunto);
 				pstm.setString(4, object.comentario_leon);
 				pstm.setString(5, object.contenido);
@@ -1493,8 +1493,8 @@ class NotificacionDAO {
 				pstm.setString(17, object.texto_footer);
 				pstm.setString(18, object.tipo_correo);
 				pstm.setString(19, object.titulo);
-				pstm.setString(20, object.url_img_footer);
-				pstm.setString(21, object.url_img_header);
+				pstm.setString(20, object.urlImgFooter);
+				pstm.setString(21, object.urlImgHeader);
 				pstm.setLong(22, Long.valueOf(object.persistenceId));
 				
 			} else {
