@@ -68,7 +68,6 @@ class SubIndex {
 					
 					case "getSesionesCalendarizadasPasadas":
 					result = sDAO.getSesionesCalendarizadasPasadas(jsonData, context)
-
 					break;
 					
 					case "getSesionesAspirantesPasados":
