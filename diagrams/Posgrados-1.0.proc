@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.25">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.26">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -40,6 +40,24 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_Yd5hYmyIEe6idIwxV0xQow" name="newScript()" content="return -1" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Integer"/>
             <operator xmi:type="expression:Operator" xmi:id="_Yd5hY2yIEe6idIwxV0xQow" type="JAVA_METHOD" expression="setLastIndex">
               <inputTypes>java.lang.Integer</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_HHXTsHdaEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_HHXTsXdaEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_H0b1EHdaEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_HHXTsndaEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_HHXTs3daEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_registro">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_NcC90HdaEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_NcC90XdaEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_OJf5sHdaEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_NcC90ndaEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_NcC903daEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
             </operator>
           </operations>
           <operations xmi:type="expression:Operation" xmi:id="_LlvxMGSbEe6An7GXsVy0SA">
@@ -166,6 +184,15 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_xB7iwmekEe6tZtxct1LlLA" name="newScript()" content="'aspirante_validado'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
             <operator xmi:type="expression:Operator" xmi:id="_xB7iw2ekEe6tZtxct1LlLA" type="JAVA_METHOD" expression="setEstatus_solicitud">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_VrQa8HdaEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_VrQa8XdaEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WMffwHdaEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_VrQa8ndaEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_VrQa83daEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_ROVfAFZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -806,6 +833,15 @@
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_z8chgHdaEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_z8chgXdaEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_0lrEsHdaEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_z8chgndaEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_z8chg3daEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WsYcE1ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_WsYcFFZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_WsYcFVZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -1286,6 +1322,15 @@
               <inputTypes>java.lang.Object</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_i3xDEHdbEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_i3xDEXdbEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jT3JMHdbEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_i3xDEndbEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_i3xDE3dbEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_-8pa41ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_-8pa5FZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_-8pa5VZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -1313,6 +1358,24 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_3Mis4lZ3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_3Mis4VZ3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_3Mis41Z3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
+          <operations xmi:type="expression:Operation" xmi:id="_sOvZgHdbEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_sOvZgXdbEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_st7P4HdbEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_sOvZgndbEe6y74B7-cOmMw" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
+            <operator xmi:type="expression:Operator" xmi:id="_sOvZg3dbEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
+              <inputTypes>java.time.LocalDateTime</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_unOT0HdbEe6y74B7-cOmMw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_unOT0XdbEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_vJeFQHdbEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_unOT0ndbEe6y74B7-cOmMw" name="newScript()" content="'solicitud_reactivada'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <operator xmi:type="expression:Operator" xmi:id="_unOT03dbEe6y74B7-cOmMw" type="JAVA_METHOD" expression="setEstatus_solicitud">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_3Mis5FZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_3Mis5VZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_3Mis5lZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
