@@ -665,6 +665,14 @@ class Index implements RestApiController {
 //						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 //					}
 //					break;
+				case "deleteCatNotificaciones":
+					result = new CatalogosDAO().deleteCatNotificaciones(jsonData, context)
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 				case "generateHtml":
 					result = new NotificacionDAO().generateHtml(jsonData, context);
 					/*result = new Result();

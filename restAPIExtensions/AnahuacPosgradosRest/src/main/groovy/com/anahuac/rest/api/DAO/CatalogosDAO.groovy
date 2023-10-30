@@ -5656,6 +5656,39 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result deleteCatNotificaciones(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATNOTIFICACIONES);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatTipoEmpleado] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	
 	public Result getValidarOrden(Integer parameterP, Integer parameterC, String tabla, Integer orden, String id) {
 		Result resultado = new Result();

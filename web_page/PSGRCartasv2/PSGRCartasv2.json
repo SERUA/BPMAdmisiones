@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCartasv2",
   "name" : "PSGRCartasv2",
-  "lastUpdate" : 1698365857370,
+  "lastUpdate" : 1698683888763,
   "rows" : [
     [
       {
@@ -748,12 +748,16 @@
                       },
                       "cartaEliminar" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "rowEliminar"
+                      },
+                      "urlDelete" : {
+                        "type" : "constant",
+                        "value" : "../API/extension/posgradosRest?url=deleteCatNotificaciones"
                       }
                     },
-                    "reference" : "4de45cbe-23c4-4879-9ca1-eebd7caaa5b6",
+                    "reference" : "4662dcdb-bf83-4ffe-8731-61f618139905",
                     "hasValidationError" : false,
-                    "id" : "customTablaCatalogoNotificacionesCartasV2"
+                    "id" : "customSDAEtablaPSGRCatalogoNotificacionesCartas"
                   }
                 ]
               ]
@@ -9812,7 +9816,7 @@
                         },
                         "action" : {
                           "type" : "constant",
-                          "value" : "Submit task"
+                          "value" : "Close modal"
                         },
                         "assign" : {
                           "type" : "constant",
@@ -9859,11 +9863,27 @@
                         },
                         "removeItem" : {
                           "type" : "variable"
+                        },
+                        "urlDelete" : {
+                          "type" : "constant",
+                          "value" : "../API/extension/posgradosRest?url=deleteCatNotificaciones"
+                        },
+                        "selectedDataPID" : {
+                          "type" : "variable",
+                          "value" : "rowEliminar"
+                        },
+                        "contenido" : {
+                          "type" : "variable",
+                          "value" : "getNotificaciones"
+                        },
+                        "campusSelected" : {
+                          "type" : "variable",
+                          "value" : "campusSelected"
                         }
                       },
-                      "reference" : "7d8496cf-c9c2-42ea-83d9-5b017794d120",
+                      "reference" : "0a882d6b-954c-4f0d-a628-87ebe1d05711",
                       "hasValidationError" : false,
-                      "id" : "pbButton"
+                      "id" : "customBtnEliminarPSGRCarta"
                     }
                   ]
                 ]
@@ -10864,6 +10884,13 @@
     },
     "selectedDataPID" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "rowEliminar" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
       "exposed" : false
     }
   },
