@@ -1491,7 +1491,7 @@ class NotificacionDAO {
 				pstm.setString(14, object.enlace_instagram);
 				pstm.setString(15, object.enlace_twitter);
 				pstm.setString(16, object.nombre_imagen_footer);
-				pstm.setString(17, object.texto_footer);
+				pstm.setString(17, object.angulo_imagen_footer);
 				pstm.setString(18, object.tipo_correo);
 				pstm.setString(19, object.titulo);
 				pstm.setString(20, object.urlImgFooter);
@@ -1501,23 +1501,23 @@ class NotificacionDAO {
 			} else {
 				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
 				
-				pstm.setString(1, object.anguloImagenFooter);
-				pstm.setString(2, object.anguloImagenHeader);
+				pstm.setString(1, object.angulo_imagen_header);
+				pstm.setString(2, object.angulo_imagen_footer);
 				pstm.setString(3, object.asunto);
 				pstm.setString(4, object.comentarioLeon);
 				pstm.setString(5, object.contenido);
-				pstm.setString(6, object.contenidoCorreo);
+				pstm.setString(6, object.contenido_correo);
 				pstm.setString(7, object.contenidoLeonel);
 				pstm.setString(8, object.descripcion);
 				pstm.setString(9, object.docGuiaEstudio);
-				pstm.setString(10, object.enlaceBanner);
+				pstm.setString(10, object.enlace_banner);
 				pstm.setString(11, object.enlaceContacto);
 				pstm.setString(12, object.enlaceFacebook);
-				pstm.setString(13, object.enlaceFooter);
+				pstm.setString(13, object.enlace_footer);
 				pstm.setString(14, object.enlaceInstagram);
 				pstm.setString(15, object.enlaceTwitter);
-				pstm.setString(16, object.nombreImagenFooter);
-				pstm.setString(17, object.textoFooter);
+				pstm.setString(16, object.nombre_imagen_footer);
+				pstm.setString(17, object.angulo_imagen_footer);
 				pstm.setString(18, object.tipoCorreo);
 				pstm.setString(19, object.titulo);
 				pstm.setString(20, object.urlImgFooter);

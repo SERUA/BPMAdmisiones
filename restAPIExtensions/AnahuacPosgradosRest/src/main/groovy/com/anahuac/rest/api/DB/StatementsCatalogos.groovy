@@ -124,6 +124,8 @@ class StatementsCatalogos {
 	
 	//CORREOS
 	public static final String GET_APYKEYMAILGUN="SELECT * FROM PSGRConfiguraciones WHERE id_campus = ? LIMIT 1"
+	public static final String DELETE_CATNOTIFICACIONES = "DELETE FROM PSGRCatNotificaciones WHERE persistenceid = ?";
+	
 	//PSGRCatPais
 	public static final String GET_APYKEY="SELECT * FROM PSGRCatPais [WHERE] [ORDERBY] [LIMITOFFSET]"
 	public static final String GET_VALIDACION_ORDEN_EDIT = "SELECT COUNT(PERSISTENCEID) AS  total FROM [TABLA] WHERE ORDEN::Integer = ? AND IS_ELIMINADO = false AND PERSISTENCEID <> ?";

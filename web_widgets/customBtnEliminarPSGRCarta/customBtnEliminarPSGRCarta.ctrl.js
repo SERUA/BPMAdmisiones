@@ -183,9 +183,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     $scope.deleteCatalogo({ persistenceid: persistenceid })
         .then(function () {
             // Actualizar la matriz properties.content después de eliminar el registro
-            var index = $scope.properties.contenido.indexOf(selectedDataPID);
+            var index = $scope.properties.content.indexOf(selectedDataPID);
             if (index !== -1) {
-                $scope.properties.contenido.splice(index, 1);
+                $scope.properties.content.splice(index, 1);
             }
             $scope.submitUpdatedData(); // Obtener datos actualizados después de la eliminación
         });
