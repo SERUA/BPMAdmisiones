@@ -7,6 +7,7 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 
 import org.bonitasoft.engine.identity.UserMembership
+import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
