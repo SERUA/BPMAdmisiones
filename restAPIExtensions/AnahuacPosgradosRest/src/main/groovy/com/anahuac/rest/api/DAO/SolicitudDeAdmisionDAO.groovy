@@ -128,7 +128,7 @@ class SolicitudDeAdmisionDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE  "
+			where += " WHERE  regi.is_eliminado <> true "
 			
 			if (object.estatusSolicitud != null) {
 				where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
