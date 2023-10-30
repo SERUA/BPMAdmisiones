@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets
 import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.SesionesDAO
-import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDao
+import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO
 import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Security.SecurityFilter
@@ -140,7 +140,7 @@ class IndexGet implements RestApiController {
 					break;
 				case "getB64FileByUrlAzure":
 					String urlAzure = request.getParameter "urlAzure"
-					result = new SolicitudDeAdmisionDao().getB64FileByUrlAzure(urlAzure);
+					result = new SolicitudDeAdmisionDAO().getB64FileByUrlAzure(urlAzure);
 					responseBuilder.withMediaType("application/json");
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.getData()).toString())
