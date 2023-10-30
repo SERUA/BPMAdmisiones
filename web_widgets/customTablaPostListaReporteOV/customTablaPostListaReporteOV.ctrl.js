@@ -285,7 +285,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        resultado.push("Todos los campus")
+        //resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;

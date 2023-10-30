@@ -401,7 +401,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        resultado.push("Todos los campus")
+        //resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -587,6 +587,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.carreraLista =[];
 
     $scope.filterSelectCarrera = function() {
+		debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -611,6 +612,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterSelectPeriodo = function() {
+		debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -635,6 +637,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
    $scope.limpiarFiltros = function(){
+        debugger;
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];
