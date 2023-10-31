@@ -62,7 +62,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aun no llena su autodescripcion", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripcion", "", "info"); 
                 }
                 console.log(data.data)
             })
@@ -251,7 +251,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
             if (campus == $scope.properties.lstCampus[i].grupoBonita) {
                 retorno = $scope.properties.lstCampus[i].descripcion
-                if ($scope.lstCampusByUser.length == 2) {
+                if ($scope.lstCampusByUser.length == 1) {
+					debugger;
                     $scope.properties.campusSeleccionado = $scope.properties.lstCampus[i].grupoBonita
                 }
             } else if (campus == "Todos los campus") {
