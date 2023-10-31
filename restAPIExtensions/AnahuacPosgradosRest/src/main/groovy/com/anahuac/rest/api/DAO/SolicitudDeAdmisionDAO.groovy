@@ -5,6 +5,7 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.sql.Types
 
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
@@ -129,14 +130,14 @@ class SolicitudDeAdmisionDAO {
 			}
 
 			assert object instanceof Map;
-			where += " WHERE  regi.is_eliminado <> true "
+			where += " WHERE (regi.is_eliminado = false OR regi.is_eliminado IS null) "
 			
 			if (object.estatusSolicitud != null) {
-				where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
+//				where += " AND SDAE.estatusSolicitud IN ("+object.estatusSolicitud+") "
 			}
 			
 			if (object.caseId != null) {
-				where += " AND SDAE.caseId = "+object.caseId +" "
+//				where += " AND SDAE.caseId = "+object.caseId +" "
 			}
 			
 			if (object.caseId == null) {
@@ -145,7 +146,7 @@ class SolicitudDeAdmisionDAO {
 				}
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
-					where += "campus.descripcion='" + campusMiembro + "'"
+					where += "camp.descripcion='" + campusMiembro + "'"
 					if (i == (lstGrupo.size() - 1)) {
 						where += ") "
 					} else {
@@ -154,15 +155,12 @@ class SolicitudDeAdmisionDAO {
 				}
 			}
 
-
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 
 			String consulta = Statements.GET_LISTADO_SOLICITUDES;
 			String consultaCount = Statements.GET_CONTEO_SOLICITUDES;
-
-			errorlog = consulta + " 2";
-			
+			errorlog += "5|";
 			if (object.caseId == null) {
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 					errorlog = consulta + " 1";
@@ -175,10 +173,9 @@ class SolicitudDeAdmisionDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " ";
+							where += " LOWER(regi.caseid::VARCHAR) like lower('%[valor]%')";
 							where = where.replace("[valor]", filtro.get("valor"));
 							break;
-	
 						case "PROGRAMA,INGRESO,CAMPUS":
 							errorlog += "PROGRAMA,INGRESO,CAMPUS"
 							if (where.contains("WHERE")) {
@@ -187,12 +184,6 @@ class SolicitudDeAdmisionDAO {
 								where += " WHERE "
 							}
 							where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
 							where = where.replace("[valor]", filtro.get("valor"))
 	
 							break;
@@ -216,10 +207,9 @@ class SolicitudDeAdmisionDAO {
 			
 //			where += " AND SF.persistenceversion >= 0 ";
 			
-			errorlog = consulta + " 2";
 			if (object.caseId != null) {
 				orderby = "";
-			}else {
+			} else {
 				switch (object.orderby) {
 					case "FECHAULTIMAMODIFICACION":
 						orderby += "sda.fechaultimamodificacion";
@@ -228,7 +218,7 @@ class SolicitudDeAdmisionDAO {
 						orderby += "sda.apellidopaterno";
 						break;
 					default:
-						orderby += "SDAE.caseid"
+						orderby += " regi.persistenceid "
 						break;
 				}
 			}
@@ -244,13 +234,13 @@ class SolicitudDeAdmisionDAO {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
 			}
 			
-			consulta = consulta.replace("[ORDERBY]", orderby);
-			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?");
-			errorlog = consulta + " 7";
+			consulta = consulta.replace("[ORDER_BY]", orderby);
+			consulta = consulta.replace("[LIMIT_OFFSET]", " LIMIT ? OFFSET ?");
 
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);
+			errorlog += "[consulta] " + consulta + " :: ";
 			
 			rs = pstm.executeQuery();
 			
@@ -263,7 +253,13 @@ class SolicitudDeAdmisionDAO {
 				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 
 				for (int i = 1; i <= columnCount; i++) {
-					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					int columnType = metaData.getColumnType(i);
+					
+					if (columnType == Types.BOOLEAN) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getBoolean(i));
+					} else {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					}
 				}
 
 				rows.add(columns);
