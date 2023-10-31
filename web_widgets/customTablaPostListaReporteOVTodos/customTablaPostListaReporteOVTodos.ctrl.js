@@ -79,7 +79,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 console.log(data.data)
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aun no llena su autodescripcion", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripcion", "", "info"); 
                 }
             })
             .error(function(data, status) {
@@ -367,7 +367,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
             if (campus == $scope.properties.lstCampus[i].grupoBonita) {
                 retorno = $scope.properties.lstCampus[i].descripcion
-                if ($scope.lstCampusByUser.length == 2) {
+                if ($scope.lstCampusByUser.length == 1) {
+					debugger;
                     $scope.properties.campusSeleccionado = $scope.properties.lstCampus[i].grupoBonita
                 }
             } else if (campus == "Todos los campus") {
@@ -401,7 +402,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        resultado.push("Todos los campus")
+        //resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -587,6 +588,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.carreraLista =[];
 
     $scope.filterSelectCarrera = function() {
+		debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -601,16 +603,17 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
 
         }
-        if (aplicado) {
+        //if (aplicado) {
             var obj = { "columna": "CARRERA", "operador": "Que contengan", "valor": $scope.carreraSelected }
             $scope.properties.dataToSend.lstFiltro.push(obj);
-        }
-        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 1)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
+        //}
+        if(($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)||($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)){
             doRequest("POST", $scope.urlPost3);
         }
     }
 
     $scope.filterSelectPeriodo = function() {
+		debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -635,6 +638,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
    $scope.limpiarFiltros = function(){
+        debugger;
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];

@@ -1,5 +1,5 @@
 <div ng-show="!isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>1">
         <select class="form-control" ng-model="filtroCampus" ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser" ng-change="addFilter()">
         <option style="display:none" value="">
             Seleccionar campus
@@ -7,9 +7,13 @@
     </select>
     </div>
     <div ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
+        <div style="text-align: center;">
+            <label style="color: #ff5900;">Instrucciones: Para ejecutar la búsqueda seleccione uno de los siguientes criterios, llene el campo y presione “enter”, para realizar otra búsqueda favor de limpiar el filtro.</label>
+        </div>
+        <br>
         <div class="row">
             <div class="col-xs-2">
-              <label>Id banner:</label>
+            <label>Id banner:</label>
             </div>
             <div class="col-xs-2">
                 <input ng-model="dynamicInput['idb']" id="banner2" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['idb'])">
@@ -37,13 +41,13 @@
                 <label>Carrera:</label>
             </div>
             <div class="col-xs-2">
-               <!-- <input ng-model="dynamicInput['carrera']" class="form-control" ng-enter="filterKeyPress('CARRERA',dynamicInput['carrera'])"> -->
-               <select class="form-control" ng-model="carreraSelected" ng-change="filterSelectCarrera()" id="carrera2">
+            <!-- <input ng-model="dynamicInput['carrera']" class="form-control" ng-enter="filterKeyPress('CARRERA',dynamicInput['carrera'])"> -->
+            <select class="form-control" ng-model="carreraSelected" ng-change="filterSelectCarrera()" id="carrera2">
                 <option value="">
                     Seleccionar Carrera
                 </option>
                 <option ng-repeat="carrera in carreraLista" value="{{carrera.nombre}}">{{carrera.nombre}}</option>
-              </select>
+            </select>
             
             </div>
             <div class="col-xs-2">
@@ -58,10 +62,11 @@
                     <option ng-repeat="periodo in periodoLista" value="{{periodo.descripcion}}">{{periodo.clave}} - {{periodo.descripcion}}</option>
                 </select>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-2" ng-show="false">
                 <label>Fecha de la entrevista:</label>
+                <label>(dd-mm-aaaa)</label>
             </div>
-            <div class="col-xs-2">
+            <div class="col-xs-2" ng-show="false">
                 <input ng-model="dynamicInput['fechaentrevista']"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" id="fechaentrevista2" >
             </div>
             
@@ -95,7 +100,6 @@
         <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
             <thead>
                 <tr>
-                    <th>Foto</th>
                     <th><span style="cursor:pointer" ng-click="setOrderBy('IDBANNER')">Id banner<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='IDBANNER'"></i></span></th>
@@ -138,9 +142,8 @@
                             ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicologo<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus de admisiones / Reporte OV<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EstatusReporte')">Estatus del reporte<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='EstatusReporte'"></i></span></th>
                             
@@ -152,7 +155,7 @@
             </thead>
             <tbody>
                 <tr>
-                 <!--   <td></td>
+                <!--   <td></td>
                     <td><input ng-model="dynamicInput['banner']" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])"></td>
                     <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('CAMPUS,PROGRAMA,INGRESO',dynamicInput['programa'])"></td>
@@ -164,14 +167,11 @@
                     <td></td>
                 </tr> -->
                 <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                	<td colspan="10" style="text-align: center;">
+                    <td colspan="10" style="text-align: center;">
                         <b>sin registros</b>
                     </td>
                 </tr>
                 <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
-                    <td class="max-size">
-                        <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
-                    </td>
                     <td class="max-size">
                         <b>{{row.idbanner}}</b>
                     </td>
@@ -190,7 +190,7 @@
                         {{row.preparatoria}}<br>
                         {{row.promediogeneral}}
                     </td>
-                     <td>
+                    <td>
                         <b>{{row.residensia}}</b><br>
                         {{row.tipoadmision}}<br>
                         {{row.tipodealumno}}
