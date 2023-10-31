@@ -1,5 +1,5 @@
 <div ng-show="!isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show=" !(lstCampusByUser.length>2 && seccionSesion)">
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>1">
         <select class="form-control" ng-model="filtroCampus" ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser" ng-change="addFilter()">
            <option style="display:none" value="">
                 Seleccionar campus
@@ -8,7 +8,10 @@
     </div>
     <div >
         <div ng-show="!((properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'  ) && seccionSesion)">
-
+            <div style="text-align: center;">
+                <label style="color: #ff5900;">Instrucciones: Para ejecutar la búsqueda seleccione uno de los siguientes criterios, llene el campo y presione “enter”, para realizar otra búsqueda favor de limpiar el filtro.</label>
+            </div>
+            <br>
             <div class="row">
                 <div class="col-xs-1">
                     <input type="checkbox" id="idbanner" name="idbanner" value="idbanner" class="chk">
@@ -49,10 +52,11 @@
                 <div class="col-xs-2">
                     <input ng-model="dynamicInput['sesion']" id="nombresesion1" class="form-control sesion" ng-enter="filterKeyPress('NOMBRE DE LA SESIÓN',dynamicInput['sesion'])" >
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-2" ng-show="false">
                     <label>Fecha de la entrevista:</label>
+                    <label>(dd-mm-aaaa)</label>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-xs-2" ng-show="false">
                     <input ng-model="dynamicInput['fechaentrevista']" id="fechaentrevista1"  class="form-control sesion" ng-enter="filterKeyPress('FECHA DE LA ENTREVISTA',dynamicInput['fechaentrevista'])" >
                 </div>
             </div>
@@ -102,7 +106,7 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
                             
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus de admisiones / Reporte OV<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" 
@@ -203,7 +207,7 @@
                     <th>
                         <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha<i class="glyphicon"
                         ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                        ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('LUGAR')">Lugar<i class="glyphicon"
+                        ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('LUGAR')">Hora<i class="glyphicon"
                         ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                         ng-show="properties.dataToSend.orderby=='LUGAR'"></i></span>
                     </th>
