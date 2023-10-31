@@ -430,7 +430,7 @@ class NotificacionDAO {
 					}
 				}
 			} else if(object.codigo.equals("registrar") && object.isEnviar) {
-				plantilla = plantilla.replace("[href-confirmar]", "https://qa.bpm.anahuac.mx/API/extension/posgradosRestGet?url=habilitarUsuario&usernameAspirante=" + object.correo + "");	
+				plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");	
 			} else if (object.codigo.equals("transferencia")) {
 				try {
 					closeCon = validarConexion();
