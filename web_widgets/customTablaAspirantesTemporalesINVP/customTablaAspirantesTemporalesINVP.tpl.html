@@ -307,21 +307,19 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <!--<div class="col-xs-12"> -->
-                <!--    <label>Campus:</label>-->
-                <!--    <select class="form-control" ng-model="filtroCampusAsignar"-->
-                <!--        ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser" ng-change="getSesionesByCampus()">-->
-                <!--        <option style="display:none" value="">-->
-                <!--            Seleccionar campus-->
-                <!--        </option>-->
-                <!--    </select>-->
-                <!--</div>-->
-                <div class="col-xs-12"> 
+                <div class="col-xs-12" ng-hide="seleccionarSesion !== true"> 
                     <label>Sesión:</label>
                     <select class="form-control" ng-model="selectedSesionString">
                         <option value="">Seleccione...</option>
                         <option ng-repeat="sesion in lstSesiones" value="{{sesion}}">{{sesion.nombresesion}}</option>
                     </select>
+                </div>
+                <div class="col-xs-12" ng-hide="seleccionarSesion === true" > 
+                    <label>Sesión:</label>
+                    <input ng-model="selectedSesion.nombresesion" disabled class="form-control">
+                    <div class="col-xs-12 text-center">
+                        <button style="margin-top:10px;" type="button" class="btn btn-primary" ng-click="reset()">Asignar nueva sesión</button>
+                    </div>
                 </div>
                 <div class="col-xs-6"> 
                     <label>Fecha:</label>
@@ -351,7 +349,7 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" ng-click="insertUpdateUsuarioNuevaConfig()">Guardar</button>
+            <button type="button" ng-hide="seleccionarSesion !== true" class="btn btn-primary" ng-click="insertUpdateUsuarioNuevaConfig()">Guardar</button>
         </div>
         </div>
     </div>

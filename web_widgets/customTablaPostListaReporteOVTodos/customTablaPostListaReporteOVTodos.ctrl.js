@@ -64,6 +64,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function doRequest(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -79,7 +80,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 console.log(data.data)
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripcion", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripción.", "", "info"); 
                 }
             })
             .error(function(data, status) {
@@ -272,6 +273,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterKeyPress = function(columna, press) {
+        debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -653,6 +655,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 		$('#carrera2').val('');
 		$('#periodo2').val('');
 		$('#fechaentrevista2').val('');
+        $('#id_sesion').val('');
+        $('#sesion').val('');
         index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
         if(index != null){
         	if(index==0){

@@ -47,6 +47,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function doRequest(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -62,7 +63,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripcion", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripción.", "", "info"); 
                 }
                 console.log(data.data)
             })
@@ -182,6 +183,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.valorTotal = 10;
 
     $scope.loadPaginado = function() {
+        debugger;
         $scope.valorTotal = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
         $scope.lstPaginado = []
         if ($scope.valorSeleccionado <= 5) {
@@ -365,6 +367,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     }
     
+    /*
     $scope.sizing = function() {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
@@ -377,7 +380,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
-    }
+    }*/
+
+    
 
     $scope.getCatCampus = function() {
         var req = {
@@ -478,20 +483,115 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     }
 
-    $scope.cargarSesion =function(info){
+    $scope.sizing = function () {
+        debugger;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+    
+        try {
+            $scope.properties.dataToSend.limit = parseInt($scope.properties.dataToSend.limit);
+        } catch (exception) {
+            // Maneja la excepción si es necesario.
+        }
+    
+        // Elimina el registro que contiene información del campus
+        for (var i = 0; i < $scope.properties.dataToSend.lstFiltro.length; i++) {
+            if ($scope.properties.dataToSend.lstFiltro[i].columna === "CAMPUS") {
+                $scope.properties.dataToSend.lstFiltro.splice(i, 1);
+                break;
+            }
+        }
+    
+        // Copia los valores de info a otra variable
+        var infoCopy = angular.copy($scope.infoSesion);
+    
+        // Llama a cargarSesion con la copia de info y dataToSend
+        $scope.cargarSesion(infoCopy, $scope.properties.dataToSend);
+    };
+
+    $scope.cargarSesion = function (info, dataToSend) {
+        debugger;
         $scope.infoSesion = {
-            nombreSesion:info.nombre_sesion,
+            nombreSesion: info.nombre_sesion,
             fechaEntrevista: info.aplicacion
         }
-        let dataToSend = {"lstFiltro":[{"columna":"ID_SESIÓN","operador":"Igual a","valor":info.sesiones_id}],"orderby":"","orientation":"DESC"}
-        doRequest2("POST","/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100",dataToSend);
+        let requestData = {
+            "lstFiltro": [{ "columna": "ID_SESIÓN", "operador": "Igual a", "valor": info.sesiones_id }],
+            "orderby": "",
+            "orientation": "DESC"
+        };
+    
+        // Combina dataToSend y requestData en un solo objeto
+        Object.assign(requestData, dataToSend);
+    
+        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", requestData);
     }
+
+    $scope.cargarDatos = function() {
+        debugger;
+        // Elimina el registro que contiene información del campus
+        for (var i = 0; i < $scope.properties.dataToSend.lstFiltro.length; i++) {
+            if ($scope.properties.dataToSend.lstFiltro[i].columna === "CAMPUS") {
+                $scope.properties.dataToSend.lstFiltro.splice(i, 1);
+                break;
+            }
+        }
+    
+        // Resto de tu código para cargar los datos con el nuevo offset
+        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", $scope.properties.dataToSend);
+    
+        // Después de cargar los datos, actualiza la variable currentPage
+        debugger;
+        $scope.currentPage = $scope.properties.dataToSend.offset;
+    
+        // Actualiza los valores en el HTML
+        actualizarValoresHTML();
+    };
+    
+    function actualizarValoresHTML() {
+        var offset = $scope.properties.dataToSend.offset || 0; // Si es null o undefined, se asigna 0
+        var limit = $scope.properties.dataToSend.limit || 0; // Si es null o undefined, se asigna 0
+        var totalRegistros = $scope.value;
+        
+        $scope.offset = offset + 1;
+        
+        // Calcular el nuevo valor de limitValue de manera coherente
+        $scope.limitValue = Math.min(offset + limit, totalRegistros);
+        
+        // Asegúrate de que los valores se reflejen en el HTML
+        $scope.$apply();
+    }
+    
+    $scope.currentPage = 0; // Variable para rastrear la página actualmente seleccionada
+    
+    $scope.anterior = function() {
+        $scope.properties.dataToSend.offset -= $scope.properties.dataToSend.limit;
+        if ($scope.properties.dataToSend.offset < 0) {
+            $scope.properties.dataToSend.offset = 0;
+        }
+        $scope.cargarDatos();
+    };
+    
+    $scope.siguiente = function() {
+        if ($scope.properties.dataToSend.offset + $scope.properties.dataToSend.limit < $scope.value) {
+            $scope.properties.dataToSend.offset += $scope.properties.dataToSend.limit;
+            $scope.cargarDatos();
+        }
+    };
+    
+    $scope.seleccionarPagina = function(offset) {
+        $scope.properties.dataToSend.offset = offset;
+        $scope.cargarDatos();
+    };
 
     $scope.infoSesion={};
     $scope.usuariosSesion=[];
     $scope.seccionSesion = false;
     $scope.copiaActivado = "0";
     function doRequest2(method, url, datos,params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -502,6 +602,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return $http(req)
             .success(function(data, status) {
+                debugger;
+                $scope.finalizados = data.finalizados;
+                $scope.proceso = data.proceso;
+                $scope.iniciar = data.iniciar;
+                $scope.value = data.totalRegistros;
+                if ($scope.limitValue == null || $scope.limitValue === undefined) {
+                    $scope.limitValue = data.limit;
+                    if ($scope.limitValue > $scope.value) {
+                        $scope.limitValue = $scope.value;
+                    }
+                }
+                if ($scope.offset == null || $scope.offset === undefined) {
+                    $scope.offset = 1;
+                }
                 $scope.usuariosSesion = data.data;
                 $scope.seccionSesion = true;
                 $scope.copiaActivado =angular.copy($scope.activado);
@@ -512,6 +626,21 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.infoSesion.contidadAspirantes=data.data.length;
                 $scope.properties.ocultarFiltro = true;
                 console.log(data);
+
+                $scope.finalizados = data.finalizados;
+                $scope.proceso = data.proceso;
+                $scope.iniciar = data.iniciar;
+                $scope.value = data.totalRegistros;
+
+                // Calcular el número de páginas
+                var totalPages = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
+
+                // Actualizar el arreglo de páginas
+                $scope.pages = [];
+                for (var i = 1; i <= totalPages; i++) {
+                    $scope.pages.push({ numero: i, offset: (i - 1) * $scope.properties.dataToSend.limit });
+                }
+
             })
             .error(function(data, status) {
                 //notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
