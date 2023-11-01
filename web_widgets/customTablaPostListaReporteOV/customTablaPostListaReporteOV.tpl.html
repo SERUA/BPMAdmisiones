@@ -315,6 +315,11 @@
                 <div class="col-xs-3">
                   {{infoSesion.nombreSesion}}
                 </div>
+                <div class="col-xs-3 text-right">
+                    <button class="btn btn-primary" ng-click="descargarExcel()">
+                        Descargar Excel
+                    </button>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-3">
@@ -348,6 +353,20 @@
                   {{infoSesion.sinIniciar}}
                 </div>
             </div>
+
+            <div style="margin-bottom:15px; float: right; margin-right:20px"  ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
+                <table>
+                    <tr>
+                        <td>
+                            <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit" style="margin-left: 15px;width: 100px;">
+                                <option ng-value="20">20</option>
+                                <option ng-value="40">40</option>
+                                <option ng-value="100">100</option>
+                            </select>
+                        </td>
+                    </tr>
+                </table>
+            </div>
             <div class="table-responsive col-xs-12" >
                 <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}" >
                     <thead>
@@ -359,7 +378,9 @@
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                     ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                    ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span></th>
+                                    ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span></th> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa<i class="glyphicon"
+                                        ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                                        ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span></th>
                                     
                             <th>  <span style="cursor:pointer" ng-click="setOrderBy('SESIÓN')">Sesión<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -421,6 +442,25 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="col-xs-5">
+                    <div class="dataTables_info">Mostrando {{properties.dataToSend.offset+1}} a {{((properties.dataToSend.limit*valorSeleccionado)>value)?value:properties.dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
+                </div>
+                <div class="col-xs-7 text-center">
+                    <div role="toolbar" aria-label="Toolbar with button groups">
+                        <div class="btn-group" role="group" aria-label="First group">
+                            <button type="button" class="btn btn-default" ng-click="anterior()">Anterior
+                        </button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Second group">
+                            <button ng-repeat="row in lstPaginado" ng-class="row.seleccionado?'btn-primary':'btn-default'" type="button" class="btn" ng-click="seleccionarPagina(row.numero)">{{row.numero}}
+                        </button>
+                        </div>
+                        <div class="btn-group" role="group" aria-label="Third group">
+                            <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente
+                        </button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

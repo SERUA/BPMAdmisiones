@@ -47,6 +47,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function doRequest(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -365,6 +366,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     }
     
+    /*
     $scope.sizing = function() {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
@@ -377,7 +379,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         doRequest("POST", ($scope.activado != "2"? $scope.properties.urlPost:$scope.properties.urlPost2) );
-    }
+    }*/
+
+    
 
     $scope.getCatCampus = function() {
         var req = {
@@ -478,13 +482,42 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     }
 
-    $scope.cargarSesion =function(info){
+    $scope.sizing = function () {
+        debugger;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+    
+        try {
+            $scope.properties.dataToSend.limit = parseInt($scope.properties.dataToSend.limit);
+        } catch (exception) {
+            // Maneja la excepción si es necesario.
+        }
+    
+        // Copia los valores de info a otra variable
+        var infoCopy = angular.copy($scope.infoSesion);
+    
+        // Llama a cargarSesion con la copia de info y dataToSend
+        $scope.cargarSesion(infoCopy, $scope.properties.dataToSend);
+    };
+
+    $scope.cargarSesion = function (info, dataToSend) {
+        debugger;
         $scope.infoSesion = {
-            nombreSesion:info.nombre_sesion,
+            nombreSesion: info.nombre_sesion,
             fechaEntrevista: info.aplicacion
         }
-        let dataToSend = {"lstFiltro":[{"columna":"ID_SESIÓN","operador":"Igual a","valor":info.sesiones_id}],"orderby":"","orientation":"DESC"}
-        doRequest2("POST","/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100",dataToSend);
+        let requestData = {
+            "lstFiltro": [{ "columna": "ID_SESIÓN", "operador": "Igual a", "valor": info.sesiones_id }],
+            "orderby": "",
+            "orientation": "DESC"
+        };
+    
+        // Combina dataToSend y requestData en un solo objeto
+        Object.assign(requestData, dataToSend);
+    
+        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", requestData);
     }
 
     $scope.infoSesion={};
@@ -492,6 +525,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.seccionSesion = false;
     $scope.copiaActivado = "0";
     function doRequest2(method, url, datos,params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,

@@ -346,7 +346,11 @@ class NuevoListadoDAO {
 				closeCon = validarConexion();
 				consulta=consulta.replace("[WHERE]", where);				
 				consulta=consulta.replace("[ORDERBY]", orderby);
+				consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+
 				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
 
 				errorlog = consulta;
 				rs = pstm.executeQuery()
@@ -355,6 +359,7 @@ class NuevoListadoDAO {
 				int columnCount = metaData.getColumnCount();
 				errorlog = consulta + " 8";
 				int finalizados = 0,proceso = 0,iniciar = 0;
+				Long totalRegistros = 0L;
 				while (rs.next()) {
 					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 					for (int i = 1; i <= columnCount; i++) {
@@ -391,8 +396,9 @@ class NuevoListadoDAO {
 						}
 					}
 					rows.add(columns);
+					totalRegistros++;
 				}
-				
+				resultado.setTotalRegistros(totalRegistros);
 				List<Integer> list = [finalizados,proceso,iniciar];
 				resultado.setError_info(" errorLog = "+errorlog)
 				resultado.setData(rows)
