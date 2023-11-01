@@ -529,32 +529,62 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", requestData);
     }
 
-    $scope.anterior = function() {
-        if ($scope.properties.dataToSend.offset > 0) {
-            $scope.properties.dataToSend.offset -= $scope.properties.dataToSend.limit;
-            // Llamar a la función que carga los datos con el nuevo offset
-            cargarDatos();
+    $scope.cargarDatos = function() {
+        debugger;
+        // Elimina el registro que contiene información del campus
+        for (var i = 0; i < $scope.properties.dataToSend.lstFiltro.length; i++) {
+            if ($scope.properties.dataToSend.lstFiltro[i].columna === "CAMPUS") {
+                $scope.properties.dataToSend.lstFiltro.splice(i, 1);
+                break;
+            }
         }
+    
+        // Resto de tu código para cargar los datos con el nuevo offset
+        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", $scope.properties.dataToSend);
+    
+        // Después de cargar los datos, actualiza la variable currentPage
+        debugger;
+        $scope.currentPage = $scope.properties.dataToSend.offset;
+    
+        // Actualiza los valores en el HTML
+        actualizarValoresHTML();
+    };
+    
+    function actualizarValoresHTML() {
+        var offset = $scope.properties.dataToSend.offset || 0; // Si es null o undefined, se asigna 0
+        var limit = $scope.properties.dataToSend.limit || 0; // Si es null o undefined, se asigna 0
+        var totalRegistros = $scope.value;
+        
+        $scope.offset = offset + 1;
+        
+        // Calcular el nuevo valor de limitValue de manera coherente
+        $scope.limitValue = Math.min(offset + limit, totalRegistros);
+        
+        // Asegúrate de que los valores se reflejen en el HTML
+        $scope.$apply();
+    }
+    
+    $scope.currentPage = 0; // Variable para rastrear la página actualmente seleccionada
+    
+    $scope.anterior = function() {
+        $scope.properties.dataToSend.offset -= $scope.properties.dataToSend.limit;
+        if ($scope.properties.dataToSend.offset < 0) {
+            $scope.properties.dataToSend.offset = 0;
+        }
+        $scope.cargarDatos();
     };
     
     $scope.siguiente = function() {
         if ($scope.properties.dataToSend.offset + $scope.properties.dataToSend.limit < $scope.value) {
             $scope.properties.dataToSend.offset += $scope.properties.dataToSend.limit;
-            // Llamar a la función que carga los datos con el nuevo offset
-            cargarDatos();
+            $scope.cargarDatos();
         }
     };
     
     $scope.seleccionarPagina = function(offset) {
         $scope.properties.dataToSend.offset = offset;
-        // Llamar a la función que carga los datos con el nuevo offset
-        cargarDatos();
+        $scope.cargarDatos();
     };
-    
-    function cargarDatos() {
-        // Llama a tu función de carga de datos con los datos actualizados en $scope.properties.dataToSend
-        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", $scope.properties.dataToSend);
-    }
 
     $scope.infoSesion={};
     $scope.usuariosSesion=[];
@@ -572,15 +602,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return $http(req)
             .success(function(data, status) {
+                debugger;
                 $scope.finalizados = data.finalizados;
                 $scope.proceso = data.proceso;
                 $scope.iniciar = data.iniciar;
                 $scope.value = data.totalRegistros;
-                $scope.limitValue = data.limit;
-                if ($scope.limitValue > $scope.value) {
-                    $scope.limitValue = $scope.value;
+                if ($scope.limitValue == null || $scope.limitValue === undefined) {
+                    $scope.limitValue = data.limit;
+                    if ($scope.limitValue > $scope.value) {
+                        $scope.limitValue = $scope.value;
+                    }
                 }
-                $scope.offset = data.offset;
+                if ($scope.offset == null || $scope.offset === undefined) {
+                    $scope.offset = 1;
+                }
                 $scope.usuariosSesion = data.data;
                 $scope.seccionSesion = true;
                 $scope.copiaActivado =angular.copy($scope.activado);
@@ -598,12 +633,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.value = data.totalRegistros;
 
                 // Calcular el número de páginas
-                var totalPages = Math.ceil($scope.value / $scope.limitValue);
+                var totalPages = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
 
                 // Actualizar el arreglo de páginas
                 $scope.pages = [];
                 for (var i = 1; i <= totalPages; i++) {
-                    $scope.pages.push({ numero: i, offset: (i - 1) * $scope.limitValue });
+                    $scope.pages.push({ numero: i, offset: (i - 1) * $scope.properties.dataToSend.limit });
                 }
 
             })
