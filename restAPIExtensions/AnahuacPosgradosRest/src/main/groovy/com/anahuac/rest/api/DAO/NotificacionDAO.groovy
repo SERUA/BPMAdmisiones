@@ -93,7 +93,7 @@ class NotificacionDAO {
 			
 			errorlog += "| username = "+ objProperties.getUsuario();
 			errorlog += "| password = "+ objProperties.getPassword();
-			errorlog += "| host =     "+objProperties.getUrlHost();
+			errorlog += "| host =     "+ objProperties.getUrlHost();
 			/*-------------------------------------------------------------*/
 
 			def jsonSlurper = new JsonSlurper();
@@ -380,551 +380,10 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[leonel]", cn.getContenido_leonel())
 			}
 			
-			errorlog += "| Variable15"
+			errorlog += "| Variable15 PLANTILLA: " + object.codigo + " | ";
 			
-			encoded=""
-			if(object.codigo.equals("examenentrevista")) {
-				SesionesDAO sd = new SesionesDAO()
-				resultado = sd.getDatosSesionUsername(object.correo)
-				object.data = resultado.getData();
-				for (def index = 0; index < resultado.getData().size(); index++) {
-					def element = resultado.getData().get(index);
-					plantilla=plantilla.replace("[SNOMBRE]",  element.snombre)
-					plantilla=plantilla.replace("[SDESCRIPCION]",  element.sdescripcion)
-					if(element.descripcion == "Examen de aptitudes y conocimientos"){
-						plantilla=plantilla.replace("[NOMBRE-COLLAGE]",  element.pnombre)
-						plantilla=plantilla.replace("[DESCRIPCION-COLLAGE]",   element.pdescripcion==null?"":element.pdescripcion)
-						plantilla=plantilla.replace("[FECHA-COLLAGE]",   element.aplicacion.split("-")[2]+"-"+element.aplicacion.split("-")[1]+"-"+element.aplicacion.split("-")[0])
-						plantilla=plantilla.replace("[HORA-COLLAGE]",   element.horario)
-						plantilla=plantilla.replace("[Lugar-EAC]",   element.online=='t'?"URL":"Lugar")
-						plantilla=plantilla.replace("[LUGAR-COLLAGE]",   element.lugar)
-						if(element.calle==null && element.numero_int==null && element.colonia==null) {
-							plantilla=plantilla.replace("<tr> <td style=\"color: rgb(255, 89, 0);\">Dirección</td> <td>[DIRECCION-COLLAGE]</td> </tr>","")
-						}
-						plantilla=plantilla.replace("[DIRECCION-COLLAGE]",   (element.calle==null?"":element.calle+" - ")+((element.numero_int==null)?"":"#"+element.numero_int )+"  "+ (element.colonia==null?"":element.colonia))
-					}
-					if(element.descripcion == "Examen Psicométrico"){
-						plantilla=plantilla.replace("[NOMBRE-PSICOMETRICO]",  element.pnombre)
-						plantilla=plantilla.replace("[DESCRIPCION-PSICOMETRICO]",   element.pdescripcion==null?"":element.pdescripcion)
-						plantilla=plantilla.replace("[FECHA-PSICOMETRICO]",   element.aplicacion.split("-")[2]+"-"+element.aplicacion.split("-")[1]+"-"+element.aplicacion.split("-")[0])
-						plantilla=plantilla.replace("[HORA-PSICOMETRICO]",   element.horario)
-						plantilla=plantilla.replace("[Lugar-EP]",   element.online=='t'?"URL":"Lugar")
-						plantilla=plantilla.replace("[LUGAR-PSICOMETRICO]",   element.lugar)
-						if(element.calle==null && element.numero_int==null && element.colonia==null) {
-							plantilla=plantilla.replace("<tr> <td style=\"color: rgb(255, 89, 0);\">Dirección</td> <td>[DIRECCION-PSICOMETRICO]</td> </tr>","")
-						}
-						plantilla=plantilla.replace("[DIRECCION-PSICOMETRICO]",   (element.calle==null?"":element.calle+" - ")+((element.numero_int==null)?"":"#"+element.numero_int )+"  "+ (element.colonia==null?"":element.colonia))
-					}
-					if(element.descripcion == "Entrevista"){
-						plantilla=plantilla.replace("[NOMBRE-ENTREVISTA]",  element.pnombre)
-						plantilla=plantilla.replace("[DESCRIPCION-ENTREVISTA]",   element.pdescripcion==null?"":element.pdescripcion)
-						plantilla=plantilla.replace("[FECHA-ENTREVISTA]",   element.aplicacion.split("-")[2]+"-"+element.aplicacion.split("-")[1]+"-"+element.aplicacion.split("-")[0])
-						plantilla=plantilla.replace("[HORA-ENTREVISTA]",   element.horario)
-						plantilla=plantilla.replace("[Lugar-E]",   element.online=='t'?"URL":"Lugar")
-						plantilla=plantilla.replace("[LUGAR-ENTREVISTA]",   element.lugar)
-						if(element.calle==null && element.numero_int==null && element.colonia==null) {
-							plantilla=plantilla.replace("<tr> <td style=\"color: rgb(255, 89, 0);\">Dirección</td> <td>[DIRECCION-ENTREVISTA]</td> </tr>","")
-						}
-						plantilla=plantilla.replace("[DIRECCION-ENTREVISTA]",   (element.calle==null?"":element.calle+" - ")+((element.numero_int==null)?"":"#"+element.numero_int )+"  "+ (element.colonia==null?"":element.colonia))
-	
-					}
-				}
-			} else if(object.codigo.equals("registrar") && object.isEnviar) {
+			if(object.codigo.equals("psgr-validar-cuenta") && object.isEnviar) {
 				plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");	
-			} else if (object.codigo.equals("transferencia")) {
-				try {
-					closeCon = validarConexion();
-					pstm = con.prepareStatement(Statements.GET_ASPIRANTE_TRANSFERENCIA)
-					pstm.setString(1, object.correo)
-					rs = pstm.executeQuery()
-					if(rs.next()) {
-						plantilla=plantilla.replace("[UNIVERSIDAD-DESTINO]", rs.getString("campusnuevo"))
-						plantilla=plantilla.replace("[UNIVERSIDAD-PROCEDENTE]", rs.getString("campusanterior"))
-					}
-				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
-				}finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}
-					
-				}
-			}else if (object.codigo.equals("reagendar")) {
-				try {
-					closeCon = validarConexion();
-					pstm = con.prepareStatement(Statements.GET_ASPIRANTE_ASISTENCIA)
-					pstm.setString(1, object.correo)
-					rs = pstm.executeQuery()
-					while(rs.next()) {
-						if(rs.getString("descripcion").equals("Examen de aptitudes y conocimientos")) {
-							plantilla=plantilla.replace("[FALTA-ASISTENCIA-PCA]", "asistencia")
-						} else if(rs.getString("descripcion").equals("Examen Psicométrico")) {
-							plantilla=plantilla.replace("[FALTA-ASISTENCIA-P]", "asistencia")
-						} else {
-							plantilla=plantilla.replace("[FALTA-ASISTENCIA-E", "asistencia")
-						}
-						
-						
-						
-					}
-					plantilla=plantilla.replace("[FALTA-ASISTENCIA-PCA]", "falta")
-					plantilla=plantilla.replace("[FALTA-ASISTENCIA-P]", "falta")
-					plantilla=plantilla.replace("[FALTA-ASISTENCIA-E", "falta")
-				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
-				}finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}
-					
-				}
-			} else if(object.codigo.equals("carta-aceptar") || object.codigo.equals("carta-rechazo") || object.codigo.equals("carta-pdu")|| object.codigo.equals("carta-informacion") || object.codigo.equals("carta-propedeutico")) {
-				try {
-					CatDocumentosTextos dt = new CatDocumentosTextos();
-					/*def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(SolicitudDeAdmisionDAO.class);
-					List<SolicitudDeAdmision> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreoElectronico(object.correo, 0, 999)
-					if(objSolicitudDeAdmision.size()>0) {
-						Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).getCatCampus().getPersistenceId());
-						if(documentosTextos.data.size()>0) {
-							dt = documentosTextos.data.get(0);
-						}
-					}*/
-					closeCon = validarConexion();
-					
-					pstm = con.prepareStatement(Statements.GET_DOCUMENTOSTEXTOS_BY_CAMPUSPID)
-					pstm.setString(1, object.campus)
-					rs = pstm.executeQuery()
-					if(rs.next()) {
-						dt.ciudadCarta=rs.getString("ciudadCarta");
-						dt.estadoCarta=rs.getString("estadoCarta");
-						dt.documentosEntregar=rs.getString("documentosEntregar");
-						dt.documentosEntregarExtranjero=rs.getString("documentosEntregarExtranjero");
-						dt.notasDocumentos=rs.getString("notasDocumentos");
-						dt.parrafoMatematicas1=rs.getString("parrafoMatematicas1");
-						dt.parrafoMatematicas2=rs.getString("parrafoMatematicas2");
-						dt.parrafoMatematicas3=rs.getString("parrafoMatematicas3");
-						dt.parrafoEspanol1=rs.getString("parrafoEspanol1");
-						dt.parrafoEspanol2=rs.getString("parrafoEspanol2");
-						dt.parrafoEspanol3=rs.getString("parrafoEspanol3");
-						dt.directorAdmisiones=rs.getString("directorAdmisiones");
-						dt.tituloDirectorAdmisiones=rs.getString("tituloDirectorAdmisiones");
-						dt.correoDirectorAdmisiones=rs.getString("correoDirectorAdmisiones");
-						dt.telefonoDirectorAdmisiones=rs.getString("telefonoDirectorAdmisiones");
-						dt.actividadIngreso1=rs.getString("actividadIngreso1");
-						dt.actividadIngreso2=rs.getString("actividadIngreso2");
-						dt.costoSGM=rs.getString("costoSGM");
-						dt.educacionGarantizada=rs.getString("educacionGarantizada");
-						dt.instruccionesPagoBanco=rs.getString("instruccionesPagoBanco");
-						dt.instruccionesPagoCaja=rs.getString("instruccionespagocaja");
-						dt.cancelarSeguroGastosMedicos=rs.getString("cancelarSeguroGastosMedicos");
-						dt.cursoMatematicas1=rs.getString("cursoMatematicas1");
-						dt.cursoMatematicas2=rs.getString("cursoMatematicas2");
-						
-						try{
-							plantilla=plantilla.replace("[CIUDAD-CARTA]",dt.ciudadCarta);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[CIUDAD-CARTA]","");
-						}
-						try{
-							plantilla=plantilla.replace("[ESTADO-CARTA]",dt.estadoCarta);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[ESTADO-CARTA]","");
-						}
-						try{
-							plantilla=plantilla.replace("[DOCUMENTOS-ENTREGAR]",dt.documentosEntregar);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[DOCUMENTOS-ENTREGAR]","");
-						}
-						try{
-							plantilla=plantilla.replace("[DOCUMENTOS-EXTRANJEROS]",dt.documentosEntregarExtranjero);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[DOCUMENTOS-EXTRANJEROS]","");
-						}
-						try{
-							plantilla=plantilla.replace("[NOTAS-DOCUMENTOS]",dt.notasDocumentos);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[NOTAS-DOCUMENTOS]","");
-						}
-						try{
-							plantilla=plantilla.replace("[DIRECTOR-ADMISIONES]",dt.directorAdmisiones);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[DIRECTOR-ADMISIONES]","");
-						}
-						try{
-							plantilla=plantilla.replace("[TITULO-DIRECTOR-ADMISIONES]",dt.tituloDirectorAdmisiones);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[TITULO-DIRECTOR-ADMISIONES]","");
-						}
-						try{
-							plantilla=plantilla.replace("[CORREO-DIRECTOR-ADMISIONES]",dt.correoDirectorAdmisiones);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[CORREO-DIRECTOR-ADMISIONES]","");
-						}
-						try{
-							plantilla=plantilla.replace("[TELEFONO-DIRECTOR-ADMISIONES]",dt.telefonoDirectorAdmisiones);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[TELEFONO-DIRECTOR-ADMISIONES]","");
-						}
-						try{
-							plantilla=plantilla.replace("[COSTO-SGM]",dt.costoSGM);
-						}catch(Exception dex){
-							plantilla=plantilla.replace("[COSTO-SGM]","");
-						}
-						try{
-							plantilla=plantilla.replace("[EDUCACION-GARANTIZADA]",dt.educacionGarantizada);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[EDUCACION-GARANTIZADA]","");
-						}
-						try{
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-BANCO]",dt.instruccionesPagoBanco);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-BANCO]","");
-						}
-						try{
-							plantilla=plantilla.replace("[CANCELAR-SEGURO-GASTOS]",dt.cancelarSeguroGastosMedicos);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[CANCELAR-SEGURO-GASTOS]","");
-						}
-						try{
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-CAJA]",dt.instruccionesPagoCaja);
-						}
-						catch(Exception dex){
-							plantilla=plantilla.replace("[INSTRUCCIONES-PAGO-CAJA]","");
-						}
-						
-					}
-					
-					pstm = con.prepareStatement(Statements.GET_INFOCARTATEMPORAL_PLANTILLA)
-					pstm.setString(1, object.correo)
-					rs = pstm.executeQuery()
-					if(rs.next()) {
-						try {	
-						plantilla=plantilla.replace("[|persistenceid|]",rs.getString("persistenceid"));
-						plantilla=plantilla.replace("[|admitido|]",rs.getString("admitido"));
-						plantilla=plantilla.replace("[|campusadmision|]",rs.getString("campusadmision"));
-						plantilla=plantilla.replace("[|carrera|]",rs.getString("carrera"));
-						plantilla=plantilla.replace("[|carta|]",rs.getString("carta"));
-						plantilla=plantilla.replace("[|curp|]",rs.getString("curp"));
-						plantilla=plantilla.replace("[|decisiondeadmision|]",rs.getString("decisiondeadmision"));
-						plantilla=plantilla.replace("[|descuentoprontopagomes1|]",rs.getString("descuentoprontopagomes1"));
-						plantilla=plantilla.replace("[|descuentoprontopagomes1fecha|]",rs.getString("descuentoprontopagomes1fecha"));
-						plantilla=plantilla.replace("[|descuentoprontopagomes2|]",rs.getString("descuentoprontopagomes2"));
-						plantilla=plantilla.replace("[|descuentoprontopagomes2fecha|]",rs.getString("descuentoprontopagomes2fecha"));
-						plantilla=plantilla.replace("[|eema|]",rs.getString("eema"));
-						plantilla=plantilla.replace("[|eemi|]",rs.getString("eemi"));
-						plantilla=plantilla.replace("[|eemn|]",rs.getString("eemn"));
-						plantilla=plantilla.replace("[|eemq|]",rs.getString("eemq"));
-						plantilla=plantilla.replace("[|eems|]",rs.getString("eems"));
-						plantilla=plantilla.replace("[|eemt|]",rs.getString("eemt"));
-						plantilla=plantilla.replace("[|escm|]",rs.getString("escm"));
-						plantilla=plantilla.replace("[|escp|]",rs.getString("escp"));
-						plantilla=plantilla.replace("[|espanol|]",rs.getString("espanol"));
-						plantilla=plantilla.replace("[|examinado|]",rs.getString("examinado"));
-						plantilla=plantilla.replace("[|fechalimitedepago|]",rs.getString("fechalimitedepago"));
-						plantilla=plantilla.replace("[|fechalimiteentregadocumentacion|]",rs.getString("fechalimiteentregadocumentacion"));
-						plantilla=plantilla.replace("[|filaexcel|]",rs.getString("filaexcel"));
-						plantilla=plantilla.replace("[|inscrito|]",rs.getString("inscrito"));
-						plantilla=plantilla.replace("[|mmpi|]",rs.getString("mmpi"));
-						plantilla=plantilla.replace("[|nivel|]",rs.getString("nivel"));
-						plantilla=plantilla.replace("[|nombre|]",rs.getString("nombre"));
-						plantilla=plantilla.replace("[|notastransferencia|]",rs.getString("notastransferencia"));
-						plantilla=plantilla.replace("[|numerodematricula|]",rs.getString("numerodematricula"));
-						plantilla=plantilla.replace("[|paa|]",rs.getString("paa"));
-						plantilla=plantilla.replace("[|paanumerica|]",rs.getString("paanumerica"));
-						plantilla=plantilla.replace("[|paaverbal|]",rs.getString("paaverbal"));
-						plantilla=plantilla.replace("[|pagoinscripcion|]",rs.getString("pagoinscripcion"));
-						plantilla=plantilla.replace("[|para|]",rs.getString("para"));
-						plantilla=plantilla.replace("[|pca|]",rs.getString("pca"));
-						plantilla=plantilla.replace("[|pcda|]",rs.getString("pcda"));
-						plantilla=plantilla.replace("[|pdp|]",rs.getString("pdp"));
-						plantilla=plantilla.replace("[|pdu|]",rs.getString("pdu"));
-						plantilla=plantilla.replace("[|periodo|]",rs.getString("periodo"));
-						plantilla=plantilla.replace("[|persistenceversion|]",rs.getString("persistenceversion"));
-						plantilla=plantilla.replace("[|pia|]",rs.getString("pia"));
-						plantilla=plantilla.replace("[|preparatoriade|]",rs.getString("preparatoriade"));
-						plantilla=plantilla.replace("[|promedio|]",rs.getString("promedio"));
-						plantilla=plantilla.replace("[|religion|]",rs.getString("religion"));
-						plantilla=plantilla.replace("[|selecciondecursosprevia|]",rs.getString("selecciondecursosprevia"));
-						plantilla=plantilla.replace("[|sesion|]",rs.getString("sesion"));
-						plantilla=plantilla.replace("[|sexo|]",rs.getString("sexo"));
-						plantilla=plantilla.replace("[|sihaceonomatematicas|]",rs.getString("sihaceonomatematicas"));
-						plantilla=plantilla.replace("[|solicitante|]",rs.getString("solicitante"));
-						plantilla=plantilla.replace("[|sse|]",rs.getString("sse"));
-						plantilla=plantilla.replace("[|statuspdu|]",rs.getString("statuspdu"));
-						plantilla=plantilla.replace("[|tipodeadmision|]",rs.getString("tipodeadmision"));
-						plantilla=plantilla.replace("[|tipodeestudiante|]",rs.getString("tipodeestudiante"));
-						plantilla=plantilla.replace("[|universidad|]",rs.getString("universidad"));
-						plantilla=plantilla.replace("[|notaslistaroja|]",rs.getString("notaslistaroja"));
-						plantilla=plantilla.replace("[|seleccionado|]",rs.getString("seleccionado"));
-						cartaenviar=true;
-						}catch(Exception infex) {
-							
-						}
-						/*plantilla=plantilla.replace("<!-- GUIA DE ESTUDIO-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-12\"> <div class=\"row\" > <div class=\"col-12 form-group color-titulo\"> <a href=\"[guia-src]\" target=\"_blank\" style=\"text-decoration: underline; cursor: pointer;\"><img style=\"\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Gu%C3%ADa%20de%20estudios.png\" alt=\"no disponible\"></a> </div> </div> </td> </tr> </tbody> </table> <hr>")
-						plantilla=plantilla.replace("[guia-src]", dt.urlGuiaExamenCB)
-						plantilla=plantilla.replace("[TIPS]",dt.tipsCB);
-						plantilla=plantilla.replace("<!--[PASOS]-->","<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>");
-						plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]",dt.urlTestVocacional);*/
-						try {
-							
-							plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",(costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costoSGM)+"")
-							plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",(costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costoSGM)+"")
-						
-						} catch (Exception dex) {
-							plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",dex.getMessage())
-							plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",dex.getMessage())
-						}
-						try {
-							plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafoMatematicas1:"");
-							plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafoMatematicas2:"");
-							plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafoMatematicas3:"");
-							plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafoEspanol1:"");
-							plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafoEspanol2:"");
-							plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafoEspanol3:"");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividadIngreso1:"");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividadIngreso2:"");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.cursoMatematicas1:"");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.cursoMatematicas2:"");
-							try {
-								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costoSGM)
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",descuento.toString());
-							} catch (Exception e) {
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",dt.costoSGM);
-							}
-							try {
-								Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costoSGM)
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",descuento.toString());
-							} catch (Exception e) {
-								plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",dt.costoSGM);
-							}
-							
-							
-							
-							
-						} catch (Exception e) {
-							plantilla=plantilla.replace("[MATEMATICAS-1]","");
-							plantilla=plantilla.replace("[MATEMATICAS-2]","");
-							plantilla=plantilla.replace("[MATEMATICAS-3]","");
-							plantilla=plantilla.replace("[ESPANOL-1]","");
-							plantilla=plantilla.replace("[ESPANOL-2]","");
-							plantilla=plantilla.replace("[ESPANOL-3]","");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]","");
-							plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]","");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]","");
-							plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]","");
-							
-						}
-						plantilla=plantilla.replace("style=\"background-color: inherit;\"", "style=\"background-color: transparent;\"")
-												
-					}else {
-						pstm = con.prepareStatement(Statements.GET_INFOCARTA_PLANTILLA)
-						pstm.setString(1, object.correo)
-						rs = pstm.executeQuery()
-						if(rs.next()) {
-							try {
-							plantilla=plantilla.replace("[|persistenceid|]",rs.getString("persistenceid"));
-							plantilla=plantilla.replace("[|carta|]",rs.getString("carta"));
-							plantilla=plantilla.replace("[|curp|]",rs.getString("curp"));
-							plantilla=plantilla.replace("[|descuentoprontopagomes1|]",rs.getString("descuentoprontopagomes1"));
-							plantilla=plantilla.replace("[|descuentoprontopagomes1fecha|]",rs.getString("descuentoprontopagomes1fecha"));
-							plantilla=plantilla.replace("[|descuentoprontopagomes2|]",rs.getString("descuentoprontopagomes2"));
-							plantilla=plantilla.replace("[|descuentoprontopagomes2fecha|]",rs.getString("descuentoprontopagomes2fecha"));
-							plantilla=plantilla.replace("[|espanol|]",rs.getString("espanol"));
-							plantilla=plantilla.replace("[|fechalimitedepago|]",rs.getString("fechalimitedepago"));
-							plantilla=plantilla.replace("[|fechalimiteentregadocumentacion|]",rs.getString("fechalimiteentregadocumentacion"));
-							plantilla=plantilla.replace("[|nombre|]",rs.getString("nombre"));
-							plantilla=plantilla.replace("[|notastransferencia|]",rs.getString("notastransferencia"));
-							plantilla=plantilla.replace("[|numerodematricula|]",rs.getString("numerodematricula"));
-							plantilla=plantilla.replace("[|pca|]",rs.getString("pca"));
-							plantilla=plantilla.replace("[|pcda|]",rs.getString("pcda"));
-							plantilla=plantilla.replace("[|pdp|]",rs.getString("pdp"));
-							plantilla=plantilla.replace("[|pdu|]",rs.getString("pdu"));
-							plantilla=plantilla.replace("[|persistenceversion|]",rs.getString("persistenceversion"));
-							plantilla=plantilla.replace("[|pia|]",rs.getString("pia"));
-							plantilla=plantilla.replace("[|sihaceonomatematicas|]",rs.getString("sihaceonomatematicas"));
-							plantilla=plantilla.replace("[|sse|]",rs.getString("sse"));
-							plantilla=plantilla.replace("[|statuspdu|]",rs.getString("statuspdu"));
-							plantilla=plantilla.replace("[|universidad|]",rs.getString("universidad"));
-							plantilla=plantilla.replace("[|notaslistaroja|]",rs.getString("notaslistaroja"));
-							cartaenviar=true;
-							}catch(Exception infex) {
-								
-							}
-							/*plantilla=plantilla.replace("<!-- GUIA DE ESTUDIO-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-12\"> <div class=\"row\" > <div class=\"col-12 form-group color-titulo\"> <a href=\"[guia-src]\" target=\"_blank\" style=\"text-decoration: underline; cursor: pointer;\"><img style=\"\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Gu%C3%ADa%20de%20estudios.png\" alt=\"no disponible\"></a> </div> </div> </td> </tr> </tbody> </table> <hr>")
-							plantilla=plantilla.replace("[guia-src]", dt.urlGuiaExamenCB)
-							plantilla=plantilla.replace("[TIPS]",dt.tipsCB);
-							plantilla=plantilla.replace("<!--[PASOS]-->","<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>");
-							plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]",dt.urlTestVocacional);*/
-							try {
-								plantilla=plantilla.replace("[MATEMATICAS-1]",(rs.getString("sihaceonomatematicas").equals("1"))?dt.parrafoMatematicas1:"");
-								plantilla=plantilla.replace("[MATEMATICAS-2]",(rs.getString("sihaceonomatematicas").equals("2"))?dt.parrafoMatematicas2:"");
-								plantilla=plantilla.replace("[MATEMATICAS-3]",(rs.getString("sihaceonomatematicas").equals("3"))?dt.parrafoMatematicas3:"");
-								plantilla=plantilla.replace("[ESPANOL-1]",(rs.getString("espanol").equals("1"))?dt.parrafoEspanol1:"");
-								plantilla=plantilla.replace("[ESPANOL-2]",(rs.getString("espanol").equals("2"))?dt.parrafoEspanol2:"");
-								plantilla=plantilla.replace("[ESPANOL-3]",(rs.getString("espanol").equals("3"))?dt.parrafoEspanol3:"");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]",(periodo.substring(4,6).equals("10")|| periodo.substring(4,6).equals("05"))?dt.actividadIngreso1:"");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.actividadIngreso2:"");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]",(periodo.substring(4,6).equals("10") || periodo.substring(4,6).equals("05"))?dt.cursoMatematicas1:"");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]",(periodo.substring(4,6).equals("60")|| periodo.substring(4,6).equals("35")|| periodo.substring(4,6).equals("75"))?dt.cursoMatematicas2:"");
-							try {
-									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes1"))/100)))+Float.parseFloat(dt.costoSGM)
-									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",descuento.toString());
-								} catch (Exception e) {
-									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO1]",e.getMessage());
-								}
-								try {
-									Float descuento = (costo1-(costo1*(Float.parseFloat(rs.getString("descuentoprontopagomes2"))/100)))+Float.parseFloat(dt.costoSGM)
-									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",descuento.toString());
-								} catch (Exception e) {
-									plantilla=plantilla.replace("[COSTO-SGM-DESCUENTO2]",e.getMessage());
-								}
-								
-								
-								
-								
-							} catch (Exception e) {
-								plantilla=plantilla.replace("[MATEMATICAS-1]","");
-								plantilla=plantilla.replace("[MATEMATICAS-2]","");
-								plantilla=plantilla.replace("[MATEMATICAS-3]","");
-								plantilla=plantilla.replace("[ESPANOL-1]","");
-								plantilla=plantilla.replace("[ESPANOL-2]","");
-								plantilla=plantilla.replace("[ESPANOL-3]","");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-ENERO]","");
-								plantilla=plantilla.replace("[ACTIVIDADES-DE-INGRESO-AGOSTO]","");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-ENERO]","");
-								plantilla=plantilla.replace("[CURSO-MATEMATICAS-AGOSTO]","");
-								
-							}
-							plantilla=plantilla.replace("style=\"background-color: inherit;\"", "style=\"background-color: transparent;\"")
-													
-						}
-					}
-				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
-				}finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}
-					
-				}
-			} else if(object.codigo.equals("BC_SOLICITUD_BECASYFINAN_AUTORIZADA")) {
-				errorlog += "| PLANTILLA :: BC_SOLICITUD_BECASYFINAN_AUTORIZADA  ";
-				Integer costoCredito = 0;
-				Integer creditosemestre = 0;
-				Integer parcialidad = 0;
-				Integer porcentajebecaautorizacion = 0;
-				Integer porcentajecreditoautorizacion = 0;
-				Integer descuentoanticipadoautorizacion = 0;
-				Integer inscripcionmayo = 0;
-				Integer inscripcionseptiembre = 0;
-				Integer inscripcionagosto = 0;
-				Integer inscripcionenero = 0;
-				String descripcionPeriodo = "";
-
-				//OBTENIENDO
-				try {
-					closeCon = validarConexion();
-					pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_BY_CORREOELECTRONICO);
-					pstm.setString(1, object.correo);
-					rs = pstm.executeQuery();
-					if(rs.next()) {
-						errorlog += "| BC_SOLICITUD_BECASYFINAN_AUTORIZADA SOLICITUD ENCONTRADA ";
-						creditosemestre = rs.getInt("creditosemestre");
-						parcialidad = rs.getInt("parcialidad");
-						porcentajebecaautorizacion = rs.getInt("porcentajebecaautorizacion");
-						porcentajecreditoautorizacion = rs.getInt("porcentajecreditoautorizacion");
-						descuentoanticipadoautorizacion = rs.getInt("descuentoanticipadoautorizacion");
-						descripcionPeriodo = rs.getString("descripcion");
-						inscripcionmayo = rs.getInt("inscripcionmayo");
-						inscripcionseptiembre = rs.getInt("inscripcionseptiembre");
-						inscripcionagosto = rs.getInt("inscripcionagosto");
-						inscripcionenero = rs.getInt("inscripcionenero");
-						Long sdaecatgestionescolar_pid = rs.getLong("sdaecatgestionescolar_pid");
-						//OBTENCION De LOS CREDITOS
-						closeCon = validarConexion();
-						pstm = con.prepareStatement(Statements.GET_SDAECAT_CREDITO_GE);
-						pstm.setLong(1, sdaecatgestionescolar_pid);
-						pstm.setString(2, descripcionPeriodo.split(" ")[1]);
-						rs = pstm.executeQuery();
-						errorlog += 
-							" | " + Statements.GET_SDAECAT_CREDITO_GE + 
-							" | " + sdaecatgestionescolar_pid +
-							(" | " + descripcionPeriodo.split(" ")[1]
-						);
-						if(rs.next()) {
-							costoCredito = rs.getInt("CREDITOAGOSTO");
-							errorlog += "| BC_SOLICITUD_BECASYFINAN_AUTORIZADA  DATOS DEL PERIODO ENCONTRADOS  ";
-							Integer montoInscripcion = inscripcionagosto;
-							Integer montoBeca = (inscripcionagosto - (inscripcionagosto * (porcentajebecaautorizacion * 0.01)));
-							Integer montoBecaFinanciamiento = (inscripcionagosto - (inscripcionagosto * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoFinanciamiento = (inscripcionagosto - (inscripcionagosto * (porcentajecreditoautorizacion * 0.01)));
-							Integer montoCreditos = costoCredito;
-							Integer montoColegiaturaNormal = montoCreditos * 48; //48 para el ejemplo en pantalla
-							Integer montoColegiaturaBeca = montoColegiaturaNormal - (montoCreditos * ((porcentajebecaautorizacion * 0.01)));
-							Integer montoColegiaturaBecaFinanciamiento = (montoColegiaturaNormal - (montoColegiaturaNormal * ((porcentajebecaautorizacion * 0.01) + (porcentajecreditoautorizacion * 0.01))));
-							Integer montoColegiaturaFinanciamiento = montoColegiaturaNormal - (montoCreditos * ((porcentajebecaautorizacion * 0.01)));
-							Integer montoPagototalNormal =  montoInscripcion + montoColegiaturaNormal;
-							Integer mongoPagoTotalBeca = montoBeca + montoColegiaturaBeca;
-							Integer mongoPagoTotalBecaFinanciamiento = montoBeca + montoColegiaturaBeca;
-							Integer totalFinanciado = montoFinanciamiento + montoColegiaturaFinanciamiento;
-							Integer interesSemestre = totalFinanciado * 0.035;
-							
-							plantilla = plantilla.replace("[PERIODO]", descripcionPeriodo);
-							plantilla = plantilla.replace("[MONTO-INSCRIPCION]", formatCurrency(montoInscripcion.toString()));
-							plantilla = plantilla.replace("[MONTO-BECA]", formatCurrency(montoBeca.toString()));
-							plantilla = plantilla.replace("[MONTO-BECA-FINANCIAMIENTO]", formatCurrency(montoBecaFinanciamiento.toString()));
-							plantilla = plantilla.replace("[MONTO-FINANCIAMIENTO]", formatCurrency(montoFinanciamiento.toString()));
-							plantilla = plantilla.replace("[MONTO-CREDITOS]", formatCurrency(montoCreditos.toString()));
-							plantilla = plantilla.replace("[MONTO-COLEGIATURA-NORMAL]", formatCurrency(montoColegiaturaNormal.toString()));
-							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA]", formatCurrency(montoColegiaturaBeca.toString()));
-							plantilla = plantilla.replace("[MONTO-COLEGIATURA-BECA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaBecaFinanciamiento.toString()));
-							plantilla = plantilla.replace("[MONTO-COLEGIATURA-FINANCIAMIENTO]", formatCurrency(montoColegiaturaFinanciamiento.toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOS-NORMAL]", formatCurrency((montoPagototalNormal / 4).toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOS-BECA]", formatCurrency((montoPagototalNormal / 4).toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOS-BECA-FINANCIAMIENTO]", formatCurrency((mongoPagoTotalBeca / 4).toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-NORMAL]", formatCurrency(montoPagototalNormal.toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA]", formatCurrency(mongoPagoTotalBeca.toString()));
-							plantilla = plantilla.replace("[MONTO-PAGOTOTAL-BECA-FINANCIAMIENTO]", formatCurrency(mongoPagoTotalBecaFinanciamiento.toString()));
-							plantilla = plantilla.replace("[TOTAL-FINANCIADO]", formatCurrency(totalFinanciado.toString()));
-							plantilla = plantilla.replace("[INTERES-SEMESTRE]", formatCurrency(interesSemestre.toString()));
-						}
-					}
-				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
-				} finally {
-					if(closeCon) {
-						new DBConnect().closeObj(con, stm, rs, pstm);
-					}
-				}
-            } else if (object.codigo.equals("BC_MODIFICACION_AUTORIZACION")){
-				//OBTENIENDO
-				try {
-					closeCon = validarConexion();
-					pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_BY_CORREOELECTRONICO);
-					pstm.setString(1, object.correoAspirante);
-					rs = pstm.executeQuery();
-					if(rs.next()) {
-						plantilla = plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("cambiosSolicitudAutorizacionText"));
-					}
-				} catch (Exception e) {
-					errorlog += "| TRANSFERENCIA " + e.getMessage()
-				} finally {
-					if(closeCon) {
-						new DBConnect().closeObj(con, stm, rs, pstm);
-					}
-				}
 			}
 			
 			try {
@@ -961,7 +420,7 @@ class NotificacionDAO {
 			MailGunDAO mgd = new MailGunDAO();
 			lstAdditionalData.add("correo="+correo)
 			lstAdditionalData.add("asunto="+asunto)
-			lstAdditionalData.add("cc="+cc)
+			lstAdditionalData.add("cc="+cc);
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
@@ -977,7 +436,8 @@ class NotificacionDAO {
 				}else {
 					catBitacoraCorreo.setEstatus("Fallido")
 				}
-				insertCatBitacoraCorreos(catBitacoraCorreo)
+				
+				/*insertCatBitacoraCorreos(catBitacoraCorreo)*/
 			}
 			
 			resultado.setSuccess(true)
@@ -987,7 +447,7 @@ class NotificacionDAO {
 			
 			e.printStackTrace()
 		}
-		resultado.setError_info("");
+		resultado.setError_info(errorlog);
 		return resultado;
 	}
 	
@@ -1085,55 +545,10 @@ class NotificacionDAO {
 		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objSolicitudDeAdmisionDAO.findByCaseid(caseid, 0, 999)
 		if(objSolicitudDeAdmision.size()>0) {
 			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
-//			if(documentosTextos.data.size()>0) {
-//				def dt = documentosTextos.data.get(0);
-//				if(objSolicitudDeAdmision.get(0).necesitoAyuda && cn.getCodigo().equals("registrar")) {
-//					plantilla=plantilla.replace("<!--[PASOS]-->", "<table style='width:80%; font-size: initial; font-family:  Arial;'><tr><td style='font-family:  Arial;'>"+dt.noSabes+"</td></tr></table>")
-//					plantilla=plantilla.replace("[LIGA-PARA-TEST-VOCACIONAL]", dt.urlTestVocacional)
-//				}
-//				if(!cn.docGuiaEstudio.equals("")) {
-//					plantilla=plantilla.replace("<!-- GUIA DE ESTUDIO-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-12\"> <div class=\"row\" > <div class=\"col-12 form-group color-titulo\"> <a href=\"[guia-src]\" target=\"_blank\" style=\"text-decoration: underline; cursor: pointer;\"><img style=\"\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Gu%C3%ADa%20de%20estudios.png\" alt=\"no disponible\"></a> </div> </div> </td> </tr> </tbody> </table> <hr>")
-//					plantilla=plantilla.replace("[guia-src]", dt.urlGuiaExamenCB)
-//				}
-//				if(!dt.tipsCB.equals("")) {
-//					plantilla=plantilla.replace("[TIPS]", dt.tipsCB)
-//				}else {
-//					plantilla=plantilla.replace("[TIPS]", "")
-//				}
-//			}
-//			if(objSolicitudDeAdmision.get(0).getCatSexo()!=null) {
-//				plantilla=plantilla.replace("o(a)", objSolicitudDeAdmision.get(0).getCatSexo().getDescripcion().equals("Masculino")?"o":"a")
-//			}else {
-//				plantilla=plantilla.replace("o(a)", "o")
-//			}
+			
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
-			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre)
-//			plantilla=plantilla.replace("[UNIVERSIDAD]", objSolicitudDeAdmision.get(0).getCatCampusEstudio().getDescripcion())
-//			plantilla=plantilla.replace("[LICENCIATURA]", objPSGRSolAdmiPrograma.get(0).programa_interes.nombre)
-			//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
-			//plantilla=plantilla.replace("[LICENCIATURA-COSTO2]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero)
-			//plantilla=plantilla.replace("[LICENCIATURA-COSTO3]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo)
-			//plantilla=plantilla.replace("[LICENCIATURA-COSTO4]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre)
+			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre);
 			
-//			periodo = objSolicitudDeAdmision.get(0).getCatPeriodo().getClave()
-			
-//			try {
-//				costo1=Float.parseFloat( periodo.substring(4,6).equals("10")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
-//				periodo.substring(4,6).equals("05")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
-//				periodo.substring(4,6).equals("60")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto:
-//				periodo.substring(4,6).equals("35")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo:
-//				periodo.substring(4,6).equals("75")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre:"0")
-//				
-//				plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", costo1.toString())
-//				
-//			} catch (Exception e) {
-//				e.printStackTrace()
-//			}
-//			if(objSolicitudDeAdmision.get(0).getCatGestionEscolar().isPropedeutico()) {
-//				plantilla=plantilla.replace("<!--PROPEDEUTICO-->", "<tr> <td valign=\"top\" style=\"text-align: justify;text-align: left;\"> <font face=\"'Source Sans Pro', sans-serif\" color=\"#4F4E4D\"> <span style=\"color: #4F4E4D;\"> Propedéutico: </span> </font> </td> <td valign=\"top\" style=\"text-align: justify;text-align: left;\"> <font face=\"'Source Sans Pro', sans-serif\" color=\"#4F4E4D\"> <span style=\"color: #FF5900;\"> [PROPEDEUTICO] </span> </font> </td> </tr>")
-//				plantilla=plantilla.replace("[PROPEDEUTICO]", objSolicitudDeAdmision.get(0).getCatPropedeutico().getDescripcion())
-//			}
-//			plantilla=plantilla.replace("[CAMPUSEXAMEN]",objSolicitudDeAdmision.get(0).campus.descripcion)
 			try {
 				plantilla=plantilla.replace("[CAMPUS]", objSolicitudDeAdmision.get(0).campus.descripcion)
 			} catch (Exception e) {
@@ -1186,60 +601,13 @@ class NotificacionDAO {
 				
 				
 			}
+			
 			errorlog += ", Variable15"
-			try {
-			def objDetalleSolicitudDAO = context.getApiClient().getDAO(DetalleSolicitudDAO.class)
-			errorlog += ", Variable15.0"
-			List<DetalleSolicitud> detalleSolicitud = objDetalleSolicitudDAO.findByCaseId(objSolicitudDeAdmision.get(0).getCaseId()+"", 0, 999)
-			if(detalleSolicitud.size()>0) {
-				errorlog += ", Variable15.1"
-				plantilla=plantilla.replace("[IDBANNER]",detalleSolicitud.get(0).getIdBanner())
-				errorlog += ", Variable15.2"
-				if(isEnviar) {
-					plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",detalleSolicitud.get(0).getObservacionesRechazo())
-					errorlog += ", Variable15.3"
-					plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",detalleSolicitud.get(0).getObservacionesListaRoja())
-					errorlog += ", Variable15.3"
-					plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", detalleSolicitud.get(0).getObservacionesCambio())
-				}
-				if(detalleSolicitud.get(0).isCbCoincide()) {
-					plantilla=plantilla.replace("<table class=\"cbCoincide\"", "<!--table class='cbCoincide'")
-					plantilla=plantilla.replace("<br class=\"cbCoincide\">", "<br class='cbCoincide'-->")
-					plantilla=plantilla.replace("<li>Entrevista <font color=\"#FF5900\">([FALTA-ASISTENCIA-E)</font> </li>", "<!--li>Entrevista <font color=\"#FF5900\">([FALTA-ASISTENCIA-E)</font> </li-->")
-				}
-			}}catch(Exception e) {
-			errorlog+=" e2" + e.getMessage()
-			Boolean closeCon=false;
-			try {
-			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD)
-			pstm.setString(1, objSolicitudDeAdmision.get(0).getCaseId()+"")
-			rs = pstm.executeQuery()
-				if (rs.next()) {
-					errorlog += ", Variable15.1"
-					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner"))
-					errorlog += ", Variable15.2"
-					if(isEnviar) {
-						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",rs.getString("ObservacionesRechazo"))
-						errorlog += ", Variable15.3"
-						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja"))
-						errorlog += ", Variable15.3"
-						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio"))
-					}
-				}
-			}catch(Exception ex) {
-				
-			}finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-					}
-				
-				}
-			}
 			String encoded = "";
 			Boolean closeCon=false;
+			
 			try {
-			closeCon = validarConexion();
+				closeCon = validarConexion();
 				if (objSolicitudDeAdmision.get(0).urlFoto!= null ) {
 					String SSA = "";
 					pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
@@ -1248,16 +616,16 @@ class NotificacionDAO {
 						SSA = rs.getString("valor")
 					}
 					plantilla=plantilla.replace("[USR-B64]", objSolicitudDeAdmision.get(0).urlFoto+SSA)
-				}else {
-					for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(objSolicitudDeAdmision.get(0).getCaseId(), "fotoPasaporte", 0, 10)) {
-						// convert byte[] back to a BufferedImage
-						InputStream is = new ByteArrayInputStream(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId));
-						BufferedImage newBi = ImageIO.read(is);
-						
-						encoded = "data:image/png;base64, "+ Base64.getEncoder().encodeToString(toByteArray(resizeImage(newBi, 135, 180), "png"))
-						plantilla=plantilla.replace("[USR-B64]", encoded)
-					}
-			}
+				} else {
+						for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(objSolicitudDeAdmision.get(0).getCaseId(), "fotoPasaporte", 0, 10)) {
+							// convert byte[] back to a BufferedImage
+							InputStream is = new ByteArrayInputStream(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId));
+							BufferedImage newBi = ImageIO.read(is);
+							
+							encoded = "data:image/png;base64, "+ Base64.getEncoder().encodeToString(toByteArray(resizeImage(newBi, 135, 180), "png"))
+							plantilla=plantilla.replace("[USR-B64]", encoded)
+						}
+				}
 			}catch(Exception e) {
 				plantilla=plantilla.replace("[USR-B64]", "https://i.ibb.co/WyCsXQy/usuariofoto.jpg")
 				errorlog+= ""+e.getMessage();
