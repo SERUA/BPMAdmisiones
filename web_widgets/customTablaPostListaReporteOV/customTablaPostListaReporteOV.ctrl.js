@@ -183,6 +183,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.valorTotal = 10;
 
     $scope.loadPaginado = function() {
+        debugger;
         $scope.valorTotal = Math.ceil($scope.value / $scope.properties.dataToSend.limit);
         $scope.lstPaginado = []
         if ($scope.valorSeleccionado <= 5) {
@@ -495,6 +496,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             // Maneja la excepción si es necesario.
         }
     
+        // Elimina el registro que contiene información del campus
+        for (var i = 0; i < $scope.properties.dataToSend.lstFiltro.length; i++) {
+            if ($scope.properties.dataToSend.lstFiltro[i].columna === "CAMPUS") {
+                $scope.properties.dataToSend.lstFiltro.splice(i, 1);
+                break;
+            }
+        }
+    
         // Copia los valores de info a otra variable
         var infoCopy = angular.copy($scope.infoSesion);
     
@@ -520,6 +529,33 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", requestData);
     }
 
+    $scope.anterior = function() {
+        if ($scope.properties.dataToSend.offset > 0) {
+            $scope.properties.dataToSend.offset -= $scope.properties.dataToSend.limit;
+            // Llamar a la función que carga los datos con el nuevo offset
+            cargarDatos();
+        }
+    };
+    
+    $scope.siguiente = function() {
+        if ($scope.properties.dataToSend.offset + $scope.properties.dataToSend.limit < $scope.value) {
+            $scope.properties.dataToSend.offset += $scope.properties.dataToSend.limit;
+            // Llamar a la función que carga los datos con el nuevo offset
+            cargarDatos();
+        }
+    };
+    
+    $scope.seleccionarPagina = function(offset) {
+        $scope.properties.dataToSend.offset = offset;
+        // Llamar a la función que carga los datos con el nuevo offset
+        cargarDatos();
+    };
+    
+    function cargarDatos() {
+        // Llama a tu función de carga de datos con los datos actualizados en $scope.properties.dataToSend
+        doRequest2("POST", "/bonita/API/extension/AnahuacRest?url=selectUsuariosSesion&p=0&c=100", $scope.properties.dataToSend);
+    }
+
     $scope.infoSesion={};
     $scope.usuariosSesion=[];
     $scope.seccionSesion = false;
@@ -536,6 +572,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
         return $http(req)
             .success(function(data, status) {
+                $scope.finalizados = data.finalizados;
+                $scope.proceso = data.proceso;
+                $scope.iniciar = data.iniciar;
+                $scope.value = data.totalRegistros;
+                $scope.limitValue = data.limit;
+                if ($scope.limitValue > $scope.value) {
+                    $scope.limitValue = $scope.value;
+                }
+                $scope.offset = data.offset;
                 $scope.usuariosSesion = data.data;
                 $scope.seccionSesion = true;
                 $scope.copiaActivado =angular.copy($scope.activado);
@@ -546,6 +591,21 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.infoSesion.contidadAspirantes=data.data.length;
                 $scope.properties.ocultarFiltro = true;
                 console.log(data);
+
+                $scope.finalizados = data.finalizados;
+                $scope.proceso = data.proceso;
+                $scope.iniciar = data.iniciar;
+                $scope.value = data.totalRegistros;
+
+                // Calcular el número de páginas
+                var totalPages = Math.ceil($scope.value / $scope.limitValue);
+
+                // Actualizar el arreglo de páginas
+                $scope.pages = [];
+                for (var i = 1; i <= totalPages; i++) {
+                    $scope.pages.push({ numero: i, offset: (i - 1) * $scope.limitValue });
+                }
+
             })
             .error(function(data, status) {
                 //notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });

@@ -326,6 +326,98 @@ class NuevoListadoDAO {
 		return resultado
 	}
 	
+	public Result contSelectUsuariosSesion(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		Long userLogged = 0L;
+		Long total = 0L;
+		String where ="", orderby="ORDER BY ", errorlog="";
+//		throw new Exception("No encontro datos en " + totalRegistros);
+		try {
+				def jsonSlurper = new JsonSlurper();
+				def object = jsonSlurper.parseText(jsonData);
+				
+				String consulta = NuevoStatements.GET_LISTA_REPORTE_OV_USUARIOS_BY_SESION;
+
+				List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+					where = WhereIndividual(filtro.get("columna"),filtro.get("valor"),where);
+				}
+				orderby += Orden(object.orderby,"") + " " + object.orientation;
+				
+				closeCon = validarConexion();
+				consulta=consulta.replace("[WHERE]", where);
+				consulta=consulta.replace("[ORDERBY]", orderby);
+
+				pstm = con.prepareStatement(consulta)
+
+				errorlog = consulta;
+				rs = pstm.executeQuery()
+				rows = new ArrayList < Map < String, Object >> ();
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				errorlog = consulta + " 8";
+				int finalizados = 0,proceso = 0,iniciar = 0;
+				int totalRegistros = 0;
+				while (rs.next()) {
+					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+					for (int i = 1; i <= columnCount; i++) {
+						if(metaData.getColumnLabel(i).toLowerCase().equals("finalizado")){
+							String info = rs.getString(i);
+							if(info.equals("null") || info == null){
+								iniciar++;
+								columns.put(metaData.getColumnLabel(i).toLowerCase(), "s");
+							}else{
+								if(info.equals("t")){
+									finalizados++;
+								}else{
+									proceso++;
+								}
+								columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+							}
+
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("responsableid")) {
+							User usr;
+							String responsables = rs.getString(i);
+							String nombres= "";
+							if(!responsables.equals("null") && responsables != null) {
+								String[] arrOfStr = responsables.split(",");
+								for (String a: arrOfStr) {
+									if(Long.parseLong(a)>0) {
+										usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(a))
+										nombres+=(nombres.length()>1?", ":"")+usr.getFirstName()+" "+usr.getLastName()
+									}
+								}
+							}
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+						}else {
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						}
+					}
+					totalRegistros++;
+					
+					rows.add(columns);
+				}
+				
+				resultado.setError_info(" errorLog = "+errorlog)
+				resultado.setData(rows)
+				resultado.setSuccess(true)
+				resultado.setTotalRegistros(totalRegistros);
+				resultado.setFinalizados(finalizados);
+				resultado.setProceso(proceso);
+				resultado.setIniciar(iniciar);
+			} catch (Exception e) {
+				resultado.setSuccess(false);
+				resultado.setError(e.getMessage());
+				resultado.setError_info(" errorLog = "+errorlog);
+			}finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm)
+				}
+			}
+		return resultado
+	}
+	
 	public Result selectUsuariosSesion(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -337,6 +429,11 @@ class NuevoListadoDAO {
 				def object = jsonSlurper.parseText(jsonData);
 				
 				String consulta = NuevoStatements.GET_LISTA_REPORTE_OV_USUARIOS_BY_SESION;
+				
+				int limit = object.limit ?: 20;
+				int offset = object.offset ?: 0;
+		
+				consulta += " LIMIT " + limit + " OFFSET " + offset;
 				List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 					where = WhereIndividual(filtro.get("columna"),filtro.get("valor"),where);
@@ -346,11 +443,8 @@ class NuevoListadoDAO {
 				closeCon = validarConexion();
 				consulta=consulta.replace("[WHERE]", where);				
 				consulta=consulta.replace("[ORDERBY]", orderby);
-				consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 
 				pstm = con.prepareStatement(consulta)
-				pstm.setInt(1, object.limit)
-				pstm.setInt(2, object.offset)
 
 				errorlog = consulta;
 				rs = pstm.executeQuery()
@@ -359,7 +453,7 @@ class NuevoListadoDAO {
 				int columnCount = metaData.getColumnCount();
 				errorlog = consulta + " 8";
 				int finalizados = 0,proceso = 0,iniciar = 0;
-				Long totalRegistros = 0L;
+				
 				while (rs.next()) {
 					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 					for (int i = 1; i <= columnCount; i++) {
@@ -396,8 +490,17 @@ class NuevoListadoDAO {
 						}
 					}
 					rows.add(columns);
-					totalRegistros++;
 				}
+				resultado.setLimit(limit);
+				resultado.setOffset(offset);
+				Result contResult = contSelectUsuariosSesion(jsonData, context);
+				finalizados = contResult.getFinalizados();
+				proceso = contResult.getProceso();
+				iniciar = contResult.getIniciar();
+				resultado.setFinalizados(finalizados);
+				resultado.setProceso(proceso);
+				resultado.setIniciar(iniciar);
+				int totalRegistros = contResult.getTotalRegistros();
 				resultado.setTotalRegistros(totalRegistros);
 				List<Integer> list = [finalizados,proceso,iniciar];
 				resultado.setError_info(" errorLog = "+errorlog)

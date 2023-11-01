@@ -19,6 +19,58 @@ class Result {
 	private List<?> additional_data;
 	@XmlElement
 	private String info;
+	@XmlElement
+	private int limit;
+	@XmlElement
+	private int offset;
+	@XmlElement
+	private int finalizados;
+	@XmlElement
+	private int proceso;
+	@XmlElement
+	private int iniciar;
+	
+	public int getFinalizados() {
+		return finalizados;
+	}
+
+	public void setFinalizados(int finalizados) {
+		this.finalizados = finalizados;
+	}
+
+	@XmlElement
+	public int getProceso() {
+		return proceso;
+	}
+
+	public void setProceso(int proceso) {
+		this.proceso = proceso;
+	}
+
+	@XmlElement
+	public int getIniciar() {
+		return iniciar;
+	}
+
+	public void setIniciar(int iniciar) {
+		this.iniciar = iniciar;
+	}
+	
+	public void setLimit(int limit) {
+		this.limit = limit;
+	}
+
+	public int getLimit() {
+		return limit;
+	}
+
+	public void setOffset(int offset) {
+		this.offset = offset;
+	}
+
+	public int getOffset() {
+		return offset;
+	}
 	
 	public String getInfo() {
 		return info;
