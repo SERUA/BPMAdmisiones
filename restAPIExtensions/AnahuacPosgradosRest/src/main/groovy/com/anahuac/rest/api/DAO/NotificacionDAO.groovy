@@ -868,9 +868,8 @@ class NotificacionDAO {
 				
 			} else {
 				pstm = con.prepareStatement(Statements.INSERT_CAT_NOTIFICACIONES_SDAE);
-				
-				pstm.setString(1, object.angulo_imagen_header);
-				pstm.setString(2, object.angulo_imagen_footer);
+				pstm.setString(1, object.angulo_imagen_footer);
+				pstm.setString(2, object.angulo_imagen_header);
 				pstm.setString(3, object.asunto);
 				pstm.setString(4, object.comentarioLeon);
 				pstm.setString(5, object.contenido);
