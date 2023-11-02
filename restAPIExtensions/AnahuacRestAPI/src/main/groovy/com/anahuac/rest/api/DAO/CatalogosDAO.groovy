@@ -97,12 +97,6 @@ class CatalogosDAO {
 	}
 
     /************************DANIEL CERVANTES****************************/
-	public Result servicioCreado(String jsonData, RestAPIContext context) {
-		def jsonSlurper = new JsonSlurper();
-		def object = jsonSlurper.parseText(jsonData);
-		
-	}
-    
     public Result getCatCampus(String jsonData, RestAPIContext context) {
         Result resultado = new Result();
         Boolean closeCon = false;
