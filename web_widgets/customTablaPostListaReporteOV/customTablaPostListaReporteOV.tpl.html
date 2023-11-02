@@ -310,12 +310,12 @@
             <br>
             <div class="row">
                 <div class="col-xs-3">
-                  <label>Nombre de la sesión:</label>
+                    <label>Nombre de la sesión:</label>
                 </div>
                 <div class="col-xs-3">
-                  {{infoSesion.nombreSesion}}
+                    {{infoSesion.nombreSesion}}
                 </div>
-                <div class="col-xs-3 text-right">
+                <div class="col-xs-6 text-right"> <!-- Esta columna se ocupa para alinear el botón a la derecha -->
                     <button class="btn btn-primary" ng-click="descargarExcel()">
                         Descargar Excel
                     </button>
@@ -323,18 +323,18 @@
             </div>
             <div class="row">
                 <div class="col-xs-3">
-                   <label>Cantidad de aspirantes:</label>
+                    <label>Cantidad de aspirantes:</label>
                 </div>
-                  <div class="col-xs-3">
+                <div class="col-xs-3">
                     {{value}}
-                  </div>
+                </div>
             </div>
             <div class="row">
                 <div class="col-xs-3">
                     <label>Finalizados:</label>
                 </div>
                 <div class="col-xs-3">
-                  {{finalizados}}
+                    {{finalizados}}
                 </div>
             </div>
             <div class="row">
@@ -342,7 +342,7 @@
                     <label>En proceso:</label>
                 </div>
                 <div class="col-xs-3">
-                  {{proceso}}
+                    {{proceso}}
                 </div>
             </div>
             <div class="row">
@@ -350,7 +350,7 @@
                     <label>Sin iniciar:</label>
                 </div>
                 <div class="col-xs-3">
-                  {{iniciar}}
+                    {{iniciar}}
                 </div>
             </div>
 
@@ -378,9 +378,11 @@
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                     ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                    ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span></th> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa<i class="glyphicon"
+                                    ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa<i class="glyphicon"
                                         ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                        ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span></th>
+                                        ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Periodo<i class="glyphicon"
+                                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                                            ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i></span></th>
                                     
                             <th>  <span style="cursor:pointer" ng-click="setOrderBy('SESIÓN')">Sesión<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -411,11 +413,13 @@
                             <td class="max-size">
                                 <b>{{row.apellidopaterno}} {{row.apellidomaterno}} {{row.primernombre}} {{row.segundonombre}}</b><br> 
                                 {{row.correoelectronico}}<br> 
+                                {{row.licenciatura}} <br>
+                                {{row.ingreso}} <br>
                             </td>
                             <td>
                                 <b>{{row.sesion }}</b><br> 
                                 {{row.idsesion }} <br>
-                                {{row.fechaentrevista}}<br>
+                                {{row.fechaentrevista}} {{row.horario}}<br>
                                 {{row.responsableid}}
                             </td>
                             <td class="max-size">
@@ -451,15 +455,7 @@
                             <button type="button" class="btn btn-default" ng-click="anterior()">Anterior</button>
                         </div>
                         <div class="btn-group" role="group" aria-label="Second group">
-                            <button
-                                ng-repeat="page in pages"
-                                ng-class="{ 'btn-primary': page.offset === currentPage, 'btn-default': page.offset !== currentPage }"
-                                type="button"
-                                class="btn"
-                                ng-click="seleccionarPagina(page.offset)"
-                            >
-                                {{page.numero}}
-                            </button>
+                            <button ng-repeat="page in pages" ng-class="{ 'btn-primary': page.offset === currentPage, 'btn-default': page.offset !== currentPage }" type="button" class="btn" ng-click="seleccionarPagina(page.offset)">{{page.numero}}</button>
                         </div>
                         <div class="btn-group" role="group" aria-label="Third group">
                             <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente</button>
