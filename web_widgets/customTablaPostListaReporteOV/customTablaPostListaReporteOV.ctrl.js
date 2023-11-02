@@ -510,7 +510,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         // Llama a cargarSesion con la copia de info y dataToSend
         $scope.cargarSesion(infoCopy, $scope.properties.dataToSend);
     };
-
+    $scope.guardarSesion = null;
     $scope.cargarSesion = function (info, dataToSend) {
         debugger;
         $scope.infoSesion = {
@@ -522,6 +522,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             "orderby": "",
             "orientation": "DESC"
         };
+
+        $scope.guardarSesion = angular.copy(requestData);
     
         // Combina dataToSend y requestData en un solo objeto
         Object.assign(requestData, dataToSend);
@@ -687,6 +689,65 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         
         
+    }
+    
+    $scope.descargarExcel = function(row) {
+        debugger;
+        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusqueda&p=0&c=9999'; // Reemplaza con la URL de tu servicio para descargar el archivo Excel
+    
+        // Ajusta los valores según tus necesidades
+        var method = 'POST';
+        var filename = 'reporteov.xlsx'; // Nombre del archivo Excel que se descargará
+    
+        var req = {
+            method: method,
+            url: url,
+            params: $scope.guardarSesion, // Utiliza 'params' para incluir los datos en la URL de la solicitud
+            responseType: 'arraybuffer', // Importante para recibir datos binarios
+        };
+    
+        $http(req)
+            .then(function(response) {
+                debugger;
+                var arrayBuffer = response.data;
+                var bytes = new Uint8Array(arrayBuffer);
+                var binaryData = '';
+                for (var i = 0; i < bytes.byteLength; i++) {
+                    binaryData += String.fromCharCode(bytes[i]);
+                }
+                var base64 = window.btoa(binaryData);
+    
+                // Ahora puedes usar 'base64' para descargar el archivo
+                var blob = b64toBlob(base64);
+                var blobUrl = URL.createObjectURL(blob);
+    
+                var link = document.createElement('a');
+                link.href = blobUrl;
+                link.download = filename;
+    
+                document.body.appendChild(link);
+    
+                link.click();
+    
+                document.body.removeChild(link);
+            })
+            .catch(function(error) {
+                console.error('Error al descargar el archivo Excel:', error);
+            });
+    };
+    
+    function b64toBlob(dataURI) {
+        debugger;
+        var byteString = atob(dataURI);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        var contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; // Cambia el tipo MIME si es necesario
+    
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        
+        return new Blob([ab], { type: contentType });
     }
 
 }
