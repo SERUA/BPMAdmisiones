@@ -221,7 +221,7 @@ function($scope, $http) {
                             $scope.anterior();
                             $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                         }
-                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
+                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
                     }
                 } else {
                     if($scope.preguntaAvanzado === true){
@@ -230,19 +230,26 @@ function($scope, $http) {
                         $scope.anterior();
                         $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                     }
-                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
+                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
                 }
                 
                 Swal.fire({
-                    title: '<strong>Atención</strong>',
+                    title: '<strong>¡Importante!</strong>',
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    if(data.error === "test_end"){
-                        window.location.reload();
-                    } else {
+                    if(data === null ){
+                        // window.close();
+                        window.open('', '_self', '');
                         window.close();
+                    } else if(data.error === "test_end"){
+                        window.location.reload();
                     }
+                    // if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // } else {
+                    //     window.close();
+                    // }
                 });
             })
             .finally(function() {
@@ -272,21 +279,23 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
+                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba.";
                     }
                 } else {
-                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet y contacta a tu aplicador para reactivar tu prueba."
+                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
                 }
                 
                 Swal.fire({
-                    title: '<strong>Atención</strong>',
+                    title: '<strong>¡Importante!</strong>',
                     icon: 'error',
-                    html:mensaje, showCloseButton: false
+                    html:mensaje, 
+                    showCloseButton: false
                 }).then((result)=>{
-                    if(data.error === "test_end"){
-                        window.location.reload();
-                    } else {
+                    if(data === null ){
+                        window.open('', '_self', '');
                         window.close();
+                    } else if(data.error === "test_end"){
+                        window.location.reload();
                     }
                 });
             })

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1697158008819,
+  "lastUpdate" : 1698877313711,
   "rows" : [
     [
       {
@@ -916,7 +916,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<pre  class=\"pre-info\">Tu sesión aún no ha comenzado, estás programado para la fecha <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</b>.</pre>"
+                              "value" : "<pre  class=\"pre-info\">Tu sesión aún no ha comenzado, estás programado para la fecha <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}} tiempo de Ciudad de México</b>.</pre>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -1851,7 +1851,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<pre  class=\"pre-info\">Your session has not started yet. You are scheduled at <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}}</b>.</pre>"
+                              "value" : "<pre  class=\"pre-info\">Your session has not started yet. You are scheduled at <b>{{mensajeError.fecha | date:'dd/MM/yyyy hh:mm'}} Mexico City time</b>.</pre>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2767,7 +2767,7 @@
         "function formatearFecha(fecha) {",
         "    const partes = fecha.split(\" \");",
         "    const fechaPartes = partes[0].split(\"-\");",
-        "    const D = partes[1];",
+        "    const D = partes[1].length > 5 ? partes[1].substring(0, 5): partes[1];",
         "    ",
         "    const fechaFormateada = `${fechaPartes[2]}/${fechaPartes[1]}/${fechaPartes[0]} ${D}`;",
         "    return fechaFormateada;",

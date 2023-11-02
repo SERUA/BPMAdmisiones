@@ -1,6 +1,7 @@
 function PbTableCtrl($scope, $http, $window, blockUI) {
 
     this.isArray = Array.isArray;
+    $scope.seleccionarSesion = false;
   
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
@@ -383,11 +384,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.setSelectedAspirante = function(_aspirante, _modal){
         $scope.selectedAspirante = angular.copy(_aspirante);
         $scope.selectedSesion = {};
+        $scope.selectedSesionString = "";
+        $scope.seleccionarSesion = true;
+        $scope._sesion = null;
+
         if(_modal === "bloquear"){
             mostrarModal("modalBloquear");
         } else if(_modal === "reactivar"){
             mostrarModal("modalReactivar");
         } else if (_modal === "asignar"){
+            $scope._sesion = angular.copy($scope.selectedAspirante);
+            $scope.selectedSesion = {
+                "aplicacion":  $scope._sesion["tempfecha"],
+                "entrada":  $scope._sesion["tempentrada"],
+                "salida":  $scope._sesion["tempsalida"],
+                "estatus":  $scope._sesion[""],
+                "toleranciaminutos":  $scope._sesion["temptoleranciaentrada"] ? parseInt( $scope._sesion["temptoleranciaentrada"]) : 0,
+                "toleranciasalidaminutos":  $scope._sesion["temptoleranciaSalida"] ? parseInt( $scope._sesion["temptoleranciaSalida"]) : 0,
+                "nombresesion":  $scope._sesion["tempprueba"]
+            }
             mostrarModal("modalAsignar");
             getSesionesByCampus();
         } else {
@@ -547,6 +562,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.get(url).success(function(_data){
             $scope.lstSesiones = _data;
             $scope.selectedSesionString = "";
+            $scope.seleccionarSesion = true;
+            if($scope._sesion){
+                for(let _sesion of $scope.lstSesiones){
+                    if(_sesion.nombresesion === $scope._sesion["tempprueba"]){
+                        $scope.selectedSesionString = JSON.stringify(_sesion);
+                        $scope.seleccionarSesion = false;
+                    }
+                }
+            }
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
@@ -593,5 +617,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         return output;
+    }
+    
+    $scope.reset = function(){
+        $scope.selectedSesion = {};
+        $scope.selectedSesionString = "";
+        $scope.seleccionarSesion = true;
     }
 }

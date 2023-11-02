@@ -207,44 +207,62 @@ function($scope, $http) {
                 $scope.properties.dataFromError = undefined;
             })
             .error(function(data, status) {
-
                 if(data){
                     if(data.error === "test_end"){
                         mensaje = "Your session has ended. You cannot resume the test. If you have any questions, please contact your facilitator.";
                     } else {
-                        mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your facilitator."
+                        mensaje = "There is a connection issue detected. Please check your internet service, <b>close your browser</b>, and contact your facilitator to reactivate your test."
                     }
                 } else {
-                    mensaje = "A connection failure has been detected. Do not close the browser, check your internet connection and contact your facilitator."
+                    mensaje = "There is a connection issue detected. Please check your internet service, <b>close your browser</b>, and contact your facilitator to reactivate your test."
                 }
 
                 Swal.fire({
-                    title: '<strong>Attention!</strong>',
+                    title: '<strong>Important!</strong>',
                     icon: 'error',
                     html:mensaje, showCloseButton: false
-                }).then((result) => {
-                    if(data.error === "test_end"){
+                }).then((result)=>{
+                    if(data === null ){
+                        // window.close();
+                        window.open('', '_self', '');
+                        window.close();
+                    } else if(data.error === "test_end"){
                         window.location.reload();
                     }
-                    let posicion = 0;
-                    let pregunta = ($scope.objcontestada.pregunta);
-                    for (var i = 0; i < $scope.properties.objPreguntasContestadas.length; i++) {
-                        if (pregunta === $scope.properties.objPreguntasContestadas[i].pregunta) {
-                            posicion = i;
-                        }
-                    }
-
-                    $scope.properties.objPreguntasContestadas = $scope.properties.objPreguntasContestadas.slice(0, posicion-1);
-                    
-                    for (var i = 0; i < $scope.lstPaginado.length; i++) {
-                        if(pregunta === $scope.lstPaginado[i].numero){
-                            $scope.lstPaginado[i].contestado = false;
-                            break;
-                        }
-                    }
-                    $scope.loadPaginado();
-                    console.log($scope.properties.objPreguntasContestadas);
+                    // if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // } else {
+                    //     window.close();
+                    // }
                 });
+
+                // Swal.fire({
+                //     title: '<strong>Attention!</strong>',
+                //     icon: 'error',
+                //     html:mensaje, showCloseButton: false
+                // }).then((result) => {
+                //     if(data.error === "test_end"){
+                //         window.location.reload();
+                //     }
+                //     let posicion = 0;
+                //     let pregunta = ($scope.objcontestada.pregunta);
+                //     for (var i = 0; i < $scope.properties.objPreguntasContestadas.length; i++) {
+                //         if (pregunta === $scope.properties.objPreguntasContestadas[i].pregunta) {
+                //             posicion = i;
+                //         }
+                //     }
+
+                //     $scope.properties.objPreguntasContestadas = $scope.properties.objPreguntasContestadas.slice(0, posicion-1);
+                    
+                //     for (var i = 0; i < $scope.lstPaginado.length; i++) {
+                //         if(pregunta === $scope.lstPaginado[i].numero){
+                //             $scope.lstPaginado[i].contestado = false;
+                //             break;
+                //         }
+                //     }
+                //     $scope.loadPaginado();
+                //     console.log($scope.properties.objPreguntasContestadas);
+                // });
             })
             .finally(function() {
                 //vm.busy = false;
@@ -273,21 +291,39 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
                     } else {
-                        mensaje = "A connection failure is detected. Do not close your browser, check your internet connection, and contact your facilitator."
+                        mensaje = "There is a connection issue detected. Please check your internet service, <b>close your browser</b>, and contact your facilitator to reactivate your test."
                     }
                 } else {
-                    mensaje = "A connection failure is detected. Do not close your browser, check your internet connection, and contact your facilitator."
+                    mensaje = "There is a connection issue detected. Please check your internet service, <b>close your browser</b>, and contact your facilitator to reactivate your test."
                 }
 
                 Swal.fire({
-                    title: '<strong>Attention!</strong>',
+                    title: '<strong>Important!</strong>',
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    if(data.error === "test_end"){
+                    if(data === null ){
+                        // window.close();
+                        window.open('', '_self', '');
+                        window.close();
+                    } else if(data.error === "test_end"){
                         window.location.reload();
                     }
+                    // if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // } else {
+                    //     window.close();
+                    // }
                 });
+                // Swal.fire({
+                //     title: '<strong>Attention!</strong>',
+                //     icon: 'error',
+                //     html:mensaje, showCloseButton: false
+                // }).then((result)=>{
+                //     if(data.error === "test_end"){
+                //         window.location.reload();
+                //     }
+                // });
                 
             })
             .finally(function() {
@@ -299,7 +335,6 @@ function($scope, $http) {
     $scope.$watch("properties.objPreguntasContestadas", function(){
         if($scope.precargado === false && ($scope.properties.objPreguntasContestadas.length > 0)){
             $scope.precargado = true;
-            debugger;
             let objeto = ($scope.objPreguntasContestadas.length - 1);
             $scope.seleccionarPagina(objeto.pregunta);
         }
