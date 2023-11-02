@@ -669,7 +669,7 @@ class NotificacionDAO {
 			}*/
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).getPrimer_nombre()+" "+objSolicitudDeAdmision.get(0).getSegundo_nombre()+" "+objSolicitudDeAdmision.get(0).getApellidopaterno()+" "+objSolicitudDeAdmision.get(0).getApellidomaterno())
 			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).getPrimer_nombre()+" "+objSolicitudDeAdmision.get(0).getSegundo_nombre())
-			plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreo_electronico())
+//			plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreo_electronico())
 			errorlog += ", Variable14"
 		}
 		errorlog += ", Variable10 tablaUsuario"
