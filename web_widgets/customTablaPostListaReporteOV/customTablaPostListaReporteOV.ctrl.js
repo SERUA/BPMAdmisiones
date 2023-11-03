@@ -693,47 +693,50 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.descargarExcel = function(row) {
         debugger;
-        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusqueda&p=0&c=9999'; // Reemplaza con la URL de tu servicio para descargar el archivo Excel
+        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusqueda&p=0&c=100';
     
         // Ajusta los valores según tus necesidades
         var method = 'POST';
-        var filename = 'reporteov.xlsx'; // Nombre del archivo Excel que se descargará
+        var filename = 'reporteov.xlsx';
+    
+        // Agrega el nombre de la hoja al objeto $scope.guardarSesion
+        $scope.guardarSesion.type = 'ReporteSesiones'; // Puedes usar el nombre que prefieras
     
         var req = {
             method: method,
             url: url,
-            params: $scope.guardarSesion, // Utiliza 'params' para incluir los datos en la URL de la solicitud
-            responseType: 'arraybuffer', // Importante para recibir datos binarios
+            data: $scope.guardarSesion, // Envía el contenido de $scope.guardarSesion en el cuerpo de la solicitud
+            responseType: 'text',
         };
     
-        $http(req)
-            .then(function(response) {
-                debugger;
-                var arrayBuffer = response.data;
-                var bytes = new Uint8Array(arrayBuffer);
-                var binaryData = '';
-                for (var i = 0; i < bytes.byteLength; i++) {
-                    binaryData += String.fromCharCode(bytes[i]);
-                }
-                var base64 = window.btoa(binaryData);
-    
-                // Ahora puedes usar 'base64' para descargar el archivo
-                var blob = b64toBlob(base64);
-                var blobUrl = URL.createObjectURL(blob);
-    
-                var link = document.createElement('a');
-                link.href = blobUrl;
-                link.download = filename;
-    
-                document.body.appendChild(link);
-    
-                link.click();
-    
-                document.body.removeChild(link);
-            })
-            .catch(function(error) {
-                console.error('Error al descargar el archivo Excel:', error);
-            });
+        return $http(req)
+        .success(function(response, status) {
+            debugger;
+            const blob = b64toBlob(response.data[0]);
+            const blobUrl = URL.createObjectURL(blob);
+            
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "ReporteOV";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            
+            //window.open(blobUrl, '_blank');
+            // window.location = blobUrl;
+        })
+        .error(function(data, status) {
+            $scope.properties.dataFromError = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromSuccess = undefined;
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+        })
+        .finally(function() {
+            vm.busy = false;
+        });
     };
     
     function b64toBlob(dataURI) {
@@ -741,12 +744,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         var byteString = atob(dataURI);
         var ab = new ArrayBuffer(byteString.length);
         var ia = new Uint8Array(ab);
-        var contentType = 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'; // Cambia el tipo MIME si es necesario
-    
+        let contentType = "";
+        
+        contentType = "application/vnd.ms-excel";
+
         for (var i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
         }
-        
         return new Blob([ab], { type: contentType });
     }
 

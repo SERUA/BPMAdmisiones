@@ -38,7 +38,6 @@ import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.engine.bpm.document.Document
-import org.apache.poi.ss.usermodel.CellStyle
 import org.apache.poi.xssf.usermodel.XSSFSheet
 import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.bonitasoft.engine.api.ProcessAPI
@@ -1258,7 +1257,6 @@ class NuevoListadoDAO {
 			def object = jsonSlurper.parseText(jsonData);
 	
 			Result dataResult = contSelectUsuariosSesion(jsonData, context);
-			resultado = dataResult;
 	
 			int rowCount = 0;
 			List<Object> lstParams;
@@ -1295,7 +1293,7 @@ class NuevoListadoDAO {
 			cellusuario.setCellValue("Usuario:");
 			cellusuario.setCellStyle(style);
 			Cell cellusuarioData = blank.createCell(5);
-			cellusuarioData.setCellValue(object.usuario);
+			cellusuarioData.setCellValue("Usuario:");
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header1 = headersRow.createCell(0);
@@ -1331,42 +1329,63 @@ class NuevoListadoDAO {
 			Cell header11 = headersRow.createCell(10);
 			header11.setCellValue("Última modificación");
 			
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			
 			// Datos
 			for (int i = 0; i < lstParams.size(); ++i) {
 			    Row row = sheet.createRow(++rowCount);
-			    Cell cell1 = row.createCell(0);
-			    cell1.setCellValue(lstParams.get(i).idbanner);
-			
-			    Cell cell2 = row.createCell(1);
-			    cell2.setCellValue(lstParams.get(i).apellidopaterno + " " + lstParams.get(i).apellidomaterno + " " + lstParams.get(i).primernombre + " " + lstParams.get(i).segundonombre);
-			
-			    Cell cell3 = row.createCell(2);
-			    cell3.setCellValue(lstParams.get(i).correoelectronico);
-			
-			    Cell cell4 = row.createCell(3);
-			    cell4.setCellValue(lstParams.get(i).licenciatura);
-			
-			    Cell cell5 = row.createCell(4);
-			    cell5.setCellValue(lstParams.get(i).ingreso);
-			
-			    Cell cell6 = row.createCell(5);
-			    cell6.setCellValue("Sesión " + lstParams.get(i).sesion);
-			
-			    Cell cell7 = row.createCell(6);
-			    cell7.setCellValue("Id sesión " + lstParams.get(i).idsesion);
-			
-			    Cell cell8 = row.createCell(7);
+
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams.get(i).get("idbanner"));
+				
+				Cell cell2 = row.createCell(1);
+				String apellidopaterno = lstParams.get(i).get("apellidopaterno");
+				String apellidomaterno = lstParams.get(i).get("apellidomaterno");
+				String primernombre = lstParams.get(i).get("primernombre");
+				String segundonombre = lstParams.get(i).get("segundonombre");
+				cell2.setCellValue(apellidopaterno + " " + apellidomaterno + " " + primernombre + " " + segundonombre);
+				
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams.get(i).get("correoelectronico"));
+				
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams.get(i).get("licenciatura"));
+				
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams.get(i).get("ingreso"));
+				
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue("Sesión " + lstParams.get(i).get("sesion"));
+				
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue("Id sesión " + lstParams.get(i).get("idsesion"));
+				
+				Cell cell8 = row.createCell(7);
 				String fechaEntrevista = lstParams.get(i).get("fechaentrevista") + " " + lstParams.get(i).get("horario");
 				cell8.setCellValue(fechaEntrevista);
-			
-			    Cell cell9 = row.createCell(8);
-			    cell9.setCellValue(lstParams.get(i).responsableid);
-			
-			    Cell cell10 = row.createCell(9);
-			    cell10.setCellValue(lstParams.get(i).estatussolicitud);
-			
-			    Cell cell11 = row.createCell(10);
-			    cell11.setCellValue(lstParams.get(i).ultimamodificacion);
+				
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams.get(i).get("responsableid"));
+				
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams.get(i).get("estatussolicitud"));
+				
+//				Cell cell11 = row.createCell(10);
+//				cell11.setCellValue(lstParams.get(i).get("fechaultimamodificacion"));
+				
+				String fechaRegistroString = lstParams.get(i).get("fechaultimamodificacion");
+				
+				if (fechaRegistroString != null) {
+				    Date fechaRegistro = dfSalida.parse(fechaRegistroString);
+				    String fechaFormateada = dformat.format(fechaRegistro);
+				    Cell cell11 = row.createCell(10);
+				    cell11.setCellValue(fechaFormateada);
+				} else {
+				    Cell cell11 = row.createCell(10);
+				    cell11.setCellValue("N/A");
+				}
+				errorLog += fechaRegistroString;
 			}
 			
 			// Ajusta el ancho de las columnas
@@ -1376,7 +1395,171 @@ class NuevoListadoDAO {
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			workbook.write(outputStream);
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error("[ERROR] " + e.getMessage());
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}
 	
+		return resultado;
+	}
+	
+	public Result getExcelFileReporteOvBusquedaAvanzada(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+	
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = contSelectUsuariosSesion(jsonData, context);
+	
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+	
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontró datos");
+			}
+	
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue(title);
+	
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String sDate = formatter.format(date);
+	
+			Row blank = sheet.createRow(++rowCount);
+			Cell cellusuario = blank.createCell(4);
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = blank.createCell(5);
+			cellusuarioData.setCellValue("Usuario:");
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("Id banner");
+			
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("Nombre");
+			
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Email");
+			
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("Programa");
+			
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("Periodo");
+			
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Sesión");
+			
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Id sesión");
+			
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Fecha de la entrevista");
+			
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Psicólogo");
+			
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Estatus");
+			
+			Cell header11 = headersRow.createCell(10);
+			header11.setCellValue("Última modificación");
+			
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			
+			// Datos
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams.get(i).get("idbanner"));
+				
+				Cell cell2 = row.createCell(1);
+				String apellidopaterno = lstParams.get(i).get("apellidopaterno");
+				String apellidomaterno = lstParams.get(i).get("apellidomaterno");
+				String primernombre = lstParams.get(i).get("primernombre");
+				String segundonombre = lstParams.get(i).get("segundonombre");
+				cell2.setCellValue(apellidopaterno + " " + apellidomaterno + " " + primernombre + " " + segundonombre);
+				
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams.get(i).get("correoelectronico"));
+				
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams.get(i).get("licenciatura"));
+				
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams.get(i).get("ingreso"));
+				
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue("Sesión " + lstParams.get(i).get("sesion"));
+				
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue("Id sesión " + lstParams.get(i).get("idsesion"));
+				
+				Cell cell8 = row.createCell(7);
+				String fechaEntrevista = lstParams.get(i).get("fechaentrevista") + " " + lstParams.get(i).get("horario");
+				cell8.setCellValue(fechaEntrevista);
+				
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams.get(i).get("responsableid"));
+				
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams.get(i).get("estatussolicitud"));
+				
+//				Cell cell11 = row.createCell(10);
+//				cell11.setCellValue(lstParams.get(i).get("fechaultimamodificacion"));
+				
+				String fechaRegistroString = lstParams.get(i).get("fechaultimamodificacion");
+				
+				if (fechaRegistroString != null) {
+					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
+					String fechaFormateada = dformat.format(fechaRegistro);
+					Cell cell11 = row.createCell(10);
+					cell11.setCellValue(fechaFormateada);
+				} else {
+					Cell cell11 = row.createCell(10);
+					cell11.setCellValue("N/A");
+				}
+				errorLog += fechaRegistroString;
+			}
+			
+			// Ajusta el ancho de las columnas
+			for (int i = 0; i <= 10; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+	
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+			
 			List<Object> lstResultado = new ArrayList<Object>();
 			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
 			resultado.setError_info(errorLog);
