@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_PSuYQGRNEe25vplGuJ9kyw" name="Examen INVP" author="micedo94" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.49">
+    <elements xmi:type="process:Pool" xmi:id="_PSuYQWRNEe25vplGuJ9kyw" name="Examen INVP" version="1.0.50">
       <elements xmi:type="process:Lane" xmi:id="_PSuYQmRNEe25vplGuJ9kyw" name="Aspirante" actor="_VAArMGRNEe25vplGuJ9kyw">
         <elements xmi:type="process:StartEvent" xmi:id="_PSuYQ2RNEe25vplGuJ9kyw" name="Inicio1" outgoing="_PSuYWGRNEe25vplGuJ9kyw">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_PSuYRGRNEe25vplGuJ9kyw" name="" content="" returnTypeFixed="true"/>
@@ -1078,7 +1078,9 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_4gUsYcXREe2OYrwQhS56WQ" name="instanciaINVP" content="instanciaINVP" type="TYPE_VARIABLE" returnType="com.anahuac.invp.InstanciaINVP">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_5CHK0MXREe2OYrwQhS56WQ" name="instanciaINVP" dataType="_PSuYdGRNEe25vplGuJ9kyw" className="com.anahuac.invp.InstanciaINVP"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_4gUsYsXREe2OYrwQhS56WQ" name="newScript()" content="'Prueba terminada'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_4gUsYsXREe2OYrwQhS56WQ" name="newScript()" content="if(terminadoF == true){&#xD;&#xA;&#x9;return 'Prueba terminada por administrador'&#x9;&#xD;&#xA;} else {&#xD;&#xA;&#x9;'Prueba terminada'&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:Data" xmi:id="_T9G7MHqIEe6kcp2ZcpM1pg" name="terminadoF" dataType="_PSuYbGRNEe25vplGuJ9kyw"/>
+            </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_4gUsY8XREe2OYrwQhS56WQ" type="JAVA_METHOD" expression="setEstatus">
               <inputTypes>java.lang.String</inputTypes>
             </operator>

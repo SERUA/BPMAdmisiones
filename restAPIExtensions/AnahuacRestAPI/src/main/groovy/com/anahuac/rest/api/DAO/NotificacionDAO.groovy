@@ -2104,14 +2104,12 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			pstm = con.prepareStatement(Statements.GET_ISTEMPORAL_INVP);
 			pstm.setString(1, object.correo);
 			rs = pstm.executeQuery();
-			
 			Boolean isTemporal = false;
-			
 			if (rs.next()) {
-				isTemporal = rs.getBoolean("istemporal");
+				isTemporal = rs.getBoolean("istemporal")
 			}
 			
-			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar)) {
+			if(isTemporal == true && ( (object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) )) {
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
