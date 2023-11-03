@@ -1266,29 +1266,52 @@ class LoginSesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
+			LOGGER.error("updateterminadoGet::1 | " + username);
+			errorlog += "updateterminadoGet::1 | ";
 			pstm = con.prepareStatement(Statements.UPDATE_TERMINADO_EXAMEN_GET);
 			pstm.setBoolean(1, terminado);
 			pstm.setString(2, username);	
 			pstm.setString(3, username);
-			pstm.executeUpdate();
-			con.commit();
-			UsuariosDAO uDAO = new UsuariosDAO();
+			int rowsAffected = pstm.executeUpdate();
+			LOGGER.error("updateterminadoGet::2 | " + username);
+			errorlog += "updateterminadoGet::2 | ";
 			
-			uDAO.desbloquearAspiranteDef(username);
-			uDAO.bloquearAspirante(username, false, true);
-			
-			success = true;
-			if(resultReq > 0) {
-				error_log = resultReq + " Exito! query UPDATE_TERMINADO_EXAMEN_GET"
+			if(rowsAffected > 0) {
+				LOGGER.error("updateterminadoGet::2.1 rowsAffected > 0 |");
+				errorlog += "updateterminadoGet::2.1 rowsAffected > 0 |";
 			} else {
-				error_log = resultReq + " Error! query UPDATE_TERMINADO_EXAMEN_GET"
+				LOGGER.error("updateterminadoGet::2.2 rowsAffected = 0|");
+				errorlog += "updateterminadoGet::2.2 rowsAffected = 0 |";
 			}
 			
+			con.commit();
+			LOGGER.error("updateterminadoGet::3 | " + username);
+			errorlog += "updateterminadoGet::3 | ";
+			UsuariosDAO uDAO = new UsuariosDAO();
+			LOGGER.error("updateterminadoGet::4 | " + username);
+			errorlog += "updateterminadoGet::4 | ";
+			uDAO.desbloquearAspiranteDef(username);
+			uDAO.bloquearAspirante(username, false, true);
+			LOGGER.error("updateterminadoGet::5 | " + username);
+			errorlog += "updateterminadoGet::5 | ";
+			success = true;
+			if(resultReq > 0) {
+				LOGGER.error("updateterminadoGet::5.1 | " + username);
+				errorlog += "updateterminadoGet::5.1 | ";
+				error_log = resultReq + " Exito! query UPDATE_TERMINADO_EXAMEN_GET"
+			} else {
+				LOGGER.error("updateterminadoGet::5.2 |");
+				errorlog += "updateterminadoGet::5.2 | ";
+				error_log = resultReq + " Error! query UPDATE_TERMINADO_EXAMEN_GET"
+			}
+			LOGGER.error("updateterminadoGet::6 | " + username);
+			errorlog += "updateterminadoGet::6 | ";
 			resultado.setSuccess(true)
 			resultado.setError_info(errorlog);
 			
 		} catch (Exception e) {
-			LOGGER.error "[ERROR] " + e.getMessage();
+			LOGGER.error("updateterminadoGet::1 | " + username);
+			LOGGER.error "[ERROR] updateterminadoGet | " + username + ": " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
