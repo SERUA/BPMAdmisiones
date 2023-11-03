@@ -315,7 +315,7 @@
                 <div class="col-xs-3">
                     {{infoSesion.nombreSesion}}
                 </div>
-                <div class="col-xs-6 text-right"> <!-- Esta columna se ocupa para alinear el botón a la derecha -->
+                <div class="col-xs-6 text-right">
                     <button class="btn btn-primary" ng-click="descargarExcel()">
                         Descargar Excel
                     </button>
@@ -388,13 +388,13 @@
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                     ng-show="properties.dataToSend.orderby=='SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('ID SESIÓN')">Id sesión<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                    ng-show="properties.dataToSend.orderby=='ID SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha de la entrevista<i class="glyphicon"
+                                    ng-show="properties.dataToSend.orderby=='ID SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha y hora de la entrevista<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                                    ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicologo<i class="glyphicon"
+                                    ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicólogo<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                     ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
                                     
-                            <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
+                            <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus de admisiones / Reporte OV<i class="glyphicon"
                                     ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                                     ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
                             <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" 
@@ -446,7 +446,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="col-xs-5">
+                <div class="col-xs-5" ng-show="seccionSesion == true">
                     <div class="dataTables_info">Mostrando {{offset}} a {{limitValue}} de {{value}} registros</div>
                 </div>
                 <div class="col-xs-7 text-center">

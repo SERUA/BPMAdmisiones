@@ -62,9 +62,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     this.isSelected = function(row) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
-
+    $scope.guardarSesion = null;
     function doRequest(method, url, params) {
         debugger;
+        $scope.guardarSesion = angular.copy($scope.properties.dataToSend);
         blockUI.start();
         var req = {
             method: method,
@@ -669,6 +670,69 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }else{
         	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
         }
+    }
+
+    $scope.descargarExcel = function(row) {
+        debugger;
+        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusquedaAvanzada&p=0&c=100';
+    
+        // Ajusta los valores según tus necesidades
+        var method = 'POST';
+        var filename = 'reporteov.xlsx';
+    
+        // Agrega el nombre de la hoja al objeto $scope.guardarSesion
+        $scope.guardarSesion.type = 'ReporteSesiones'; // Puedes usar el nombre que prefieras
+    
+        var req = {
+            method: method,
+            url: url,
+            data: $scope.guardarSesion, // Envía el contenido de $scope.guardarSesion en el cuerpo de la solicitud
+            responseType: 'text',
+        };
+    
+        return $http(req)
+        .success(function(response, status) {
+            debugger;
+            const blob = b64toBlob(response.data[0]);
+            const blobUrl = URL.createObjectURL(blob);
+            
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "ReporteOV";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            
+            //window.open(blobUrl, '_blank');
+            // window.location = blobUrl;
+        })
+        .error(function(data, status) {
+            $scope.properties.dataFromError = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromSuccess = undefined;
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+        })
+        .finally(function() {
+            vm.busy = false;
+        });
+    };
+    
+    function b64toBlob(dataURI) {
+        debugger;
+        var byteString = atob(dataURI);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        let contentType = "";
+        
+        contentType = "application/vnd.ms-excel";
+
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: contentType });
     }
     
 }

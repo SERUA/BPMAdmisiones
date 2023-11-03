@@ -289,6 +289,15 @@ class Index implements RestApiController {
 							return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 						}
 						break;
+					case "getExcelFileReporteOvBusquedaAvanzada":
+						result = new NuevoListadoDAO().getExcelFileReporteOvBusquedaAvanzada(jsonData, context)
+						responseBuilder.withMediaType("application/json")
+						if (result.isSuccess()) {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+						}else {
+							return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+						}
+						break;
 					
 					case "getPdfPaseLista":
 					result = new ListadoDAO().getPdfPaseLista(parameterP, parameterC, jsonData, context)
