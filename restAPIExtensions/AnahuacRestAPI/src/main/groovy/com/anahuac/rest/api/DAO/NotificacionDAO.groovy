@@ -2099,7 +2099,17 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			lstAdditionalData.add("correo="+correo)
 			lstAdditionalData.add("asunto="+asunto)
 			lstAdditionalData.add("cc="+cc)
-			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
+			
+			//SELECT TEMPORAL 
+			pstm = con.prepareStatement(Statements.GET_ISTEMPORAL_INVP);
+			pstm.setString(1, object.correo);
+			rs = pstm.executeQuery();
+			Boolean isTemporal = false;
+			if (rs.next()) {
+				isTemporal = rs.getBoolean("istemporal")
+			}
+			
+			if(isTemporal == true && ( (object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) )) {
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)

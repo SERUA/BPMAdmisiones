@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1689359024824,
+  "lastUpdate" : 1699034013960,
   "rows" : [
     [
       {
@@ -9084,12 +9084,18 @@
       "type" : "expression",
       "value" : [
         "for(let objectTutor of $data.objPadresTutor){\r",
-        "    \r",
         "    if(objectTutor.isTutor){\r",
         "        $data.tutor = objectTutor;\r",
+        "        break;\r",
         "    }\r",
+        "}\r",
+        "// for(let objectTutor of $data.objPadresTutor){\r",
         "    \r",
-        "}"
+        "//     if(objectTutor.isTutor){\r",
+        "//         $data.tutor = objectTutor;\r",
+        "//     }\r",
+        "    \r",
+        "// }"
       ],
       "exposed" : false
     },
@@ -9334,11 +9340,17 @@
       "type" : "expression",
       "value" : [
         "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if(objectTutor.catParentezco.descripcion === \"Madre\"){\r",
+        "    if(objectTutor.catParentezco.descripcion === \"Madre\" && objectTutor.desconozcoDatosPadres !== null ){\r",
         "        $data.madre = objectTutor;\r",
         "        break;\r",
         "    }\r",
-        "}"
+        "}\r",
+        "// for(let objectTutor of $data.objPadresTutor){\r",
+        "//     if(objectTutor.catParentezco.descripcion === \"Madre\"){\r",
+        "//         $data.madre = objectTutor;\r",
+        "//         break;\r",
+        "//     }\r",
+        "// }"
       ],
       "exposed" : false
     },
@@ -9346,11 +9358,18 @@
       "type" : "expression",
       "value" : [
         "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if (objectTutor.catParentezco.descripcion === \"Padre\"){\r",
+        "    if (objectTutor.catParentezco.descripcion === \"Padre\"  && objectTutor.desconozcoDatosPadres !== null ){\r",
         "        $data.padre = objectTutor;\r",
         "        break;\r",
         "    } \r",
-        "}"
+        "}\r",
+        "\r",
+        "// for(let objectTutor of $data.objPadresTutor){\r",
+        "//     if (objectTutor.catParentezco.descripcion === \"Padre\"){\r",
+        "//         $data.padre = objectTutor;\r",
+        "//         break;\r",
+        "//     } \r",
+        "// }"
       ],
       "exposed" : false
     },

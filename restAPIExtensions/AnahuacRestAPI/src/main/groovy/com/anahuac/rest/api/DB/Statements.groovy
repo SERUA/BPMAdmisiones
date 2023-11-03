@@ -645,4 +645,6 @@ class Statements {
 	public static final String GET_USER_FOTO="SELECT sda.aceptado,ds.idbanner,sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre,sda.estatussolicitud,sda.fecharegistro,gestionescolar.nombre AS programa,campus.grupobonita,periodo.descripcion AS periodo,campus.descripcion AS campus FROM SOLICITUDDEADMISION AS sda INNER JOIN DETALLESOLICITUD AS ds ON ds.CASEID::INTEGER = sda.CASEID  INNER JOIN catgestionescolar AS gestionescolar ON gestionescolar.persistenceid=sda.catgestionescolar_pid LEFT JOIN catperiodo AS periodo ON periodo.persistenceid =sda.catperiodo_pid LEFT JOIN catcampus campus ON campus.persistenceid=sda.catcampus_pid WHERE ds.idbanner = ? LIMIT 1";
 	
 	public static final String GET_PRUEBAS_IDBANNER_IDSESION = "Select ap.prueba_pid, ap.username FROM solicituddeadmision AS SDA INNER JOIN detallesolicitud AS DS ON DS.caseid = SDA.caseid::varchar AND DS.idbanner = ? INNER JOIN aspirantespruebas AS AP ON AP.username = SDA.correoelectronico AND AP.catTipoPrueba_pid = 1 and AP.sesiones_pid = ? ";
+	
+	public static final String GET_ISTEMPORAL_INVP = "SELECT istemporal FROM IdiomaINVPUsuario WHERE username = ?";
 }
