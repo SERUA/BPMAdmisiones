@@ -12,6 +12,14 @@
         </div>
         <br>
         <div class="row">
+            <div class="col-xs-12 text-right">
+                <button class="btn btn-primary" ng-click="descargarExcel()">
+                    Descargar Excel
+                </button>
+            </div>
+        </div>
+        <br>
+        <div class="row">
             <div class="col-xs-2">
             <label>Id banner:</label>
             </div>
@@ -151,9 +159,9 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('ID SESIÓN')">Id Sesión<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='ID SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha entrevista<i class="glyphicon"
+                            ng-show="properties.dataToSend.orderby=='ID SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha y hora de la entrevista<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicologo<i class="glyphicon"
+                            ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicólogo<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus de admisiones / Reporte OV<i class="glyphicon"
@@ -213,7 +221,7 @@
                     <td>
                         <b>{{row.sesion }}</b><br> 
                         {{row.idsesion }} <br>
-                        {{row.fechaentrevista}} <br>
+                        {{row.fechaentrevista}} {{row.horario}}<br>
                         {{row.responsableid}}
                     </td>
                     <td class="max-size">

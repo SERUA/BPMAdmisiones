@@ -2191,6 +2191,12 @@ class SecurityFilter {
 			  break;
 			}
 			break;
+		  case "getExcelFileReporteOvBusquedaAvanzada":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
 		}
 		
 		return allow;
