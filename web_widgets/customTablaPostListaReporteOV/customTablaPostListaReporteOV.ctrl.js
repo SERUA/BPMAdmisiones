@@ -63,7 +63,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripción.", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no ha seleccionado cita.", "", "info"); 
                 }
                 console.log(data.data)
             })
