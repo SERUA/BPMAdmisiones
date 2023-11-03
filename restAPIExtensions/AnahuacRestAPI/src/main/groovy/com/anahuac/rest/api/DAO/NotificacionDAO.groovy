@@ -2101,15 +2101,25 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			lstAdditionalData.add("cc="+cc)
 			
 			//SELECT TEMPORAL 
-			pstm = con.prepareStatement(Statements.GET_ISTEMPORAL_INVP);
-			pstm.setString(1, object.correo);
-			rs = pstm.executeQuery();
+			
 			Boolean isTemporal = false;
-			if (rs.next()) {
-				isTemporal = rs.getBoolean("istemporal")
+			try {
+				closeCon = validarConexion();
+				pstm = con.prepareStatement(Statements.GET_ISTEMPORAL_INVP);
+				pstm.setString(1, object.correo);
+				rs = pstm.executeQuery();
+				if (rs.next()) {
+					isTemporal = rs.getBoolean("istemporal")
+				}
+			} catch(Exception ex) {
+				errorlog +=", consulta custom " + ex.getMessage();
+			} finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm);
+				}
 			}
 			
-			if(isTemporal == true && ( (object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) )) {
+			if(isTemporal == true && object.isEnviar) {
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)

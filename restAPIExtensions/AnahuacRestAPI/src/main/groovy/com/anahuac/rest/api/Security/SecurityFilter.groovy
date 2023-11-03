@@ -2197,6 +2197,17 @@ class SecurityFilter {
 			  break;
 			}
 			break;
+		  case "genetateHtmlINVP":
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			break;
+			
 		}
 		
 		return allow;
