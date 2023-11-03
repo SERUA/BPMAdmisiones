@@ -701,7 +701,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
         // Agrega el nombre de la hoja al objeto $scope.guardarSesion
         $scope.guardarSesion.type = 'ReporteSesiones'; // Puedes usar el nombre que prefieras
-    
+        $scope.guardarSesion.user_name = $scope.properties.userData.user_name;
         var req = {
             method: method,
             url: url,

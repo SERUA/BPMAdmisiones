@@ -1415,13 +1415,13 @@ class NuevoListadoDAO {
 			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
 			font.setBold(true);
 			style.setFont(font);
-	
+			
 			if (dataResult.success) {
-				lstParams = dataResult.getData();
+			    lstParams = dataResult.getData();
 			} else {
-				throw new Exception("No encontró datos");
+			    throw new Exception("No encontró datos");
 			}
-	
+			
 			String title = object.estatussolicitud;
 			Row titleRow = sheet.createRow(++rowCount);
 			Cell cellReporte = titleRow.createCell(1);
@@ -1429,19 +1429,25 @@ class NuevoListadoDAO {
 			cellReporte.setCellStyle(style);
 			Cell cellTitle = titleRow.createCell(2);
 			cellTitle.setCellValue("Reporte OV busqueda");
-	
+			
+			Cell cellusuario = titleRow.createCell(4); // Crear la celda de usuario en la misma fila
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = titleRow.createCell(5);
+			cellusuarioData.setCellValue(object.user_name);
+			
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.HOUR_OF_DAY, -7);
 			Date date = cal.getTime();
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String sDate = formatter.format(date);
-	
-			Row blank = sheet.createRow(++rowCount);
-//			Cell cellusuario = blank.createCell(4);
-//			cellusuario.setCellValue("Usuario:");
-//			cellusuario.setCellStyle(style);
-//			Cell cellusuarioData = blank.createCell(5);
-//			cellusuarioData.setCellValue("Usuario:");
+			
+			Cell cellFecha = titleRow.createCell(6); // Crear la celda de fecha en la misma fila
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+			Cell cellFechaData = titleRow.createCell(7);
+			cellFechaData.setCellValue(sDate);
+			
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header1 = headersRow.createCell(0);
@@ -1510,10 +1516,10 @@ class NuevoListadoDAO {
 				cell5.setCellValue(lstParams.get(i).get("ingreso"));
 				
 				Cell cell6 = row.createCell(5);
-				cell6.setCellValue(lstParams.get(i).get("sesion"));
+				cell6.setCellValue(lstParams.get(i).get("idsesion"));
 				
 				Cell cell7 = row.createCell(6);
-				cell7.setCellValue(lstParams.get(i).get("idsesion"));
+				cell7.setCellValue(lstParams.get(i).get("sesion"));
 				
 				Cell cell8 = row.createCell(7);
 				cell8.setCellValue(lstParams.get(i).get("fechaentrevista"));
@@ -1531,7 +1537,9 @@ class NuevoListadoDAO {
 				String finalizado = lstParams.get(i).get("finalizado");
 				if ("f".equals(finalizado)) {
 					finalizado = "Finalizado";
-				} else if ("s".equals(finalizado)) {
+				} else if ("t".equals(finalizado)) {
+					finalizado = "Finalizado";
+				}else if ("s".equals(finalizado)) {
 					finalizado = "Sin iniciar";
 				}
 				cell12.setCellValue(finalizado);
@@ -1596,33 +1604,39 @@ class NuevoListadoDAO {
 			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
 			font.setBold(true);
 			style.setFont(font);
-	
+			
 			if (dataResult.success) {
-				lstParams = dataResult.getData();
+			    lstParams = dataResult.getData();
 			} else {
-				throw new Exception("No encontró datos");
+			    throw new Exception("No encontró datos");
 			}
-	
+			
 			String title = object.estatussolicitud;
 			Row titleRow = sheet.createRow(++rowCount);
 			Cell cellReporte = titleRow.createCell(1);
 			cellReporte.setCellValue("Reporte:");
 			cellReporte.setCellStyle(style);
 			Cell cellTitle = titleRow.createCell(2);
-			cellTitle.setCellValue(title);
-	
+			cellTitle.setCellValue("Reporte OV busqueda avanzada");
+			
+			Cell cellusuario = titleRow.createCell(4); // Crear la celda de usuario en la misma fila
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = titleRow.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.HOUR_OF_DAY, -7);
 			Date date = cal.getTime();
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
 			String sDate = formatter.format(date);
-	
-			Row blank = sheet.createRow(++rowCount);
-			Cell cellusuario = blank.createCell(4);
-			cellusuario.setCellValue("Usuario:");
-			cellusuario.setCellStyle(style);
-			Cell cellusuarioData = blank.createCell(5);
-			cellusuarioData.setCellValue("Usuario:");
+			
+			Cell cellFecha = titleRow.createCell(6); // Crear la celda de fecha en la misma fila
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+			Cell cellFechaData = titleRow.createCell(7);
+			cellFechaData.setCellValue(sDate);
+			
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header1 = headersRow.createCell(0);
@@ -1665,10 +1679,10 @@ class NuevoListadoDAO {
 			header13.setCellValue("Tipo de Alumno");
 			
 			Cell header14 = headersRow.createCell(13);
-			header14.setCellValue("Nombre de la sesión");
+			header14.setCellValue("Id Sesión");
 			
 			Cell header15 = headersRow.createCell(14);
-			header15.setCellValue("Id Sesión");
+			header15.setCellValue("Nombre de la sesión");
 			
 			Cell header16 = headersRow.createCell(15);
 			header16.setCellValue("Fechade la entrevista");
@@ -1736,11 +1750,11 @@ class NuevoListadoDAO {
 				cell13.setCellValue(lstParams.get(i).get("tipodealumno"));
 				
 				Cell cell14 = row.createCell(13);
-				cell14.setCellValue(lstParams.get(i).get("sesion"));
+				String fechaEntrevista = lstParams.get(i).get("idsesion");
+				cell14.setCellValue(fechaEntrevista);
 				
 				Cell cell15 = row.createCell(14);
-				String fechaEntrevista = lstParams.get(i).get("idsesion");
-				cell15.setCellValue(fechaEntrevista);
+				cell15.setCellValue(lstParams.get(i).get("sesion"));
 				
 				Cell cell16 = row.createCell(15);
 				cell16.setCellValue(lstParams.get(i).get("fechaentrevista"));
@@ -1757,9 +1771,11 @@ class NuevoListadoDAO {
 				Cell cell20 = row.createCell(19);
 				String finalizado = lstParams.get(i).get("finalizado");
 				if ("f".equals(finalizado)) {
-				    finalizado = "Finalizado";
-				} else if ("s".equals(finalizado)) {
-				    finalizado = "Sin iniciar";
+					finalizado = "Finalizado";
+				} else if ("t".equals(finalizado)) {
+					finalizado = "Finalizado";
+				}else if ("s".equals(finalizado)) {
+					finalizado = "Sin iniciar";
 				}
 				cell20.setCellValue(finalizado);
 				
