@@ -1182,10 +1182,42 @@ class NuevoListadoDAO {
 			where += " AND "
 		}
 		switch (filtro) {
+			
+			case "NOMBRE,EMAIL,CURP":
+				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+			
+				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+				where = where.replace("[valor]", valor)
+				break;
+			case "CAMPUS,PROGRAMA,INGRESO":
+
+				where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+				break;
+			case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
+				where += "( LOWER(CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(prepa.DESCRIPCION) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+			
+				where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+				break;
 			case "NOMBRE,EMAIL":
 				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
 

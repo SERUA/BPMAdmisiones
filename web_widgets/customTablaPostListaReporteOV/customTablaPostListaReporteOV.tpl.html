@@ -137,6 +137,7 @@
                         {{row.ingreso}}
                     </td>
                     <td>
+                        <b ng-if="row.idsesion == null" >El aspirante aun no agendado sesión</b>
                         <b>{{row.sesion }}</b><br> 
                         {{row.idsesion }} <br>
                         {{row.fechaentrevista}}<br>
@@ -154,7 +155,7 @@
                         {{row.tiempoultimamodificacion}}
                     </td>
                     <td class="max-size">
-                        <table>
+                        <table ng-if="row.idsesion != null">
                             <tr>
                                 <td>
                                     <button class="btn btn-default" ng-click="asignarTarea(row)">
@@ -433,7 +434,7 @@
                                 {{row.tiempoultimamodificacion}}
                             </td>
                             <td class="max-size">
-                                <table>
+                                <table ng-if="row.idsesion != null">
                                     <tr>
                                         <td>
                                             <button class="btn btn-default" ng-click="asignarTarea(row)">

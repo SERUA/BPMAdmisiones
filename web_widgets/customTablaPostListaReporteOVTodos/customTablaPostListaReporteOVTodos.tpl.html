@@ -176,9 +176,8 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                <!--   <td></td>
-                    <td><input ng-model="dynamicInput['banner']" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])"></td>
+                <!--  <tr>
+                   <td><input ng-model="dynamicInput['banner']" class="form-control" ng-enter="filterKeyPress('ID BANNER',dynamicInput['banner'])"></td>
                     <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('CAMPUS,PROGRAMA,INGRESO',dynamicInput['programa'])"></td>
                     <td><input ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PREPARATORIA,PROMEDIO',dynamicInput['preparatoria'])"></td>
@@ -219,6 +218,7 @@
                         <!-- {{ Transferencia(row)}} -->
                     </td>
                     <td>
+                        <b ng-if="row.idsesion == null" >El aspirante aun no agendado sesión</b>
                         <b>{{row.sesion }}</b><br> 
                         {{row.idsesion }} <br>
                         {{row.fechaentrevista}} {{row.horario}}<br>
@@ -237,7 +237,7 @@
                         {{row.tiempoultimamodificacion}}
                     </td>
                     <td class="max-size">
-                        <table>
+                        <table ng-if="row.idsesion != null">
                             <tr>
                                 <td>
                                     <button class="btn btn-default" ng-click="asignarTarea(row)">
