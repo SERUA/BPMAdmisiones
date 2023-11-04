@@ -274,7 +274,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterKeyPress = function(columna, press) {
-        debugger;
+        var aplicado = true;
+        for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSend.lstFiltro[index];
+            if (element.columna == columna) {
+                $scope.properties.dataToSend.lstFiltro[index].valor = press;
+                $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
+                aplicado = false;
+            }
+
+        }
+        if (aplicado) {
+            var obj = { "columna": columna, "operador": "Que contengan", "valor": press }
+            $scope.properties.dataToSend.lstFiltro.push(obj);
+        }
+
+        doRequest("POST", $scope.urlPost3);
+    }
+
+    $scope.filterKeyPressSuperior = function(columna, press) {
+        $scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -591,7 +610,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.carreraLista =[];
 
     $scope.filterSelectCarrera = function() {
-		debugger;
+		$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -616,7 +635,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterSelectPeriodo = function() {
-		debugger;
+		$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -641,7 +660,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
    $scope.limpiarFiltros = function(){
-        debugger;
+        $scope.limpiarFiltrosTabla();
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];
@@ -670,6 +689,42 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }else{
         	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
         }
+    }
+
+    $scope.limpiarFiltrosTabla = function(){
+        $('#tablaFiltro1').val('');
+		$('#tablaFiltro2').val('');
+		$('#tablaFiltro3').val('');
+		$('#tablaFiltro4').val('');
+		$('#tablaFiltro5').val('');
+		$('#tablaFiltro6').val('');
+		$('#tablaFiltro7').val('');
+		$('#tablaFiltro8').val('');
+        $scope.dynamicInput['nombre'] = '';
+        $scope.dynamicInput['banner'] = '';
+        $scope.dynamicInput['programa'] = '';
+        $scope.dynamicInput['preparatoria'] = '';
+        $scope.dynamicInput['indicadores'] ='';
+        $scope.dynamicInput['sesion'] = '';
+        $scope.dynamicInput['estatus'] = '';
+        $scope.dynamicInput['ultimamodificacion'] ='';
+        
+        $scope.properties.lstContenido = [];
+        $scope.primerCheck = true;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+		let index = null;
+        const filtrosTabla = ['NOMBRE,EMAIL,CURP', 'CAMPUS,PROGRAMA,INGRESO', 'PROCEDENCIA,PREPARATORIA,PROMEDIO', 'INDICADORES', 'SESIÓN,ID SESIÓN,FECHA ENTREVISTA', 'ESTATUS', 'ULTIMA MODIFICACION']
+        filtrosTabla.forEach((element) =>{
+            index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === element);
+            if(index != null){
+                $scope.properties.dataToSend.lstFiltro.splice(index,index+1);
+            }
+        });
+        
     }
 
     $scope.descargarExcel = function(row) {

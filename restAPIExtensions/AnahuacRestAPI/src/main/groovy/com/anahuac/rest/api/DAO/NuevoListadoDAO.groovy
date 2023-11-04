@@ -1214,6 +1214,18 @@ class NuevoListadoDAO {
 				where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
+			case "INDICADORES":
+
+				where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(TA.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(TAL.descripcion) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+
+				break;
 			case "NOMBRE,EMAIL":
 				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
