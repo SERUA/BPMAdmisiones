@@ -700,14 +700,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 		$('#tablaFiltro6').val('');
 		$('#tablaFiltro7').val('');
 		$('#tablaFiltro8').val('');
-        $scope.dynamicInput['nombre'] = '';
-        $scope.dynamicInput['banner'] = '';
-        $scope.dynamicInput['programa'] = '';
-        $scope.dynamicInput['preparatoria'] = '';
-        $scope.dynamicInput['indicadores'] ='';
-        $scope.dynamicInput['sesion'] = '';
-        $scope.dynamicInput['estatus'] = '';
-        $scope.dynamicInput['ultimamodificacion'] ='';
+        if($scope.properties.lstContenido.length >= 1){
+            try{
+                $scope.dynamicInput['nombre'] = '';
+                $scope.dynamicInput['banner'] = '';
+                $scope.dynamicInput['programa'] = '';
+                $scope.dynamicInput['preparatoria'] = '';
+                $scope.dynamicInput['indicadores'] ='';
+                $scope.dynamicInput['sesion'] = '';
+                $scope.dynamicInput['estatus'] = '';
+                $scope.dynamicInput['ultimamodificacion'] ='';
+            }catch(error){
+
+            }
+            
+        }
+        
         
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
