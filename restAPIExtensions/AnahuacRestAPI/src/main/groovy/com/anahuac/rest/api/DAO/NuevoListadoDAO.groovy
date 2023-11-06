@@ -1580,7 +1580,7 @@ class NuevoListadoDAO {
 				Cell cell12 = row.createCell(11);
 				String finalizado = lstParams.get(i).get("finalizado");
 				if ("f".equals(finalizado)) {
-					finalizado = "Finalizado";
+					finalizado = "En proceso";
 				} else if ("t".equals(finalizado)) {
 					finalizado = "Finalizado";
 				}else if ("s".equals(finalizado)) {
@@ -1815,7 +1815,7 @@ class NuevoListadoDAO {
 				Cell cell20 = row.createCell(19);
 				String finalizado = lstParams.get(i).get("finalizado");
 				if ("f".equals(finalizado)) {
-					finalizado = "Finalizado";
+					finalizado = "En proceso";
 				} else if ("t".equals(finalizado)) {
 					finalizado = "Finalizado";
 				}else if ("s".equals(finalizado)) {
@@ -1834,7 +1834,7 @@ class NuevoListadoDAO {
 				}
 			}
 			
-			for (int i = 0; i < 19; ++i) {
+			for (int i = 0; i < 20; ++i) {
 			    sheet.autoSizeColumn(i);
 			}
 	
