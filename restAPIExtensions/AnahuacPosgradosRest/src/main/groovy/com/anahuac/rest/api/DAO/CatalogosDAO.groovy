@@ -6866,4 +6866,52 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result insertCatManejoDocumentos(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(new Date());
+			
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"CAMPO\" no debe ir vacío");
+			}
+			
+			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
+			Date fecha_fin = sdfEntrada.parse(object.fecha_fin);
+			
+			Long idCampus = 0L;
+			if(object.id_campus == null) {
+				idCampus = 0L;
+			} else {
+				idCampus = Long.valueOf(object.id_campus);
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATPERIODO);
+			pstm.setString(1,  object.clave);
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatPeriodo] " + e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
 }
