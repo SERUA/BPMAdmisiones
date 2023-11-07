@@ -87,25 +87,47 @@ class NuevoListadoDAO {
 					}
 				}
 			}
-
-			assert object instanceof Map;
-			if (object.campus != null) {
-				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
-			}
-			where += " "
 			
-			if (lstGrupo.size() > 0) {
-				campus += " AND ("
-			}
-			for (Integer i = 0; i < lstGrupo.size(); i++) {
-				String campusMiembro = lstGrupo.get(i);
-				campus += "campus.descripcion='" + campusMiembro + "'"
-				if (i == (lstGrupo.size() - 1)) {
-					campus += ") "
-				} else {
-					campus += " OR "
+			if(lstGrupo.size()>0) {
+					campus+=" AND ("
 				}
-			}
+				for(Integer i=0; i<lstGrupo.size(); i++) {
+					String campusMiembro=lstGrupo.get(i);
+					campus+="campus.descripcion='"+campusMiembro+"'"
+					if(i==(lstGrupo.size()-1)) {
+						campus+=") "
+					}
+					else {
+						campus+=" OR "
+					}
+				}
+				
+				if(object.campus != null) {
+					campus +=" AND LOWER(campus.grupobonita) = LOWER('"+object.campus+"')";
+					where +=" AND LOWER(campus.grupobonita)  = LOWER('"+object.campus+"')";
+				}
+				
+//				throw new Exception("EL VALOR DE CAMPUS ES" + campus);
+
+//			assert object instanceof Map;
+//			if (object.campus != null) {
+//				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
+//			}
+//			where += " "
+//			
+//			if (lstGrupo.size() > 0) {
+//				campus += " AND ("
+//			}
+//			for (Integer i = 0; i < lstGrupo.size(); i++) {
+//				String campusMiembro = lstGrupo.get(i);
+//				campus += "campus.descripcion='" + campusMiembro + "'"
+//				if (i == (lstGrupo.size() - 1)) {
+//					campus += ") "
+//				} else {
+//					campus += " OR "
+//				}
+//			}
+			
 			errorlog = "1";
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
@@ -1035,7 +1057,7 @@ class NuevoListadoDAO {
 					break;
 					//filtrado utilizado en lista roja y rechazado
 
-				case "ESTATUS":
+				case "ESTATUS,REPORTE":
 					where += " AND "
 					where += " LOWER(sda.ESTATUSSOLICITUD) ";
 					if (filtro.get("operador").equals("Igual a")) {
@@ -1276,7 +1298,7 @@ class NuevoListadoDAO {
 				break;
 				//filtrado utilizado en lista roja y rechazado
 
-			case "ESTATUS":
+			case "ESTATUS,REPORTE":
 				where += " LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')";
 				where = where.replace("[valor]", valor)
 				break;

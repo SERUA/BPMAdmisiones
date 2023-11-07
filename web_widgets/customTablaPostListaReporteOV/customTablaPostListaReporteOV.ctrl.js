@@ -49,6 +49,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function doRequest(method, url, params) {
         debugger;
         blockUI.start();
+        if ($scope.properties.dataToSend.campus === "") {
+            delete $scope.properties.dataToSend.campus;
+          }
         var req = {
             method: method,
             url: url,
@@ -288,7 +291,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        //resultado.push("Todos los campus")
+        resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -309,6 +312,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     $scope.filtroCampus = ""
     $scope.addFilter = function() {
+        debugger;
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
                 "columna": "CAMPUS",
@@ -349,8 +353,33 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         } else {
-
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+            debugger;
+            $scope.properties.dataToSend.lstFiltro;
+            var resultado = [];
+            // var isSerua = true;
+            for (var x in $scope.lstMembership) {
+                if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
+                    let i = 0;
+                    resultado.forEach(value => {
+                        if (value == $scope.lstMembership[x].group_id.name) {
+                            i++;
+                        }
+                    });
+                    if (i === 0) {
+                        resultado.push($scope.lstMembership[x].group_id.name);
+                    }
+                }
+            }
+            var filter = {
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.filtroCampus
+            }
+            // if(isSerua){
+            //     resultado.push("Todos los campus")
+            // }
+            //$scope.lstCampusByUser = resultado;
+            /*if ($scope.properties.dataToSend.lstFiltro.length == 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
                     const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -362,7 +391,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }else{
                 limpiarFiltro();
             }
-
+            */
         }
 
     }
@@ -410,6 +439,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.getCatCampus();
 
     $scope.isPeriodoVencido = function(periodofin) {
+        debugger;
         if(periodofin != null){
             var fecha = new Date(periodofin.slice(0, 10))
             return fecha < new Date();
@@ -418,6 +448,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         
     }
+
+    /*$scope.isPeriodoVencido = function(periodofin) {
+        debugger;
+        var fecha = new Date(periodofin.slice(0, 10))
+        return fecha < new Date();
+    }*/
 
     $scope.activado = "0";
 
@@ -619,6 +655,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                     $scope.offset = 1;
                 }
                 $scope.usuariosSesion = data.data;
+                $scope.filtroCampus = '';
                 $scope.seccionSesion = true;
                 $scope.copiaActivado =angular.copy($scope.activado);
                 $scope.activado = "0";
@@ -661,7 +698,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.activado =angular.copy($scope.copiaActivado);
     }
     
-    $scope.limpiesaFiltros = function(){
+    $scope.limpiesaFiltros = function () {
+        // Restablecer el valor del select a la opción por defecto
+        debugger;
+        $scope.filtroCampus = null;
+        $scope.properties.lstFiltros
+        $scope.properties.campusSeleccionado = "";
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];
@@ -669,26 +711,23 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.iniciarP = 1;
         $scope.finalP = 10;
         $scope.value = 0;
-		let index = null;
-		$('#banner1').val('');
-		$('#correo1').val('');
-		$('#sesion1').val('');
-		$('#nombresesion1').val('');
-		$('#fechaentrevista1').val('');
+        let index = null;
+        $('#banner1').val('');
+        $('#correo1').val('');
+        $('#sesion1').val('');
+        $('#nombresesion1').val('');
+        $('#fechaentrevista1').val('');
         index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
-        if(index != null){
-        	if(index==0){
-        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
-        	}else{
-        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
-        		$scope.properties.dataToSend.lstFiltro.splice(0,index);
-        	}
-        
-        }else{
-        	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
+        if (index != null) {
+            if (index == 0) {
+                $scope.properties.dataToSend.lstFiltro.splice(0, $scope.properties.dataToSend.lstFiltro.length);
+            } else {
+                $scope.properties.dataToSend.lstFiltro.splice(index + 1, $scope.properties.dataToSend.lstFiltro.length);
+                $scope.properties.dataToSend.lstFiltro.splice(0, index);
+            }
+        } else {
+            $scope.properties.dataToSend.lstFiltro.splice(0, $scope.properties.dataToSend.lstFiltro.length);
         }
-        
-        
     }
     
     $scope.descargarExcel = function(row) {
