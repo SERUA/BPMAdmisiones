@@ -45,6 +45,10 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
+					if(allow){break;}
 				break;
 				case "getUserProcessApoyoEducativo":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -78,6 +82,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Finanzas")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
 				break;
 				case "getB64FileByUrlAzure":
@@ -120,6 +128,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Finanzas")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
 				break;
 				case "getConfiguracionCampus":
@@ -173,6 +185,10 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
+					if(allow){break;}
 				break;
 				case "getDocumentosByCaseId":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -189,6 +205,10 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Area Deportiva")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
+					if(allow){break;}
 				break;
 				case "getImagenesByCaseId":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -204,6 +224,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Area Artistica")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
 				break;
 				case "getCatTienesHijos":
@@ -254,6 +278,10 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Finanzas")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
 				break;
 				case "getInfrmacionEscolar":

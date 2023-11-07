@@ -1899,7 +1899,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						cn.setTextoFooter(rs.getString("textoFooter"))
 						cn.setTipoCorreo(rs.getString("tipoCorreo"))
 						cn.setTitulo(rs.getString("titulo"))
-						
 					}
 				} catch(Exception ex) {
 					errorlog +=", consulta custom " + ex.getMessage();
@@ -1936,7 +1935,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			if(idioma == "ENG") {
 				String[] MonthEng = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 				plantilla=plantilla.replace("[DAY] / [MONTH] / [YEAR] | [HOUR]:[MIN]","[MONTH] / [DAY] / [YEAR] | [HOUR]:[MIN]");
-				
 				plantilla=plantilla.replace("[MONTH]",MonthEng[mes])
 				plantilla=plantilla.replace("[DAY]",String.valueOf(dayOfMonth))
 				plantilla=plantilla.replace("[YEAR]",annio)
@@ -1949,6 +1947,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				plantilla=plantilla.replace("[HOUR]",hora)
 				plantilla=plantilla.replace("[MIN]",minuto)
 			}
+			
 			//8 Seccion table atributos usuario
 			errorlog += "| Variable8.1 listado de correos copia"
 			String tablaUsuario= ""
@@ -1994,13 +1993,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 				if(closeCon) {
 					new DBConnect().closeObj(con, stm, rs, pstm);
 				}
-				
 			}
-			
-//			errorlog += "| Variable8.5 DataUsuarioAdmision"
-//			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog,object.isEnviar);
-//			errorlog += "| Variable8.6 DataUsuarioRegistro"
-//			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
 			
 			if(!object.correoAspirante.equals("") && object.correoAspirante != null) {
 				plantilla = DataUsuarioAdmision(plantilla, context, object.correoAspirante, cn, errorlog, object.isEnviar);
@@ -2046,9 +2039,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			
 			errorlog += "| Variable11"
 			plantilla=plantilla.replace("[pasos]", tablaPasos)
-			
-			
-			
 			errorlog += "| Variable13"
 			if(!cn.getContenidoLeonel().equals("") ) {
 				plantilla=plantilla.replace("<!--Leonel-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td width=\"25%\" style=\"text-align: right;\"> <img style=\"width: 145px;\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Leoneldmnisiones_Mesa%20de%20trabajo%201.png\"> </td> <td class=\"col-6\"> <div class=\"arrow_box\" style=\"position: relative; background: #ff5900; border: 4px solid #ff5900;border-radius: 50px;\"> <h6 class=\"logo\" style=\"font-size: 12px; padding: 10px; color: white; font-weight: 500;font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [leonel]</h6> </div> </td> </tr> </tbody> </table>"+"<hr>")
@@ -2056,7 +2046,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			}
 			
 			errorlog += "| Variable15"
-			
 			encoded=""
 			
 			if(object.codigo.equals("invp-notificacion-de-activacion")) {
@@ -2099,7 +2088,26 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 			lstAdditionalData.add("correo="+correo)
 			lstAdditionalData.add("asunto="+asunto)
 			lstAdditionalData.add("cc="+cc)
-			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
+			
+			//SELECT TEMPORAL 
+			Boolean isTemporal = false;
+			try {
+				closeCon = validarConexion();
+				pstm = con.prepareStatement(Statements.GET_ISTEMPORAL_INVP);
+				pstm.setString(1, object.correo);
+				rs = pstm.executeQuery();
+				if (rs.next()) {
+					isTemporal = rs.getBoolean("istemporal")
+				}
+			} catch(Exception ex) {
+				errorlog +=", consulta custom " + ex.getMessage();
+			} finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm);
+				}
+			}
+			
+			if(isTemporal == true && object.isEnviar) {
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
@@ -2127,7 +2135,6 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 		resultado.setError_info("");
 		return resultado;
 	}
-	
 	
 	private  static String formatCurrency(Object valor) {
 		// Crear un objeto NumberFormat para el formato de moneda

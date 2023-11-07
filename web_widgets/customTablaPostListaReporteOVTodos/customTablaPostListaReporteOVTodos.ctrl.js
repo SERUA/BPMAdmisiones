@@ -62,9 +62,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     this.isSelected = function(row) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
-
+    $scope.guardarSesion = null;
     function doRequest(method, url, params) {
         debugger;
+        $scope.guardarSesion = angular.copy($scope.properties.dataToSend);
         blockUI.start();
         var req = {
             method: method,
@@ -80,7 +81,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 console.log(data.data)
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripción.", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no ha seleccionado cita.", "", "info"); 
                 }
             })
             .error(function(data, status) {
@@ -273,7 +274,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterKeyPress = function(columna, press) {
-        debugger;
+        var aplicado = true;
+        for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSend.lstFiltro[index];
+            if (element.columna == columna) {
+                $scope.properties.dataToSend.lstFiltro[index].valor = press;
+                $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
+                aplicado = false;
+            }
+
+        }
+        if (aplicado) {
+            var obj = { "columna": columna, "operador": "Que contengan", "valor": press }
+            $scope.properties.dataToSend.lstFiltro.push(obj);
+        }
+
+        doRequest("POST", $scope.urlPost3);
+    }
+
+    $scope.filterKeyPressSuperior = function(columna, press) {
+        $scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -590,7 +610,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.carreraLista =[];
 
     $scope.filterSelectCarrera = function() {
-		debugger;
+		$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -615,7 +635,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterSelectPeriodo = function() {
-		debugger;
+		$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -640,7 +660,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
    $scope.limpiarFiltros = function(){
-        debugger;
+        $scope.limpiarFiltrosTabla();
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];
@@ -669,6 +689,113 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }else{
         	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
         }
+    }
+
+    $scope.limpiarFiltrosTabla = function(){
+        $('#tablaFiltro1').val('');
+		$('#tablaFiltro2').val('');
+		$('#tablaFiltro3').val('');
+		$('#tablaFiltro4').val('');
+		$('#tablaFiltro5').val('');
+		$('#tablaFiltro6').val('');
+		$('#tablaFiltro7').val('');
+		$('#tablaFiltro8').val('');
+        if($scope.properties.lstContenido.length >= 1){
+            try{
+                $scope.dynamicInput['nombre'] = '';
+                $scope.dynamicInput['banner'] = '';
+                $scope.dynamicInput['programa'] = '';
+                $scope.dynamicInput['preparatoria'] = '';
+                $scope.dynamicInput['indicadores'] ='';
+                $scope.dynamicInput['sesion'] = '';
+                $scope.dynamicInput['estatus'] = '';
+                $scope.dynamicInput['ultimamodificacion'] ='';
+            }catch(error){
+
+            }
+            
+        }
+        
+        
+        $scope.properties.lstContenido = [];
+        $scope.primerCheck = true;
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        $scope.value = 0;
+		let index = null;
+        const filtrosTabla = ['NOMBRE,EMAIL,CURP', 'CAMPUS,PROGRAMA,INGRESO', 'PROCEDENCIA,PREPARATORIA,PROMEDIO', 'INDICADORES', 'SESIÓN,ID SESIÓN,FECHA ENTREVISTA', 'ESTATUS', 'ULTIMA MODIFICACION']
+        filtrosTabla.forEach((element) =>{
+            index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === element);
+            if(index != null){
+                $scope.properties.dataToSend.lstFiltro.splice(index,index+1);
+            }
+        });
+        
+    }
+
+    $scope.descargarExcel = function(row) {
+        debugger;
+        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusquedaAvanzada&p=0&c=100';
+    
+        // Ajusta los valores según tus necesidades
+        var method = 'POST';
+        var filename = 'reporteov.xlsx';
+    
+        // Agrega el nombre de la hoja al objeto $scope.guardarSesion
+        $scope.guardarSesion.type = 'ReporteSesiones'; // Puedes usar el nombre que prefieras
+    
+        var req = {
+            method: method,
+            url: url,
+            data: $scope.guardarSesion, // Envía el contenido de $scope.guardarSesion en el cuerpo de la solicitud
+            responseType: 'text',
+        };
+    
+        return $http(req)
+        .success(function(response, status) {
+            debugger;
+            const blob = b64toBlob(response.data[0]);
+            const blobUrl = URL.createObjectURL(blob);
+            
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "ReporteOV";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            
+            //window.open(blobUrl, '_blank');
+            // window.location = blobUrl;
+        })
+        .error(function(data, status) {
+            $scope.properties.dataFromError = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromSuccess = undefined;
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+        })
+        .finally(function() {
+            vm.busy = false;
+        });
+    };
+    
+    function b64toBlob(dataURI) {
+        debugger;
+        var byteString = atob(dataURI);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        let contentType = "";
+        
+        contentType = "application/vnd.ms-excel";
+
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: contentType });
     }
     
 }

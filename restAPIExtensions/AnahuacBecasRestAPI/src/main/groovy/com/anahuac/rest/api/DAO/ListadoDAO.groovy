@@ -3288,7 +3288,6 @@ class ListadoDAO {
 			def object = jsonSlurper.parseText(jsonData);
 	
 			Result dataResult = selectBandejaMaestra(parameterP, parameterC, jsonData, context);
-			resultado = dataResult;
 	
 			int rowCount = 0;
 			List<Object> lstParams;
@@ -3483,7 +3482,7 @@ class ListadoDAO {
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			workbook.write(outputStream);
-	
+			errorLog +- "valor"+outputStream;
 			List<Object> lstResultado = new ArrayList<Object>();
 			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
 			resultado.setError_info(errorLog);

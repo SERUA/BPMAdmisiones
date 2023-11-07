@@ -20,6 +20,9 @@ import com.anahuac.rest.api.DAO.SesionesDAO;
 
 import groovy.json.JsonSlurper
 import groovy.sql.Sql
+import org.apache.poi.ss.usermodel.Row
+import org.apache.poi.ss.usermodel.Cell
+import org.apache.poi.ss.usermodel.CellStyle
 
 import java.sql.Connection
 import java.sql.PreparedStatement
@@ -28,12 +31,15 @@ import java.sql.ResultSetMetaData
 import java.sql.SQLType
 import java.sql.Statement
 import java.sql.Types
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 
 import org.bonitasoft.engine.identity.User
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.engine.bpm.document.Document
+import org.apache.poi.xssf.usermodel.XSSFSheet
+import org.apache.poi.xssf.usermodel.XSSFWorkbook
 import org.bonitasoft.engine.api.ProcessAPI
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
@@ -81,25 +87,47 @@ class NuevoListadoDAO {
 					}
 				}
 			}
-
-			assert object instanceof Map;
-			if (object.campus != null) {
-				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
-			}
-			where += " "
 			
-			if (lstGrupo.size() > 0) {
-				campus += " AND ("
-			}
-			for (Integer i = 0; i < lstGrupo.size(); i++) {
-				String campusMiembro = lstGrupo.get(i);
-				campus += "campus.descripcion='" + campusMiembro + "'"
-				if (i == (lstGrupo.size() - 1)) {
-					campus += ") "
-				} else {
-					campus += " OR "
+			if(lstGrupo.size()>0) {
+					campus+=" AND ("
 				}
-			}
+				for(Integer i=0; i<lstGrupo.size(); i++) {
+					String campusMiembro=lstGrupo.get(i);
+					campus+="campus.descripcion='"+campusMiembro+"'"
+					if(i==(lstGrupo.size()-1)) {
+						campus+=") "
+					}
+					else {
+						campus+=" OR "
+					}
+				}
+				
+				if(object.campus != null) {
+					campus +=" AND LOWER(campus.grupobonita) = LOWER('"+object.campus+"')";
+					where +=" AND LOWER(campus.grupobonita)  = LOWER('"+object.campus+"')";
+				}
+				
+//				throw new Exception("EL VALOR DE CAMPUS ES" + campus);
+
+//			assert object instanceof Map;
+//			if (object.campus != null) {
+//				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
+//			}
+//			where += " "
+//			
+//			if (lstGrupo.size() > 0) {
+//				campus += " AND ("
+//			}
+//			for (Integer i = 0; i < lstGrupo.size(); i++) {
+//				String campusMiembro = lstGrupo.get(i);
+//				campus += "campus.descripcion='" + campusMiembro + "'"
+//				if (i == (lstGrupo.size() - 1)) {
+//					campus += ") "
+//				} else {
+//					campus += " OR "
+//				}
+//			}
+			
 			errorlog = "1";
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
@@ -670,6 +698,154 @@ class NuevoListadoDAO {
 			}
 		return resultado
 	}
+	
+	public Result selectAspirantesOVGeneralExel(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		Long userLogged = 0L;
+		Long total = 0L;
+		String where ="", orderby="ORDER BY ", errorlog="", campus = "";
+		try {
+				def jsonSlurper = new JsonSlurper();
+				def object = jsonSlurper.parseText(jsonData);
+				List < String > lstGrupo = new ArrayList < String > ();
+				List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+				Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+				def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+				
+				String consulta = NuevoStatements.GET_LISTA_REPORTE_OV_EXPECIFICO_EXCEL;
+				List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+
+				List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999);
+				userLogged = context.getApiSession().getUserId();
+
+				List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+				for (UserMembership objUserMembership: lstUserMembership) {
+					for (CatCampus rowGrupo: lstCatCampus) {
+						if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+							lstGrupo.add(rowGrupo.getDescripcion());
+							break;
+						}
+					}
+				}
+
+				if (object.campus != null) {
+					where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
+				}
+		
+				if (lstGrupo.size() > 0) {
+					campus += " AND ("
+				}
+
+				for (Integer i = 0; i < lstGrupo.size(); i++) {
+					String campusMiembro = lstGrupo.get(i);
+					campus += "campus.descripcion='" + campusMiembro + "'"
+					if (i == (lstGrupo.size() - 1)) {
+						campus += ") "
+					} else {
+						campus += " OR "
+					}
+				}
+
+				
+
+				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+					where = WhereIndividual(filtro.get("columna"),filtro.get("valor"),where);
+				}
+				orderby += Orden(object.orderby,"") + " " + object.orientation;
+				
+				closeCon = validarConexion();
+
+				String SSA = "";
+				pstm = con.prepareStatement(NuevoStatements.CONFIGURACIONESSSA)
+				rs = pstm.executeQuery();
+				if (rs.next()) {
+					SSA = rs.getString("valor")
+				}
+				String conteo = NuevoStatements.COUNT_LISTA_REPORTE_OV_EXPECIFICO;
+				conteo=conteo.replace("[WHERE]", where);
+				conteo=conteo.replace("[CAMPUS]", campus);
+				errorlog = conteo;
+				pstm = con.prepareStatement(conteo);
+				rs= pstm.executeQuery();
+				while(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+
+				consulta=consulta.replace("[CAMPUS]", campus);
+				consulta=consulta.replace("[WHERE]", where);
+				consulta=consulta.replace("[ORDERBY]", orderby);
+				errorlog = consulta;
+
+				pstm = con.prepareStatement(consulta)
+				rs = pstm.executeQuery()
+
+				rows = new ArrayList < Map < String, Object >> ();
+				ResultSetMetaData metaData = rs.getMetaData();
+				int columnCount = metaData.getColumnCount();
+				errorlog = consulta + " 8";
+
+				while (rs.next()) {
+					Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+					for (int i = 1; i <= columnCount; i++) {
+						
+						 if(metaData.getColumnLabel(i).toLowerCase().equals("finalizado")){
+							String info = rs.getString(i);
+							if(info.equals("null") || info == null){
+								columns.put(metaData.getColumnLabel(i).toLowerCase(), "s");
+							}else{
+								columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+							}
+
+						} else if(metaData.getColumnLabel(i).toLowerCase().equals("responsableid")) {
+							User usr;
+							String responsables = rs.getString(i);
+							String nombres= "";
+							if(!responsables.equals("null") && responsables != null) {
+								String[] arrOfStr = responsables.split(",");
+								for (String a: arrOfStr) {
+									if(Long.parseLong(a)>0) {
+										usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(a))
+										nombres+=(nombres.length()>1?", ":"")+usr.getFirstName()+" "+usr.getLastName()
+									}
+								}
+							}
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+						}else if(metaData.getColumnLabel(i).toLowerCase().equals("urlfoto")) {
+							String encoded = "";
+							boolean noAzure = false;
+							try {
+								String urlFoto = rs.getString("urlfoto");
+								if (urlFoto != null && !urlFoto.isEmpty()) {
+									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+								}
+							} catch (Exception e) {
+								columns.put("fotografiabpm", "");
+								if(noAzure){
+									columns.put("fotografiab64", "");
+								}
+							}
+						}else {
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						}
+					}
+					rows.add(columns);
+				}
+				
+				resultado.setError_info(" errorLog = "+errorlog);
+				resultado.setData(rows);
+				resultado.setSuccess(true);
+			} catch (Exception e) {
+				resultado.setSuccess(false);
+				resultado.setError(e.getMessage());
+				resultado.setError_info(" errorLog = "+errorlog);
+			}finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm)
+				}
+			}
+		return resultado
+	}
 
 	public Result getFoto(String caseId, Long intentos,RestAPIContext context) {
 		Result resultado = new Result();
@@ -881,7 +1057,7 @@ class NuevoListadoDAO {
 					break;
 					//filtrado utilizado en lista roja y rechazado
 
-				case "ESTATUS":
+				case "ESTATUS,REPORTE":
 					where += " AND "
 					where += " LOWER(sda.ESTATUSSOLICITUD) ";
 					if (filtro.get("operador").equals("Igual a")) {
@@ -1028,10 +1204,54 @@ class NuevoListadoDAO {
 			where += " AND "
 		}
 		switch (filtro) {
+			
+			case "NOMBRE,EMAIL,CURP":
+				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+			
+				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+				where = where.replace("[valor]", valor)
+				break;
+			case "CAMPUS,PROGRAMA,INGRESO":
+
+				where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+				break;
+			case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
+				where += "( LOWER(CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(prepa.DESCRIPCION) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+			
+				where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+				break;
+			case "INDICADORES":
+
+				where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(TA.descripcion) like lower('%[valor]%') ";
+				where = where.replace("[valor]", valor)
+
+				where += " OR LOWER(TAL.descripcion) like lower('%[valor]%') )";
+				where = where.replace("[valor]", valor)
+
+				break;
 			case "NOMBRE,EMAIL":
 				where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
 				where = where.replace("[valor]", valor)
-				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+				where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') )";
 				where = where.replace("[valor]", valor)
 				break;
 
@@ -1078,7 +1298,7 @@ class NuevoListadoDAO {
 				break;
 				//filtrado utilizado en lista roja y rechazado
 
-			case "ESTATUS":
+			case "ESTATUS,REPORTE":
 				where += " LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')";
 				where = where.replace("[valor]", valor)
 				break;
@@ -1240,6 +1460,423 @@ class NuevoListadoDAO {
 				b64 = ( "data:image/jfif;base64, "+(new FileDownload().b64Url(url)));
 			}
 		return  b64
+	}
+	
+	public Result getExcelFileReporteOvBusqueda(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+	
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = contSelectUsuariosSesion(jsonData, context);
+	
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+			
+			if (dataResult.success) {
+			    lstParams = dataResult.getData();
+			} else {
+			    throw new Exception("No encontró datos");
+			}
+			
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue("Reporte OV busqueda");
+			
+			Cell cellusuario = titleRow.createCell(4); // Crear la celda de usuario en la misma fila
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = titleRow.createCell(5);
+			cellusuarioData.setCellValue(object.user_name);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String sDate = formatter.format(date);
+			
+			Cell cellFecha = titleRow.createCell(6); // Crear la celda de fecha en la misma fila
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+			Cell cellFechaData = titleRow.createCell(7);
+			cellFechaData.setCellValue(sDate);
+			
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("Id banner");
+			
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("Nombre");
+			
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Email");
+			
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("Programa");
+			
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("Periodo");
+			
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Id sesión");
+			
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Nombre de la sesión");
+			
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Fecha de la entrevista");
+			
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Hora de la entrevista");
+			
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Psicólogo");
+			
+			Cell header11 = headersRow.createCell(10);
+			header11.setCellValue("Estatus de admisiones");
+			
+			Cell header12 = headersRow.createCell(11);
+			header12.setCellValue("Estatus reporte OV");
+			
+			Cell header13 = headersRow.createCell(12);
+			header13.setCellValue("Última modificación");
+			
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			
+			// Datos
+			for (int i = 0; i < lstParams.size(); ++i) {
+			    Row row = sheet.createRow(++rowCount);
+
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams.get(i).get("idbanner"));
+				
+				Cell cell2 = row.createCell(1);
+				String apellidopaterno = lstParams.get(i).get("apellidopaterno");
+				String apellidomaterno = lstParams.get(i).get("apellidomaterno");
+				String primernombre = lstParams.get(i).get("primernombre");
+				String segundonombre = lstParams.get(i).get("segundonombre");
+				cell2.setCellValue(apellidopaterno + " " + apellidomaterno + " " + primernombre + " " + segundonombre);
+				
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams.get(i).get("correoelectronico"));
+				
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams.get(i).get("licenciatura"));
+				
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams.get(i).get("ingreso"));
+				
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue(lstParams.get(i).get("idsesion"));
+				
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue(lstParams.get(i).get("sesion"));
+				
+				Cell cell8 = row.createCell(7);
+				cell8.setCellValue(lstParams.get(i).get("fechaentrevista"));
+				
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams.get(i).get("horario"));
+				
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams.get(i).get("responsableid"));
+				
+				Cell cell11 = row.createCell(10);
+				cell11.setCellValue(lstParams.get(i).get("estatussolicitud"));
+				
+				Cell cell12 = row.createCell(11);
+				String finalizado = lstParams.get(i).get("finalizado");
+				if ("f".equals(finalizado)) {
+					finalizado = "En proceso";
+				} else if ("t".equals(finalizado)) {
+					finalizado = "Finalizado";
+				}else if ("s".equals(finalizado)) {
+					finalizado = "Sin iniciar";
+				}
+				cell12.setCellValue(finalizado);
+				
+//				Cell cell11 = row.createCell(10);
+//				cell11.setCellValue(lstParams.get(i).get("fechaultimamodificacion"));
+				
+				String fechaRegistroString = lstParams.get(i).get("fechaultimamodificacion");
+				
+				if (fechaRegistroString != null) {
+				    Date fechaRegistro = dfSalida.parse(fechaRegistroString);
+				    String fechaFormateada = dformat.format(fechaRegistro);
+				    Cell cell13 = row.createCell(12);
+				    cell13.setCellValue(fechaFormateada);
+				} else {
+				    Cell cell13 = row.createCell(12);
+				    cell13.setCellValue("N/A");
+				}
+				errorLog += fechaRegistroString;
+			}
+			
+			// Ajusta el ancho de las columnas
+			for (int i = 0; i <= 11; ++i) {
+			    sheet.autoSizeColumn(i);
+			}
+	
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error("[ERROR] " + e.getMessage());
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}
+	
+		return resultado;
+	}
+	
+	public Result getExcelFileReporteOvBusquedaAvanzada(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+	
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = selectAspirantesOVGeneralExel(jsonData, context);
+	
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = object.type;
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+			
+			if (dataResult.success) {
+			    lstParams = dataResult.getData();
+			} else {
+			    throw new Exception("No encontró datos");
+			}
+			
+			String title = object.estatussolicitud;
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporte = titleRow.createCell(1);
+			cellReporte.setCellValue("Reporte:");
+			cellReporte.setCellStyle(style);
+			Cell cellTitle = titleRow.createCell(2);
+			cellTitle.setCellValue("Reporte OV busqueda avanzada");
+			
+			Cell cellusuario = titleRow.createCell(4); // Crear la celda de usuario en la misma fila
+			cellusuario.setCellValue("Usuario:");
+			cellusuario.setCellStyle(style);
+			Cell cellusuarioData = titleRow.createCell(5);
+			cellusuarioData.setCellValue(object.usuario);
+			
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String sDate = formatter.format(date);
+			
+			Cell cellFecha = titleRow.createCell(6); // Crear la celda de fecha en la misma fila
+			cellFecha.setCellValue("Fecha:");
+			cellFecha.setCellStyle(style);
+			Cell cellFechaData = titleRow.createCell(7);
+			cellFechaData.setCellValue(sDate);
+			
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+			Cell header1 = headersRow.createCell(0);
+			header1.setCellValue("Id banner");
+			
+			Cell header2 = headersRow.createCell(1);
+			header2.setCellValue("Nombre");
+			
+			Cell header3 = headersRow.createCell(2);
+			header3.setCellValue("Email");
+			
+			Cell header4 = headersRow.createCell(3);
+			header4.setCellValue("CURP");
+			
+			Cell header5 = headersRow.createCell(4);
+			header5.setCellValue("Campus");
+			
+			Cell header6 = headersRow.createCell(5);
+			header6.setCellValue("Programa");
+			
+			Cell header7 = headersRow.createCell(6);
+			header7.setCellValue("Período");
+			
+			Cell header8 = headersRow.createCell(7);
+			header8.setCellValue("Procedencia");
+			
+			Cell header9 = headersRow.createCell(8);
+			header9.setCellValue("Preparatoria");
+			
+			Cell header10 = headersRow.createCell(9);
+			header10.setCellValue("Promedio");
+			
+			Cell header11 = headersRow.createCell(10);
+			header11.setCellValue("Residencia");
+			
+			Cell header12 = headersRow.createCell(11);
+			header12.setCellValue("Tipo de Admisión");
+			
+			Cell header13 = headersRow.createCell(12);
+			header13.setCellValue("Tipo de Alumno");
+			
+			Cell header14 = headersRow.createCell(13);
+			header14.setCellValue("Id Sesión");
+			
+			Cell header15 = headersRow.createCell(14);
+			header15.setCellValue("Nombre de la sesión");
+			
+			Cell header16 = headersRow.createCell(15);
+			header16.setCellValue("Fechade la entrevista");
+			
+			Cell header17 = headersRow.createCell(16);
+			header17.setCellValue("Hora de la entrevista");
+			
+			Cell header18 = headersRow.createCell(17);
+			header18.setCellValue("Psicólogo");
+			
+			Cell header19 = headersRow.createCell(18);
+			header19.setCellValue("Estatus de admisiones");
+			
+			Cell header20 = headersRow.createCell(19);
+			header20.setCellValue("Estatus reporte OV");
+			
+			Cell header21 = headersRow.createCell(20);
+			header21.setCellValue("Última modificación");
+			
+			DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+			
+			// Datos
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+
+				Cell cell1 = row.createCell(0);
+				cell1.setCellValue(lstParams.get(i).get("idbanner"));
+				
+				Cell cell2 = row.createCell(1);
+				String nombre = lstParams.get(i).get("apellidopaterno") + " " + lstParams.get(i).get("apellidomaterno") + " " + lstParams.get(i).get("primernombre") + " " + lstParams.get(i).get("segundonombre");
+				cell2.setCellValue(nombre);
+				
+				Cell cell3 = row.createCell(2);
+				cell3.setCellValue(lstParams.get(i).get("correoelectronico"));
+				
+				Cell cell4 = row.createCell(3);
+				cell4.setCellValue(lstParams.get(i).get("curp"));
+				
+				Cell cell5 = row.createCell(4);
+				cell5.setCellValue(lstParams.get(i).get("campus"));
+				
+				Cell cell6 = row.createCell(5);
+				cell6.setCellValue(lstParams.get(i).get("licenciatura"));
+				
+				Cell cell7 = row.createCell(6);
+				cell7.setCellValue(lstParams.get(i).get("ingreso"));
+				
+				Cell cell8 = row.createCell(7);
+				cell8.setCellValue(lstParams.get(i).get("procedencia"));
+				
+				Cell cell9 = row.createCell(8);
+				cell9.setCellValue(lstParams.get(i).get("preparatoria"));
+				
+				Cell cell10 = row.createCell(9);
+				cell10.setCellValue(lstParams.get(i).get("promediogeneral"));
+				
+				Cell cell11 = row.createCell(10);
+				cell11.setCellValue(lstParams.get(i).get("residensia"));
+				
+				Cell cell12 = row.createCell(11);
+				cell12.setCellValue(lstParams.get(i).get("tipoadmision"));
+				
+				Cell cell13 = row.createCell(12);
+				cell13.setCellValue(lstParams.get(i).get("tipodealumno"));
+				
+				Cell cell14 = row.createCell(13);
+				String fechaEntrevista = lstParams.get(i).get("idsesion");
+				cell14.setCellValue(fechaEntrevista);
+				
+				Cell cell15 = row.createCell(14);
+				cell15.setCellValue(lstParams.get(i).get("sesion"));
+				
+				Cell cell16 = row.createCell(15);
+				cell16.setCellValue(lstParams.get(i).get("fechaentrevista"));
+				
+				Cell cell17 = row.createCell(16);
+				cell17.setCellValue(lstParams.get(i).get("horario"));
+				
+				Cell cell18 = row.createCell(17);
+				cell18.setCellValue(lstParams.get(i).get("responsableid"));
+				
+				Cell cell19 = row.createCell(18);
+				cell19.setCellValue(lstParams.get(i).get("estatussolicitud"));
+				
+				Cell cell20 = row.createCell(19);
+				String finalizado = lstParams.get(i).get("finalizado");
+				if ("f".equals(finalizado)) {
+					finalizado = "En proceso";
+				} else if ("t".equals(finalizado)) {
+					finalizado = "Finalizado";
+				}else if ("s".equals(finalizado)) {
+					finalizado = "Sin iniciar";
+				}
+				cell20.setCellValue(finalizado);
+				
+				Cell cell21 = row.createCell(20);
+				String fechaUltimaModificacion = lstParams.get(i).get("fechaultimamodificacion");
+				if (fechaUltimaModificacion != null) {
+				    Date fechaRegistro = dfSalida.parse(fechaUltimaModificacion);
+				    String fechaFormateada = dformat.format(fechaRegistro);
+				    cell21.setCellValue(fechaFormateada);
+				} else {
+				    cell21.setCellValue("N/A");
+				}
+			}
+			
+			for (int i = 0; i < 20; ++i) {
+			    sheet.autoSizeColumn(i);
+			}
+	
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+			
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			LOGGER.error("[ERROR] " + e.getMessage());
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}
+	
+		return resultado;
 	}
 
 	

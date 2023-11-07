@@ -32,7 +32,7 @@ function ($scope, $http) {
     function getExamenTerminado(_username){
         let url = "../API/extension/AnahuacINVPRestGet?url=getExamenTerminado&p=0&c=100&username=" + _username;
         $http.get(url).success(function(_success){
-            if(_success[0].examenTerminado){
+            if(_success[0].examenTerminado && !_success[0].examenReiniciado){
                 window.top.location.href = "/bonita/apps/aspiranteinvp/termino";
             } else if (_success[0].examenIniciado && !$scope.properties.isExamen)  {
                 window.top.location.href = "/bonita/apps/aspiranteinvp/examen";
