@@ -680,7 +680,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.abrirSolicitud = function(row) {
-        var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
+        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
         window.open(url, '_blank');
     }
   

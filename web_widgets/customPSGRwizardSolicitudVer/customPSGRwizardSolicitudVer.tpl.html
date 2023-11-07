@@ -1,0 +1,22 @@
+<div style="width: 100%; text-align: center; color: white; background: black; padding-top:1rem; padding-bottom: 1rem" class="hide-component">
+    Wizard superior
+</div>
+<div id="wizard-container" class="wizard-container">
+    <div id="arrow-back" class="arrow-back" ng-click="scrollTo('back')"></div>
+    <div id="arrow-forward" class="arrow-forward" ng-click="scrollTo('forward')"></div>
+    <div id="wizard_step_{{$index}}" class="wizard-step-container" ng-repeat="step in properties.content" 
+        ng-class="{ 'current': $index === properties.selectedIndex, 'completed': $index < maxCompletedStep, 'wizard-first':$index === 0 }" 
+        ng-click="selectStepManually($index)">
+        <div class="wizard-step" ng-class="{ 'current': $index === properties.selectedIndex, 'completed': $index < maxCompletedStep, 'wizard-first':$index === 0 }" >
+            <div class="wizard-step-name">
+                {{step.title}}
+            </div>
+        </div>
+    </div>
+</div>
+<!--<button ng-click="previousStep()">-->
+<!--    PREVIOUS-->
+<!--</button>-->
+<!--<button ng-click="nextStep()">-->
+<!--    NEXT-->
+<!--</button>-->
