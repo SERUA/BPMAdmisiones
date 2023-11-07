@@ -1142,6 +1142,7 @@ class LoginSesionesDAO {
 			errorlog += "[1]";
 			if (rs.next()) {
 				errorlog += "[2]";
+				row.put("examenReiniciado", false);
 				row.put("examenIniciado", true);
 				row.put("examenTerminado", rs.getBoolean("terminado"));
 			} else {
@@ -1151,12 +1152,14 @@ class LoginSesionesDAO {
 				rs = pstm.executeQuery();
 				if (rs.next()) {
 					errorlog += "[4]";
-					row.put("examenIniciado", true);
 					row.put("examenTerminado", rs.getBoolean("terminado"));
+					row.put("examenIniciado", true);
+					row.put("examenReiniciado", rs.getBoolean("examenreiniciado"));
 				} else {
 					errorlog += "[5]";
 					row.put("examenIniciado", false);
 					row.put("examenTerminado", false);
+					row.put("examenReiniciado", false);
 				}
 			}
 			

@@ -101,7 +101,7 @@ class Statements {
 	
 	public static final String GET_EXAMEN_TERMINADO_SESION = "SELECT terminado FROM INVPExamenTerminado WHERE username = ?  AND idsesion = (SELECT sesiones_pid FROM sesionaspirante WHERE username = ? ORDER BY sesiones_pid DESC LIMIT 1 )";
 	
-	public static final String GET_EXAMEN_TERMINADO_TEMPORAL = "SELECT terminado FROM INVPExamenTerminado AS term INNER JOIN IdiomaINVPUsuario AS idio ON idio.username = term.username WHERE term.username = ? AND idio.istemporal = true;";
+	public static final String GET_EXAMEN_TERMINADO_TEMPORAL = "SELECT term.terminado, inst.examenreiniciado FROM INVPExamenTerminado AS term INNER JOIN IdiomaINVPUsuario AS idio ON idio.username = term.username INNER JOIN InstanciaINVP AS inst ON inst.username = term.username  WHERE term.username = ? AND idio.istemporal = true;";
 	
 	public static final String GET_EXAMEN_TERMINADO_IDIOMA = "SELECT terminado FROM INVPExamenTerminado  WHERE username = ? ORDER BY persistenceid DESC LIMIT 1";
 	

@@ -18,13 +18,14 @@ function ($scope, $http) {
     });
     
     
-    $scope.$watch("properties.objetoSesion", function(){
-        if($scope.properties.objetoSesion){
-            if($scope.properties.sesionInfoV2.error === "no_existe_sesion" && ($scope.properties.objetoSesion.idsesion_temp || $scope.properties.objetoSesion.id_prueba)){
-                // updateterminado()
-            }
-        }
-    });
+    // $scope.$watch("properties.objetoSesion", function(){
+    //     if($scope.properties.objetoSesion){
+    //         debugger;
+    //         if($scope.properties.sesionInfoV2.error === "no_existe_sesion" && ($scope.properties.objetoSesion.idsesion_temp || $scope.properties.objetoSesion.id_prueba)){
+    //             // updateterminado()
+    //         }
+    //     }
+    // });
     
     function updateterminado() {
         debugger;
