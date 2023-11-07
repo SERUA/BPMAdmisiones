@@ -164,16 +164,34 @@ function ($scope, modalService, $http) {
 
         return $http(req)
         .success(function(data, status) {
-            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+            // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
         })
         .error(function(data, status) {
            swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error")
         })
         .finally(function() {
-
+            updateterminadoGet();
         });
     }
+    
+    function updateterminadoGet() {
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacINVPRestGet?url=updateterminado&p=0&c=100&username=" + $scope.properties.userData.user_name + "&terminado=true"
+        };
 
+        return $http(req)
+        .success(function(data, status) {
+            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+        })
+        .error(function(data, status) {
+           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error");
+        })
+        .finally(function() {
+            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+        });
+    }
+    
     function getTaskInfo(){
         var req = {
             method: "GET",

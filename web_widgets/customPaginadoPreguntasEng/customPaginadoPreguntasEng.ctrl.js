@@ -224,8 +224,7 @@ function($scope, $http) {
                 }).then((result)=>{
                     if(data === null ){
                         // window.close();
-                        window.open('', '_self', '');
-                        window.close();
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
                     } else if(data.error === "test_end"){
                         window.location.reload();
                     }
@@ -304,8 +303,7 @@ function($scope, $http) {
                 }).then((result)=>{
                     if(data === null ){
                         // window.close();
-                        window.open('', '_self', '');
-                        window.close();
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
                     } else if(data.error === "test_end"){
                         window.location.reload();
                     }

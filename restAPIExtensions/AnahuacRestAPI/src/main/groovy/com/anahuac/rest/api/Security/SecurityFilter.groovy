@@ -2185,6 +2185,29 @@ class SecurityFilter {
 		  allow=bonitaRolFilter(context,"ADMISIONES")
 			if(allow){break;}
 			break;
+		  case "getExcelFileReporteOvBusqueda":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "getExcelFileReporteOvBusquedaAvanzada":
+			allow = bonitaRolFilter(context, "ADMISIONES");
+			if (allow) {
+			  break;
+			}
+			break;
+		  case "genetateHtmlINVP":
+			allow = bonitaRolFilter(context, "ADMINISTRADOR");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+			break;
+			
 		}
 		
 		return allow;

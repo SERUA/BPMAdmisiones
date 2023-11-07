@@ -759,13 +759,13 @@ class UsuariosDAO {
 
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
-				String nombre = rs.getString("primernombre");
-				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
-					nombre += " " + rs.getString("segundonombre")
-				}
-				nombre += " " + rs.getString("apellidopaterno");
+				String nombre = rs.getString("apellidopaterno");
 				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
+				}
+				nombre += " " + rs.getString("primernombre");
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
+					nombre += " " + rs.getString("segundonombre");
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
 				row.setNombre(nombre);
@@ -1325,13 +1325,13 @@ class UsuariosDAO {
 
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
-				String nombre = rs.getString("primernombre");
-				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
-					nombre += " " + rs.getString("segundonombre")
-				}
-				nombre += " " + rs.getString("apellidopaterno");
+				String nombre = rs.getString("apellidopaterno");
 				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
+				}
+				nombre += " " + rs.getString("primernombre");
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
+					nombre += " " + rs.getString("segundonombre");
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
 				row.setNombre(nombre);
@@ -2175,13 +2175,13 @@ class UsuariosDAO {
 
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
-				String nombre = rs.getString("primernombre");
-				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
-					nombre += " " + rs.getString("segundonombre")
-				}
-				nombre += " " + rs.getString("apellidopaterno");
+				String nombre = rs.getString("apellidopaterno");
 				if(!rs.getString("apellidomaterno").equals("") && rs.getString("apellidomaterno") != null) {
 					nombre += " " + rs.getString("apellidomaterno")
+				}
+				nombre += " " + rs.getString("primernombre");
+				if(!rs.getString("segundonombre").equals("") && rs.getString("segundonombre") != null) {
+					nombre += " " + rs.getString("segundonombre");
 				}
 				row.setIdBpm(rs.getLong("idbpm"));
 				row.setNombre(nombre);

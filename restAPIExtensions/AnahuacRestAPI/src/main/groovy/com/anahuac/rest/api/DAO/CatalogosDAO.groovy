@@ -97,7 +97,6 @@ class CatalogosDAO {
 	}
 
     /************************DANIEL CERVANTES****************************/
-    
     public Result getCatCampus(String jsonData, RestAPIContext context) {
         Result resultado = new Result();
         Boolean closeCon = false;

@@ -49,6 +49,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function doRequest(method, url, params) {
         debugger;
         blockUI.start();
+        if ($scope.properties.dataToSend.campus === "") {
+            delete $scope.properties.dataToSend.campus;
+          }
         var req = {
             method: method,
             url: url,
@@ -63,7 +66,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.loadPaginado();
                 
                 if($scope.properties.lstContenido.length < 1){
-                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no llena su autodescripción.", "", "info"); 
+                   swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante aún no ha seleccionado cita.", "", "info"); 
                 }
                 console.log(data.data)
             })
@@ -288,7 +291,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        //resultado.push("Todos los campus")
+        resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -309,6 +312,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     $scope.filtroCampus = ""
     $scope.addFilter = function() {
+        debugger;
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
                 "columna": "CAMPUS",
@@ -349,8 +353,33 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         } else {
-
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+            debugger;
+            $scope.properties.dataToSend.lstFiltro;
+            var resultado = [];
+            // var isSerua = true;
+            for (var x in $scope.lstMembership) {
+                if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
+                    let i = 0;
+                    resultado.forEach(value => {
+                        if (value == $scope.lstMembership[x].group_id.name) {
+                            i++;
+                        }
+                    });
+                    if (i === 0) {
+                        resultado.push($scope.lstMembership[x].group_id.name);
+                    }
+                }
+            }
+            var filter = {
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.filtroCampus
+            }
+            // if(isSerua){
+            //     resultado.push("Todos los campus")
+            // }
+            //$scope.lstCampusByUser = resultado;
+            /*if ($scope.properties.dataToSend.lstFiltro.length == 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
                     const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -362,7 +391,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }else{
                 limpiarFiltro();
             }
-
+            */
         }
 
     }
@@ -410,6 +439,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.getCatCampus();
 
     $scope.isPeriodoVencido = function(periodofin) {
+        debugger;
         if(periodofin != null){
             var fecha = new Date(periodofin.slice(0, 10))
             return fecha < new Date();
@@ -418,6 +448,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
         
     }
+
+    /*$scope.isPeriodoVencido = function(periodofin) {
+        debugger;
+        var fecha = new Date(periodofin.slice(0, 10))
+        return fecha < new Date();
+    }*/
 
     $scope.activado = "0";
 
@@ -510,7 +546,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         // Llama a cargarSesion con la copia de info y dataToSend
         $scope.cargarSesion(infoCopy, $scope.properties.dataToSend);
     };
-
+    $scope.guardarSesion = null;
     $scope.cargarSesion = function (info, dataToSend) {
         debugger;
         $scope.infoSesion = {
@@ -522,6 +558,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             "orderby": "",
             "orientation": "DESC"
         };
+
+        $scope.guardarSesion = angular.copy(requestData);
     
         // Combina dataToSend y requestData en un solo objeto
         Object.assign(requestData, dataToSend);
@@ -617,6 +655,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                     $scope.offset = 1;
                 }
                 $scope.usuariosSesion = data.data;
+                $scope.filtroCampus = '';
                 $scope.seccionSesion = true;
                 $scope.copiaActivado =angular.copy($scope.activado);
                 $scope.activado = "0";
@@ -659,7 +698,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.activado =angular.copy($scope.copiaActivado);
     }
     
-    $scope.limpiesaFiltros = function(){
+    $scope.limpiesaFiltros = function () {
+        // Restablecer el valor del select a la opción por defecto
+        debugger;
+        $scope.filtroCampus = null;
+        $scope.properties.lstFiltros
+        $scope.properties.campusSeleccionado = "";
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;
         $scope.lstPaginado = [];
@@ -667,26 +711,86 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $scope.iniciarP = 1;
         $scope.finalP = 10;
         $scope.value = 0;
-		let index = null;
-		$('#banner1').val('');
-		$('#correo1').val('');
-		$('#sesion1').val('');
-		$('#nombresesion1').val('');
-		$('#fechaentrevista1').val('');
+        let index = null;
+        $('#banner1').val('');
+        $('#correo1').val('');
+        $('#sesion1').val('');
+        $('#nombresesion1').val('');
+        $('#fechaentrevista1').val('');
         index = $scope.properties.dataToSend.lstFiltro.findIndex((json) => json.columna === "CAMPUS");
-        if(index != null){
-        	if(index==0){
-        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
-        	}else{
-        		$scope.properties.dataToSend.lstFiltro.splice(index+1,$scope.properties.dataToSend.lstFiltro.length);
-        		$scope.properties.dataToSend.lstFiltro.splice(0,index);
-        	}
-        
-        }else{
-        	$scope.properties.dataToSend.lstFiltro.splice(0,$scope.properties.dataToSend.lstFiltro.length);
+        if (index != null) {
+            if (index == 0) {
+                $scope.properties.dataToSend.lstFiltro.splice(0, $scope.properties.dataToSend.lstFiltro.length);
+            } else {
+                $scope.properties.dataToSend.lstFiltro.splice(index + 1, $scope.properties.dataToSend.lstFiltro.length);
+                $scope.properties.dataToSend.lstFiltro.splice(0, index);
+            }
+        } else {
+            $scope.properties.dataToSend.lstFiltro.splice(0, $scope.properties.dataToSend.lstFiltro.length);
         }
+    }
+    
+    $scope.descargarExcel = function(row) {
+        debugger;
+        var url = '/bonita/API/extension/AnahuacRest?url=getExcelFileReporteOvBusqueda&p=0&c=100';
+    
+        // Ajusta los valores según tus necesidades
+        var method = 'POST';
+        var filename = 'reporteov.xlsx';
+    
+        // Agrega el nombre de la hoja al objeto $scope.guardarSesion
+        $scope.guardarSesion.type = 'ReporteSesiones'; // Puedes usar el nombre que prefieras
+        $scope.guardarSesion.user_name = $scope.properties.userData.user_name;
+        var req = {
+            method: method,
+            url: url,
+            data: $scope.guardarSesion, // Envía el contenido de $scope.guardarSesion en el cuerpo de la solicitud
+            responseType: 'text',
+        };
+    
+        return $http(req)
+        .success(function(response, status) {
+            debugger;
+            const blob = b64toBlob(response.data[0]);
+            const blobUrl = URL.createObjectURL(blob);
+            
+            var link = document.createElement('a');
+            link.href = window.URL.createObjectURL(blob);
+            link.download = "ReporteOV";
+
+            document.body.appendChild(link);
+
+            link.click();
+
+            document.body.removeChild(link);
+            
+            //window.open(blobUrl, '_blank');
+            // window.location = blobUrl;
+        })
+        .error(function(data, status) {
+            $scope.properties.dataFromError = data;
+            $scope.properties.responseStatusCode = status;
+            $scope.properties.dataFromSuccess = undefined;
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+        })
+        .finally(function() {
+            vm.busy = false;
+        });
+    };
+    
+    function b64toBlob(dataURI) {
+        debugger;
+        var byteString = atob(dataURI);
+        var ab = new ArrayBuffer(byteString.length);
+        var ia = new Uint8Array(ab);
+        let contentType = "";
         
-        
+        contentType = "application/vnd.ms-excel";
+
+        for (var i = 0; i < byteString.length; i++) {
+            ia[i] = byteString.charCodeAt(i);
+        }
+        return new Blob([ab], { type: contentType });
     }
 
 }
