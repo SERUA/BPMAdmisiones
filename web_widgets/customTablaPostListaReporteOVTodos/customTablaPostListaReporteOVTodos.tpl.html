@@ -161,9 +161,12 @@
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='ID SESIÓN'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA ENTREVISTA')">Fecha y hora de la entrevista<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicólogo<i class="glyphicon"
-                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
+                            ng-show="properties.dataToSend.orderby=='FECHA ENTREVISTA'"></i></span> 
+                            
+                    <th>  <span style="cursor:pointer" ng-click="setOrderBy('PSICOLOGO')">Psicólogo<i class="glyphicon"
+                        ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                        ng-show="properties.dataToSend.orderby=='PSICOLOGO'"></i></span></th>
+
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus de admisiones / Reporte OV<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='EstatusReporte'"></i></span></th>
@@ -182,8 +185,9 @@
                     <td><input  id="tablaFiltro4" ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PREPARATORIA,PROMEDIO',dynamicInput['preparatoria'])"></td>
                     <td><input  id="tablaFiltro5" ng-model="dynamicInput['indicadores']" class="form-control" ng-enter="filterKeyPress('INDICADORES',dynamicInput['indicadores'])"></td>
                     <td><input  id="tablaFiltro6" ng-model="dynamicInput['sesion']" class="form-control" ng-enter="filterKeyPress('SESIÓN,ID SESIÓN,FECHA ENTREVISTA',dynamicInput['sesion'])"></td>
-                    <td><input  id="tablaFiltro7" ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
-                    <td><input  id="tablaFiltro8" ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                    <td><input  id="tablaFiltro7" ng-model="dynamicInput['psicologo']" class="form-control" ng-enter="filterKeyPress('PSICOLOGO',dynamicInput['psicologo'])" disabled></td>
+                    <td><input  id="tablaFiltro8" ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
+                    <td><input  id="tablaFiltro9" ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
                     <td></td>
                 </tr>
                 <tr ng-if="properties.lstContenido.length < 1" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
@@ -220,7 +224,10 @@
                         <b ng-if="row.idsesion == null" >El aspirante aun no agendado sesión</b>
                         <b>{{row.sesion }}</b><br> 
                         {{row.idsesion }} <br>
-                        {{row.fechaentrevista}} {{row.horario}}<br>
+                        {{row.fechaentrevista}} <br>
+                        {{row.horario}}<br>
+                    </td>
+                    <td>
                         {{row.responsableid}}
                     </td>
                     <td class="max-size">
