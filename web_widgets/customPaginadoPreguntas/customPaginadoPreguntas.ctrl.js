@@ -239,9 +239,7 @@ function($scope, $http) {
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
                     if(data === null ){
-                        // window.close();
-                        window.open('', '_self', '');
-                        window.close();
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/"
                     } else if(data.error === "test_end"){
                         window.location.reload();
                     }
@@ -292,8 +290,7 @@ function($scope, $http) {
                     showCloseButton: false
                 }).then((result)=>{
                     if(data === null ){
-                        window.open('', '_self', '');
-                        window.close();
+                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
                     } else if(data.error === "test_end"){
                         window.location.reload();
                     }
@@ -303,17 +300,6 @@ function($scope, $http) {
                 //vm.busy = false;
             });
     }
-
-    // $scope.precargado = false;
-    // $scope.$watch("properties.objPreguntasContestadas", function(){
-    //     debugger;
-    //     if($scope.precargado === false && ($scope.properties.objPreguntasContestadas.length > 0)){
-    //         $scope.precargado = true;
-    //         debugger;
-    //         let objeto = ($scope.objPreguntasContestadas.length - 1);
-    //         $scope.seleccionarPagina(objeto.pregunta);
-    //     }
-    // });
 
     $scope.$watch("properties.reload", function() {
         if ($scope.properties.reload !== undefined) {
