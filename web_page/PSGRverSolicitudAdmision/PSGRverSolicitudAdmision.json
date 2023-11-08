@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1699392452268,
+  "lastUpdate" : 1699475225216,
   "rows" : [
     [
       {
@@ -34,58 +34,6 @@
         "reference" : "7f1c1359-a4bf-4b2e-b7be-67bb0cd6ad7d",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "<pre>{{taskId}}</pre>\n<pre>{{task | json}}</pre>\n<pre>{{context | json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "5be79194-dcba-4e16-9877-74c5359a0912",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -387,9 +335,9 @@
                   "value" : "maxCompletedStep"
                 }
               },
-              "reference" : "5498b692-a304-4bbf-a860-941a53c87e50",
+              "reference" : "1c1b8c51-12f2-4028-9589-f7b450867d72",
               "hasValidationError" : false,
-              "id" : "customPSGRwizardSolicitudVer"
+              "id" : "customPSGRwizardSolicitudV2"
             }
           ],
           [
@@ -1577,7 +1525,7 @@
                             },
                             "editar" : {
                               "type" : "constant",
-                              "value" : true
+                              "value" : false
                             },
                             "idModal" : {
                               "type" : "constant",
@@ -1606,58 +1554,6 @@
                           "reference" : "b8ce9b31-05bd-4660-8198-34b8cc315f3d",
                           "hasValidationError" : false,
                           "id" : "customPSGRUploadCustomAzure"
-                        }
-                      ],
-                      [
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
-                            "md" : 12,
-                            "lg" : 12
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<ul>\n<li>Debe de tener solo tu imagen.</li>\n<li>Cara descubierta</li>\n<li>Puede ser tomada con tu celular</li>\n<li>Tomada de frente.</li>\n<li>Debe ser reciente y bien enfocada.</li>\n<li>Si la fotografía no cumple con las características indicadas, puede ser rechazada y deberás corregirla antes de que puedas continuar con tu trámite.</li>\n</ul>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "04757762-fc5b-4eb8-a8be-274686e158e2",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
                         }
                       ]
                     ]
@@ -7903,6 +7799,10 @@
                       "cita" : {
                         "type" : "variable",
                         "value" : "citaAspirante"
+                      },
+                      "readOnly" : {
+                        "type" : "constant",
+                        "value" : true
                       }
                     },
                     "reference" : "b62e601d-ffa5-4870-a16d-b124fe3f532c",
@@ -18367,10 +18267,6 @@
         "        \"value\" : \"documentos\",\r",
         "        \"isValid\": true\r",
         "    },{\r",
-        "        \"title\" : \"Revisar\",\r",
-        "        \"value\" : \"revisar\",\r",
-        "        \"isValid\": true\r",
-        "    },{\r",
         "        \"title\" : \"Cita de entrevista\",\r",
         "        \"value\" : \"cita\",\r",
         "        \"isValid\": true\r",
@@ -18541,15 +18437,16 @@
     "fechaSolicitud" : {
       "type" : "expression",
       "value" : [
-        "function obtenerFechaActual() {\r",
-        "    const fecha = new Date();\r",
+        "function obtenerFecha() {\r",
+        "    var valorGuardado = $data.registro.fecha_registro;\r",
+        "    const fecha = new Date(valorGuardado);\r",
         "    const dia = String(fecha.getDate()).padStart(2, '0');\r",
         "    const mes = String(fecha.getMonth() + 1).padStart(2, '0');\r",
         "    const anio = fecha.getFullYear();\r",
         "    return `${dia}/${mes}/${anio}`;\r",
         "}\r",
         "\r",
-        "return obtenerFechaActual();"
+        "return obtenerFecha();"
       ],
       "exposed" : false
     },
@@ -18564,8 +18461,8 @@
       "type" : "json",
       "value" : [
         "{",
-        "    \"datos\":false,",
-        "    \"consentimiento\":false",
+        "    \"datos\":true,",
+        "    \"consentimiento\":true",
         "}"
       ],
       "exposed" : false
