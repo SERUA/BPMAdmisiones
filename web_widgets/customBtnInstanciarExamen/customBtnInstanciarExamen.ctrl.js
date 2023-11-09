@@ -283,11 +283,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
         .success(function(data, status) {
-            debugger;
             insertidiomausuario();
         })
         .error(function(data, status) {
-            debugger;
             insertidiomausuario();
         })
         .finally(function() {
