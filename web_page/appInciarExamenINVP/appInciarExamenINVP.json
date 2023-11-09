@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appInciarExamenINVP",
   "name" : "appInciarExamenINVP",
-  "lastUpdate" : 1699490388585,
+  "lastUpdate" : 1699559640152,
   "rows" : [
     [
       {
@@ -568,8 +568,8 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "objetoSesionV2.success == false"
+                        "type" : "constant",
+                        "value" : false
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -595,8 +595,8 @@
                               "value" : "text-center"
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "examenComenzado !== true"
+                              "type" : "constant",
+                              "value" : false
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -669,11 +669,11 @@
                           "propertyValues" : {
                             "cssClasses" : {
                               "type" : "constant",
-                              "value" : ""
+                              "value" : "examenComenzado !== true"
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "examenComenzado !== true"
+                              "type" : "constant",
+                              "value" : false
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -1530,8 +1530,8 @@
                               "value" : "text-center"
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "examenComenzado !== true"
+                              "type" : "constant",
+                              "value" : false
                             },
                             "text" : {
                               "type" : "interpolation",
@@ -1607,8 +1607,8 @@
                               "value" : ""
                             },
                             "hidden" : {
-                              "type" : "expression",
-                              "value" : "examenComenzado !== true"
+                              "type" : "constant",
+                              "value" : false
                             },
                             "disabled" : {
                               "type" : "expression",
@@ -2712,6 +2712,7 @@
         "let output = true;",
         "",
         "if($data.objetoSesion !== null){",
+        "",
         "    let sesion = angular.copy($data.objetoSesion);",
         "    if(sesion.entrada){",
         "        output = compararFechas(sesion.aplicacion + \" \" + sesion.entrada);",
@@ -2723,21 +2724,46 @@
         "return output;",
         "",
         "function compararFechas(_fecha){",
-        "    var partes = _fecha.split(/\\/|\\s|:/);",
+        "    // var partes = _fecha.split(/\\/|\\s|:/);",
+        "    debugger;",
+        "    var partes = splitSinExpresionRegular(_fecha);",
+        "    ",
+        "    console.log(partes);",
+        "    ",
         "    var fechaInicio = new Date(partes[2], (partes[1] - 1), partes[0], partes[3], partes[4]);",
         "    var fechaActualCDMX = new Date().toLocaleString(\"es-MX\", { timeZone: \"America/Mexico_City\" });",
-        "    var partes2 = fechaActualCDMX.split(/[/,:\\s]/);",
+        "    // var partes2 = fechaActualCDMX.split(/[/:\\\\s]/);",
+        "    var partes2 = splitSinExpresionRegular(fechaActualCDMX);",
+        "    console.log(partes2);",
         "    let fecham = partes2[2] + \"/\" + (partes2[1] - 1) + \"/\" + partes2[0] + \" \" + partes2[4] + \":\" + partes2[5] + \":\" + partes2[6];",
         "    var fechaActual = new Date(partes2[2], (partes2[1] - 1), partes2[0], partes2[4], partes2[5], partes2[6]);",
-        "    ",
-        "    console.log(\"Fecha actual en CDMX: \" + fechaActual);",
-        "    console.log(\"Fecha inicio: \" + fechaInicio);",
         "",
         "    if (fechaActual.getTime() > fechaInicio.getTime()) {",
         "        return true;",
         "    } else {",
         "        return false;",
         "    }",
+        "}",
+        "",
+        "",
+        "function splitSinExpresionRegular(cadena) {",
+        "  var partes = [];",
+        "  var temp = '';",
+        "  for (var i = 0; i < cadena.length; i++) {",
+        "    var caracter = cadena[i];",
+        "    if (caracter === '/' || caracter === ' ' || caracter === ':') {",
+        "      if (temp !== '') {",
+        "        partes.push(temp);",
+        "        temp = '';",
+        "      }",
+        "    } else {",
+        "      temp += caracter;",
+        "    }",
+        "  }",
+        "  if (temp !== '') {",
+        "    partes.push(temp);",
+        "  }",
+        "  return partes;",
         "}"
       ],
       "exposed" : false
