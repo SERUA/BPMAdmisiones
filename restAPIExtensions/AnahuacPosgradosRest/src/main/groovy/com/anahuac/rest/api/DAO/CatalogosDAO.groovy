@@ -6447,6 +6447,262 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
+	public Result insertCatDocumentos(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Documento\" no debe ir vacío");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CONFIGURACIONES);
+			pstm.setString(1, object.documento);
+			pstm.setString(2, object.obligatorio);
+			pstm.setLong(3, Long.valueOf(object.id_campus));
+			pstm.setLong(3, Long.valueOf(object.posgrado));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al insertar el registro en la tabla.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertConfiguraciones] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result updateCatDocumentos(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El registro no existe.");
+			} else if(object.clave.equals("") || object.clave == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.valor.equals("") || object.valor == null) {
+				throw new Exception("El campo \"Valor\" no debe ir vacío");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CONFIGURACIONES);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.valor);
+			pstm.setLong(3, Long.valueOf(object.persistenceId));
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("Error al actualizar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateConfiguraciones] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result deleteCatDocumentos(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//Validaciones en el catálogo
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El registro no existe.");
+			}
+			
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CONFIGURACIONES);
+			pstm.setLong(1, Long.valueOf(object.persistenceid));
+			
+			pstm.executeUpdate();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteConfiguraciones] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatDocumentos(String jsonData, RestAPIContext context) {
+		
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "", orderby = "ORDER BY ", errorLog = "", bachillerato = "", campus = ""
+
+		List < String > lstGrupo = new ArrayList < String > ();
+		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+
+			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
+			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (PSGRCatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupo_bonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			if (lstGrupo.size() > 0) {
+				campus += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				campus += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					campus += ") "
+				} else {
+					campus += " OR "
+				}
+			}
+
+			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
+			CatGestionEscolar row = new CatGestionEscolar();
+			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			closeCon = validarConexion();
+//			throw new Exception("El campo \"Descripción\" no debe ir vacío"+ object);
+			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.persistenceid + "'"
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				def booleanos = filtro.get("valor");
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "VALOR":
+						where += " AND LOWER(GE.valor) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ID CAMPUS":
+						where += " AND LOWER(GE.id_campus) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "GE.clave";
+					break;
+				case "VALOR":
+					orderby += "GE.valor";
+					break;
+				case "ID CAMPUS":
+					orderby += "GE.id_campus";
+					break;
+				default:
+					orderby += "GE.persistenceid"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			//where+=" "+campus
+			consulta = consulta.replace("[CAMPUS]", campus)
+			consulta = consulta.replace("[WHERE]", where);
+			
+			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+			
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+			errorLog += " " + consulta
+			errorLog += " consulta= "
+			errorLog += consulta
+			errorLog += " where = " + where
+			pstm = con.prepareStatement(consulta)
+			pstm.setInt(1, object.limit)
+			pstm.setInt(2, object.offset)
+			
+			errorLog += "fecha=="
+
+			rs = pstm.executeQuery()
+			while (rs.next()) {
+
+				row = new CatGestionEscolar()
+				row.setId_campus(rs.getLong("id_campus"))
+				row.setValor(rs.getString("valor"))
+				row.setClave(rs.getString("clave"));
+				row.setPersistenceId(rs.getLong("persistenceId"))
+				
+				rows.add(row)
+			}
+			
+			resultado.setSuccess(true)
+			resultado.setError(errorLog)
+			resultado.setData(rows)
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getConfiguraciones] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getProcessDef(String processName) {
 		Result resultado = new Result();
 		Boolean closeCon = false;

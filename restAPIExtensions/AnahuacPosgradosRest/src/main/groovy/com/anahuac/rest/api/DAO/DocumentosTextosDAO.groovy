@@ -160,7 +160,7 @@ class DocumentosTextosDAO {
 	
 			int rowCount = 0;
 			List<Object> lstParams;
-			String type = object.type;
+			String type = "ReporteSesiones";
 			XSSFWorkbook workbook = new XSSFWorkbook();
 			XSSFSheet sheet = workbook.createSheet(type);
 			CellStyle style = workbook.createCellStyle();
@@ -174,33 +174,40 @@ class DocumentosTextosDAO {
 				throw new Exception("No encontró datos");
 			}
 	
-			String title = object.estatussolicitud;
 			Row titleRow = sheet.createRow(++rowCount);
-			Cell cellReporte = titleRow.createCell(1);
-			cellReporte.setCellValue("Reporte:");
-			cellReporte.setCellStyle(style);
-			Cell cellTitle = titleRow.createCell(2);
-			cellTitle.setCellValue(title);
-	
+			Cell cellReporteLabel = titleRow.createCell(0);
+			cellReporteLabel.setCellValue("Reporte:");
+			cellReporteLabel.setCellStyle(style);
+			
+			Cell cellReporteValor = titleRow.createCell(1);
+			cellReporteValor.setCellValue("Bandeja Maestra Posgrados"); // Reemplaza esto con el nombre de tu reporte
+			
+			Cell cellUsuarioLabel = titleRow.createCell(2);
+			cellUsuarioLabel.setCellValue("Usuario:");
+			cellUsuarioLabel.setCellStyle(style);
+			
+			Cell cellUsuarioValor = titleRow.createCell(3);
+			cellUsuarioValor.setCellValue(object.usuario);
+			
 			Calendar cal = Calendar.getInstance();
 			cal.add(Calendar.HOUR_OF_DAY, -7);
 			Date date = cal.getTime();
 			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-			String sDate = formatter.format(date);
-	
-			Row blank = sheet.createRow(++rowCount);
-			Cell cellusuario = blank.createCell(4);
-			cellusuario.setCellValue("Usuario:");
-			cellusuario.setCellStyle(style);
-			Cell cellusuarioData = blank.createCell(5);
-			cellusuarioData.setCellValue(object.usuario);
+			String fechaActual = formatter.format(date);
+			
+			Cell cellFechaLabel = titleRow.createCell(4);
+			cellFechaLabel.setCellValue("Fecha:");
+			cellFechaLabel.setCellStyle(style);
+			
+			Cell cellFechaValor = titleRow.createCell(5);
+			cellFechaValor.setCellValue(fechaActual);
 			Row espacio = sheet.createRow(++rowCount);
 			Row headersRow = sheet.createRow(++rowCount);
 			Cell header1 = headersRow.createCell(0);
-			header1.setCellValue("ID Banner");
+			header1.setCellValue("Foto");
 			header1.setCellStyle(style);
 			Cell header2 = headersRow.createCell(1);
-			header2.setCellValue("ID BPM");
+			header2.setCellValue("Expediente");
 			header2.setCellStyle(style);
 			Cell header3 = headersRow.createCell(2);
 			header3.setCellValue("Nombre");
@@ -221,41 +228,14 @@ class DocumentosTextosDAO {
 			header8.setCellValue("Campus ingreso");
 			header8.setCellStyle(style);
 			Cell header9 = headersRow.createCell(8);
-			header9.setCellValue("Tipo Beca");
+			header9.setCellValue("Estatus");
 			header9.setCellStyle(style);
 			Cell header10 = headersRow.createCell(9);
-			header10.setCellValue("Promedio Admisiones");
+			header10.setCellValue("Fecha de registro");
 			header10.setCellStyle(style);
 			Cell header11 = headersRow.createCell(10);
-			header11.setCellValue("Promedio Actualizado");
+			header11.setCellValue("Última modificación");
 			header11.setCellStyle(style);
-			Cell header12 = headersRow.createCell(11);
-			header12.setCellValue("Estatus SDAE");
-			header12.setCellStyle(style);
-			Cell header13 = headersRow.createCell(12);
-			header13.setCellValue("Estatus Admisión");
-			header13.setCellStyle(style);
-			Cell header14 = headersRow.createCell(13);
-			header14.setCellValue("Asignado a");
-			header14.setCellStyle(style);
-			Cell header15 = headersRow.createCell(14);
-			header15.setCellValue("Nombre Bachillerato");
-			header15.setCellStyle(style);
-			Cell header16 = headersRow.createCell(15);
-			header16.setCellValue("Ciudad Bachillerato");
-			header16.setCellStyle(style);
-			Cell header17 = headersRow.createCell(16);
-			header17.setCellValue("Estado Bachillerato");
-			header17.setCellStyle(style);
-			Cell header18 = headersRow.createCell(17);
-			header18.setCellValue("País Bachillerato");
-			header18.setCellStyle(style);
-			Cell header19 = headersRow.createCell(18);
-			header19.setCellValue("Fecha de creación de la solicitud");
-			header19.setCellStyle(style);
-			Cell header20 = headersRow.createCell(19);
-			header20.setCellValue("Última modificación");
-			header20.setCellStyle(style);
 	
 			DateFormat dfSalida = new SimpleDateFormat("dd/MM/yyyy");
 			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
@@ -266,99 +246,100 @@ class DocumentosTextosDAO {
 				cell1.setCellValue(lstParams.get(i).idbanner);
 				Cell cell2 = row.createCell(1);
 				cell2.setCellValue(lstParams.get(i).caseid);
-				String nombre = lstParams.get(i).apellidopaterno + " " + lstParams.get(i).apellidomaterno + " " + lstParams.get(i).primernombre + " " + lstParams.get(i).segundonombre;
+				String nombre = lstParams.get(i).apellido_paterno + " " + lstParams.get(i).apellido_materno + " " + lstParams.get(i).nombre ;
 				Cell cell3 = row.createCell(2);
 				cell3.setCellValue(nombre);
 				Cell cell4 = row.createCell(3);
-				cell4.setCellValue(lstParams.get(i).correoelectronico);
+				cell4.setCellValue(lstParams.get(i).correo_electronico);
 				Cell cell5 = row.createCell(4);
 				cell5.setCellValue(lstParams.get(i).curp);
 				Cell cell6 = row.createCell(5);
-				cell6.setCellValue(lstParams.get(i).licenciatura);
+				cell6.setCellValue(lstParams.get(i).posgrado);
 				Cell cell7 = row.createCell(6);
-				cell7.setCellValue(lstParams.get(i).ingreso);
+				cell7.setCellValue(lstParams.get(i).periodo);
 				Cell cell8 = row.createCell(7);
-				cell8.setCellValue(lstParams.get(i).campussede);
+				cell8.setCellValue(lstParams.get(i).campus);
 				Cell cell9 = row.createCell(8);
-				cell9.setCellValue(lstParams.get(i).tipoapoyo);
+				cell9.setCellValue(lstParams.get(i).estatus_solicitud);
 				Cell cell10 = row.createCell(9);
-				cell10.setCellValue(lstParams.get(i).promediogeneral);
+				cell10.setCellValue(lstParams.get(i).fecha_registro);
 				Cell cell11 = row.createCell(10);
-				cell11.setCellValue(lstParams.get(i).nuevopromedioprepa != null ? lstParams.get(i).nuevopromedioprepa : "N/A");
+				cell11.setCellValue(lstParams.get(i).fecha_ultima_modificacion);
 				Cell cell12 = row.createCell(11);
-				cell12.setCellValue(lstParams.get(i).estatussolicitud);
-				Cell cell13 = row.createCell(12);
-				cell13.setCellValue(lstParams.get(i).aceptado);
-				Cell cell14 = row.createCell(13);
-				String estatus = lstParams.get(i).estatussolicitud.trim();
-	
-				if (estatus.equalsIgnoreCase("Esperando Pre-Autorización") || estatus.equalsIgnoreCase("En espera de resultado") || estatus.equalsIgnoreCase("Correcciones realizadas")) {
-					cell14.setCellValue("Pre-Autorización");
-				} else if (estatus.equalsIgnoreCase("Esperando revisión área artistica")) {
-					cell14.setCellValue("Pre-Autorización");
-				} else if (estatus.equalsIgnoreCase("Esperando revisión área deportiva")) {
-					cell14.setCellValue("Pre-Autorización");
-				} else if (estatus.equalsIgnoreCase("En espera de autorización")) {
-					cell14.setCellValue("Comité de becas");
-				} else if (estatus.equalsIgnoreCase("Solicitud Rechazada")) {
-					cell14.setCellValue("Archivo");
-				} else if (estatus.equalsIgnoreCase("Solicitud de financiamiento autorizada")) {
-					cell14.setCellValue(""); // Dejar en blanco
-				} else {
-					cell14.setCellValue("Aspirante");
-				}
-				
-				Cell cell15 = row.createCell(14);
-				cell15.setCellValue(lstParams.get(i).descripcion_bachillerato);
-				Cell cell16 = row.createCell(15);
-				cell16.setCellValue(lstParams.get(i).ciudad_bachillerato);
-				Cell cell17 = row.createCell(16);
-				cell17.setCellValue(lstParams.get(i).estado_bachillerato);
-				Cell cell18 = row.createCell(17);
-				cell18.setCellValue(lstParams.get(i).pais_bachillerato);
-	
-				String fechaRegistroString = lstParams.get(i).fecharegistro;
-	
-				if (fechaRegistroString != null) {
-					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
-					String fechaFormateada = dformat.format(fechaRegistro);
-					Cell cell19 = row.createCell(18);
-//					cell15.setCellValue(fechaFormateada);
-					cell19.setCellValue(fechaRegistroString);
-				} else {
-					Cell cell19 = row.createCell(18);
-					cell19.setCellValue("N/A");
-				}
-	
-				String fechaUltimaModificacionString = lstParams.get(i).fechaultimamodificacion;
-	
-				if (fechaUltimaModificacionString != null) {
-					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
-					String fechaFormateada = dformat.format(fechaUltimaModificacion);
-					Cell cell20 = row.createCell(19);
-//					cell16.setCellValue(fechaFormateada);
-					cell20.setCellValue(fechaUltimaModificacionString);
-				} else {
-					Cell cell20 = row.createCell(19);
-					cell20.setCellValue("N/A");
-				}
+//				cell12.setCellValue(lstParams.get(i).estatussolicitud);
+//				Cell cell13 = row.createCell(12);
+//				cell13.setCellValue(lstParams.get(i).aceptado);
+//				Cell cell14 = row.createCell(13);
+//				cell14.setCellValue("Aspirante");
+////				String estatus = lstParams.get(i).estatussolicitud.trim();
+////	
+////				if (estatus.equalsIgnoreCase("Esperando Pre-Autorización") || estatus.equalsIgnoreCase("En espera de resultado") || estatus.equalsIgnoreCase("Correcciones realizadas")) {
+////					cell14.setCellValue("Pre-Autorización");
+////				} else if (estatus.equalsIgnoreCase("Esperando revisión área artistica")) {
+////					cell14.setCellValue("Pre-Autorización");
+////				} else if (estatus.equalsIgnoreCase("Esperando revisión área deportiva")) {
+////					cell14.setCellValue("Pre-Autorización");
+////				} else if (estatus.equalsIgnoreCase("En espera de autorización")) {
+////					cell14.setCellValue("Comité de becas");
+////				} else if (estatus.equalsIgnoreCase("Solicitud Rechazada")) {
+////					cell14.setCellValue("Archivo");
+////				} else if (estatus.equalsIgnoreCase("Solicitud de financiamiento autorizada")) {
+////					cell14.setCellValue(""); // Dejar en blanco
+////				} else {
+////					cell14.setCellValue("Aspirante");
+////				}
+//				
+//				Cell cell15 = row.createCell(14);
+//				cell15.setCellValue(lstParams.get(i).descripcion_bachillerato);
+//				Cell cell16 = row.createCell(15);
+//				cell16.setCellValue(lstParams.get(i).ciudad_bachillerato);
+//				Cell cell17 = row.createCell(16);
+//				cell17.setCellValue(lstParams.get(i).estado_bachillerato);
+//				Cell cell18 = row.createCell(17);
+//				cell18.setCellValue(lstParams.get(i).pais_bachillerato);
+//	
+//				String fechaRegistroString = lstParams.get(i).fecharegistro;
+//	
+//				if (fechaRegistroString != null) {
+//					Date fechaRegistro = dfSalida.parse(fechaRegistroString);
+//					String fechaFormateada = dformat.format(fechaRegistro);
+//					Cell cell19 = row.createCell(18);
+////					cell15.setCellValue(fechaFormateada);
+//					cell19.setCellValue(fechaRegistroString);
+//				} else {
+//					Cell cell19 = row.createCell(18);
+//					cell19.setCellValue("N/A");
+//				}
+//	
+//				String fechaUltimaModificacionString = lstParams.get(i).fechaultimamodificacion;
+//	
+//				if (fechaUltimaModificacionString != null) {
+//					Date fechaUltimaModificacion = dfSalida.parse(fechaUltimaModificacionString);
+//					String fechaFormateada = dformat.format(fechaUltimaModificacion);
+//					Cell cell20 = row.createCell(19);
+////					cell16.setCellValue(fechaFormateada);
+//					cell20.setCellValue(fechaUltimaModificacionString);
+//				} else {
+//					Cell cell20 = row.createCell(19);
+//					cell20.setCellValue("N/A");
+//				}
 				
 			}
 	
-			for (int i = 0; i <= rowCount + 19; ++i) {
+			for (int i = 0; i <= rowCount + 11; ++i) {
 				sheet.autoSizeColumn(i);
 			}
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			workbook.write(outputStream);
-			errorLog +- "valor"+outputStream;
+//			errorLog +- "valor"+outputStream;
 			List<Object> lstResultado = new ArrayList<Object>();
 			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
 			resultado.setError_info(errorLog);
 			resultado.setSuccess(true);
 			resultado.setData(lstResultado);
 		} catch (Exception e) {
-			LOGGER.error("[ERROR] " + e.getMessage());
+//			LOGGER.error("[ERROR] " + e.getMessage());
 			e.printStackTrace();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
