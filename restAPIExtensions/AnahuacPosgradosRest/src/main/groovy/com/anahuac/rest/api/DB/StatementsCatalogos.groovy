@@ -153,11 +153,11 @@ class StatementsCatalogos {
 	public static final String GET_CONFIGURACIONES = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRConfiguraciones as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatDocumentos
-	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatDocumentos (persistenceid, persistenceversion, clave, valor, id_campus) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatDocumentos) end), 0, ?, ?, ?)";
-	public static final String DELETE_CATDOCUMENTOS = "DELETE FROM PSGRCatDocumentos WHERE persistenceid = ?";
-	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatDocumentos SET clave = ?, valor = ? WHERE persistenceid = ?";
-	public static final String SELECT_CATDOCUMENTOS = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRCatDocumentos WHERE id_campus = ?";
-	public static final String GET_CATDOCUMENTOS = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatDocumentos as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.id_campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String INSERT_CATDOCUMENTOS = "INSERT INTO PSGRCatManejoDocumentos (persistenceid, persistenceversion, clave, descripcion, nombre_documento, fecha_creacion_date, es_otro, is_eliminado, campus_pid, posgrado_pid) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatManejoDocumentos) end), 0, ?, ?, ?, ?, ?, false, ?, ?)";
+	public static final String DELETE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATDOCUMENTOS = "UPDATE PSGRCatManejoDocumentos SET clave = ?, descripcion = ?, nombre_documento = ?, es_otro = ?, WHERE persistenceid = ?";
+	public static final String SELECT_CATDOCUMENTOS = "SELECT persistenceid, clave, valor,  id_campus FROM PSGRCatManejoDocumentos WHERE id_campus = ?";
+	public static final String GET_CATDOCUMENTOS = "SELECT CMD.*, campus.descripcion as nombreCampus FROM PSGRCatManejoDocumentos as CMD  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = CMD.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
 	//PSGRCatMedioEnteraste
 	public static final String INSERT_CATMEDIOSENTERASTE = "INSERT INTO PSGRCatMedioEnteraste (persistenceid, persistenceversion, clave, descripcion, orden, is_eliminado) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCatMedioEnteraste) end), 0, ?, ?, ?, false)";
