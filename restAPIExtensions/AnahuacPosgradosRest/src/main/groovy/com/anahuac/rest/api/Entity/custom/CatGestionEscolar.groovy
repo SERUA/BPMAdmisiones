@@ -30,6 +30,11 @@ class CatGestionEscolar {
 	private Long campus_pid;
 	private Long id_campus;
 	private String valor;
+	private String fecha_creacion_date;
+	private String nombre_documento;
+	private Boolean es_otro;
+	private Long posgrado_pid;
+	
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -204,5 +209,29 @@ class CatGestionEscolar {
 	}
 	public void setValor(String valor) {
 		this.valor = valor;
+	}
+	public String getNombre_documento() {
+		return nombre_documento;
+	}
+	public void setNombre_documento(String nombre_documento) {
+		this.nombre_documento = nombre_documento;
+	}
+	public String getFecha_creacion_date() {
+		return fecha_creacion_date;
+	}
+	public void setFecha_creacion_date(String fecha_creacion_date) {
+		this.fecha_creacion_date = fecha_creacion_date;
+	}
+	public Boolean getEs_otro() {
+		return es_otro;
+	}
+	public void setEs_otro(Boolean es_otro) {
+		this.es_otro = es_otro;
+	}
+	public Long getPosgrado_pid() {
+		return posgrado_pid;
+	}
+	public void setPosgrado_pid(Long posgrado_pid) {
+		this.posgrado_pid = posgrado_pid;
 	}
 }
