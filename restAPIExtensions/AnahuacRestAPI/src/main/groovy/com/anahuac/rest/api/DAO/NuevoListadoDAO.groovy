@@ -1299,7 +1299,20 @@ class NuevoListadoDAO {
 				//filtrado utilizado en lista roja y rechazado
 
 			case "ESTATUS,REPORTE":
-				where += " LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')";
+				valor = valor.toLowerCase()
+				if (valor == "en proceso") {
+					valor = "false"
+					where += " ( LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')  OR (tp.finalizado::text LIKE ('%[valor]%')) )";
+				} else if (valor == "finalizado") {
+					valor = "t"
+				} else if (valor == "sin iniciar") {
+					where += " ( LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')  OR (tp.finalizado IS NULL) )";
+				} else {
+					where += " ( LOWER(sda.ESTATUSSOLICITUD) LIKE LOWER('%[valor]%')  OR (tp.finalizado::text LIKE ('%[valor]%')) )";
+				}
+//				where = where.replace("[valor]", valor)
+				
+//				where += " OR (tp.finalizado::text LIKE ('%[valor]%'))";
 				where = where.replace("[valor]", valor)
 				break;
 			case "ID BANNER":
