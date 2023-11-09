@@ -133,7 +133,7 @@ class SolicitudDeAdmisionDAO {
 			where += " WHERE (regi.is_eliminado = false OR regi.is_eliminado IS null) "
 			
 			if (object.estatusSolicitud != null) {
-				where += " AND regi.estatus_solicitud IN ("+object.estatusSolicitud+") "
+				//where += " AND regi.estatus_solicitud IN ("+object.estatusSolicitud+") "
 			}
 			
 			if (object.caseId != null) {
