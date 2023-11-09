@@ -6458,15 +6458,24 @@ class CatalogosDAO {
 			
 			//Validaciones en el catálogo
 			if(object.clave.equals("") || object.clave == null) {
-				throw new Exception("El campo \"Documento\" no debe ir vacío");
+				throw new Exception("El campo \"clave\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			}  else if(object.nombre_documento.equals("") || object.nombre_documento == null) {
+				throw new Exception("El campo \"nombre_documento\" no debe ir vacío");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CONFIGURACIONES);
-			pstm.setString(1, object.documento);
-			pstm.setString(2, object.obligatorio);
-			pstm.setLong(3, Long.valueOf(object.id_campus));
-			pstm.setLong(3, Long.valueOf(object.posgrado));
-			
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATDOCUMENTOS);
+			pstm.setString(1, object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, object.nombre_documento);
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			pstm.setString(4, fechaHoraFormateada);
+			pstm.setBoolean(5, object.es_otro);
+			pstm.setLong(6, object.campus_pid.persistenceId);
+			pstm.setLong(7, object.posgrado_pid.persistenceId);
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
@@ -6499,13 +6508,23 @@ class CatalogosDAO {
 			} else if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.valor.equals("") || object.valor == null) {
-				throw new Exception("El campo \"Valor\" no debe ir vacío");
-			}
+				throw new Exception("El campo \"descripcion\" no debe ir vacío");
+			} else if(object.valor.equals("") || object.valor == null) {
+				throw new Exception("El campo \"nombre_documento\" no debe ir vacío");
+			}  else if(object.valor.equals("") || object.valor == null) {
+				throw new Exception("El campo \"es_otro\" no debe ir vacío");
+			} 
 			
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CONFIGURACIONES);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATDOCUMENTOS);
 			pstm.setString(1, object.clave);
-			pstm.setString(2, object.valor);
-			pstm.setLong(3, Long.valueOf(object.persistenceId));
+			pstm.setString(2, object.descripcion);
+			pstm.setLong(3, Long.valueOf(object.nombre_documento));
+//			pstm.setLong(4, Long.valueOf(object.fecha_creacion_date));
+			pstm.setLong(5, Long.valueOf(object.es_otro));
+			pstm.setLong(5, Long.valueOf(object.persistenceid));
+//			pstm.setLong(6, Long.valueOf(object.is_eliminado));
+//			pstm.setLong(7, Long.valueOf(object.campus_pid));
+//			pstm.setLong(7, Long.valueOf(object.posgrado_pid));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -6538,7 +6557,7 @@ class CatalogosDAO {
 				throw new Exception("El registro no existe.");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CONFIGURACIONES);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATDOCUMENTOS);
 			pstm.setLong(1, Long.valueOf(object.persistenceid));
 			
 			pstm.executeUpdate();
@@ -6600,12 +6619,12 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
+			String consulta = StatementsCatalogos.GET_CATDOCUMENTOS
 			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
-//			throw new Exception("El campo \"Descripción\" no debe ir vacío"+ object);
-			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.persistenceid + "'"
+//			throw new Exception("el valor de object es = "+ object);
+			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
@@ -6659,7 +6678,7 @@ class CatalogosDAO {
 			consulta = consulta.replace("[WHERE]", where);
 			
 			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
-			
+			errorLog += consulta;
 			rs = pstm.executeQuery()
 			if (rs.next()) {
 				resultado.setTotalRegistros(rs.getInt("registros"))
