@@ -6624,7 +6624,7 @@ class CatalogosDAO {
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 //			throw new Exception("el valor de object es = "+ object);
-			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'"
+			where = "WHERE campus.eliminado = false and GE.campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
@@ -6672,7 +6672,7 @@ class CatalogosDAO {
 					break;
 			}
 
-			orderby += " " + object.orientation;
+//			orderby += " " + object.orientation;
 			//where+=" "+campus
 			consulta = consulta.replace("[CAMPUS]", campus)
 			consulta = consulta.replace("[WHERE]", where);
@@ -6684,24 +6684,28 @@ class CatalogosDAO {
 				resultado.setTotalRegistros(rs.getInt("registros"))
 			}
 			consulta = consulta.replace("[ORDERBY]", orderby)
-			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+//			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 			errorLog += " " + consulta
 			errorLog += " consulta= "
 			errorLog += consulta
 			errorLog += " where = " + where
 			pstm = con.prepareStatement(consulta)
-			pstm.setInt(1, object.limit)
-			pstm.setInt(2, object.offset)
+//			pstm.setInt(1, 9999)
+//			pstm.setInt(2, 0)
 			
 			errorLog += "fecha=="
-
+//			throw new Exception("el valor de consulta es = "+ consulta);
 			rs = pstm.executeQuery()
 			while (rs.next()) {
 
 				row = new CatGestionEscolar()
-				row.setId_campus(rs.getLong("id_campus"))
-				row.setValor(rs.getString("valor"))
 				row.setClave(rs.getString("clave"));
+				row.setDescripcion(rs.getString("descripcion"));
+				row.setNombre_documento(rs.getString("nombre_documento"));
+				row.setFecha_creacion_date(rs.getString("fecha_creacion_date"));
+//				row.setFechaCreacion(rs.getString("fecha_creacion"));
+				row.setEs_otro(rs.getBoolean("es_otro"));
+				row.setCampus_pid(rs.getLong("campus_pid"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
 				
 				rows.add(row)
