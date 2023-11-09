@@ -23,7 +23,7 @@ function ($scope) {
     };
     
     $scope.scrollTo = function scrollToCategory(_direction) {
-        var elem = document.getElementById("wizard-container");
+        var elem = document.getElementById("wizard-container-" + $scope.properties.wizardId);
         var elemWidth = document.querySelector(".wizard-step-container").scrollWidth;
         if (_direction === "back") {
           if (elem.scrollLeft === 0) {
