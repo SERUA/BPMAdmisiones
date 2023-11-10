@@ -39,13 +39,15 @@ function PbTableCtrl($scope, $http) {
         }
     });
 
-    $scope.getCatalogo = function (){
-        $http.post($scope.properties.urlGet, {}).success(function(_response){
-            $scope.properties.content = _response;
-        }).error(function(_response){
-            swal("¡Algo ha fallado!", _response.error, "error");
-        });
-    }
+    $scope.getCatalogo = function () {
+        debugger;
+        $http.post($scope.properties.urlGet, $scope.properties.dataToFilter).succes(function (response) {
+                $scope.properties.content = response.data;
+            })
+            .catch(function (error) {
+                swal("¡Algo ha fallado!", error.data.error, "error");
+            });
+    };
 
     this.selectRowDelete = function(row) {
         
