@@ -6507,21 +6507,19 @@ class CatalogosDAO {
 				throw new Exception("El registro no existe.");
 			} else if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.valor.equals("") || object.valor == null) {
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
-			} else if(object.valor.equals("") || object.valor == null) {
+			} else if(object.nombre_documento.equals("") || object.nombre_documento == null) {
 				throw new Exception("El campo \"nombre_documento\" no debe ir vacío");
-			}  else if(object.valor.equals("") || object.valor == null) {
-				throw new Exception("El campo \"es_otro\" no debe ir vacío");
-			} 
+			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATDOCUMENTOS);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setLong(3, Long.valueOf(object.nombre_documento));
+			pstm.setString(3, object.nombre_documento);
 //			pstm.setLong(4, Long.valueOf(object.fecha_creacion_date));
-			pstm.setLong(5, Long.valueOf(object.es_otro));
-			pstm.setLong(5, Long.valueOf(object.persistenceid));
+			pstm.setBoolean(4, object.es_otro);
+			pstm.setLong(5, object.persistenceId);
 //			pstm.setLong(6, Long.valueOf(object.is_eliminado));
 //			pstm.setLong(7, Long.valueOf(object.campus_pid));
 //			pstm.setLong(7, Long.valueOf(object.posgrado_pid));
@@ -6624,7 +6622,7 @@ class CatalogosDAO {
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 //			throw new Exception("el valor de object es = "+ object);
-			where = "WHERE campus.eliminado = false and GE.campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'"
+			where = "WHERE campus.eliminado = false and GE.is_eliminado = false and GE.campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
