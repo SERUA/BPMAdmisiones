@@ -21,7 +21,7 @@
         <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
         <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
         <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
-        <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null">Cambiar fecha y hora de la cita</button>
+        <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null" ng-if="!properties.readOnly">Cambiar fecha y hora de la cita</button>
     </div>
 </div>
 
