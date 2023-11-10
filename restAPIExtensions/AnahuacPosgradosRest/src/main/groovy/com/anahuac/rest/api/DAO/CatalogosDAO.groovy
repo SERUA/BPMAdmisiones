@@ -6697,7 +6697,6 @@ class CatalogosDAO {
 //			throw new Exception("el valor de consulta es = "+ consulta);
 			rs = pstm.executeQuery()
 			while (rs.next()) {
-
 				row = new CatGestionEscolar()
 				row.setClave(rs.getString("clave"));
 				row.setDescripcion(rs.getString("descripcion"));
