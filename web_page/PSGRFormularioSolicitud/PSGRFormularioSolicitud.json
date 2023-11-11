@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1698440778934,
+  "lastUpdate" : 1699658212874,
   "rows" : [
     [
       {
@@ -37,6 +37,10 @@
           "taskId" : {
             "type" : "variable",
             "value" : "taskId"
+          },
+          "isModificar" : {
+            "type" : "variable",
+            "value" : ""
           }
         },
         "reference" : "59e43d40-d3ac-4588-9d48-6f1418afb3a7",
@@ -161,8 +165,8 @@
                     },
                     "propertyValues" : {
                       "hidden" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "isModificar != false"
                       },
                       "level" : {
                         "type" : "constant",
@@ -189,6 +193,42 @@
                     "hasValidationError" : false,
                     "id" : "pbTitle",
                     "description" : ""
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "isModificar != true"
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Modificar solicitud de admision"
+                      },
+                      "level" : {
+                        "type" : "constant",
+                        "value" : "Level 2"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "bfc831f8-ab2f-4bd3-9295-8f2370be22c7",
+                    "hasValidationError" : false,
+                    "id" : "pbTitle"
                   }
                 ],
                 [
@@ -442,6 +482,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "649fec12-4c02-4eab-80d4-211fd137af34",
@@ -1136,6 +1180,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "3c4421f7-f202-4f0b-afed-62789c2e7ffe",
@@ -1381,6 +1429,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "65d3f14e-85ba-43e8-a8dd-61284331ac4e",
@@ -3702,6 +3754,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "d6ed6d42-b4a0-4479-942c-517983afcf77",
@@ -3947,6 +4003,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "931b7ef5-7c4a-44c0-bcdb-b34858ed665f",
@@ -5885,6 +5945,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "ed54b79f-7b24-4675-86b8-1a29866d5169",
@@ -6805,6 +6869,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "74bcaae0-c609-4325-8852-06e0eb24ab29",
@@ -7050,6 +7118,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "ef1e819d-91ba-495e-a341-fae42aa2a85e",
@@ -8022,6 +8094,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "3b10b7c5-a814-4f50-9872-1e8bc2c1e5ee",
@@ -8265,6 +8341,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "16dc2419-7ca6-488a-8398-2c0386c83a9b",
@@ -8773,6 +8853,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "9415c3f2-c98c-4bf7-9838-e84edc22925d",
@@ -9138,6 +9222,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "117df7ec-15e6-4532-9f62-21676e17db8e",
@@ -14012,6 +14100,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
                       }
                     },
                     "reference" : "1e00ec0e-0380-4258-af8f-f4f3ef1e5343",
@@ -20399,6 +20491,27 @@
       "type" : "json",
       "value" : [
         "{ \"errorMessage\": \"\", \"title\": \"\", \"error\": false }"
+      ],
+      "exposed" : false
+    },
+    "isModificar" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "if($data.task.name == \"Modificar solicitud\"){",
+        "    return true;",
+        "} else {",
+        "    return false;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.task;",
+        "$data.taskId;"
       ],
       "exposed" : false
     }

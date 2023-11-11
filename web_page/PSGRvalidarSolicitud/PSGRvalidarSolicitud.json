@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1699567703159,
+  "lastUpdate" : 1699664279669,
   "rows" : [
     [
       {
@@ -104,8 +104,8 @@
             "value" : "bg-white"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "navVar !== \"solicitud\""
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -2195,7 +2195,8 @@
                         "value" : ""
                       },
                       "dataToSend" : {
-                        "type" : "constant"
+                        "type" : "expression",
+                        "value" : "isModificar"
                       },
                       "dataFromSuccess" : {
                         "type" : "variable",
@@ -2210,7 +2211,8 @@
                         "value" : ""
                       },
                       "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
+                        "type" : "interpolation",
+                        "value" : ""
                       },
                       "collectionToModify" : {
                         "type" : "variable"
@@ -2228,11 +2230,23 @@
                       },
                       "removeItem" : {
                         "type" : "variable"
+                      },
+                      "taskId" : {
+                        "type" : "variable",
+                        "value" : "taskId"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : "isModificar"
+                      },
+                      "navVar" : {
+                        "type" : "variable",
+                        "value" : "navVar"
                       }
                     },
-                    "reference" : "e1f98683-effb-4ab0-b3b1-70e5b4651da2",
+                    "reference" : "b3cf52de-addc-4e27-af53-59d52c97d8fc",
                     "hasValidationError" : false,
-                    "id" : "pbButton"
+                    "id" : "customPSGRCustomBtnSolicitarModificacion"
                   },
                   {
                     "type" : "component",
@@ -19047,6 +19061,273 @@
           ]
         }
       }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "bg-white"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "navVar !== \"modificar\""
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "583963db-8543-41de-92c2-9193165d236a",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Solicitar modificaciones a la solicitud<hr>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 4"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "d16f2f99-68ce-463e-8722-69bf3c7c0fd3",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Escribe  a continuación los cambios que solicitas al registro de <b><b>{{datosPersonales.nombre}} {{datosPersonales.apellido_paterno}} {{datosPersonales.apellido_materno}} (Máximo 250 caracteres)</b>."
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "24af0f26-d828-4a12-89a4-8cc67f809874",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "valor2" : {
+                  "type" : "variable",
+                  "value" : "isModificar.registroInput.mensaje_admin_escolar"
+                },
+                "id" : {
+                  "type" : "constant"
+                },
+                "ocultarPrevisualizar" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "datosPrevisualizar" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "replace" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "2c26f021-8712-491d-b995-774a567cae09",
+              "hasValidationError" : false,
+              "id" : "customSDAEtextEditorAJS"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "default"
+                },
+                "action" : {
+                  "type" : "constant",
+                  "value" : "Submit task"
+                },
+                "assign" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "url" : {
+                  "type" : "interpolation"
+                },
+                "responseStatusCode" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "dataToSend" : {
+                  "type" : "expression",
+                  "value" : "isModificar"
+                },
+                "dataFromSuccess" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "closeOnSuccess" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "dataFromError" : {
+                  "type" : "variable",
+                  "value" : ""
+                },
+                "targetUrlOnSuccess" : {
+                  "type" : "interpolation"
+                },
+                "collectionToModify" : {
+                  "type" : "variable"
+                },
+                "modalId" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "collectionPosition" : {
+                  "type" : "constant",
+                  "value" : "Last"
+                },
+                "valueToAdd" : {
+                  "type" : "constant"
+                },
+                "removeItem" : {
+                  "type" : "variable"
+                },
+                "isValid" : {
+                  "type" : "constant"
+                },
+                "errorMessage" : {
+                  "type" : "constant"
+                },
+                "urlBitacora" : {
+                  "type" : "constant"
+                },
+                "objetoBitacora" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "variable",
+                  "value" : "taskId"
+                }
+              },
+              "reference" : "742f0cd4-a114-4489-bf39-f982c1e9b9a0",
+              "hasValidationError" : false,
+              "id" : "customPSGRButtonCloseMensajeCambios"
+            }
+          ]
+        ]
+      }
     ]
   ],
   "assets" : [
@@ -20088,6 +20369,21 @@
         "    default:",
         "        $data.titulo = \"Solicitud de admisión\";",
         "}"
+      ],
+      "exposed" : false
+    },
+    "isModificar" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    isModificarSolicitudInput: true,\r",
+        "    isSolicitudRechazadaAdminEscolarInput: false,\r",
+        "    \"registroInput\" : {\r",
+        "        aprobado_admin_escolar: false,\r",
+        "        mensaje_admin_escolar: \"\"\r",
+        "    }\r",
+        "}\r",
+        "    "
       ],
       "exposed" : false
     }
