@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.37">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.39">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -1809,6 +1809,15 @@
               <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_AzUhcIAbEe6gvqNTQ4Fs8w">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_AzUhcYAbEe6gvqNTQ4Fs8w" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Deu-0IAbEe6gvqNTQ4Fs8w" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_AzUhcoAbEe6gvqNTQ4Fs8w" name="newScript()" content="return -1" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Integer"/>
+            <operator xmi:type="expression:Operator" xmi:id="_AzUhc4AbEe6gvqNTQ4Fs8w" type="JAVA_METHOD" expression="setLastIndex">
+              <inputTypes>java.lang.Integer</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_LP1tgmF4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_LP1tg2F4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_LP1thGF4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -2488,7 +2497,7 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5cX9IEe6a08PJntrWjQ" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5cn9IEe6a08PJntrWjQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5c39IEe6a08PJntrWjQ" name="newScript()" content="'solicitud_iniciada'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5c39IEe6a08PJntrWjQ" name="newScript()" content="'modificaciones_realizadas'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
             <operator xmi:type="expression:Operator" xmi:id="_Czj5dH9IEe6a08PJntrWjQ" type="JAVA_METHOD" expression="setEstatus_solicitud">
               <inputTypes>java.lang.String</inputTypes>
             </operator>
@@ -2958,6 +2967,28 @@
               <inputTypes>java.time.LocalDateTime</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_IRL9A4AiEe6gvqNTQ4Fs8w">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_IRL9BIAiEe6gvqNTQ4Fs8w" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_IRL9BYAiEe6gvqNTQ4Fs8w" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_IRL9BoAiEe6gvqNTQ4Fs8w" name="registroInput.mensaje_admin_escolar" content="registroInput?.mensaje_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_IRL9B4AiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_IRL9CIAiEe6gvqNTQ4Fs8w" type="JAVA_METHOD" expression="setMensaje_admin_escolar">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_IRL9CYAiEe6gvqNTQ4Fs8w">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_IRL9CoAiEe6gvqNTQ4Fs8w" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_IRL9C4AiEe6gvqNTQ4Fs8w" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_IRL9DIAiEe6gvqNTQ4Fs8w" name="registroInput.aprobado_admin_escolar" content="registroInput?.aprobado_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_IRL9DYAiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_IRL9DoAiEe6gvqNTQ4Fs8w" type="JAVA_METHOD" expression="setAprobado_admin_escolar">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_-8pa41ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_-8pa5FZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_-8pa5VZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -2972,6 +3003,10 @@
             </inputs>
             <inputs xmi:type="process:ContractInput" xmi:id="_4WNFQF1qEe6Pc6WsAlY1eg" name="isModificarSolicitudInput" type="BOOLEAN">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="_4WNFQV1qEe6Pc6WsAlY1eg"/>
+            </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AIAiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AYAiEe6gvqNTQ4Fs8w" name="mensaje_admin_escolar" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AoAiEe6gvqNTQ4Fs8w" name="aprobado_admin_escolar" type="BOOLEAN" createMode="false"/>
             </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_JxSpPFZyEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
