@@ -9389,5 +9389,864 @@ class ListadoDAO {
         }
         return retorno
     }
+	
+	public Result selectAspirantesEnprocesoFechasV2(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "", bachillerato = "", campus = "", programa = "", ingreso = "", estado = "", tipoalumno = "", orderby = "ORDER BY ", errorlog = "", tipo_sesion = "";
+		List < String > lstGrupo = new ArrayList < String > ();
+		List < Map < String, String >> lstGrupoCampus = new ArrayList < Map < String, String >> ();
+		List < DetalleSolicitud > lstDetalleSolicitud = new ArrayList < DetalleSolicitud > ();
 
+		Long userLogged = 0L;
+		Long caseId = 0L;
+		Long total = 0L;
+		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def objCatCampusDAO = context.apiClient.getDAO(CatCampusDAO.class);
+
+			List < CatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
+
+			userLogged = context.getApiSession().getUserId();
+
+			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
+			for (UserMembership objUserMembership: lstUserMembership) {
+				for (CatCampus rowGrupo: lstCatCampus) {
+					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupoBonita())) {
+						lstGrupo.add(rowGrupo.getDescripcion());
+						break;
+					}
+				}
+			}
+
+			assert object instanceof Map;
+			where += " WHERE sda.iseliminado=false"
+			if (object.campus != null) {
+				where += " AND LOWER(campus.grupoBonita) = LOWER('" + object.campus + "') "
+			}
+			if (object.estatusSolicitud != null) {
+				if (object.estatusSolicitud.equals("Solicitud lista roja")) {
+					where += " AND sda.ESTATUSSOLICITUD='Solicitud lista roja'"
+				} else if (object.estatusSolicitud.equals("Solicitud rechazada")) {
+					where += " AND sda.ESTATUSSOLICITUD='Solicitud rechazada' "
+				} else if (object.estatusSolicitud.equals("Nuevas solicitudes")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Solicitud modificada' OR sda.ESTATUSSOLICITUD='Solicitud recibida')"
+				} else if (object.estatusSolicitud.equals("Solicitud en proceso")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Solicitud en proceso' OR sda.ESTATUSSOLICITUD='Solicitud a modificar')"
+				} else if (object.estatusSolicitud.equals("Aspirantes registrados sin validación de cuenta")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Aspirantes registrados sin validación de cuenta')"
+				} else if (object.estatusSolicitud.equals("Aspirantes registrados con validación de cuenta")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Aspirantes registrados con validación de cuenta')"
+				} else if (object.estatusSolicitud.equals("Solicitud en espera de pago")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Solicitud en espera de pago')"
+				} else if (object.estatusSolicitud.equals("Solicitud con pago aceptado")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Solicitud con pago aceptado')"
+				} else if (object.estatusSolicitud.equals("Autodescripción en proceso")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Autodescripción en proceso')"
+				} else if (object.estatusSolicitud.equals("Elección de pruebas no calendarizado")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Elección de pruebas no calendarizado')"
+				} else if (object.estatusSolicitud.equals("No se ha impreso credencial")) {
+					where += " AND (sda.ESTATUSSOLICITUD='No se ha impreso credencial')"
+				} else if (object.estatusSolicitud.equals("Ya se imprimió su credencial")) {
+					where += " AND (sda.ESTATUSSOLICITUD='Ya se imprimió su credencial')"
+				}
+				//CODIGO PP
+				else if (object.estatusSolicitud.equals("Aspirantes en proceso")) {
+					//where+=" AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en proceso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' )"
+					//where+=" AND (sda.ESTATUSSOLICITUD != 'Solicitud rechazada') AND (sda.ESTATUSSOLICITUD != 'Solicitud lista roja') AND (sda.ESTATUSSOLICITUD != 'Aspirantes registrados sin validación de cuenta') AND (sda.ESTATUSSOLICITUD !='Aspirantes registrados con validación de cuenta') AND (sda.ESTATUSSOLICITUD != 'Solicitud en proceso') AND (sda.ESTATUSSOLICITUD != 'Solicitud recibida' ) AND (sda.ESTATUSSOLICITUD != 'Solicitud a modificar' )"
+					/*if(object.sesiones) {
+						where+=" AND (sda.ESTATUSSOLICITUD = 'Ya se imprimió su credencial' OR sda.ESTATUSSOLICITUD = 'Elección de pruebas calendarizado' OR sda.ESTATUSSOLICITUD = 'Autodescripción en proceso' OR sda.ESTATUSSOLICITUD = 'Autodescripción concluida' )"
+					 }else{
+						
+					 }*/
+					if (object.sesiones) {
+						where += " AND (sda.ESTATUSSOLICITUD = 'Autodescripción concluida' OR sda.ESTATUSSOLICITUD = 'Ya se imprimió su credencial' OR sda.ESTATUSSOLICITUD = 'Elección de pruebas calendarizado' OR sda.ESTATUSSOLICITUD = 'Carga y consulta de resultados' OR sda.ESTATUSSOLICITUD = 'Resultado final del comité' OR sda.ESTATUSSOLICITUD = 'Rechazado por comité'  )"
+					}else {
+						where += " AND (sda.ESTATUSSOLICITUD = 'Ya se imprimió su credencial' OR sda.ESTATUSSOLICITUD = 'Elección de pruebas calendarizado'  )"
+					}
+				}
+			}
+			if (lstGrupo.size() > 0) {
+				campus += " AND ("
+			}
+			for (Integer i = 0; i < lstGrupo.size(); i++) {
+				String campusMiembro = lstGrupo.get(i);
+				campus += "campus.descripcion='" + campusMiembro + "'"
+				if (i == (lstGrupo.size() - 1)) {
+					campus += ") "
+				} else {
+					campus += " OR "
+				}
+			}
+
+			errorlog += "campus" + campus;
+
+			closeCon = validarConexion();
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
+
+			errorlog += "object.lstFiltro" + object.lstFiltro
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			//closeCon = validarConexion();
+
+			String consulta = Statements.GET_ASPIRANTES_EN_PROCESO_FECHAS
+			if (object.sesiones) {
+				consulta = Statements.GET_ASPIRANTES_EN_PROCESO_FECHAS_SESIONES;
+			}
+
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				errorlog += ", columna " + filtro.get("columna")
+				switch (filtro.get("columna")) {
+
+					case "NOMBRE,EMAIL,CURP":
+						errorlog += "NOMBRE,EMAIL,CURP"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "PROGRAMA,PERÍODO DE INGRESO,CAMPUS INGRESO":
+						errorlog += "PROGRAMA, PERÍODO DE INGRESO, CAMPUS INGRESO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(campusEstudio.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						break;
+
+					case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
+						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						/*
+						where +="  OR LOWER(sda.estadoextranjero) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						*/
+						where += "  OR LOWER(prepa.DESCRIPCION) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ULTIMA MODIFICACION":
+						errorlog += "FECHAULTIMAMODIFICACION"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " (LOWER(sda.fechaultimamodificacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where += " OR to_char(CURRENT_TIMESTAMP - TO_TIMESTAMP(sda.fechaultimamodificacion, 'YYYY-MM-DDTHH:MI'), 'DD \"días\" HH24 \"horas\" MI \"minutos\"') ";
+						where += "LIKE LOWER('%[valor]%'))";
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+						//filtrado utilizado en lista roja y rechazado
+					case "NOMBRE,EMAIL,CURP":
+						errorlog += "NOMBRE,EMAIL,CURP"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.correoelectronico) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.curp) like lower('%[valor]%') ) ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "CAMPUS,PROGRAMA,INGRESO":
+						errorlog += "PROGRAMA,INGRESO,CAMPUS"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(campusEstudio.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(gestionescolar.NOMBRE) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(periodo.DESCRIPCION) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						break;
+
+					case "PROCEDENCIA,PREPARATORIA,PROMEDIO":
+						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += "( LOWER(CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(prepa.DESCRIPCION) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(sda.PROMEDIOGENERAL) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "NOMBRE SESION,TIPO DE SESION,FECHA DE LA SESION":
+						errorlog += "NOMBRE SESION,TIPO DE SESION,FECHA DE LA SESION"
+
+						tipo_sesion += " WHERE( LOWER(nombre_sesion) like lower('%[valor]%') ";
+						tipo_sesion = tipo_sesion.replace("[valor]", filtro.get("valor"))
+
+						tipo_sesion += " OR LOWER(tipo_sesion) like lower('%[valor]%') ";
+						tipo_sesion = tipo_sesion.replace("[valor]", filtro.get("valor"))
+
+						tipo_sesion += " OR LOWER(CAST(fecha_sesion as varchar)) like lower('%[valor]%') ) ";
+						tipo_sesion = tipo_sesion.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "ESTATUS,TIPO":
+						errorlog += "PREPARATORIA,ESTADO,PROMEDIO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " ( LOWER(sda.ESTATUSSOLICITUD) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(R.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "INDICADORES":
+						errorlog += "INDICADORES"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+
+						where += " ( LOWER(R.descripcion) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+						where += " OR LOWER(TA.descripcion) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+
+
+						break;
+
+						// filtrados normales
+					case "NÚMERO DE SOLICITUD":
+						errorlog += "SOLICITUD"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(CAST(sda.caseid AS varchar)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "NOMBRE":
+						errorlog += "NOMBRE"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(concat(sda.apellidopaterno,' ',sda.apellidomaterno,' ',sda.primernombre,' ',sda.segundonombre)) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "EMAIL":
+						errorlog += "EMAIL"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.correoelectronico) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "CURP":
+						errorlog += "CURP"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.curp) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "CAMPUS":
+						errorlog += "CAMPUS"
+						campus += " AND LOWER(campus.DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							campus += "=LOWER('[valor]')"
+						} else {
+							campus += "LIKE LOWER('%[valor]%')"
+						}
+						campus = campus.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PREPARATORIA":
+						errorlog += "PREPARATORIA"
+						bachillerato += " AND LOWER(prepa.DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							bachillerato += "=LOWER('[valor]')"
+						} else {
+							bachillerato += "LIKE LOWER('%[valor]%')"
+						}
+						bachillerato = bachillerato.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PROGRAMA":
+						errorlog += "PROGRAMA"
+						programa += " AND LOWER(gestionescolar.Nombre) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							programa += "=LOWER('[valor]')"
+						} else {
+							programa += "LIKE LOWER('%[valor]%')"
+						}
+						programa = programa.replace("[valor]", filtro.get("valor"))
+						break;
+					case "INGRESO":
+						errorlog += "INGRESO"
+						ingreso += " AND LOWER(periodo.DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							ingreso += "=LOWER('[valor]')"
+						} else {
+							ingreso += "LIKE LOWER('%[valor]%')"
+						}
+						ingreso = ingreso.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ESTADO":
+						errorlog += "ESTADO"
+						estado += " AND LOWER(estado.DESCRIPCION) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							estado += "=LOWER('[valor]')"
+						} else {
+							estado += "LIKE LOWER('%[valor]%')"
+						}
+						estado = estado.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PROMEDIO":
+						errorlog += "PROMEDIO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.PROMEDIOGENERAL) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ESTATUS":
+						errorlog += "ESTATUS"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.ESTATUSSOLICITUD) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "TELEFONO":
+						errorlog += "TELEFONO"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.telefonocelular) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "TIPO":
+						errorlog += "TIPO"
+						tipoalumno += " AND LOWER(R.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+					case "IDBANNER":
+						errorlog += "IDBANNER"
+						tipoalumno += " AND LOWER(da.idbanner) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "ID BANNER":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(da.idbanner) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "LISTAROJA":
+						errorlog += "LISTAROJA"
+						tipoalumno += " AND LOWER(da.observacionesListaRoja) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+					case "MOTIVO DE LISTA ROJA":
+						errorlog += "LISTAROJA"
+						tipoalumno += " AND LOWER(da.observacionesListaRoja) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+					case "RECHAZO":
+						errorlog += "RECHAZO"
+						tipoalumno += " AND LOWER(da.observacionesRechazo) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+					case "MOTIVO DE LISTA RECHAZO":
+						errorlog += "RECHAZO"
+						tipoalumno += " AND LOWER(da.observacionesRechazo) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							tipoalumno += "=LOWER('[valor]')"
+						} else {
+							tipoalumno += "LIKE LOWER('%[valor]%')"
+						}
+						tipoalumno = tipoalumno.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA SOLICITUD":
+						errorlog += "FECHA SOLICITUD"
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(to_char(sda.fechasolicitudenviada::timestamp, 'DD-MM-YYYY HH24:MI:SS') ) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+
+
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+
+					case "CIUDAD":
+						errorlog += "CIUDAD";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(sda.ciudad) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PROCEDENCIA":
+						errorlog += "PROCEDENCIA";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(CASE WHEN prepa.descripcion = 'Otro' THEN sda.estadobachillerato ELSE prepa.estado END) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PAÍS":
+						errorlog += "PAÍS";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(catPais.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "CAMPUS INGRESO":
+						errorlog += "CAMPUS INGRESO";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(campusEstudio.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA DE ENVIO":
+						errorlog += "FECHA DE ENVIO";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " to_char(sda.fechasolicitudenviada::timestamp, 'DD-MM-YYYY HH24:MI:SS') ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ADMISIÓN ANÁHUAC":
+						errorlog += "ADMISIÓN ANÁHUAC";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " sda.admisionAnahuac ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=[valor]"
+						} else {
+							where += "=[valor]"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PAA (COLLEGE BOARD)":
+						errorlog += "PAA (COLLEGE BOARD)";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " sda.tienePAA ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=[valor]"
+						} else {
+							where += "=[valor]"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCUENTO EN EXAMEN":
+						errorlog += "DESCUENTO EN EXAMEN";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " sda.tieneDescuento ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=[valor]"
+						} else {
+							where += "=[valor]"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					default:
+						break;
+				}
+
+			}
+			switch (object.orderby) {
+				case "FECHAULTIMAMODIFICACION":
+					orderby += "sda.fechaultimamodificacion";
+					break;
+				case "NOMBRE":
+					orderby += "sda.apellidopaterno";
+					break;
+				case "EMAIL":
+					orderby += "sda.correoelectronico";
+					break;
+				case "CURP":
+					orderby += "sda.curp";
+					break;
+				case "CAMPUS":
+					orderby += "campus.DESCRIPCION"
+					break;
+				case "PREPARATORIA":
+					orderby += "prepa.DESCRIPCION"
+					break;
+				case "PROGRAMA":
+					orderby += "gestionescolar.NOMBRE"
+					break;
+				case "INGRESO":
+					orderby += "periodo.DESCRIPCION"
+					break;
+				case "PROCEDENCIA":
+					orderby += "procedencia";
+					break;
+				case "PROMEDIO":
+					orderby += "sda.PROMEDIOGENERAL";
+					break;
+				case "ESTATUS":
+					orderby += "sda.ESTATUSSOLICITUD";
+					break;
+				case "TIPO":
+					orderby += "da.TIPOALUMNO";
+					break;
+				case "TELEFONO":
+					orderby += "sda.telefonocelular";
+					break;
+				case "IDBANNER":
+					orderby += "da.idbanner";
+					break;
+				case "SOLICITUD":
+					orderby += "sda.caseid::INTEGER";
+					break;
+				case "LISTAROJA":
+					orderby += "da.observacionesListaRoja";
+					break;
+				case "RECHAZO":
+					orderby += "da.observacionesRechazo";
+					break;
+				case "FECHASOLICITUD":
+					orderby += "sda.fechasolicitudenviada";
+					break;
+
+				case "NOMBRESESION":
+					orderby += "S.nombre";
+					break;
+
+				case "TIPOSESION":
+					orderby += "s.tipo";
+					break;
+				case "FECHASESION":
+					orderby += "s.fecha_inicio";
+					break;
+				default:
+					orderby += "sda.persistenceid"
+					break;
+			}
+			orderby += " " + object.orientation;
+			consulta = consulta.replace("[CAMPUS]", campus)
+			consulta = consulta.replace("[PROGRAMA]", programa)
+			consulta = consulta.replace("[INGRESO]", ingreso)
+			consulta = consulta.replace("[ESTADO]", estado)
+			consulta = consulta.replace("[BACHILLERATO]", bachillerato)
+			consulta = consulta.replace("[TIPOALUMNO]", tipoalumno)
+			consulta = consulta.replace("[RESIDENCIA]", tipo_sesion)
+			where += " " + campus + " " + programa + " " + ingreso + " " + estado + " " + bachillerato + " " + tipoalumno
+			consulta = consulta.replace("[WHERE]", where);
+			//errorlog += consulta;
+
+			//errorlog= consulta;
+			String consultaR = Statements.GET_ASPIRANTES_EN_PROCESO_FECHAS2;
+
+			consultaR = consultaR.replace("[CAMPUS]", campus)
+			consultaR = consultaR.replace("[PROGRAMA]", programa)
+			consultaR = consultaR.replace("[INGRESO]", ingreso)
+			consultaR = consultaR.replace("[ESTADO]", estado)
+			consultaR = consultaR.replace("[BACHILLERATO]", bachillerato)
+			consultaR = consultaR.replace("[TIPOALUMNO]", tipoalumno)
+			consultaR = consultaR.replace("[WHERE]", where);
+
+			//errorlog += " || "+consultaR;
+			pstm = con.prepareStatement(consultaR);
+
+			//pstm = con.prepareStatement(consulta.replace("sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.DESCRIPCION AS licenciatura, periodo.DESCRIPCION AS ingreso, estado.DESCRIPCION AS estado, CASE WHEN prepa.DESCRIPCION = 'Otro' THEN sda.bachillerato ELSE prepa.DESCRIPCION END AS preparatoria, sda.PROMEDIOGENERAL, sda.ESTATUSSOLICITUD, da.TIPOALUMNO, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, TA.descripcion as tipoadmision , R.descripcion as residensia, catcampus.descripcion as transferencia, STRING_AGG( tipo.descripcion || '  ' || p.aplicacion || '   ' || case when tipo.persistenceid=1 then rd.horario  else p.entrada ||' - '||p.salida end, ',' ORDER BY tipo.descripcion , p.aplicacion, horario ) fechasExamenes ", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+			//errorlog = pstm
+
+			rs = pstm.executeQuery()
+			if (rs.next()) {
+				resultado.setTotalRegistros(rs.getInt("registros"))
+			}
+			//consultaR=consultaR.replace("[ORDERBY]", orderby)
+			//consultaR=consultaR.replace("[LIMITOFFSET]", " LIMIT?OFFSET ?")
+
+			//consulta=consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[ORDERBY]", orderby)
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+
+
+			errorlog += consulta;
+			
+
+			pstm = con.prepareStatement(consulta)
+			errorlog = object.limit;
+			pstm.setInt(1, object.limit)
+			errorlog = "2";
+			pstm.setInt(2, object.offset)
+			errorlog = consulta;
+			rs = pstm.executeQuery()
+			errorlog = "4";
+			rows = new ArrayList < Map < String, Object >> ();
+			errorlog = "5";
+			ResultSetMetaData metaData = rs.getMetaData();
+			errorlog = "6";
+			int columnCount = metaData.getColumnCount();
+			errorlog = "7";
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					if (metaData.getColumnLabel(i).toLowerCase().equals("responsables")) {
+						User usr;
+						UserMembership membership;
+
+						String responsables = rs.getString("responsables");
+						String nombres = "";
+						if (!responsables.equals("null") && responsables != null) {
+							errorlog += " " + responsables;
+							String[] arrOfStr = responsables.split(",");
+							for (String a: arrOfStr) {
+								if (Long.parseLong(a) > 0) {
+									usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(a))
+									nombres += (nombres.length() > 1?", " : "") + usr.getFirstName() + " " + usr.getLastName()
+								}
+							}
+							columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+						}
+					} else {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+						if(metaData.getColumnLabel(i).toLowerCase().equals("urlfoto")) {
+							columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+						}
+						
+//						if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+//							String encoded = "";
+//							try {
+//								String urlFoto = rs.getString("urlfoto");
+//								if (urlFoto != null && !urlFoto.isEmpty()) {
+//									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+//									rs.getString(i)
+//									//columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+//								} else {
+//									List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+//									for (Document doc: doc1) {
+//										encoded = "../API/formsDocumentImage?document=" + doc.getId();
+//										columns.put("fotografiab64", encoded);
+//									}
+//								}
+//
+//							} catch (Exception e) {
+//								LOGGER.error "[ERROR] " + e.getMessage();
+//								columns.put("fotografiab64", "");
+//								errorlog += "" + e.getMessage();
+//							}
+//						}
+					}
+				}
+
+				rows.add(columns);
+			}
+			resultado.setSuccess(true)
+
+
+			resultado.setData(rows)
+
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }
