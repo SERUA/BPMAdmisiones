@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatManejoDocumentos",
   "name" : "PSGRCatManejoDocumentos",
-  "lastUpdate" : 1699571215784,
+  "lastUpdate" : 1699634842002,
   "rows" : [
     [
       {
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo parentesco"
+                  "value" : "Catalogo Documentos"
                 },
                 "level" : {
                   "type" : "constant",
@@ -440,6 +440,10 @@
                       "dataToFilter" : {
                         "type" : "variable",
                         "value" : "selectedCat"
+                      },
+                      "guardarValores" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "16cd4fa5-dbf8-4351-b43b-8b7da1620015",
@@ -786,11 +790,19 @@
                             "newValue" : {
                               "type" : "constant",
                               "value" : "tabla"
+                            },
+                            "objetoCat" : {
+                              "type" : "variable",
+                              "value" : "selectedCat"
+                            },
+                            "guardarValores" : {
+                              "type" : "variable",
+                              "value" : "guardarValores"
                             }
                           },
-                          "reference" : "a8524a86-5c64-46fa-b8a3-a05bc4f92c49",
+                          "reference" : "1d7e84e4-c82c-4a98-b932-06fed04790eb",
                           "hasValidationError" : false,
-                          "id" : "customCustomBtnNavigationByVariable"
+                          "id" : "customCustomBtnCancelarCatDocumentos"
                         },
                         {
                           "type" : "component",
@@ -996,7 +1008,8 @@
     "cargar_catDatos" : {
       "type" : "expression",
       "value" : [
-        "if($data.selectedCat.campus_pid.persistenceId === undefined || $data.selectedCat.campus_pid.persistenceId === null ||  $data.selectedCat.posgrado_pid.persistenceId === undefined || $data.selectedCat.posgrado_pid.persistenceId === null){",
+        "debugger;",
+        "if($data.selectedCat.campus_pid === undefined || $data.selectedCat.campus_pid === null){",
         "    $data.mostrarTabla = \"mostrar\";",
         "}else{",
         "    $data.mostrarTabla = \"ocultar\";",
@@ -1008,6 +1021,22 @@
       "type" : "constant",
       "value" : [
         "mostrar"
+      ],
+      "exposed" : false
+    },
+    "debugger" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "$data.navigationVar;",
+        "$data.mostrarTabla;"
+      ],
+      "exposed" : false
+    },
+    "guardarValores" : {
+      "type" : "json",
+      "value" : [
+        "{}"
       ],
       "exposed" : false
     }
