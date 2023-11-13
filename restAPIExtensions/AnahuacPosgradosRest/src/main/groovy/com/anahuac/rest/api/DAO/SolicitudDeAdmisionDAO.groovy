@@ -132,8 +132,8 @@ class SolicitudDeAdmisionDAO {
 			assert object instanceof Map;
 			where += " WHERE (regi.is_eliminado = false OR regi.is_eliminado IS null) "
 			
-			if (object.estatusSolicitud != null) {
-				//where += " AND regi.estatus_solicitud IN ("+object.estatusSolicitud+") "
+			if (object.estatusSolicitud != null && object.estatusSolicitud.toString().trim() != "") {
+				where += " AND regi.estatus_solicitud IN ("+object.estatusSolicitud+") "
 			}
 			
 			if (object.caseId != null) {
