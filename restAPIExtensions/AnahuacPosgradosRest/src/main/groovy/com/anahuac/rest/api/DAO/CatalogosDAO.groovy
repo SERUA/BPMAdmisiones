@@ -4719,7 +4719,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATTIPOALUMNO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -4759,7 +4759,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATTIPOALUMNO);
 			pstm.setLong(1, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -4796,7 +4796,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATTIPOALUMNO);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -4881,7 +4881,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATTIPOEMPLEADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATTIPOALUMNO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
@@ -4892,7 +4892,8 @@ class CatalogosDAO {
 				row.setClave(rs.getString("clave"));
 				row.setOrden(rs.getLong("orden"));
 				row.setDescripcion(rs.getString("descripcion"));
-	
+				row.setUsuario_creacion(rs.getString("usuario_creacion"));
+				row.setFecha_creacion(rs.getString("fecha_creacion"));
 				data.add(row);
 			}
 	
@@ -4927,7 +4928,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATRESIDENCIA);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -4967,7 +4968,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATRESIDENCIA);
 			pstm.setLong(1, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -5004,7 +5005,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATRESIDENCIA);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5089,7 +5090,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATTIPOEMPLEADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATRESIDENCIA.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
@@ -5100,7 +5101,8 @@ class CatalogosDAO {
 				row.setClave(rs.getString("clave"));
 				row.setOrden(rs.getLong("orden"));
 				row.setDescripcion(rs.getString("descripcion"));
-	
+				row.setUsuario_creacion(rs.getString("usuario_creacion"));
+				row.setFecha_creacion(rs.getString("fecha_creacion"));
 				data.add(row);
 			}
 	
@@ -5135,7 +5137,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATTIPOADMISION);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5175,7 +5177,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.DELETE_CATTIPOADMISION);
 			pstm.setLong(1, object.persistenceid);
 	
 			if (pstm.executeUpdate() > 0) {
@@ -5212,7 +5214,7 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			}
 	
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATTIPOEMPLEADO);
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATTIPOADMISION);
 			pstm.setString(1, object.clave);
 			pstm.setLong(2, object.orden);
 			pstm.setString(3, object.descripcion);
@@ -5297,7 +5299,7 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.SELECT_CATTIPOEMPLEADO.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+			String consulta = StatementsCatalogos.SELECT_CATTIPOADMISION.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
@@ -5308,7 +5310,8 @@ class CatalogosDAO {
 				row.setClave(rs.getString("clave"));
 				row.setOrden(rs.getLong("orden"));
 				row.setDescripcion(rs.getString("descripcion"));
-	
+				row.setUsuario_creacion(rs.getString("usuario_creacion"));
+				row.setFecha_creacion(rs.getString("fecha_creacion"));
 				data.add(row);
 			}
 	
