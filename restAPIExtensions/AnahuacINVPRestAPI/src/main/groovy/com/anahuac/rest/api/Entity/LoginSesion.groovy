@@ -31,6 +31,8 @@ class LoginSesion {
 	private String nombre_temp;
 	@XmlElement
 	private Long idsesion_temp;
+	@XmlElement
+	private Boolean sesion_iniciada;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -115,5 +117,11 @@ class LoginSesion {
 	}
 	public void setIdsesion_temp(Long idsesion_temp) {
 		this.idsesion_temp = idsesion_temp;
+	}
+	public Boolean getSesion_iniciada() {
+		return sesion_iniciada;
+	}
+	public void setSesion_iniciada(Boolean sesion_iniciada) {
+		this.sesion_iniciada = sesion_iniciada;
 	}
 }

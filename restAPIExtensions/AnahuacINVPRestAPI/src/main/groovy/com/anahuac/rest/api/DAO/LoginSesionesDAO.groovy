@@ -1030,7 +1030,8 @@ class LoginSesionesDAO {
 				row.setSalida_temp(rs.getString("salida_temp"));
 				row.setNombre_temp(rs.getString("nombre_temp"));
 				row.setIdsesion_temp(rs.getLong("idsesion_temp"));
-
+				row.setSesion_iniciada(rs.getBoolean("sesion_iniciada"));
+				
 				rows.add(row)
 			}
 			
