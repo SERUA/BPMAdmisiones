@@ -87,6 +87,24 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATTIPOEMPLEADO = "UPDATE PSGRCatTipoEmpleado SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATTIPOEMPLEADO = "SELECT * FROM PSGRCatTipoEmpleado [WHERE] [ORDERBY]";
 	
+	//PSGRCatTipoAlumno
+	public static final String INSERT_CATTIPOALUMNO = "INSERT INTO PSGRCatTipoAlumno (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado, fecha_creacion, usuario_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoAlumno), 0,?, ?, ?, false, ?, ?);";
+	public static final String DELETE_CATTIPOALUMNO = "UPDATE PSGRCatTipoAlumno SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATTIPOALUMNO = "UPDATE PSGRCatTipoAlumno SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATTIPOALUMNO = "SELECT * FROM PSGRCatTipoAlumno [WHERE] [ORDERBY]";
+	
+	//PSGRCatTipoAdmision
+	public static final String INSERT_CATTIPOADMISION = "INSERT INTO PSGRCatTipoAdmision (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado, fecha_creacion, usuario_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatTipoAdmision), 0,?, ?, ?, false, ?, ?);";
+	public static final String DELETE_CATTIPOADMISION = "UPDATE PSGRCatTipoAdmision SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATTIPOADMISION = "UPDATE PSGRCatTipoAdmision SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATTIPOADMISION = "SELECT * FROM PSGRCatTipoAdmision [WHERE] [ORDERBY]";
+	
+	//PSGRCatResidencia
+	public static final String INSERT_CATRESIDENCIA = "INSERT INTO PSGRCatResidencia (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado, fecha_creacion, usuario_creacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatResidencia), 0,?, ?, ?, false, ?, ?);";
+	public static final String DELETE_CATRESIDENCIA = "UPDATE PSGRCatResidencia SET is_eliminado = true WHERE persistenceid = ?";
+	public static final String UPDATE_CATRESIDENCIA = "UPDATE PSGRCatResidencia SET clave = ?, orden = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String SELECT_CATRESIDENCIA = "SELECT * FROM PSGRCatResidencia [WHERE] [ORDERBY]";
+	
 	//PSGRCatGiroEmpresa
 	public static final String INSERT_CATGIROEMPRESA = "INSERT INTO PSGRCatGiroEmpresa (persistenceid, persistenceversion, clave, orden, descripcion, is_eliminado) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatGiroEmpresa), 0,?, ?, ?, false);";
 	public static final String DELETE_CATGIROEMPRESA = "UPDATE PSGRCatGiroEmpresa SET is_eliminado = true WHERE persistenceid = ?";
