@@ -115,7 +115,12 @@
                         <button type="button" class="btn btn-default" ng-click="abrirSolicitud(row)">
                             <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
                         </button>
-                        <button type="button" class="btn btn-default" ng-click="">
+                        <!-- REACTIVAR BUTTON -->
+                        <button 
+                            type="button"
+                            class="btn btn-default"
+                            ng-click="abrirModalReactivarSolicitud(row)">
+                            <!-- ng-show="row.estatus_proceso === 'solicitud_rechazada_admin'" -->
                             <span class="glyphicon glyphicon-repeat" aria-hidden="true"></span>
                         </button>
                         <!--
@@ -148,6 +153,28 @@
                 <div class="btn-group" role="group" aria-label="Third group">
                     <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente
                     </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- MODAL-REACTIVAR -->
+<div id="modalReactivarSolicitud" class="modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h5 class="modal-title color-orange">Mensaje de confirmación</h5>
+            </div>
+            <div class="modal-body">
+                <p>¿Desea reactivar la solicitud?</p>
+            </div>
+            <div class="modal-footer">
+                <div class="col-xs-6 text-left">
+                    <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
+                </div>
+                <div class="col-xs-6 text-right">
+                    <button type="button" class="btn btn-primary" ng-click="reactivarSolicitud()">Reactivar</button>
                 </div>
             </div>
         </div>
