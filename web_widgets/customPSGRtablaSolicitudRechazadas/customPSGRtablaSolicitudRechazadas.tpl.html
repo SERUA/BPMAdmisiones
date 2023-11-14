@@ -45,10 +45,10 @@
                     <th><span style="cursor:pointer" ng-click="setOrderBy('EXPEDIENTE')">ID BPM<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EXPEDIENTE'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">Nombre<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CURP')">CURP<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CURP'"></i></span> </th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
-                    <!--<th> -->
-                    <!--    <span style="cursor:pointer" ng-click="setOrderBy('PROCEDENCIA/PROMEDIO')"> Procedencia / Promedio<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Admisiones<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio Actualizado<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span>-->
-                    <!--</th>-->
-                    <!--<th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>-->
+           
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('PROCEDENCIA/PROMEDIO')"> Procedencia / Promedio<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span></th>
+                    
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('MOTIVO')">Motivo<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='MOTIVO'"></i></span> </th>
                     <!--
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAREGISTRO')">Fecha de registro<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FERHAREGISTRO'"></i></span></th>
                     -->
@@ -62,12 +62,8 @@
                     <td><input ng-model="dynamicInput['solicitud']" class="form-control" ng-enter="filterKeyPress('# EXPEDIENTE',dynamicInput['solicitud'])"></td>
                     <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
-                    <!--<td><input ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('TIPO APOYO,PROMEDIO',dynamicInput['preparatoria'])"></td>-->
-                    <!--
-                    <td>
-                        <input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])">
-                    </td>
-                    -->
+                    <td><input ng-model="dynamicInput['procedencia']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PROMEDIO',dynamicInput['procedencia'])"></td>
+                    <td><input ng-model="dynamicInput['motivo']" class="form-control" ng-enter="filterKeyPress('MOTIVO',dynamicInput['motivo'])"></td>
                     <!--
                     <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
                     -->
@@ -88,6 +84,14 @@
                         <b>{{row.posgrado}} ({{row.carrera}})</b><br>
                         {{row.periodo}}<br>
                         {{row.campus}}
+                    </td>
+                    <td>
+                        {{row.institucion}}
+                        <br>
+                        {{row.promedio}}
+                    </td>
+                    <td>
+                        {{row.mensaje_admin_escolar}}
                     </td>
                     <!--
                     <td>

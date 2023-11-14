@@ -18,10 +18,15 @@ import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Utilities.FileDownload
+import org.slf4j.LoggerFactory
+
+import org.bonitasoft.engine.bpm.document.Document
 
 import groovy.json.JsonSlurper
 
 class SolicitudDeAdmisionDAO {
+	
+	private static final Logger LOGGER = LoggerFactory.getLogger(SolicitudDeAdmisionDAO.class);
 	
 	Connection con
 	Statement stm
@@ -157,7 +162,12 @@ class SolicitudDeAdmisionDAO {
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
-
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+			rs = pstm.executeQuery();
+			if (rs.next()) {
+				SSA = rs.getString("valor")
+			}
 			String consulta = Statements.GET_LISTADO_SOLICITUDES;
 			String consultaCount = Statements.GET_CONTEO_SOLICITUDES;
 			errorlog += "5|";
@@ -253,12 +263,42 @@ class SolicitudDeAdmisionDAO {
 				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
 
 				for (int i = 1; i <= columnCount; i++) {
-					int columnType = metaData.getColumnType(i);
-					
-					if (columnType == Types.BOOLEAN) {
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getBoolean(i));
-					} else {
-						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+//						String urlFoto = rs.getString("urlfoto");
+//						throw new Exception("El campo \"Clave\" no debe ir vacío" + urlFoto);
+						try {
+							String urlFoto = rs.getString("urlfoto");
+							if (urlFoto != null && !urlFoto.isEmpty()) {
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+							} else {
+								noAzure = true;
+								List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+								for (Document doc: doc1) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiab64", encoded);
+								}
+							}
+
+							for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document=" + doc.getId();
+								columns.put("fotografiabpm", encoded);
+							}
+
+							/*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+								columns.put("fotografiab64", encoded);
+							} */
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
 					}
 				}
 
