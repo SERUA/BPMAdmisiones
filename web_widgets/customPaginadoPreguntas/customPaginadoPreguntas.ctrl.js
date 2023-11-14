@@ -13,6 +13,7 @@ function($scope, $http) {
     $scope.preguntaAvanzado = false;
     $scope.lastIndex = 0;
     $scope.precargado = false;
+    $scope.ultimaPregunta = false;
 
     $scope.$watch('properties.value', function() {
         if ($scope.properties.value != undefined) {
@@ -107,7 +108,10 @@ function($scope, $http) {
                 $scope.updateRespuesta();
             } else if (!entro) {
                 $scope.insertRespuesta();
+            } else if($scope.ultimaPregunta === true){
+                getDatosRespuestas();
             }
+            
             $scope.isseleccion = false;
         }
 
@@ -131,7 +135,8 @@ function($scope, $http) {
         }
     }
 
-    $scope.siguiente = function() {
+    $scope.siguiente = function(_ultimaPregunta) {
+        $scope.ultimaPregunta = _ultimaPregunta;
         $scope.objcontestada = angular.copy($scope.properties.objRespuesta);
         var objSelected = {};
         for (var i in $scope.lstPaginado) {
@@ -193,6 +198,10 @@ function($scope, $http) {
         $scope.loadPaginado();
     }
 
+    function showModal(){
+        $("#modalConfirmacionFinalizar").modal("show");
+    }
+
     $scope.insertRespuesta = function() {
         //vm.busy = true;
 
@@ -207,6 +216,10 @@ function($scope, $http) {
                 $scope.properties.dataFromSuccess = true;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromError = undefined;
+
+                if($scope.ultimaPregunta === true){
+                    getDatosRespuestas();
+                }
             })
             .error(function(data, status) {
                 let mensaje = "";
@@ -243,11 +256,6 @@ function($scope, $http) {
                     } else if(data.error === "test_end"){
                         window.location.reload();
                     }
-                    // if(data.error === "test_end"){
-                    //     window.location.reload();
-                    // } else {
-                    //     window.close();
-                    // }
                 });
             })
             .finally(function() {
@@ -269,6 +277,10 @@ function($scope, $http) {
                 $scope.properties.dataFromSuccess = true;
                 $scope.properties.responseStatusCode = status;
                 $scope.properties.dataFromError = undefined;
+                
+                if($scope.ultimaPregunta === true){
+                    getDatosRespuestas();
+                }
             })
             .error(function(data, status) {
                 let mensaje = "";
@@ -306,4 +318,149 @@ function($scope, $http) {
             $scope.loadPaginado();
         }
     });
+
+    //Acciones de finalizar examen 
+    function getDatosRespuestas(){
+        let url = "../API/extension/AnahuacINVPRestGet?url=getInfoRespuestas&p=0&c=10&username=" + $scope.properties.userData.user_name
+                
+        return $http({
+            method: "GET",
+            url: url
+        }).success(function (data, status) {
+            $scope.datosRespuestas = data.data[0];
+            showModal();
+        })
+        .error(function (data, status) {
+            swal("Error", "No se pudo obtener la información d las respuestas.", "error")
+        });
+    }
+
+    function getIdiomaUsuario(){
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacINVPRestGet?url=getIdiomaUsuario&p=0&c=10&username=" + $scope.properties.userData.user_name
+        };
+
+        return $http(req).success(function(data, status) {
+            if(data.data.length === 0){
+                $scope.properties.idioma = "ESP";
+            } else if(data.data[0].idioma === null){
+                $scope.properties.idioma = "ESP";
+            } else{
+                $scope.properties.idioma = data.data[0].idioma;
+            }
+        }).error(function(data, status) {
+            console.log(data);
+        });
+    }
+
+    $scope.$watch("properties.userData", function(){
+        if($scope.properties.userData){
+            getIdiomaUsuario();
+        }
+    });
+    
+    function updateterminado() {
+        var data = {
+            "terminado": true,
+            "username": $scope.properties.userData.user_name
+        }
+
+        var req = {
+            method: "POST",
+            url: "../API/extension/AnahuacINVPRestAPI?url=updateterminado&p=0&c=10",
+            data: data
+        };
+
+        return $http(req)
+        .success(function(data, status) {
+            // window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+        })
+        .error(function(data, status) {
+           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error")
+        })
+        .finally(function() {
+            updateterminadoGet();
+        });
+    }
+    
+    function updateterminadoGet() {
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacINVPRestGet?url=updateterminado&p=0&c=100&username=" + $scope.properties.userData.user_name + "&terminado=true"
+        };
+
+        return $http(req)
+        .success(function(data, status) {
+            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+        })
+        .error(function(data, status) {
+           swal("Error", "No se pudo actualizar el estatus a terminado. Contacte a su aplicador.", "error");
+        })
+        .finally(function() {
+            window.top.location.href = "/bonita/apps/aspiranteinvp/termino/";
+        });
+    }
+    
+    $scope.executeTask = function(){
+        getTaskInfo();
+    }
+    
+    function getTaskInfo(){
+        debugger;
+        var req = {
+            method: "GET",
+            url: "../API/bpm/humanTask?p=0&c=10&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
+        };
+
+        return $http(req)
+        .success(function(data, status) {
+            let taskid = ""
+            for(let reg of data){
+                if(reg.assigned_id === $scope.properties.userData.user_id){
+                    taskid = reg.id;
+                    break;
+                }
+            }
+
+            executeTask(taskid);
+        })
+        .error(function(data, status) {
+            swal("Error", "Ocurrio un problema al obtener los datos de la tarea", "error");
+        })
+        .finally(function() {
+
+        });
+    }
+
+    function executeTask(_taskid) {
+        let dataToSend = {
+            "isTerminado": true,
+            "instanciaINVPInput": {
+                "mensajeTermino": "",
+            },
+            "terminadoFInput": false,
+        }
+
+        var req = {
+            method: "POST",
+            url: "../API/bpm/userTask/" + _taskid + "/execution",
+            data: dataToSend
+        };
+
+        return $http(req)
+        .success(function(data, status) {
+            updateterminado();
+        })
+        .error(function(data, status) {
+            if(status == 405){
+                window.location.reload();
+            } else {
+                swal("Error", "Error al ejecutar la tarea: " + status, "error");
+            }
+        })
+        .finally(function() {
+
+        });
+    }
 }
