@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatTipoAlumno",
   "name" : "PSGRCatTipoAlumno",
-  "lastUpdate" : 1699895317859,
+  "lastUpdate" : 1699916213190,
   "rows" : [
     [
       {
@@ -80,7 +80,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo tipo empleado"
+                  "value" : "Catalogo tipo alumno"
                 },
                 "level" : {
                   "type" : "constant",
@@ -231,7 +231,9 @@
                   "value" : [
                     "Orden",
                     "Clave",
-                    "Descripcion"
+                    "Descripcion",
+                    "Usuario creacion",
+                    "Fecha creacion"
                   ]
                 },
                 "content" : {
@@ -243,7 +245,9 @@
                   "value" : [
                     "orden",
                     "clave",
-                    "descripcion"
+                    "descripcion",
+                    "usuario_creacion",
+                    "fecha_creacion| date:'dd-MM-yyyy HH:mm:ss'"
                   ]
                 },
                 "selectedRow" : {
@@ -264,7 +268,7 @@
                 },
                 "urlGet" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=getCatTipoEmpleado"
+                  "value" : "../API/extension/posgradosRest?url=getCatTipoAlumno"
                 },
                 "reload" : {
                   "type" : "variable",
@@ -276,12 +280,12 @@
                 },
                 "urlDelete" : {
                   "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=deleteCatTipoEmpleado"
+                  "value" : "../API/extension/posgradosRest?url=deleteCatTipoAlumno"
                 }
               },
-              "reference" : "1bb0c756-fc51-4f30-a47a-e83b363f20a6",
+              "reference" : "2136bfc1-8503-40c4-91d4-77b6ecf58b37",
               "hasValidationError" : false,
-              "id" : "customPSGRTablaCatV2Ang"
+              "id" : "customPSGRTablaCatV3persistenceid"
             }
           ],
           [
@@ -645,11 +649,11 @@
                       },
                       "urlInsert" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=insertCatTipoEmleado"
+                        "value" : "../API/extension/posgradosRest?url=insertCatTipoAlumno"
                       },
                       "urlUpdate" : {
                         "type" : "constant",
-                        "value" : "../API/extension/posgradosRest?url=updateCatTipoEmpleado"
+                        "value" : "../API/extension/posgradosRest?url=updateCatTipoAlumno"
                       },
                       "navigationVar" : {
                         "type" : "variable",
@@ -661,12 +665,12 @@
                       },
                       "userData" : {
                         "type" : "variable",
-                        "value" : ""
+                        "value" : "userData"
                       }
                     },
-                    "reference" : "11cd11e7-f4f0-46b0-8d6f-d026b36b8571",
+                    "reference" : "9a31bf13-3f2d-4501-812e-84e6cd71ceea",
                     "hasValidationError" : false,
-                    "id" : "customPSGRBotonGuardarCatV1EstatusProceso"
+                    "id" : "customPSGRBotonGuardarCatTipoV1"
                   }
                 ]
               ]
