@@ -470,4 +470,24 @@ function($scope, $http) {
 
         });
     }
+    
+    function showConfirm(){
+        Swal.fire({
+            title: '<h3><strong>Confirmation</strong></h3>',
+            icon: 'warning',
+            html: "<p style='font-size: 10pt'>Once you send your test, you won't be able to change or finish your answers</p>", 
+            showCancelButton: true,
+            confirmButtonText: 'Send all and finish',
+            cancelButtonText: 'Cancel', 
+            customClass: {
+                cancelButton: 'swal-cancel-button btn btn-info',
+                confirmButton: 'btn btn-primary',
+            }, 
+            buttonsStyling: false,
+        }).then((_result)=>{
+            if(_result.isConfirmed === true ){
+                getTaskInfo();
+            } 
+        });
+    }
 }

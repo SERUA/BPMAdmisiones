@@ -403,11 +403,10 @@ function($scope, $http) {
     }
     
     $scope.executeTask = function(){
-        getTaskInfo();
+        showConfirm();
     }
     
     function getTaskInfo(){
-        debugger;
         var req = {
             method: "GET",
             url: "../API/bpm/humanTask?p=0&c=10&f=assigned_id=" + $scope.properties.userData.user_id + "&f=name=Examen%20INVP"
@@ -461,6 +460,28 @@ function($scope, $http) {
         })
         .finally(function() {
 
+        });
+    }
+    
+    
+            
+    function showConfirm(){
+        Swal.fire({
+            title: '<h3><strong>Confirmación</strong></h3>',
+            icon: 'warning',
+            html: "<p style='font-size: 10pt'>Una vez que envies el examen, no podrás cambiar o concluir tus respuestas</p>", 
+            showCancelButton: true,
+            confirmButtonText: 'Enviar todo y terminar',
+            cancelButtonText: 'Cancelar', 
+            customClass: {
+                cancelButton: 'swal-cancel-button btn btn-info',
+                confirmButton: 'btn btn-primary',
+            }, 
+            buttonsStyling: false,
+        }).then((_result)=>{
+            if(_result.isConfirmed === true ){
+                getTaskInfo();
+            } 
         });
     }
 }
