@@ -8,6 +8,11 @@
             </tr>
         </thead>
         <tbody >
+            <tr ng-if="!properties.content || properties.content.length === 0">
+                <td colspan="3" class="center-text">
+                    No se encontraron registros para mostrar.
+                </td>
+            </tr>
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
                     {{row.documento.descripcion}}
