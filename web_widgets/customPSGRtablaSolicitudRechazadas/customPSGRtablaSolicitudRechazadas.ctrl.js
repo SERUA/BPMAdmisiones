@@ -1,6 +1,7 @@
 function PbTableCtrl($scope, $http, $window, blockUI) {
 
     this.isArray = Array.isArray;
+    $scope.action = "";
   
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
@@ -38,8 +39,30 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 blockUI.stop();
             });
     }
+
+    // Se usa para ejecutar la tarea Solicitud archivada
+    function executeTarea(method, url, params) {
+        blockUI.start();
+        var req = {
+            method: method,
+            url: url,
+            data: angular.copy($scope.properties.dataToSend),
+            params: params
+        };
+  
+        return $http(req).success(function(data, status) {
+                
+            })
+            .error(function(data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function() {
+                blockUI.stop();
+            });
+    }
   
     $scope.verSolicitud = function(rowData) {
+        $scope.action = "verSolicitud";
           var req = {
             method: "GET",
             url: `/API/bpm/task?p=0&c=10&f=caseId%3d${rowData.caseid}&f=isFailed%3dfalse`
@@ -80,7 +103,41 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             .finally(function() {});
           }*/
     }
-  
+    
+    // ABRIR MODAL-REACTIVAR
+    $scope.abrirModalReactivarSolicitud = function (rowData) {
+        //$scope.isTareaPreAutorizacion = false;
+        //$scope.avanzarSolicitud = false;
+        //$scope.avanzarPreAutorizacion = true;
+        //$scope.avanzarFinanciamiento = false;
+        //$scope.avanzarArchivar = false;
+        $scope.caseIdTarea = rowData.caseid;
+        $('#modalReactivarSolicitud').modal('show');
+    }
+
+    // Con modal de confirmacion. ?
+    $scope.avanzarTareaPreaAutorizacion = function () {
+        var rowData = {
+            caseid: $scope.caseIdTarea
+        };
+
+        var req = {
+            method: "GET",
+            url: `/API/bpm/task?p=0&c=10&f=caseId%3d${$scope.caseIdTarea}&f=isFailed%3dfalse`
+        };
+
+        return $http(req).success(function (data, status) {
+            rowData.taskId = data[0].id;
+            rowData.taskName = data[0].name;
+            rowData.processId = data[0].processId;
+            $scope.preProcesoAsignarTarea(rowData)
+        }).error(function (data, status) {
+            console.error(data);
+        }).finally(function () {
+
+        });
+    }
+    // Este se usa si no hay modal de confirmacion. ?
     $scope.preAsignarTarea = function(rowData) {
         var req = {
             method: "GET",
@@ -100,6 +157,29 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             .finally(function() {
   
             });
+    }
+    // REACTIVAR SOLICITUD
+    $scope.reactivarSolicitud = function () {
+        $scope.action = "reactivarSolicitud";
+        var rowData = {
+            caseid: $scope.caseIdTarea
+        };
+
+        var req = {
+            method: "GET",
+            url: `/API/bpm/task?p=0&c=10&f=caseId%3d${$scope.caseIdTarea}&f=isFailed%3dfalse`
+        };
+
+        return $http(req).success(function (data, status) {
+            rowData.taskId = data[0].id;
+            rowData.taskName = data[0].name;
+            rowData.processId = data[0].processId;
+            $scope.preProcesoAsignarTarea(rowData)
+        }).error(function (data, status) {
+            console.error(data);
+        }).finally(function () {
+
+        });
     }
     
     $scope.preProcesoAsignarTarea = function(rowData) {
@@ -131,27 +211,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
         return $http(req).success(function(data, status) {
                 redireccionarTarea(rowData);
-            })
-            .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function() {
-  
-            });
+        })
+        .error(function(data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function() {
+
+        });
     }
     
-    function abrirSolicitud(rowData) {
-        
-        var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + rowData.caseid;
-        window.open(url, '_blank');
-    }
-    
-    $scope.abrirBitacora = function(rowData) {
-        debugger;
-        var url = "/portal/resource/app/administrativo/SDAEBitacora/content/?caseId=" + rowData.caseid;
-        window.open(url, '_blank');
-    }
-  
     function redireccionarTarea(rowData) {
         var req = {
             method: "PUT",
@@ -160,8 +228,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
   
         return $http(req).success(function(data, status) {
-                var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&id=" + rowData.taskId + "&caseId=" + rowData.caseid;
-                window.open(url, '_blank');
+            
+            switch($scope.action){
+                case "verSolicitud":
+                    var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&id=" + rowData.taskId + "&caseId=" + rowData.caseid;
+                    window.open(url, '_blank');
+                    break;
+                case "reactivarSolicitud":
+                    executeTarea('POST', '../API/bpm/userTask/' + rowData.taskId + '/execution', {}).then(function () {
+                        console.log("tarea realizada");
+                        // Recargar pagina
+                        location.reload(true);
+                    });
+                    break;
+            }
+                
+            
                 
                 /*
                 var url = "/bonita/portal/resource/taskInstance/[NOMBREPROCESO]/[VERSIONPROCESO]/[NOMBRETAREA]/content/?id=[TASKID]&displayConfirmation=false";
@@ -178,6 +260,24 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
             });
     }
+    
+    //-------------------------
+  
+    
+
+    function abrirSolicitud(rowData) {
+        
+        var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + rowData.caseid;
+        window.open(url, '_blank');
+    }
+    
+    $scope.abrirBitacora = function(rowData) {
+        debugger;
+        var url = "/portal/resource/app/administrativo/SDAEBitacora/content/?caseId=" + rowData.caseid;
+        window.open(url, '_blank');
+    }
+  
+    
   
     $scope.isenvelope = false;
     $scope.selectedrow = {};

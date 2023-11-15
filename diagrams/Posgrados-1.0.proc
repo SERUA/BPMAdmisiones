@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.39">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.40">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -2944,20 +2944,6 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_73OU811qEe6Pc6WsAlY1eg" type="ASSIGNMENT"/>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_1z_HEGelEe6tZtxct1LlLA">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_1z_HEWelEe6tZtxct1LlLA" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2VM9wGelEe6tZtxct1LlLA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_1z_HEmelEe6tZtxct1LlLA" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;String estatus = &quot;&quot;, comentarios = &quot;N/A&quot;;&#xD;&#xA;&#xD;&#xA;if(isSolicitudRechazadaAdminEscolar == true){&#xD;&#xA;&#x9;estatus = &quot;solicitud_rechazada_admin&quot;;&#xD;&#xA;} else if(isModificarSolicitud == true){&#xD;&#xA;&#x9;estatus = &quot;modificaciones_solicitadas&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;estatus = &quot;solicitud_aprobada_admin&quot;;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(estatus);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(comentarios);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="process:Data" xmi:id="_hfdO0G60Ee63hKdJYdGuxA" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_hfdO0W60Ee63hKdJYdGuxA" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:Data" xmi:id="_hfdO0m60Ee63hKdJYdGuxA" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_hfdO0260Ee63hKdJYdGuxA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_1z_HE2elEe6tZtxct1LlLA" type="JAVA_METHOD" expression="add">
-              <inputTypes>java.lang.Object</inputTypes>
-            </operator>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_i3xDEHdbEe6y74B7-cOmMw">
             <leftOperand xmi:type="expression:Expression" xmi:id="_i3xDEXdbEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_jT3JMHdbEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
@@ -2967,25 +2953,120 @@
               <inputTypes>java.time.LocalDateTime</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_IRL9A4AiEe6gvqNTQ4Fs8w">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_IRL9BIAiEe6gvqNTQ4Fs8w" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_IRL9BYAiEe6gvqNTQ4Fs8w" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+          <operations xmi:type="expression:Operation" xmi:id="_1z_HEGelEe6tZtxct1LlLA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_1z_HEWelEe6tZtxct1LlLA" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2VM9wGelEe6tZtxct1LlLA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_IRL9BoAiEe6gvqNTQ4Fs8w" name="registroInput.mensaje_admin_escolar" content="registroInput?.mensaje_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_IRL9B4AiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" createMode="false"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_1z_HEmelEe6tZtxct1LlLA" name="logAndUpdateEstatus()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;String estatus = &quot;&quot;, comentarios = &quot;N/A&quot;;&#xD;&#xA;&#xD;&#xA;if(isSolicitudRechazadaAdminEscolar == true){&#xD;&#xA;&#x9;estatus = &quot;solicitud_rechazada_admin&quot;;&#xD;&#xA;} else if(isModificarSolicitud == true){&#xD;&#xA;&#x9;estatus = &quot;modificaciones_solicitadas&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;estatus = &quot;solicitud_aprobada_admin&quot;;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(estatus);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(comentarios);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="process:Data" xmi:id="_FiDloIKFEe6vCJi5i4xrDA" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_FiDloYKFEe6vCJi5i4xrDA" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:Data" xmi:id="_FiDlooKFEe6vCJi5i4xrDA" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_FiDlo4KFEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_IRL9CIAiEe6gvqNTQ4Fs8w" type="JAVA_METHOD" expression="setMensaje_admin_escolar">
+            <operator xmi:type="expression:Operator" xmi:id="_1z_HE2elEe6tZtxct1LlLA" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCE4JjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCFIJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCFYJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCFoJjEe6vCJi5i4xrDA" name="registroInput.campus" content="//Retrieve aggregated PSGRCatCampus using its DAO and persistenceId&#xD;&#xA;def pSGRCatCampusVar = pSGRCatCampusDAO.findByPersistenceId(registroInput?.campus?.persistenceId_string?.trim() ? registroInput.campus.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatCampusVar) {&#xD;&#xA;&#x9;if (registroInput?.campus?.persistenceId_string?.trim() ? registroInput.campus.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatCampus` with the persistence id &quot; + registroInput?.campus?.persistenceId_string?.trim() ? registroInput.campus.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;pSGRCatCampusVar.usuario_banner = registroInput?.campus?.usuario_banner&#xD;&#xA;return pSGRCatCampusVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatCampus">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCF4JjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_MYvCGIJjEe6vCJi5i4xrDA" name="pSGRCatCampusDAO" content="pSGRCatCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatCampusDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCGYJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setCampus">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatCampus</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCGoJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCG4JjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCHIJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCHYJjEe6vCJi5i4xrDA" name="registroInput.mensaje_admin_escolar" content="registroInput?.mensaje_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCHoJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCH4JjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setMensaje_admin_escolar">
               <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_IRL9CYAiEe6gvqNTQ4Fs8w">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_IRL9CoAiEe6gvqNTQ4Fs8w" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_IRL9C4AiEe6gvqNTQ4Fs8w" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCIIJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCIYJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCIoJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_IRL9DIAiEe6gvqNTQ4Fs8w" name="registroInput.aprobado_admin_escolar" content="registroInput?.aprobado_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_IRL9DYAiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" createMode="false"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCI4JjEe6vCJi5i4xrDA" name="registroInput.aprobado_admin_escolar" content="registroInput?.aprobado_admin_escolar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCJIJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
             </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_IRL9DoAiEe6gvqNTQ4Fs8w" type="JAVA_METHOD" expression="setAprobado_admin_escolar">
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCJYJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setAprobado_admin_escolar">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCJoJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCJ4JjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCKIJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCKYJjEe6vCJi5i4xrDA" name="registroInput.tipo_alumno" content="//Retrieve aggregated PSGRCatTipoAlumno using its DAO and persistenceId&#xD;&#xA;def pSGRCatTipoAlumnoVar = pSGRCatTipoAlumnoDAO.findByPersistenceId(registroInput?.tipo_alumno?.persistenceId_string?.trim() ? registroInput.tipo_alumno.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatTipoAlumnoVar) {&#xD;&#xA;&#x9;if (registroInput?.tipo_alumno?.persistenceId_string?.trim() ? registroInput.tipo_alumno.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatTipoAlumno` with the persistence id &quot; + registroInput?.tipo_alumno?.persistenceId_string?.trim() ? registroInput.tipo_alumno.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCatTipoAlumnoVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAlumno">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCKoJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_MYvCK4JjEe6vCJi5i4xrDA" name="pSGRCatTipoAlumnoDAO" content="pSGRCatTipoAlumnoDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAlumnoDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCLIJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setTipo_alumno">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatTipoAlumno</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCLYJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCLoJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCL4JjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCMIJjEe6vCJi5i4xrDA" name="registroInput.residencia" content="//Retrieve aggregated PSGRCatResidencia using its DAO and persistenceId&#xD;&#xA;def pSGRCatResidenciaVar = pSGRCatResidenciaDAO.findByPersistenceId(registroInput?.residencia?.persistenceId_string?.trim() ? registroInput.residencia.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatResidenciaVar) {&#xD;&#xA;&#x9;if (registroInput?.residencia?.persistenceId_string?.trim() ? registroInput.residencia.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatResidencia` with the persistence id &quot; + registroInput?.residencia?.persistenceId_string?.trim() ? registroInput.residencia.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCatResidenciaVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatResidencia">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCMYJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_MYvCMoJjEe6vCJi5i4xrDA" name="pSGRCatResidenciaDAO" content="pSGRCatResidenciaDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatResidenciaDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCM4JjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setResidencia">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatResidencia</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCNIJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCNYJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCNoJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCN4JjEe6vCJi5i4xrDA" name="registroInput.tipo_admision" content="//Retrieve aggregated PSGRCatTipoAdmision using its DAO and persistenceId&#xD;&#xA;def pSGRCatTipoAdmisionVar = pSGRCatTipoAdmisionDAO.findByPersistenceId(registroInput?.tipo_admision?.persistenceId_string?.trim() ? registroInput.tipo_admision.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCatTipoAdmisionVar) {&#xD;&#xA;&#x9;if (registroInput?.tipo_admision?.persistenceId_string?.trim() ? registroInput.tipo_admision.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatTipoAdmision` with the persistence id &quot; + registroInput?.tipo_admision?.persistenceId_string?.trim() ? registroInput.tipo_admision.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCatTipoAdmisionVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAdmision">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCOIJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_MYvCOYJjEe6vCJi5i4xrDA" name="pSGRCatTipoAdmisionDAO" content="pSGRCatTipoAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatTipoAdmisionDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCOoJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setTipo_admision">
+              <inputTypes>com.anahuac.posgrados.catalog.PSGRCatTipoAdmision</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCO4JjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCPIJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCPYJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCPoJjEe6vCJi5i4xrDA" name="registroInput.curp_validada" content="registroInput?.curp_validada" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCP4JjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCQIJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setCurp_validada">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCQYJjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCQoJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCQ4JjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCRIJjEe6vCJi5i4xrDA" name="registroInput.documentos_validados" content="registroInput?.documentos_validados" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCRYJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCRoJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setDocumentos_validados">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MYvCR4JjEe6vCJi5i4xrDA">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MYvCSIJjEe6vCJi5i4xrDA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_MYvCSYJjEe6vCJi5i4xrDA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MYvCSoJjEe6vCJi5i4xrDA" name="registroInput.no_duplicado" content="registroInput?.no_duplicado" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_MYvCS4JjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_MYvCTIJjEe6vCJi5i4xrDA" type="JAVA_METHOD" expression="setNo_duplicado">
               <inputTypes>java.lang.Boolean</inputTypes>
             </operator>
           </operations>
@@ -3004,10 +3085,38 @@
             <inputs xmi:type="process:ContractInput" xmi:id="_4WNFQF1qEe6Pc6WsAlY1eg" name="isModificarSolicitudInput" type="BOOLEAN">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="_4WNFQV1qEe6Pc6WsAlY1eg"/>
             </inputs>
-            <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AIAiEe6gvqNTQ4Fs8w" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AYAiEe6gvqNTQ4Fs8w" name="mensaje_admin_escolar" createMode="false"/>
-              <inputs xmi:type="process:ContractInput" xmi:id="_IRL9AoAiEe6gvqNTQ4Fs8w" name="aprobado_admin_escolar" type="BOOLEAN" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_MYvCAIJjEe6vCJi5i4xrDA" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCAYJjEe6vCJi5i4xrDA" name="campus" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_MYvCAoJjEe6vCJi5i4xrDA" name="persistenceId_string" createMode="false"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_MYvCA4JjEe6vCJi5i4xrDA" name="usuario_banner" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCBIJjEe6vCJi5i4xrDA" name="mensaje_admin_escolar" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCBYJjEe6vCJi5i4xrDA" name="aprobado_admin_escolar" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCBoJjEe6vCJi5i4xrDA" name="tipo_alumno" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_MYvCB4JjEe6vCJi5i4xrDA" name="persistenceId_string" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCCIJjEe6vCJi5i4xrDA" name="residencia" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_MYvCCYJjEe6vCJi5i4xrDA" name="persistenceId_string" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCCoJjEe6vCJi5i4xrDA" name="tipo_admision" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_MYvCC4JjEe6vCJi5i4xrDA" name="persistenceId_string" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCDIJjEe6vCJi5i4xrDA" name="curp_validada" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCDYJjEe6vCJi5i4xrDA" name="documentos_validados" type="BOOLEAN" createMode="false"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_MYvCDoJjEe6vCJi5i4xrDA" name="no_duplicado" type="BOOLEAN" createMode="false"/>
             </inputs>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_MYvCD4JjEe6vCJi5i4xrDA" expression="!registroInput?.campus || registroInput?.campus?.persistenceId_string" errorMessage="PSGRCatCampus must reference an existing instance with a persistenceId for PSGRRegistro" name="aggregation_registroInput_campus">
+              <inputNames>registroInput</inputNames>
+            </constraints>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_MYvCEIJjEe6vCJi5i4xrDA" expression="!registroInput?.tipo_alumno || registroInput?.tipo_alumno?.persistenceId_string" errorMessage="PSGRCatTipoAlumno must reference an existing instance with a persistenceId for PSGRRegistro" name="aggregation_registroInput_tipo_alumno">
+              <inputNames>registroInput</inputNames>
+            </constraints>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_MYvCEYJjEe6vCJi5i4xrDA" expression="!registroInput?.residencia || registroInput?.residencia?.persistenceId_string" errorMessage="PSGRCatResidencia must reference an existing instance with a persistenceId for PSGRRegistro" name="aggregation_registroInput_residencia">
+              <inputNames>registroInput</inputNames>
+            </constraints>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_MYvCEoJjEe6vCJi5i4xrDA" expression="!registroInput?.tipo_admision || registroInput?.tipo_admision?.persistenceId_string" errorMessage="PSGRCatTipoAdmision must reference an existing instance with a persistenceId for PSGRRegistro" name="aggregation_registroInput_tipo_admision">
+              <inputNames>registroInput</inputNames>
+            </constraints>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_JxSpPFZyEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>

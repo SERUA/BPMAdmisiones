@@ -406,7 +406,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         //     resultado.push("Todos los campus")
         // }
         $scope.lstCampusByUser = resultado;
-    }
+    } 
     $scope.filtroCampus = ""
 
     /*$scope.addFilter = function() {
