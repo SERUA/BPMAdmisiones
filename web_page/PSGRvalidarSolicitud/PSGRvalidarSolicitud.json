@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1700031069640,
+  "lastUpdate" : 1700073981965,
   "rows" : [
     [
       {
@@ -553,7 +553,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -630,7 +630,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -707,7 +707,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -784,7 +784,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -861,7 +861,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -938,7 +938,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1015,7 +1015,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1092,7 +1092,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1169,7 +1169,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -15247,7 +15247,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><b>La tarea fue finalizada.</b><br>Regresa al menú principal para continuar realizando actividades.<br><br>"
+                  "value" : "<br><br><b>La tarea fue finalizada.</b><br>Regresa al menú principal para continuar realizando actividades. <b>{{mensajeResultadoDeEnvio}}</b><br><br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -15659,6 +15659,14 @@
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "cartaDatosEnviarRechazo"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoDeEnvio"
                   }
                 },
                 "reference" : "b2a60162-0211-4859-a437-15618733dfce",
@@ -16030,6 +16038,14 @@
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "cartaDatosEnviarModificaciones"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoDeEnvio"
                   }
                 },
                 "reference" : "34db0446-83a6-46f4-a4a8-207b68cc6858",
@@ -21651,7 +21667,8 @@
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"rechazada\",",
+        "    \"codigo\": \"psgr-solicitud-rechazada\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -21663,7 +21680,8 @@
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"cambios\",",
+        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -21804,6 +21822,36 @@
       "value" : [
         "return \"tareaPendiente\";"
       ],
+      "exposed" : false
+    },
+    "cartaDatosEnviarRechazo" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-rechazada\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": true",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "cartaDatosEnviarModificaciones" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": true",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "mensajeResultadoDeEnvio" : {
+      "type" : "constant",
       "exposed" : false
     }
   },
