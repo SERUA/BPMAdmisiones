@@ -234,7 +234,9 @@ class SesionesDAO {
 				idCampus = Long.valueOf(object.id_campus);
 			}
 			errorLog += "3|";
-			fechaHoraFormateada = formato.format(sdfEntrada.parse(object.fecha_entrevista));
+			Date fecha = sdfEntrada.parse(object.fecha_entrevista);
+			errorLog += "3.1|";
+			fechaHoraFormateada = formato.format(fecha);
 			errorLog += "4|";
 			pstm = con.prepareStatement(Statements.INSERT_SESION);
 			pstm.setInt(1, object.duracion_entrevista_minutos);
