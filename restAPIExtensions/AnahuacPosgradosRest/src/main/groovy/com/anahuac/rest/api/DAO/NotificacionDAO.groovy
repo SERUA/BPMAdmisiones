@@ -437,7 +437,7 @@ class NotificacionDAO {
 					catBitacoraCorreo.setEstatus("Fallido")
 				}
 				
-				/*insertCatBitacoraCorreos(catBitacoraCorreo)*/
+				insertCatBitacoraCorreos(catBitacoraCorreo)
 			}
 			
 			resultado.setSuccess(true)
@@ -991,7 +991,7 @@ class NotificacionDAO {
 						}else {
 							where+= " WHERE "
 						}
-						where +=" LOWER(FECHACREACION) ";
+						where +=" LOWER(FECHA_CREACION) ";
 						if(filtro.get("operador").equals("Igual a")) {
 							where+="=LOWER('[valor]')"
 						}else {
@@ -1063,7 +1063,7 @@ class NotificacionDAO {
 					orderby+="ESTATUS";
 				break;
 				case "FECHACREACION":
-					orderby+="FECHACREACION";
+					orderby+="FECHA_CREACION";
 				break;
 				case "MENSAJE":
 					orderby+="MENSAJE";
@@ -1103,7 +1103,7 @@ class NotificacionDAO {
 					catBitacoraCorreo.setCodigo(rs.getString("codigo"))
 					catBitacoraCorreo.setDe(rs.getString("de"))
 					catBitacoraCorreo.setEstatus(rs.getString("estatus"))
-					catBitacoraCorreo.setFechacreacion(rs.getString("fechacreacion"))
+					catBitacoraCorreo.setFecha_creacion(rs.getString("fecha_creacion"))
 					catBitacoraCorreo.setMensaje(rs.getString("mensaje"))
 					catBitacoraCorreo.setPara(rs.getString("para"))
 					catBitacoraCorreo.setCampus(rs.getString("campus"))
@@ -1111,12 +1111,13 @@ class NotificacionDAO {
 					rows.add(catBitacoraCorreo)
 				}
 				resultado.setSuccess(true)
-				
+				resultado.setError_info(errorlog);
 				resultado.setData(rows)
 				
 			} catch (Exception e) {
 				resultado.setSuccess(false);
 				resultado.setError(e.getMessage());
+				resultado.setError_info(errorlog);
 				
 		}finally {
 			if(closeCon) {
