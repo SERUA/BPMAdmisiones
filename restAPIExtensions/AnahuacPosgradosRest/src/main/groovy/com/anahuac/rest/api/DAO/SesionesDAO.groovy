@@ -180,8 +180,8 @@ class SesionesDAO {
 		return resultado
 	}
 	
-	public static List<String> generarHoras(Integer duracion) {
-		List<String> horasList = new ArrayList<>();
+	public static List<Map<String, String>> generarHoras(Integer duracion) {
+		List<Map<String, String>> horasList = new ArrayList<>();
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.HOUR_OF_DAY, 9);
@@ -191,8 +191,12 @@ class SesionesDAO {
 		SimpleDateFormat formatoHora = new SimpleDateFormat("HH:mm");
 
 		while (calendar.get(Calendar.HOUR_OF_DAY) <= 19) {
-			horasList.add(formatoHora.format(calendar.getTime()));
+			Map<String, String> horario = new HashMap<String, String>();
+			
+			horario.put("inicio", formatoHora.format(calendar.getTime()));
 			calendar.add(Calendar.MINUTE, duracion);
+			horario.put("fin", formatoHora.format(calendar.getTime()));
+			horasList.add();
 		}
 
 		return horasList;
@@ -211,10 +215,16 @@ class SesionesDAO {
 			
 			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-			String fechaHoraFormateada = formato.format(new Date());
+			String fechaHoraFormateada = "";
 			
-			if(object.clave.equals("") || object.clave == null) {
-				throw new Exception("El campo \"CAMPO\" no debe ir vacío");
+			if(object.nombre.equals("") || object.nombre == null) {
+				throw new Exception("El campo \"Nombre sesión\" no debe ir vacío");
+			} else if(object.descripcion_entrevista.equals("") || object.descripcion_entrevista == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.fecha_entrevista.equals("") || object.fecha_entrevista == null) {
+				throw new Exception("El campo \"Fecha de sesión\" no debe ir vacío");
+			} else if(object.duracion_entrevista_minutos.equals("") || object.duracion_entrevista_minutos == null) {
+				throw new Exception("El campo \"Duración de entrevista\" no debe ir vacío");
 			}
 			
 			Long idCampus = 0L;
@@ -224,8 +234,14 @@ class SesionesDAO {
 				idCampus = Long.valueOf(object.id_campus);
 			}
 			
+			fechaHoraFormateada = formato.format(sdfEntrada.parse(object.fecha_entrevista));
+			
 			pstm = con.prepareStatement(Statements.INSERT_SESION);
-			pstm.setString(1,  object.clave);
+			pstm.setInt(1,  object.duracion_entrevista_minutos);
+			pstm.setString(2,  object.nombre);
+			pstm.setString(3,  object.descripcion_entrevista);
+			pstm.setString(4,  fechaHoraFormateada);
+			
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
@@ -234,11 +250,21 @@ class SesionesDAO {
 				throw new Exception("No se pudo insertar el registro.");
 			}
 			
-			//Falta crear los horarios 
+			List<Map<String, String>> lstHorarios = generarHoras(object.duracion_entrevista_minutos);
 			
+			for(Map<String, String> horario: lstHorarios) {
+				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
+				pstm.setString(1, horario.get("inicio"));
+				pstm.setString(2, horario.get("fin"));
+				pstm.setLong(3, idSesion);
+				
+				pstm.executeUpdate();
+			}
+			
+			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertCatPeriodo] " + e.getMessage());
+			resultado.setError("[insertSesion] " + e.getMessage());
 		} finally {
 			resultado.setError_info(errorLog);
 			if (con != null) {

@@ -6,6 +6,9 @@ class SesionesPosibles {
 	private String fecha_entrevista;
 	private String nombre;
 	private String descripcion_entrevista;
+	private Long id_campus;
+	private Integer duracion_entrevista_minutos;
+	
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
@@ -35,5 +38,17 @@ class SesionesPosibles {
 	}
 	public void setDescripcion_entrevista(String descripcion_entrevista) {
 		this.descripcion_entrevista = descripcion_entrevista;
+	}
+	public Long getId_campus() {
+		return id_campus;
+	}
+	public void setId_campus(Long id_campus) {
+		this.id_campus = id_campus;
+	}
+	public Integer getDuracion_entrevista_minutos() {
+		return duracion_entrevista_minutos;
+	}
+	public void setDuracion_entrevista_minutos(Integer duracion_entrevista_minutos) {
+		this.duracion_entrevista_minutos = duracion_entrevista_minutos;
 	}
 }
