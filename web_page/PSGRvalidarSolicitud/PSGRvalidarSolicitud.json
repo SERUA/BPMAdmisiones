@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1700006775558,
+  "lastUpdate" : 1700073981965,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{contratoOutput|json}}</pre>\n<pre>{{registro|json}}</pre>"
+            "value" : "<pre>{{datosDocumentos}}</pre>\n<pre>{{datosDocumentosOtros}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -157,7 +157,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "tareaFinalizada"
+            "value" : "tareaFinalizada !== \"tareaPendiente\""
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -553,7 +553,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -630,7 +630,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -707,7 +707,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -784,7 +784,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -861,7 +861,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -938,7 +938,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1015,7 +1015,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1092,7 +1092,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1169,7 +1169,7 @@
                               },
                               "readOnly" : {
                                 "type" : "expression",
-                                "value" : "!formInput.tuvoCorrecionesInput"
+                                "value" : "!checkCorrecion"
                               },
                               "labelHidden" : {
                                 "type" : "constant",
@@ -1299,7 +1299,7 @@
                                 "type" : "variable"
                               }
                             },
-                            "reference" : "9e531fe1-9f77-4de4-94c5-6811a52e0fcf",
+                            "reference" : "06377c63-08d6-40a5-bc8b-ce3ad61d6ed5",
                             "hasValidationError" : false,
                             "id" : "pbButton"
                           },
@@ -1387,7 +1387,7 @@
                                 "type" : "variable"
                               }
                             },
-                            "reference" : "394e737c-3259-47d6-a5a1-4b39e10534dc",
+                            "reference" : "adfa6e2b-c57f-4a0c-8562-28ce077df1b7",
                             "hasValidationError" : false,
                             "id" : "pbButton"
                           }
@@ -13121,8 +13121,8 @@
                                     "value" : ""
                                   },
                                   "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "!datosLaboralPrevio"
                                   },
                                   "labelHidden" : {
                                     "type" : "constant",
@@ -13173,8 +13173,8 @@
                                     "value" : ""
                                   },
                                   "hidden" : {
-                                    "type" : "constant",
-                                    "value" : false
+                                    "type" : "expression",
+                                    "value" : "!datosLaboralPrevio"
                                   },
                                   "allowHTML" : {
                                     "type" : "constant",
@@ -15187,7 +15187,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 8,
-          "lg" : 10
+          "lg" : 8
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -15196,14 +15196,14 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "!tareaFinalizada"
+            "value" : "tareaFinalizada === \"tareaPendiente\""
           },
           "repeatedCollection" : {
             "type" : "variable",
             "value" : ""
           }
         },
-        "reference" : "64491806-bf86-4542-b289-9902ef279bf3",
+        "reference" : "659ef8ad-6035-44b9-bae3-6219850af31c",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -15247,14 +15247,14 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br>La tarea fue finalizada.<br><br>"
+                  "value" : "<br><br><b>La tarea fue finalizada.</b><br>Regresa al menú principal para continuar realizando actividades. <b>{{mensajeResultadoDeEnvio}}</b><br><br>"
                 },
                 "alignment" : {
                   "type" : "constant",
                   "value" : "center"
                 }
               },
-              "reference" : "29270ba0-1fab-4979-86ef-9ebd6004ab36",
+              "reference" : "139922ee-f473-4d7a-80b5-f94351829d2c",
               "hasValidationError" : false,
               "id" : "pbText"
             }
@@ -15613,7 +15613,7 @@
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "tareaFinalizada"
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
@@ -15659,6 +15659,14 @@
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "cartaDatosEnviarRechazo"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoDeEnvio"
                   }
                 },
                 "reference" : "b2a60162-0211-4859-a437-15618733dfce",
@@ -15985,7 +15993,7 @@
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "tareaFinalizada"
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
@@ -16030,6 +16038,14 @@
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "cartaDatosEnviarModificaciones"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoDeEnvio"
                   }
                 },
                 "reference" : "34db0446-83a6-46f4-a4a8-207b68cc6858",
@@ -21651,7 +21667,8 @@
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"rechazada\",",
+        "    \"codigo\": \"psgr-solicitud-rechazada\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -21663,7 +21680,8 @@
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"cambios\",",
+        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -21802,8 +21820,38 @@
     "tareaFinalizada" : {
       "type" : "expression",
       "value" : [
-        "return false;"
+        "return \"tareaPendiente\";"
       ],
+      "exposed" : false
+    },
+    "cartaDatosEnviarRechazo" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-rechazada\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": true",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "cartaDatosEnviarModificaciones" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": true",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "mensajeResultadoDeEnvio" : {
+      "type" : "constant",
       "exposed" : false
     }
   },

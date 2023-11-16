@@ -5,6 +5,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
+        $scope.enviarCarta();
+        
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
             closeModal($scope.properties.closeOnSuccess);
@@ -24,6 +26,32 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             doRequest($scope.properties.action, $scope.properties.url);
         }
     };
+
+    $scope.enviarCarta = function() {
+        // "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10"
+        doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, function(datos) {
+            $scope.properties.mensajeResultadoDeEnvio = "Se envio el correo."
+            //var respuesta = datos.data[0].replace($scope.properties.replace, document.getElementById($scope.properties.id).innerHTML);
+            
+            /*Swal.fire({
+                html: respuesta,
+                showCloseButton: false,
+                width: 800,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonColor: "#333",
+                confirmButtonText: 'Cerrar'
+            })*/
+            /*$("#modal" + $scope.properties.id).show();
+            setTimeout(function() {
+                var element = document.getElementById("div" + $scope.properties.id);
+
+                element.innerHTML = respuesta
+
+            }, 100);*/
+
+        });
+    }
 
     function openModal(modalId) {
         modalService.open(modalId);
@@ -187,5 +215,25 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
           });
       }
+      function doRequestCarta(method, url, params, dataToSend, callback) {
+        vm.busy = true;
+        var req = {
+            method: method,
+            url: url,
+            data: dataToSend,
+            params: params
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+                callback(data)
+            })
+            .error(function(data, status) {
+                console.error(data);
+            })
+            .finally(function() {
+                vm.busy = false;
+            });
+    }
 
 }

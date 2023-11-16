@@ -17,6 +17,7 @@ function PbTableCtrl($scope) {
   }
   
     $scope.$watch("properties.content", function(){
+        debugger;
         if(!$scope.properties.content){
             $scope.properties.content.push({"documento":{
                 "descripcion": "Documento 1",
@@ -34,7 +35,6 @@ function PbTableCtrl($scope) {
     $scope.tamano_documento = "";
     // Controlador para manejar la selección del archivo
     $scope.$watch('archivoSeleccionado', function (nuevoArchivo, antiguoArchivo) {
-        debugger;
         if (nuevoArchivo !== antiguoArchivo) {
             if (nuevoArchivo) {
                 $scope.documetObject = {
@@ -46,7 +46,6 @@ function PbTableCtrl($scope) {
                 var lector = new FileReader();
                 
                 lector.onload = function (evento) {
-                    debugger;
                     $scope.documetObject["filename"] = event.target.files[0].name;
                     $scope.documetObject["filetype"] = event.target.files[0].type;
                     $scope.documetObject["contenedor"] = "privado";
