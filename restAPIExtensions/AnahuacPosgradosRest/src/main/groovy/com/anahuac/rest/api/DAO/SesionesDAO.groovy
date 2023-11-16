@@ -216,7 +216,7 @@ class SesionesDAO {
 			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = "";
-			
+			errorLog += "1|";
 			if(object.nombre.equals("") || object.nombre == null) {
 				throw new Exception("El campo \"Nombre sesión\" no debe ir vacío");
 			} else if(object.descripcion_entrevista.equals("") || object.descripcion_entrevista == null) {
@@ -226,32 +226,34 @@ class SesionesDAO {
 			} else if(object.duracion_entrevista_minutos.equals("") || object.duracion_entrevista_minutos == null) {
 				throw new Exception("El campo \"Duración de entrevista\" no debe ir vacío");
 			}
-			
+			errorLog += "2|";
 			Long idCampus = 0L;
 			if(object.id_campus == null) {
 				idCampus = 0L;
 			} else {
 				idCampus = Long.valueOf(object.id_campus);
 			}
-			
+			errorLog += "3|";
 			fechaHoraFormateada = formato.format(sdfEntrada.parse(object.fecha_entrevista));
-			
+			errorLog += "4|";
 			pstm = con.prepareStatement(Statements.INSERT_SESION);
-			pstm.setInt(1,  object.duracion_entrevista_minutos);
-			pstm.setString(2,  object.nombre);
-			pstm.setString(3,  object.descripcion_entrevista);
-			pstm.setString(4,  fechaHoraFormateada);
-			
+			pstm.setInt(1, object.duracion_entrevista_minutos);
+			pstm.setString(2, object.nombre);
+			pstm.setString(3, object.descripcion_entrevista);
+			pstm.setString(4, fechaHoraFormateada);
+			errorLog += "5|";
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
+				errorLog += "6|";
 				idSesion = rs.getLong("persistenceid");
 			} else {
+				errorLog += "7|";
 				throw new Exception("No se pudo insertar el registro.");
 			}
 			
 			List<Map<String, String>> lstHorarios = generarHoras(object.duracion_entrevista_minutos);
-			
+			errorLog += "8|";
 			for(Map<String, String> horario: lstHorarios) {
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
 				pstm.setString(1, horario.get("inicio"));
@@ -260,6 +262,7 @@ class SesionesDAO {
 				
 				pstm.executeUpdate();
 			}
+			errorLog += "9|";
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
