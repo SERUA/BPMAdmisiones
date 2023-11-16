@@ -29,7 +29,7 @@ class Statements {
 	//SESIONES
 	public static final String GET_SESIONES_POSIBLES = "SELECT persistenceid, persistenceid::VARCHAR AS persistenceId_string, descripcion_entrevista, duracion_entrevista_minutos, nombre, fecha_entrevista FROM PSGRCitaEntrevista  WHERE DATE(fecha_entrevista::TIMESTAMP) >= DATE(now()) ORDER BY fecha_entrevista ASC ";
 	public static final String GET_HORARIOS_BY_SESION = "SELECT hor.persistenceid, hor.hora_fin, hor.hora_inicio, ent.nombre, ent.descripcion_entrevista FROM PSGRCitaHorario AS hor INNER JOIN PSGRCitaEntrevista AS ent ON ent.persistenceid = hor.cita_entrevista_pid WHERE hor.cita_entrevista_pid = ? ORDER BY hora_inicio::TIME ASC";
-	public static final String INSERT_SESION = "INSERT INTO PSGRCitaEntrevista (persistenceid, persistenceversion, duracion_entrevista_minutos, nombre, descripcion_entrevista, fecha_entrevista) VALUES (CASE WHEN (SELECT MAX(persistenceId)+1 FROM PSGRCitaEntrevista ) IS NULL THEN 1 ELSE (SELECT MAX(persistenceId) + 1 FROM PSGRCitaEntrevista), '0', ?, ?, ?, ?)  RETURNING persistenceid;";
+	public static final String INSERT_SESION = "INSERT INTO PSGRCitaEntrevista (persistenceid, persistenceversion, duracion_entrevista_minutos, nombre, descripcion_entrevista, fecha_entrevista) VALUES (CASE WHEN (SELECT MAX(persistenceId)+1 FROM PSGRCitaEntrevista ) IS NULL THEN 1 ELSE (SELECT MAX(persistenceId) + 1 FROM PSGRCitaEntrevista), 0, ?, ?, ?, ?) RETURNING persistenceid;";
 	public static final String INSERT_HORARIOS = "INSERT PSGRCitaHorario (persistenceid, persistenceversion, hora_inicio, hora_fin, cita_entrevista_pid) VALUES (CASE WHEN (SELECT MAX(persistenceId)+1 FROM PSGRCitaHorario ) IS NULL THEN 1 ELSE (SELECT MAX(persistenceId) + 1 FROM PSGRCitaHorario), '0', ?, ?, ?)";
 	
 	//BANDEJAS 
