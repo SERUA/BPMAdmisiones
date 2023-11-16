@@ -1,13 +1,13 @@
 package com.anahuac.rest.api.Entity.db
 
 class CatBitacoraCorreo {
-	public static final String GET_CATBITACORACORREO="SELECT * FROM CATBITACORACORREOS [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATBITACORACORREO="SELECT PSGRCatBitacoraCorreos.*, PSGRRegistro.caseid FROM PSGRCatBitacoraCorreos LEFT JOIN PSGRRegistro ON PSGRCatBitacoraCorreos.para = PSGRRegistro.correo_electronico [WHERE] [ORDERBY] [LIMITOFFSET]"
 	private Long persistenceId;
 	private Long persistenceVersion;
 	private String codigo;
 	private String de;
 	private String estatus;
-	private String fechacreacion;
+	private String fecha_creacion;
 	private String mensaje;
 	private String para;
 	private String campus;
@@ -32,8 +32,8 @@ class CatBitacoraCorreo {
 	public String getEstatus() {
 		return estatus;
 	}
-	public String getFechacreacion() {
-		return fechacreacion;
+	public String getFecha_creacion() {
+		return fecha_creacion;
 	}
 	public String getMensaje() {
 		return mensaje;
@@ -56,8 +56,8 @@ class CatBitacoraCorreo {
 	public void setEstatus(String estatus) {
 		this.estatus = estatus;
 	}
-	public void setFechacreacion(String fechacreacion) {
-		this.fechacreacion = fechacreacion;
+	public void setFecha_creacion(String fecha_creacion) {
+		this.fecha_creacion = fecha_creacion;
 	}
 	public void setMensaje(String mensaje) {
 		this.mensaje = mensaje;
