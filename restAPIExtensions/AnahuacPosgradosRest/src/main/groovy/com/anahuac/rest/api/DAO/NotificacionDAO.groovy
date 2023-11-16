@@ -1051,10 +1051,10 @@ class NotificacionDAO {
 			}
 			switch(object.orderby) {
 				case "PERSISTENCEID":
-				orderby+="PERSISTENCEID";
-				break;
+		        	orderby += "PSGRCatBitacoraCorreos.PERSISTENCEID";
+		        break;
 				case "CODIGO":
-				orderby+="CODIGO";
+					orderby+="CODIGO";
 				break;
 				case "DE":
 					orderby+="DE";
@@ -1072,11 +1072,11 @@ class NotificacionDAO {
 					orderby+="PARA";
 				break;
 				case "CAMPUS":
-				orderby+="CAMPUS";
+					orderby+="CAMPUS";
 				break;
 				default:
-				orderby+="PERSISTENCEID";
-				break;
+			        orderby += "PSGRCatBitacoraCorreos.PERSISTENCEID";
+			    break;
 			}
 			orderby+=" "+object.orientation;
 			String consulta = catBitacoraCorreo.GET_CATBITACORACORREO
