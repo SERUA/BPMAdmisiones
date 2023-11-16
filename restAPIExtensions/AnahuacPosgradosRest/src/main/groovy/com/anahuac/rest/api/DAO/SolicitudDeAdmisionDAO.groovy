@@ -117,7 +117,6 @@ class SolicitudDeAdmisionDAO {
 		Long caseId = 0L;
 		Long total = 0L;
 		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
-		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -142,22 +141,35 @@ class SolicitudDeAdmisionDAO {
 			}
 			
 			if (object.caseId != null) {
-//				where += " AND SDAE.caseId = "+object.caseId +" "
+				where += " AND regi.caseId = " + object.caseId + " ";
 			}
 			
-			if (object.caseId == null) {
+			Boolean filtroCampus = false;
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				switch (filtro.get("columna")) {
+					case "CAMPUS": 
+					filtroCampus = true
+					break;
+				}
+			}
+			
+			if (object.caseId == null && filtroCampus != true) {
+				errorlog += "filtroCampus = " + filtroCampus;
 				if (lstGrupo.size() > 0) {
 					where += " AND ("
 				}
+				
 				for (Integer i = 0; i < lstGrupo.size(); i++) {
 					String campusMiembro = lstGrupo.get(i);
-					where += "camp.descripcion='" + campusMiembro + "'"
+					where += "camp.descripcion='" + campusMiembro + "'";
 					if (i == (lstGrupo.size() - 1)) {
 						where += ") "
 					} else {
 						where += " OR "
 					}
 				}
+			} else {
+				where += " AND LOWER(camp.DESCRIPCION) = LOWER('" + object.lstFiltro[0].valor + "') ";
 			}
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
@@ -287,6 +299,51 @@ class SolicitudDeAdmisionDAO {
 							where += " LOWER(regi.mensaje_admin_escolar) like lower('%[valor]%')";
 							where = where.replace("[valor]", filtro.get("valor"));
 							break;
+						case "CARRERA":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(gest.nombre) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"));
+							break;
+						case "PERIODO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(peri.descripcion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "ID BANNER":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(regi.caseid::VARCHAR) like lower('%[valor]%')";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "NOMBRE DEL ALUMNO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(concat(pers.apellido_paterno,' ',pers.apellido_materno,' ',pers.nombre)) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "CORREO":
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " LOWER(regi.correo_electronico) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						default:
 							break;
 					}
@@ -312,7 +369,6 @@ class SolicitudDeAdmisionDAO {
 			
 			orderby += " " + object.orientation;
 			consulta = consulta.replace("[WHERE]", where);
-			errorlog = "CONSULTA = " + consulta;
 			consultaCount = consultaCount.replace("[WHERE]", where);
 			
 			pstm = con.prepareStatement(consultaCount);
@@ -324,7 +380,7 @@ class SolicitudDeAdmisionDAO {
 			
 			consulta = consulta.replace("[ORDER_BY]", orderby);
 			consulta = consulta.replace("[LIMIT_OFFSET]", " LIMIT ? OFFSET ?");
-			errorlog = "CONSULTA = " + consulta;
+			errorlog += "CONSULTA = " + consulta;
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);

@@ -911,4 +911,218 @@ class NotificacionDAO {
 		}
 		return resultado;
 	}
+	
+	public Result getCatBitacoraCorreo(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where ="", orderby="ORDER BY ", errorlog=""
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo()
+			List<CatBitacoraCorreo> rows = new ArrayList<CatBitacoraCorreo>();
+			closeCon = validarConexion();
+			
+			
+			for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
+				switch(filtro.get("columna")) {
+					case "PERSISTENCEID":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" PERSISTENCEID ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=[valor]"
+						}else {
+							where+="=[valor]"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					
+					
+					
+					case "CODIGO":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(CODIGO) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "DE":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(DE) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "ESTATUS":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(ESTATUS) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "FECHACREACION":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(FECHACREACION) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "MENSAJE":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(MENSAJE) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "PARA":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(PARA) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					break;
+					case "CAMPUS":
+					
+					if(filtro.get("valor")== null || filtro.get("valor")== "null") {
+						
+					}else {
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +=" LOWER(CAMPUS) ";
+						if(filtro.get("operador").equals("Igual a")) {
+							where+="=LOWER('[valor]')"
+						}else {
+							where+="LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+					}
+
+					break;
+				}
+			}
+			switch(object.orderby) {
+				case "PERSISTENCEID":
+				orderby+="PERSISTENCEID";
+				break;
+				case "CODIGO":
+				orderby+="CODIGO";
+				break;
+				case "DE":
+					orderby+="DE";
+				break;
+				case "ESTATUS":
+					orderby+="ESTATUS";
+				break;
+				case "FECHACREACION":
+					orderby+="FECHACREACION";
+				break;
+				case "MENSAJE":
+					orderby+="MENSAJE";
+				break;
+				case "PARA":
+					orderby+="PARA";
+				break;
+				case "CAMPUS":
+				orderby+="CAMPUS";
+				break;
+				default:
+				orderby+="PERSISTENCEID";
+				break;
+			}
+			orderby+=" "+object.orientation;
+			String consulta = catBitacoraCorreo.GET_CATBITACORACORREO
+			consulta=consulta.replace("[WHERE]", where);
+			errorlog+="consulta:"
+				pstm = con.prepareStatement(consulta.replace("*", "COUNT(PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+				rs = pstm.executeQuery()
+				if(rs.next()) {
+					resultado.setTotalRegistros(rs.getInt("registros"))
+				}
+				consulta=consulta.replace("[ORDERBY]", orderby)
+				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
+				errorlog+="consulta:"
+				errorlog+=consulta
+				pstm = con.prepareStatement(consulta)
+				pstm.setInt(1, object.limit)
+				pstm.setInt(2, object.offset)
+				rs = pstm.executeQuery()
+				while(rs.next()) {
+					catBitacoraCorreo = new CatBitacoraCorreo()
+					catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"))
+					catBitacoraCorreo.setPersistenceVersion(rs.getLong("persistenceVersion"))
+					catBitacoraCorreo.setCampus(rs.getString("campus"))
+					catBitacoraCorreo.setCodigo(rs.getString("codigo"))
+					catBitacoraCorreo.setDe(rs.getString("de"))
+					catBitacoraCorreo.setEstatus(rs.getString("estatus"))
+					catBitacoraCorreo.setFechacreacion(rs.getString("fechacreacion"))
+					catBitacoraCorreo.setMensaje(rs.getString("mensaje"))
+					catBitacoraCorreo.setPara(rs.getString("para"))
+					catBitacoraCorreo.setCampus(rs.getString("campus"))
+
+					rows.add(catBitacoraCorreo)
+				}
+				resultado.setSuccess(true)
+				
+				resultado.setData(rows)
+				
+			} catch (Exception e) {
+				resultado.setSuccess(false);
+				resultado.setError(e.getMessage());
+				
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }
