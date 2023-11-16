@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatBitacoraCorreos",
   "name" : "PSGRCatBitacoraCorreos",
-  "lastUpdate" : 1700076638083,
+  "lastUpdate" : 1700152989157,
   "rows" : [
     [
       {
@@ -357,7 +357,7 @@
                     "codigo",
                     "de",
                     "estatus",
-                    "fechacreacion",
+                    "fecha_creacion",
                     "mensaje",
                     "para",
                     "campus"
@@ -414,11 +414,15 @@
                 "campusSelected" : {
                   "type" : "variable",
                   "value" : "campus_selected"
+                },
+                "abrirPagina" : {
+                  "type" : "constant",
+                  "value" : "pg_ver_solicitud_admision"
                 }
               },
-              "reference" : "adfadad4-a962-4875-b32d-22a1d1c90930",
+              "reference" : "8bdbcd6d-c20f-4b6f-8471-1b29ebe9c26a",
               "hasValidationError" : false,
-              "id" : "customTableBitacoraCorreos"
+              "id" : "customPSGRTableBitacoraCorreos"
             }
           ],
           [
@@ -3120,7 +3124,7 @@
       "type" : "expression",
       "value" : [
         "//return \"../API/bdm/businessData/com.anahuac.catalogos.CatBachilleratos?q=getCatBachilleratos&p=\"+$data.inicio+\"&c=10\";",
-        "return \"/bonita/API/extension/AnahuacRestGet?url=getCatBitacoraCorreo&p=0&c=9999\";"
+        "return \"/bonita/API/extension/posgradosRest?url=getCatBitacoraCorreo&p=0&c=9999\";"
       ],
       "exposed" : false
     },
@@ -3329,7 +3333,6 @@
     "lstCampus" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var resultado = [];\r",
         "\r",
         "var obj= {descripcion: \"Todos los campus\", grupo_bonita: null}\r",
@@ -3368,7 +3371,6 @@
     "lstCampusRole" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var lstData = []\r",
         "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
