@@ -457,7 +457,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.filterKeyPressAspirantes = function(columna, press) {
-        debugger;
         var aplicado = true;
 
         for (let index = 0; index < $scope.properties.dataToSendAsp.lstFiltro.length; index++) {
@@ -844,9 +843,52 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 // $scope.refreshAspirantes();
                 ocultarModal("modalConfiguraciones");
                 swal("Ok", "La configuración se ha guardado correctamente", "success");
+                getAspirantesTolerancias($scope.sesionConfiguracion.idprueba);
+
             }).error(function(_error){
                 swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
+        }
+    }
+
+    function getAspirantesTolerancias(_idsesion){
+        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
+        // $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
+
+        if($scope.properties.dataToSendAsp.lstFiltro.length > 0){
+            let encontrado = false;
+            for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
+                if(dato.columna === "id_sesion"){
+                    encontrado = true;
+                    let index = $scope.properties.dataToSendAsp.lstFiltro.indexOf(dato);
+                    $scope.properties.dataToSendAsp.lstFiltro[index].valor = _idsesion + "";
+                    break;
+                }
+            }
+
+            if(encontrado === false){
+                $scope.properties.dataToSendAsp.lstFiltro.push();
+            }
+        } else {
+            $scope.properties.dataToSendAsp.lstFiltro = [{
+                "columna": "id_sesion",
+                "operador": "Igual a",
+                "valor": _idsesion + ""
+            }];
+        }
+        
+        $http.post(url, $scope.properties.dataToSendAsp).success(function(_data){
+            actulizarToleranciasSalida(_data.data);
+        }).error(function(_err){
+            swal("Error", _err.mensajeError, "error");
+        })
+    }
+
+    function actulizarToleranciasSalida(_aspirantes){
+        for(let aspirante of _aspirantes){
+            if(aspirante.caseidINVP){
+                actualizarTolSalidaNoAlerta(aspirante.caseidINVP, $scope.sesionConfiguracion.toleranciasalidaminutos);
+            }
         }
     }
     
@@ -913,15 +955,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioTolerancias&p=0&c=10";
 
             $http.post(url, $scope.configUsuario).success(function(_data){
-                ocultarModal("modalVerReag");
-                swal("Ok", "Tolerancia actualizada", "success");
-                getAspirantesSesion($scope.selectedSesion.idSesion);
+                if($scope.configUsuario.toleranciasalidaminutos > 0){
+                    actualizarTolSalida($scope.configUsuario.caseid, $scope.configUsuario.toleranciasalidaminutos);
+                } else {
+                    ocultarModal("modalVerReag");
+                    swal("Ok", "Tolerancia actualizada", "success");
+                    getAspirantesSesion($scope.selectedSesion.idSesion);
+                }
+                
             }).error(function(_error){
                 
             });
         }
     }
-    
+
     function validarConfigTol(){
         let output = true;
         let mensajeError = "";
@@ -1082,5 +1129,52 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSendAsp.lstFiltro.splice(index, 1);
             getAspirantesSesion($scope.selectedSesion.idSesion);
         }
+    }
+
+    function actualizarTolSalida(_caseid, _minutos){
+        let url = "../API/bpm/timerEventTrigger?caseId=" + _caseid + "&p=0&c=10&";
+
+        $http.get(url).success(function(_data){
+            let newMS = _data[0].executionDate + (60000 * _minutos);
+            updateTimer(_data[0].id_string, newMS);
+        }).error(function(_error){
+            ocultarModal("modalVerReag");
+            swal("Ok", "Tolerancia actualizada", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        });
+    }
+
+    function updateTimer(_timerId, _newValue){
+        let url = "../API/bpm/timerEventTrigger/" + _timerId;
+        let newTimer = { "executionDate" : _newValue };
+        
+        $http.put(url, newTimer).success(function(_data){
+            ocultarModal("modalVerReag");
+            swal("Ok", "Tolerancia actualizada", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }).error(function(_error){
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+
+    function actualizarTolSalidaNoAlerta(_caseid, _minutos){
+        let url = "../API/bpm/timerEventTrigger?caseId=" + _caseid + "&p=0&c=10&";
+        $http.get(url).success(function(_data){
+            let newMS = _data[0].executionDate + (60000 * _minutos);
+            updateTimerNoAlerta(_data[0].id_string, newMS);
+        }).error(function(_error){
+
+        });
+    }
+
+    function updateTimerNoAlerta(_timerId, _newValue){
+        let url = "../API/bpm/timerEventTrigger/" + _timerId;
+        let newTimer = { "executionDate" : _newValue };
+        
+        $http.put(url, newTimer).success(function(_data){
+
+        }).error(function(_error){
+            
+        });
     }
 }

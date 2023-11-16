@@ -1,7 +1,7 @@
 package com.anahuac.rest.api.Entity.db
 
 class CatBitacoraCorreo {
-	public static final String GET_CATBITACORACORREO="SELECT PSGRCatBitacoraCorreos.*, PSGRRegistro.caseid FROM PSGRCatBitacoraCorreos LEFT JOIN PSGRRegistro ON PSGRCatBitacoraCorreos.para = PSGRRegistro.correo_electronico [WHERE] [ORDERBY] [LIMITOFFSET]"
+	public static final String GET_CATBITACORACORREO="SELECT PSGRCatBitacoraCorreos.persistenceid, PSGRCatBitacoraCorreos.persistenceVersion, PSGRCatBitacoraCorreos.campus, PSGRCatBitacoraCorreos.codigo, PSGRCatBitacoraCorreos.de, PSGRCatBitacoraCorreos.estatus, PSGRCatBitacoraCorreos.fecha_creacion, PSGRCatBitacoraCorreos.mensaje, PSGRCatBitacoraCorreos.para FROM PSGRCatBitacoraCorreos LEFT JOIN PSGRRegistro ON PSGRCatBitacoraCorreos.para = PSGRRegistro.correo_electronico  [WHERE] [ORDERBY] [LIMITOFFSET]"
 	private Long persistenceId;
 	private Long persistenceVersion;
 	private String codigo;
@@ -11,6 +11,16 @@ class CatBitacoraCorreo {
 	private String mensaje;
 	private String para;
 	private String campus;
+	private Long caseid;
+	
+	public Long getCaseId() {
+		return caseid;
+	}
+	
+	public void setCaseId(Long caseid) {
+		this.caseid = caseid;
+	}
+	
 	public String getCampus() {
 		return campus;
 	}

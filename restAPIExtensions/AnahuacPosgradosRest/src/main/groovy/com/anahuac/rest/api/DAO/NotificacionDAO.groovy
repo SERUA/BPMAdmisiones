@@ -927,23 +927,29 @@ class NotificacionDAO {
 			for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 				switch(filtro.get("columna")) {
 					case "PERSISTENCEID":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}else {
-							where+= " WHERE "
-						}
-						where +=" PERSISTENCEID ";
-						if(filtro.get("operador").equals("Igual a")) {
-							where+="=[valor]"
-						}else {
-							where+="=[valor]"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
+					    if (where.contains("WHERE")) {
+					        where += " AND ";
+					    } else {
+					        where += " WHERE ";
+					    }
+					    where += " CAST(PSGRCatBitacoraCorreos.PERSISTENCEID AS TEXT) ";
+					
+					    if (filtro.get("operador").equals("Igual a")) {
+					        if (filtro.get("valor").isEmpty()) {
+					            where += " LIKE '%%' ";
+					        } else {
+					            where += " = '" + filtro.get("valor") + "' ";
+					        }
+					    } else {
+					        // Considera manejar otros operadores aquí según sea necesario
+					        if (filtro.get("valor").isEmpty()) {
+					            where += " LIKE '%%' ";
+					        } else {
+					            where += " = '" + filtro.get("valor") + "' ";
+					        }
+					    }
 					break;
-					
-					
-					
-					case "CODIGO":
+					case "CÓDIGO":
 						if(where.contains("WHERE")) {
 							where+= " AND "
 						}else {
@@ -1051,10 +1057,10 @@ class NotificacionDAO {
 			}
 			switch(object.orderby) {
 				case "PERSISTENCEID":
-				orderby+="PERSISTENCEID";
-				break;
+		        	orderby += "PSGRCatBitacoraCorreos.PERSISTENCEID";
+		        break;
 				case "CODIGO":
-				orderby+="CODIGO";
+					orderby+="CODIGO";
 				break;
 				case "DE":
 					orderby+="DE";
@@ -1072,43 +1078,53 @@ class NotificacionDAO {
 					orderby+="PARA";
 				break;
 				case "CAMPUS":
-				orderby+="CAMPUS";
+					orderby+="CAMPUS";
 				break;
 				default:
-				orderby+="PERSISTENCEID";
-				break;
+			        orderby += "PSGRCatBitacoraCorreos.PERSISTENCEID";
+			    break;
 			}
 			orderby+=" "+object.orientation;
 			String consulta = catBitacoraCorreo.GET_CATBITACORACORREO
 			consulta=consulta.replace("[WHERE]", where);
 			errorlog+="consulta:"
-				pstm = con.prepareStatement(consulta.replace("*", "COUNT(PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
-				rs = pstm.executeQuery()
-				if(rs.next()) {
-					resultado.setTotalRegistros(rs.getInt("registros"))
+				pstm = con.prepareStatement(consulta.replace("*", "COUNT(PSGRCatBitacoraCorreos.PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""));
+				rs = pstm.executeQuery();
+				
+				if (rs.next()) {
+				    resultado.setTotalRegistros(rs.getInt(1)); // Utilizando el índice de la columna en lugar del nombre
 				}
 				consulta=consulta.replace("[ORDERBY]", orderby)
 				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 				errorlog+="consulta:"
 				errorlog+=consulta
-				pstm = con.prepareStatement(consulta)
-				pstm.setInt(1, object.limit)
-				pstm.setInt(2, object.offset)
-				rs = pstm.executeQuery()
-				while(rs.next()) {
-					catBitacoraCorreo = new CatBitacoraCorreo()
-					catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"))
-					catBitacoraCorreo.setPersistenceVersion(rs.getLong("persistenceVersion"))
-					catBitacoraCorreo.setCampus(rs.getString("campus"))
-					catBitacoraCorreo.setCodigo(rs.getString("codigo"))
-					catBitacoraCorreo.setDe(rs.getString("de"))
-					catBitacoraCorreo.setEstatus(rs.getString("estatus"))
-					catBitacoraCorreo.setFecha_creacion(rs.getString("fecha_creacion"))
-					catBitacoraCorreo.setMensaje(rs.getString("mensaje"))
-					catBitacoraCorreo.setPara(rs.getString("para"))
-					catBitacoraCorreo.setCampus(rs.getString("campus"))
+				pstm = con.prepareStatement(consulta);
+				pstm.setInt(1, object.limit);
+				pstm.setInt(2, object.offset);
+				rs = pstm.executeQuery();
 
-					rows.add(catBitacoraCorreo)
+				while(rs.next()) {
+					catBitacoraCorreo = new CatBitacoraCorreo();
+		            catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"));
+		            catBitacoraCorreo.setPersistenceVersion(rs.getLong("persistenceVersion"));
+		            catBitacoraCorreo.setCampus(rs.getString("campus"));
+		            catBitacoraCorreo.setCodigo(rs.getString("codigo"));
+		            catBitacoraCorreo.setDe(rs.getString("de"));
+		            catBitacoraCorreo.setEstatus(rs.getString("estatus"));
+		            catBitacoraCorreo.setFecha_creacion(rs.getString("fecha_creacion"));
+		            catBitacoraCorreo.setMensaje(rs.getString("mensaje"));
+		            catBitacoraCorreo.setPara(rs.getString("para"));
+		
+		            // Obtener caseid de la tabla PSGRRegistro
+		            PreparedStatement pstmCaseId = con.prepareStatement("SELECT caseid FROM PSGRRegistro WHERE correo_electronico = ?");
+		            pstmCaseId.setString(1, rs.getString("para"));
+		            ResultSet rsCaseId = pstmCaseId.executeQuery();
+		
+		            if (rsCaseId.next()) {
+		                catBitacoraCorreo.setCaseId(rsCaseId.getLong("caseid"));
+		            }
+		
+		            rows.add(catBitacoraCorreo);
 				}
 				resultado.setSuccess(true)
 				resultado.setError_info(errorlog);

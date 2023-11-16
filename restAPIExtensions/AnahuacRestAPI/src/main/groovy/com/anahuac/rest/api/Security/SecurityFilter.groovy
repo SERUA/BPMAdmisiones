@@ -715,6 +715,20 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+			case "selectAspirantesEnprocesoFechasV2":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+			allow = bonitaRolFilter(context, "ADMINISTRATIVO");
+			if (allow) {
+			  break;
+			}
+			allow = bonitaRolFilter(context, "TI SERUA");
+			if (allow) {
+			  break;
+			}
+		    break;
 		  case "selectBitacoraPago":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {
