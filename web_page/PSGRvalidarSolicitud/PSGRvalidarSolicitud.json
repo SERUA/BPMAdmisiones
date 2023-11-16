@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1700073981965,
+  "lastUpdate" : 1700160509154,
   "rows" : [
     [
       {
@@ -15247,7 +15247,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><b>La tarea fue finalizada.</b><br>Regresa al menú principal para continuar realizando actividades. <b>{{mensajeResultadoDeEnvio}}</b><br><br>"
+                  "value" : "<br><br><br><br><h3><b>La tarea fue completada</b></h3>\nRegresa al menú principal para continuar llevando a cabo otras actividades.\n<br><b>{{mensajeResultadoDeEnvio}}</b><br><br><br><br><br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -16352,7 +16352,7 @@
                   },
                   "action" : {
                     "type" : "constant",
-                    "value" : "Close modal"
+                    "value" : "Submit task"
                   },
                   "assign" : {
                     "type" : "constant",
@@ -16366,15 +16366,16 @@
                     "value" : ""
                   },
                   "dataToSend" : {
-                    "type" : "constant"
+                    "type" : "expression",
+                    "value" : "contratoOutputAprobar"
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "tareaFinalizada"
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
-                    "value" : false
+                    "value" : true
                   },
                   "dataFromError" : {
                     "type" : "variable",
@@ -16415,6 +16416,14 @@
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "cartaDatosEnviarAprobacion"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoDeEnvio"
                   }
                 },
                 "reference" : "0164b6e2-ed05-4af6-9bea-caee15e953d5",
@@ -21852,6 +21861,19 @@
     },
     "mensajeResultadoDeEnvio" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "cartaDatosEnviarAprobacion" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-aprobada\",",
+        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": true",
+        "};"
+      ],
       "exposed" : false
     }
   },

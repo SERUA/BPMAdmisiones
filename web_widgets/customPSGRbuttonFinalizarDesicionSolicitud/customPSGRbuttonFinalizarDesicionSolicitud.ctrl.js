@@ -29,28 +29,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     $scope.enviarCarta = function() {
         // "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10"
-        doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, function(datos) {
-            $scope.properties.mensajeResultadoDeEnvio = "Se envio el correo."
-            //var respuesta = datos.data[0].replace($scope.properties.replace, document.getElementById($scope.properties.id).innerHTML);
-            
-            /*Swal.fire({
-                html: respuesta,
-                showCloseButton: false,
-                width: 800,
-                showCancelButton: false,
-                focusConfirm: false,
-                confirmButtonColor: "#333",
-                confirmButtonText: 'Cerrar'
-            })*/
-            /*$("#modal" + $scope.properties.id).show();
-            setTimeout(function() {
-                var element = document.getElementById("div" + $scope.properties.id);
-
-                element.innerHTML = respuesta
-
-            }, 100);*/
-
-        });
+        doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, 
+            function(datos) { 
+                $scope.properties.mensajeResultadoDeEnvio = "¡Se envio el correo correctamente!"; 
+            },
+            function(datos) { 
+                $scope.properties.mensajeResultadoDeEnvio = "Algo falló al enviar el correo.";
+            }
+        );
     }
 
     function openModal(modalId) {
@@ -215,7 +201,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             vm.busy = false;
           });
       }
-      function doRequestCarta(method, url, params, dataToSend, callback) {
+      function doRequestCarta(method, url, params, dataToSend, callbackSuccess, callbackError) {
         vm.busy = true;
         var req = {
             method: method,
@@ -226,9 +212,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
             .success(function(data, status) {
-                callback(data)
+                callbackSuccess(data)
             })
             .error(function(data, status) {
+                callbackError(data);
                 console.error(data);
             })
             .finally(function() {
