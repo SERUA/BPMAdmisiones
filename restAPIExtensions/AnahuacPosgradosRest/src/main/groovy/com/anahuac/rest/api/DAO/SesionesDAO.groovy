@@ -196,7 +196,7 @@ class SesionesDAO {
 			horario.put("inicio", formatoHora.format(calendar.getTime()));
 			calendar.add(Calendar.MINUTE, duracion);
 			horario.put("fin", formatoHora.format(calendar.getTime()));
-			horasList.add();
+			horasList.add(horario);
 		}
 
 		return horasList;
