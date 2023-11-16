@@ -149,6 +149,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         doRequestGet();
     }
     $scope.filterKeyPress = function(columna, press) {
+        debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.filtroToSend.lstFiltro.length; index++) {
             const element = $scope.properties.filtroToSend.lstFiltro[index];
@@ -157,13 +158,24 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
                 $scope.properties.filtroToSend.lstFiltro[index].operador = "Que contenga";
                 aplicado = false;
             }
-
         }
         if (aplicado) {
             var obj = { "columna": columna, "operador": "Que contenga", "valor": press }
             $scope.properties.filtroToSend.lstFiltro.push(obj);
         }
-
+    
+        // Actualizar campusSelected en lstFiltro
+        var campusFilter = $scope.properties.filtroToSend.lstFiltro.find(f => f.columna === "CAMPUS");
+        if (campusFilter) {
+            campusFilter.valor = $scope.properties.campusSelected.grupo_bonita;
+        } else {
+            $scope.properties.filtroToSend.lstFiltro.push({
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.properties.campusSelected.grupo_bonita
+            });
+        }
+    
         doRequestGet();
     }
     $scope.lstPaginado = [];
@@ -317,25 +329,16 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     $scope.$watch('properties.campusSelected', function(value) {
         debugger;
         if (angular.isDefined(value) && value !== null && angular.isDefined($scope.properties.filtroToSend)) {
-            /*var notfound = true;
-            $scope.filtro = {
-                "columna": "CAMPUS",
-                "operador": "Igual a",
-                "valor": value.grupoBonita
+            var campusFilter = $scope.properties.filtroToSend.lstFiltro.find(f => f.columna === "CAMPUS");
+            if (campusFilter) {
+                campusFilter.valor = value.grupo_bonita;
+            } else {
+                $scope.properties.filtroToSend.lstFiltro.push({
+                    "columna": "CAMPUS",
+                    "operador": "Igual a",
+                    "valor": value.grupo_bonita
+                });
             }
-            for (let index = 0; index < $scope.properties.filtroToSend.lstFiltro.length; index++) {
-                const element = $scope.properties.filtroToSend.lstFiltro[index];
-                if (element.columna == "CAMPUS") {
-                    $scope.properties.filtroToSend.lstFiltro[index].valor = value.grupoBonita
-                    notfound = false;
-                }
-
-            }
-            if (notfound) {
-                $scope.properties.filtroToSend.lstFiltro.push($scope.filtro);
-            }*/
-
-
             doRequestGet();
         }
     });
@@ -375,7 +378,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
 
     $scope.abrirSolicitud = function(row) {
         debugger;
-        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
+        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseId;
         window.open(url, '_blank');
     }
 }
