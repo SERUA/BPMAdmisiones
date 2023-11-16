@@ -11,6 +11,16 @@ class CatBitacoraCorreo {
 	private String mensaje;
 	private String para;
 	private String campus;
+	private Long caseid;
+	
+	public Long getCaseId() {
+		return caseid;
+	}
+	
+	public void setCaseId(Long caseid) {
+		this.caseid = caseid;
+	}
+	
 	public String getCampus() {
 		return campus;
 	}

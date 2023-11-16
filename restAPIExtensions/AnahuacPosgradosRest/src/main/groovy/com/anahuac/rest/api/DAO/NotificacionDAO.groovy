@@ -927,23 +927,29 @@ class NotificacionDAO {
 			for(Map<String, Object> filtro:(List<Map<String, Object>>) object.lstFiltro) {
 				switch(filtro.get("columna")) {
 					case "PERSISTENCEID":
-						if(where.contains("WHERE")) {
-							where+= " AND "
-						}else {
-							where+= " WHERE "
-						}
-						where +=" PERSISTENCEID ";
-						if(filtro.get("operador").equals("Igual a")) {
-							where+="=[valor]"
-						}else {
-							where+="=[valor]"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
+					    if (where.contains("WHERE")) {
+					        where += " AND ";
+					    } else {
+					        where += " WHERE ";
+					    }
+					    where += " CAST(PSGRCatBitacoraCorreos.PERSISTENCEID AS TEXT) ";
+					
+					    if (filtro.get("operador").equals("Igual a")) {
+					        if (filtro.get("valor").isEmpty()) {
+					            where += " LIKE '%%' ";
+					        } else {
+					            where += " = '" + filtro.get("valor") + "' ";
+					        }
+					    } else {
+					        // Considera manejar otros operadores aquí según sea necesario
+					        if (filtro.get("valor").isEmpty()) {
+					            where += " LIKE '%%' ";
+					        } else {
+					            where += " = '" + filtro.get("valor") + "' ";
+					        }
+					    }
 					break;
-					
-					
-					
-					case "CODIGO":
+					case "CÓDIGO":
 						if(where.contains("WHERE")) {
 							where+= " AND "
 						}else {
@@ -1086,7 +1092,7 @@ class NotificacionDAO {
 				rs = pstm.executeQuery();
 				
 				if (rs.next()) {
-				    resultado.setTotalRegistros(rs.getInt("registros"));
+				    resultado.setTotalRegistros(rs.getInt(1)); // Utilizando el índice de la columna en lugar del nombre
 				}
 				consulta=consulta.replace("[ORDERBY]", orderby)
 				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
@@ -1115,7 +1121,7 @@ class NotificacionDAO {
 		            ResultSet rsCaseId = pstmCaseId.executeQuery();
 		
 		            if (rsCaseId.next()) {
-		                catBitacoraCorreo.setCaseId(rsCaseId.getString("caseid"));
+		                catBitacoraCorreo.setCaseId(rsCaseId.getLong("caseid"));
 		            }
 		
 		            rows.add(catBitacoraCorreo);
