@@ -1096,19 +1096,27 @@ class NotificacionDAO {
 				pstm.setInt(2, object.offset)
 				rs = pstm.executeQuery()
 				while(rs.next()) {
-					catBitacoraCorreo = new CatBitacoraCorreo()
-					catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"))
-					catBitacoraCorreo.setPersistenceVersion(rs.getLong("persistenceVersion"))
-					catBitacoraCorreo.setCampus(rs.getString("campus"))
-					catBitacoraCorreo.setCodigo(rs.getString("codigo"))
-					catBitacoraCorreo.setDe(rs.getString("de"))
-					catBitacoraCorreo.setEstatus(rs.getString("estatus"))
-					catBitacoraCorreo.setFecha_creacion(rs.getString("fecha_creacion"))
-					catBitacoraCorreo.setMensaje(rs.getString("mensaje"))
-					catBitacoraCorreo.setPara(rs.getString("para"))
-					catBitacoraCorreo.setCampus(rs.getString("campus"))
-
-					rows.add(catBitacoraCorreo)
+					catBitacoraCorreo = new CatBitacoraCorreo();
+		            catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"));
+		            catBitacoraCorreo.setPersistenceVersion(rs.getLong("persistenceVersion"));
+		            catBitacoraCorreo.setCampus(rs.getString("campus"));
+		            catBitacoraCorreo.setCodigo(rs.getString("codigo"));
+		            catBitacoraCorreo.setDe(rs.getString("de"));
+		            catBitacoraCorreo.setEstatus(rs.getString("estatus"));
+		            catBitacoraCorreo.setFecha_creacion(rs.getString("fecha_creacion"));
+		            catBitacoraCorreo.setMensaje(rs.getString("mensaje"));
+		            catBitacoraCorreo.setPara(rs.getString("para"));
+		
+		            // Obtener caseid de la tabla PSGRRegistro
+		            PreparedStatement pstmCaseId = con.prepareStatement("SELECT caseid FROM PSGRRegistro WHERE correo_electronico = ?");
+		            pstmCaseId.setString(1, rs.getString("para"));
+		            ResultSet rsCaseId = pstmCaseId.executeQuery();
+		
+		            if (rsCaseId.next()) {
+		                catBitacoraCorreo.setCaseId(rsCaseId.getString("caseid"));
+		            }
+		
+		            rows.add(catBitacoraCorreo);
 				}
 				resultado.setSuccess(true)
 				resultado.setError_info(errorlog);
