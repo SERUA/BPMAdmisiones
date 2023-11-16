@@ -880,9 +880,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioTolerancias&p=0&c=10";
 
             $http.post(url, $scope.configUsuario).success(function (_data) {
-                ocultarModal("modalVerReag");
-                swal("Ok", "Tolerancia actualizada", "success");
-                getAspirantesSesion($scope.selectedSesion.idSesion);
+                
+                if($scope.configUsuario.toleranciasalidaminutos > 0){
+                    actualizarTolSalida($scope.configUsuario.caseid, $scope.configUsuario.toleranciasalidaminutos);
+                } else {
+                    ocultarModal("modalVerReag");
+                    swal("Ok", "Tolerancia actualizada", "success");
+                    getAspirantesSesion($scope.selectedSesion.idSesion);
+                }
+                
+                // ocultarModal("modalVerReag");
+                // swal("Ok", "Tolerancia actualizada", "success");
+                // getAspirantesSesion($scope.selectedSesion.idSesion);
             }).error(function (_error) {
                 swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
             });
@@ -1090,5 +1099,31 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSendAsp.lstFiltro.splice(index, 1);
             getAspirantesSesion($scope.selectedSesion.idSesion);
         }
+    }
+    
+    function actualizarTolSalida(_caseid, _minutos){
+        let url = "../API/bpm/timerEventTrigger?caseId=" + _caseid + "&p=0&c=10&";
+
+        $http.get(url).success(function(_data){
+            let newMS = _data[0].executionDate + (60000 * _minutos);
+            updateTimer(_data[0].id_string, newMS);
+        }).error(function(_error){
+            ocultarModal("modalVerReag");
+            swal("Ok", "Tolerancia actualizada", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        });
+    }
+
+    function updateTimer(_timerId, _newValue){
+        let url = "../API/bpm/timerEventTrigger/" + _timerId;
+        let newTimer = { "executionDate" : _newValue };
+        
+        $http.put(url, newTimer).success(function(_data){
+            ocultarModal("modalVerReag");
+            swal("Ok", "Tolerancia actualizada", "success");
+            getAspirantesSesion($scope.selectedSesion.idSesion);
+        }).error(function(_error){
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
     }
 }

@@ -631,7 +631,7 @@ class SubIndex {
 		return result;
 	}
 	
-	def lista_ListadoDAO = ["getNuevasSolicitudes","getExcelFile","getPdfFile","getExcelFileCatalogo","getExcelBachilleratos","getPdfFileCatalogo","getExcelFileCatalogosAD","getPdfFileCatalogoAD","getAspirantesProceso","selectAspirantesEnproceso","selectAspirantesEnRed","selectAspirantesMigrados","selectAspirantesEnprocesoFechas","selectSolicitudesEnProceso","getAspirantesByStatus","getDocumentoTest","getAspirantesByStatusTemprano"];
+	def lista_ListadoDAO = ["getNuevasSolicitudes","getExcelFile","getPdfFile","getExcelFileCatalogo","getExcelBachilleratos","getPdfFileCatalogo","getExcelFileCatalogosAD","getPdfFileCatalogoAD","getAspirantesProceso","selectAspirantesEnproceso","selectAspirantesEnRed","selectAspirantesMigrados","selectAspirantesEnprocesoFechas","selectAspirantesEnprocesoFechasV2","selectSolicitudesEnProceso","getAspirantesByStatus","getDocumentoTest","getAspirantesByStatusTemprano"];
 	public Result ListadoDAO_urls(String url,Integer parameterP,Integer parameterC,String jsonData,RestAPIContext context) {
 		ListadoDAO lDao = new ListadoDAO();
 		Result result = new Result();
@@ -685,6 +685,10 @@ class SubIndex {
 					break;
 				case "selectAspirantesEnprocesoFechas":
 					result = lDao.selectAspirantesEnprocesoFechas(parameterP, parameterC, jsonData, context);
+					
+					break;
+				case "selectAspirantesEnprocesoFechasV2":
+					result = lDao.selectAspirantesEnprocesoFechasV2(parameterP, parameterC, jsonData, context);
 					
 					break;
 				case "selectSolicitudesEnProceso":
