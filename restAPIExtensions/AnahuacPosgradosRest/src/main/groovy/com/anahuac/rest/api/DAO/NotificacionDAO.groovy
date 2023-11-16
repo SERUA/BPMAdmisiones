@@ -1083,7 +1083,8 @@ class NotificacionDAO {
 			consulta=consulta.replace("[WHERE]", where);
 			errorlog+="consulta:"
 				pstm = con.prepareStatement(consulta.replace("*", "COUNT(PSGRCatBitacoraCorreos.PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""));
-				rs = pstm.executeQuery()
+				rs = pstm.executeQuery();
+				
 				if (rs.next()) {
 				    resultado.setTotalRegistros(rs.getInt("registros"));
 				}
@@ -1091,10 +1092,11 @@ class NotificacionDAO {
 				consulta=consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 				errorlog+="consulta:"
 				errorlog+=consulta
-				pstm = con.prepareStatement(consulta)
-				pstm.setInt(1, object.limit)
-				pstm.setInt(2, object.offset)
-				rs = pstm.executeQuery()
+				pstm = con.prepareStatement(consulta);
+				pstm.setInt(1, object.limit);
+				pstm.setInt(2, object.offset);
+				rs = pstm.executeQuery();
+
 				while(rs.next()) {
 					catBitacoraCorreo = new CatBitacoraCorreo();
 		            catBitacoraCorreo.setPersistenceId(rs.getLong("persistenceId"));
