@@ -1,7 +1,24 @@
+<div style="margin-bottom:15px;" class="col-xs-8 col-xs-offset-2" ng-show="lstCampusByUser.length>2">
+    <select class="form-control" ng-model="filtroCampus"
+        ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
+        ng-change="addFilter()">
+        <option style="display:none" value="">
+            Seleccionar campus
+        </option>
+    </select>
+</div>
+
 <!-- ng-hide="properties.cita.cita_horario" -->
-<div class="panel panel-danger col-md-12" ng-show="!properties.readOnly" >
-    <div class="panel-heading" style="background-color: #ff5900" align="center" ng-show="properties.cita.cita_horario"><strong style="color:white;">Calendario de entrevistas</strong></div>
-    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;' ng-show="!properties.cita.cita_horario">
+<div class="row" ng-show="navVar === 'calendario' && filtroCampus !== ''">
+    <div class="col-xs-12 text-right">
+        <button type="button" class="btn btn-primary" ng-click="initSesion()">Agendar nueva sesión</button>
+    </div>
+</div>
+<div class="panel panel-danger col-md-12" ng-show="navVar === 'calendario' && filtroCampus !== ''">
+    <div class="panel-heading" style="background-color: #ff5900" align="center" >
+        <strong style="color:white;">Calendario de entrevistas</strong>
+    </div>
+    <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;'>
         <div class="dhx_cal_navline">
             <div class="dhx_cal_prev_button">&nbsp;</div>
             <div class="dhx_cal_next_button">&nbsp;</div>
@@ -16,27 +33,41 @@
         <div class="dhx_cal_header"></div>
         <div class="dhx_cal_data"></div>
     </div>
-    <div class="row" ng-show="properties.cita.cita_horario">
-        <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
-        <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
-        <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
-        <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null">Cambiar fecha y hora de la cita</button>
-    </div>
-</div>
-<div class="col-lg-12" ng-show="properties.readOnly" style="text-align: center;">
-    <div class="row" ng-show="properties.cita.cita_horario">
-        <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
-        <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
-        <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
-    </div>
-    <div class="row" ng-show="!properties.cita.cita_horario">
-        <br><br>
-        <h2><b>No hay datos para mostrar</b></h2><br>
-        <p>No se ha registrado ninguna cita para el aspirante.</p>
-        <br><br>
-    </div>
 </div>
 
-<div >
-    
+<div class="row" ng-show="navVar === 'sesion'">
+    <div class="col-xs-8 col-xs-offset-2">
+        <div class="form-group col-xs-6">
+            <label class="control-label col-xs-12"> Nombre de sesión: </label>
+            <div class="col-xs-12">
+                <input class="form-control" ng-model="sesion.nombre">
+            </div>
+        </div>
+        <div class="form-group col-xs-6">
+            <label class="control-label col-xs-12"> Descripción: </label>
+            <div class="col-xs-12">
+                <input class="form-control" ng-model="sesion.descripcion_entrevista">
+            </div>
+        </div>
+        <div class="form-group col-xs-6">
+            <label class="control-label col-xs-12"> Fecha:</label>
+            <div class="col-xs-12">
+                <input class="form-control" ng-model="sesion.fecha_entrevista" type="date">
+            </div>
+        </div>
+        <div class="form-group col-xs-6">
+            <label class="control-label col-xs-12"> Diración de las entrevistas: </label>
+            <div class="col-xs-12">
+                <select class="form-control" ng-model="sesion.duracion_entrevista_minutos" >
+                    <option ng-value="15">15</option>
+                    <option ng-value="30">30</option>
+                    <option ng-value="60">60</option>
+                </select>
+            </div>
+        </div>
+    </div>
+    <br>    
+    <div class="col-xs-8 col-xs-offset-2 text-right">
+        <button class="btn btn-primary" type="button" ng-click="guardarSesion(sesion)">Guardar sesión</button>
+    </div>
 </div>

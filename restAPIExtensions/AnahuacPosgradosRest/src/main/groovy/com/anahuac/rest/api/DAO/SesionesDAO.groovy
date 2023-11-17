@@ -228,7 +228,7 @@ class SesionesDAO {
 			}
 			errorLog += "2|";
 			Long idCampus = 0L;
-			if(object.id_campus == null) {
+			if(object.id_campus == null || object.id_campus.equals("")) {
 				idCampus = 0L;
 			} else {
 				idCampus = Long.valueOf(object.id_campus);

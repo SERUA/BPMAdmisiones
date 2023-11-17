@@ -2,8 +2,44 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAgendarCitas",
   "name" : "PSGRappAgendarCitas",
-  "lastUpdate" : 1700173507674,
+  "lastUpdate" : 1700181912627,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "color-orange"
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Citas de entrevistas <hr>"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 3"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "fb5bc294-849e-4909-9cd8-4fefca94e829",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
     [
       {
         "type" : "component",
@@ -44,6 +80,14 @@
           "readOnly" : {
             "type" : "constant",
             "value" : false
+          },
+          "navigationVar" : {
+            "type" : "variable",
+            "value" : "navigtionVar"
+          },
+          "lstCampus" : {
+            "type" : "variable",
+            "value" : "lstCatCampus"
           }
         },
         "reference" : "6caebe55-f6a5-403d-9737-09c519fcbdce",
@@ -118,6 +162,21 @@
       "value" : [
         "{}"
       ],
+      "exposed" : false
+    },
+    "navigtionVar" : {
+      "type" : "constant",
+      "value" : [
+        "principal"
+      ],
+      "exposed" : false
+    },
+    "lstCatCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=100&f=eliminado=false"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
