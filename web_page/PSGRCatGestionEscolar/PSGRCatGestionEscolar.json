@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1700242244476,
+  "lastUpdate" : 1700249970898,
   "rows" : [
     [
       {
@@ -219,7 +219,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "editable != 'tabla' || cargar_catDatos"
+                  "value" : "editable != 'tabla' || !cargar_catDatos"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -864,15 +864,16 @@
                       "columnsKey" : {
                         "type" : "constant",
                         "value" : [
+                          "orden",
+                          "nivel",
                           "clave",
+                          "descripcion",
                           "nombre",
-                          "\"$\"+inscripcion_enero",
-                          "\"$\"+inscripcion_mayo",
-                          "\"$\"+inscripcion_agosto",
-                          "\"$\"+inscripcion_septiembre",
                           "tipo_licenciatura",
-                          "propedeutico? \"Sí\":\"No\"",
-                          "programa_parcial ? \"Sí\":\"No\""
+                          "idioma",
+                          "periodo",
+                          "usuario_creacion",
+                          "fecha_creacion"
                         ]
                       },
                       "selectedRow" : {
@@ -6400,10 +6401,11 @@
       "exposed" : false
     },
     "lstCatCampus" : {
-      "type" : "json",
+      "type" : "url",
       "value" : [
-        "{}"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=99&f=eliminado=false"
       ],
+      "advancedOptions" : { },
       "exposed" : false
     },
     "processAgregarData" : {
@@ -6431,10 +6433,10 @@
       "type" : "expression",
       "value" : [
         "debugger;",
-        "if($data.gradoSelected === undefined||$data.gradoSelected ===null || $data.gradoSelected.length <1){",
-        "    return true;",
-        "}else{",
+        "if ($data.gradoSelected === undefined || $data.gradoSelected.length < 1) {",
         "    return false;",
+        "} else {",
+        "    return true;",
         "}"
       ],
       "exposed" : false
@@ -6807,14 +6809,15 @@
       "type" : "expression",
       "value" : [
         "debugger;",
-        "$data.campusSelected;"
+        "$data.campusSelected;",
+        "$data.gradoSelected;"
       ],
       "exposed" : false
     },
     "pSGRCatPosgrado_query" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPosgrado?q=getCat&p=0&c=99&f=is_eliminado=false&f=campus={{campusSelected.persistenceid}}"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPosgrado?q=getCat&p=0&c=99&f=is_eliminado=false&f=campus={{campusSelected.persistenceId}}"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -6822,7 +6825,7 @@
     "gradoSelected" : {
       "type" : "expression",
       "value" : [
-        "return \"hello\";"
+        "return $data.gradoSelected;"
       ],
       "exposed" : false
     }
