@@ -2095,6 +2095,8 @@ class CatalogosDAO {
 				throw new Exception("El objeto 'object' no debe ser nulo.");
 			} else if (object.CAMPUS == null || object.CAMPUS.isEmpty()) {
 				throw new Exception("El campo \"CAMPUS\" no debe ir vacío.");
+			} else if (object.grado == null || object.grado.isEmpty()) {
+				throw new Exception("El campo \"grado\" no debe ir vacío.");
 			} else if (object.clave == null || object.clave.isEmpty()) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío.");
 			} else if (object.nombre == null || object.nombre.isEmpty()) {
