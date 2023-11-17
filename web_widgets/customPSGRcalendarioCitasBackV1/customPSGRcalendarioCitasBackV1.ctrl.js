@@ -5,6 +5,8 @@ function($scope, $http, blockUI, $window) {
         return check;
     };
     
+    $scope.lstDuracion = [15, 30, 60];
+    
     $scope.guardarSesion = function(_sesion){
         let url = _sesion.persistenceid ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=insertSesion";
         

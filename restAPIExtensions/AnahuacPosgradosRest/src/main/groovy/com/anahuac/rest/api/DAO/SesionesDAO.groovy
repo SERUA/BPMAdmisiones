@@ -239,7 +239,7 @@ class SesionesDAO {
 			fechaHoraFormateada = formato.format(fecha);
 			errorLog += "4|";
 			pstm = con.prepareStatement(Statements.INSERT_SESION);
-			pstm.setInt(1, object.duracion_entrevista_minutos);
+			pstm.setInt(1, Integer.parseInt(object.duracion_entrevista_minutos));
 			pstm.setString(2, object.nombre);
 			pstm.setString(3, object.descripcion_entrevista);
 			pstm.setString(4, fechaHoraFormateada);
@@ -254,7 +254,7 @@ class SesionesDAO {
 				throw new Exception("No se pudo insertar el registro.");
 			}
 			
-			List<Map<String, String>> lstHorarios = generarHoras(object.duracion_entrevista_minutos);
+			List<Map<String, String>> lstHorarios = generarHoras(Integer.parseInt(object.duracion_entrevista_minutos));
 			errorLog += "8|";
 			for(Map<String, String> horario: lstHorarios) {
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
