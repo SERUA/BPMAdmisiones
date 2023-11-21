@@ -104,6 +104,7 @@ function($scope, $http, blockUI, $window) {
         let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
         
         $http.get(url).success(function(_data){
+            debugger;
             if(_data){
                 eventos = construirEventos(_data);
                 scheduler.clearAll();
@@ -119,6 +120,7 @@ function($scope, $http, blockUI, $window) {
     function construirEventos(_sesiones){
         let eventos = []
         for(let sesion of _sesiones){
+            debugger;
             var evento = {
                 "end_date": sesion.fecha_entrevista + " 21:00",
                 "id": sesion.persistenceId,
@@ -241,6 +243,7 @@ function($scope, $http, blockUI, $window) {
     });
   
     $scope.lstCampusByUser = [];
+
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
@@ -265,72 +268,74 @@ function($scope, $http, blockUI, $window) {
     $scope.filtroCampus = "";
 
     $scope.addFilter = function() {
-        if ($scope.filtroCampus != "Todos los campus") {
-            $scope.licenciaturas = [];
-            $scope.periodos = [];
-            $scope.filtroPeriodo = "";
-            $scope.filtroLicenciatura = "";
-            $scope.mostrarFiltros = true;
+        debugger;
+        $scope.idcampus = $scope.filtroCampus;
+        // if ($scope.filtroCampus != "Todos los campus") {
+        //     $scope.licenciaturas = [];
+        //     $scope.periodos = [];
+        //     $scope.filtroPeriodo = "";
+        //     $scope.filtroLicenciatura = "";
+        //     $scope.mostrarFiltros = true;
 
-            var filter = {
-                "columna": "CAMPUS",
-                "operador": "Igual a",
-                "valor": $scope.filtroCampus
-            };
+        //     var filter = {
+        //         "columna": "CAMPUS",
+        //         "operador": "Igual a",
+        //         "valor": $scope.filtroCampus
+        //     };
 
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-                var encontrado = false;
-                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-                    const element = $scope.properties.dataToSend.lstFiltro[index];
-                    if (element.columna == "CAMPUS") {
-                        $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
-                        $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
-                        $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
-                        for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                            if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                                $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                            }
-                        }
-                        encontrado = true
-                    }
-                }
+        //     if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+        //         var encontrado = false;
+        //         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+        //             const element = $scope.properties.dataToSend.lstFiltro[index];
+        //             if (element.columna == "CAMPUS") {
+        //                 $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
+        //                 $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
+        //                 $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
+        //                 for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+        //                     if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+        //                         $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+        //                     }
+        //                 }
+        //                 encontrado = true
+        //             }
+        //         }
   
-                if (!encontrado) {
-                    $scope.properties.dataToSend.lstFiltro.push(filter);
-                    for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                        if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                            $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                        }
-                    }
-                }
-                getLicenciasturas($scope.properties.campusSeleccionado);
-                getPeriodos($scope.properties.campusSeleccionado);
-            } else {
-                $scope.properties.dataToSend.lstFiltro.push(filter);
-                for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-                    if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-                        $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-                    }
-                }
-                getLicenciasturas($scope.properties.campusSeleccionado);
-                getPeriodos($scope.properties.campusSeleccionado);
-            }
+        //         if (!encontrado) {
+        //             $scope.properties.dataToSend.lstFiltro.push(filter);
+        //             for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+        //                 if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+        //                     $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+        //                 }
+        //             }
+        //         }
+        //         getLicenciasturas($scope.properties.campusSeleccionado);
+        //         getPeriodos($scope.properties.campusSeleccionado);
+        //     } else {
+        //         $scope.properties.dataToSend.lstFiltro.push(filter);
+        //         for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
+        //             if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
+        //                 $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
+        //             }
+        //         }
+        //         getLicenciasturas($scope.properties.campusSeleccionado);
+        //         getPeriodos($scope.properties.campusSeleccionado);
+        //     }
 
-        } else {
-            $scope.mostrarFiltros = false;
-            if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-                var encontrado = false;
-                for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-                    const element = $scope.properties.dataToSend.lstFiltro[index];
-                    if (element.columna == "CAMPUS") {
-                        $scope.properties.dataToSend.lstFiltro.splice(index, 1);
-                        $scope.properties.campusSeleccionado = null;
-                    }
-                }
-            } else {
-                $scope.properties.campusSeleccionado = null;
-            }
-        }
+        // } else {
+        //     $scope.mostrarFiltros = false;
+        //     if ($scope.properties.dataToSend.lstFiltro.length > 0) {
+        //         var encontrado = false;
+        //         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+        //             const element = $scope.properties.dataToSend.lstFiltro[index];
+        //             if (element.columna == "CAMPUS") {
+        //                 $scope.properties.dataToSend.lstFiltro.splice(index, 1);
+        //                 $scope.properties.campusSeleccionado = null;
+        //             }
+        //         }
+        //     } else {
+        //         $scope.properties.campusSeleccionado = null;
+        //     }
+        // }
   
     }
 
