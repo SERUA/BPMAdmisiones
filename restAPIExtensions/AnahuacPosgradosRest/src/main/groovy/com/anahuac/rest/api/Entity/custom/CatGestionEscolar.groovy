@@ -14,7 +14,7 @@ class CatGestionEscolar {
 	private String inscripcion_agosto;
 	private Boolean is_eliminado;
 	private String usuario_creacion;
-	private Date fecha_creacion;
+	private String fecha_creacion;
 	private String campus;
 	private String case_id;
 	private String Tipo_licenciatura;
@@ -34,6 +34,8 @@ class CatGestionEscolar {
 	private String nombre_documento;
 	private Boolean es_otro;
 	private Long posgrado_pid;
+	private Long periodo_pid;
+	private Long orden;
 	
 	
 	public Long getPersistenceId() {
@@ -114,10 +116,10 @@ class CatGestionEscolar {
 	public void setUsuario_creacion(String usuario_creacion) {
 		this.usuario_creacion = usuario_creacion;
 	}
-	public Date getFecha_creacion() {
+	public String getFecha_creacion() {
 		return fecha_creacion;
 	}
-	public void setFecha_creacion(Date fecha_creacion) {
+	public void setFecha_creacion(String fecha_creacion) {
 		this.fecha_creacion = fecha_creacion;
 	}
 	public String getCampus() {
@@ -233,5 +235,17 @@ class CatGestionEscolar {
 	}
 	public void setPosgrado_pid(Long posgrado_pid) {
 		this.posgrado_pid = posgrado_pid;
+	}
+	public Long getPeriodo_pid() {
+		return periodo_pid;
+	}
+	public void setPeriodo_pid(Long periodo_pid) {
+		this.periodo_pid = periodo_pid;
+	}
+	public Long getOrden() {
+		return orden;
+	}
+	public void setOrden(Long orden) {
+		this.orden = orden;
 	}
 }

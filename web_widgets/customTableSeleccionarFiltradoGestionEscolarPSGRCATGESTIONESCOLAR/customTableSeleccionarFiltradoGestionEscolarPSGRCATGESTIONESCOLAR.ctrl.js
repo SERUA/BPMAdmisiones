@@ -345,6 +345,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
 
         doRequest("POST", $scope.properties.urlPost);
     }
+    /*
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         debugger;
         if (newValue !== undefined) {
@@ -360,7 +361,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         }
         console.log($scope.properties.dataToSend);
     });
-
+    */
     function doRequestEstado(method, url, params) {
         debugger;
         return $http({

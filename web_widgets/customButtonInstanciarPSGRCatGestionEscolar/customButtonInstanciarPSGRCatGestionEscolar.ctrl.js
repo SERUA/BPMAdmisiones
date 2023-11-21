@@ -43,6 +43,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         debugger;
         vm.busy = true;
         $scope.properties.dataToSend.lstCatGestionEscolarInput[0].CAMPUS = $scope.properties.campusSelected;
+        $scope.properties.dataToSend.lstCatGestionEscolarInput[0].grado = $scope.properties.gradoSelected;
 
         $http.post(urlInsert, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");
