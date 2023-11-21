@@ -8,7 +8,7 @@ function($scope, $http, blockUI, $window) {
     $scope.lstDuracion = [15, 30, 60];
     
     $scope.guardarSesion = function(_sesion){
-        let url = _sesion.persistenceid ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=insertSesion";
+        let url = !_sesion.persistenceId ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=updateSesion";
         
         $http.post(url, $scope.sesion).success(function(_data){
             $scope.sesion = {
@@ -16,11 +16,11 @@ function($scope, $http, blockUI, $window) {
                 "descripcion_entrevista": "",
                 "fecha_entrevista": "",
                 "duracion_entrevista_minutos": "",
-                "id_campus": ""
+                "campus": ""
             }
             
             $scope.navVar = "calendario";
-            
+            swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
         }).error(function(data){
             swal("Algo ha fallado", data.error, "warning");
@@ -37,7 +37,7 @@ function($scope, $http, blockUI, $window) {
             "descripcion_entrevista": "",
             "fecha_entrevista": "",
             "duracion_entrevista_minutos": "",
-            "id_campus": ""
+            "campus": $scope.idcampus
         }
     }
     
@@ -83,14 +83,24 @@ function($scope, $http, blockUI, $window) {
         let encontrado = false;
         for (let evento of eventos) {
             if (evento.id === parseInt(_id)) {
-                $scope.seleccionada = angular.copy(evento);
+                
+                for(let sesion of $scope.sesiones){
+                    if(evento.id === sesion.persistenceId){
+                        $scope.sesion = sesion;
+                        break;
+                    }
+                }
+
                 let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
+
                 $http.get(url).success(function(_data){
                     $scope.entrevistas = angular.copy(_data);
                     $scope.$apply();
-                    encontrado = true;
-                    // $("#modalConfirmar").modal("show");
-                })
+                });
+                
+                $scope.navVar = "sesion";
+                encontrado = true;
+                break;
             }
         }
 
@@ -98,14 +108,15 @@ function($scope, $http, blockUI, $window) {
             swal("Evento no encontrado", "", "warning");
         }
     }
+
     var eventos = [];
 
     function loadFechas(){
-        let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
+        let url = "../API/extension/posgradosRestGet?url=getSesionesV2&idcampus=" + $scope.idcampus;
         
         $http.get(url).success(function(_data){
-            debugger;
             if(_data){
+                $scope.sesiones = _data;
                 eventos = construirEventos(_data);
                 scheduler.clearAll();
                 scheduler.parse(eventos, "json");
@@ -115,18 +126,15 @@ function($scope, $http, blockUI, $window) {
         });
     }
 
-    loadFechas();
-
     function construirEventos(_sesiones){
-        let eventos = []
+        let eventos = [];
         for(let sesion of _sesiones){
-            debugger;
             var evento = {
-                "end_date": sesion.fecha_entrevista + " 21:00",
+                "end_date": sesion.fecha_entrevista_back + " 21:00",
                 "id": sesion.persistenceId,
                 "color": "#ff5900",
                 "text": sesion.nombre,
-                "start_date": sesion.fecha_entrevista + " 7:00"
+                "start_date": sesion.fecha_entrevista_back + " 7:00"
             };
 
             eventos.push(evento);
@@ -206,8 +214,7 @@ function($scope, $http, blockUI, $window) {
         $scope.properties.hideCalendario = false;
     }
     
-    
-   $scope.getCampusByGrupo = function(campus) {
+    $scope.getCampusByGrupo = function(campus) {
         var retorno = "";
         for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
             if (campus == $scope.properties.lstCampus[i].grupo_bonita) {
@@ -223,6 +230,7 @@ function($scope, $http, blockUI, $window) {
     }
   
     $scope.lstMembership = [];
+
     $scope.$watch("properties.idUsuario", function(newValue, oldValue) {
         if (newValue !== undefined) {
             var req = {
@@ -231,14 +239,14 @@ function($scope, $http, blockUI, $window) {
             };
   
             return $http(req)
-                .success(function(data, status) {
-                    $scope.lstMembership = data;
-                    $scope.campusByUser();
-                })
-                .error(function(data, status) {
-                    console.error(data);
-                })
-                .finally(function() {});
+            .success(function(data, status) {
+                $scope.lstMembership = data;
+                $scope.campusByUser();
+            })
+            .error(function(data, status) {
+                console.error(data);
+            })
+            .finally(function() {});
         }
     });
   
@@ -246,8 +254,7 @@ function($scope, $http, blockUI, $window) {
 
     $scope.campusByUser = function() {
         var resultado = [];
-        // var isSerua = true;
-        resultado.push("Todos los campus")
+
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -268,82 +275,23 @@ function($scope, $http, blockUI, $window) {
     $scope.filtroCampus = "";
 
     $scope.addFilter = function() {
-        debugger;
         $scope.idcampus = $scope.filtroCampus;
-        // if ($scope.filtroCampus != "Todos los campus") {
-        //     $scope.licenciaturas = [];
-        //     $scope.periodos = [];
-        //     $scope.filtroPeriodo = "";
-        //     $scope.filtroLicenciatura = "";
-        //     $scope.mostrarFiltros = true;
 
-        //     var filter = {
-        //         "columna": "CAMPUS",
-        //         "operador": "Igual a",
-        //         "valor": $scope.filtroCampus
-        //     };
+        for(let item of $scope.lstCampus){
+            if(item.descripcion === $scope.filtroCampus){
+                $scope.idcampus = item.persistenceid;
+                break;
+            }
+        }
 
-        //     if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-        //         var encontrado = false;
-        //         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-        //             const element = $scope.properties.dataToSend.lstFiltro[index];
-        //             if (element.columna == "CAMPUS") {
-        //                 $scope.properties.dataToSend.lstFiltro[index].columna = filter.columna;
-        //                 $scope.properties.dataToSend.lstFiltro[index].operador = filter.operador;
-        //                 $scope.properties.dataToSend.lstFiltro[index].valor = $scope.filtroCampus;
-        //                 for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-        //                     if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-        //                         $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-        //                     }
-        //                 }
-        //                 encontrado = true
-        //             }
-        //         }
-  
-        //         if (!encontrado) {
-        //             $scope.properties.dataToSend.lstFiltro.push(filter);
-        //             for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-        //                 if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-        //                     $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-        //                 }
-        //             }
-        //         }
-        //         getLicenciasturas($scope.properties.campusSeleccionado);
-        //         getPeriodos($scope.properties.campusSeleccionado);
-        //     } else {
-        //         $scope.properties.dataToSend.lstFiltro.push(filter);
-        //         for (let index2 = 0; index2 < $scope.lstCampus.length; index2++) {
-        //             if ($scope.lstCampus[index2].descripcion === $scope.filtroCampus) {
-        //                 $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
-        //             }
-        //         }
-        //         getLicenciasturas($scope.properties.campusSeleccionado);
-        //         getPeriodos($scope.properties.campusSeleccionado);
-        //     }
-
-        // } else {
-        //     $scope.mostrarFiltros = false;
-        //     if ($scope.properties.dataToSend.lstFiltro.length > 0) {
-        //         var encontrado = false;
-        //         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
-        //             const element = $scope.properties.dataToSend.lstFiltro[index];
-        //             if (element.columna == "CAMPUS") {
-        //                 $scope.properties.dataToSend.lstFiltro.splice(index, 1);
-        //                 $scope.properties.campusSeleccionado = null;
-        //             }
-        //         }
-        //     } else {
-        //         $scope.properties.campusSeleccionado = null;
-        //     }
-        // }
-  
+        loadFechas();
     }
 
   
     $scope.getCatCampus = function() {
         var req = {
             method: "GET",
-            url: "../API/bdm/businessData/com.anahuac.catalogos.CatCampus?q=find&p=0&c=100"
+            url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=100&f=eliminado=false"
         };
   
         return $http(req)
@@ -352,7 +300,8 @@ function($scope, $http, blockUI, $window) {
                 for (var index in data) {
                     $scope.lstCampus.push({
                         "descripcion": data[index].descripcion,
-                        "valor": data[index].grupo_bonita
+                        "valor": data[index].grupo_bonita,
+                        "persistenceid":  data[index].persistenceId
                     })
                 }
             })

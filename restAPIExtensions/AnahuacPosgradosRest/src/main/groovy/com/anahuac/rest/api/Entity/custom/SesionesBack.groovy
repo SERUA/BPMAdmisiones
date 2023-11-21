@@ -1,6 +1,6 @@
 package com.anahuac.rest.api.Entity.custom
 
-class SesionesPosibles {
+class SesionesBack {
 	private Long persistenceId;
 	private String persistenceId_string;
 	private String fecha_entrevista;
@@ -8,6 +8,7 @@ class SesionesPosibles {
 	private String descripcion_entrevista;
 	private Long campus;
 	private Integer duracion_entrevista_minutos;
+	private fecha_entrevista_back;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -51,5 +52,10 @@ class SesionesPosibles {
 	public void setCampus(Long campus) {
 		this.campus = campus;
 	}
-	
+	public java.lang.Object getFecha_entrevista_back() {
+		return fecha_entrevista_back;
+	}
+	public void setFecha_entrevista_back(java.lang.Object fecha_entrevista_back) {
+		this.fecha_entrevista_back = fecha_entrevista_back;
+	}
 }
