@@ -2088,15 +2088,16 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper()
 			def jsonObject = jsonSlurper.parseText(jsonData)
 			
-			// Accede al primer elemento del arreglo lstCatCampusInput (suponiendo que haya solo uno)
 			def object = jsonObject.lstCatGestionEscolarInput[0]
 	
 			if (object == null) {
 				throw new Exception("El objeto 'object' no debe ser nulo.");
 			} else if (object.CAMPUS == null || object.CAMPUS.isEmpty()) {
 				throw new Exception("El campo \"CAMPUS\" no debe ir vacío.");
-			} else if (object.grado == null || object.grado.isEmpty()) {
+			} else if (object.grado == null) {
 				throw new Exception("El campo \"grado\" no debe ir vacío.");
+			} else if (object.orden == null) {
+				throw new Exception("El campo \"orden\" no debe ir vacío.");
 			} else if (object.clave == null || object.clave.isEmpty()) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío.");
 			} else if (object.nombre == null || object.nombre.isEmpty()) {
@@ -2109,17 +2110,21 @@ class CatalogosDAO {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
 			} else if (object.tipoLicenciatura == null || object.tipoLicenciatura.isEmpty()) {
 				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío.");
-			} else if (object.inscripcionenero == null || object.inscripcionenero.isEmpty()) {
-				throw new Exception("El campo \"inscripcionenero\" no debe ir vacío.");
-			} else if (object.inscripcionMayo == null || object.inscripcionMayo.isEmpty()) {
-				throw new Exception("El campo \"inscripcionMayo\" no debe ir vacío.");
-			} else if (object.inscripcionagosto == null || object.inscripcionagosto.isEmpty()) {
-				throw new Exception("El campo \"inscripcionagosto\" no debe ir vacío.");
-			} else if (object.inscripcionSeptiembre == null || object.inscripcionSeptiembre.isEmpty()) {
-				throw new Exception("El campo \"inscripcionSeptiembre\" no debe ir vacío.");
-			} else if (object.urlImgLicenciatura == null || object.urlImgLicenciatura.isEmpty()) {
-				throw new Exception("El campo \"urlImgLicenciatura\" no debe ir vacío.");
-			} else if (object.idioma == null || object.idioma.isEmpty()) {
+			} else if (object.periodo == null) {
+				throw new Exception("El campo \"periodo\" no debe ir vacío.");
+			} 
+//			else if (object.inscripcionenero == null || object.inscripcionenero.isEmpty()) {
+//				throw new Exception("El campo \"inscripcionenero\" no debe ir vacío.");
+//			} else if (object.inscripcionMayo == null || object.inscripcionMayo.isEmpty()) {
+//				throw new Exception("El campo \"inscripcionMayo\" no debe ir vacío.");
+//			} else if (object.inscripcionagosto == null || object.inscripcionagosto.isEmpty()) {
+//				throw new Exception("El campo \"inscripcionagosto\" no debe ir vacío.");
+//			} else if (object.inscripcionSeptiembre == null || object.inscripcionSeptiembre.isEmpty()) {
+//				throw new Exception("El campo \"inscripcionSeptiembre\" no debe ir vacío.");
+//			} else if (object.urlImgLicenciatura == null || object.urlImgLicenciatura.isEmpty()) {
+//				throw new Exception("El campo \"urlImgLicenciatura\" no debe ir vacío.");
+//			} 
+			else if (object.idioma == null || object.idioma.isEmpty()) {
 				throw new Exception("El campo \"idioma\" no debe ir vacío.");
 			} else if (object.usuarioCreacion == null || object.usuarioCreacion.isEmpty()) {
 				throw new Exception("El campo \"usuarioCreacion\" no debe ir vacío.");
@@ -2138,22 +2143,33 @@ class CatalogosDAO {
 			pstm.setString(6, object.descripcion); // DESCRIPCION
 			pstm.setString(7, object.enlace); // ENLACE
 			pstm.setString(8, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
-			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
-			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
-			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
-			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
-			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
-			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
+//			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
+//			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
+//			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
+//			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
+//			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
+//			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
+			pstm.setBoolean(9, false); // PROPEDEUTICO siempre se guarda como false
+			pstm.setBoolean(10, false); // PROGRAMA_PARCIAL siempre se guarda como false
+			pstm.setBoolean(11, false); // IS_MEDICINA siempre se guarda como false
 			pstm.setString(12, object.tipoLicenciatura); // TIPO_LICENCIATURA
-			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
-			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
-			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
-			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+//			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
+//			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
+//			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
+//			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
+//			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+			pstm.setString(13, ""); // INSCRIPCION_ENERO
+			pstm.setString(14, ""); // INSCRIPCION_MAYO
+			pstm.setString(15, ""); // INSCRIPCION_AGOSTO
+			pstm.setString(16, ""); // INSCRIPCION_SEPTIEMBRE
+			pstm.setString(17, ""); // URL_IMG_LICENCIATURA
 			pstm.setString(18, object.idioma); // IDIOMA
 			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
-			pstm.setLong(20, object.CAMPUS.persistenceid);
-
+			pstm.setLong(20, object.CAMPUS.persistenceId);
+			pstm.setLong(21, object.orden);
+			pstm.setLong(22, object.periodo);
+			pstm.setLong(23, object.grado.persistenceId);
+			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
@@ -2540,12 +2556,12 @@ class CatalogosDAO {
 				//row.setCaseId(rs.getString("caseId"))
 				row.setDescripcion(rs.getString("descripcion"))
 				row.setEnlace(rs.getString("enlace"))
-				try {
-					row.setFecha_creacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
-				} catch (Exception e) {
-					LOGGER.error "[ERROR] " + e.getMessage();
-					errorLog += ", " + e.getMessage()
-				}
+//				try {
+//					row.setFecha_creacion(new java.util.Date(rs.getDate("fechaCreacion").getTime()))
+//				} catch (Exception e) {
+//					LOGGER.error "[ERROR] " + e.getMessage();
+//					errorLog += ", " + e.getMessage()
+//				}
 				row.setClave(rs.getString("clave"));
 				row.setInscripcion_agosto(rs.getString("inscripcion_agosto"))
 				row.setInscripcion_enero(rs.getString("inscripcion_enero"))
@@ -2563,9 +2579,13 @@ class CatalogosDAO {
 				row.setInscripcion_mayo(rs.getString("inscripcion_mayo"))
 				row.setInscripcion_septiembre(rs.getString("inscripcion_septiembre"))
 				row.setUrl_img_licenciatura(rs.getString("url_img_licenciatura"))
+				row.setFecha_creacion(rs.getString("fecha_creacion"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
 				row.setIs_medicina(rs.getBoolean("is_medicina"))
 				row.setIdioma(rs.getString("idioma"))
-				
+				row.setOrden(rs.getLong("orden"))
+				row.setPeriodo_pid(rs.getLong("periodo_pid"))
+				row.setPosgrado_pid(rs.getLong("posgrado_pid"))
 
 				rows.add(row)
 			}
