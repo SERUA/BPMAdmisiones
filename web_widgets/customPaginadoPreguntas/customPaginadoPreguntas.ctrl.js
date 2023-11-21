@@ -149,7 +149,12 @@ function($scope, $http) {
         if ($scope.valorSeleccionado > Math.ceil($scope.properties.value / 1)) {
             $scope.valorSeleccionado = Math.ceil($scope.properties.value / 1);
         }
-        $scope.seleccionarPagina($scope.valorSeleccionado);
+
+        if($scope.objcontestada.pregunta === 567 && $scope.objcontestada.respuesta === null ){
+            getDatosRespuestas();
+        } else {
+            $scope.seleccionarPagina($scope.valorSeleccionado);
+        }
     }
 
     $scope.anterior = function() {
@@ -462,8 +467,6 @@ function($scope, $http) {
 
         });
     }
-    
-    
             
     function showConfirm(){
         Swal.fire({

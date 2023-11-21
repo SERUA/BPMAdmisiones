@@ -6721,7 +6721,7 @@ class SesionesDAO {
 		try {
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion()
-			pstm = con.prepareStatement("SELECT correoelectronico,dt.idbanner, cr.clave from solicituddeadmision sda inner join detallesolicitud dt on dt.caseid::bigint=sda.caseid inner join catresidencia cr on dt.catresidencia_pid=cr.persistenceid where sda.catcampus_pid=? AND (dt.idbanner is not null or dt.idbanner!='') order by sda.persistenceid desc limit 100 ")
+			pstm = con.prepareStatement("SELECT correoelectronico,dt.idbanner, cr.clave from solicituddeadmision sda inner join detallesolicitud dt on dt.caseid::bigint=sda.caseid inner join catresidencia cr on dt.catresidencia_pid=cr.persistenceid where sda.catcampus_pid=? AND (dt.idbanner is not null or dt.idbanner!='') order by sda.persistenceid desc limit 1000 ")
 			pstm.setLong(1, campus_pid)
 			rs = pstm.executeQuery()
 			rows = new ArrayList < Map < String, Object >> ();
