@@ -381,4 +381,44 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
         var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseId;
         window.open(url, '_blank');
     }
+
+    $scope.previewModal = function(data) {
+        debugger;
+        var dataToSend = {
+            "campus": data.campus,
+            "correo": data.para,
+            "codigo": data.codigo,
+            "mensaje": data.mensaje,
+            "isEnviar": false
+        }
+        
+        debugger;
+        let url = "/bonita/API/extension/posgradosRest?url=generateHtml&p=0&c=10";
+
+        if(dataToSend.codigo.toLowerCase().includes("sdae")){
+            url  = "/bonita/API/extension/posgradosRest?url=generateHtmlSDAE&p=0&c=10";
+        }
+
+        doRequest("POST", url, {}, dataToSend, function(data) {
+            $scope.firma = angular.copy(data.data)
+            var value = data.data;
+            var element = document.getElementById("firma");
+            if (dataToSend.codigo == 'cambios' || dataToSend.codigo == 'rechazada' || dataToSend.codigo == 'listaroja') {
+                // doRequest("GET", "/API/bdm/businessData/com.anahuac.catalogos.CatRegistro?q=findByCorreoelectronico&p=0&c=999&f=correoelectronico=" + dataToSend.correo, null, null, function(response) {
+                //     doRequest("GET", "/API/bdm/businessData/com.anahuac.model.DetalleSolicitud?q=findByCaseId&p=0&c=999&f=caseId=" + response[0].caseId, null, null, function(response) {
+                //         value = value[0];
+                //         value = value.replace("[COMENTARIOS-CAMBIO]", response[0].observacionesCambio)
+                //         value = value.replace("[RECHAZO-COMENTARIOS]", response[0].observacionesRechazo)
+                //         value = value.replace("[LISTAROJA-COMENTARIOS]", response[0].observacionesListaRoja)
+                //         element.innerHTML = value
+                //         $(`#previewFirma`).modal('show')
+                //     })
+                // })
+            } else {
+                element.innerHTML = value
+                $(`#previewFirma`).modal('show')
+            }
+        })
+
+    }
 }
