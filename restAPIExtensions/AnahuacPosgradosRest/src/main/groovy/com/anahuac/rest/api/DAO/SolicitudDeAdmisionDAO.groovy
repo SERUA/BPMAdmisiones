@@ -454,4 +454,89 @@ class SolicitudDeAdmisionDAO {
 		}
 		return resultado
 	}
+	
+	public Result updateCorreccionesSolicitud(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			//SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			//SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			//String fechaHoraFormateada = formato.format(new Date());
+			
+			if (object.datosPersonales.equals("") || object.datosPersonales == null) {
+				throw new Exception("El campo \"datosPersonales\" no debe ir vacío");
+			} else if(object.datosPersonales.nombre.equals("") || object.datosPersonales.nombre == null) {
+				throw new Exception("El campo \"Nombre\" no debe ir vacío");
+			} else if(object.datosPersonales.apellido_paterno.equals("") || object.datosPersonales.apellido_paterno == null) {
+				throw new Exception("El campo \"Apellido paterno\" no debe ir vacío");
+			} else if(object.datosPersonales.apellido_materno.equals("") || object.datosPersonales.apellido_materno == null) {
+				throw new Exception("El campo \"Apellido materno\" no debe ir vacío");
+			} else if(object.datosPersonales.curp.equals("") || object.datosPersonales.curp == null) {
+				throw new Exception("El campo \"CURP\" no debe ir vacío");
+				
+			} else if (object.datosContacto.equals("") || object.datosContacto == null) {
+				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
+			} else if(object.datosContacto.correo_contacto.equals("") || object.datosContacto.correo_contacto == null) {
+				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
+			
+			} else if (object.datosPrograma.equals("") || object.datosPrograma == null) {
+				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
+			} else if(object.datosPrograma.campus.equals("") || object.datosPrograma.correo_contacto == null) {
+				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
+			} else if(object.datosPrograma.correo_contacto.equals("") || object.datosPrograma.correo_contacto == null) {
+				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
+			}
+			
+			
+			
+			else if(object.fecha_inicio.equals("") || object.fecha_inicio == null) {
+				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
+			} else if(object.fecha_fin.equals("") || object.fecha_fin == null) {
+				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
+			} else if(object.id.equals("") || object.id == null) {
+				throw new Exception("El campo \"Id\" no debe ir vacío");
+			}
+			Date fecha_inicio = formato.parse(object.fecha_inicio);
+			Date fecha_fin = formato.parse(object.fecha_fin);
+			
+			Long idCampus = 0L;
+			if(object.id_campus == null) {
+				idCampus = 0L;
+			} else {
+				idCampus = Long.valueOf(object.id_campus);
+			}
+			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPERIODO);
+			pstm.setString(1,  object.clave);
+			pstm.setString(2, object.descripcion);
+			pstm.setString(3, formato.format(fecha_inicio));
+			pstm.setString(4, formato.format(fecha_fin));
+			pstm.setString(5, object.id);
+			pstm.setBoolean(6, object.is_anual);
+			pstm.setBoolean(7, false);
+			pstm.setBoolean(8, object.is_semestral);
+			pstm.setLong(9, object.persistenceid);
+			
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatPeriodo] " + e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}	
 }
