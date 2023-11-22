@@ -71,9 +71,7 @@ function ($scope) {
     
     $scope.selectStepManually = function(_index){
         if(_index <= $scope.maxCompletedStep){
-            if(_index!== 0){
-                $scope.properties.selectedIndex = _index;
-            }
+            $scope.properties.selectedIndex = _index;
         }
     }
     

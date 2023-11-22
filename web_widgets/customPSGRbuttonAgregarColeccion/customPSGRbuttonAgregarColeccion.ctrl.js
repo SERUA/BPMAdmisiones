@@ -88,16 +88,44 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         else if(!$scope.properties.valueToAdd.promedio){
             mensaje = "El campo 'Promedio' no debe ir vacío";
             valido = false;
+        } else if($scope.properties.valueToAdd.pais.descripcion == "Estados unidos" && !checkPromedioExtranjero($scope.properties.valueToAdd.promedio)){
+            mensaje = "El campo 'Promedio' tiene un formato no valido";
+            valido = false;
+        } else if($scope.properties.valueToAdd.pais.descripcion != "Estados unidos" && !checkPromedioDecimal($scope.properties.valueToAdd.promedio)){
+            mensaje = "El campo 'Promedio' tiene un formato no valido";
+            valido = false;
         } else if(!$scope.properties.valueToAdd.pais){
             mensaje = "El campo 'País' no debe ir vacío";
             valido = false;
-        }
+        } 
 
         if(!valido){
             swal("¡Atención!", mensaje, "warning");
         }
 
         return valido;
+    }
+
+    function checkPromedioDecimal(promedio) {
+        promedio = promedio.toString();
+        if (promedio.length == 1) {
+            return /[1-9]/.test(promedio);
+        }
+        else if (promedio.length == 3) {
+            return /[1-9]/.test(promedio[0]) && promedio[1] == "." && /[1-9]/.test(promedio[2]);
+        }
+        else return false;
+    }
+    function checkPromedioExtranjero(promedio) {
+        promedio = promedio.trim().toUpperCase();
+        $scope.properties.valueToAdd.promedio = promedio;
+        if (promedio.length == 1) {
+            return "ABCDEF".includes(promedio)
+        }
+        else if (promedio.length == 2) {
+            return "ABCDEF".includes(promedio[0]) && "+-".includes(promedio[1])
+        }
+        else return false;
     }
 
     function addToCollection() {

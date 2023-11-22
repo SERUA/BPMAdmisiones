@@ -220,15 +220,52 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
     this.forceSubmit = function (event) {
         $scope.procesar = false;
-        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + new Date().getTime() + "_" + event.target.files[0].name;
+        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + event.target.files[0].name + "_" + new Date().getTime();
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         
+        let errorMsg = "";
+        $scope.properties.isImagen = "false";
+        $scope.properties.isPDF = "false";
+        $scope.properties.isXML = "false";
+        $scope.procesar = false;
+        $scope.properties.urlretorno = "";
+        switch ($scope.properties.tipoDocumento) {
+            case "pdf": 
+                if (event.target.files[0].type === "application/pdf") {
+                    $scope.properties.isPDF = "true";
+                    $scope.procesar = true;
+                    handleFileSelect(event);
+                }
+                else errorMsg = "Solo puede agregar archivos PDF";
+                break;
+            case "imagen": 
+                if (event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png") {
+                    $scope.properties.isImagen = "true";
+                    $scope.procesar = true;
+                    handleFileSelectImg(event);
+                }
+                else errorMsg = "Solo puede agregar imagenes PNG o JPEG";
+                break;
+            case "xml": 
+                if (event.target.files[0].type === "application/xml") {
+                    $scope.properties.isXML = "true";
+                    $scope.procesar = true;
+                    //handleFileSelectImg(event);
+                }
+                else errorMsg = "Solo puede agregar archivos XML";
+                break;
+            default:
+                break;
+        }
+        /*
         if (event.target.files[0].type === "image/jpeg") {
             $scope.properties.isImagen = "true";
             $scope.properties.isPDF = "false";
             $scope.procesar = true;
             if($scope.properties.tipoDocumento === "pdf"){
+                swal("!Formato no valido!", "Solo puede agregar archivos PDF o imagenes JPG y PNG", "warning");
+                $scope.properties.urlretorno = "";
                 handleFileSelect(event);
             } else {
                 handleFileSelectImg(event);
@@ -252,6 +289,10 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
             $scope.properties.isPDF = "true";
             $scope.properties.isImagen = "true";
             $scope.properties.urlretorno = "";
+        }*/
+
+        if (errorMsg) {
+            swal("!Formato no valido!", errorMsg, "warning");
         }
 
         if ($scope.procesar === true) {
