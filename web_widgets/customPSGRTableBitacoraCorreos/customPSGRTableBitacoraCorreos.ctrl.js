@@ -361,10 +361,10 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
                     "isEnviar": true
                 };
 
-                let url = "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10";
+                let url = "/bonita/API/extension/posgradosRest?url=generateHtml&p=0&c=10";
                 
                 if(dataToSend.codigo.toLowerCase().includes("sdae")){
-                    url = "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10";
+                    url = "/bonita/API/extension/posgradosRest?url=generateHtmlSDAE&p=0&c=10";
                 }
 
                 doRequest("POST", url, {}, dataToSend, function(data) {

@@ -68,7 +68,6 @@ class SesionesDAO {
 		return sDate;
 	}
 	
-	//Convert Date to Calendar
 	private Calendar dateToCalendar(Date date) {
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(date);
@@ -86,14 +85,10 @@ class SesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			errorLog += "1|"
 			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
-			errorLog += "2|"
 			rs = pstm.executeQuery();
-			errorLog += "3|";
 			
 			while (rs.next()) {
-				errorLog += "3.1|"
 				row = new SesionesPosibles();
 				
 				row.setPersistenceId(rs.getLong("persistenceid"));
@@ -133,7 +128,7 @@ class SesionesDAO {
 			return fechaFormateada;
 		} catch (Exception e) {
 			e.printStackTrace();
-			return null; // Manejo de errores
+			return null;
 		}
 	}
 	
@@ -169,13 +164,10 @@ class SesionesDAO {
 			}
 			
 			resultado.setData(rows);
-			resultado.setSuccess(true)
+			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			if(con != null) {
-				con.rollback();
-			}
 		} finally {
 			resultado.setError_info(errorLog);
 			if(con != null) {
@@ -379,9 +371,6 @@ class SesionesDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
-			if(con != null) {
-				con.rollback();
-			}
 		} finally {
 			resultado.setError_info(errorLog);
 			if(con != null) {
