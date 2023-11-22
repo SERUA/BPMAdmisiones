@@ -36,6 +36,8 @@ class CatGestionEscolar {
 	private Long posgrado_pid;
 	private Long periodo_pid;
 	private Long orden;
+	private String posgrado;
+	private String periodo;
 	
 	
 	public Long getPersistenceId() {
@@ -247,5 +249,17 @@ class CatGestionEscolar {
 	}
 	public void setOrden(Long orden) {
 		this.orden = orden;
+	}
+	public String getPeriodo() {
+		return periodo;
+	}
+	public void setPeriodo(String periodo) {
+		this.periodo = periodo;
+	}
+	public String getPosgrado() {
+		return posgrado;
+	}
+	public void setPosgrado(String posgrado) {
+		this.posgrado = posgrado;
 	}
 }
