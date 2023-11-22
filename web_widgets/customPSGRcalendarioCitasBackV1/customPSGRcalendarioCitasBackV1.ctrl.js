@@ -6,6 +6,7 @@ function($scope, $http, blockUI, $window) {
     };
     
     $scope.lstDuracion = [15, 30, 60];
+    $scope.responsables = [];
     
     $scope.guardarSesion = function(_sesion){
         let url = !_sesion.persistenceId ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=updateSesion";
@@ -18,7 +19,7 @@ function($scope, $http, blockUI, $window) {
                 "duracion_entrevista_minutos": "",
                 "campus": ""
             }
-            
+            generarHoras();
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
@@ -56,9 +57,7 @@ function($scope, $http, blockUI, $window) {
     $scope.sesion = [];
     $scope.aplicaciones = [];
     $scope.jsonEntrevista = {};
-
     $scope.fechaSelected = "";
-
 
     scheduler.init('scheduler_here', new Date(), window.mobileCheck() ? "day" : "month");
     scheduler.config.drag_resize = false;
@@ -98,8 +97,10 @@ function($scope, $http, blockUI, $window) {
                     $scope.$apply();
                 });
                 
+                
                 $scope.navVar = "sesion";
                 encontrado = true;
+                generarHoras(30);
                 break;
             }
         }
@@ -124,6 +125,11 @@ function($scope, $http, blockUI, $window) {
         }).error(function(){
 
         });
+    }
+    
+    $scope.getInfoResponsable = function(_usuario){
+        $scope.usuario = _usuario;
+        $("#modalhorarios").modal("show");
     }
 
     function construirEventos(_sesiones){
@@ -286,7 +292,6 @@ function($scope, $http, blockUI, $window) {
 
         loadFechas();
     }
-
   
     $scope.getCatCampus = function() {
         var req = {
@@ -295,20 +300,166 @@ function($scope, $http, blockUI, $window) {
         };
   
         return $http(req)
-            .success(function(data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupo_bonita,
-                        "persistenceid":  data[index].persistenceId
-                    })
-                }
-            })
-            .error(function(data, status) {
-                console.error(data);
-            });
+        .success(function(data, status) {
+            $scope.lstCampus = [];
+            for (var index in data) {
+                $scope.lstCampus.push({
+                    "descripcion": data[index].descripcion,
+                    "valor": data[index].grupo_bonita,
+                    "persistenceid":  data[index].persistenceId
+                })
+            }
+        })
+        .error(function(data, status) {
+            console.error(data);
+        });
     }
 
     $scope.getCatCampus();
+    
+    $scope.generarHoras = function(_duracion){
+        generarHoras(_duracion);
+    }
+    
+    function generarHoras(_duracion) {
+        const horasList = [];
+        $scope.horarios = [];
+        const formatoHora = new Intl.DateTimeFormat('en-US', {
+            hour: 'numeric',
+            minute: 'numeric',
+            hour12: false
+        });
+    
+        let hora = new Date();
+        hora.setHours(9, 0, 0, 0); 
+    
+        while (hora.getHours() <= 19) {
+            let horario = {"hora_inicio":"", "hora_fin":""}
+            horario["hora_inicio"] = formatoHora.format(hora);
+            hora.setMinutes(hora.getMinutes() + _duracion);
+            horario["hora_fin"] = formatoHora.format(hora);
+            horario["cita_entrevista"] = {
+                "persistenceId": $scope.sesion.persistenceId
+            }, 
+            horario["responsables"] = [];
+            
+            $scope.horarios.push(horario);
+        }
+    }
+    
+    $scope.$watch("properties.roles", function(){
+        if($scope.properties.roles){
+            getUsuariosRol();
+        } 
+    });
+    
+    function getUsuariosRol(){
+        let url = "../API/identity/user?c=50&p=0&f=enabled=true";
+        
+        for(let rol of $scope.properties.roles){
+            url += ("&f=role_id=" + rol.id);
+        }
+        
+        $http.get(url).success(function(_data){
+            $scope.usuariosResponsables = angular.copy(_data);
+        }).error(function(){
+            swal("Error al obtener la lista de usuarios", "", "error");
+        })
+    }
+    
+    $scope.agregarResponsable = function(){
+        let _usuario = null;
+        let encontrado = false;
+
+        for(let usuarioResp of $scope.usuariosResponsables){
+            if($scope.nuevoResponsable === usuarioResp.id){
+                _usuario = angular.copy(usuarioResp);
+            }
+        }
+
+        for(let usuario of $scope.responsables){
+            if(usuario.responsable_id === _usuario.id){
+                encontrado = true;
+            }
+        }
+
+        if(!encontrado){
+            let nuevoUsuario = {
+                "responsable_id": _usuario.id,
+                "horario": null, 
+                "cita_entrevista": {
+                    "persistenceId": $scope.sesion.persistenceId
+                },
+                "ocupado": false,
+                "disponible": true,
+                "nombre": _usuario.firstname + " " + _usuario.lastname
+            }
+
+            $scope.responsables.push(nuevoUsuario);
+
+            for(let horario of $scope.horarios){
+                if(horario.persistenceId){
+                    nuevoUsuario["horario"] = {
+                        "persistenceId": horario.persistenceId
+                    }
+                }
+                
+                horario["responsables"].push(angular.copy(nuevoUsuario));
+            }
+        } else {
+            $scope.nuevoResponsable = null;
+        }
+    }
+
+    $scope.deleteResponsable = function(_usuario){
+        debugger;
+        for(let horario of $scope.horarios){
+            for(let responsable of horario.responsables){
+                if(_usuario.id === responsable.responsable_id){
+                    horario.responsables.splice(horario.responsables.indexOf(responsable), 1);
+                }
+            }
+        }
+        
+        for(let responsable of $scope.responsables){
+            if(responsable.responsable_id === _usuario.id){
+                $scope.responsables.splice($scope.responsables.indexOf(responsable));
+            }
+        }
+    }
+
+    $scope.setDisponible = function(_disponible, _index, _horarioIndex){
+        $scope.horarios[_horarioIndex].responsables[_index].disponible = _disponible;
+    }
+
+    $scope.validate = function(){
+        let valid = true;
+        let mensaje = "";
+        let titulo = "¡Atención!";
+        if(!$scope.sesion.nombre){ 
+            mensaje = "Nombre de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.nombre){ 
+            mensaje = "Descripción de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.descripcion_entrevista){ 
+            mensaje = "Nombre de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.fecha_entrevista){ 
+            mensaje = "Fecha de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.duracion_entrevista_minutos){ 
+            mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
+            valid = false;
+        } else if(!$scope.responsabless){ 
+            mensaje = "Debes agrega ral menos un responsable a la sesión";
+            valid = false;
+        }
+
+        if(valid){
+            $scope.guardarSesion();
+        } else {
+            swal(titulo, mensaje, "error")
+        }
+    }
 }
