@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEVerSolicitud",
   "name" : "SDAEVerSolicitud",
-  "lastUpdate" : 1700250838106,
+  "lastUpdate" : 1700674997229,
   "rows" : [
     [
       {
@@ -1135,24 +1135,41 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.model.PadresTutor?q=findByCaseId&p=0&c=10&f=caseId={{objSolicitudDeAdmision[0].caseId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "setTutores" : {
       "type" : "expression",
       "value" : [
-        "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if(objectTutor.isTutor){\r",
-        "        $data.tutor = objectTutor;\r",
-        "        break;\r",
-        "    }\r",
-        "}\r",
+        "debugger;\r",
+        "//for(let objectTutor of $data.objPadresTutor){\r",
+        "//    if(objectTutor.isTutor){\r",
+        "//        $data.tutor = objectTutor;\r",
+        "//        break;\r",
+        "//    }\r",
+        "//}\r",
         "// for(let objectTutor of $data.objPadresTutor){\r",
         "//     if(objectTutor.isTutor){\r",
         "//         $data.tutor = objectTutor;\r",
         "//     }\r",
         "    \r",
-        "// }"
+        "// }\r",
+        "let countTutor = 0;\r",
+        "\r",
+        "for (let objectTutor of $data.objPadresTutor) {\r",
+        "    if (objectTutor.isTutor) {\r",
+        "        countTutor++;\r",
+        "\r",
+        "        if (countTutor === 2) {\r",
+        "            $data.tutor = objectTutor;\r",
+        "            break;\r",
+        "        }\r",
+        "    }\r",
+        "}"
       ],
       "exposed" : false
     },
