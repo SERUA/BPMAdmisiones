@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAgendarCitas",
   "name" : "PSGRappAgendarCitas",
-  "lastUpdate" : 1700604774355,
+  "lastUpdate" : 1700694865241,
   "rows" : [
     [
       {
@@ -88,6 +88,10 @@
           "lstCampus" : {
             "type" : "variable",
             "value" : "lstCatCampus"
+          },
+          "roles" : {
+            "type" : "expression",
+            "value" : "getRoles"
           }
         },
         "reference" : "6caebe55-f6a5-403d-9737-09c519fcbdce",
@@ -175,6 +179,14 @@
       "type" : "url",
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=100&f=eliminado=false"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getRoles" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/role?c=20&p=0&o=displayName%20ASC&s=psic&t=0"
       ],
       "advancedOptions" : { },
       "exposed" : false
