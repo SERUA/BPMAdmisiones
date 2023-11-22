@@ -655,4 +655,161 @@ class DocumentosTextosDAO {
 		return resultado;
 	}
 	
+	public Result getExcelFileSolicitudesAdmitidas(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+	
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			Result dataResult = new SolicitudDeAdmisionDAO().selectSolicitudesAdmision(jsonData, context);
+	
+			int rowCount = 0;
+			List<Object> lstParams;
+			String type = "ReporteSesiones";
+			XSSFWorkbook workbook = new XSSFWorkbook();
+			XSSFSheet sheet = workbook.createSheet(type);
+			CellStyle style = workbook.createCellStyle();
+			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
+			font.setBold(true);
+			style.setFont(font);
+	
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontró datos");
+			}
+	
+			Row titleRow = sheet.createRow(++rowCount);
+			Cell cellReporteLabel = titleRow.createCell(0);
+			cellReporteLabel.setCellValue("Reporte:");
+			cellReporteLabel.setCellStyle(style);
+	
+			Cell cellReporteValor = titleRow.createCell(1);
+			cellReporteValor.setCellValue("Bandeja Solicitudes Rechazadas Posgrados");
+	
+			Cell cellUsuarioLabel = titleRow.createCell(2);
+			cellUsuarioLabel.setCellValue("Usuario:");
+			cellUsuarioLabel.setCellStyle(style);
+	
+			Cell cellUsuarioValor = titleRow.createCell(3);
+			cellUsuarioValor.setCellValue(object.usuario);
+	
+			Calendar cal = Calendar.getInstance();
+			cal.add(Calendar.HOUR_OF_DAY, -7);
+			Date date = cal.getTime();
+			SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
+			String fechaActual = formatter.format(date);
+	
+			Cell cellFechaLabel = titleRow.createCell(4);
+			cellFechaLabel.setCellValue("Fecha:");
+			cellFechaLabel.setCellStyle(style);
+	
+			Cell cellFechaValor = titleRow.createCell(5);
+			cellFechaValor.setCellValue(fechaActual);
+			Row espacio = sheet.createRow(++rowCount);
+			Row headersRow = sheet.createRow(++rowCount);
+	
+			Cell header2 = headersRow.createCell(0);
+			header2.setCellValue("Expediente");
+			header2.setCellStyle(style);
+			Cell header3 = headersRow.createCell(1);
+			header3.setCellValue("Nombre");
+			header3.setCellStyle(style);
+			Cell header4 = headersRow.createCell(2);
+			header4.setCellValue("Email");
+			header4.setCellStyle(style);
+			Cell header5 = headersRow.createCell(3);
+			header5.setCellValue("CURP");
+			header5.setCellStyle(style);
+			Cell header6 = headersRow.createCell(4);
+			header6.setCellValue("Programa");
+			header6.setCellStyle(style);
+			Cell header7 = headersRow.createCell(5);
+			header7.setCellValue("Período de ingreso");
+			header7.setCellStyle(style);
+			Cell header8 = headersRow.createCell(6);
+			header8.setCellValue("Campus ingreso");
+			header8.setCellStyle(style);
+			Cell header9 = headersRow.createCell(7);
+			header9.setCellValue("Procedencia");
+			header9.setCellStyle(style);
+			Cell header10 = headersRow.createCell(8);
+			header10.setCellValue("Promedio");
+			header10.setCellStyle(style);
+			Cell header11 = headersRow.createCell(9);
+			header11.setCellValue("Resultado");
+			header11.setCellStyle(style);
+			Cell header12 = headersRow.createCell(10);
+			header12.setCellValue("Última modificación");
+			header12.setCellStyle(style);
+	
+			DateFormat dfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+	
+			for (int i = 0; i < lstParams.size(); ++i) {
+				Row row = sheet.createRow(++rowCount);
+	
+				Cell cell2 = row.createCell(0);
+				cell2.setCellValue(lstParams.get(i).caseid);
+				String nombre = lstParams.get(i).apellido_paterno + " " + lstParams.get(i).apellido_materno + " " + lstParams.get(i).nombre;
+				Cell cell3 = row.createCell(1);
+				cell3.setCellValue(nombre);
+				Cell cell4 = row.createCell(2);
+				cell4.setCellValue(lstParams.get(i).correo_electronico);
+				Cell cell5 = row.createCell(3);
+				cell5.setCellValue(lstParams.get(i).curp);
+				Cell cell6 = row.createCell(4);
+				cell6.setCellValue(lstParams.get(i).posgrado);
+				Cell cell7 = row.createCell(5);
+				cell7.setCellValue(lstParams.get(i).periodo);
+				Cell cell8 = row.createCell(6);
+				cell8.setCellValue(lstParams.get(i).campus);
+				Cell cell9 = row.createCell(7);
+				cell9.setCellValue(lstParams.get(i).institucion);
+				Cell cell10 = row.createCell(8);
+				cell10.setCellValue(lstParams.get(i).promedio);
+				Cell cell11 = row.createCell(9);
+				cell11.setCellValue(lstParams.get(i).mensaje_admin_escolar);
+				
+				String fechaUltimaModificacionString = lstParams.get(i).fecha_ultima_modificacion;
+				
+				if (fechaUltimaModificacionString != null) {
+					try {
+						Date fechaUltimaModificacion = dfEntrada.parse(fechaUltimaModificacionString);
+						String fechaFormateadaModificacion = dformat.format(fechaUltimaModificacion);
+						Cell cell12 = row.createCell(10);
+						cell12.setCellValue(fechaFormateadaModificacion);
+					} catch (ParseException e) {
+						Cell cell12 = row.createCell(10);
+						cell12.setCellValue("Error en formato de fecha");
+					}
+				} else {
+					Cell cell13 = row.createCell(11);
+					cell13.setCellValue("N/A");
+				}
+			}
+	
+			for (int i = 0; i <= rowCount + 10; ++i) {
+				sheet.autoSizeColumn(i);
+			}
+	
+			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+			workbook.write(outputStream);
+			List<Object> lstResultado = new ArrayList<Object>();
+			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+		} catch (Exception e) {
+			e.printStackTrace();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}
+	
+		return resultado;
+	}
+	
 }
