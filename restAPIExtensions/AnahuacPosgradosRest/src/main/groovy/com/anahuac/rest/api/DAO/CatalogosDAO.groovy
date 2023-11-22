@@ -2358,7 +2358,7 @@ class CatalogosDAO {
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 
-			where = "WHERE GE.is_eliminado = false and campus.eliminado = false and GE.campus = '" + object.campus + "'"
+			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND posgrado.persistenceid = GE.posgrado_pid "
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
@@ -2531,22 +2531,22 @@ class CatalogosDAO {
 			consulta = consulta.replace("[CAMPUS]", campus)
 			consulta = consulta.replace("[WHERE]", where);
 
-			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
-			rs = pstm.executeQuery()
-			if (rs.next()) {
-				resultado.setTotalRegistros(rs.getInt("registros"))
-			}
+//			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
+//			rs = pstm.executeQuery()
+//			if (rs.next()) {
+//				resultado.setTotalRegistros(rs.getInt("registros"))
+//			}
 			consulta = consulta.replace("[ORDERBY]", orderby)
 			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
 			errorLog += " " + consulta
-			errorLog += " consulta= "
-			errorLog += consulta
-			errorLog += " where = " + where
+//			errorLog += " consulta= "
+//			errorLog += consulta
+//			errorLog += " where = " + where
 			pstm = con.prepareStatement(consulta)
 			pstm.setInt(1, object.limit)
 			pstm.setInt(2, object.offset)
 
-			errorLog += "fecha=="
+//			errorLog += "fecha=="
 
 			rs = pstm.executeQuery()
 			while (rs.next()) {
@@ -2586,6 +2586,8 @@ class CatalogosDAO {
 				row.setOrden(rs.getLong("orden"))
 				row.setPeriodo_pid(rs.getLong("periodo_pid"))
 				row.setPosgrado_pid(rs.getLong("posgrado_pid"))
+				row.setPeriodo(rs.getString("periodo"))
+				row.setPosgrado(rs.getString("posgrado"))
 
 				rows.add(row)
 			}
