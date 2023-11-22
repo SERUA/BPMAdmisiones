@@ -61,9 +61,9 @@
                             ng-show="properties.dataToSend.orderby=='PROCEDENCIA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('PROMEDIO')">Promedio<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='PROMEDIO'"></i></span></th>
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon"
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus <i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
-                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
+                            ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('RESIDENCIA')">Residencia<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='RESIDENCIA'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('TIPOALUMNO')">Tipo Alumno<i class="glyphicon"
@@ -71,7 +71,10 @@
                             ng-show="properties.dataToSend.orderby=='TIPOALUMNO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('TIPOADMISION')">Tipo Admisión<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='TIPOADMISION'"></i></span></th>
-                    <th> Acciones</th>
+                    <!--<th> <span style="cursor:pointer" ng-click="setOrderBy('REPORTE')">Reporte OV<i class="glyphicon"
+                                ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                                ng-show="properties.dataToSend.orderby=='REPORTE'"></i></span></th>
+                    <th> Acciones</th>-->
             </tr>
         </thead>
         <tbody>
@@ -108,6 +111,12 @@
                         {{row.residencia}} <br> {{row.tipoalumno}}
                         <br> {{row.tipoadmision}}
                     </td>
+                    <!--<td>
+                        <b style="color:#ff5900" >{{ row.finalizado == 't' ? 'Finalizado': row.finalizado == 's'?'Sin iniciar':'En proceso' }}</b>
+                        <label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>
+                        {{row.tipoalumno}}
+                        <br>
+                    </td>-->
                     <td class="max-size">
                         <table>
                             <tr>
