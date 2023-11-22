@@ -28,6 +28,7 @@ import com.anahuac.rest.api.Entity.custom.PruebasCustom
 import com.anahuac.rest.api.Entity.custom.ResponsableCustom
 import com.anahuac.rest.api.Entity.custom.SesionCustom
 import com.anahuac.rest.api.Entity.custom.SesionesAspiranteCustom
+import com.anahuac.rest.api.Entity.custom.SesionesBack
 import com.anahuac.rest.api.Entity.custom.SesionesPosibles
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
 import com.anahuac.rest.api.Entity.db.Responsable
@@ -85,12 +86,14 @@ class SesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			
+			errorLog += "1|"
 			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
-			
+			errorLog += "2|"
 			rs = pstm.executeQuery();
+			errorLog += "3|";
 			
 			while (rs.next()) {
+				errorLog += "3.1|"
 				row = new SesionesPosibles();
 				
 				row.setPersistenceId(rs.getLong("persistenceid"));
@@ -103,7 +106,7 @@ class SesionesDAO {
 			}
 			
 			resultado.setData(rows);
-			resultado.setSuccess(true)
+			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
@@ -111,6 +114,7 @@ class SesionesDAO {
 				con.rollback();
 			}
 		} finally {
+			resultado.setError_info(errorLog);
 			if(con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
@@ -120,7 +124,7 @@ class SesionesDAO {
 	
 	public static String convertirFecha(String fechaString) {
 		try {
-			DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss");
+			DateTimeFormatter formatoEntrada = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			DateTimeFormatter formatoSalida = DateTimeFormatter.ofPattern("MM/dd/yyyy");
 
 			LocalDateTime fecha = LocalDateTime.parse(fechaString, formatoEntrada);
@@ -173,6 +177,7 @@ class SesionesDAO {
 				con.rollback();
 			}
 		} finally {
+			resultado.setError_info(errorLog);
 			if(con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
@@ -216,7 +221,7 @@ class SesionesDAO {
 			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = "";
-			errorLog += "1|";
+			
 			if(object.nombre.equals("") || object.nombre == null) {
 				throw new Exception("El campo \"Nombre sesión\" no debe ir vacío");
 			} else if(object.descripcion_entrevista.equals("") || object.descripcion_entrevista == null) {
@@ -226,36 +231,33 @@ class SesionesDAO {
 			} else if(object.duracion_entrevista_minutos.equals("") || object.duracion_entrevista_minutos == null) {
 				throw new Exception("El campo \"Duración de entrevista\" no debe ir vacío");
 			}
-			errorLog += "2|";
+			
 			Long idCampus = 0L;
-			if(object.id_campus == null || object.id_campus.equals("")) {
+			if(object.campus == null || object.campus.equals("")) {
 				idCampus = 0L;
 			} else {
-				idCampus = Long.valueOf(object.id_campus);
+				idCampus = Long.valueOf(object.campus);
 			}
-			errorLog += "3|";
+			
 			Date fecha = sdfEntrada.parse(object.fecha_entrevista);
-			errorLog += "3.1|";
 			fechaHoraFormateada = formato.format(fecha);
-			errorLog += "4|";
+			
 			pstm = con.prepareStatement(Statements.INSERT_SESION);
 			pstm.setInt(1, Integer.parseInt(object.duracion_entrevista_minutos));
 			pstm.setString(2, object.nombre);
 			pstm.setString(3, object.descripcion_entrevista);
 			pstm.setString(4, fechaHoraFormateada);
-			errorLog += "5|";
+			pstm.setLong(5, idCampus);
+			
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				errorLog += "6|";
 				idSesion = rs.getLong("persistenceid");
 			} else {
-				errorLog += "7|";
 				throw new Exception("No se pudo insertar el registro.");
 			}
 			
 			List<Map<String, String>> lstHorarios = generarHoras(Integer.parseInt(object.duracion_entrevista_minutos));
-			errorLog += "8|";
 			for(Map<String, String> horario: lstHorarios) {
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
 				pstm.setString(1, horario.get("inicio"));
@@ -264,7 +266,6 @@ class SesionesDAO {
 				
 				pstm.executeUpdate();
 			}
-			errorLog += "9|";
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
@@ -278,5 +279,115 @@ class SesionesDAO {
 		}
 	
 		return resultado;
+	}
+	
+	public Result updateSesion(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long idSesion = 0L;
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = "";
+			
+			if(object.nombre.equals("") || object.nombre == null) {
+				throw new Exception("El campo \"Nombre sesión\" no debe ir vacío");
+			} else if(object.descripcion_entrevista.equals("") || object.descripcion_entrevista == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			} else if(object.fecha_entrevista.equals("") || object.fecha_entrevista == null) {
+				throw new Exception("El campo \"Fecha de sesión\" no debe ir vacío");
+			} else if(object.duracion_entrevista_minutos.equals("") || object.duracion_entrevista_minutos == null) {
+				throw new Exception("El campo \"Duración de entrevista\" no debe ir vacío");
+			}
+			
+			Date fecha = sdfEntrada.parse(object.fecha_entrevista);
+			fechaHoraFormateada = formato.format(fecha);
+			
+			pstm = con.prepareStatement(Statements.UPDATE_SESION);
+			
+			pstm.setString(1, object.nombre);
+			pstm.setString(2, object.nombre);
+			pstm.setLong(3, Long.valueOf(object.persistenceid));
+			
+			rs = pstm.executeQuery();
+			
+			List<Map<String, String>> lstHorarios = generarHoras(Integer.parseInt(object.duracion_entrevista_minutos));
+			for(Map<String, String> horario: lstHorarios) {
+				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
+				pstm.setString(1, horario.get("inicio"));
+				pstm.setString(2, horario.get("fin"));
+				pstm.setLong(3, idSesion);
+				
+				pstm.executeUpdate();
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertSesion] " + e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getSesionesV2(String idcampus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		SesionesBack row = new SesionesBack();
+		List < SesionesBack > rows = new ArrayList < SesionesBack > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.GET_SESIONES_TODAS);
+			pstm.setLong(1, Long.valueOf(idcampus));
+			
+			rs = pstm.executeQuery();
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			while (rs.next()) {
+				row = new SesionesBack();
+				
+				row.setPersistenceId(rs.getLong("persistenceid"));
+				row.setPersistenceId_string(rs.getString("persistenceId_string"));
+				row.setFecha_entrevista(rs.getString("fecha_entrevista"));
+				row.setFecha_entrevista(sdfEntrada.format(formato.parse(rs.getString("fecha_entrevista"))));
+				
+				row.setFecha_entrevista_back(convertirFecha(rs.getString("fecha_entrevista")));
+				row.setNombre(rs.getString("nombre"));
+				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
+				row.setDuracion_entrevista_minutos(rs.getInt("duracion_entrevista_minutos"));
+				row.setCampus(rs.getLong("campus_pid"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if(con != null) {
+				con.rollback();
+			}
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
 	}
 }
