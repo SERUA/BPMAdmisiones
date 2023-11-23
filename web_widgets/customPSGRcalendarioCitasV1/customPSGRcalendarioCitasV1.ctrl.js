@@ -107,7 +107,7 @@ function($scope, $http, blockUI, $window) {
         for (let evento of eventos) {
             if (evento.id === parseInt(_id)) {
                 $scope.seleccionada = angular.copy(evento);
-                let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
+                let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesionV2&idSesion=" + _id;
                 $http.get(url).success(function(_data){
                     $scope.entrevistas = angular.copy(_data);
                     $scope.$apply();
