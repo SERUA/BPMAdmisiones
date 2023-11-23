@@ -266,11 +266,10 @@ class SesionesDAO {
 					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
 					errorLog += "1|";
 					for(Map<String, Object> responsable: lstResponsables) {
-						Map<String, Object> cita_entrevista = new HashMap<String, Object>();
 						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
 						pstm.setLong(1, horario_pid);
-						pstm.setLong(2, responsable.get("responsable_id"));
-						pstm.setLong(3, cita_entrevista.get("persistenceId"));
+						pstm.setLong(2, Integer.valueOf(responsable.get("responsable_id")));
+						pstm.setLong(3, idSesion);
 						pstm.setBoolean(4, responsable.get("ocupado"));
 						pstm.setBoolean(5, responsable.get("disponible_resp"));
 						

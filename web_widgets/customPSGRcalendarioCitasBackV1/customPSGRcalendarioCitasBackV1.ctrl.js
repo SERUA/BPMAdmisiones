@@ -15,15 +15,17 @@ function($scope, $http, blockUI, $window) {
         dataToSend["responsables"] = angular.copy($scope.responsables);
         dataToSend["horarios"] = angular.copy($scope.horarios);
         
-        $http.post(url, $scope.sesion).success(function(_data){
+        $http.post(url, dataToSend).success(function(_data){
             $scope.sesion = {
                 "nombre": "", 
                 "descripcion_entrevista": "",
                 "fecha_entrevista": "",
                 "duracion_entrevista_minutos": "",
-                "campus": ""
+                "campus": "", 
+                "horarios": [],
+                "responsables": []
             }
-            generarHoras();
+            // generarHoras();
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
@@ -453,15 +455,15 @@ function($scope, $http, blockUI, $window) {
         } else if(!$scope.sesion.duracion_entrevista_minutos){ 
             mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
             valid = false;
-        } else if(!$scope.responsabless){ 
-            mensaje = "Debes agrega ral menos un responsable a la sesión";
+        } else if(!$scope.responsables){ 
+            mensaje = "Debes agregar al menos un responsable a la sesión";
             valid = false;
         }
 
         if(valid){
-            $scope.guardarSesion();
+            $scope.guardarSesion($scope.sesion);
         } else {
-            swal(titulo, mensaje, "error")
+            swal(titulo, mensaje, "error");
         }
     }
 }
