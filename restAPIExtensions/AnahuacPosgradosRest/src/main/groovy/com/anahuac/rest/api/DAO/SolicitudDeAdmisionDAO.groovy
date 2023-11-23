@@ -465,12 +465,12 @@ class SolicitudDeAdmisionDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			//SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
-			//SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-			//String fechaHoraFormateada = formato.format(new Date());
+			// ---Validación---
 			
 			if (object.datosPersonales.equals("") || object.datosPersonales == null) {
 				throw new Exception("El campo \"datosPersonales\" no debe ir vacío");
+			} else if(object.datosPersonales.persistenceId_string.equals("") || object.datosPersonales.persistenceId_string == null) {
+				throw new Exception("El campo \"Persistence Id\", en datosPersonales, no debe ir vacío");
 			} else if(object.datosPersonales.nombre.equals("") || object.datosPersonales.nombre == null) {
 				throw new Exception("El campo \"Nombre\" no debe ir vacío");
 			} else if(object.datosPersonales.apellido_paterno.equals("") || object.datosPersonales.apellido_paterno == null) {
@@ -482,56 +482,90 @@ class SolicitudDeAdmisionDAO {
 				
 			} else if (object.datosContacto.equals("") || object.datosContacto == null) {
 				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
+			} else if(object.datosContacto.persistenceId_string.equals("") || object.datosContacto.persistenceId_string == null) {
+				throw new Exception("El campo \"Persistence Id\", en datosContacto, no debe ir vacío");
 			} else if(object.datosContacto.correo_contacto.equals("") || object.datosContacto.correo_contacto == null) {
 				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
 			
 			} else if (object.datosPrograma.equals("") || object.datosPrograma == null) {
 				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
-			} else if(object.datosPrograma.campus.equals("") || object.datosPrograma.correo_contacto == null) {
-				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
-			} else if(object.datosPrograma.correo_contacto.equals("") || object.datosPrograma.correo_contacto == null) {
-				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
+			} else if(object.datosPrograma.persistenceId_string.equals("") || object.datosPrograma.persistenceId_string == null) {
+				throw new Exception("El campo \"Persistence Id\", en datosPrograma, no debe ir vacío");
+			} else if(object.datosPrograma.campus == null || object.datosPrograma.campus.persistenceId_string.equals("") || object.datosPrograma.campus.persistenceId_string == null) {
+				throw new Exception("El campo \"Campus\" no debe ir vacío");
+			} else if(object.datosPrograma.posgrado == null || object.datosPrograma.posgrado.persistenceId_string.equals("") || object.datosPrograma.posgrado.persistenceId_string == null) {
+				throw new Exception("El campo \"Posgrado\" no debe ir vacío");
+			} else if(object.datosPrograma.programa_interes == null || object.datosPrograma.programa_interes.persistenceId_string.equals("") || object.datosPrograma.programa_interes.persistenceId_string == null) {
+				throw new Exception("El campo \"Programa de interes\" no debe ir vacío");
+			} else if(object.datosPrograma.periodo_ingreso == null || object.datosPrograma.periodo_ingreso.persistenceId_string.equals("") || object.datosPrograma.periodo_ingreso.persistenceId_string == null) {
+				throw new Exception("El campo \"Periodo de ingreso\" no debe ir vacío");
+			}	
+			
+			// ---Conversión---
+			
+			Long datosPersonales_id = -1L;
+			Long datosContacto_id = -1L;
+			Long datosPrograma_id = -1L;
+			Long campus_id = -1L;
+			Long posgrado_id = -1L;
+			Long pograma_interes_id = -1L;
+			Long periodo_ingreso_id = -1L;
+			
+			try {
+				datosPersonales_id = Long.valueOf(object.datosPersonales.persistenceId_string);
+				datosContacto_id = Long.valueOf(object.datosContacto.persistenceId_string);
+				datosPrograma_id = Long.valueOf(object.datosPrograma.persistenceId_string);
+				campus_id = Long.valueOf(object.datosPrograma.campus.persistenceId_string);
+				posgrado_id = Long.valueOf(object.datosPrograma.posgrado.persistenceId_string);
+				pograma_interes_id = Long.valueOf(object.datosPrograma.programa_interes.persistenceId_string);
+				periodo_ingreso_id = Long.valueOf(object.datosPrograma.periodo_ingreso.persistenceId_string);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló en la conversión de tipo, en los atributos del objeto recibido. " + e.message);
 			}
 			
+			// ---Ejecución--- 
 			
+			con.setAutoCommit(false);
 			
-			else if(object.fecha_inicio.equals("") || object.fecha_inicio == null) {
-				throw new Exception("El campo \"Fecha de inicio\" no debe ir vacío");
-			} else if(object.fecha_fin.equals("") || object.fecha_fin == null) {
-				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
-			} else if(object.id.equals("") || object.id == null) {
-				throw new Exception("El campo \"Id\" no debe ir vacío");
+			// UPDATE datosPersonales
+			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_DATOS_PERSONALES);
+			pstm.setString(1, object.datosPersonales.nombre);
+			pstm.setString(2, object.datosPersonales.apellido_paterno);
+			pstm.setString(3, object.datosPersonales.apellido_materno);
+			pstm.setString(4, object.datosPersonales.curp);
+			pstm.setLong(5, datosPersonales_id);
+			if (pstm.executeUpdate() == 0) {
+				throw new Exception("No se pudo modificar el registro de la tabla 'Datos personales'.");
 			}
-			Date fecha_inicio = formato.parse(object.fecha_inicio);
-			Date fecha_fin = formato.parse(object.fecha_fin);
 			
-			Long idCampus = 0L;
-			if(object.id_campus == null) {
-				idCampus = 0L;
-			} else {
-				idCampus = Long.valueOf(object.id_campus);
+			// UPDATE datosContacto
+			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_DATOS_CONTACTO);
+			pstm.setString(1, object.datosContacto.correo_contacto);
+			pstm.setLong(2, datosContacto_id);
+			if (pstm.executeUpdate() == 0) {
+				throw new Exception("No se pudo modificar el registro de la tabla 'Datos de contacto'.");
 			}
-			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATPERIODO);
-			pstm.setString(1,  object.clave);
-			pstm.setString(2, object.descripcion);
-			pstm.setString(3, formato.format(fecha_inicio));
-			pstm.setString(4, formato.format(fecha_fin));
-			pstm.setString(5, object.id);
-			pstm.setBoolean(6, object.is_anual);
-			pstm.setBoolean(7, false);
-			pstm.setBoolean(8, object.is_semestral);
-			pstm.setLong(9, object.persistenceid);
 			
-			if (pstm.executeUpdate() > 0) {
-				resultado.setSuccess(true);
-			} else {
-				throw new Exception("No se pudo modificar el registro.");
+			// UPDATE datosPrograma
+			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_PROGRAMA);
+			pstm.setLong(1, campus_id);
+			pstm.setLong(2, posgrado_id);
+			pstm.setLong(3, pograma_interes_id);
+			pstm.setLong(4, periodo_ingreso_id);
+			pstm.setLong(5, datosPrograma_id);
+			if (pstm.executeUpdate() == 0) {
+				throw new Exception("No se pudo modificar el registro de la tabla 'Datos de programa'.");
 			}
+			
+			con.commit();
+			resultado.setSuccess(true);
+			
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateCatPeriodo] " + e.getMessage());
+			resultado.setError("[updateCorreccionesSolicitud] " + e.getMessage());
+			con.rollback();
 		} finally {
-			resultado.setError_info(errorLog);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
