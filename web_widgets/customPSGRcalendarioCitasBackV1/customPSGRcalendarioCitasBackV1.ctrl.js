@@ -10,16 +10,22 @@ function($scope, $http, blockUI, $window) {
     
     $scope.guardarSesion = function(_sesion){
         let url = !_sesion.persistenceId ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=updateSesion";
+
+        let dataToSend = angular.copy($scope.sesion);
+        dataToSend["responsables"] = angular.copy($scope.responsables);
+        dataToSend["horarios"] = angular.copy($scope.horarios);
         
-        $http.post(url, $scope.sesion).success(function(_data){
+        $http.post(url, dataToSend).success(function(_data){
             $scope.sesion = {
                 "nombre": "", 
                 "descripcion_entrevista": "",
                 "fecha_entrevista": "",
                 "duracion_entrevista_minutos": "",
-                "campus": ""
+                "campus": "", 
+                "horarios": [],
+                "responsables": []
             }
-            generarHoras();
+            // generarHoras();
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
@@ -391,7 +397,7 @@ function($scope, $http, blockUI, $window) {
                     "persistenceId": $scope.sesion.persistenceId
                 },
                 "ocupado": false,
-                "disponible": true,
+                "disponible_resp": true,
                 "nombre": _usuario.firstname + " " + _usuario.lastname
             }
 
@@ -429,37 +435,35 @@ function($scope, $http, blockUI, $window) {
     }
 
     $scope.setDisponible = function(_disponible, _index, _horarioIndex){
-        $scope.horarios[_horarioIndex].responsables[_index].disponible = _disponible;
+        $scope.horarios[_horarioIndex].responsables[_index].disponible_resp = _disponible;
     }
 
     $scope.validate = function(){
         let valid = true;
         let mensaje = "";
         let titulo = "¡Atención!";
+
         if(!$scope.sesion.nombre){ 
             mensaje = "Nombre de la sesión no debe ir vacío";
             valid = false;
-        } else if(!$scope.sesion.nombre){ 
+        } else if(!$scope.sesion.descripcion_entrevista){ 
             mensaje = "Descripción de la sesión no debe ir vacío";
             valid = false;
-        } else if(!$scope.sesion.descripcion_entrevista){ 
-            mensaje = "Nombre de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.fecha_entrevista){ 
+        }  else if(!$scope.sesion.fecha_entrevista){ 
             mensaje = "Fecha de la sesión no debe ir vacío";
             valid = false;
         } else if(!$scope.sesion.duracion_entrevista_minutos){ 
             mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
             valid = false;
-        } else if(!$scope.responsabless){ 
-            mensaje = "Debes agrega ral menos un responsable a la sesión";
+        } else if(!$scope.responsables){ 
+            mensaje = "Debes agregar al menos un responsable a la sesión";
             valid = false;
         }
 
         if(valid){
-            $scope.guardarSesion();
+            $scope.guardarSesion($scope.sesion);
         } else {
-            swal(titulo, mensaje, "error")
+            swal(titulo, mensaje, "error");
         }
     }
 }

@@ -17,7 +17,6 @@
     </div>
 </div>
 
-<!--<div class="panel panel-danger col-md-12" ng-show="navVar === 'calendario' && filtroCampus !== ''">-->
 <div class="panel panel-danger col-md-12" ng-show="navVar === 'calendario'">
     <div class="panel-heading" style="background-color: #ff5900" align="center" >
         <strong style="color:white;">Calendario de entrevistas</strong>
@@ -138,10 +137,10 @@
             </div>
             <div class="modal-body row">
                 <div class="col-xs-6">
-                    Responsable: Usuario de pruebas
-                   <div >
+                    Responsable: {{ usuario.nombre }}
+                    <div>
                         Licenciatura
-                   </div> 
+                    </div> 
                 </div>
                 <div class="col-xs-6">
                     <table class="table table-striped">
@@ -158,8 +157,8 @@
                                 </td>
                                 <td class="text-center ">
                                     <div ng-repeat="responsable in horario.responsables" ng-init="responsableIndex = $index" ng-if="responsable.responsable_id === usuario.responsable_id">
-                                        <button class="btn btn-success" ng-if="responsable.disponible" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
-                                        <button class="btn btn-default" ng-if="!responsable.disponible" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
+                                        <button class="btn btn-success" ng-if="responsable.disponible_resp" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
+                                        <button class="btn btn-default" ng-if="!responsable.disponible_resp" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
                                         <!-- <button class="btn btn-success" ng-if="responsable.disponible" type="button" ng-click="setDisponible(getIndex(horario, usuario.responsable_id), false, $index)"> Disponible</button>
                                         <button class="btn btn-default" ng-if="!responsable.disponible" type="button" ng-click="setDisponible(getIndex(horario, usuario.responsable_id), true, $index)"> No disponible</button> -->
                                     </div>
@@ -170,13 +169,8 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="col-xs-12">
-                    <div class="col-xs-6 text-left">
-                        <button class="btn btn-info" ng-if="jsonEntrevista.psicologos[0].lstFechasDisponibles.length>0" ng-click="jsonEntrevista.psicologos[0].lstFechasDisponibles=[] ">
-                            Cancelar
-                        </button>
-                    </div>
-                    <div class="col-xs-6 text-right "> <button type="button " class="btn btn-primary " data-dismiss="modal" ng-click="closeModal()">Cerrar</button></div>
+                <div class="col-xs-12 text-right">
+                    <button type="button " class="btn btn-primary " data-dismiss="modal">Cerrar</button>
                 </div>
             </div>
         </div>
