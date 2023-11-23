@@ -252,7 +252,7 @@ class SesionesDAO {
 			
 			List<Map<String, Object>> lstHorarios = (List<Map<String, Object>>) object.horarios;
 			errorLog += "1|";
-			for(Map<String, String> horario: lstHorarios) {
+			for(Map<String, Object> horario: lstHorarios) {
 				errorLog += "1|";
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
 				pstm.setString(1, horario.get("inicio"));
@@ -262,17 +262,25 @@ class SesionesDAO {
 				rs = pstm.executeQuery();
 				
 				if(rs.next()) {
-					
+					Long horario_pid = rs.getLong("persistenceid");
+					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
+					errorLog += "1|";
+					for(Map<String, Object> responsable: lstResponsables) {
+						Map<String, Object> cita_entrevista = new HashMap<String, Object>();
+						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
+						pstm.setLong(1, horario_pid);
+						pstm.setLong(2, responsable.get("responsable_id"));
+						pstm.setLong(3, cita_entrevista.get("persistenceId"));
+						pstm.setBoolean(4, responsable.get("ocupado"));
+						pstm.setBoolean(5, responsable.get("disponible_resp"));
+						
+						if(pstm.executeUpdate() == 0) {
+							throw new Exception("No se ha podido insertar el responsable");
+						}
+					}
 				} else {
 					throw new Exception("No se ha podido insertar el  horario");
 				}
-				
-				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
-				pstm.setString(1, horario.get("inicio"));
-				pstm.setString(2, horario.get("fin"));
-				pstm.setLong(3, idSesion);
-				
-				pstm.executeUpdate();
 			}
 			
 			con.commit();
