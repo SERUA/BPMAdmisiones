@@ -157,8 +157,6 @@ class SesionesDAO {
 				row.put("persistenceId_string", rs.getString("persistenceid"));
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
-//				row.put("ocupado", false);
-//				row.put("disponible", true);
 				
 				rows.add(row);
 			}
@@ -176,6 +174,51 @@ class SesionesDAO {
 		}
 		return resultado
 	}
+	
+	public Result getHorariosByIdSesionV2(Long idSesion) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIOS_BY_SESION_FRONT);
+			pstm.setLong(1, idSesion);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				SesionesPosibles sesion = new SesionesPosibles();
+				sesion.setNombre(rs.getString("nombre"));
+				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
+				row.put("cita_entrevista", sesion);
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("hora_fin", rs.getString("hora_fin"));
+				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("disponible", rs.getBoolean("responsables_disponibles"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 	
 	public static List<Map<String, String>> generarHoras(Integer duracion) {
 		List<Map<String, String>> horasList = new ArrayList<>();
