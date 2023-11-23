@@ -468,37 +468,37 @@ class SolicitudDeAdmisionDAO {
 			// ---Validación---
 			
 			if (object.datosPersonales.equals("") || object.datosPersonales == null) {
-				throw new Exception("El campo \"datosPersonales\" no debe ir vacío");
+				throw new Exception('El campo "datosPersonales" no debe ir vacío');
 			} else if(object.datosPersonales.persistenceId_string.equals("") || object.datosPersonales.persistenceId_string == null) {
-				throw new Exception("El campo \"Persistence Id\", en datosPersonales, no debe ir vacío");
+				throw new Exception('El campo "Persistence Id", en datosPersonales, no debe ir vacío');
 			} else if(object.datosPersonales.nombre.equals("") || object.datosPersonales.nombre == null) {
-				throw new Exception("El campo \"Nombre\" no debe ir vacío");
+				throw new Exception('El campo "Nombre" no debe ir vacío');
 			} else if(object.datosPersonales.apellido_paterno.equals("") || object.datosPersonales.apellido_paterno == null) {
-				throw new Exception("El campo \"Apellido paterno\" no debe ir vacío");
+				throw new Exception('El campo "Apellido paterno" no debe ir vacío');
 			} else if(object.datosPersonales.apellido_materno.equals("") || object.datosPersonales.apellido_materno == null) {
-				throw new Exception("El campo \"Apellido materno\" no debe ir vacío");
+				throw new Exception('El campo "Apellido materno" no debe ir vacío');
 			} else if(object.datosPersonales.curp.equals("") || object.datosPersonales.curp == null) {
-				throw new Exception("El campo \"CURP\" no debe ir vacío");
+				throw new Exception('El campo "CURP" no debe ir vacío');
 				
 			} else if (object.datosContacto.equals("") || object.datosContacto == null) {
-				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
+				throw new Exception('El campo "datosContacto" no debe ir vacío');
 			} else if(object.datosContacto.persistenceId_string.equals("") || object.datosContacto.persistenceId_string == null) {
-				throw new Exception("El campo \"Persistence Id\", en datosContacto, no debe ir vacío");
+				throw new Exception('El campo "Persistence Id", en datosContacto, no debe ir vacío');
 			} else if(object.datosContacto.correo_contacto.equals("") || object.datosContacto.correo_contacto == null) {
-				throw new Exception("El campo \"Correo de contacto\" no debe ir vacío");
+				throw new Exception('El campo "Correo de contacto" no debe ir vacío');
 			
 			} else if (object.datosPrograma.equals("") || object.datosPrograma == null) {
-				throw new Exception("El campo \"datosContacto\" no debe ir vacío");
+				throw new Exception('El campo "datosContacto" no debe ir vacío');
 			} else if(object.datosPrograma.persistenceId_string.equals("") || object.datosPrograma.persistenceId_string == null) {
-				throw new Exception("El campo \"Persistence Id\", en datosPrograma, no debe ir vacío");
+				throw new Exception('El campo "Persistence Id", en datosPrograma, no debe ir vacío');
 			} else if(object.datosPrograma.campus == null || object.datosPrograma.campus.persistenceId_string.equals("") || object.datosPrograma.campus.persistenceId_string == null) {
-				throw new Exception("El campo \"Campus\" no debe ir vacío");
+				throw new Exception('El campo "Campus" no debe ir vacío');
 			} else if(object.datosPrograma.posgrado == null || object.datosPrograma.posgrado.persistenceId_string.equals("") || object.datosPrograma.posgrado.persistenceId_string == null) {
-				throw new Exception("El campo \"Posgrado\" no debe ir vacío");
+				throw new Exception('El campo "Posgrado" no debe ir vacío');
 			} else if(object.datosPrograma.programa_interes == null || object.datosPrograma.programa_interes.persistenceId_string.equals("") || object.datosPrograma.programa_interes.persistenceId_string == null) {
-				throw new Exception("El campo \"Programa de interes\" no debe ir vacío");
+				throw new Exception('El campo "Programa de interes" no debe ir vacío');
 			} else if(object.datosPrograma.periodo_ingreso == null || object.datosPrograma.periodo_ingreso.persistenceId_string.equals("") || object.datosPrograma.periodo_ingreso.persistenceId_string == null) {
-				throw new Exception("El campo \"Periodo de ingreso\" no debe ir vacío");
+				throw new Exception('El campo "Periodo de ingreso" no debe ir vacío');
 			}	
 			
 			// ---Conversión---
@@ -564,7 +564,7 @@ class SolicitudDeAdmisionDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[updateCorreccionesSolicitud] " + e.getMessage());
-			con.rollback();
+			if (!con.autoCommit) con.rollback();
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
