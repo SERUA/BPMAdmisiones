@@ -157,8 +157,8 @@ class SesionesDAO {
 				row.put("persistenceId_string", rs.getString("persistenceid"));
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
-				row.put("ocupado", false);
-				row.put("disponible", true);
+//				row.put("ocupado", false);
+//				row.put("disponible", true);
 				
 				rows.add(row);
 			}
@@ -255,8 +255,8 @@ class SesionesDAO {
 			for(Map<String, Object> horario: lstHorarios) {
 				errorLog += "1|";
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
-				pstm.setString(1, horario.get("inicio"));
-				pstm.setString(2, horario.get("fin"));
+				pstm.setString(1, horario.get("hora_inicio"));
+				pstm.setString(2, horario.get("hora_fin"));
 				pstm.setLong(3, idSesion);
 				
 				rs = pstm.executeQuery();
