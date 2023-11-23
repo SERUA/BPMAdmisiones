@@ -207,6 +207,7 @@ class SesionesDAO {
 		
 		try {
 			closeCon = validarConexion();
+			con.setAutoCommit(false);
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
@@ -249,8 +250,23 @@ class SesionesDAO {
 				throw new Exception("No se pudo insertar el registro.");
 			}
 			
-			List<Map<String, String>> lstHorarios = generarHoras(Integer.parseInt(object.duracion_entrevista_minutos));
+			List<Map<String, Object>> lstHorarios = (List<Map<String, Object>>) object.horarios;
+			errorLog += "1|";
 			for(Map<String, String> horario: lstHorarios) {
+				errorLog += "1|";
+				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
+				pstm.setString(1, horario.get("inicio"));
+				pstm.setString(2, horario.get("fin"));
+				pstm.setLong(3, idSesion);
+				
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					
+				} else {
+					throw new Exception("No se ha podido insertar el  horario");
+				}
+				
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
 				pstm.setString(1, horario.get("inicio"));
 				pstm.setString(2, horario.get("fin"));
@@ -259,13 +275,18 @@ class SesionesDAO {
 				pstm.executeUpdate();
 			}
 			
+			con.commit();
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[insertSesion] " + e.getMessage());
+			if (con != null) {
+				con.rollback();
+			}
 		} finally {
 			resultado.setError_info(errorLog);
 			if (con != null) {
+				con.setAutoCommit(true);
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
 		}
