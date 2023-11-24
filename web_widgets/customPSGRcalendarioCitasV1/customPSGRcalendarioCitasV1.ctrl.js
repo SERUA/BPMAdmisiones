@@ -132,7 +132,13 @@ function($scope, $http, blockUI, $window) {
         });
     }
 
-    loadFechas();
+    // loadFechas();
+
+    $scope.$watch("properties.idcampus", function(){
+        if($scope.properties.idcampus){
+            loadFechas();
+        }
+    });
 
     function construirEventos(_sesiones){
         let eventos = []

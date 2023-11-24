@@ -1,5 +1,4 @@
 function ($scope, $http) {
-    debugger;
     $http.get("../API/system/session/1").success(function(_data){
         let url = "../API/bpm/humanTask?p=0&c=10&f=assigned_id=" + _data.user_id;
        

@@ -75,7 +75,7 @@ class SesionesDAO {
 
 	}
 	
-	public Result getSesionesV1() {
+	public Result getSesionesV1(String idcampus) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
