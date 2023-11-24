@@ -75,7 +75,7 @@ class SesionesDAO {
 
 	}
 	
-	public Result getSesionesV1() {
+	public Result getSesionesV1(String idcampus) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -86,6 +86,7 @@ class SesionesDAO {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
+			pstm.setLong(1, Long.valueOf(idcampus));
 			rs = pstm.executeQuery();
 			
 			while (rs.next()) {

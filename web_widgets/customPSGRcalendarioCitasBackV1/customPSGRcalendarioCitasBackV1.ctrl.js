@@ -25,7 +25,8 @@ function($scope, $http, blockUI, $window) {
                 "horarios": [],
                 "responsables": []
             }
-            // generarHoras();
+            $scope.responsables = [];
+            $scope.horarios = [];
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();

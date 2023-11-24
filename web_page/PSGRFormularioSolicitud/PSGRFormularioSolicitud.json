@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1700781049744,
+  "lastUpdate" : 1700786301678,
   "rows" : [
     [
       {
@@ -10543,6 +10543,10 @@
                       "readOnly" : {
                         "type" : "constant",
                         "value" : false
+                      },
+                      "idcampus" : {
+                        "type" : "expression",
+                        "value" : "datosPrograma.campus.persistenceId"
                       }
                     },
                     "reference" : "2acfa1ad-44bb-40ca-9bfc-4155e54bfb78",
@@ -22233,7 +22237,6 @@
     "isModificar" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "if($data.task.name == \"Modificar solicitud\"){",
         "    return true;",
         "} else {",
@@ -22245,7 +22248,6 @@
     "debugger" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "$data.task;",
         "$data.taskId;"
       ],
