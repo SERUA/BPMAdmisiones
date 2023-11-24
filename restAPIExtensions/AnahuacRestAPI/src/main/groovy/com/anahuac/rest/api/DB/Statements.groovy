@@ -649,4 +649,6 @@ class Statements {
 	public static final String GET_PRUEBAS_IDBANNER_IDSESION = "Select ap.prueba_pid, ap.username FROM solicituddeadmision AS SDA INNER JOIN detallesolicitud AS DS ON DS.caseid = SDA.caseid::varchar AND DS.idbanner = ? INNER JOIN aspirantespruebas AS AP ON AP.username = SDA.correoelectronico AND AP.catTipoPrueba_pid = 1 and AP.sesiones_pid = ? ";
 	
 	public static final String GET_ISTEMPORAL_INVP = "SELECT istemporal FROM IdiomaINVPUsuario WHERE username = ?";
+
+	public static final String Get_EXCEL_REPORTE_METAPROFILE = "SELECT CASE WHEN SDA.segundonombre='' then SDA.primernombre else SDA.primernombre || ' ' || SDA.segundonombre END AS nombre, SDA.apellidomaterno AS amaterno, SDA.apellidopaterno AS apaterno, SDA.correoelectronico AS email, DS.idbanner AS idbanner, SA.sesiones_pid AS idsesion, to_char(P.aplicacion, 'DD/MM/YYYY') AS fecha_examen, P.entrada AS hora_examen FROM solicitudDeAdmision AS SDA INNER JOIN detalleSolicitud AS DS ON DS.caseid::INTEGER = SDA.caseid INNER JOIN sesionAspirante AS SA ON SA.caseid IS NOT NULL AND SDA.caseid = SA.caseid::INTEGER INNER JOIN sesiones AS S ON S.persistenceid = SA.sesiones_pid INNER JOIN pruebas P ON S.persistenceid = P.sesion_pid and P.cattipoprueba_pid = 4 INNER JOIN catcampus AS CAMPUS ON CAMPUS.persistenceid=SDA.catcampus_pid ";
 }
