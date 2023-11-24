@@ -2016,6 +2016,12 @@ class SecurityFilter {
 		      break;
 		    }
 		    break;
+		case "generarReporteMetaProfile":
+		    allow = bonitaRolFilter(context, "ADMISIONES");
+		    if (allow) {
+		      break;
+		    }
+		    break;
 		  case "generarReporteResultadosExamenes":
 		    allow = bonitaRolFilter(context, "ADMISIONES");
 		    if (allow) {

@@ -1163,6 +1163,15 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break
+				case "generarReporteMetaProfile":
+				result = new ReportesDAO().generarReporteMetaProfile(jsonData);
+				responseBuilder.withMediaType("application/json")
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break
 				case "generarReporteResultadosExamenes":
 				result = new ReportesDAO().generarReporteResultadosExamenes(jsonData)
 				responseBuilder.withMediaType("application/json")
