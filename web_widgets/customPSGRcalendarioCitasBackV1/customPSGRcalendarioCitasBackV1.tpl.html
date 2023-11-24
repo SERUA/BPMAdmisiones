@@ -12,7 +12,7 @@
 </div>
     
 <div class="row" ng-show="navVar === 'calendario' && filtroCampus !== ''">
-    <div class="col-xs-12 text-right">
+    <div class="col-xs-12 text-right" style="margin-bottom: 10px; padding-right: 32px;">
         <button type="button" class="btn btn-primary" ng-click="initSesion()">Agendar nueva sesión</button>
     </div>
 </div>
@@ -39,9 +39,11 @@
 </div>
 
 <div class="row" ng-show="navVar === 'sesion'">
-    <div class="col-xs-12 text-center">
-        <div class="col-xs-3">
-            <button type="button" ng-click="navVar = 'calendario'" class="btn btn-info"> Atras </button>
+    <div class="col-xs-8 col-xs-offset-2 text-center">
+        <div class="col-xs-3 text-left">
+            <div class="col-xs-12">
+                <button type="button" ng-click="navVar = 'calendario'" class="btn btn-info"> Atras </button>
+            </div>
         </div>
         <div class="col-xs-6">
             <h3 class="color-orange">Detalles de la sesión</h3>
@@ -70,7 +72,7 @@
             </div>
         </div>
         <div class="form-group col-xs-6">
-            <label class="control-label col-xs-12"> Diración de las entrevistas: </label>
+            <label class="control-label col-xs-12"> Duración de las entrevistas: </label>
             <div class="col-xs-12">
                 <select class="form-control" ng-disabled="sesion.persistenceId" ng-change="generarHoras(sesion.duracion_entrevista_minutos)" ng-model="sesion.duracion_entrevista_minutos" >
                     <option ng-repeat="opcion in lstDuracion" ng-value="opcion">{{opcion}}</option>
@@ -82,7 +84,7 @@
             <div class="col-xs-12 text-center">
                 <h4 class="color-orange">Responsables</h4>
             </div>
-            <div class="col-xs-12 text-center">
+            <div class="row">
                 <div class="form-group col-xs-6">
                     <label class="control-label col-xs-12">Responsable:</label>
                     <div class="col-xs-12">
@@ -93,31 +95,32 @@
                     </div>
                 </div>
                 <div class="col-xs-6 text-left">
-                    <button class="btn btn-primary" ng-click="agregarResponsable(nuevoResponsable)">Agregar</button>
+                    <button class="btn btn-primary" style="margin-top: 24px;" ng-click="agregarResponsable(nuevoResponsable)">Agregar responsable</button>
                 </div>
             </div>
-            
-            <table class="table">
-                <thead>
-                    <tr>
-                        <th>Responsable</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr ng-repeat="usuario in responsables">
-                        <td>{{usuario.nombre}}</td>
-                        <td>
-                            <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
-                                <span class="glyphicon glyphicon-wrench"></span>
-                            </button>
-                            <button class="btn btn-link" ng-click="deleteResponsable(usuario)">
-                                <span class="glyphicon glyphicon-trash"></span>
-                            </button>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="col-xs-12">
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Responsable</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr ng-repeat="usuario in responsables">
+                            <td>{{usuario.nombre}}</td>
+                            <td>
+                                <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
+                                    <span class="glyphicon glyphicon-wrench"></span>
+                                </button>
+                                <button class="btn btn-link" ng-click="deleteResponsable(usuario)">
+                                    <span class="glyphicon glyphicon-trash"></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <br><br>
         <div class="col-xs-12">

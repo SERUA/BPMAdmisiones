@@ -27,6 +27,7 @@ function($scope, $http, blockUI, $window) {
             }
             $scope.responsables = [];
             $scope.horarios = [];
+            $scope.nuevoResponsable = null;
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
@@ -123,6 +124,18 @@ function($scope, $http, blockUI, $window) {
         let url = "../API/extension/posgradosRestGet?url=getSesionesV2&idcampus=" + $scope.idcampus;
         
         $http.get(url).success(function(_data){
+
+            $scope.sesion = {
+                "nombre": "", 
+                "descripcion_entrevista": "",
+                "fecha_entrevista": "",
+                "duracion_entrevista_minutos": "",
+                "campus": ""
+            }
+            $scope.responsables = [];
+            $scope.horarios = [];
+            $scope.nuevoResponsable = null;
+
             if(_data){
                 $scope.sesiones = _data;
                 eventos = construirEventos(_data);
@@ -413,9 +426,9 @@ function($scope, $http, blockUI, $window) {
                 
                 horario["responsables"].push(angular.copy(nuevoUsuario));
             }
-        } else {
-            $scope.nuevoResponsable = null;
-        }
+        } 
+
+        $scope.nuevoResponsable = null;
     }
 
     $scope.deleteResponsable = function(_usuario){
