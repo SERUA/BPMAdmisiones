@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1700690293980,
+  "lastUpdate" : 1700789730422,
   "rows" : [
     [
       {
@@ -76,7 +76,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{dataToCorregir | json}}</pre>"
+            "value" : "dataToCorregir:\n<pre>{{dataToCorregir | json}}</pre>\ncorreccionFormOutput:\n<pre>{{correccionFormOutput | json}}</pre>\ncorreccionFormInput:\n<pre>{{correccionFormInput | json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -108,6 +108,58 @@
           }
         },
         "reference" : "22a449c7-e1ef-487d-b0d7-ca041aee4c43",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<pre>{{corregirStatusResult}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "e584a837-0cd4-455d-a482-148a0fe8fc50",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -576,7 +628,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "datosPersonales.nombre"
+                                "value" : "correccionFormInput.datosPersonales.nombre"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -653,7 +705,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "datosPersonales.apellido_paterno"
+                                "value" : "correccionFormInput.datosPersonales.apellido_paterno"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -730,7 +782,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "datosPersonales.apellido_materno"
+                                "value" : "correccionFormInput.datosPersonales.apellido_materno"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -807,7 +859,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "datosPersonales.curp"
+                                "value" : "correccionFormInput.datosPersonales.curp"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -884,7 +936,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "datosContacto.correo_contacto"
+                                "value" : "correccionFormInput.datosContacto.correo_contacto"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -929,7 +981,7 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "1397e93e-f0e0-41f3-8664-23c3aed49cf3",
+                            "reference" : "c06a49dd-0f3e-4e4c-97e4-8885a6921383",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
@@ -988,7 +1040,7 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.campus.descripcion"
+                                      "value" : "correccionFormInput.datosPrograma.campus.descripcion"
                                     },
                                     "type" : {
                                       "type" : "constant",
@@ -1069,10 +1121,10 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.campus"
+                                      "value" : "correccionFormInput.datosPrograma.campus"
                                     }
                                   },
-                                  "reference" : "627e9727-9d70-4482-9590-88add9723b64",
+                                  "reference" : "a8347b28-d65e-49a5-9435-b339e47d12b0",
                                   "hasValidationError" : false,
                                   "id" : "pbSelect"
                                 }
@@ -1103,7 +1155,7 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "4a8f284f-8fbf-4999-ba41-f820c8f29c36",
+                            "reference" : "77756912-7950-4c59-a4dd-ea124bccccb1",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
@@ -1162,7 +1214,7 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.posgrado.descripcion"
+                                      "value" : "correccionFormInput.datosPrograma.posgrado.descripcion"
                                     },
                                     "type" : {
                                       "type" : "constant",
@@ -1243,10 +1295,10 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.posgrado"
+                                      "value" : "correccionFormInput.datosPrograma.posgrado"
                                     }
                                   },
-                                  "reference" : "b9b99c77-ce3e-4754-bb3b-e20e451221e2",
+                                  "reference" : "55e8542a-6068-4a14-8879-3ad5b3fd009f",
                                   "hasValidationError" : false,
                                   "id" : "pbSelect"
                                 }
@@ -1277,7 +1329,7 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "ba791af4-8811-4f02-9daf-66ad87e80edc",
+                            "reference" : "2d3bdfea-917f-43cb-9e16-4939d2d05b52",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
@@ -1336,7 +1388,7 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.programa_interes.nombre"
+                                      "value" : "correccionFormInput.datosPrograma.programa_interes.nombre"
                                     },
                                     "type" : {
                                       "type" : "constant",
@@ -1417,10 +1469,10 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.programa_interes"
+                                      "value" : "correccionFormInput.datosPrograma.programa_interes"
                                     }
                                   },
-                                  "reference" : "c9cd2c21-8da5-49b0-a213-b3376763c917",
+                                  "reference" : "51bdd93f-3afc-43fa-aaa8-0435e7d3929b",
                                   "hasValidationError" : false,
                                   "id" : "pbSelect"
                                 }
@@ -1451,7 +1503,7 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "13050d5f-801c-4efc-a82f-d4a364c78f6b",
+                            "reference" : "ec05a571-54f0-4cf9-93bf-bae71f195326",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
@@ -1510,7 +1562,7 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.periodo_ingreso.descripcion"
+                                      "value" : "correccionFormInput.datosPrograma.periodo_ingreso.descripcion"
                                     },
                                     "type" : {
                                       "type" : "constant",
@@ -1591,10 +1643,10 @@
                                     },
                                     "value" : {
                                       "type" : "variable",
-                                      "value" : "datosPrograma.periodo_ingreso"
+                                      "value" : "correccionFormInput.datosPrograma.periodo_ingreso"
                                     }
                                   },
-                                  "reference" : "376351ef-01ff-4ca4-93b1-78d1fd1e779f",
+                                  "reference" : "3172864d-4706-46ad-8b8c-ce92212f0b56",
                                   "hasValidationError" : false,
                                   "id" : "pbSelect"
                                 }
@@ -1658,7 +1710,7 @@
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 3,
                               "sm" : 6,
                               "md" : 6,
                               "lg" : 6
@@ -1682,7 +1734,7 @@
                               },
                               "alignment" : {
                                 "type" : "constant",
-                                "value" : "center"
+                                "value" : "left"
                               },
                               "buttonStyle" : {
                                 "type" : "constant",
@@ -1737,16 +1789,20 @@
                               },
                               "removeItem" : {
                                 "type" : "variable"
+                              },
+                              "event" : {
+                                "type" : "variable",
+                                "value" : "cancelarCorreccionClickEvent"
                               }
                             },
-                            "reference" : "06377c63-08d6-40a5-bc8b-ce3ad61d6ed5",
+                            "reference" : "722ed324-ca99-4b39-a9b0-08c5ea83eb11",
                             "hasValidationError" : false,
-                            "id" : "pbButton"
+                            "id" : "customPSGRButtonEventAction"
                           },
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 9,
                               "sm" : 6,
                               "md" : 6,
                               "lg" : 6
@@ -1770,7 +1826,7 @@
                               },
                               "alignment" : {
                                 "type" : "constant",
-                                "value" : "center"
+                                "value" : "right"
                               },
                               "buttonStyle" : {
                                 "type" : "constant",
@@ -1864,11 +1920,15 @@
                               },
                               "urlServicio" : {
                                 "type" : "constant",
-                                "value" : "ejemplo"
+                                "value" : "/bonita/API/extension/posgradosRest?url=updateCorreccionesSolicitud&p=0&c=10"
                               },
                               "dataToCorregir" : {
                                 "type" : "expression",
-                                "value" : "dataToCorregir"
+                                "value" : "correccionFormOutput"
+                              },
+                              "statusResult" : {
+                                "type" : "variable",
+                                "value" : "corregirStatusResult"
                               }
                             },
                             "reference" : "957bd27f-c3c8-461d-8d3f-2cd3d730b23b",
@@ -22057,7 +22117,7 @@
     "selectedIndexMain" : {
       "type" : "constant",
       "value" : [
-        "1"
+        "0"
       ],
       "exposed" : false
     },
@@ -22368,26 +22428,165 @@
       ],
       "exposed" : false
     },
-    "dataToCorregir" : {
+    "correccionFormInput" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "correccionFormOutput" : {
       "type" : "expression",
       "value" : [
         "return {",
-        "    datosPersonales: {",
-        "        nombre: $data.datosPersonales.nombre ? $data.datosPersonales.nombre : null,",
-        "        apellido_paterno: $data.datosPersonales.apellido_paterno ? $data.datosPersonales.apellido_paterno : null,",
-        "        apellido_materno: $data.datosPersonales.apellido_materno ? $data.datosPersonales.apellido_materno : null,",
-        "        curp: $data.datosPersonales.curp ? $data.datosPersonales.curp : null,",
-        "    },",
-        "    datosContacto: {",
-        "        correo_contacto: $data.datosContacto.correo_contacto ? $data.datosContacto.correo_contacto : null,",
-        "    },",
-        "    datosPrograma: {",
-        "        campus: ($data.datosPrograma.campus && $data.datosPrograma.campus.persistenceId) ? { persistenceId: $data.datosPrograma.campus.persistenceId } : null,",
-        "        posgrado: ($data.datosPrograma.posgrado && $data.datosPrograma.posgrado.persistenceId) ? { persistenceId: $data.datosPrograma.posgrado.persistenceId } : null,",
-        "        programa_interes: ($data.datosPrograma.programa_interes && $data.datosPrograma.programa_interes.persistenceId) ? { persistenceId: $data.datosPrograma.programa_interes.persistenceId } : null,",
-        "        periodo_ingreso: ($data.datosPrograma.periodo_ingreso && $data.datosPrograma.periodo_ingreso.persistenceId) ? { persistenceId: $data.datosPrograma.periodo_ingreso.persistenceId } : null,",
-        "    },",
+        "    datosPersonales: $data.correccionFormInput.datosPersonales ? {",
+        "        persistenceId_string: $data.correccionFormInput.datosPersonales.persistenceId_string ? $data.correccionFormInput.datosPersonales.persistenceId_string : null,",
+        "        nombre: $data.correccionFormInput.datosPersonales.nombre ? $data.correccionFormInput.datosPersonales.nombre : null,",
+        "        apellido_paterno: $data.correccionFormInput.datosPersonales.apellido_paterno ?  $data.correccionFormInput.datosPersonales.apellido_paterno : null,",
+        "        apellido_materno: $data.correccionFormInput.datosPersonales.apellido_materno ? $data.correccionFormInput.datosPersonales.apellido_materno : null,",
+        "        curp: $data.correccionFormInput.datosPersonales.curp ? $data.correccionFormInput.datosPersonales.curp : null,",
+        "    } : null,",
+        "    datosContacto: $data.correccionFormInput.datosContacto ? {",
+        "        persistenceId_string: $data.correccionFormInput.datosContacto.persistenceId_string ? $data.correccionFormInput.datosContacto.persistenceId_string : null,",
+        "        correo_contacto: $data.correccionFormInput.datosContacto.correo_contacto ? $data.correccionFormInput.datosContacto.correo_contacto : null,",
+        "    } : null,",
+        "    datosPrograma: $data.correccionFormInput.datosPrograma ? {",
+        "        persistenceId_string: $data.correccionFormInput.datosPrograma.persistenceId_string ? $data.correccionFormInput.datosPrograma.persistenceId_string : null,",
+        "        campus: $data.correccionFormInput.datosPrograma.campus ? {",
+        "            persistenceId_string: $data.correccionFormInput.datosPrograma.campus.persistenceId_string ? $data.correccionFormInput.datosPrograma.campus.persistenceId_string : null,",
+        "        } : null,",
+        "        posgrado: $data.correccionFormInput.datosPrograma.posgrado ? {",
+        "            persistenceId_string: $data.correccionFormInput.datosPrograma.posgrado.persistenceId_string ? $data.correccionFormInput.datosPrograma.posgrado.persistenceId_string : null,",
+        "        } : null,",
+        "        programa_interes: $data.correccionFormInput.datosPrograma.programa_interes ? {",
+        "            persistenceId_string: $data.correccionFormInput.datosPrograma.programa_interes.persistenceId_string ? $data.correccionFormInput.datosPrograma.programa_interes.persistenceId_string : null,",
+        "        } : null,",
+        "        periodo_ingreso: $data.correccionFormInput.datosPrograma.periodo_ingreso ? {",
+        "            persistenceId_string: $data.correccionFormInput.datosPrograma.periodo_ingreso.persistenceId_string ? $data.correccionFormInput.datosPrograma.periodo_ingreso.persistenceId_string : null,",
+        "        } : null,",
+        "    } : null,",
         "};"
+      ],
+      "exposed" : false
+    },
+    "correccionInitData" : {
+      "type" : "expression",
+      "value" : [
+        "",
+        "// Si hay información:",
+        "if ($data.datosPersonales && $data.datosContacto && $data.datosPrograma) {",
+        "    // Y no se ha inicializado todavia:",
+        "    if (!$data.correccionFormInput || Object.keys($data.correccionFormInput).length === 0) {",
+        "        // Inicializar mediante una copia de datos.",
+        "        $data.correccionFormInput = copyData();",
+        "        debugger;",
+        "    }",
+        "}",
+        "",
+        "function copyData() {",
+        "    const targetData = {",
+        "        datosPersonales: {",
+        "            persistenceId_string: $data.datosPersonales.persistenceId_string ? $data.datosPersonales.persistenceId_string : null,",
+        "            nombre: $data.datosPersonales.nombre ? $data.datosPersonales.nombre : null,",
+        "            apellido_paterno: $data.datosPersonales.apellido_paterno ? $data.datosPersonales.apellido_paterno : null,",
+        "            apellido_materno: $data.datosPersonales.apellido_materno ? $data.datosPersonales.apellido_materno : null,",
+        "            curp: $data.datosPersonales.curp ? $data.datosPersonales.curp : null,",
+        "        },",
+        "        datosContacto: {",
+        "            persistenceId_string: $data.datosContacto.persistenceId_string ? $data.datosContacto.persistenceId_string : null,",
+        "            correo_contacto: $data.datosContacto.correo_contacto ? $data.datosContacto.correo_contacto : null,",
+        "        },",
+        "        datosPrograma: {",
+        "            persistenceId_string: $data.datosPrograma.persistenceId_string ? $data.datosPrograma.persistenceId_string : null,",
+        "            campus: $data.datosPrograma.campus ? $data.datosPrograma.campus : null,",
+        "            posgrado: $data.datosPrograma.posgrado ? $data.datosPrograma.posgrado : null,",
+        "            programa_interes: $data.datosPrograma.programa_interes ? $data.datosPrograma.programa_interes : null,",
+        "            periodo_ingreso: $data.datosPrograma.periodo_ingreso ? $data.datosPrograma.periodo_ingreso : null,",
+        "        },",
+        "    };",
+        "    ",
+        "    return Object.assign({} , targetData);",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "cancelarCorreccionClickEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "cancelarCorreccionListener" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.cancelarCorreccionClickEvent) {",
+        "    // Ponemos el form correcciones en solo lectura.",
+        "    $data.checkCorrecion = false;",
+        "    // Limpiamos el objeto correccionFormInput para que se vuelva a cargar con los datos reales.",
+        "    $data.correccionFormInput = {};",
+        "    // Borramos el evento para que solo se ejecute una vez.",
+        "    $data.cancelarCorreccionClickEvent = null;",
+        "}",
+        "",
+        "function copyData() {",
+        "    const targetData = {",
+        "        datosPersonales: {",
+        "            persistenceId_string: $data.datosPersonales.persistenceId_string ? $data.datosPersonales.persistenceId_string : null,",
+        "            nombre: $data.datosPersonales.nombre ? $data.datosPersonales.nombre : null,",
+        "            apellido_paterno: $data.datosPersonales.apellido_paterno ? $data.datosPersonales.apellido_paterno : null,",
+        "            apellido_materno: $data.datosPersonales.apellido_materno ? $data.datosPersonales.apellido_materno : null,",
+        "            curp: $data.datosPersonales.curp ? $data.datosPersonales.curp : null,",
+        "        },",
+        "        datosContacto: {",
+        "            persistenceId_string: $data.datosContacto.persistenceId_string ? $data.datosContacto.persistenceId_string : null,",
+        "            correo_contacto: $data.datosContacto.correo_contacto ? $data.datosContacto.correo_contacto : null,",
+        "        },",
+        "        datosPrograma: {",
+        "            persistenceId_string: $data.datosPrograma.persistenceId_string ? $data.datosPrograma.persistenceId_string : null,",
+        "            campus: $data.datosPrograma.campus ? $data.datosPrograma.campus : null,",
+        "            posgrado: $data.datosPrograma.posgrado ? $data.datosPrograma.posgrado : null,",
+        "            programa_interes: $data.datosPrograma.programa_interes ? $data.datosPrograma.programa_interes : null,",
+        "            periodo_ingreso: $data.datosPrograma.periodo_ingreso ? $data.datosPrograma.periodo_ingreso : null,",
+        "        },",
+        "    };",
+        "    ",
+        "    return Object.assign({} , targetData);",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "corregirStatusResult" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : false
+    },
+    "correccionStatusResultListener" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.corregirStatusResult === \"success\") {",
+        "    // Ponemos el form correcciones en solo lectura.",
+        "    $data.checkCorrecion = false;",
+        "    ",
+        "    /*",
+        "    try {",
+        "        // Tratar de volver a cargar los datos, para que se reflejen los nuevos valores.    ",
+        "        let saveTaskId = $data.taskId;",
+        "        $data.taskId = null;",
+        "        $data.taskId = saveTaskId;",
+        "        ",
+        "        // Limpiamos el objeto correccionFormInput para que se vuelva a cargar con los datos reales.",
+        "         $data.correccionFormInput = {};",
+        "    }",
+        "    catch (e){}*/",
+        "    ",
+        "    // Borramos el status para que solo se ejecute una vez.",
+        "    $data.corregirStatusResult = \"\";",
+        "} else if ($data.corregirStatusResult === \"error\") {",
+        "    ",
+        "}"
       ],
       "exposed" : false
     }
