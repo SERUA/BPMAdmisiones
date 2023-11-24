@@ -119,7 +119,7 @@ function($scope, $http, blockUI, $window) {
     var eventos = [];
 
     function loadFechas(){
-        let url = "../API/extension/posgradosRestGet?url=getSesionesV1";
+        let url = "../API/extension/posgradosRestGet?url=getSesionesV1&idcampus=" + $scope.properties.idcampus ;
         
         $http.get(url).success(function(_data){
             if(_data){
@@ -150,25 +150,6 @@ function($scope, $http, blockUI, $window) {
 
         return eventos;
     }
-
-    // $scope.entrevistaSelected = false;
-    // $scope.sesion_aspirante = {
-    //     "persistenceId": 0,
-    //     "persistenceVersion": 0,
-    //     "responsabledisponible_pid": 0,
-    //     "sesiones_pid": 0,
-    //     "username": ""
-    // }
-
-    // $scope.horaInicio = new Date();
-    // $scope.horaFin = new Date();
-    // $scope.fechaCalendario = "";
-    // $scope.resultadoMostrarAudiencia = {};
-    // $scope.resultadoMostrarAudiencia.idSala = 0;
-    // $scope.resultadoMostrarAudiencia.idTipo_Audiencia = 0;
-    // $scope.resultadoMostrarAudiencia.text = "";
-    // $scope.resultadoMostrarAudiencia.id = 0;
-    // $scope.eliminado = "false";
 
     $scope.show_minical = function () {
         if (scheduler.isCalendarVisible()) {
@@ -236,18 +217,6 @@ function($scope, $http, blockUI, $window) {
 
         return fecha;
     }
-
-    // $scope.modalConfirmar = function () {
-    //     $("#modalConfirmar").modal('show')
-    // }
-
-    // $scope.closeModal = function () {
-    //     $("#modalConfirmar").modal('hide')
-    // }
-
-    // $scope.modalEntrevista = function () {
-    //     $("#modalEntrevista").modal('show')
-    // }
 
     $scope.setShowCalendar = function () {
         $scope.properties.hideCalendario = false;

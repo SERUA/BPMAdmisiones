@@ -86,6 +86,7 @@ class SesionesDAO {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
 			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
+			pstm.setLong(1, Long.valueOf(idcampus));
 			rs = pstm.executeQuery();
 			
 			while (rs.next()) {

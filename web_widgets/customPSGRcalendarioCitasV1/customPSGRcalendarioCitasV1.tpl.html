@@ -49,9 +49,16 @@
                     <h3 class="text-center">{{fechaSelected}}</h3>
                     <table class="table table-striped">
                         <tbody>
-                            <tr ng-repeat="disponible in entrevistas" style="height: 60px;">
-                                <td>{{disponible.hora_inicio}} - {{disponible.hora_fin}}</td>
-                                <td class="text-center"><label style="cursor: pointer; outline: none; margin-top: 9px;" ng-click="seleccionarHorario(disponible)"><span style="padding: 15px;font-size: 15px;" class="label label-{{(disponible.ocupado)?'default':(disponible.disponible)?'success':'default'}}">{{(disponible.ocupado)?'Ocupado':(disponible.disponible)?"Disponible":"No Disponible"}}</span></label></td>
+                            <tr ng-repeat="entrevista in entrevistas" style="height: 60px;">
+                                <td>{{entrevista.hora_inicio}} - {{entrevista.hora_fin}}</td>
+                                <td class="text-center">
+                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-click="seleccionarHorario(entrevista)" ng-if="entrevista.disponible">
+                                        <span style="padding: 15px;font-size: 15px;" class="label label-success">Disponible</span>
+                                    </label>
+                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-if="!entrevista.disponible">
+                                        <span style="padding: 15px;font-size: 15px;" class="label label-default">{{(entrevista.ocupado) ? 'Ocupado' : 'No Disponible' }}</span>
+                                    </label>
+                                </td>
                             </tr>
                         </tbody>
                     </table>
