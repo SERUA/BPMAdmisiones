@@ -573,4 +573,46 @@ class SolicitudDeAdmisionDAO {
 	
 		return resultado;
 	}	
+	
+	public Result getSolicitudesDuplicadas(String nombre, String apellido_m, String apellido_p, String curp, String pasaporte, String id_banner) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.GET_SOLICITUDES_DUPLICADOS.replace("[NOMBRE]", nombre).replace("[APELLIDO_M]", apellido_m).replace("[APELLIDO_P]", apellido_p).replace("[CURP]", curp).replace("[PASAPORTE]", pasaporte).replace("[IDBANNER]", id_banner));
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("nombre", rs.getString("nombre"));
+				row.put("apellido_paterno", rs.getString("apellido_paterno"));
+				row.put("apellido_materno", rs.getString("apellido_materno"));
+				row.put("curp", rs.getString("curp"));
+				row.put("id_banner", rs.getString("id_banner"));
+				row.put("fecha_registro", rs.getString("fecha_registro"));
+				row.put("pasaporte", rs.getString("pasaporte"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 }
