@@ -1395,7 +1395,7 @@ class UsuariosDAO {
 								try {
 									String urlFoto = rs.getString("urlfoto");
 									if(urlFoto != null && !urlFoto.isEmpty()) {
-										columns.put("fotografiab64",  base64Imagen((rs.getString("urlfoto") + SSA+"&v="+num)) );
+										columns.put("fotografiab64",  rs.getString("urlfoto") + SSA);
 									}else {
 										List<Document>doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
 										for(Document doc : doc1) {
@@ -3659,7 +3659,7 @@ class UsuariosDAO {
 							String urlFoto = rs.getString("urlfoto");
 							if (urlFoto != null && !urlFoto.isEmpty()) {
 								
-								columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+								columns.put("fotografiab64", rs.getString("urlfoto") + SSA );
 								//columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
 							} else {
 								noAzure = true;
@@ -4021,17 +4021,17 @@ class UsuariosDAO {
 						if (urlfoto != null && !urlfoto.isEmpty()) {
 							
 							
-							if(rs.getString("foto").toLowerCase().contains(".jpeg")) {
-								columns.put("fotografiab64", "data:image/jpeg;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
-							}else if(rs.getString("foto").toLowerCase().contains(".png")) {
-								columns.put("fotografiab64", "data:image/png;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
-							}else if(rs.getString("foto").toLowerCase().contains(".jpg")) {
-								columns.put("fotografiab64", "data:image/jpg;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
-							}else if(rs.getString("foto").toLowerCase().contains(".jfif")) {
-								columns.put("fotografiab64", "data:image/jfif;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
-							}
+//							if(rs.getString("foto").toLowerCase().contains(".jpeg")) {
+//								columns.put("fotografiab64", "data:image/jpeg;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
+//							}else if(rs.getString("foto").toLowerCase().contains(".png")) {
+//								columns.put("fotografiab64", "data:image/png;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
+//							}else if(rs.getString("foto").toLowerCase().contains(".jpg")) {
+//								columns.put("fotografiab64", "data:image/jpg;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
+//							}else if(rs.getString("foto").toLowerCase().contains(".jfif")) {
+//								columns.put("fotografiab64", "data:image/jfif;base64, "+(new FileDownload().b64Url(rs.getString("foto") + SSA+"&v="+num)));
+//							}
 							
-							//columns.put("fotografiab64", rs.getString("foto") + SSA);
+							columns.put("fotografiab64", rs.getString("foto") + SSA);
 							//columns.put("rutaPagob64", rs.getString("rutaPago") + SSA);
 							//columns.put("rutaSolicitudb64", rs.getString("rutaSolicitud") + SSA);
 						}
