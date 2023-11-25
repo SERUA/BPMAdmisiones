@@ -5,7 +5,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
-        $scope.enviarCarta();
         
         if ($scope.properties.action === 'Remove from collection') {
             removeFromCollection();
@@ -28,7 +27,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     $scope.enviarCarta = function() {
-        // "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10"
         doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, 
             function(datos) { 
                 $scope.properties.mensajeResultadoDeEnvio = "¡Se envio el correo correctamente!"; 
@@ -111,7 +109,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).error(function (err) {
             
         }).finally(function () {
-            debugger;
             $window.close();
         });
     }
@@ -156,11 +153,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     }
 
     function submitTask() {
-        debugger;
         var id;
         id = $scope.properties.taskId;
         var params = getUserParam();
-        params.assign = true  ;
+        params.assign = true;
         if (id) {
                 doRequest('POST', '../API/bpm/userTask/' + id + '/execution', params).then(function() {
                     localStorageService.delete($window.location.href);
@@ -170,7 +166,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             }
     }
     function doRequest(method, url, params) {
-        debugger;
         let dataToSend = angular.copy($scope.properties.dataToSend);
         vm.busy = true;
         var req = {
@@ -182,20 +177,35 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     
         return $http(req)
           .success(function(data, status) {
-            $scope.properties.dataFromSuccess = data;
+            // Enviar carta
+            $scope.enviarCarta();
+            // Guardar datos 
+            $scope.properties.dataFromSuccess = "success";
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromError = undefined;
             notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status});
             if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
               redirectIfNeeded();
             }
+            
+            // Cerrar modal
             closeModal($scope.properties.closeOnSuccess);
           })
           .error(function(data, status) {
-            $scope.properties.dataFromError = data;
+              debugger;
+            // Guardar datos
+            $scope.properties.dataFromError = "error";
             $scope.properties.responseStatusCode = status;
             $scope.properties.dataFromSuccess = undefined;
             notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
+            // Notificar error
+            Swal
+                .fire({
+                    title: "No se pudo completar la tarea",
+                    text: "Algo falló al tratar de finalizar la tarea. Error: " + data.message,
+                    icon: 'error',
+                    confirmButtonText: "Ok",
+                });
           })
           .finally(function() {
             vm.busy = false;

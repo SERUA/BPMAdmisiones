@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1700789730422,
+  "lastUpdate" : 1700870926524,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "dataToCorregir:\n<pre>{{dataToCorregir | json}}</pre>\ncorreccionFormOutput:\n<pre>{{correccionFormOutput | json}}</pre>\ncorreccionFormInput:\n<pre>{{correccionFormInput | json}}</pre>"
+            "value" : "validarInput:\n<pre>{{validarFormInput| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -152,7 +152,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{corregirStatusResult}}</pre>"
+            "value" : "<h4>Outputs</h4>\nRechazar:\n<pre>{{contratoOutputRechazar|json}}</pre>Modificaciones:\n<pre>{{contratoOutputModificaciones|json}}</pre>Aprobar:\n<pre>{{contratoOutputAprobar|json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -209,7 +209,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "tareaFinalizada !== \"tareaPendiente\""
+            "value" : "tareaFinalizada"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -359,11 +359,11 @@
                 "rows" : [
                   [
                     {
-                      "type" : "component",
+                      "type" : "container",
                       "dimension" : {
                         "xs" : 12,
-                        "sm" : 4,
-                        "md" : 3,
+                        "sm" : 12,
+                        "md" : 4,
                         "lg" : 3
                       },
                       "propertyValues" : {
@@ -375,109 +375,216 @@
                           "type" : "constant",
                           "value" : false
                         },
-                        "required" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Fotografía"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "placeholder" : {
-                          "type" : "interpolation"
-                        },
-                        "url" : {
-                          "type" : "constant",
-                          "value" : "../API/formFileUpload"
-                        },
-                        "value" : {
-                          "type" : "variable",
-                          "value" : "valued"
-                        },
-                        "urlretorno" : {
+                        "repeatedCollection" : {
                           "type" : "variable",
                           "value" : ""
-                        },
-                        "documentName" : {
-                          "type" : "constant",
-                          "value" : "Foto"
-                        },
-                        "documentDescription" : {
-                          "type" : "constant"
-                        },
-                        "documentoInfo" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "isObligatorio" : {
-                          "type" : "constant"
-                        },
-                        "urlAzure" : {
-                          "type" : "variable",
-                          "value" : "datosPersonales.urlFoto"
-                        },
-                        "urlDownloadFile" : {
-                          "type" : "expression",
-                          "value" : "urlDownloadFileazure"
-                        },
-                        "isMostrar" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "idDocumento" : {
-                          "type" : "constant"
-                        },
-                        "editar" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "idModal" : {
-                          "type" : "constant",
-                          "value" : "modalDocumentoPV"
-                        },
-                        "selectedFile" : {
-                          "type" : "variable",
-                          "value" : "selectedFile"
-                        },
-                        "tipoDocumento" : {
-                          "type" : "constant",
-                          "value" : "pdf"
-                        },
-                        "requiereEjemplo" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "urlEjemplo" : {
-                          "type" : "constant"
-                        },
-                        "caseid" : {
-                          "type" : "expression",
-                          "value" : "datosPersonales.caseid"
                         }
                       },
-                      "reference" : "79d47ba7-00bf-4b35-ba8c-d8dd750d1b31",
+                      "reference" : "48150c38-d7e0-4915-943a-5498c18c0076",
                       "hasValidationError" : false,
-                      "id" : "customPSGRUploadCustomAzure"
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Fotografía"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "url" : {
+                                "type" : "constant",
+                                "value" : "../API/formFileUpload"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "valued"
+                              },
+                              "urlretorno" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "documentName" : {
+                                "type" : "constant",
+                                "value" : "Foto"
+                              },
+                              "documentDescription" : {
+                                "type" : "constant"
+                              },
+                              "documentoInfo" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "isObligatorio" : {
+                                "type" : "constant"
+                              },
+                              "urlAzure" : {
+                                "type" : "variable",
+                                "value" : "datosPersonales.urlFoto"
+                              },
+                              "urlDownloadFile" : {
+                                "type" : "expression",
+                                "value" : "urlDownloadFileazure"
+                              },
+                              "isMostrar" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "idDocumento" : {
+                                "type" : "constant"
+                              },
+                              "editar" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "idModal" : {
+                                "type" : "constant",
+                                "value" : "modalDocumentoPV"
+                              },
+                              "selectedFile" : {
+                                "type" : "variable",
+                                "value" : "selectedFile"
+                              },
+                              "tipoDocumento" : {
+                                "type" : "constant",
+                                "value" : "pdf"
+                              },
+                              "requiereEjemplo" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "urlEjemplo" : {
+                                "type" : "constant"
+                              },
+                              "caseid" : {
+                                "type" : "expression",
+                                "value" : "datosPersonales.caseid"
+                              }
+                            },
+                            "reference" : "79d47ba7-00bf-4b35-ba8c-d8dd750d1b31",
+                            "hasValidationError" : false,
+                            "id" : "customPSGRUploadCustomAzure"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "ID Banner registrado:"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "datosPersonales.id_banner"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "d249f03d-a4a0-40d4-82f6-07ec828295ae",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ]
+                      ]
                     },
                     {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
-                        "sm" : 8,
-                        "md" : 9,
-                        "lg" : 5
+                        "sm" : 12,
+                        "md" : 8,
+                        "lg" : 4
                       },
                       "propertyValues" : {
                         "cssClasses" : {
@@ -1944,7 +2051,7 @@
                         "xs" : 12,
                         "sm" : 12,
                         "md" : 12,
-                        "lg" : 4
+                        "lg" : 5
                       },
                       "propertyValues" : {
                         "cssClasses" : {
@@ -2110,7 +2217,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.registroInput.curp_validada"
+                                "value" : "validarFormInput.registroInput.curp_validada"
                               }
                             },
                             "reference" : "789f64d6-3bb8-4a7a-9dfa-41ad47a6fa3d",
@@ -2219,7 +2326,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.registroInput.documentos_validados"
+                                "value" : "validarFormInput.registroInput.documentos_validados"
                               }
                             },
                             "reference" : "22c691f4-ba73-4349-bcd8-1a46495e488a",
@@ -2283,11 +2390,11 @@
                               },
                               "returnedKey" : {
                                 "type" : "constant",
-                                "value" : "\"persistenceId_string\""
+                                "value" : ""
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.validacionInput.tipo_de_alumno"
+                                "value" : "validarFormInput.registroInput.tipo_alumno"
                               }
                             },
                             "reference" : "5bef543c-4321-4d6a-bb99-a2e2f30c5627",
@@ -2351,11 +2458,11 @@
                               },
                               "returnedKey" : {
                                 "type" : "constant",
-                                "value" : "\"persistenceId_string\""
+                                "value" : ""
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.validacionInput.residencia"
+                                "value" : "validarFormInput.registroInput.residencia"
                               }
                             },
                             "reference" : "2a8f7c7c-99e4-4080-8f40-6993b94a002a",
@@ -2419,11 +2526,11 @@
                               },
                               "returnedKey" : {
                                 "type" : "constant",
-                                "value" : "\"persistenceId_string\""
+                                "value" : ""
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.validacionInput.tipo_de_admision"
+                                "value" : "validarFormInput.registroInput.tipo_admision"
                               }
                             },
                             "reference" : "0384853c-38a8-4699-9245-c7573315b72c",
@@ -2486,7 +2593,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.validacionInput.id_banner"
+                                "value" : "validarFormInput.datosPersonalesInput.id_banner"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -2540,7 +2647,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "formInput.registroInput.no_duplicado"
+                                "value" : "validarFormInput.registroInput.no_duplicado"
                               }
                             },
                             "reference" : "2d8ba332-096e-4d9c-8e9c-027d3950dff3",
@@ -3052,7 +3159,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Validar"
+                                "value" : "Aprobar"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -15752,7 +15859,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "tareaFinalizada === \"tareaPendiente\""
+            "value" : "!tareaFinalizada"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -16002,7 +16109,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "formInput.registroInput.mensaje_admin_escolar"
+                    "value" : "validarFormInput.registroInput.mensaje_admin_escolar"
                   },
                   "id" : {
                     "type" : "constant",
@@ -16382,7 +16489,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "formInput.registroInput.mensaje_admin_escolar"
+                    "value" : "validarFormInput.registroInput.mensaje_admin_escolar"
                   },
                   "id" : {
                     "type" : "constant",
@@ -16761,7 +16868,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "formInput.registroInput.mensaje_admin_escolar"
+                    "value" : "validarFormInput.registroInput.mensaje_admin_escolar"
                   },
                   "id" : {
                     "type" : "constant",
@@ -16769,14 +16876,15 @@
                   },
                   "ocultarPrevisualizar" : {
                     "type" : "constant",
-                    "value" : true
+                    "value" : false
                   },
                   "datosPrevisualizar" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "cartaDatosPrevisualizarAprobacion"
                   },
                   "replace" : {
-                    "type" : "constant"
+                    "type" : "constant",
+                    "value" : "[COMENTARIOS-CAMBIO]"
                   }
                 },
                 "reference" : "c4e3d5ed-315d-43d1-aa4d-d30159f5a9c4",
@@ -21188,22 +21296,21 @@
         "    \"registroInput\": {",
         "        \"mensaje_admin_escolar\": null,",
         "        \"aprobado_admin_escolar\": false,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": \"\",",
-        "            \"usuario_banner\": null",
-        "        },",
         "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": \"\"",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"residencia\": {",
-        "            \"persistenceId_string\": \"\"",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": \"\"",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"curp_validada\": false,",
         "        \"documentos_validados\": false,",
         "        \"no_duplicado\": false",
+        "    },",
+        "    \"datosPersonalesInput\": {",
+        "        \"id_banner\": null",
         "    }",
         "}"
       ],
@@ -22061,7 +22168,7 @@
         "        \"isValid\": true\r",
         "    },\r",
         "    {\r",
-        "        \"title\" : \"Aprobar solicitud\",\r",
+        "        \"title\" : \"Validar solicitud\",\r",
         "        \"value\" : \"validarSolicitud\",\r",
         "        \"isValid\": true\r",
         "    }\r",
@@ -22159,58 +22266,6 @@
       ],
       "exposed" : false
     },
-    "contratoOutput" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"isSolicitudRechazadaAdminEscolarInput\":  $data.formInput.desicionInput === $data.desiciones[0],",
-        "    \"isModificarSolicitudInput\": $data.formInput.desicionInput === $data.desiciones[1],",
-        "    ",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.formInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": $data.formInput.registroInput.aprobado_admin_escolar,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": $data.registro.campus.persistenceId_string,",
-        "            \"usuario_banner\": $data.formInput.registroInput.campus.usuario_banner",
-        "        },",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": 1//$data.formInput.registroInput.tipo_alumno.persistenceId_string",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": 1//$data.formInput.registroInput.residencia.persistenceId_string",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": 1//$data.formInput.registroInput.tipo_admision.persistenceId_string",
-        "        },",
-        "        \"curp_validada\": $data.formInput.registroInput.curp_validada,",
-        "        \"documentos_validados\": $data.formInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.formInput.registroInput.no_duplicado",
-        "    }",
-        "    /*",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.formInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": $data.formInput.registroInput.aprobado_admin_escolar,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.campus.persistenceId_string,",
-        "            \"usuario_banner\": $data.formInput.registroInput.campus.usuario_banner",
-        "        },",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.tipo_alumno.persistenceId_string",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.residencia.persistenceId_string",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.tipo_admision.persistenceId_string",
-        "        },",
-        "        \"curp_validada\": $data.formInput.registroInput.curp_validada,",
-        "        \"documentos_validados\": $data.formInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.formInput.registroInput.no_duplicado",
-        "    }*/",
-        "};"
-      ],
-      "exposed" : false
-    },
     "desiciones" : {
       "type" : "json",
       "value" : [
@@ -22229,7 +22284,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-rechazada\",",
-        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -22242,7 +22297,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-modificaciones\",",
-        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -22267,24 +22322,23 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  true,",
         "    \"isModificarSolicitudInput\": false,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "        \"aprobado_admin_escolar\": false,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": $data.registro.campus.persistenceId_string,",
-        "            \"usuario_banner\": $data.formInput.registroInput.campus.usuario_banner",
-        "        },",
         "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": 1 //null",
+        "            \"persistenceId_string\": null,",
         "        },",
         "        \"residencia\": {",
-        "            \"persistenceId_string\": 1 //null",
+        "            \"persistenceId_string\": null,",
         "        },",
         "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": 1 //null",
+        "            \"persistenceId_string\": null,",
         "        },",
         "        \"curp_validada\": false,",
         "        \"documentos_validados\": false,",
-        "        \"no_duplicado\": false",
+        "        \"no_duplicado\": false,",
+        "    },",
+        "    \"datosPersonalesInput\": {",
+        "        \"id_banner\": null",
         "    }",
         "};"
       ],
@@ -22297,24 +22351,23 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
         "    \"isModificarSolicitudInput\": true,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "        \"aprobado_admin_escolar\": false,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": $data.registro.campus.persistenceId_string, //null",
-        "            \"usuario_banner\": $data.formInput.registroInput.campus.usuario_banner //null",
-        "        },",
         "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": 1// null",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"residencia\": {",
-        "            \"persistenceId_string\": 1// null",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": 1// null",
+        "            \"persistenceId_string\": null",
         "        },",
         "        \"curp_validada\": false,",
         "        \"documentos_validados\": false,",
         "        \"no_duplicado\": false",
+        "    },",
+        "    \"datosPersonalesInput\": {",
+        "        \"id_banner\": null",
         "    }",
         "};"
       ],
@@ -22327,26 +22380,60 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
         "    \"isModificarSolicitudInput\": false,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "        \"aprobado_admin_escolar\": true,",
-        "        \"campus\": {",
-        "            \"persistenceId_string\": $data.registro.campus.persistenceId_string,",
-        "            \"usuario_banner\": $data.formInput.registroInput.campus.usuario_banner",
+        "        \"tipo_alumno\": $data.validarFormInput.registroInput.tipo_alumno ? {",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_alumno.persistenceId_string",
+        "        } : {",
+        "            \"persistenceId_string\": null",
         "        },",
+        "        \"residencia\": $data.validarFormInput.registroInput.residencia ? {",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.residencia.persistenceId_string",
+        "        } : {",
+        "            \"persistenceId_string\": null",
+        "        },",
+        "        \"tipo_admision\": $data.validarFormInput.registroInput.tipo_admision ? {",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_admision.persistenceId_string",
+        "        } : {",
+        "            \"persistenceId_string\": null",
+        "        },",
+        "        \"curp_validada\": $data.validarFormInput.registroInput.curp_validada,",
+        "        \"documentos_validados\": $data.validarFormInput.registroInput.documentos_validados,",
+        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado",
+        "    },",
+        "    \"datosPersonalesInput\": {",
+        "        \"id_banner\": $data.validarFormInput.datosPersonalesInput && $data.validarFormInput.datosPersonalesInput.id_banner ? $data.validarFormInput.datosPersonalesInput.id_banner : null,",
+        "    },",
+        "};",
+        "/*",
+        "",
+        "",
+        "    \"datosPersonalesInput\": $data.validarFormInput.datosPersonalesInput ? {",
+        "        \"id_banner\": $data.validarFormInput.datosPersonalesInput.id_banner.persistenceId_string",
+        "    } : {",
+        "        \"id_banner\": null",
+        "    }",
+        "",
+        "return {",
+        "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
+        "    \"isModificarSolicitudInput\": false,",
+        "    \"registroInput\": {",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
+        "        \"aprobado_admin_escolar\": true,",
         "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.tipo_alumno.persistenceId_string",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_alumno.persistenceId_string",
         "        },",
         "        \"residencia\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.residencia.persistenceId_string",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.residencia.persistenceId_string",
         "        },",
         "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": $data.formInput.registroInput.tipo_admision.persistenceId_string",
+        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_admision.persistenceId_string",
         "        },",
-        "        \"curp_validada\": $data.formInput.registroInput.curp_validada,",
-        "        \"documentos_validados\": $data.formInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.formInput.registroInput.no_duplicado",
-        "    }",
-        "};"
+        "        \"curp_validada\": $data.validarFormInput.registroInput.curp_validada,",
+        "        \"documentos_validados\": $data.validarFormInput.registroInput.documentos_validados,",
+        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado",
+        "    },",
+        "};*/"
       ],
       "exposed" : false
     },
@@ -22381,7 +22468,7 @@
     "tareaFinalizada" : {
       "type" : "expression",
       "value" : [
-        "return \"tareaPendiente\";"
+        "return undefined;"
       ],
       "exposed" : false
     },
@@ -22392,7 +22479,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-rechazada\",",
-        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": true",
         "};"
       ],
@@ -22405,7 +22492,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-modificaciones\",",
-        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": true",
         "};"
       ],
@@ -22422,7 +22509,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-aprobada\",",
-        "    \"mensaje\": $data.formInput.registroInput.mensaje_admin_escolar,",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
         "    \"isEnviar\": true",
         "};"
       ],
@@ -22587,6 +22674,62 @@
         "} else if ($data.corregirStatusResult === \"error\") {",
         "    ",
         "}"
+      ],
+      "exposed" : false
+    },
+    "validarInitData" : {
+      "type" : "expression",
+      "value" : [
+        "/*",
+        "// Si hay información:",
+        "if ($data.datosPersonales) {",
+        "    // Y no se ha inicializado todavia:",
+        "    if ($data.validarFormInput.datosPersonalesInput === null || $data.validarFormInput.datosPersonalesInput === undefined || $data.validarFormInput.datosPersonalesInput.id_banner === undefined) {",
+        "        // Inicializar mediante una copia de datos.",
+        "        $data.validarFormInput.datosPersonalesInput = $data.datosPersonales.id_banner ? { id_banner: $data.datosPersonales.id_banner } : { id_banner: null };",
+        "    }",
+        "}*/"
+      ],
+      "exposed" : false
+    },
+    "validarFormInput" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"desicionInput\": null,",
+        "    \"registroInput\": {",
+        "        \"mensaje_admin_escolar\": null,",
+        "        \"aprobado_admin_escolar\": false,",
+        "        \"tipo_alumno\": {",
+        "            \"persistenceId_string\": null",
+        "        },",
+        "        \"residencia\": {",
+        "            \"persistenceId_string\": null",
+        "        },",
+        "        \"tipo_admision\": {",
+        "            \"persistenceId_string\": null",
+        "        },",
+        "        \"curp_validada\": false,",
+        "        \"documentos_validados\": false,",
+        "        \"no_duplicado\": false",
+        "    },",
+        "    \"datosPersonalesInput\": {",
+        "        \"id_banner\": null",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "cartaDatosPrevisualizarAprobacion" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-aprobada\",",
+        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
+        "    \"isEnviar\": false",
+        "};"
       ],
       "exposed" : false
     }
