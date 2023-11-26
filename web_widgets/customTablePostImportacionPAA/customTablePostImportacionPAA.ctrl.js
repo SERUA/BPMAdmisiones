@@ -347,7 +347,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                   "MLEX": "",
                   "CLEX": "",
                   "HLEX": "",
-                  "INVP": ""
+                  "INVP": "",
+                  "espanol": "",
+                  "matematicas": "",
+                  "habilidadesBlandas": ""
               };
               $scope.properties.datosAspirante.IDBANNER = row.idbanner;
               $scope.properties.datosAspirante.IdSesion = row.id;
@@ -404,7 +407,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
               "MLEX": "",
               "CLEX": "",
               "HLEX": "",
-              "INVP": ""
+              "INVP": "",
+              "espanol": "",
+              "matematicas": "",
+              "habilidadesBlandas": ""
           };
           $scope.properties.datosAspirante.IDBANNER = row.idbanner;
           $scope.properties.datosAspirante.IdSesion = row.id;

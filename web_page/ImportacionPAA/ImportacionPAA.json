@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "ImportacionPAA",
   "name" : "ImportacionPAA",
-  "lastUpdate" : 1691103678738,
+  "lastUpdate" : 1701027167146,
   "rows" : [
     [
       {
@@ -116,7 +116,7 @@
             "value" : ""
           }
         },
-        "reference" : "fe0e2511-5c2c-4b0d-9682-48d1c1e09159",
+        "reference" : "c6062e4f-c9ff-444c-bf60-8fe877ab3a75",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -799,6 +799,74 @@
                 ],
                 [
                   {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "disabled" : {
+                        "type" : "expression",
+                        "value" : "lstAlumnosResultados.length >= 1 || lstErrores.length >= 1"
+                      },
+                      "required" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Seleccionar el tipo de examen"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "placeholder" : {
+                        "type" : "interpolation",
+                        "value" : "Seleccionar el tipo de examen"
+                      },
+                      "availableValues" : {
+                        "type" : "expression",
+                        "value" : "lstTipoExamenPAA"
+                      },
+                      "displayedKey" : {
+                        "type" : "constant",
+                        "value" : "descripcion"
+                      },
+                      "returnedKey" : {
+                        "type" : "constant",
+                        "value" : "clave"
+                      },
+                      "value" : {
+                        "type" : "variable",
+                        "value" : "tipoExamenCargar"
+                      }
+                    },
+                    "reference" : "ec9299dc-2014-44ad-953a-4bdd4da76233",
+                    "hasValidationError" : false,
+                    "id" : "pbSelect"
+                  }
+                ],
+                [
+                  {
                     "type" : "container",
                     "dimension" : {
                       "xs" : 12,
@@ -828,7 +896,7 @@
                     ]
                   },
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -841,100 +909,186 @@
                         "value" : ""
                       },
                       "hidden" : {
-                        "type" : "expression",
-                        "value" : "lstAlumnosResultados.length >= 1 || lstErrores.length >= 1"
-                      },
-                      "required" : {
                         "type" : "constant",
                         "value" : false
                       },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Importación de resultados de la prueba KP"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "placeholder" : {
-                        "type" : "interpolation"
-                      },
-                      "url" : {
-                        "type" : "constant",
-                        "value" : "../API/formFileUpload"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "archivoPAA"
-                      },
-                      "errorContent" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
-                      },
-                      "urlretorno" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "isImagen" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "isPDF" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "filename" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "filetype" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "lstAlumnosResultados" : {
-                        "type" : "variable",
-                        "value" : "lstAlumnosResultados"
-                      },
-                      "totalRows" : {
-                        "type" : "variable",
-                        "value" : "paginado.totalRows"
-                      },
-                      "urlPost" : {
-                        "type" : "constant",
-                        "value" : "/bonita/API/extension/AnahuacRest?url=postValidarUsuarioImportacionPAA&p=0&c=100"
-                      },
-                      "lstErrores" : {
-                        "type" : "variable",
-                        "value" : "lstErrores"
-                      },
-                      "tabla" : {
-                        "type" : "variable",
-                        "value" : "tabla"
-                      },
-                      "revisar" : {
-                        "type" : "expression",
-                        "value" : "revisar"
-                      },
-                      "lstBanner" : {
-                        "type" : "variable",
-                        "value" : "lstBanner"
-                      },
-                      "escalaEAC" : {
-                        "type" : "expression",
-                        "value" : "escalaEAC"
                       }
                     },
-                    "reference" : "f5edce9c-8d89-49a0-a4e3-ca98d6f1df27",
+                    "reference" : "7850b502-5415-4f97-a018-9374fd98170e",
                     "hasValidationError" : false,
-                    "id" : "customUploadCustomImportacionPAA"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "tipoExamenCargar !=\"KP\" || lstAlumnosResultados.length >= 1 || lstErrores.length >= 1"
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Importación de resultados de la prueba KP"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "url" : {
+                              "type" : "constant",
+                              "value" : "../API/formFileUpload"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "archivoPAA"
+                            },
+                            "errorContent" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "urlretorno" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "isImagen" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "isPDF" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "filename" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "filetype" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "lstAlumnosResultados" : {
+                              "type" : "variable",
+                              "value" : "lstAlumnosResultados"
+                            },
+                            "totalRows" : {
+                              "type" : "variable",
+                              "value" : "paginado.totalRows"
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "/bonita/API/extension/AnahuacRest?url=postValidarUsuarioImportacionPAA&p=0&c=100"
+                            },
+                            "lstErrores" : {
+                              "type" : "variable",
+                              "value" : "lstErrores"
+                            },
+                            "tabla" : {
+                              "type" : "variable",
+                              "value" : "tabla"
+                            },
+                            "revisar" : {
+                              "type" : "expression",
+                              "value" : "revisar"
+                            },
+                            "lstBanner" : {
+                              "type" : "variable",
+                              "value" : "lstBanner"
+                            },
+                            "escalaEAC" : {
+                              "type" : "expression",
+                              "value" : "escalaEAC"
+                            }
+                          },
+                          "reference" : "f5edce9c-8d89-49a0-a4e3-ca98d6f1df27",
+                          "hasValidationError" : false,
+                          "id" : "customUploadCustomImportacionPAA"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "tipoExamenCargar !=\"MetaProfile\" || lstAlumnosResultados.length >= 1 || lstErrores.length >= 1"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Importación de resultados de la prueba MetaProfile"
+                            },
+                            "lstAlumnosResultados" : {
+                              "type" : "variable",
+                              "value" : "lstAlumnosResultados"
+                            },
+                            "totalRows" : {
+                              "type" : "variable",
+                              "value" : "paginado.totalRows"
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "/bonita/API/extension/AnahuacRest?url=postValidarUsuarioImportacionPAA&p=0&c=100"
+                            },
+                            "lstErrores" : {
+                              "type" : "variable",
+                              "value" : "lstErrores"
+                            },
+                            "tabla" : {
+                              "type" : "variable",
+                              "value" : "tabla"
+                            },
+                            "revisar" : {
+                              "type" : "expression",
+                              "value" : "revisarMP"
+                            },
+                            "lstBanner" : {
+                              "type" : "variable",
+                              "value" : "lstBanner"
+                            }
+                          },
+                          "reference" : "5ef95bf4-6631-4a8b-bcc4-d2dd37c082ce",
+                          "hasValidationError" : false,
+                          "id" : "customUploadCustomImportacionMP"
+                        }
+                      ]
+                    ]
                   },
                   {
                     "type" : "container",
@@ -958,7 +1112,7 @@
                         "value" : ""
                       }
                     },
-                    "reference" : "f83c9d77-b883-492f-9a0c-d6ba4fd79129",
+                    "reference" : "676bd815-ff52-4e1c-b3eb-40b73f7b0dfc",
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
@@ -1178,7 +1332,7 @@
                             },
                             "hidden" : {
                               "type" : "expression",
-                              "value" : "tabla != \"carga\""
+                              "value" : "tabla != \"carga\" || tipoExamenCargar ==\"MetaProfile\""
                             },
                             "allowHTML" : {
                               "type" : "constant",
@@ -1242,6 +1396,88 @@
                             }
                           },
                           "reference" : "4b809f92-40e0-452b-a638-ef02c58dd8ee",
+                          "hasValidationError" : false,
+                          "id" : "customTblImportacionPAA"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "tabla != \"carga\" || tipoExamenCargar !=\"MetaProfile\""
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Fecha de examen",
+                                "Id banner",
+                                "Nombre",
+                                "Id sesión",
+                                "Nombre sesión",
+                                "Español",
+                                "Matematicas",
+                                "Habilidades Blandas"
+                              ]
+                            },
+                            "content" : {
+                              "type" : "expression",
+                              "value" : "lstAlumnosResultados"
+                            },
+                            "columnsKey" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Fechadeexamen",
+                                "IDBANNER",
+                                "Nombre",
+                                "IdSesion",
+                                "NombreSesion",
+                                "espanol",
+                                "matematicas",
+                                "habilidadesBlandas"
+                              ]
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : "strAlumno"
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "table" : {
+                              "type" : "variable",
+                              "value" : "tabla"
+                            },
+                            "view" : {
+                              "type" : "variable",
+                              "value" : "VariableCarga.view"
+                            }
+                          },
+                          "reference" : "67ecf63d-86b5-4c4c-9914-e67ccab82137",
                           "hasValidationError" : false,
                           "id" : "customTblImportacionPAA"
                         }
@@ -1924,7 +2160,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!VariableCarga.view"
+                        "value" : "!VariableCarga.view || strAlumno.tipoExamen == \"MetaProfile\""
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -2665,7 +2901,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "VariableCarga.view"
+                        "value" : "VariableCarga.view || strAlumno.tipoExamen == \"MetaProfile\""
                       },
                       "repeatedCollection" : {
                         "type" : "variable",
@@ -3379,6 +3615,737 @@
                             }
                           },
                           "reference" : "fe2a8405-bbca-4f95-b31f-e233b76bb1fe",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "strAlumno.tipoExamen != \"MetaProfile\" && !VariableCarga.view"
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "d347fbbc-79f9-4075-ab7a-fc490b94b01e",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Puntuación Total:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.Total"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "e11c27d0-399d-4b23-8aac-78e5fade846e",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 6,
+                            "lg" : 6
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Puntuación Total MetaProfile:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.Total"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "e038d12c-481b-4a15-9db1-06826acdf451",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 2,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 3
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "PAAN:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.espanol"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant",
+                              "value" : 200
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 801
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "afd03d7c-e971-4707-b41a-a1a6abf29ab0",
+                          "hasValidationError" : false,
+                          "id" : "customInputNumericoCustom3"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 1,
+                            "lg" : 1
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "readOnly" : {
+                              "type" : "expression",
+                              "value" : "VariableCarga.view"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Español:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.espanol"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 999
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            },
+                            "valorKP" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.PAAN"
+                            }
+                          },
+                          "reference" : "330b17c5-94ea-41cd-b5d1-d2d6742e28ad",
+                          "hasValidationError" : false,
+                          "id" : "customInputEscalaEAC"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 2,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 3
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "PAAV:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.matematicas"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant",
+                              "value" : 200
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 801
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "458dfbcb-2027-42de-8368-5e46616c61e9",
+                          "hasValidationError" : false,
+                          "id" : "customInputNumericoCustom3"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 1,
+                            "lg" : 1
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "readOnly" : {
+                              "type" : "expression",
+                              "value" : "VariableCarga.view"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Matematicas:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.matematicas"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 999
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            },
+                            "valorKP" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.PAAV"
+                            }
+                          },
+                          "reference" : "033399e5-15b8-4373-89ab-e1609fb22716",
+                          "hasValidationError" : false,
+                          "id" : "customInputEscalaEAC"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 2,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 3
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "PARA:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.habilidadesBlandas"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant",
+                              "value" : 200
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 801
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "fd984aaf-281a-48aa-9275-bda3351054da",
+                          "hasValidationError" : false,
+                          "id" : "customInputNumericoCustom3"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 2,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "readOnly" : {
+                              "type" : "expression",
+                              "value" : "VariableCarga.view"
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Habilidades blandas:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.habilidadesBlandas"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 999
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            },
+                            "valorKP" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.PARA"
+                            }
+                          },
+                          "reference" : "88fe1ef6-08b6-44fe-89c3-01c56bc6d092",
+                          "hasValidationError" : false,
+                          "id" : "customInputEscalaEAC"
+                        },
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 2,
+                            "lg" : 2
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "INVP:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "strAlumno.INVP"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "05774bc8-c4fe-4d3d-a1bc-effcbfaba192",
                           "hasValidationError" : false,
                           "id" : "pbInput"
                         }
@@ -6415,7 +7382,12 @@
       "type" : "expression",
       "value" : [
         "if(!$data.VariableCarga.view){",
-        "    $data.strAlumno.Total = \"\"+(parseFloat($data.strAlumno.PAAN ?$data.strAlumno.PAAN: 0) + parseFloat($data.strAlumno.PAAV ?$data.strAlumno.PAAV: 0) + parseFloat($data.strAlumno.PARA ?$data.strAlumno.PARA: 0))",
+        "    /*if(strAlumno.tipoExamen == \"MetaProfile\"){",
+        "        $data.strAlumno.Total = \"\"+(parseFloat($data.strAlumno.espanol != null?$data.strAlumno.espanol: 0) + parseFloat($data.strAlumno.matematicas!= null ?$data.strAlumno.matematicas: 0) + parseFloat($data.strAlumno.habilidadesBlandas != null ?$data.strAlumno.habilidadesBlandas: 0))",
+        "    }else{",
+        "        ",
+        "    }*/",
+        "    $data.strAlumno.Total = \"\"+(parseFloat($data.strAlumno.PAAN != null?$data.strAlumno.PAAN: 0) + parseFloat($data.strAlumno.PAAV!= null ?$data.strAlumno.PAAV: 0) + parseFloat($data.strAlumno.PARA != null ?$data.strAlumno.PARA: 0))",
         "}"
       ],
       "exposed" : false
@@ -6483,6 +7455,25 @@
         "../API/bdm/businessData/com.anahuac.catalogos.CatEscalaEAC?q=findByIsEliminado&f=isEliminado=false&p=0&c=999"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "tipoExamenCargar" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "revisarMP" : {
+      "type" : "json",
+      "value" : [
+        "[\r",
+        "    \"IDBANNER\",\r",
+        "    \"Fechadeexamen\",\r",
+        "    \"IdSesion\",\r",
+        "    \"NombreSesion\",\r",
+        "    \"Espanol\",\r",
+        "    \"Matematicas\",\r",
+        "    \"Habilidades Blandas\"\r",
+        "]"
+      ],
       "exposed" : false
     }
   },
