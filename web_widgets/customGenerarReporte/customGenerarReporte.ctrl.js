@@ -18,14 +18,14 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteRelacionAspirantes&p=0&c=9999"
         }else if ($scope.properties.reporte == "Informacion aspirante") {
             url = "/bonita/API/extension/AnahuacRest?url=generarReportePerfilAspirante&p=0&c=9999"
-        }else if ($scope.properties.reporte == "Meta profile") {
+        }else if ($scope.properties.reporte == "MetaProfile") {
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteMetaProfile&p=0&c=9999"
         }else {
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteResultadosExamenes&p=0&c=9999"
         } 
         doRequest("POST", url, null, $scope.properties.dataToSend, function(data) {
-            if ($scope.properties.fileExtension === "xls") {
-                if ($scope.properties.reporte == "Meta profile" && isNullOrUndefined($scope.properties.dataToSend.sesion) ){
+            if ($scope.properties.fileExtension === "xls" || $scope.properties.fileExtension === "csv") {
+                if ($scope.properties.reporte == "MetaProfile" && isNullOrUndefined($scope.properties.dataToSend.sesion) ){
                         Swal.fire({
                             icon: 'info',
                             title: 'Sin resultados',
@@ -62,7 +62,7 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
                 
                 //window.open(blobUrl, '_blank');
                 // window.location = blobUrl;
-            } else {
+            }else {
                 fakeLink(data.data[1])
             }
         })   
@@ -85,6 +85,8 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
         let contentType = "text/plain";
         if ($scope.properties.fileExtension === "xls") {
             contentType = "application/vnd.ms-excel";
+        }else if($scope.properties.fileExtension === "csv"){
+            contentType = "text/csv";
         }
         for (var i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);

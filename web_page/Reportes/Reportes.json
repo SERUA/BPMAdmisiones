@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "Reportes",
   "name" : "Reportes",
-  "lastUpdate" : 1700811646673,
+  "lastUpdate" : 1701022637302,
   "rows" : [
     [
       {
@@ -1700,7 +1700,7 @@
                   "xs" : 12,
                   "sm" : 12,
                   "md" : 2,
-                  "lg" : 6
+                  "lg" : 3
                 },
                 "propertyValues" : {
                   "cssClasses" : {
@@ -1729,7 +1729,7 @@
                   "xs" : 12,
                   "sm" : 12,
                   "md" : 3,
-                  "lg" : 6
+                  "lg" : 3
                 },
                 "propertyValues" : {
                   "cssClasses" : {
@@ -1738,7 +1738,7 @@
                   },
                   "hidden" : {
                     "type" : "expression",
-                    "value" : "rptSelected!=\"Meta profile\""
+                    "value" : "rptSelected!=\"MetaProfile\""
                   },
                   "srcType" : {
                     "type" : "constant",
@@ -1775,6 +1775,90 @@
                   }
                 },
                 "reference" : "d14d8a55-5f10-4e49-bfd7-04983c42a0e4",
+                "hasValidationError" : false,
+                "id" : "customGenerarReporte"
+              },
+              {
+                "type" : "container",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 2,
+                  "lg" : 3
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "repeatedCollection" : {
+                    "type" : "variable",
+                    "value" : ""
+                  }
+                },
+                "reference" : "8b05c25f-d99b-4276-836a-c48f2f3b6793",
+                "hasValidationError" : false,
+                "id" : "pbContainer",
+                "rows" : [
+                  [ ]
+                ]
+              },
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 3,
+                  "lg" : 3
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "expression",
+                    "value" : "rptSelected!=\"MetaProfile\""
+                  },
+                  "srcType" : {
+                    "type" : "constant",
+                    "value" : "Asset"
+                  },
+                  "url" : {
+                    "type" : "constant"
+                  },
+                  "assetName" : {
+                    "type" : "constant",
+                    "value" : "excel.svg"
+                  },
+                  "alt" : {
+                    "type" : "interpolation"
+                  },
+                  "fileExtension" : {
+                    "type" : "constant",
+                    "value" : "csv"
+                  },
+                  "dataToSend" : {
+                    "type" : "variable",
+                    "value" : "lstFiltro"
+                  },
+                  "reporte" : {
+                    "type" : "expression",
+                    "value" : "rptSelected"
+                  },
+                  "ruaname" : {
+                    "type" : "constant"
+                  },
+                  "lstSesiones" : {
+                    "type" : "variable",
+                    "value" : "lstSesiones.data"
+                  }
+                },
+                "reference" : "9755c904-f45a-4cd2-9ce6-08f1566777fc",
                 "hasValidationError" : false,
                 "id" : "customGenerarReporte"
               }
@@ -2244,7 +2328,7 @@
     "lstReportes" : {
       "type" : "json",
       "value" : [
-        "[{\"reporte\":\"Lexium\"},{\"reporte\":\"Meta profile\"},{\"reporte\":\"Informacion aspirante\"}]"
+        "[{\"reporte\":\"Lexium\"},{\"reporte\":\"MetaProfile\"},{\"reporte\":\"Informacion aspirante\"}]"
       ],
       "exposed" : false
     },

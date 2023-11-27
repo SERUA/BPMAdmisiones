@@ -1448,7 +1448,7 @@ class ReportesDAO {
                 throw new Exception("No encontro datos");
             }
 
-            def titulos = ["Nombre", "Apaterno", "Amaterno", "Email", "ID Banner", "ID Sesión", "Fecha examen", "Hora examen"]
+            def titulos = ["Nombre", "Apaterno", "Amaterno", "Email", "ID Banner", "ID Sesión", "Nombre de sesión", "Fecha examen", "Hora examen"]
             Row headersRow = sheet.createRow(rowCount);
             ++rowCount;
             List < Cell > header = new ArrayList < Cell > ();
@@ -1461,7 +1461,7 @@ class ReportesDAO {
             bodyStyle.setWrapText(true);
             bodyStyle.setAlignment(HorizontalAlignment.LEFT);
 
-            def info = ["nombre", "apaterno", "amaterno", "email", "idbanner", "idsesion", "fecha_examen","hora_examen"]
+            def info = ["nombre", "apaterno", "amaterno", "email", "idbanner", "idsesion", "nombresesion", "fecha_examen","hora_examen"]
             List < Cell > body;
             String line = ""
             for (int i = 0; i < lstParams.size(); ++i) {

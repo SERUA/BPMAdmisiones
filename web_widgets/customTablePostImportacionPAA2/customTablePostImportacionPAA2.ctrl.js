@@ -358,7 +358,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                   "update": true,
                   "fecha": "",
                   "IdSesion": "",
-                  "caseId":""
+                  "caseId":"",
+                  "espanol": "",
+                  "matematicas": "",
+                  "habilidadesBlandas": ""
               };
               $scope.properties.datosAspirante.IDBANNER = row.idbanner;
               $scope.properties.datosAspirante.IdSesion = row.id;
@@ -420,7 +423,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
               "update": true,
               "fecha": "",
               "IdSesion": "",
-              "caseId": ""
+              "caseId": "",
+              "espanol": "",
+              "matematicas": "",
+              "habilidadesBlandas": ""
           };
           $scope.properties.datosAspirante.IDBANNER = row.idbanner;
           $scope.properties.datosAspirante.IdSesion = row.id;
