@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEModificarSolicitud",
   "name" : "SDAEModificarSolicitud",
-  "lastUpdate" : 1700250824382,
+  "lastUpdate" : 1700879164486,
   "rows" : [
     [
       {
@@ -3778,19 +3778,32 @@
     "setTutores" : {
       "type" : "expression",
       "value" : [
-        "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if(objectTutor.isTutor){\r",
-        "        $data.tutor = objectTutor;\r",
-        "        break;\r",
-        "    }\r",
-        "}\r",
+        "//for(let objectTutor of $data.objPadresTutor){\r",
+        "//    if(objectTutor.isTutor){\r",
+        "//        $data.tutor = objectTutor;\r",
+        "//        break;\r",
+        "//    }\r",
+        "//}\r",
         "\r",
         "// for(let objectTutor of $data.objPadresTutor){\r",
         "//     if(objectTutor.isTutor){\r",
         "//         $data.tutor = objectTutor;\r",
         "//     }\r",
         "    \r",
-        "// }"
+        "// }\r",
+        "\r",
+        "let countTutor = 0;\r",
+        "\r",
+        "for (let objectTutor of $data.objPadresTutor) {\r",
+        "    if (objectTutor.isTutor) {\r",
+        "        countTutor++;\r",
+        "\r",
+        "        if (countTutor === 2) {\r",
+        "            $data.tutor = objectTutor;\r",
+        "            break;\r",
+        "        }\r",
+        "    }\r",
+        "}"
       ],
       "exposed" : false
     },
