@@ -1088,7 +1088,7 @@ class NotificacionDAO {
 			String consulta = catBitacoraCorreo.GET_CATBITACORACORREO
 			consulta=consulta.replace("[WHERE]", where);
 			errorlog+="consulta:"
-				pstm = con.prepareStatement(consulta.replace("*", "COUNT(PSGRCatBitacoraCorreos.PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""));
+				pstm = con.prepareStatement(consulta.replace("PSGRCatBitacoraCorreos.persistenceid, PSGRCatBitacoraCorreos.persistenceVersion, PSGRCatBitacoraCorreos.campus, PSGRCatBitacoraCorreos.codigo, PSGRCatBitacoraCorreos.de, PSGRCatBitacoraCorreos.estatus, PSGRCatBitacoraCorreos.fecha_creacion, PSGRCatBitacoraCorreos.mensaje, PSGRCatBitacoraCorreos.para", "COUNT(PSGRCatBitacoraCorreos.PERSISTENCEID) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""));
 				rs = pstm.executeQuery();
 				
 				if (rs.next()) {
