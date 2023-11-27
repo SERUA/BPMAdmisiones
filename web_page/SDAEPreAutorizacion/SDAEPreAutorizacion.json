@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEPreAutorizacion",
   "name" : "SDAEPreAutorizacion",
-  "lastUpdate" : 1700878000801,
+  "lastUpdate" : 1701108751351,
   "rows" : [
     [
       {
@@ -6167,7 +6167,8 @@
         "    \"modificarInfoSocioEco\" :  false,\r",
         "    \"modificarDocumentos\" :  false\r",
         "  },\r",
-        "  \"correoPreautorizacionInput\": \"\"\r",
+        "  \"correoPreautorizacionInput\": \"\",\r",
+        "  \"varConvenioInput\": false\r",
         "}"
       ],
       "exposed" : false
@@ -6185,6 +6186,7 @@
         "    $data.formInputAprobar.varArtisticaInput = false;",
         "    $data.formInputAprobar.varDeportivaInput = false;",
         "    $data.formInputAprobar.varFinanaciamientoInput = false;",
+        "    $data.formInputAprobar.varConvenioInput = false;",
         "}",
         "",
         "$data.formInputAprobar.correoPreautorizacionInput = $data.userData.user_name;",
@@ -6753,7 +6755,8 @@
     "setContratoFinanciamiento" : {
       "type" : "expression",
       "value" : [
-        "$data.formInputFinanciamiento.correoPreautorizacionInput = $data.userData.user_name;"
+        "$data.formInputFinanciamiento.correoPreautorizacionInput = $data.userData.user_name;",
+        "$data.formInputFinanciamiento.varConvenioInput = $data.getSolicitudApoyoEducativo[0].isconvenio == 't'? true : false;"
       ],
       "exposed" : false
     },
