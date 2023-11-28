@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRbandejaSolicitudesNuevas",
   "name" : "PSGRbandejaSolicitudesNuevas",
-  "lastUpdate" : 1700168712621,
+  "lastUpdate" : 1701132420558,
   "rows" : [
     [
       {
@@ -379,7 +379,7 @@
                             },
                             "dataToSend" : {
                               "type" : "variable",
-                              "value" : "dataToSend"
+                              "value" : "dataToSendRequisitosAdicionales"
                             },
                             "lstContenido" : {
                               "type" : "variable",
@@ -453,7 +453,118 @@
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
-                      [ ]
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "f5dd6a21-7c7b-41df-9ab1-93591bb1c667",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Id",
+                                "Name",
+                                "Description",
+                                "Date"
+                              ]
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "../API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=10"
+                            },
+                            "dataToSend" : {
+                              "type" : "variable",
+                              "value" : "dataToSendRequisitosAdicionales"
+                            },
+                            "lstContenido" : {
+                              "type" : "variable",
+                              "value" : "lstContenido"
+                            },
+                            "userId" : {
+                              "type" : "variable",
+                              "value" : "userData.user_id"
+                            },
+                            "campusSeleccionado" : {
+                              "type" : "variable",
+                              "value" : "getCampus"
+                            },
+                            "lstCampus" : {
+                              "type" : "variable",
+                              "value" : "lstCatCampus"
+                            },
+                            "abrirPagina" : {
+                              "type" : "constant",
+                              "value" : "pg_validar_solicitud"
+                            }
+                          },
+                          "reference" : "e2bbc300-c6d0-409f-a387-fe6ded6eff89",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRtablaNuevasSolicitudas"
+                        }
+                      ]
                     ]
                   }
                 }
@@ -555,6 +666,22 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "dataToSendRequisitosAdicionales" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"estatusSolicitud\": \"'solicitud_completada','modificaciones_realizadas','solicitud_reactivada'\",\r",
+        "    \"lstFiltro\": $data.lstFiltros,\r",
+        "    \"usuario\":$data.userData.user_name,\r",
+        "    \"orderby\": \"\",\r",
+        "    \"orientation\": \"DESC\",\r",
+        "    \"limit\": 20,\r",
+        "    \"offset\": 0,\r",
+        "    \"campus\": $data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",
+        "};\r"
+      ],
       "exposed" : false
     }
   },
