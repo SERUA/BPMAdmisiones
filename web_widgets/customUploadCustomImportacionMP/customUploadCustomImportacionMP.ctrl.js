@@ -183,6 +183,7 @@ function UploadCustomImportacionPAA($scope, $http, blockUI) {
         info.PAAV = (data['Matematicas'] || '');
         info.PARA = (data['Habilidades Blandas'] || '');
         info.Total = "0";
+        info.metaprofiletotal = "0";
         return info;
     }
 
@@ -222,8 +223,9 @@ function UploadCustomImportacionPAA($scope, $http, blockUI) {
                 return false;
             }
             
-            data['Total'] = "" + (parseInt(data.espanol.toString()) + parseInt(data.matematicas.toString()) + parseInt(data.habilidadesBlandas.toString()));
-            //data['Total'] = "" + (parseInt(data.PAAN.toString()) + parseInt(data.PAAV.toString()) + parseInt(data.PARA.toString()));
+            data['metaprofiletotal'] = "" + (parseInt(data.espanol.toString()) + parseInt(data.matematicas.toString()) + parseInt(data.habilidadesBlandas.toString()));
+            //data['Total'] = "" + (parseInt(data.espanol.toString()) + parseInt(data.matematicas.toString()) + parseInt(data.habilidadesBlandas.toString()));
+            data['Total'] = "" + (parseInt(data.PAAN.toString()) + parseInt(data.PAAV.toString()) + parseInt(data.PARA.toString()));
             return true;
         }
         $scope.errores = [...$scope.errores, { idBanner: data.IDBANNER, nombre: data.nombre, Error: "datos en blanco" }]

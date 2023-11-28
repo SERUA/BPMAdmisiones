@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "ImportacionPAA",
   "name" : "ImportacionPAA",
-  "lastUpdate" : 1701027167146,
+  "lastUpdate" : 1701151240048,
   "rows" : [
     [
       {
@@ -1244,7 +1244,7 @@
                         "value" : true
                       },
                       "username" : {
-                        "type" : "constant",
+                        "type" : "expression",
                         "value" : "userData.user_name"
                       }
                     },
@@ -3779,7 +3779,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "strAlumno.Total"
+                              "value" : "strAlumno.metaprofiletotal"
                             },
                             "type" : {
                               "type" : "constant",
@@ -3856,7 +3856,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "strAlumno.espanol"
+                              "value" : "strAlumno.PAAN"
                             },
                             "type" : {
                               "type" : "constant",
@@ -4013,7 +4013,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "strAlumno.matematicas"
+                              "value" : "strAlumno.PAAV"
                             },
                             "type" : {
                               "type" : "constant",
@@ -4170,7 +4170,7 @@
                             },
                             "value" : {
                               "type" : "variable",
-                              "value" : "strAlumno.habilidadesBlandas"
+                              "value" : "strAlumno.PARA"
                             },
                             "type" : {
                               "type" : "constant",
@@ -7415,6 +7415,8 @@
         "    //$data.strAlumno.PARA = convertirDato($data.strAlumno['HLEX']);",
         "    ",
         "    $data.strAlumno.LEXIUM_Total = \"\"+(parseFloat($data.strAlumno.MLEX != null ?$data.strAlumno.MLEX: 0) + parseFloat($data.strAlumno.CLEX != null ?$data.strAlumno.CLEX: 0) + parseFloat($data.strAlumno.HLEX != null ?$data.strAlumno.HLEX: 0))",
+        "} else if(!$data.VariableCarga.view && $data.strAlumno.tipoExamen == \"MetaProfile\"){",
+        "    $data.strAlumno.metaprofiletotal = \"\"+(parseFloat($data.strAlumno.espanol != null ?$data.strAlumno.espanol: 0) + parseFloat($data.strAlumno.matematicas != null ?$data.strAlumno.matematicas: 0) + parseFloat($data.strAlumno.habilidadesBlandas != null ?$data.strAlumno.habilidadesBlandas: 0))",
         "}"
       ],
       "exposed" : false
