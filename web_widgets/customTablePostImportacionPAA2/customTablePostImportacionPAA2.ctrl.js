@@ -457,7 +457,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
           let columna = datos;
           for (var key in columna) {
 
-              if (key != "total" && key != "fechaexamen" && key != "tipoexamen" && key != "lexiumpara" && key != "lexiumpaav" && key != "lexiumpaan" && key != "lexiumtotal") {
+              if (key != "total" && key != "fechaexamen" && key != "tipoexamen" && key != "lexiumpara" && key != "lexiumpaav" && key != "lexiumpaan" && key != "lexiumtotal" && key !="espanol" && key !="matematicas" && key !="habilidadesblandas") {
                   json[key.toUpperCase()] = data[key]
               } else if (key === "total") {
                   json.Total = data[key]
@@ -476,6 +476,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                   json.MLEX = data[key]
               } else if (key == "lexiumtotal") {
                   json.LEXIUM_Total = data[key]
+              }else if (key == "espanol" || key == "matematicas" ){
+                  json[key] = data[key]
+              }else if ( key =="habilidadesblandas"){
+                  json["habilidadesBlandas"] = data[key]
               }
           }
 
