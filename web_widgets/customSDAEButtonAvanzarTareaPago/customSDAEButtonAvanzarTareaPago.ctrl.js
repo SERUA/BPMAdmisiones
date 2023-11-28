@@ -6,8 +6,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         },
         "isPagoValidadoInput": true,
         "isPagoConTarjetainput": true,
-        "isPagoRegresarInput": false
+        "isPagoRegresarInput": false,
+        "isPagoRechazadoInput": false
     };
+    
     'use strict';
 
     var vm = this;

@@ -8,7 +8,8 @@ function ($scope, $http) {
     	},
     	"isPagoValidadoInput": true,
     	"isPagoConTarjetainput": true,
-    	"isPagoRegresarInput": false
+    	"isPagoRegresarInput": false,
+    	"isPagoRechazadoInput": false
     };
     
     $scope.setCardObject = function (_token) {
