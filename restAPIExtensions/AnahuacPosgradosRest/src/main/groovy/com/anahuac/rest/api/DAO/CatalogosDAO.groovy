@@ -6363,6 +6363,9 @@ class CatalogosDAO {
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(3, fechaHoraFormateada);//fecha_creacion
 			pstm.setString(4, object.usuario_banner);
+			pstm.setLong(5, object.campus_pid.persistenceId);
+			pstm.setLong(6, object.posgrado_pid.persistenceId);
+			
 		
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -6459,14 +6462,14 @@ class CatalogosDAO {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRFiltroSeguridad> data = new ArrayList<>();
-		String where = "WHERE IS_ELIMINADO=false"; // Aplicar filtro por defecto para registros no eliminados
+		
 		String orderby = ""; // Ordenamiento por defecto
 	
 		try {
 			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-	
+			String where = "WHERE IS_ELIMINADO=false AND GE.campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'";
 			closeCon = validarConexion();
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
