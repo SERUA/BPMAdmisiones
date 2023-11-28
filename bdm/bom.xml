@@ -5166,6 +5166,8 @@
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="es_opcional" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_de_archivo" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -5476,12 +5478,15 @@
             <fields>
                 <field type="INTEGER" length="255" name="orden" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="clave" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="nombre" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="requiere_documento" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="tipo_de_archivo" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
@@ -5794,6 +5799,7 @@
                 <field type="BOOLEAN" length="255" name="curp_validada" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="documentos_validados" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="no_duplicado" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tiene_requisitos_adicionales" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -5903,6 +5909,17 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatSiNo" fetchType="EAGER" name="estudiara_programa_otra_universidad" nullable="true" collection="false"/>
                 <relationField type="COMPOSITION" reference="com.anahuac.posgrados.model.PSGRMedioInformacionSolicitud" fetchType="EAGER" name="medios_enteraste" nullable="true" collection="true"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPeriodo" fetchType="EAGER" name="periodo_ingreso" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.model.PSGRSolAdmiRequisitoAdicional">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales" fetchType="EAGER" name="requisito_adicional" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="cumplido" nullable="true" collection="false"/>
+                <field type="STRING" length="255" name="url_azure" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
