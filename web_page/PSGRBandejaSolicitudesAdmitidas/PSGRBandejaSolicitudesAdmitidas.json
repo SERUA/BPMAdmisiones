@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRBandejaSolicitudesAdmitidas",
   "name" : "PSGRBandejaSolicitudesAdmitidas",
-  "lastUpdate" : 1701115176495,
+  "lastUpdate" : 1701132882828,
   "rows" : [
     [
       {
@@ -52,7 +52,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Solicitudes admitidas"
+                  "value" : "Dictamen"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -222,7 +222,7 @@
                     },
                     "title" : {
                       "type" : "interpolation",
-                      "value" : "Por revisar"
+                      "value" : "En espera de resultados"
                     },
                     "active" : {
                       "type" : "variable",
@@ -355,7 +355,7 @@
                     },
                     "title" : {
                       "type" : "interpolation",
-                      "value" : "Requisitos adicionales"
+                      "value" : "Admitidos"
                     },
                     "active" : {
                       "type" : "variable",
@@ -454,9 +454,269 @@
                               "value" : "verSolicitud"
                             }
                           },
-                          "reference" : "80bd749a-eb76-4b3c-a9da-2374add0e7f1",
+                          "reference" : "3ef9d572-5853-4a0c-acd0-a72c1b96c72d",
                           "hasValidationError" : false,
-                          "id" : "customSDAETablePostVerSolicitud3Autor"
+                          "id" : "customPSGRtablaSolicitudesAdmitidas"
+                        }
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "type" : "tabContainer",
+                  "dimension" : {
+                    "xs" : 12,
+                    "sm" : 12,
+                    "md" : 12,
+                    "lg" : 12
+                  },
+                  "propertyValues" : {
+                    "cssClasses" : {
+                      "type" : "constant",
+                      "value" : ""
+                    },
+                    "hidden" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "disabled" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "title" : {
+                      "type" : "interpolation",
+                      "value" : "No admitidos"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : ""
+                    }
+                  },
+                  "reference" : "65633ba8-664f-443a-abb0-2c08fbf221b6",
+                  "hasValidationError" : false,
+                  "id" : "pbTabContainer",
+                  "container" : {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12
+                    },
+                    "propertyValues" : { },
+                    "reference" : "61d228d7-634a-463b-9350-0b51cf795214",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Id",
+                                "Name",
+                                "Description",
+                                "Date"
+                              ]
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "../API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=10"
+                            },
+                            "dataToSend" : {
+                              "type" : "variable",
+                              "value" : "dataToSend"
+                            },
+                            "lstContenido" : {
+                              "type" : "variable",
+                              "value" : "lstContenido"
+                            },
+                            "userId" : {
+                              "type" : "variable",
+                              "value" : "userData.user_id"
+                            },
+                            "campusSeleccionado" : {
+                              "type" : "variable",
+                              "value" : "getCampus"
+                            },
+                            "lstCampus" : {
+                              "type" : "variable",
+                              "value" : "lstCatCampus"
+                            },
+                            "abrirPagina" : {
+                              "type" : "constant",
+                              "value" : "autorizacionApoyo"
+                            }
+                          },
+                          "reference" : "58f50bc0-7229-4060-9de5-4762cf138dd2",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRtablaSolicitudesAdmitidas"
+                        }
+                      ]
+                    ]
+                  }
+                },
+                {
+                  "type" : "tabContainer",
+                  "dimension" : {
+                    "xs" : 12,
+                    "sm" : 12,
+                    "md" : 12,
+                    "lg" : 12
+                  },
+                  "propertyValues" : {
+                    "cssClasses" : {
+                      "type" : "constant",
+                      "value" : ""
+                    },
+                    "hidden" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "disabled" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "title" : {
+                      "type" : "interpolation",
+                      "value" : "Archivados"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : ""
+                    }
+                  },
+                  "reference" : "ac2218ee-3816-4369-b88e-51bfc080785e",
+                  "hasValidationError" : false,
+                  "id" : "pbTabContainer",
+                  "container" : {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12
+                    },
+                    "propertyValues" : { },
+                    "reference" : "da4f7b76-a9b5-4b0d-8c7e-7a33699d82e5",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Id",
+                                "Name",
+                                "Description",
+                                "Date"
+                              ]
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "../API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=10"
+                            },
+                            "dataToSend" : {
+                              "type" : "variable",
+                              "value" : "dataToSend"
+                            },
+                            "lstContenido" : {
+                              "type" : "variable",
+                              "value" : "lstContenido"
+                            },
+                            "userId" : {
+                              "type" : "variable",
+                              "value" : "userData.user_id"
+                            },
+                            "campusSeleccionado" : {
+                              "type" : "variable",
+                              "value" : "getCampus"
+                            },
+                            "lstCampus" : {
+                              "type" : "variable",
+                              "value" : "lstCatCampus"
+                            },
+                            "abrirPagina" : {
+                              "type" : "constant",
+                              "value" : "pg_ver_solicitud_admision"
+                            }
+                          },
+                          "reference" : "f211783a-8834-4194-a265-6e6cf27f5cf2",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRtablaSolicitudRechazadas"
                         }
                       ]
                     ]
