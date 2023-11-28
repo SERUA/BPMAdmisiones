@@ -5480,12 +5480,16 @@
                 <field type="STRING" length="255" name="usuario_creacion" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="is_eliminado" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatPosgrado" fetchType="LAZY" name="posgrado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatRequisitosAdicionales p &#13;&#10;WHERE  p.is_eliminado = :is_eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales">
+                <query name="getCat" content="SELECT p&#13;&#10;FROM PSGRCatRequisitosAdicionales p&#13;&#10;LEFT JOIN p.campus c&#13;&#10;LEFT JOIN p.posgrado d&#13;&#10;WHERE p.is_eliminado = :is_eliminado AND c.persistenceId =: campus AND d.persistenceId =: posgrado&#13;&#10;ORDER BY p.descripcion ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatRequisitosAdicionales">
                     <queryParameters>
                         <queryParameter name="is_eliminado" className="java.lang.Boolean"/>
+                        <queryParameter name="campus" className="java.lang.Long"/>
+                        <queryParameter name="posgrado" className="java.lang.Long"/>
                     </queryParameters>
                 </query>
             </queries>
