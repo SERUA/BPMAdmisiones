@@ -27,6 +27,7 @@ import com.anahuac.rest.api.Entity.custom.CatGestionEscolar
 import com.anahuac.rest.api.Entity.db.CatCampusCustomFiltro
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.CatPaisCustomFiltro
+import com.anahuac.rest.api.Entity.db.CatRequisitosAdicionales
 import com.anahuac.rest.api.Entity.db.PSGRCatEstado
 import com.anahuac.rest.api.Entity.db.PSGRCatEstadoCivil
 import com.anahuac.rest.api.Entity.db.PSGRCatEstatusProceso
@@ -6365,6 +6366,9 @@ class CatalogosDAO {
 			pstm.setString(4, object.usuario_banner);
 			pstm.setLong(5, object.campus_pid.persistenceId);
 			pstm.setLong(6, object.posgrado_pid.persistenceId);
+			pstm.setString(7, object.nombre);
+			pstm.setString(8, object.tipo_de_archivo);
+			pstm.setBoolean(8, object.requiere_documento);
 			
 		
 			if (pstm.executeUpdate() > 0) {
@@ -6438,7 +6442,10 @@ class CatalogosDAO {
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATREQUISITOSADICIONALES);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
-			pstm.setLong(3, object.persistenceId);
+			pstm.setString(3, object.nombre);
+			pstm.setString(4, object.tipo_de_archivo);
+			pstm.setBoolean(5, object.requiere_documento);
+			pstm.setLong(6, object.persistenceId);
 			
 			
 			if (pstm.executeUpdate() > 0) {
@@ -6458,7 +6465,7 @@ class CatalogosDAO {
 		return resultado;
 	}
 	
-	public Result getCatRequisitosAdicionales(String jsonData) {
+	public Result getCatRequisitosAdicionales(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRFiltroSeguridad> data = new ArrayList<>();
@@ -6469,7 +6476,7 @@ class CatalogosDAO {
 			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			String where = "WHERE IS_ELIMINADO=false AND GE.campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'";
+			String where = "WHERE IS_ELIMINADO=false AND campus_pid = '" + object.campus_pid.persistenceId +"'" + " AND posgrado_pid = '" + object.posgrado_pid.persistenceId + "'";
 			closeCon = validarConexion();
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
@@ -6512,12 +6519,15 @@ class CatalogosDAO {
 			rs = pstm.executeQuery();
 	
 			while (rs.next()) {
-				CatPaisCustomFiltro row = new CatPaisCustomFiltro();
+				CatRequisitosAdicionales row = new CatRequisitosAdicionales();
 				row.setPersistenceId(rs.getLong("persistenceid"));
 				row.setClave(rs.getString("clave"));
 				row.setDescripcion(rs.getString("descripcion"));
-				row.setUsuarioCreacion(rs.getString("usuario_creacion"));
-				row.setFechaCreacion(rs.getString("fecha_creacion"));
+				row.setUsuario_creacion(rs.getString("usuario_creacion"));
+				row.setFecha_creacion(rs.getString("fecha_creacion"));
+				row.setTipo_de_archivo(rs.getString("tipo_de_archivo"));
+				row.setNombre(rs.getString("nombre"));
+				row.setRequiere_documento(rs.getBoolean("requiere_documento"));
 				data.add(row);
 			}
 	

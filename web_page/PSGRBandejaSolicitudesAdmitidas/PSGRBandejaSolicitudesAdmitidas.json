@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRBandejaSolicitudesAdmitidas",
   "name" : "PSGRBandejaSolicitudesAdmitidas",
-  "lastUpdate" : 1701132882828,
+  "lastUpdate" : 1701217730027,
   "rows" : [
     [
       {
@@ -324,9 +324,9 @@
                               "value" : "autorizacionApoyo"
                             }
                           },
-                          "reference" : "0d57e0d3-d5ed-4cb6-8408-2b357fdd0315",
+                          "reference" : "859f5385-2a58-469d-8937-f1ad6c1df210",
                           "hasValidationError" : false,
-                          "id" : "customPSGRtablaSolicitudesAdmitidas"
+                          "id" : "customPSGRtablaDictamen"
                         }
                       ]
                     ]
@@ -431,7 +431,7 @@
                             },
                             "dataToSend" : {
                               "type" : "variable",
-                              "value" : "dataToSend2"
+                              "value" : "dataToSendAdmitidos"
                             },
                             "lstContenido" : {
                               "type" : "variable",
@@ -454,9 +454,9 @@
                               "value" : "verSolicitud"
                             }
                           },
-                          "reference" : "3ef9d572-5853-4a0c-acd0-a72c1b96c72d",
+                          "reference" : "6559ad3d-69e1-4b32-a02a-d3d04d159b30",
                           "hasValidationError" : false,
-                          "id" : "customPSGRtablaSolicitudesAdmitidas"
+                          "id" : "customPSGRtablaDictamen"
                         }
                       ]
                     ]
@@ -561,7 +561,7 @@
                             },
                             "dataToSend" : {
                               "type" : "variable",
-                              "value" : "dataToSend"
+                              "value" : "dataToSendNoAdmitidos"
                             },
                             "lstContenido" : {
                               "type" : "variable",
@@ -584,9 +584,9 @@
                               "value" : "autorizacionApoyo"
                             }
                           },
-                          "reference" : "58f50bc0-7229-4060-9de5-4762cf138dd2",
+                          "reference" : "9a0e179a-6502-4fc4-9b0c-3f0063250b85",
                           "hasValidationError" : false,
-                          "id" : "customPSGRtablaSolicitudesAdmitidas"
+                          "id" : "customPSGRtablaDictamen"
                         }
                       ]
                     ]
@@ -960,6 +960,38 @@
       "type" : "json",
       "value" : [
         "[]"
+      ],
+      "exposed" : false
+    },
+    "dataToSendAdmitidos" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"estatusSolicitud\":\"'solicitud_aprobada_admin'\",\r",
+        "    \"lstFiltro\": $data.lstFiltros,\r",
+        "    \"usuario\":$data.userData.user_name,\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":20,\r",
+        "    \"offset\":0,\r",
+        "    \"campus\":$data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",
+        "};\r"
+      ],
+      "exposed" : false
+    },
+    "dataToSendNoAdmitidos" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"estatusSolicitud\":\"'solicitud_aprobada_admin'\",\r",
+        "    \"lstFiltro\": $data.lstFiltros,\r",
+        "    \"usuario\":$data.userData.user_name,\r",
+        "    \"orderby\":\"\",\r",
+        "    \"orientation\":\"DESC\",\r",
+        "    \"limit\":20,\r",
+        "    \"offset\":0,\r",
+        "    \"campus\":$data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",
+        "};\r"
       ],
       "exposed" : false
     }

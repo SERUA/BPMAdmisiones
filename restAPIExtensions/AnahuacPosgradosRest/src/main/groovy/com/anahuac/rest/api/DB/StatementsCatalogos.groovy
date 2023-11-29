@@ -130,9 +130,9 @@ class StatementsCatalogos {
 	public static final String SELECT_CATPARENTESCO = "SELECT * FROM PSGRCatParentesco [WHERE] [ORDERBY]";
 	
 	//PSGRCatRequisitosAdicionales
-	public static final String INSERT_CATREQUISITOSADICIONALES = "INSERT INTO PSGRCatRequisitosAdicionales (persistenceid, persistenceversion, clave, descripcion, is_eliminado, fecha_creacion, usuario_creacion, campus_pid, posgrado_pid) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatRequisitosAdicionales), 0, ?, ?, false, ?, ?, ?, ? );";
+	public static final String INSERT_CATREQUISITOSADICIONALES = "INSERT INTO PSGRCatRequisitosAdicionales (persistenceid, persistenceversion, clave, descripcion, is_eliminado, fecha_creacion, usuario_creacion, campus_pid, posgrado_pid, nombre, tipo_de_archivo, requiere_documento) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatRequisitosAdicionales), 0, ?, ?, false, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATREQUISITOSADICIONALES = "UPDATE PSGRCatRequisitosAdicionales SET is_eliminado = true WHERE persistenceid = ?";
-	public static final String UPDATE_CATREQUISITOSADICIONALES = "UPDATE PSGRCatRequisitosAdicionales SET clave = ?, descripcion = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATREQUISITOSADICIONALES = "UPDATE PSGRCatRequisitosAdicionales SET clave = ?, descripcion = ?, nombre = ?, tipo_de_archivo = ?, requiere_documento = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATREQUISITOSADICIONALES = "SELECT * FROM PSGRCatRequisitosAdicionales [WHERE] [ORDERBY]";
 	
 	//PSGRCatNotificaciones
