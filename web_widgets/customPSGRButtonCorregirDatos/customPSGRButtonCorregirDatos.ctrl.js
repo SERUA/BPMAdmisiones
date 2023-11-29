@@ -46,10 +46,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } 
         else if (!data.datosPersonales.apellido_paterno) {
             errorMessage = "El campo Apellido paterno no puede ir vacío."
-        } 
-        else if (!data.datosPersonales.apellido_materno) {
-            errorMessage = "El campo Apellido materno no puede ir vacío."
-        } 
+        }
         else if (!data.datosPersonales.curp) {
             errorMessage = "El campo CURP no puede ir vacío."
         } 

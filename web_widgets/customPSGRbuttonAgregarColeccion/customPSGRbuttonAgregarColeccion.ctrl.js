@@ -109,10 +109,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function checkPromedioDecimal(promedio) {
         promedio = promedio.toString();
         if (promedio.length == 1) {
-            return /[1-9]/.test(promedio);
+            return /[0-9]/.test(promedio);
+        }
+        else if (promedio.length == 2) {
+            return /[1]/.test(promedio[0]) && /[0]/.test(promedio[1]);
         }
         else if (promedio.length == 3) {
-            return /[1-9]/.test(promedio[0]) && promedio[1] == "." && /[1-9]/.test(promedio[2]);
+            return /[0-9]/.test(promedio[0]) && promedio[1] == "." && /[0-9]/.test(promedio[2]);
         }
         else return false;
     }
