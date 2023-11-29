@@ -33,12 +33,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.loadPaginado();
             console.log(data.data)
         })
-            .error(function (data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function () {
-                blockUI.stop();
-            });
+        .error(function (data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function () {
+            blockUI.stop();
+        });
     }
 
     $scope.verSolicitud = function (rowData) {
@@ -52,35 +52,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             rowData.taskId = data[0].id;
             rowData.taskName = data[0].name;
             rowData.processId = data[0].processId;
-            $scope.preProcesoAsignarTarea(rowData)
-
-            //let taskId = data[0].id;
-            //var url = "/bonita/portal/resource/app/sdae/preAutorizacion/content/?app=sdae&id=" + taskId + "&caseId=" + rowData.caseid;
-            //window.open(url, '_blank');
+            $scope.preProcesoAsignarTarea(rowData);
         })
-            .error(function (data, status) {
-                console.error(data);
-            })
-            .finally(function () { });
-
-        /*
-        }else{
-          var req = {
-              method: "GET",
-              url: `/API/bpm/task?p=0&c=10&f=caseId%3d${rowData.caseid}&f=isFailed%3dfalse`
-          };
-    
-          return $http(req).success(function(data, status) {
-                  let taskId = data[0].id;
-                  var url = "/bonita/portal/resource/app/aspirante/verSolicitudAdmision/content/?app=aspirante&id=" + rowData.caseid + "&displayConfirmation=false";
-                  //window.location.href = url;
-                  window.open(url, '_blank');
-              })
-              .error(function(data, status) {
-                  console.error(data);
-              })
-              .finally(function() {});
-            }*/
+        .error(function (data, status) {
+            console.error(data);
+        })
+        .finally(function () { });
     }
 
     $scope.preAsignarTarea = function (rowData) {
@@ -93,16 +70,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             rowData.taskId = data[0].id;
             rowData.taskName = data[0].name;
             rowData.processId = data[0].processId;
-            //rowData.taskName=
             $scope.preProcesoAsignarTarea(rowData);
         })
-            .error(function (data, status) {
-                console.error(data);
-            })
-            .finally(function () {
+        .error(function (data, status) {
+            console.error(data);
+        })
+        .finally(function () {
 
-            });
+        });
     }
+
     $scope.preProcesoAsignarTarea = function (rowData) {
 
         var req = {
@@ -115,12 +92,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             rowData.processVersion = data.version;
             $scope.asignarTarea(rowData);
         })
-            .error(function (data, status) {
-                console.error(data);
-            })
-            .finally(function () {
+        .error(function (data, status) {
+            console.error(data);
+        })
+        .finally(function () {
 
-            });
+        });
     }
 
     $scope.asignarTarea = function (rowData) {
@@ -133,12 +110,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         return $http(req).success(function (data, status) {
             redireccionarTarea(rowData);
         })
-            .error(function (data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function () {
+        .error(function (data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function () {
 
-            });
+        });
     }
 
     function abrirSolicitud(rowData) {
@@ -157,21 +134,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         return $http(req).success(function (data, status) {
             var url = "/bonita/portal/resource/app/sdae/" + $scope.properties.abrirPagina + "/content/?app=sdae&id=" + rowData.taskId + "&caseId=" + rowData.caseid;
             window.open(url, '_blank');
-
-            /*
-            var url = "/bonita/portal/resource/taskInstance/[NOMBREPROCESO]/[VERSIONPROCESO]/[NOMBRETAREA]/content/?id=[TASKID]&displayConfirmation=false";
-            url = url.replace("[NOMBREPROCESO]", rowData.processName);
-            url = url.replace("[VERSIONPROCESO]", rowData.processVersion);
-            url = url.replace("[NOMBRETAREA]", rowData.taskName);
-            url = url.replace("[TASKID]", rowData.taskId);
-            $window.location.assign(url);*/
         })
-            .error(function (data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
-            })
-            .finally(function () {
+        .error(function (data, status) {
+            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+        })
+        .finally(function () {
 
-            });
+        });
     }
 
     $scope.isenvelope = false;
@@ -197,6 +166,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         }
+
         var req = {
             method: "POST",
             url: "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10",
@@ -210,20 +180,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
 
         return $http(req).success(function (data, status) {
-
             $scope.envelopeCancel();
         })
-            .error(function (data, status) {
-                console.error(data)
-            })
-            .finally(function () { });
+        .error(function (data, status) {
+            console.error(data)
+        })
+        .finally(function () { });
     }
     $scope.lstCampus = [];
 
     $(function () {
         doRequest("POST", $scope.properties.urlPost);
     })
-
 
     $scope.$watch("properties.dataToSend", function (newValue, oldValue) {
         if (newValue !== undefined) {
@@ -360,6 +328,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.lstMembership = [];
+
     $scope.$watch("properties.userId", function (newValue, oldValue) {
         if (newValue !== undefined) {
             var req = {
@@ -368,21 +337,21 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             };
 
             return $http(req)
-                .success(function (data, status) {
-                    $scope.lstMembership = data;
-                    $scope.campusByUser();
-                })
-                .error(function (data, status) {
-                    console.error(data);
-                })
-                .finally(function () { });
+            .success(function (data, status) {
+                $scope.lstMembership = data;
+                $scope.campusByUser();
+            })
+            .error(function (data, status) {
+                console.error(data);
+            })
+            .finally(function () { });
         }
     });
 
     $scope.lstCampusByUser = [];
+
     $scope.campusByUser = function () {
         var resultado = [];
-        // var isSerua = true;
         resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
@@ -397,12 +366,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         }
-        // if(isSerua){
-        //     resultado.push("Todos los campus")
-        // }
+        
         $scope.lstCampusByUser = resultado;
     }
-    $scope.filtroCampus = ""
+
+    $scope.filtroCampus = "";
+
     $scope.addFilter = function () {
         if ($scope.filtroCampus != "Todos los campus") {
             var filter = {
@@ -410,6 +379,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 "operador": "Igual a",
                 "valor": $scope.filtroCampus
             }
+
             if ($scope.properties.dataToSend.lstFiltro.length > 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -423,7 +393,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                                 $scope.properties.campusSeleccionado = $scope.lstCampus[index2].valor;
                             }
                         }
-                        encontrado = true
+                        encontrado = true;
                     }
                 }
 
@@ -444,7 +414,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         } else {
-
             if ($scope.properties.dataToSend.lstFiltro.length > 0) {
                 var encontrado = false;
                 for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -457,10 +426,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             } else {
                 $scope.properties.campusSeleccionado = null;
             }
-
         }
-
     }
+
     $scope.sizing = function () {
         $scope.lstPaginado = [];
         $scope.valorSeleccionado = 1;
@@ -482,18 +450,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
 
         return $http(req)
-            .success(function (data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupoBonita
-                    })
-                }
-            })
-            .error(function (data, status) {
-                console.error(data);
-            });
+        .success(function (data, status) {
+            $scope.lstCampus = [];
+            for (var index in data) {
+                $scope.lstCampus.push({
+                    "descripcion": data[index].descripcion,
+                    "valor": data[index].grupoBonita
+                })
+            }
+        })
+        .error(function (data, status) {
+            console.error(data);
+        });
     }
     $scope.isPeriodoVencido = function (periodofin) {
         var fecha = new Date(periodofin.slice(0, 10))
@@ -501,7 +469,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.abrirSolicitud = function (row) {
-        debugger;
         var url = "/bonita/portal/resource/app/sdae/" + $scope.properties.abrirPagina + "/content/?app=sdae&caseId=" + row.caseid;
         window.open(url, '_blank');
     }
@@ -521,23 +488,25 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         return $http(req).success(function (data, status) {
             callback(data);
         })
-            .error(function (data, status) {
-                console.error(data);
+        .error(function (data, status) {
+            console.error(data);
 
-            })
-            .finally(function () {
-                vm.busy = false;
-            });
+        })
+        .finally(function () {
+            vm.busy = false;
+        });
     }
 
     $scope.isenvelope = false;
     $scope.selectedrow = {};
     $scope.mensaje = "";
+
     $scope.envelope = function (row) {
         $scope.isenvelope = true;
         $scope.mensaje = "";
         $scope.selectedrow = row;
     }
+
     $scope.envelopeCancel = function () {
         $scope.isenvelope = false;
         $scope.selectedrow = {};
@@ -551,6 +520,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         }
+
         var req = {
             method: "POST",
             url: "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10",
@@ -564,22 +534,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
 
         return $http(req)
-            .success(function (data, status) {
+        .success(function (data, status) {
 
-                $scope.envelopeCancel();
-            })
-            .error(function (data, status) {
-                console.error(data)
-            })
-            .finally(function () { });
+            $scope.envelopeCancel();
+        })
+        .error(function (data, status) {
+            console.error(data)
+        })
+        .finally(function () { });
     }
     
     function downloadFile(_document) {
         const linkSource = "data:application/pdf; base64,"+ _document;
         const downloadLink = document.createElement("a");
-    
         let fileName = "solicitud_de_apoyo_educativo.pdf";
-
         downloadLink.href = linkSource;
         downloadLink.download = fileName;
         downloadLink.click();
@@ -608,7 +576,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.getInfoTarea = function (_aprobar) {
         let valido = true;
-        debugger;
+
         if(_aprobar && !$scope.comentariosAprobar){
             valido = false;
         } else if(!_aprobar && !$scope.comentariosRechazar){
@@ -693,14 +661,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         let url = "../API/bpm/userTask/" + _taskid + "/execution";
 
         return $http.post(url, _contract).success(function (data, status) {    
-            debugger;
-            $scope.hideModal();
-            doRequest("POST", $scope.properties.urlPost);
+            setTimeout(() => {
+                $scope.hideModal();
+                swal("Ok", "Usuario avanzado con éxito", "succcess");
+                doRequest("POST", $scope.properties.urlPost);
+            }, 3000);
         }).error(function (data, status) {
             swal("¡Atención!","No se ha podido ejecutar la tarea. Intente de nuevo mas tarde.", "warning")
         }).finally(function () {
             blockUI.stop();
         });
     }
-    
 }
