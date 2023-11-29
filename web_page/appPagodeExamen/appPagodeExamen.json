@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "appPagodeExamen",
   "name" : "appPagodeExamen",
-  "lastUpdate" : 1683053502590,
+  "lastUpdate" : 1701296759899,
   "rows" : [
     [
       {
@@ -7359,7 +7359,7 @@
       "type" : "expression",
       "value" : [
         " return {",
-        "    \"name\": $data.objectSolicitud.primerNombre + \" \"+ $data.objectSolicitud.apellidoPaterno,",
+        "    \"name\": ($data.objectSolicitud.primerNombre + \" \" + $data.objectSolicitud.apellidoPaterno).replace(/'/g, ' '),",
         "    \"email\": $data.objectSolicitud.correoElectronico,",
         "    \"campus_id\": $data.objectSolicitud.catCampus.persistenceId + \"\",",
         "    \"country\": $data.objectSolicitud.catPais.clave,",
@@ -7397,7 +7397,7 @@
       "type" : "expression",
       "value" : [
         " return {",
-        "    \"name\": $data.objectSolicitud.primerNombre + \" \"+ $data.objectSolicitud.apellidoPaterno,",
+        "    \"name\": ($data.objectSolicitud.primerNombre + \" \"+ $data.objectSolicitud.apellidoPaterno).replace(/'/g, ' '),",
         "    \"email\": $data.objectSolicitud.correoElectronico,",
         "    \"campus_id\": $data.objectSolicitud.catCampus.persistenceId + \"\",",
         "    \"country\": $data.objectSolicitud.catPais.clave,",
@@ -7527,7 +7527,7 @@
         "    ",
         "}",
         "return {",
-        "    \"name\": $data.objectSolicitud.primerNombre + \" \"+ $data.objectSolicitud.apellidoPaterno,",
+        "    \"name\": ($data.objectSolicitud.primerNombre + \" \" + $data.objectSolicitud.apellidoPaterno).replace(/'/g, ' '),",
         "    \"email\": $data.objectSolicitud.correoElectronico,",
         "    \"phone\": $data.objectSolicitud.telefono,",
         "    \"campus_id\": $data.objectSolicitud.catCampus.persistenceId + \"\",",
