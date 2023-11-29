@@ -178,7 +178,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         return $http(req)
           .success(function(data, status) {
             // Enviar carta
-            $scope.enviarCarta();
+            if ($scope.properties.cartaDatos) {
+                $scope.enviarCarta();   
+            }
             // Guardar datos 
             $scope.properties.dataFromSuccess = "success";
             $scope.properties.responseStatusCode = status;
@@ -192,7 +194,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
           })
           .error(function(data, status) {
-              debugger;
             // Guardar datos
             $scope.properties.dataFromError = "error";
             $scope.properties.responseStatusCode = status;
