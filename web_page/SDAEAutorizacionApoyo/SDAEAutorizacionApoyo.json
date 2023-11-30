@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEAutorizacionApoyo",
   "name" : "SDAEAutorizacionApoyo",
-  "lastUpdate" : 1701305748017,
+  "lastUpdate" : 1701371152398,
   "rows" : [
     [
       {
@@ -9716,7 +9716,7 @@
     "admisionesContextArchivado" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
+        "../API/bpm/archivedCase/{{archievedCase[0].id}}/context"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -9738,6 +9738,14 @@
         "    return $data.admisionesContextArchivado.tutor_ref.link;",
         "}"
       ],
+      "exposed" : false
+    },
+    "archievedCase" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{objSolicitudDeAdmision[0].caseId}}&p=0"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
