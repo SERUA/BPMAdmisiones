@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEVerSolicitud",
   "name" : "SDAEVerSolicitud",
-  "lastUpdate" : 1700250838106,
+  "lastUpdate" : 1701305662862,
   "rows" : [
     [
       {
@@ -1135,24 +1135,19 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.model.PadresTutor?q=findByCaseId&p=0&c=10&f=caseId={{objSolicitudDeAdmision[0].caseId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "setTutores" : {
       "type" : "expression",
       "value" : [
-        "for(let objectTutor of $data.objPadresTutor){\r",
-        "    if(objectTutor.isTutor){\r",
-        "        $data.tutor = objectTutor;\r",
-        "        break;\r",
-        "    }\r",
-        "}\r",
-        "// for(let objectTutor of $data.objPadresTutor){\r",
-        "//     if(objectTutor.isTutor){\r",
-        "//         $data.tutor = objectTutor;\r",
-        "//     }\r",
-        "    \r",
-        "// }"
+        "if($data.getTutoresBDM){\r",
+        "    $data.tutor = $data.getTutoresBDM[0];\r",
+        "}"
       ],
       "exposed" : false
     },
@@ -1514,6 +1509,41 @@
       "type" : "expression",
       "value" : [
         "return \"../API/bpm/humanTask?c=1&f=state=ready&p=0&f=caseId=\" + $data.caseId"
+      ],
+      "exposed" : false
+    },
+    "admisionesContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "admisionesContextArchivado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getTutoresBDM" : {
+      "type" : "url",
+      "value" : [
+        "../{{getUrlTutores}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getUrlTutores" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.admisionesContext){",
+        "    return $data.admisionesContext.tutor_ref.link;",
+        "} else if($data.admisionesContextArchivado){",
+        "    return $data.admisionesContextArchivado.tutor_ref.link;",
+        "}"
       ],
       "exposed" : false
     }

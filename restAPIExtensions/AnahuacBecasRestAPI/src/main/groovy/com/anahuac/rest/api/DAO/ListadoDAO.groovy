@@ -1315,7 +1315,7 @@ class ListadoDAO {
 			}
 			errorlog = consulta + " 9";
 			resultado.setSuccess(true)
-
+			
 			resultado.setError_info(errorlog);
 			resultado.setData(rows)
 
@@ -3288,9 +3288,9 @@ class ListadoDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-	
+			errorLog += "1";
 			Result dataResult = selectBandejaMaestra(parameterP, parameterC, jsonData, context);
-	
+			errorLog += "2";
 			int rowCount = 0;
 			List<Object> lstParams;
 			String type = object.type;
@@ -3300,7 +3300,7 @@ class ListadoDAO {
 			org.apache.poi.ss.usermodel.Font font = workbook.createFont();
 			font.setBold(true);
 			style.setFont(font);
-	
+			
 			if (dataResult.success) {
 				lstParams = dataResult.getData();
 			} else {
@@ -3389,7 +3389,7 @@ class ListadoDAO {
 			Cell header20 = headersRow.createCell(19);
 			header20.setCellValue("Última modificación");
 			header20.setCellStyle(style);
-	
+			errorLog += "3";
 			DateFormat dfSalida = new SimpleDateFormat("dd/MM/yyyy");
 			DateFormat dformat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 	
@@ -3477,14 +3477,14 @@ class ListadoDAO {
 				}
 				
 			}
-	
+			errorLog += "4";
 			for (int i = 0; i <= rowCount + 19; ++i) {
 			    sheet.autoSizeColumn(i);
 			}
 	
 			ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
 			workbook.write(outputStream);
-			errorLog +- "valor"+outputStream;
+//			errorLog +- "valor"+outputStream;
 			List<Object> lstResultado = new ArrayList<Object>();
 			lstResultado.add(Base64.getEncoder().encodeToString(outputStream.toByteArray()));
 			resultado.setError_info(errorLog);

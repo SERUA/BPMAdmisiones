@@ -43,6 +43,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             var error = "";
             let valores1= ["MLEX","CLEX","HLEX"];
             let valores2= ["PAAN","PAAV","PARA"];
+            let valores3= ["espanol","matematicas","habiliadesBlandas"];
             if(datos !== null && datos !== undefined){
                 let columnas = $scope.properties.revisar;
                 for(let i = 0; i< $scope.properties.revisar.length; i++){
@@ -78,7 +79,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                   }else if(columnas[i] == "tipoExamen" && isNullOrUndefined(datos[columnas[i]]) ){
                     swal("¡Aviso!",`¡Debes ingresar el valor de tipo de examen!`,"warning");
                     return false;
+                  }else if(datos.tipoExamen == "MetaProfile" && valores3.includes(columnas[i]) && isNullOrUndefined(datos[columnas[i]])){
+                    swal("¡Aviso!",`¡Debes ingresar el valor de\xa0${columnas[i]}!`,"warning")
+                    return false;
+                  }else if(datos.tipoExamen == "MetaProfile" && valores3.includes(columnas[i]) && !isRangoValue(datos[columnas[i]],200,800)){
+                      swal("¡Aviso!",`${columnas[i]}\xa0(${datos[columnas[i]]})\xa0tiene que estar en el rango de 200-800`,"warning")
+                      return false;
                   }
+                  
                 }
 
                 // COMENTADO LAS VALIDACIONES DE LOS KPS

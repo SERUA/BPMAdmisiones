@@ -2,12 +2,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     $scope.formInput = {
         "solicitudApoyoEducativoInput": {
-            "ordenPagoConekta": ""
+            "ordenPagoConekta": "",
+            "comentariosPago": "",
+            "motivoRechazoPago": ""
         },
         "isPagoValidadoInput": true,
         "isPagoConTarjetainput": true,
-        "isPagoRegresarInput": false
+        "isPagoRegresarInput": false,
+        "isPagoRechazadoInput": false
     };
+    
     'use strict';
 
     var vm = this;
@@ -109,11 +113,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $scope.properties.dataFromSuccess = data;
                 $scope.formInput = {
                     "solicitudApoyoEducativoInput": {
-                        "ordenPagoConekta": data.data[0].id
+                        "ordenPagoConekta": data.data[0].id, 
+                        "comentariosPago": "",
+                        "motivoRechazoPago": ""
                     },
                     "isPagoValidadoInput": false,
                     "isPagoConTarjetainput": false,
-                    "isPagoRegresarInput": false
+                    "isPagoRegresarInput": false,
+                    "isPagoRechazadoInput": false
                 };
 
                 submitTask();

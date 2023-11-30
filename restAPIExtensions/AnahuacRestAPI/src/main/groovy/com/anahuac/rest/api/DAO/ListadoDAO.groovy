@@ -1365,47 +1365,108 @@ class ListadoDAO {
             errorlog = consulta + " 8";
             while (rs.next()) {
                 Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+				
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+						String encoded = "";
+						boolean noAzure = false;
+						try {
+							if(parameterC == null || parameterC != 777){
+								String urlFoto = rs.getString("urlfoto");
+								if (urlFoto != null && !urlFoto.isEmpty() ) {
+									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+									//columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+								} else {
+									noAzure = true;
+									List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+									for (Document doc: doc1) {
+										encoded = "../API/formsDocumentImage?document=" + doc.getId();
+										columns.put("fotografiab64", encoded);
+									}
+								}
+								for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+									encoded = "../API/formsDocumentImage?document=" + doc.getId();
+									columns.put("fotografiabpm", encoded);
+								}
+							}
+							
+							/*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+								encoded = "../API/formsDocumentImage?document="+doc.getId();
+								columns.put("fotografiab64", encoded);
+							} */
+						} catch (Exception e) {
+							LOGGER.error "[ERROR] " + e.getMessage();
+							columns.put("fotografiabpm", "");
+							if(noAzure){
+								columns.put("fotografiab64", "");
+							}
+							errorlog += "" + e.getMessage();
+						}
+					}
 
-                for (int i = 1; i <= columnCount; i++) {
-                    columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
-                    if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
-                        String encoded = "";
-                        boolean noAzure = false;
-                        try {
-                            if(parameterC == null || parameterC != 777){
-                                String urlFoto = rs.getString("urlfoto");
-                                if (urlFoto != null && !urlFoto.isEmpty() ) {
-								    columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
-                                    //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
-                                } else {
-                                    noAzure = true;
-                                    List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
-                                    for (Document doc: doc1) {
-                                        encoded = "../API/formsDocumentImage?document=" + doc.getId();
-                                        columns.put("fotografiab64", encoded);
-                                    }
-                                }
-
-                                for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
-                                    encoded = "../API/formsDocumentImage?document=" + doc.getId();
-                                    columns.put("fotografiabpm", encoded);
-                                }
-                            }
-                            
-
-                            /*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
-                                encoded = "../API/formsDocumentImage?document="+doc.getId();
-                                columns.put("fotografiab64", encoded);
-                            } */
-                        } catch (Exception e) {
-                            LOGGER.error "[ERROR] " + e.getMessage();
-                            columns.put("fotografiabpm", "");
-                            if(noAzure){
-                                columns.put("fotografiab64", "");
-                            }
-                            errorlog += "" + e.getMessage();
-                        }
-                    }
+//	            for (int i = 1; i <= columnCount; i++) {
+//	                if (metaData.getColumnLabel(i).toLowerCase().equals("responsables")) {
+//	                    User usr;
+//	                    UserMembership membership;
+//	
+//	                    String responsables = rs.getString("responsables");
+//	                    String nombres = "";
+//	                    if (!responsables.equals("null") && responsables != null) {
+//	                        errorlog += " " + responsables;
+//	                        String[] arrOfStr = responsables.split(",");
+//	                        for (String a: arrOfStr) {
+//	                            if (Long.parseLong(a) > 0) {
+//	                                usr = context.getApiClient().getIdentityAPI().getUser(Long.parseLong(a))
+//	                                nombres += (nombres.length() > 1?", " : "") + usr.getFirstName() + " " + usr.getLastName()
+//	                            }
+//	                        }
+//	                        columns.put(metaData.getColumnLabel(i).toLowerCase(), nombres);
+//	                    }
+//	                } else {
+//	                    columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+//	                    if(metaData.getColumnLabel(i).toLowerCase().equals("urlfoto")) {
+//	                        columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+//	                    }
+//	                }
+//                    if (metaData.getColumnLabel(i).toLowerCase().equals("caseid")) {
+//                        String encoded = "";
+//                        boolean noAzure = false;
+//                        try {
+//                            if(parameterC == null || parameterC != 777){
+//                                String urlFoto = rs.getString("urlfoto");
+//                                if (urlFoto != null && !urlFoto.isEmpty() ) {
+//								    columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+//                                    //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
+//                                } else {
+//                                    noAzure = true;
+//                                    List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
+//                                    for (Document doc: doc1) {
+//                                        encoded = "../API/formsDocumentImage?document=" + doc.getId();
+//                                        columns.put("fotografiab64", encoded);
+//                                    }
+//                                }
+//
+//                                for (Document doc: context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+//                                    encoded = "../API/formsDocumentImage?document=" + doc.getId();
+//                                    columns.put("fotografiabpm", encoded);
+//                                }
+//                            }
+//                            
+//
+//                            /*for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)) {
+//                                encoded = "../API/formsDocumentImage?document="+doc.getId();
+//                                columns.put("fotografiab64", encoded);
+//                            } */
+//                        } catch (Exception e) {
+//                            LOGGER.error "[ERROR] " + e.getMessage();
+//                            columns.put("fotografiabpm", "");
+//                            if(noAzure){
+//                                columns.put("fotografiab64", "");
+//                            }
+//                            errorlog += "" + e.getMessage();
+//                        }
+//                    }
                 }
 
                 rows.add(columns);
@@ -3277,7 +3338,7 @@ class ListadoDAO {
                             try {
                                 String urlFoto = rs.getString("urlfoto");
                                 if (urlFoto != null && !urlFoto.isEmpty()) {
-									columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+									columns.put("fotografiab64", rs.getString("urlfoto") + SSA );
                                     //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
                                 } else {
                                     List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
@@ -4428,7 +4489,7 @@ class ListadoDAO {
 
                             String urlFoto = rs.getString("urlfoto");
                             if (urlFoto != null && !urlFoto.isEmpty()) {
-							columns.put("fotografiab64", base64Imagen((rs.getString("urlfoto") + SSA)) );
+							columns.put("fotografiab64", rs.getString("urlfoto") + SSA );
                                 //columns.put("fotografiab64", rs.getString("urlfoto") + SSA);
                             } else {
                                 List < Document > doc1 = context.getApiClient().getProcessAPI().getDocumentList(Long.parseLong(rs.getString(i)), "fotoPasaporte", 0, 10)
