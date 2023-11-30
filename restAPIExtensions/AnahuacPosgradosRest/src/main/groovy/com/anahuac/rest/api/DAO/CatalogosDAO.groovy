@@ -7329,7 +7329,7 @@ class CatalogosDAO {
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(4, fechaHoraFormateada);
-			pstm.setBoolean(5, object.es_otro);
+			pstm.setBoolean(5, object.es_opcional);
 			pstm.setLong(6, object.campus_pid.persistenceId);
 			pstm.setLong(7, object.posgrado_pid.persistenceId);
 			if (pstm.executeUpdate() > 0) {
@@ -7374,7 +7374,7 @@ class CatalogosDAO {
 			pstm.setString(2, object.descripcion);
 			pstm.setString(3, object.nombre_documento);
 //			pstm.setLong(4, Long.valueOf(object.fecha_creacion_date));
-			pstm.setBoolean(4, object.es_otro);
+			pstm.setBoolean(4, object.es_opcional);
 			pstm.setLong(5, object.persistenceId);
 //			pstm.setLong(6, Long.valueOf(object.is_eliminado));
 //			pstm.setLong(7, Long.valueOf(object.campus_pid));
@@ -7557,7 +7557,7 @@ class CatalogosDAO {
 				row.setNombre_documento(rs.getString("nombre_documento"));
 				row.setFecha_creacion_date(rs.getString("fecha_creacion_date"));
 //				row.setFechaCreacion(rs.getString("fecha_creacion"));
-				row.setEs_otro(rs.getBoolean("es_otro"));
+				row.setEs_opcional(rs.getBoolean("es_opcional"));
 				row.setCampus_pid(rs.getLong("campus_pid"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
 				

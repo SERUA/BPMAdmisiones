@@ -32,7 +32,7 @@ class CatGestionEscolar {
 	private String valor;
 	private String fecha_creacion_date;
 	private String nombre_documento;
-	private Boolean es_otro;
+	private Boolean es_opcional;
 	private Long posgrado_pid;
 	private Long periodo_pid;
 	private Long orden;
@@ -226,11 +226,11 @@ class CatGestionEscolar {
 	public void setFecha_creacion_date(String fecha_creacion_date) {
 		this.fecha_creacion_date = fecha_creacion_date;
 	}
-	public Boolean getEs_otro() {
-		return es_otro;
+	public Boolean getEs_opcional() {
+		return es_opcional;
 	}
-	public void setEs_otro(Boolean es_otro) {
-		this.es_otro = es_otro;
+	public void setEs_opcional(Boolean es_opcional) {
+		this.es_opcional = es_opcional;
 	}
 	public Long getPosgrado_pid() {
 		return posgrado_pid;
