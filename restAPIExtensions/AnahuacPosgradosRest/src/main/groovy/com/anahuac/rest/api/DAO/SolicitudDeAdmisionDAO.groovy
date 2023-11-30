@@ -588,28 +588,33 @@ class SolicitudDeAdmisionDAO {
 			
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
+			def dataResult = [];
 			
 			// ---Validación---
 			
 			if (object.caseid == null) {
 				throw new Exception('El campo "caseid" no debe ir vacío');
-			} else if(object.caseid instanceof Long) {
-				throw new Exception('El campo "caseid" debe ser de tipo Long');
 			} else if(object.requisitosAdicionales == null) {
 				throw new Exception('El campo "requisitosAdicionales" no debe ir vacío');
-			} else if(!object.requisitosAdicionales.getClass().isArray()) {
-				throw new Exception('El campo "requisitosAdicionales" debe ser una lista');
-			} else if(object.requisitosAdicionales.length > 0) {
-				throw new Exception('El campo "requisitosAdicionales" no debe ser una lista vacia');
+			} else if(!(object.requisitosAdicionales instanceof ArrayList) || object.requisitosAdicionales.empty) {
+				throw new Exception('El campo "requisitosAdicionales" debe ser una lista y no debe estar vacia');
 			}
 			
 			con.setAutoCommit(false);
-
+			
+			// ---Conversión---
+			
+			Long caseid = -1L;
+			Long catRequisitoId = -1L;
+			
+			try {
+				caseid = Long.valueOf(object.caseid);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
+			}
+			
 			object.requisitosAdicionales.eachWithIndex { item, index ->
-				
-				// ---Conversión---
-				
-				Long catRequisitoId = -1L;
 				
 				try {
 					catRequisitoId = Long.valueOf(item.persistenceId_string);
@@ -621,26 +626,22 @@ class SolicitudDeAdmisionDAO {
 				// ---Ejecución---
 				
 				pstm = con.prepareStatement(Statements.INSERT_REQUISITO_ADICIONAL_AUXILIAR);
-				pstm.setLong(1, object.caseid);
+				pstm.setLong(1, caseid);
 				pstm.setBoolean(2, false);
 				pstm.setLong(3, catRequisitoId);
 				
 				rs = pstm.executeQuery();
-				
-				def dataResult = [];
-				
+			
 				if (rs.next()) {
-					Long id = rs.getLong("persistenceid");
-					dataResult.add(id);
+					Long idResult = rs.getLong("persistenceid");
+					dataResult.add(idResult);
 				} else {
 					throw new Exception("No se pudo insertar el registro.");
 				}
 			}
 
 			con.commit();
-			if (dataResult.length > 0) {
-				resultado.setData(dataResult);
-			}
+			resultado.setData(dataResult);
 			resultado.setSuccess(true);
 			
 		} catch (Exception e) {
