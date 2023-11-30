@@ -542,12 +542,13 @@ class NotificacionDAO {
 		def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
 		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
 		def caseid = objSolicitudDeAdmision.get(0).caseid;
-		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objSolicitudDeAdmisionDAO.findByCaseid(caseid, 0, 999)
+		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
 		if(objSolicitudDeAdmision.size()>0) {
 			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
 			
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
 			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre);
+			plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).estatus_solicitud);
 			
 			try {
 				plantilla=plantilla.replace("[CAMPUS]", objSolicitudDeAdmision.get(0).campus.descripcion)
@@ -555,11 +556,11 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[CAMPUS]","CAMPUS PREVIEW")
 			}
 			
-			plantilla=plantilla.replace("[CORREO]",objSolicitudDeAdmision.get(0).getCorreoElectronico())
-			plantilla=plantilla.replace("[PERIODO]",objSolicitudDeAdmision.get(0).getCatPeriodo().getDescripcion())
-			plantilla=plantilla.replace("[PREPARATORIA]",(objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion().equals("Otro"))?objSolicitudDeAdmision.get(0).getBachillerato():objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
-			plantilla=plantilla.replace("[PROMEDIO]",objSolicitudDeAdmision.get(0).getPromedioGeneral())
-			plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).getEstatusSolicitud())
+			plantilla=plantilla.replace("[PROGRAMA]", objPSGRSolAdmiPrograma.get(0).programa_interes.nombre)
+			plantilla=plantilla.replace("[PERIODO]", objPSGRSolAdmiPrograma.get(0).periodo_ingreso.descripcion)
+//			plantilla=plantilla.replace("[PREPARATORIA]",(objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion().equals("Otro"))?objSolicitudDeAdmision.get(0).getBachillerato():objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
+//			plantilla=plantilla.replace("[PROMEDIO]",objSolicitudDeAdmision.get(0).getPromedioGeneral())
+//			plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).getEstatusSolicitud())
 			
 			errorlog += ", Variable14"
 			
