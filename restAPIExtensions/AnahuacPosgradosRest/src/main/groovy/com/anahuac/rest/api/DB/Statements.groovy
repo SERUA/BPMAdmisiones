@@ -46,4 +46,7 @@ class Statements {
 	public static final String UPDATE_SOL_ADMI_DATOS_CONTACTO = "UPDATE PSGRSolAdmiDatosContacto SET correo_contacto = ? WHERE persistenceId = ?";
 	public static final String UPDATE_SOL_ADMI_PROGRAMA = "UPDATE PSGRSolAdmiPrograma SET campus_pid = ?, posgrado_pid = ?, programa_interes_pid = ?, periodo_ingreso_pid = ? WHERE  persistenceId = ?";
 	public static final String GET_SOLICITUDES_DUPLICADOS = "SELECT regi.nombre, regi.apellido_paterno, regi.apellido_materno, pers.curp, pers.id_banner, regi.fecha_registro, pers.pasaporte FROM PSGRRegistro AS regi INNER JOIN PSGRSolAdmiDatosPersonales AS pers ON regi.caseid = pers.caseid WHERE (LOWER(regi.nombre) LIKE('%[NOMBRE]%') AND LOWER(regi.apellido_paterno) LIKE LOWER('%[APELLIDO_P]%') ) OR (LOWER(regi.nombre) LIKE('%[NOMBRE]%') AND LOWER(regi.apellido_materno) LIKE LOWER('%[APELLIDO_M]%') ) OR (LOWER(regi.apellido_paterno) LIKE LOWER('%[APELLIDO_P]%') AND LOWER(regi.apellido_materno) LIKE LOWER('%[APELLIDO_M]%') ) OR (LOWER(pers.curp) LIKE LOWER('%[CURP]%')) OR (LOWER(pers.pasaporte) LIKE LOWER('%[PASAPORTE]%')) OR (LOWER(pers.id_banner) LIKE LOWER('%[IDBANNER]%'))  ORDER BY regi.caseid ASC";
+	
+	//REQUISITOS ADICIONALES AUXILIAR
+	public static final String INSERT_REQUISITO_ADICIONAL_AUXILIAR = "INSERT INTO AUXISolAdmiRequisitoAdicional (persistenceid, caseid, cumplido, requisito_adicional_pid) VALUES (case when (SELECT max(persistenceId)+1 from PSGRCatRequisitosAdicionales) is null then 1 else (SELECT max(persistenceId)+1 from PSGRCatRequisitosAdicionales ) end, ?, ?, ?);"
 }
