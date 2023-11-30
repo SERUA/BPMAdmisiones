@@ -12,6 +12,8 @@ import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
+import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicionalDAO
+import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -579,6 +581,70 @@ class SolicitudDeAdmisionDAO {
 		return resultado;
 	}	
 	
+	public Result getRequisitosAdicionalesAuxiliar(String caseid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			// ---Validación---
+			if (caseid == null) {
+				throw new Exception('El parametro "caseid" es requerido');
+			}
+			
+			// ---Conversión---
+			Long caseidLong = -1L
+			
+			try {
+				caseidLong = Long.valueOf(caseid);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
+			}
+			
+			// ---Ejecución---
+			pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES_AUXILIAR);
+			pstm.setLong(1, caseidLong);
+
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceid", rs.getLong("persistenceid"));
+				row.put("persistenceid_string", rs.getString("persistenceid"));
+				row.put("caseid", rs.getLong("caseid"));
+				row.put("clave", rs.getString("clave"));
+				row.put("nombre", rs.getString("nombre"));
+				row.put("descripcion", rs.getString("descripcion"));
+				row.put("requiere_documento", rs.getBoolean("requiere_documento"));
+				row.put("tipo_de_archivo_aceptado", rs.getString("tipo_de_archivo_aceptado"));
+				row.put("cumplido", rs.getBoolean("cumplido"));
+				row.put("url_azure", rs.getString("url_azure"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getRequisitosAdicionalesAuxiliar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;	
+	}
+	
 	public Result insertRequisitosAdicionalesAuxiliar(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -663,107 +729,7 @@ class SolicitudDeAdmisionDAO {
 		
 		try {
 			throw new Exception("Sin implementar");
-			/*
-			closeCon = validarConexion();
 			
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			
-			
-			// ---Validación---
-			
-			if (object.datosPersonales.equals("") || object.datosPersonales == null) {
-				throw new Exception('El campo "datosPersonales" no debe ir vacío');
-			} else if(object.datosPersonales.persistenceId_string.equals("") || object.datosPersonales.persistenceId_string == null) {
-				throw new Exception('El campo "Persistence Id", en datosPersonales, no debe ir vacío');
-			} else if(object.datosPersonales.nombre.equals("") || object.datosPersonales.nombre == null) {
-				throw new Exception('El campo "Nombre" no debe ir vacío');
-			} else if(object.datosPersonales.apellido_paterno.equals("") || object.datosPersonales.apellido_paterno == null) {
-				throw new Exception('El campo "Apellido paterno" no debe ir vacío');
-			} else if(object.datosPersonales.apellido_materno.equals("") || object.datosPersonales.apellido_materno == null) {
-				throw new Exception('El campo "Apellido materno" no debe ir vacío');
-			} else if(object.datosPersonales.curp.equals("") || object.datosPersonales.curp == null) {
-				throw new Exception('El campo "CURP" no debe ir vacío');
-				
-			} else if (object.datosContacto.equals("") || object.datosContacto == null) {
-				throw new Exception('El campo "datosContacto" no debe ir vacío');
-			} else if(object.datosContacto.persistenceId_string.equals("") || object.datosContacto.persistenceId_string == null) {
-				throw new Exception('El campo "Persistence Id", en datosContacto, no debe ir vacío');
-			} else if(object.datosContacto.correo_contacto.equals("") || object.datosContacto.correo_contacto == null) {
-				throw new Exception('El campo "Correo de contacto" no debe ir vacío');
-			
-			} else if (object.datosPrograma.equals("") || object.datosPrograma == null) {
-				throw new Exception('El campo "datosContacto" no debe ir vacío');
-			} else if(object.datosPrograma.persistenceId_string.equals("") || object.datosPrograma.persistenceId_string == null) {
-				throw new Exception('El campo "Persistence Id", en datosPrograma, no debe ir vacío');
-			} else if(object.datosPrograma.campus == null || object.datosPrograma.campus.persistenceId_string.equals("") || object.datosPrograma.campus.persistenceId_string == null) {
-				throw new Exception('El campo "Campus" no debe ir vacío');
-			} else if(object.datosPrograma.posgrado == null || object.datosPrograma.posgrado.persistenceId_string.equals("") || object.datosPrograma.posgrado.persistenceId_string == null) {
-				throw new Exception('El campo "Posgrado" no debe ir vacío');
-			} else if(object.datosPrograma.programa_interes == null || object.datosPrograma.programa_interes.persistenceId_string.equals("") || object.datosPrograma.programa_interes.persistenceId_string == null) {
-				throw new Exception('El campo "Programa de interes" no debe ir vacío');
-			} else if(object.datosPrograma.periodo_ingreso == null || object.datosPrograma.periodo_ingreso.persistenceId_string.equals("") || object.datosPrograma.periodo_ingreso.persistenceId_string == null) {
-				throw new Exception('El campo "Periodo de ingreso" no debe ir vacío');
-			}
-			
-			// ---Conversión---
-			
-			Long datosPersonales_id = -1L;
-			Long datosContacto_id = -1L;
-			Long datosPrograma_id = -1L;
-			Long campus_id = -1L;
-			Long posgrado_id = -1L;
-			Long pograma_interes_id = -1L;
-			Long periodo_ingreso_id = -1L;
-			
-			try {
-				datosPersonales_id = Long.valueOf(object.datosPersonales.persistenceId_string);
-				datosContacto_id = Long.valueOf(object.datosContacto.persistenceId_string);
-				datosPrograma_id = Long.valueOf(object.datosPrograma.persistenceId_string);
-				campus_id = Long.valueOf(object.datosPrograma.campus.persistenceId_string);
-				posgrado_id = Long.valueOf(object.datosPrograma.posgrado.persistenceId_string);
-				pograma_interes_id = Long.valueOf(object.datosPrograma.programa_interes.persistenceId_string);
-				periodo_ingreso_id = Long.valueOf(object.datosPrograma.periodo_ingreso.persistenceId_string);
-			}
-			catch (Exception e) {
-				throw new Exception("Falló en la conversión de tipo, en los atributos del objeto recibido. " + e.message);
-			}
-			
-			// ---Ejecución---
-			
-			con.setAutoCommit(false);
-			
-			// UPDATE datosPersonales
-			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_DATOS_PERSONALES);
-			pstm.setString(1, object.datosPersonales.nombre);
-			pstm.setString(2, object.datosPersonales.apellido_paterno);
-			pstm.setString(3, object.datosPersonales.apellido_materno);
-			pstm.setString(4, object.datosPersonales.curp);
-			pstm.setLong(5, datosPersonales_id);
-			if (pstm.executeUpdate() == 0) {
-				throw new Exception("No se pudo modificar el registro de la tabla 'Datos personales'.");
-			}
-			
-			// UPDATE datosContacto
-			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_DATOS_CONTACTO);
-			pstm.setString(1, object.datosContacto.correo_contacto);
-			pstm.setLong(2, datosContacto_id);
-			if (pstm.executeUpdate() == 0) {
-				throw new Exception("No se pudo modificar el registro de la tabla 'Datos de contacto'.");
-			}
-			
-			// UPDATE datosPrograma
-			pstm = con.prepareStatement(Statements.UPDATE_SOL_ADMI_PROGRAMA);
-			pstm.setLong(1, campus_id);
-			pstm.setLong(2, posgrado_id);
-			pstm.setLong(3, pograma_interes_id);
-			pstm.setLong(4, periodo_ingreso_id);
-			pstm.setLong(5, datosPrograma_id);
-			if (pstm.executeUpdate() == 0) {
-				throw new Exception("No se pudo modificar el registro de la tabla 'Datos de programa'.");
-			}
-			
-			con.commit();*/
 			resultado.setSuccess(true);
 			
 		} catch (Exception e) {
