@@ -49,6 +49,7 @@
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('VPDORIGEN')">VPD Origen<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='VPDORIGEN'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('VPDDESTINO')">VPD Destino<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='VPDDESTINO'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('USUARIO')">Autor transferencia<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='USUARIO'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('FECHA')">Fecha movimiento<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHA'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('REPORTE')">Reporte OV<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='REPORTE'"></i></span></th>
                 <th> Acciones</th>
             </tr>
         </thead>
@@ -61,6 +62,7 @@
                 <td><input ng-model="dynamicInput['vpdorigen']" class="form-control" ng-enter="filterKeyPress('VPD ORIGEN',dynamicInput['vpdorigen'])"></td>
                 <td><input ng-model="dynamicInput['vpddestino']" class="form-control" ng-enter="filterKeyPress('VPD DESTINO',dynamicInput['vpddestino'])"></td>
                 <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('AUTOR TRANSFERENCIA,FECHA MOVIMIENTO',dynamicInput['ultimamodificacion'])"></td>
+                <!--<td><input ng-model="dynamicInput['reporte']" class="form-control" ng-enter="filterKeyPress('REPORTE',dynamicInput['reporte'])"></td>-->
                 <td></td>
             </tr>
             <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
@@ -87,6 +89,12 @@
                 <td>
                      <b>{{row.usuarioCreacion}} </b><br>
                     {{row.fechaCreacion | date:'dd-MM-yyyy HH:mm:ss'}}<br>
+                </td>
+                <td>
+                    <b style="color:#ff5900" >{{ row.finalizado == 't' ? 'Finalizado': row.finalizado == 's'?'Sin iniciar':'En proceso' }}</b>
+                    <label ng-if="isPeriodoVencido(row.periodofin)" class="blink_me" style="color:red">Periodo Vencido</label>
+                    <!--{{row.tipoalumno}}-->
+                    <br>
                 </td>
                 <!--td>
                     {{row.updateDate}}

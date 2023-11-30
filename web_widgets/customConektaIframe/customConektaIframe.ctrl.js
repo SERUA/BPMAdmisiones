@@ -4,11 +4,14 @@ function ($scope, $http) {
     var publicKey = "";
     $scope.formInput = {
     	"solicitudApoyoEducativoInput":{
-    		"ordenPagoConekta":""
+    		"ordenPagoConekta":"",
+    		"comentariosPago":"",
+    		"motivoRechazoPago":""
     	},
     	"isPagoValidadoInput": true,
     	"isPagoConTarjetainput": true,
-    	"isPagoRegresarInput": false
+    	"isPagoRegresarInput": false,
+    	"isPagoRechazadoInput": false
     };
     
     $scope.setCardObject = function (_token) {
@@ -42,7 +45,6 @@ function ($scope, $http) {
     }
     
     function getConektaPublicKeyV2(){
-        debugger;
         var req = {
             method: "GET",
             url: "../API/extension/AnahuacRestGet?url=getConektaPublicKeyV2&p=0&c=10&campus_id=" + $scope.properties.objSolicitudAdmision.catCampusEstudio.persistenceId,
@@ -73,7 +75,6 @@ function ($scope, $http) {
     });
 
     function setIframe() {
-        debugger;
         window.ConektaCheckoutComponents.Card({
             targetIFrame: "#conektaIframeContainer",
             allowTokenization: true,
@@ -110,7 +111,6 @@ function ($scope, $http) {
                 }
             },
             onCreateTokenSucceeded: function (_token) {
-                debugger;
                 var scope = angular.element($("custom-conekta-iframe")).scope();
                 scope.showModal();
                 scope.$apply(function(){

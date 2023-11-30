@@ -40,6 +40,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function doRequest(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -344,6 +345,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     //Confirmacion para aceptar/rechazar al aspirante
     $scope.confirmacion = function(accion, rowData) {
+        debugger;
         Swal.fire({
             title: `¿Está seguro que desea ${(accion == "aceptar") ? "aceptar al aspirante" : "rechazar al aspirante"}?`,
             text: "La tarea avanzará",
@@ -375,7 +377,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     //Asignacion de la tarea cuando sea aceptado o rechazado
     $scope.asignarTareaValidacionManual = function(rowData) {
-
+        debugger;
         var req = {
             method: "GET",
             url: `/API/bpm/task?p=0&c=10&f=caseId%3d${rowData.caseid}&f=isFailed%3dfalse`
@@ -393,6 +395,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
 
     $scope.assignTaskAceptarRechazar = function(taskid) {
+        debugger;
         //$scope.showModal();
         let url = "../API/bpm/userTask/" + taskid;
 
@@ -420,6 +423,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function doRequestAceptadoRechazado(method, url, params) {
+        debugger;
         blockUI.start();
         var req = {
             method: method,

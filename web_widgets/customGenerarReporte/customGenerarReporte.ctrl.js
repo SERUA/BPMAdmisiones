@@ -18,13 +18,36 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteRelacionAspirantes&p=0&c=9999"
         }else if ($scope.properties.reporte == "Informacion aspirante") {
             url = "/bonita/API/extension/AnahuacRest?url=generarReportePerfilAspirante&p=0&c=9999"
-        }  else {
+        }else if ($scope.properties.reporte == "MetaProfile") {
+            url = "/bonita/API/extension/AnahuacRest?url=generarReporteMetaProfile&p=0&c=9999"
+        }else {
             url = "/bonita/API/extension/AnahuacRest?url=generarReporteResultadosExamenes&p=0&c=9999"
         } 
         doRequest("POST", url, null, $scope.properties.dataToSend, function(data) {
-            if ($scope.properties.fileExtension === "xls") {
-                const blob = b64toBlob(data.data[0]);
-                const blobUrl = URL.createObjectURL(blob);
+            if ($scope.properties.fileExtension === "xls" || $scope.properties.fileExtension === "csv") {
+                if ($scope.properties.reporte == "MetaProfile" && isNullOrUndefined($scope.properties.dataToSend.sesion) ){
+                        Swal.fire({
+                            icon: 'info',
+                            title: 'Sin resultados',
+                            text: 'Favor de seleccionar por lo menos una sesión'
+                        })  
+                    
+                }else{
+                    const blob = b64toBlob(data.data[0]);
+                    const blobUrl = URL.createObjectURL(blob);
+                    var link = document.createElement('a');
+                    link.href = window.URL.createObjectURL(blob);
+                    let currentdate = new Date(); 
+                    let datetime = $scope.properties.reporte + " - "+ currentdate.getDate() + "/"
+                    + (currentdate.getMonth()+1)  + "/" 
+                    + currentdate.getFullYear() 
+                    link.download = datetime;
+                    document.body.appendChild(link);
+                    link.click();
+                    document.body.removeChild(link);
+                    //window.location = blobUrl;
+                }
+                
                 
                 /*var link = document.createElement('a');
                 link.href = window.URL.createObjectURL(blob);
@@ -37,9 +60,9 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
                 link.click();
                 document.body.removeChild(link);*/
                 
-                window.open(blobUrl, '_blank');
+                //window.open(blobUrl, '_blank');
                 // window.location = blobUrl;
-            } else {
+            }else {
                 fakeLink(data.data[1])
             }
         })   
@@ -62,6 +85,8 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
         let contentType = "text/plain";
         if ($scope.properties.fileExtension === "xls") {
             contentType = "application/vnd.ms-excel";
+        }else if($scope.properties.fileExtension === "csv"){
+            contentType = "text/csv";
         }
         for (var i = 0; i < byteString.length; i++) {
             ia[i] = byteString.charCodeAt(i);
@@ -166,14 +191,7 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
         return {};
     }
 
-    /**
-     * Extract the param value from a URL query
-     * e.g. if param = "id", it extracts the id value in the following cases:
-     *  1. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?id=8880000
-     *  2. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?param=value&id=8880000&locale=en
-     *  3. http://localhost/bonita/portal/resource/process/ProcName/1.0/content/?param=value&id=8880000&locale=en#hash=value
-     * @returns {id}
-     */
+
     function getUrlParam(param) {
         var paramValue = $location.absUrl().match('[//?&]' + param + '=([^&#]*)($|[&#])');
         if (paramValue) {
