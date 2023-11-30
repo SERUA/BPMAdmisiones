@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEPreAutorizacion",
   "name" : "SDAEPreAutorizacion",
-  "lastUpdate" : 1701112753240,
+  "lastUpdate" : 1701305523057,
   "rows" : [
     [
       {
@@ -6276,17 +6276,9 @@
         "//     //     $data.madre = objectTutor;\r",
         "//     // }\r",
         "// }\r",
-        "let countTutor = 0;\r",
         "\r",
-        "for (let objectTutor of $data.objPadresTutor) {\r",
-        "    if (objectTutor.isTutor) {\r",
-        "        countTutor++;\r",
-        "\r",
-        "        if (countTutor === 2) {\r",
-        "            $data.tutor = objectTutor;\r",
-        "            break;\r",
-        "        }\r",
-        "    }\r",
+        "if($data.getTutoresBDM){\r",
+        "    $data.tutor = $data.getTutoresBDM[0];\r",
         "}"
       ],
       "exposed" : false
@@ -6895,6 +6887,41 @@
       "type" : "url",
       "value" : [
         "../API/extension/AnahuacBecasRestGET?url=getPAAByIdBanner&p=0&c=10&idbanner={{getDatosSolicitante[0].idAlumno}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getTutoresBDM" : {
+      "type" : "url",
+      "value" : [
+        "../{{getUrlTutores}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getUrlTutores" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.admisionesContext){",
+        "    return $data.admisionesContext.tutor_ref.link;",
+        "} else if($data.admisionesContextArchivado){",
+        "    return $data.admisionesContextArchivado.tutor_ref.link;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "admisionesContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "admisionesContextArchivado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
       ],
       "advancedOptions" : { },
       "exposed" : false

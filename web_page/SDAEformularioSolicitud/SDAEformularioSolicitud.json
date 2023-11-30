@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1701196486212,
+  "lastUpdate" : 1701305656999,
   "rows" : [
     [
       {
@@ -24470,38 +24470,8 @@
     "setTutores" : {
       "type" : "expression",
       "value" : [
-        "//for(let objectTutor of $data.objPadresTutor){\r",
-        "//    if(objectTutor.isTutor){\r",
-        "//        $data.tutor = objectTutor;\r",
-        "//        break;\r",
-        "//    }\r",
-        "//}\r",
-        "\r",
-        "// for(let objectTutor of $data.objPadresTutor){\r",
-        "//     if(objectTutor.isTutor){\r",
-        "//         $data.tutor = objectTutor;\r",
-        "//     }\r",
-        "    \r",
-        "//     if (objectTutor.catParentezco.descripcion === \"Padre\"){\r",
-        "//         $data.padre = objectTutor;\r",
-        "//     } \r",
-        "    \r",
-        "//     if(objectTutor.catParentezco.descripcion === \"Madre\"){\r",
-        "//         $data.madre = objectTutor;\r",
-        "//     }\r",
-        "// }\r",
-        "\r",
-        "let countTutor = 0;\r",
-        "\r",
-        "for (let objectTutor of $data.objPadresTutor) {\r",
-        "    if (objectTutor.isTutor) {\r",
-        "        countTutor++;\r",
-        "\r",
-        "        if (countTutor === 2) {\r",
-        "            $data.tutor = objectTutor;\r",
-        "            break;\r",
-        "        }\r",
-        "    }\r",
+        "if($data.getTutoresBDM){\r",
+        "    $data.tutor = $data.getTutoresBDM[0];\r",
         "}"
       ],
       "exposed" : false
@@ -25082,6 +25052,49 @@
         "    }",
         "    ",
         "    return name;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "admisionesContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "admisionesContextArchivado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "getTutoresBDM" : {
+      "type" : "url",
+      "value" : [
+        "../{{getUrlTutores}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getUrlTutores" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.admisionesContext){",
+        "    return $data.admisionesContext.tutor_ref.link;",
+        "} else if($data.admisionesContextArchivado){",
+        "    return $data.admisionesContextArchivado.tutor_ref.link;",
         "}"
       ],
       "exposed" : false

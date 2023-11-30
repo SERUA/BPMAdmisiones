@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEModificarSolicitud",
   "name" : "SDAEModificarSolicitud",
-  "lastUpdate" : 1700879164486,
+  "lastUpdate" : 1701305175309,
   "rows" : [
     [
       {
@@ -3792,17 +3792,8 @@
         "    \r",
         "// }\r",
         "\r",
-        "let countTutor = 0;\r",
-        "\r",
-        "for (let objectTutor of $data.objPadresTutor) {\r",
-        "    if (objectTutor.isTutor) {\r",
-        "        countTutor++;\r",
-        "\r",
-        "        if (countTutor === 2) {\r",
-        "            $data.tutor = objectTutor;\r",
-        "            break;\r",
-        "        }\r",
-        "    }\r",
+        "if($data.getTutoresBDM){\r",
+        "    $data.tutor = $data.getTutoresBDM[0];\r",
         "}"
       ],
       "exposed" : false
@@ -4280,6 +4271,41 @@
       "type" : "url",
       "value" : [
         "{{urlIMagenesSocioEconomico}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "admisionesContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "admisionesContextArchivado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "getUrlTutores" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.admisionesContext){",
+        "    return $data.admisionesContext.tutor_ref.link;",
+        "} else if($data.admisionesContextArchivado){",
+        "    return $data.admisionesContextArchivado.tutor_ref.link;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "getTutoresBDM" : {
+      "type" : "url",
+      "value" : [
+        "../{{getUrlTutores}}"
       ],
       "advancedOptions" : { },
       "exposed" : false
