@@ -171,6 +171,11 @@ class SolicitudDeAdmisionDAO {
 			} else {
 				where += " AND LOWER(camp.DESCRIPCION) = LOWER('" + object.lstFiltro[0].valor + "') ";
 			}
+			if (object.tiene_requisitos_adicionales) {
+			    where += " AND regi.tiene_requisitos_adicionales = 'true' ";
+			} else {
+				where += " AND regi.tiene_requisitos_adicionales IS NULL ";
+			}
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
