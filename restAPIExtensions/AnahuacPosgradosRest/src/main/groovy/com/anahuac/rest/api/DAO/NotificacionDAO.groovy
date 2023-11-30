@@ -4,6 +4,8 @@ import com.anahuac.model.DetalleSolicitud
 //import com.anahuac.model.ProcesoCaso
 import com.anahuac.posgrados.bitacora.PSGRCatBitacoraCorreos
 import com.anahuac.posgrados.catalog.PSGRCatDocumentosTextos
+import com.anahuac.posgrados.catalog.PSGRCatEstatusProceso
+import com.anahuac.posgrados.catalog.PSGRCatEstatusProcesoDAO
 import com.anahuac.posgrados.catalog.PSGRCatGestionEscolarDAO
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacion
 import com.anahuac.posgrados.catalog.PSGRCatImageNotificacionDAO
@@ -540,15 +542,18 @@ class NotificacionDAO {
 		try {
 		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
 		def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+		def objPSGRCatEstatusProcesoDAO = context.apiClient.getDAO(PSGRCatEstatusProcesoDAO.class);
 		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
 		def caseid = objSolicitudDeAdmision.get(0).caseid;
+		def estatus_solicitud = objSolicitudDeAdmision.get(0).estatus_solicitud;
 		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
+		List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
 		if(objSolicitudDeAdmision.size()>0) {
 			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
 			
 			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
 			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre);
-			plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).estatus_solicitud);
+			plantilla=plantilla.replace("[ESTATUS]",objPSGRCatEstatusProceso.get(0).descripcion);
 			
 			try {
 				plantilla=plantilla.replace("[CAMPUS]", objSolicitudDeAdmision.get(0).campus.descripcion)
