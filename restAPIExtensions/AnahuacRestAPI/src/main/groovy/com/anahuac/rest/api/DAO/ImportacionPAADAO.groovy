@@ -1624,7 +1624,7 @@ class ImportacionPAADAO {
 			++rowCount;
 			Row espacio = sheet.createRow(++rowCount);
 			
-			def titulos = ["Id Banner","Nombre","Email","Curp","Campus","Programa","Periodo","Procedencia","Preparatoria","Promedio","Id sesión","Sesión","MLEX","PAAN","CLEX","PAAV","HLEX","PARA","INVP","Fecha examen EAC","Fecha ultima modificación", "Fecha examen INVP"]
+			def titulos = ["Id Banner","Nombre","Email","Curp","Campus","Programa","Periodo","Procedencia","Preparatoria","Promedio","Id sesión","Sesión","MLEX","PAAN","CLEX","PAAV","HLEX","PARA","ESPAÑOl","MATEMATICAS","HABILIDADES BLANDAS","INVP","Fecha examen EAC","Fecha ultima modificación", "Fecha examen INVP"]
 			Row headersRow = sheet.createRow(rowCount);
 			++rowCount;
 			List<Cell> header = new ArrayList<Cell>();
@@ -1639,7 +1639,7 @@ class ImportacionPAADAO {
 			bodyStyle.setAlignment(HorizontalAlignment.CENTER);
 			
 			
-			def info = ["idbanner","nombre","correoelectronico","curp","campus","licenciatura","ingreso","procedencia","preparatoria","promediogeneral","id","sesion","lexiumpaan","paan","lexiumpaav","paav","lexiumpara","para","invp","fechaexamen","fecharegistro", ""]
+			def info = ["idbanner","nombre","correoelectronico","curp","campus","licenciatura","ingreso","procedencia","preparatoria","promediogeneral","id","sesion","lexiumpaan","paan","lexiumpaav","paav","lexiumpara","para","espanol","matematicas","habilidadesblandas","invp","fechaexamen","fecharegistro", ""]
 			List<Cell> body;
 			for (int i = 0; i < lstParams.size(); ++i){
 				Row row = sheet.createRow(rowCount);
@@ -2018,8 +2018,13 @@ class ImportacionPAADAO {
 					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "HLEX", it.HLEX, fecha);
 					//errorLog += ", HLEX:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
 					
-				}
-				
+				}else if(it.TIPOEXAMEN.toString().equals("MetaProfile")){
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "ESPAÑOL", it.espanol, fecha);
+
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "MATEMATICAS", it.matematicas, fecha);
+
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "HABILIDADESBLANDAS", it.habilidadesblandas, fecha);
+				}				
 				if(!resultado.isSuccess()) {
 					errorLog+=" || Entro ||"
 					idbanner.add("${it.IDBANNER}");
@@ -2079,7 +2084,10 @@ class ImportacionPAADAO {
 						pstm.setString(7,it.MLEX);
 						pstm.setString(8,it.CLEX);
 						pstm.setString(9,it.HLEX);
-						pstm.setString(10,context.getApiSession().getUserName());
+						pstm.setString(10,it.espanol);
+						pstm.setString(11,it.matematicas);
+						pstm.setString(12,it.habilidadesblandas);
+						pstm.setString(13,context.getApiSession().getUserName());
 						pstm.executeUpdate();
 					}
 					

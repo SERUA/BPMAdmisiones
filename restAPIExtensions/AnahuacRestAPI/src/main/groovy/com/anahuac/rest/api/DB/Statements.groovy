@@ -195,8 +195,8 @@ class Statements {
 	public static final String GET_CORREO_BY_CASEID = " SELECT correoelectronico from solicituddeadmision where caseid = ?"
 	
 	public static final String GET_EAC_BANNER_ULTIMOS = "SELECT  DISTINCT ON (idbanner) idbanner, persistenceid FROM importacionpaa  order by idbanner, TO_DATE(fechaRegistro,'DD-MM-YYYY') DESC"
-	public static final String GET_EAC_BANNER = "SELECT DISTINCT ON (paa.idbanner) paa.idbanner, paa.persistenceid,paa.paav,paa.para,paa.paan,paa.lexiumPaan as mlex,paa.lexiumPaav as clex,paa.lexiumPara as hlex,paa.fechaExamen,paa.tipoExamen,paa.caseid, sda.estatussolicitud FROM importacionpaa AS paa INNER JOIN solicitudDeAdmision AS sda ON sda.caseid = paa.caseid::integer where (paa.inBanner is null OR paa.inBanner is false) order by paa.idbanner, TO_DATE(paa.fechaRegistro,'DD-MM-YYYY')"
-	public static final String GET_EAC_BANNER_ESPECIFICOS = "SELECT DISTINCT ON (paa.idbanner) paa.idbanner, paa.persistenceid,paa.paav,paa.para,paa.paan,paa.lexiumPaan as mlex,paa.lexiumPaav as clex,paa.lexiumPara as hlex,paa.fechaExamen,paa.tipoExamen,paa.caseid, sda.estatussolicitud FROM importacionpaa AS paa INNER JOIN solicitudDeAdmision AS sda ON sda.caseid = paa.caseid::integer where (paa.inBanner is null OR paa.inBanner is false) AND paa.idbanner = ? order by paa.idbanner, TO_DATE(paa.fechaRegistro,'DD-MM-YYYY')"
+	public static final String GET_EAC_BANNER = "SELECT DISTINCT ON (paa.idbanner) paa.idbanner, paa.persistenceid,paa.paav,paa.para,paa.paan,paa.lexiumPaan as mlex,paa.lexiumPaav as clex,paa.lexiumPara as hlex,paa.fechaExamen,paa.tipoExamen,paa.caseid, sda.estatussolicitud, paa.espanol, paa.matematicas, paa.habilidadesblandas FROM importacionpaa AS paa INNER JOIN solicitudDeAdmision AS sda ON sda.caseid = paa.caseid::integer where (paa.inBanner is null OR paa.inBanner is false) order by paa.idbanner, TO_DATE(paa.fechaRegistro,'DD-MM-YYYY')"
+	public static final String GET_EAC_BANNER_ESPECIFICOS = "SELECT DISTINCT ON (paa.idbanner) paa.idbanner, paa.persistenceid,paa.paav,paa.para,paa.paan,paa.lexiumPaan as mlex,paa.lexiumPaav as clex,paa.lexiumPara as hlex,paa.fechaExamen,paa.tipoExamen,paa.caseid, sda.estatussolicitud, paa.espanol, paa.matematicas, paa.habilidadesblandas FROM importacionpaa AS paa INNER JOIN solicitudDeAdmision AS sda ON sda.caseid = paa.caseid::integer where (paa.inBanner is null OR paa.inBanner is false) AND paa.idbanner = ? order by paa.idbanner, TO_DATE(paa.fechaRegistro,'DD-MM-YYYY')"
 	public static final String GET_EAC_BANNER_REGISTROS = "SELECT count(*) as registros FROM importacionpaa where (inBanner is null OR inBanner is false) "
 	
 
@@ -379,7 +379,7 @@ class Statements {
 	public static final String UPDATE_BITACORA_ERRORES_PAA = "UPDATE CatBitacoraErrorPaa SET error = ?, idBanner = ?, fechaExamen = ?, fechaRegistro = ? where idBanner = [IDBANNER]"
 	
 	// BITACORA Integracion EAC
-	public static final String INSERT_BITACORA_INTEGRACION_EAC = "INSERT INTO CatBitacoraIntegracionEAC (inportacionPAA_pid,caseid,fechaSubida,estatus,para,paav,paan,mlex,clex,hlex,usuarioSubio,persistenceid) VALUES (?,?,TO_CHAR( NOW(),'DD-MM-YYYY HH24:MI:SS'),?,?,?,?,?,?,?,?,case when (SELECT max(persistenceId)+1 from CatBitacoraIntegracionEAC ) is null then 1 else (SELECT max(persistenceId)+1 from CatBitacoraIntegracionEAC) end) "
+	public static final String INSERT_BITACORA_INTEGRACION_EAC = "INSERT INTO CatBitacoraIntegracionEAC (inportacionPAA_pid,caseid,fechaSubida,estatus,para,paav,paan,mlex,clex,hlex,espanol,matematicas,habilidadesblandas,usuarioSubio,persistenceid) VALUES (?,?,TO_CHAR( NOW(),'DD-MM-YYYY HH24:MI:SS'),?,?,?,?,?,?,?,?,?,?,?,case when (SELECT max(persistenceId)+1 from CatBitacoraIntegracionEAC ) is null then 1 else (SELECT max(persistenceId)+1 from CatBitacoraIntegracionEAC) end) "
 
 	//consultas de resultado comite
 

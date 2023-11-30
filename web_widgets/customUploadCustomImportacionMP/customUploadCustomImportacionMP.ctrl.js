@@ -211,9 +211,9 @@ function UploadCustomImportacionPAA($scope, $http, blockUI) {
                     } else if (!moment(data[columnas[i]], 'DD/MM/YYYY').isValid()) {
                         error += (error.length > 0 ? "," : "") + "la fecha no es valida tiene que ser DD/MM/YYYY"
                     }
-                } else if (valores1.includes(columnas[i]) && !isRangoValue(data[columnas[i]], 0, 900)) {
-                    error += (error.length > 0 ? "," : "") + columnas[i] + `\xa0(${data[columnas[i]]})\xa0tiene que estar en el rango de 0-900`;
-                }else if (valores2.includes(columnas[i]) && !isRangoValue(data[columnas[i]], 200, 900)) {
+                } else if (valores1.includes(columnas[i]) && !isRangoValue(data[columnas[i]], 200, 800)) {
+                    error += (error.length > 0 ? "," : "") + columnas[i] + `\xa0(${data[columnas[i]]})\xa0tiene que estar en el rango de 200-800`;
+                }else if (valores2.includes(columnas[i]) && !isRangoValue(data[columnas[i]], 200, 800)) {
                     error += (error.length > 0 ? "," : "") + columnas[i] + `\xa0(${data[columnas[i]]})\xa0tiene que estar en el rango de 200-800`;
                 }
             }

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "ImportacionPAA",
   "name" : "ImportacionPAA",
-  "lastUpdate" : 1701151240048,
+  "lastUpdate" : 1701328466955,
   "rows" : [
     [
       {
@@ -3940,24 +3940,21 @@
                               "value" : "text"
                             },
                             "min" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : 200
                             },
                             "max" : {
                               "type" : "constant",
-                              "value" : 999
+                              "value" : 801
                             },
                             "step" : {
                               "type" : "constant",
                               "value" : 1
-                            },
-                            "valorKP" : {
-                              "type" : "variable",
-                              "value" : "strAlumno.PAAN"
                             }
                           },
-                          "reference" : "330b17c5-94ea-41cd-b5d1-d2d6742e28ad",
+                          "reference" : "558edcf9-4537-47a7-86c3-b65480693b42",
                           "hasValidationError" : false,
-                          "id" : "customInputEscalaEAC"
+                          "id" : "customInputNumericoCustom3"
                         },
                         {
                           "type" : "component",
@@ -4097,24 +4094,21 @@
                               "value" : "text"
                             },
                             "min" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : 200
                             },
                             "max" : {
                               "type" : "constant",
-                              "value" : 999
+                              "value" : 801
                             },
                             "step" : {
                               "type" : "constant",
                               "value" : 1
-                            },
-                            "valorKP" : {
-                              "type" : "variable",
-                              "value" : "strAlumno.PAAV"
                             }
                           },
-                          "reference" : "033399e5-15b8-4373-89ab-e1609fb22716",
+                          "reference" : "2dd1c42b-f294-4103-9f7c-3b7539baf103",
                           "hasValidationError" : false,
-                          "id" : "customInputEscalaEAC"
+                          "id" : "customInputNumericoCustom3"
                         },
                         {
                           "type" : "component",
@@ -4254,24 +4248,21 @@
                               "value" : "text"
                             },
                             "min" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : 200
                             },
                             "max" : {
                               "type" : "constant",
-                              "value" : 999
+                              "value" : 801
                             },
                             "step" : {
                               "type" : "constant",
                               "value" : 1
-                            },
-                            "valorKP" : {
-                              "type" : "variable",
-                              "value" : "strAlumno.PARA"
                             }
                           },
-                          "reference" : "88fe1ef6-08b6-44fe-89c3-01c56bc6d092",
+                          "reference" : "7dc350bb-976c-4014-ab08-b9b8c23fe886",
                           "hasValidationError" : false,
-                          "id" : "customInputEscalaEAC"
+                          "id" : "customInputNumericoCustom3"
                         },
                         {
                           "type" : "component",
@@ -7410,12 +7401,11 @@
       "type" : "expression",
       "value" : [
         "if( !$data.VariableCarga.view && $data.strAlumno.tipoExamen == \"KP\" ){",
-        "    //$data.strAlumno.PAAN = convertirDato($data.strAlumno['MLEX']);",
-        "    //$data.strAlumno.PAAV = convertirDato($data.strAlumno['CLEX']);",
-        "    //$data.strAlumno.PARA = convertirDato($data.strAlumno['HLEX']);",
-        "    ",
         "    $data.strAlumno.LEXIUM_Total = \"\"+(parseFloat($data.strAlumno.MLEX != null ?$data.strAlumno.MLEX: 0) + parseFloat($data.strAlumno.CLEX != null ?$data.strAlumno.CLEX: 0) + parseFloat($data.strAlumno.HLEX != null ?$data.strAlumno.HLEX: 0))",
         "} else if(!$data.VariableCarga.view && $data.strAlumno.tipoExamen == \"MetaProfile\"){",
+        "    $data.strAlumno.PAAN = $data.strAlumno.espanol;",
+        "    $data.strAlumno.PAAV = $data.strAlumno.matematicas;",
+        "    $data.strAlumno.PARA = $data.strAlumno.habilidadesBlandas;",
         "    $data.strAlumno.metaprofiletotal = \"\"+(parseFloat($data.strAlumno.espanol != null ?$data.strAlumno.espanol: 0) + parseFloat($data.strAlumno.matematicas != null ?$data.strAlumno.matematicas: 0) + parseFloat($data.strAlumno.habilidadesBlandas != null ?$data.strAlumno.habilidadesBlandas: 0))",
         "}"
       ],
