@@ -1,20 +1,19 @@
 .div-circular {
     background: white;
-    width: 21vh;
-    height: 21vh;
-    border: 3px solid #031d42;
-    border-radius: 50%;
+    width: 25vh;
+    height: 25vh;
+    background: transparent;
     text-align: center;
     cursor: pointer;
 }
 
-.div-circular.finished{
-    background: #28a745;
+.div-circular.finished, .div-circular.pending{
+    /*background: #28a745;*/
     cursor: default;
 }
 
 .div-circular.current{
-    background: #ff5900;
+    /*background: #ff5900;*/
 }
 
 /*.div-circular:hover {*/
@@ -25,44 +24,37 @@
 .circle-1{
     position: fixed;
     top: 10vh;
-    left: 8vw;
+    left: 20vw;
 }
 
 .circle-2{
     position: fixed;
-    top: 31vh;
-    left: 19.5vw;
+    top: 40vh;
+    left: 16.5vw;
 }
 
 .circle-3{
     position: fixed;
-    top: 42vh;
-    left: 38vw;
+    top: 66vh;
+    left: 28vw;
 }
 
 .circle-4{
     position: fixed;
-    top: 39vh;
-    left: 58.2vw;
+    top: 66vh;
+    left: 104vh;
 }
 
 .circle-5{
     position: fixed;
-    top: 27vh;
-    left: 74vw;
+    top: 41vh;
+    left: 69vw;
 }
 
 .circle-6{
     position: fixed;
-    top: 3vh;
-    left: 84vw;
-}
-
-.title-count{
-    top: 2vh;
-    position: relative;
-    font-size: 3vh;
-    color: #eb5b1c;
+    top: 10vh;
+    left: 65.5vw;
 }
 
 .div-circular>.title-sol{
@@ -76,7 +68,15 @@
     color: #031d42;
 }
 
-.div-circular.finished>.title-sol, .div-circular.current>.title-sol , .div-circular.finished>.title-count , .div-circular.current>.title-count{
+.div-circular>.title-sol, .div-circular.current>.title-sol{
+    position: relative;
+    color: #706f6f;
+    top: 33%;
+    padding-left: 3vh;
+    padding-right: 3vh;
+}
+
+.div-circular.finished>.title-sol {
     color: white;
 }
 
@@ -84,9 +84,18 @@
     position: absolute;
     transform: translateX(-50%);
     left: 50%;
-    bottom: -4vh;
+    bottom: 0vh;
     width: auto;
     height: auto;
-    max-width: 8vw;
-    max-height: 8vw;
+    max-width: 10vw;
+    max-height: 10vw;
+}
+
+.balloon-icon{
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    color: #706f6f;
 }
