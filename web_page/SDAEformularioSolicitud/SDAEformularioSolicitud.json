@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1701305656999,
+  "lastUpdate" : 1701370637975,
   "rows" : [
     [
       {
@@ -25071,13 +25071,9 @@
     "admisionesContextArchivado" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/archivedCase/{{objSolicitudDeAdmision[0].caseId}}/context"
+        "../API/bpm/archivedCase/{{archievedCase[0].id}}/context"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "getTutoresBDM" : {
@@ -25097,6 +25093,14 @@
         "    return $data.admisionesContextArchivado.tutor_ref.link;",
         "}"
       ],
+      "exposed" : false
+    },
+    "archievedCase" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{objSolicitudDeAdmision[0].caseId}}&p=0"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
