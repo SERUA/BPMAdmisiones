@@ -1178,8 +1178,8 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-				case "insertRequisitosAdicionalesAuxiliar":
-					result = new SolicitudDeAdmisionDAO().insertRequisitosAdicionalesAuxiliar(jsonData, context);
+				case "updateListaRequisitosAdicionalesAuxiliar":
+					result = new SolicitudDeAdmisionDAO().updateListaRequisitosAdicionalesAuxiliar(jsonData, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
