@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1701280557454,
+  "lastUpdate" : 1701479324044,
   "rows" : [
     [
       {
@@ -211,7 +211,7 @@
             "value" : "left"
           }
         },
-        "reference" : "5b46b6e4-70ce-4ab7-a695-d855744643fa",
+        "reference" : "bba00eb2-1e36-4684-9d81-4cb67c8588e9",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -264,6 +264,110 @@
           }
         },
         "reference" : "16872ecb-b6f3-4671-b036-3d2facd002ec",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "guardarRequisitosForm:\n<pre>{{guardarRequisitosForm| json}}</pre>\nguardarRequisitosFormOutput:\n<pre>\n{{guardarRequisitosFormOutput| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "367953e9-640f-4bc7-ad1e-a82e21e6faff",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "updateRequisitosForm:\n<pre>{{updateRequisitosForm| json}}</pre>\nupdateRequisitosFormOutput:\n<pre>\n{{updateRequisitosFormOutput| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "eabd1d87-1633-4121-a775-d07244d386ab",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -3447,7 +3551,7 @@
                               },
                               "hidden" : {
                                 "type" : "expression",
-                                "value" : "requisitosAdicionales.length !== 0"
+                                "value" : "requisitosAdicionales && requisitosAdicionales.length !== 0"
                               },
                               "repeatedCollection" : {
                                 "type" : "variable",
@@ -3648,7 +3752,7 @@
                               },
                               "hidden" : {
                                 "type" : "expression",
-                                "value" : "requisitosAdicionales.length === 0"
+                                "value" : "!requisitosAdicionales || requisitosAdicionales.length === 0"
                               },
                               "repeatedCollection" : {
                                 "type" : "variable",
@@ -3692,8 +3796,8 @@
                                         "dimension" : {
                                           "xs" : 10,
                                           "sm" : 10,
-                                          "md" : 10,
-                                          "lg" : 10
+                                          "md" : 6,
+                                          "lg" : 6
                                         },
                                         "propertyValues" : {
                                           "cssClasses" : {
@@ -3734,6 +3838,56 @@
                                           }
                                         },
                                         "reference" : "fe598498-305e-4621-90cb-c3fa69bdabab",
+                                        "hasValidationError" : false,
+                                        "id" : "pbText"
+                                      },
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 4,
+                                          "lg" : 4
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "Default label"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "<b><br>Documento evidencia</b>"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "left"
+                                          }
+                                        },
+                                        "reference" : "4ae5dc54-c945-4996-b647-2291ae7056c2",
                                         "hasValidationError" : false,
                                         "id" : "pbText"
                                       }
@@ -3921,7 +4075,7 @@
                                                 },
                                                 "required" : {
                                                   "type" : "constant",
-                                                  "value" : true
+                                                  "value" : false
                                                 },
                                                 "label" : {
                                                   "type" : "interpolation",
@@ -3929,7 +4083,7 @@
                                                 },
                                                 "value" : {
                                                   "type" : "variable",
-                                                  "value" : ""
+                                                  "value" : "guardarRequisitosForm.requisitos_adicionales[$index].cumplido"
                                                 }
                                               },
                                               "reference" : "4bbd74da-6c00-4a39-8b08-0dac5a07f743",
@@ -4001,7 +4155,7 @@
                                   "dimension" : {
                                     "xs" : 7,
                                     "sm" : 8,
-                                    "md" : 9,
+                                    "md" : 12,
                                     "lg" : 10
                                   },
                                   "propertyValues" : {
@@ -4045,14 +4199,16 @@
                                   "reference" : "f1daef66-aa5f-401b-a084-e512cbe9ab35",
                                   "hasValidationError" : false,
                                   "id" : "pbText"
-                                },
+                                }
+                              ],
+                              [
                                 {
                                   "type" : "component",
                                   "dimension" : {
                                     "xs" : 5,
                                     "sm" : 4,
-                                    "md" : 3,
-                                    "lg" : 2
+                                    "md" : 6,
+                                    "lg" : 6
                                   },
                                   "propertyValues" : {
                                     "cssClasses" : {
@@ -4073,7 +4229,7 @@
                                     },
                                     "alignment" : {
                                       "type" : "constant",
-                                      "value" : "right"
+                                      "value" : "left"
                                     },
                                     "buttonStyle" : {
                                       "type" : "constant",
@@ -4081,7 +4237,7 @@
                                     },
                                     "action" : {
                                       "type" : "constant",
-                                      "value" : "Submit task"
+                                      "value" : "Open modal"
                                     },
                                     "assign" : {
                                       "type" : "constant",
@@ -4117,7 +4273,7 @@
                                     },
                                     "modalId" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "modalActivarRequisitosAdicionales"
                                     },
                                     "collectionPosition" : {
                                       "type" : "constant",
@@ -4131,6 +4287,96 @@
                                     }
                                   },
                                   "reference" : "ec5cb418-578e-4450-b457-0e1ae218e751",
+                                  "hasValidationError" : false,
+                                  "id" : "pbButton"
+                                },
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 6,
+                                    "lg" : 6
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "disabled" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Guardar"
+                                    },
+                                    "alignment" : {
+                                      "type" : "constant",
+                                      "value" : "right"
+                                    },
+                                    "buttonStyle" : {
+                                      "type" : "constant",
+                                      "value" : "primary"
+                                    },
+                                    "action" : {
+                                      "type" : "constant",
+                                      "value" : "POST"
+                                    },
+                                    "assign" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "url" : {
+                                      "type" : "interpolation",
+                                      "value" : "/API/extension/posgradosRest?url=updateRequisitosAdicionalesAuxiliar"
+                                    },
+                                    "responseStatusCode" : {
+                                      "type" : "variable",
+                                      "value" : "guardarRequisitosRespuesta"
+                                    },
+                                    "dataToSend" : {
+                                      "type" : "expression",
+                                      "value" : "guardarRequisitosFormOutput"
+                                    },
+                                    "dataFromSuccess" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "closeOnSuccess" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "dataFromError" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "targetUrlOnSuccess" : {
+                                      "type" : "interpolation"
+                                    },
+                                    "collectionToModify" : {
+                                      "type" : "variable"
+                                    },
+                                    "modalId" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "collectionPosition" : {
+                                      "type" : "constant",
+                                      "value" : "Last"
+                                    },
+                                    "valueToAdd" : {
+                                      "type" : "constant"
+                                    },
+                                    "removeItem" : {
+                                      "type" : "variable"
+                                    }
+                                  },
+                                  "reference" : "0fe43a24-992b-4bc4-a7ca-30a05c354548",
                                   "hasValidationError" : false,
                                   "id" : "pbButton"
                                 }
@@ -4181,7 +4427,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<br><br>"
+                          "value" : "<br><br><br><hr>"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -18810,7 +19056,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>Solicitudes duplicadas<hr>"
+                    "value" : "<br>Resultado de solicitudes con datos similares<hr>"
                   },
                   "level" : {
                     "type" : "constant",
@@ -18862,7 +19108,7 @@
                   },
                   "content" : {
                     "type" : "expression",
-                    "value" : "solicitudesDuplicadas"
+                    "value" : "solicitudesDuplicadasFormateadas"
                   },
                   "columnsKey" : {
                     "type" : "constant",
@@ -19188,7 +19434,7 @@
                   },
                   "hidden" : {
                     "type" : "expression",
-                    "value" : "!requisitosAdicionales"
+                    "value" : ""
                   },
                   "repeatedCollection" : {
                     "type" : "variable",
@@ -19542,28 +19788,12 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : ""
-                              },
-                              "collectionToModify" : {
-                                "type" : "variable",
-                                "value" : "requisitosAdicionalesSeleccionados"
-                              },
-                              "valueToAdd" : {
-                                "type" : "expression",
-                                "value" : "$item"
-                              },
-                              "valueToRemove" : {
-                                "type" : "variable",
-                                "value" : "$item"
-                              },
-                              "collectionPosition" : {
-                                "type" : "constant",
-                                "value" : "Last"
+                                "value" : "updateRequisitosForm.requisitos_adicionales_disponibles[$index].selected"
                               }
                             },
-                            "reference" : "0b219791-e81b-4cca-a2b8-a4e76d838825",
+                            "reference" : "1828849c-f9e1-4fe5-a62c-2a37fd4258e2",
                             "hasValidationError" : false,
-                            "id" : "customPSGRCheckboxAddToCollectionAction"
+                            "id" : "pbCheckbox"
                           },
                           {
                             "type" : "component",
@@ -19866,7 +20096,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<pre>{{requisitosAdicionalesSeleccionados| json}}</pre>"
+                    "value" : "updateRequisitosForm:\n<pre>{{updateRequisitosForm| json}}</pre>\nupdateRequisitosFormOutput:\n<pre>\n{{updateRequisitosFormOutput| json}}</pre>\n------<br>\nrequisitosAdicionalesSeleccionados\n<pre>{{requisitosAdicionalesSeleccionados| json}}</pre>\nrequisitosAdicionalesSeleccionadosOutput\n<pre>\n{{requisitosAdicionalesSeleccionadosOutput| json}}</pre>"
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -20050,14 +20280,36 @@
                   "removeItem" : {
                     "type" : "variable"
                   },
-                  "event" : {
+                  "isValid" : {
+                    "type" : "constant"
+                  },
+                  "errorMessage" : {
+                    "type" : "constant"
+                  },
+                  "taskId" : {
                     "type" : "variable",
-                    "value" : "activarRequisitosAdicionalesClickEvent"
+                    "value" : ""
+                  },
+                  "cartaDatos" : {
+                    "type" : "variable",
+                    "value" : "requisitosAdicionales"
+                  },
+                  "mensajeResultadoDeEnvio" : {
+                    "type" : "variable",
+                    "value" : "mensajeResultadoUpdate"
+                  },
+                  "dataToUpdate" : {
+                    "type" : "expression",
+                    "value" : "updateRequisitosFormOutput"
+                  },
+                  "caseid" : {
+                    "type" : "expression",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "d85917c2-4a42-4fc2-abd0-85fbadd028ee",
+                "reference" : "8409e811-8df3-4d08-818a-665c4a0a397b",
                 "hasValidationError" : false,
-                "id" : "customPSGRButtonEventAction"
+                "id" : "customPSGRbuttonUpdateRequisitosAdicionales"
               }
             ]
           ]
@@ -25641,21 +25893,6 @@
       ],
       "exposed" : false
     },
-    "validarInitData" : {
-      "type" : "expression",
-      "value" : [
-        "/*",
-        "// Si hay información:",
-        "if ($data.datosPersonales) {",
-        "    // Y no se ha inicializado todavia:",
-        "    if ($data.validarFormInput.datosPersonalesInput === null || $data.validarFormInput.datosPersonalesInput === undefined || $data.validarFormInput.datosPersonalesInput.id_banner === undefined) {",
-        "        // Inicializar mediante una copia de datos.",
-        "        $data.validarFormInput.datosPersonalesInput = $data.datosPersonales.id_banner ? { id_banner: $data.datosPersonales.id_banner } : { id_banner: null };",
-        "    }",
-        "}*/"
-      ],
-      "exposed" : false
-    },
     "validarFormInput" : {
       "type" : "json",
       "value" : [
@@ -25789,37 +26026,6 @@
       ],
       "exposed" : false
     },
-    "requisitosAdicionalesSeleccionados" : {
-      "type" : "expression",
-      "value" : [
-        "return [];"
-      ],
-      "exposed" : false
-    },
-    "activarRequisitosAdicionalesClickEvent" : {
-      "type" : "expression",
-      "value" : [
-        "return null;"
-      ],
-      "exposed" : false
-    },
-    "activarRequisitosAdicionalesListener" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.activarRequisitosAdicionalesClickEvent) {",
-        "   ",
-        "    // Eviar la información",
-        "    ",
-        "    // Como ejemplo solo se actualizara localmente",
-        "    $data.requisitosAdicionales = Object.assign({}, $data.requisitosAdicionalesSeleccionados);",
-        "    ",
-        "   ",
-        "    // Borramos el evento para que solo se ejecute una vez.",
-        "    $data.activarRequisitosAdicionalesClickEvent = null;",
-        "}"
-      ],
-      "exposed" : false
-    },
     "requisitosAdicionalesDisponibles" : {
       "type" : "businessdata",
       "value" : [
@@ -25828,9 +26034,192 @@
       "exposed" : false
     },
     "requisitosAdicionales" : {
+      "type" : "url",
+      "value" : [
+        "/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid={{caseId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "mensajeResultadoUpdate" : {
       "type" : "expression",
       "value" : [
-        "return [];"
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "solicitudesDuplicadasFormateadas" : {
+      "type" : "expression",
+      "value" : [
+        "let copy = $data.solicitudesDuplicadas.map((item) => {",
+        "    return item;",
+        "});",
+        "copy.forEach((item) => {",
+        "    if (!item.apellido_materno){",
+        "        item.apellido_materno = \"n/a\";",
+        "    }",
+        "    if (!item.id_banner){",
+        "        item.id_banner = \"n/a\";",
+        "    }",
+        "    if (!item.curp){",
+        "        item.curp = \"n/a\";",
+        "    }",
+        "    if (!item.pasaporte){",
+        "        item.pasaporte = \"n/a\";",
+        "    }",
+        "})",
+        "return copy"
+      ],
+      "exposed" : false
+    },
+    "guardarRequisitosForm" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "guardarRequisitosFormOutput" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    requisitosAdicionales: $data.guardarRequisitosForm.requisitos_adicionales.map((item) => {",
+        "        return {",
+        "            persistenceId_string: item.persistenceId_string ? item.persistenceId_string : null,",
+        "            cumplido: item.cumplido !== null ? item.cumplido : null,",
+        "            url_azure: item.url_azure ? item.url_azure : null,",
+        "        }",
+        "    })",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "guardarRequisitosInitData" : {
+      "type" : "expression",
+      "value" : [
+        "// Si hay información:",
+        "if ($data.requisitosAdicionales && $data.requisitosAdicionales.length > 0) {",
+        "    // Y no se ha inicializado todavia:",
+        "    if (!$data.guardarRequisitosForm || Object.keys($data.guardarRequisitosForm).length === 0) {",
+        "        // Inicializar mediante una copia de datos.",
+        "        $data.guardarRequisitosForm = copyData();",
+        "    }",
+        "}",
+        "",
+        "function copyData() {",
+        "    return {",
+        "        requisitos_adicionales: Object.assign([] , $data.requisitosAdicionales)",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "updateRequisitosForm" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
+      "exposed" : false
+    },
+    "updateRequisitosFormOutput" : {
+      "type" : "expression",
+      "value" : [
+        "let requisitosSeleccionados = [];",
+        "$data.updateRequisitosForm.requisitos_adicionales_disponibles.forEach((item) => {",
+        "    if (item.selected) {",
+        "        let requisitoSeleccionado = {",
+        "            persistenceId_string: item.persistenceId_string",
+        "        };",
+        "        requisitosSeleccionados.push(requisitoSeleccionado);",
+        "    }",
+        "});",
+        "",
+        "return {",
+        "    caseid: $data.registro.caseid ? $data.registro.caseid : null,",
+        "    requisitosAdicionalesCatalogos: requisitosSeleccionados,",
+        "};",
+        "",
+        "/*",
+        "let requisitosSeleccionados = $data.requisitosAdicionalesSeleccionados.map((item) => {",
+        "    return {",
+        "        persistenceId_string: item.persistenceId_string",
+        "    }",
+        "});",
+        "",
+        "return {",
+        "    caseid: $data.registro.caseid ? $data.registro.caseid : null,",
+        "    requisitosAdicionalesCatalogos: requisitosSeleccionados,",
+        "}*/"
+      ],
+      "exposed" : false
+    },
+    "updateRequisitosInitData" : {
+      "type" : "expression",
+      "value" : [
+        "// Si hay información:",
+        "if ($data.requisitosAdicionalesDisponibles && $data.requisitosAdicionalesDisponibles.length > 0 && $data.requisitosAdicionales) {",
+        "    // Y no se ha inicializado todavia:",
+        "    if (!$data.updateRequisitosForm || Object.keys($data.updateRequisitosForm).length === 0) {",
+        "        // Inicializar mediante una copia de datos.",
+        "        $data.updateRequisitosForm = copyData();",
+        "    }",
+        "}",
+        "",
+        "function copyData() {",
+        "    ",
+        "    // copiamos la lista en base a los requisitos adicionales disponibles (catalogo)",
+        "    const disponibles = $data.requisitosAdicionalesDisponibles.map((item) => item);",
+        "    ",
+        "    // le agregamos la propiedad selected en base a si existe en la lista de requisitos adicionales.",
+        "    disponibles.forEach((item) => {",
+        "        let existe = $data.requisitosAdicionales.find((requisito) => requisito.requisito_adicional_pid === item.persistenceId_string);",
+        "        ",
+        "        if (existe) item.selected = true;",
+        "        else item.selected = false;",
+        "    });",
+        "    ",
+        "    return {",
+        "        requisitos_adicionales_disponibles: disponibles",
+        "    };",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "guardarRequisitosRespuesta" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "showGuardarRequisitosRespuesta" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "if ($data.guardarRequisitosRespuesta) {",
+        "    if ($data.guardarRequisitosRespuesta.toString().startsWith(\"2\")) {",
+        "        Swal.fire({",
+        "            icon: 'success',",
+        "            title: \"Respuesta\",",
+        "            text: \"Los cambios fueron guardados correctamente.\",",
+        "            confirmButtonText: \"Ok\",",
+        "        });",
+        "    }",
+        "    else {",
+        "        Swal.fire({",
+        "            icon: 'error',",
+        "            title: \"Respuesta\",",
+        "            text: \"Algo falló al intentar guardar los cambios.\",",
+        "            confirmButtonText: \"Ok\",",
+        "        });",
+        "    }",
+        "    ",
+        "    $data.guardarRequisitosRespuesta = null;",
+        "}"
       ],
       "exposed" : false
     }
