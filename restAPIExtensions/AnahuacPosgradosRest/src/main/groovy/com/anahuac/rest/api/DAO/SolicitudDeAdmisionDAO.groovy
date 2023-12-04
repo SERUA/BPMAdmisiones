@@ -12,6 +12,8 @@ import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
+import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicionalDAO
+import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -578,6 +580,353 @@ class SolicitudDeAdmisionDAO {
 	
 		return resultado;
 	}	
+	
+	public Result getRequisitosAdicionalesAuxiliar(String caseid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			// ---Validación---
+			if (caseid == null) {
+				throw new Exception('El parametro "caseid" es requerido');
+			}
+			
+			// ---Conversión---
+			Long caseidLong = -1L
+			
+			try {
+				caseidLong = Long.valueOf(caseid);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
+			}
+			
+			// ---Ejecución---
+			pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES_AUXILIAR);
+			pstm.setLong(1, caseidLong);
+
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("caseid", rs.getLong("caseid"));
+				row.put("clave", rs.getString("clave"));
+				row.put("nombre", rs.getString("nombre"));
+				row.put("descripcion", rs.getString("descripcion"));
+				row.put("requiere_documento", rs.getBoolean("requiere_documento"));
+				row.put("tipo_de_archivo_aceptado", rs.getString("tipo_de_archivo_aceptado"));
+				row.put("cumplido", rs.getBoolean("cumplido"));
+				row.put("url_azure", rs.getString("url_azure"));
+				row.put("requisito_adicional_pid", rs.getString("requisito_adicional_pid"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getRequisitosAdicionalesAuxiliar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;	
+	}
+	
+	// no se utilizara
+	public Result insertRequisitosAdicionalesAuxiliar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def dataResult = [];
+			
+			// ---Validación---
+			
+			if (object.caseid == null) {
+				throw new Exception('El campo "caseid" no debe ir vacío');
+			} else if(object.requisitosAdicionales == null) {
+				throw new Exception('El campo "requisitosAdicionales" no debe ir vacío');
+			} else if(!(object.requisitosAdicionales instanceof ArrayList) || object.requisitosAdicionales.empty) {
+				throw new Exception('El campo "requisitosAdicionales" debe ser una lista y no debe estar vacia');
+			}
+			
+			con.setAutoCommit(false);
+			
+			// ---Conversión---
+			
+			Long caseid = -1L;
+			Long catRequisitoId = -1L;
+			
+			try {
+				caseid = Long.valueOf(object.caseid);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
+			}
+			
+			object.requisitosAdicionales.eachWithIndex { item, index ->
+				
+				try {
+					catRequisitoId = Long.valueOf(item.persistenceId_string);
+				}
+				catch (Exception e) {
+					throw new Exception("Falló al tratar de convertir el persistenceId_string a Long. " + e.message);
+				}
+				
+				// ---Ejecución---
+				
+				pstm = con.prepareStatement(Statements.INSERT_REQUISITO_ADICIONAL_AUXILIAR);
+				pstm.setLong(1, caseid);
+				pstm.setBoolean(2, false);
+				pstm.setLong(3, catRequisitoId);
+				
+				rs = pstm.executeQuery();
+			
+				if (rs.next()) {
+					Long idResult = rs.getLong("persistenceid");
+					dataResult.add(idResult);
+				} else {
+					throw new Exception("No se pudo insertar el registro.");
+				}
+			}
+
+			con.commit();
+			resultado.setData(dataResult);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertRequisitoAdicionalAuxiliar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	// Actualiza la lista de requisitos adicionales en base a un caseid y
+	// una lista de requisitos adicionales (catalogos) en la tabla auxiliar.
+	// Agrega y elimina los elementos necesarios.
+	public Result updateListaRequisitosAdicionalesAuxiliar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			def dataResultAgregados = [];
+			Map<String, Object> row = new HashMap<String, Object>();
+			
+			// ---Validación---
+			
+			if (object.caseid == null) {
+				throw new Exception('El campo "caseid" no debe ir vacío');
+			} else if(object.requisitosAdicionalesCatalogos == null) {
+				throw new Exception('El campo "requisitosAdicionalesCatalogos" no debe ir vacío');
+			} else if(!(object.requisitosAdicionalesCatalogos instanceof ArrayList)) {
+				throw new Exception('El campo "requisitosAdicionalesCatalogos" debe ser una lista');
+			} else if (object.requisitosAdicionalesCatalogos.empty && !object.confirmarLimpiarLista) {
+				throw new Exception('Es necesario confirmar mediante el campo "confirmarLimpiarLista" para limpiar la lista por completo');
+			}
+			
+			con.setAutoCommit(false);
+			
+			// ---Conversión---
+			
+			Long caseid = -1L;
+			
+			try {
+				caseid = Long.valueOf(object.caseid);
+			}
+			catch (Exception e) {
+				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
+			}
+			
+			// get estado actual
+			pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES_AUXILIAR);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+			
+			List < Map<String, Object> > currentList = new ArrayList < Map<String, Object> > ();
+			List < Map<String, Object> > newList = object.requisitosAdicionalesCatalogos;
+
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("requisito_adicional_pid", rs.getString("requisito_adicional_pid"));
+				row.put("caseid", rs.getString("caseid"));
+				
+				currentList.add(row);
+			}
+			
+			// eliminar 
+			currentList.each { currentItem ->
+				Long currentCatRequisitoId = Long.valueOf(currentItem.get("requisito_adicional_pid"));
+				Long currentPersistenceId = Long.valueOf(currentItem.get("persistenceId"));
+				Long currentCaseId = Long.valueOf(currentItem.get("caseid"));
+				boolean existe = false;
+				
+				newList.each { newItem ->
+					Long newCatRequisitoId = Long.valueOf(newItem.persistenceId_string);
+					if (currentCatRequisitoId == newCatRequisitoId) {
+						existe = true;
+					}
+				}
+				
+				if (!existe && currentCaseId == caseid) {
+					// Actualmente no elimina, solo pone en null el caseid.
+					pstm = con.prepareStatement(Statements.DELETE_REQUISITO_ADICIONAL_AUXILIAR);
+					pstm.setLong(1, currentPersistenceId);
+					
+					if (pstm.executeUpdate() == 0) {
+						throw new Exception("No se pudo modificar el registro de la tabla 'Requisitos adicionales auxiliar'.");
+					}					
+				}
+			}
+			
+			// agregar
+			newList.each { newItem ->
+				Long newCatRequisitoId = Long.valueOf(newItem.persistenceId_string);
+				boolean existe = false;
+				
+				currentList.each { currentItem ->
+					Long currentCatRequisitoId = Long.valueOf(currentItem.get("requisito_adicional_pid"));
+					if (newCatRequisitoId == currentCatRequisitoId) {
+						existe = true;
+					}
+				}
+				
+				if (!existe) {
+					pstm = con.prepareStatement(Statements.INSERT_REQUISITO_ADICIONAL_AUXILIAR);
+					pstm.setLong(1, caseid);
+					pstm.setBoolean(2, false);
+					pstm.setLong(3, newCatRequisitoId);
+					
+					rs = pstm.executeQuery();
+				
+					if (rs.next()) {
+						Long idResult = rs.getLong("persistenceid");
+						dataResultAgregados.add(idResult);
+					} else {
+						throw new Exception("No se pudo insertar el registro.");
+					}
+				}
+				
+			}
+
+			con.commit();
+			resultado.setData(dataResultAgregados);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateRequisitosAdicionalesAuxiliar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	// Actualiza el campo cumplido y url_azure de los requisitos especificados con su persistenceId.
+	public Result updateRequisitosAdicionalesAuxiliar(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			int modificacionesResult = 0;
+			
+			// ---Validación---
+			
+			if (object.requisitosAdicionales == null) {
+				throw new Exception('El campo "requisitosAdicionales" no debe ir vacío');
+			} else if(!(object.requisitosAdicionales instanceof ArrayList)) {
+				throw new Exception('El campo "requisitosAdicionales" debe ser una lista');
+			}
+			
+			con.setAutoCommit(false);
+			
+			object.requisitosAdicionales.each { item ->
+				
+				if (item.persistenceId_string == null) {
+					throw new Exception('El campo "persistenceId_string", de los elementos del "requisitosAdicionales", no debe ir vacío');
+				} else if(item.cumplido == null) {
+					throw new Exception('El campo "cumplido", de los elementos del "requisitosAdicionales", no debe ir vacío');
+				}
+				
+				// ---Conversión---
+				
+				Long persistenceId = -1L;
+				Boolean cumplido = false;
+				
+				try {
+					persistenceId = Long.valueOf(item.persistenceId_string);
+					cumplido = Boolean.valueOf(item.cumplido);
+				}
+				catch (Exception e) {
+					throw new Exception("Falló en la conversión de tipo. " + e.message);
+				}
+				
+				// ---Ejecución---
+				
+				pstm = con.prepareStatement(Statements.UPDATE_REQUISITO_ADICIONAL_AUXILIAR);
+				pstm.setBoolean(1, cumplido);
+				pstm.setString(2, item.url_azure);
+				pstm.setLong(3, persistenceId);
+				
+				int result = pstm.executeUpdate();
+				if (result == 0) {
+					throw new Exception("No se pudo modificar el registro de la tabla 'Requisitos adicionales auxiliar'. Falló el elemento con id: " + item.persistenceId_string);
+				}
+				modificacionesResult += result;
+			}
+			
+			con.commit();
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateRequisitosAdicionalesAuxiliar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
 	
 	public Result getSolicitudesDuplicadas(String nombre, String apellido_m, String apellido_p, String curp, String pasaporte, String id_banner) {
 		Result resultado = new Result();
