@@ -69,6 +69,15 @@ class PDFDocumentDAO {
 		  }
 		  return retorno
 	}
+	
+	public Boolean validarConexionBonita() {
+		Boolean retorno=false
+		if (con == null || con.isClosed()) {
+			  con = new DBConnect().getConnectionBonita();
+			  retorno=true
+		}
+		return retorno
+  }
 	public Result PdfFileCatalogo(String jsonData,RestAPIContext context) {
 		Result resultado = new Result();
 		InputStream targetStream;
@@ -1335,11 +1344,30 @@ class PDFDocumentDAO {
 					break;
 				}
 			}
-			pstm = con.prepareStatement(Statements.GET_DATOS_TUTOR_PDF);
+			
+			con.close();
+			
+			validarConexionBonita();
+			String ids = "";
+			pstm = con.prepareStatement(Statements.GET_IDS_SOLICITUD);
 			pstm.setLong(1, Long.valueOf(caseidSolicitud));
+			pstm.setString(2, "tutor");
+			
 			rs = pstm.executeQuery();
 			
 			while (rs.next()) {
+				ids = rs.getString("concatenated_data_ids");
+			}
+			
+			con.close();
+			
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_TUTOR_PDF_IDS.replace("[IDS]", ids));
+			pstm.setLong(1, Long.valueOf(caseidSolicitud));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
 				columns.put("nombreTutor", rs.getString("nombre") + " " + rs.getString("apellidos"));
 				columns.put("emailTutor", rs.getString("correoelectronico"));
 				columns.put("ocupacionTutor", rs.getString("titulo"));

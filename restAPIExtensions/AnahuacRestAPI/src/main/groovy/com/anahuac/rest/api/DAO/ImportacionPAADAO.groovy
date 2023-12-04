@@ -112,6 +112,9 @@ class ImportacionPAADAO {
 							pstm.setString(36,it.matematicas);
 							pstm.setString(37,it.habilidadesBlandas);
 							pstm.setString(38,it.metaprofiletotal);
+							pstm.setString(1,"");
+							pstm.setString(13,"");
+							pstm.setString(20,"");
 						}else {
 							pstm.setString(35,"");
 							pstm.setString(36,"");
@@ -176,6 +179,9 @@ class ImportacionPAADAO {
 								pstm.setString(39,it.matematicas);
 								pstm.setString(40,it.habilidadesBlandas);
 								pstm.setString(41,it.metaprofiletotal);
+								pstm.setString(2,"");
+								pstm.setString(14,"");
+								pstm.setString(21,"");
 							}else {
 								pstm.setString(38,"");
 								pstm.setString(39,"");
@@ -1248,6 +1254,22 @@ class ImportacionPAADAO {
 						where +=" OR LOWER(PAA.INVP) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
+
+					case "PUNTUACIONES METAPROFILE":
+						if(where.contains("WHERE")) {
+							where+= " AND "
+						}else {
+							where+= " WHERE "
+						}
+						where +="( LOWER(PAA.espanol) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						
+						where +="  OR LOWER(PAA.matematicas) like lower('%[valor]%') ";
+						where = where.replace("[valor]", filtro.get("valor"))
+						
+						where +=" OR LOWER(PAA.habilidadesblandas) like lower('%[valor]%') )";
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
 						
 						
 						case "FECHA DEL EXAMEN, FECHA ULTIMA MODIFICACION":
@@ -1476,6 +1498,15 @@ class ImportacionPAADAO {
 					case "PARA":
 					orderby+="PAA.PARA";
 					break;
+					case "ESPAÑOL":
+					orderby+="PAA.espanol";
+					break;
+					case "MATEMATICAS":
+					orderby+="PAA.matematicas";
+					break;
+					case "HABILIDADESBLANDAS":
+					orderby+="PAA.habilidadesblandas";
+					break;
 					case "INVP":
 					orderby+="PAA.INVP";
 					break;
@@ -1650,7 +1681,7 @@ class ImportacionPAADAO {
 					if(info.get(j).equals("nombre")){
 						body[j].setCellValue(lstParams[i].apellidopaterno + " " + lstParams[i].apellidomaterno+ " " + lstParams[i].primernombre + " " + lstParams[i].segundonombre)
 					}else{
-						body[j].setCellValue(lstParams[i][info.get(j)].toString())
+						body[j].setCellValue(isNullOrBlanck(lstParams[i][info.get(j)].toString(),"N/A"))
 					}
 					body[j].setCellStyle(bodyStyle);
 					
@@ -1998,13 +2029,22 @@ class ImportacionPAADAO {
 			for (Map<String, Object> it : list) {
 				String fecha =  it.FECHAEXAMEN.substring(6, 10)+"-"+it.FECHAEXAMEN.substring(3, 5)+"-"+it.FECHAEXAMEN.substring(0, 2);
 				//fecha +="T12:00:00+00:00";
-				resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.PAAV, fecha);
-				//errorLog += "PAAV:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
+				if(it.TIPOEXAMEN.toString().equals("MetaProfile")){
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.espanol, fecha);
+
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAN", it.matematicas, fecha);
+
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PARA", it.habilidadesblandas, fecha);
+				}else{
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.PAAV, fecha);
+					//errorLog += "PAAV:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
 				
-				resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAN", it.PAAN, fecha);
-				//errorLog += " , PAAN:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAN", it.PAAN, fecha);
+					//errorLog += " , PAAN:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
 				
-				resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PARA", it.PARA, fecha);
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PARA", it.PARA, fecha);
+				}
+
 				errorLog += " , PARA:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
 				
 				if(it.TIPOEXAMEN.toString().equals("KP")) {
@@ -2018,12 +2058,6 @@ class ImportacionPAADAO {
 					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "HLEX", it.HLEX, fecha);
 					//errorLog += ", HLEX:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();
 					
-				}else if(it.TIPOEXAMEN.toString().equals("MetaProfile")){
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "ESPAÑOL", it.espanol, fecha);
-
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "MATEMATICAS", it.matematicas, fecha);
-
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "HABILIDADESBLANDAS", it.habilidadesblandas, fecha);
 				}				
 				if(!resultado.isSuccess()) {
 					errorLog+=" || Entro ||"
@@ -2282,7 +2316,22 @@ class ImportacionPAADAO {
 					where +=" OR LOWER(PAA.INVP) like lower('%[valor]%') )";
 					where = where.replace("[valor]", filtro.get("valor"))
 					break;
+
+				case "PUNTUACIONES METAPROFILE":
+					if(where.contains("WHERE")) {
+						where+= " AND "
+					}else {
+						where+= " WHERE "
+					}
+					where +="( LOWER(PAA.espanol) like lower('%[valor]%') ";
+					where = where.replace("[valor]", filtro.get("valor"))
 					
+					where +="  OR LOWER(PAA.matematicas) like lower('%[valor]%') ";
+					where = where.replace("[valor]", filtro.get("valor"))
+					
+					where +=" OR LOWER(PAA.habilidadesblandas) like lower('%[valor]%') )";
+					where = where.replace("[valor]", filtro.get("valor"))
+					break;
 					
 				case "FECHA DEL EXAMEN, FECHA ULTIMA MODIFICACION":
 					if(where.contains("WHERE")) {
@@ -2298,7 +2347,7 @@ class ImportacionPAADAO {
 					
 					break;
 					
-				case "FECHA DE REGISTRO EN EAC":
+				case "FECHA DE IMPORTACIÓN DE RESULTADOS":
 					if(where.contains("WHERE")) {
 						where+= " AND "
 					}else {
@@ -2534,6 +2583,15 @@ class ImportacionPAADAO {
 				case "PARA":
 				orderby+="PAA.PARA";
 				break;
+				case "ESPAÑOL":
+				orderby+="PAA.espanol";
+				break;
+				case "MATEMATICAS":
+				orderby+="PAA.matematicas";
+				break;
+				case "HABILIDADESBLANDAS":
+				orderby+="PAA.habilidadesblandas";
+				break;
 				case "INVP":
 				orderby+="PAA.INVP";
 				break;
@@ -2559,9 +2617,9 @@ class ImportacionPAADAO {
 				consulta=consulta.replace("[WHERE]", where);
 				
 				if(object.completos) {
-					pstm = con.prepareStatement(consulta.replace("sesion.persistenceid as id,sesion.nombre as sesion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso,periodo.fechafin AS periodofin, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, sda.ESTATUSSOLICITUD, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura, Bitacora.PARA,Bitacora.PAAV,Bitacora.PAAN,Bitacora.fechaSubida,PAA.INVP,Bitacora.fechaSubida,PAA.persistenceid,Bitacora.mlex,Bitacora.clex,Bitacora.hlex,da.cbcoincide as Lexium,paa.inBanner, paa.fechaBanner, Bitacora.usuariosubio", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+					pstm = con.prepareStatement(consulta.replace("sesion.persistenceid as id,sesion.nombre as sesion, sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso,periodo.fechafin AS periodofin, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, sda.ESTATUSSOLICITUD, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura, Bitacora.PARA,Bitacora.PAAV,Bitacora.PAAN,Bitacora.fechaSubida,PAA.INVP,Bitacora.fechaSubida,PAA.persistenceid,Bitacora.mlex,Bitacora.clex,Bitacora.hlex,da.cbcoincide as Lexium,paa.inBanner, paa.fechaBanner, Bitacora.usuariosubio,PAA.espanol,PAA.matematicas,PAA.habilidadesblandas,PAA.metaprofiletotal", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				}else {
-					pstm = con.prepareStatement(consulta.replace("sesion.persistenceid as id,sesion.nombre as sesion,sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso,periodo.fechafin AS periodofin, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, sda.ESTATUSSOLICITUD, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura, PAA.PARA,PAA.PAAV,PAA.PAAN,PAA.fechaRegistro,PAA.INVP,PAA.fechaExamen,PAA.persistenceid,PAA.LEXIUMPAAN,PAA.LEXIUMPAAV,PAA.LEXIUMPARA,da.cbcoincide as Lexium,paa.inBanner, paa.fechaBanner", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
+					pstm = con.prepareStatement(consulta.replace("sesion.persistenceid as id,sesion.nombre as sesion,sda.urlfoto, sda.apellidopaterno, sda.apellidomaterno, sda.primernombre, sda.segundonombre, sda.correoelectronico, sda.curp, campusEstudio.descripcion AS campus, campus.descripcion AS campussede, gestionescolar.NOMBRE AS licenciatura, periodo.DESCRIPCION AS ingreso,periodo.fechafin AS periodofin, CASE WHEN estado.DESCRIPCION ISNULL THEN sda.estadoextranjero ELSE estado.DESCRIPCION END AS estado, sda.ESTATUSSOLICITUD, sda.caseid, sda.telefonocelular, da.observacionesListaRoja, da.observacionesRechazo, da.idbanner, campus.grupoBonita, catcampus.descripcion as transferencia, campusEstudio.clave as claveCampus, gestionescolar.clave as claveLicenciatura, PAA.PARA,PAA.PAAV,PAA.PAAN,PAA.fechaRegistro,PAA.INVP,PAA.fechaExamen,PAA.persistenceid,PAA.LEXIUMPAAN,PAA.LEXIUMPAAV,PAA.LEXIUMPARA,da.cbcoincide as Lexium,paa.inBanner, paa.fechaBanner,PAA.espanol,PAA.matematicas,PAA.habilidadesblandas,PAA.metaprofiletotal", "COUNT(sda.persistenceid) as registros").replace("[LIMITOFFSET]","").replace("[ORDERBY]", ""))
 				}
 				
 				rs= pstm.executeQuery()

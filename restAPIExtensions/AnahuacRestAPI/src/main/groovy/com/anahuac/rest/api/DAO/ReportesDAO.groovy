@@ -1389,123 +1389,80 @@ class ReportesDAO {
 	}
 
      public Result generarReporteMetaProfile(String jsonData) {
-        Result resultado = new Result();
-        String errorLog = "", where = "";
-        Boolean closeCon = false;
+        Result resultado = new Result()
+        String errorLog = ""
+        Boolean closeCon = false
+    
         try {
-            int rowCount = 0;
-            List < Object > lstParams;
-            XSSFWorkbook workbook = new XSSFWorkbook();
-            XSSFSheet sheet = workbook.createSheet("Registros");
-            XSSFCellStyle style = (XSSFCellStyle) workbook.createCellStyle();
-            org.apache.poi.ss.usermodel.Font font = workbook.createFont();
-            font.setBold(true);
-            style.setFont(font);
-            style.setAlignment(HorizontalAlignment.CENTER)
-            IndexedColorMap colorMap = workbook.getStylesSource().getIndexedColors();
-            XSSFColor color = new XSSFColor(new java.awt.Color(191, 220, 249), colorMap);
-
-            style.setFillForegroundColor(color)
-            def jsonSlurper = new JsonSlurper();
-            def object = jsonSlurper.parseText(jsonData);
-			String condicion=""
-			for (int i=0;i< object.multicampus.split(",").size();i++) {
-				condicion+="'"+object.multicampus.split(",")[i]+"'"+((i==object.multicampus.split(",").size()-1)?"":",")
-			}
-            
-			where += " WHERE campus.clave in (" + condicion +") "
-            where += (object.periodo == null || object.periodo.equals("")) ? "" : " AND sda.catperiodo_pid in (" + object.periodo + ")"
-            where += (object.carrera == null || object.carrera.equals("")) ? "" : " AND sda.catgestionescolar_pid in (" + object.carrera + ")"
-            where += (object.preparatoria == null || object.preparatoria.equals("")) ? "" : " AND sda.catbachilleratos_pid in (" + object.preparatoria + ")"
-            where += (object.sesion == null || object.sesion.equals("")) ? "" : " AND s.persistenceid in (" + object.sesion + ")"
-            where += (object.idbanner == null || object.idbanner.equals("")) ? "" : " AND da.idbanner = '" + object.idbanner + "'"
-
-
+            def object = new JsonSlurper().parseText(jsonData)
+            String condicion = object.multicampus.split(",").collect { "'$it'" }.join(",")
+    
+            String where = " WHERE campus.clave in ($condicion) " +
+                    (object.periodo == null || object.periodo.equals("") ? "" : " AND sda.catperiodo_pid in (${object.periodo})") +
+                    (object.carrera == null || object.carrera.equals("") ? "" : " AND sda.catgestionescolar_pid in (${object.carrera})") +
+                    (object.preparatoria == null || object.preparatoria.equals("") ? "" : " AND sda.catbachilleratos_pid in (${object.preparatoria})") +
+                    (object.sesion == null || object.sesion.equals("") ? "" : " AND s.persistenceid in (${object.sesion})") +
+                    (object.idbanner == null || object.idbanner.equals("") ? "" : " AND da.idbanner = '${object.idbanner}'")
+    
             String consulta = Statements.Get_EXCEL_REPORTE_METAPROFILE + where;
-			errorLog += consulta;
-            List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
-            closeCon = validarConexion();
+            errorLog += consulta
+    
+            List<Map<String, Object>> rows = []
+            closeCon = validarConexion()
             pstm = con.prepareStatement(consulta)
-
-
             rs = pstm.executeQuery()
-            rows = new ArrayList < Map < String, Object >> ();
-            ResultSetMetaData metaData = rs.getMetaData();
-            int columnCount = metaData.getColumnCount();
+    
+            ResultSetMetaData metaData = rs.getMetaData()
+            int columnCount = metaData.getColumnCount()
+    
             while (rs.next()) {
-                Map < String, Object > columns = new LinkedHashMap < String, Object > ();
-
+                Map<String, Object> columns = new LinkedHashMap<String, Object>()
+    
                 for (int i = 1; i <= columnCount; i++) {
-                    columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+                    columns[metaData.getColumnLabel(i).toLowerCase()] = rs.getString(i)
                 }
-
-                rows.add(columns);
+    
+                rows.add(columns)
             }
-            if (rows.size()>=1) {
-                lstParams = rows;
-
-            } else {
-                throw new Exception("No encontro datos");
-            }
-
-            def titulos = ["Nombre", "Apaterno", "Amaterno", "Email", "ID Banner", "ID Sesión", "Nombre de sesión", "Fecha examen", "Hora examen"]
-            Row headersRow = sheet.createRow(rowCount);
-            ++rowCount;
-            List < Cell > header = new ArrayList < Cell > ();
-            for (int i = 0; i < titulos.size(); ++i) {
-                header.add(headersRow.createCell(i))
-                header[i].setCellValue(titulos.get(i))
-                header[i].setCellStyle(style)                
-            }
-            CellStyle bodyStyle = workbook.createCellStyle();
-            bodyStyle.setWrapText(true);
-            bodyStyle.setAlignment(HorizontalAlignment.LEFT);
-
-            def info = ["nombre", "apaterno", "amaterno", "email", "idbanner", "idsesion", "nombresesion", "fecha_examen","hora_examen"]
-            List < Cell > body;
-            String line = ""
-            for (int i = 0; i < lstParams.size(); ++i) {
-                line = ""
-                Row row = sheet.createRow(rowCount);
-                ++rowCount;
-                body = new ArrayList < Cell > ()
-                for (int j = 0; j < info.size(); ++j) {
-                    body.add(row.createCell(j))
-					body[j].setCellValue(lstParams[i][info.get(j)])
-					body[j].setCellStyle(bodyStyle);
+    
+            if (rows.size() >= 1) {
+                def titulos = ["Nombre", "Apaterno", "Amaterno", "Email", "ID Banner", "ID Sesión", "Nombre de sesión", "Fecha examen", "Hora examen"]
+    
+                List<String> csvLines = []
+                csvLines.add(titulos.join(','))
+    
+                def info = ["nombre", "apaterno", "amaterno", "email", "idbanner", "idsesion", "nombresesion", "fecha_examen", "hora_examen"]
+    
+                rows.each { rowMap ->
+                    String line = info.collect { rowMap[it] ?: '' }.join(',')
+                    csvLines.add(line)
                 }
-            }
-
-            if (lstParams.size() > 0) {
-                for (int i = 0; i <= 20; ++i) {
-                    sheet.autoSizeColumn(i);
-                }
-                Random rnd = new Random()
-                String nameFile = "Reporte-" + rnd.nextInt(1000) + ".xls";
-                FileOutputStream outputStream = new FileOutputStream(nameFile);
-                workbook.write(outputStream);
-                List < Object > lstResultado = new ArrayList < Object > ();
-                lstResultado.add(encodeFileToBase64Binary(nameFile));
+    
+                String nameFile = "Reporte-" + new Random().nextInt(1000) + ".csv"
+                def csvContent = csvLines.join('\n')
+    
+                def file = new File(nameFile)
+                file.text = csvContent
+    
+                List<Object> lstResultado = [encodeFileToBase64Binary(nameFile)]
                 resultado.setData(lstResultado)
-                outputStream.close();
-                def fileToDelete = new File(nameFile);
-                fileToDelete.delete()
+                resultado.setSuccess(true)
+
+                file.delete()
             } else {
-                throw new Exception("No encontro datos:" + errorLog );
+                throw new Exception("No encontro datos: $errorLog")
             }
-            resultado.setSuccess(true);
         } catch (Exception e) {
-            e.printStackTrace();
-            resultado.setSuccess(false);
-            resultado.setError(e.getMessage());  
-            e.printStackTrace();
+            e.printStackTrace()
+            resultado.setSuccess(false)
+            resultado.setError(e.getMessage())
         } finally {
             if (closeCon) {
                 new DBConnect().closeObj(con, stm, rs, pstm)
             }
         }
-
-        return resultado;
+    
+        return resultado
     }
 	
 	public Boolean validarConexionBonita() {
