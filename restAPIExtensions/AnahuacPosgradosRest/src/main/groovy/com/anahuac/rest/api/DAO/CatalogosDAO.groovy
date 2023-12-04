@@ -6368,7 +6368,7 @@ class CatalogosDAO {
 			pstm.setLong(6, object.posgrado_pid.persistenceId);
 			pstm.setString(7, object.nombre);
 			pstm.setString(8, object.tipo_de_archivo);
-			pstm.setBoolean(8, object.requiere_documento);
+			pstm.setBoolean(9, object.requiere_documento);
 			
 		
 			if (pstm.executeUpdate() > 0) {
