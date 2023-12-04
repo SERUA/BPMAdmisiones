@@ -74,8 +74,16 @@
                             ng-show="properties.dataToSend.orderby=='PARA'"></i></span><span ng-show="properties.orden" style="cursor:pointer" ng-click="setOrderBy('INVP')">/ INVP<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='INVP'"></i></span></th>
+                    <th> 
+                        <span style="cursor:pointer" ng-click="setOrderBy('ESPAÑOL')">Esp<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ESPAÑOL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('MATEMATICAS')">Mat<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='MATEMATICAS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('HABILIDADESBLANDAS')"> Hab. blandas<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='HABILIDADESBLANDAS'"></i></span></th>
                             
-                    <th ng-if="properties.orden == false" > <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMA')">Fecha de registro en EAC<i class="glyphicon"
+                    <th ng-if="properties.orden == false" > <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMA')">Fecha de importación de resultados<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='FECHAULTIMA'"></i></span>
                     </th>
@@ -98,7 +106,8 @@
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('CAMPUS,PROGRAMA,INGRESO',dynamicInput['programa'])"></td>
                     <td><input ng-model="dynamicInput['id']" class="form-control" ng-enter="filterKeyPress('ID,SESION',dynamicInput['id'])"></td>
                     <td><input ng-model="dynamicInput['puntuaciones']" class="form-control" ng-enter="filterKeyPress('PUNTUACIONES',dynamicInput['puntuaciones'])"></td>
-                    <td ng-if="properties.orden == false" ><input ng-model="dynamicInput['fecha']" class="form-control" ng-enter="filterKeyPress('FECHA DE REGISTRO EN EAC',dynamicInput['fecha'])"></td>
+                    <td><input ng-model="dynamicInput['puntuacionesmetaprofile']" class="form-control" ng-enter="filterKeyPress('PUNTUACIONES METAPROFILE',dynamicInput['puntuacionesmetaprofile'])"></td>
+                    <td ng-if="properties.orden == false" ><input ng-model="dynamicInput['fecha']" class="form-control" ng-enter="filterKeyPress('FECHA DE IMPORTACIÓN DE RESULTADOS',dynamicInput['fecha'])"></td>
                     <td ng-if="properties.orden == true" ><input ng-model="dynamicInput['fecha']" class="form-control" ng-enter="filterKeyPress('FECHA DE INTEGRACION, USUARIO QUE INTEGRO',dynamicInput['fecha'])"></td>
                     <td ng-if="properties.orden == false && properties.isTI == true"></td>
                 </tr>
@@ -127,6 +136,11 @@
                         {{row.paav}}<br>
                         {{row.para}}
                         <br ng-show="properties.orden">{{properties.orden?row.invp:""}}
+                    </td>
+                    <td>
+                        <b>{{row.espanol}}</b><br>
+                        {{row.matematicas}}<br>
+                        {{row.habilidadesblandas}}
                     </td>
                 
                     <td ng-if="properties.orden == false" class="max-size">

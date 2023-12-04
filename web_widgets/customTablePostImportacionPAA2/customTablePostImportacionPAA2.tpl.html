@@ -79,6 +79,14 @@
                             ng-show="properties.dataToSend.orderby=='PARA'"></i></span><span ng-show="properties.orden" style="cursor:pointer" ng-click="setOrderBy('INVP')">/ INVP<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
                             ng-show="properties.dataToSend.orderby=='INVP'"></i></span></th>
+                    <th> 
+                        <span style="cursor:pointer" ng-click="setOrderBy('ESPAÑOL')">Esp<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='ESPAÑOL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('MATEMATICAS')">Mat<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='MATEMATICAS'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('HABILIDADESBLANDAS')"> Hab. blandas<i class="glyphicon"
+                            ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
+                            ng-show="properties.dataToSend.orderby=='HABILIDADESBLANDAS'"></i></span></th>
                             
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHARESULTADO')">Fecha del examen<i class="glyphicon"
                             ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'"
@@ -97,6 +105,7 @@
                     <td><input ng-model="dynamicInput['preparatoria']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PREPARATORIA,PROMEDIO',dynamicInput['preparatoria'])"></td>
                     <td><input ng-model="dynamicInput['id']" class="form-control" ng-enter="filterKeyPress('ID,SESION',dynamicInput['id'])"></td>
                     <td><input ng-model="dynamicInput['puntuaciones']" class="form-control" ng-enter="filterKeyPress('PUNTUACIONES',dynamicInput['puntuaciones'])"></td>
+                    <td><input ng-model="dynamicInput['puntuacionesmetaprofile']" class="form-control" ng-enter="filterKeyPress('PUNTUACIONES METAPROFILE',dynamicInput['puntuacionesmetaprofile'])"></td>
                     <td><input ng-model="dynamicInput['fecha']" class="form-control" ng-enter="filterKeyPress('FECHA DEL EXAMEN, FECHA ULTIMA MODIFICACION',dynamicInput['fecha'])"></td>
                     <td></td>
                 </tr>
@@ -130,6 +139,11 @@
                         {{row.paav}}<br>
                         {{row.para}}
                         <br ng-show="properties.orden">{{properties.orden?row.invp:""}}
+                    </td>
+                     <td>
+                        <b>{{row.espanol}}</b><br>
+                        {{row.matematicas}}<br>
+                        {{row.habilidadesblandas}}
                     </td>
                 
                     <td class="max-size">
