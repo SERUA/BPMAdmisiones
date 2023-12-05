@@ -141,7 +141,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     function abrirSolicitud(rowData) {
-        
         var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + rowData.caseid;
         window.open(url, '_blank');
     }
@@ -681,6 +680,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.abrirSolicitud = function(row) {
         var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
+        if ($scope.properties.isDirectToValidate) {
+            url += "&indexSection=1";
+        }
         window.open(url, '_blank');
     }
   
