@@ -49,8 +49,9 @@ class Statements {
 	
 	//REQUISITOS ADICIONALES AUXILIAR
 	public static final String GET_REQUISITOS_ADICIONALES_AUXILIAR = "SELECT aux.persistenceid, aux.caseid, cat.clave, cat.nombre, cat.descripcion, cat.requiere_documento, cat.tipo_de_archivo AS tipo_de_archivo_aceptado, aux.cumplido, aux.url_azure, aux.requisito_adicional_pid FROM AUXISolAdmiRequisitoAdicional AS aux LEFT JOIN PSGRCatRequisitosAdicionales AS cat ON aux.requisito_adicional_pid = cat.persistenceid WHERE aux.caseid = ?;";
-	public static final String INSERT_REQUISITO_ADICIONAL_AUXILIAR = "INSERT INTO AUXISolAdmiRequisitoAdicional (persistenceid, caseid, cumplido, requisito_adicional_pid) VALUES (case when (SELECT max(persistenceId)+1 from AUXISolAdmiRequisitoAdicional) is null then 1 else (SELECT max(persistenceId)+1 from AUXISolAdmiRequisitoAdicional) end, ?, ?, ?) RETURNING persistenceid;"
-	public static final String DELETE_REQUISITO_ADICIONAL_AUXILIAR = "UPDATE AUXISolAdmiRequisitoAdicional SET caseid = null WHERE persistenceid = ?"
-	public static final String UPDATE_REQUISITO_ADICIONAL_AUXILIAR = "UPDATE AUXISolAdmiRequisitoAdicional SET cumplido = ?, url_azure = ? WHERE persistenceid = ?"
+	public static final String INSERT_REQUISITO_ADICIONAL_AUXILIAR = "INSERT INTO AUXISolAdmiRequisitoAdicional (persistenceid, caseid, cumplido, requisito_adicional_pid) VALUES (case when (SELECT max(persistenceId)+1 from AUXISolAdmiRequisitoAdicional) is null then 1 else (SELECT max(persistenceId)+1 from AUXISolAdmiRequisitoAdicional) end, ?, ?, ?) RETURNING persistenceid;";
+	public static final String DELETE_REQUISITO_ADICIONAL_AUXILIAR = "DELETE FROM AUXISolAdmiRequisitoAdicional WHERE persistenceid = ?";
+	public static final String UPDATE_REQUISITO_ADICIONAL_AUXILIAR = "UPDATE AUXISolAdmiRequisitoAdicional SET cumplido = ?, url_azure = ? WHERE persistenceid = ?";
+	public static final String SELECT_DISTINCT_CASEID_REQUISITO_ADICIONAL_AUXILIAR = "SELECT DISTINCT req_auxi.caseid FROM AUXISolAdmiRequisitoAdicional AS req_auxi WHERE req_auxi.caseid IS NOT NULL";
 
 }

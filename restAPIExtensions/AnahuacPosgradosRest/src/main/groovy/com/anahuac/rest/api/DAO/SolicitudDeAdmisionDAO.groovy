@@ -173,10 +173,16 @@ class SolicitudDeAdmisionDAO {
 			} else {
 				where += " AND LOWER(camp.DESCRIPCION) = LOWER('" + object.lstFiltro[0].valor + "') ";
 			}
-			if (object.tiene_requisitos_adicionales) {
-			    where += " AND regi.tiene_requisitos_adicionales = 'true' ";
-			} else {
-				where += " AND regi.tiene_requisitos_adicionales IS NULL ";
+			
+			if (object.en_requisitos_adicionales_auxiliar != null) {
+				
+				// Buscar las solicitudes en requisitos adicionales usando la tabla auxiliar.
+				if (object.en_requisitos_adicionales_auxiliar === true) {
+					where += " AND regi.caseid IN (" + Statements.SELECT_DISTINCT_CASEID_REQUISITO_ADICIONAL_AUXILIAR + ") ";
+				}
+				else if (object.en_requisitos_adicionales_auxiliar === false) {
+					where += " AND regi.caseid NOT IN (" + Statements.SELECT_DISTINCT_CASEID_REQUISITO_ADICIONAL_AUXILIAR + ") ";
+				}
 			}
 
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
@@ -644,85 +650,6 @@ class SolicitudDeAdmisionDAO {
 		}
 	
 		return resultado;	
-	}
-	
-	// no se utilizara
-	public Result insertRequisitosAdicionalesAuxiliar(String jsonData, RestAPIContext context) {
-		Result resultado = new Result();
-		Boolean closeCon = false;
-		
-		try {
-			closeCon = validarConexion();
-			
-			def jsonSlurper = new JsonSlurper();
-			def object = jsonSlurper.parseText(jsonData);
-			def dataResult = [];
-			
-			// ---Validación---
-			
-			if (object.caseid == null) {
-				throw new Exception('El campo "caseid" no debe ir vacío');
-			} else if(object.requisitosAdicionales == null) {
-				throw new Exception('El campo "requisitosAdicionales" no debe ir vacío');
-			} else if(!(object.requisitosAdicionales instanceof ArrayList) || object.requisitosAdicionales.empty) {
-				throw new Exception('El campo "requisitosAdicionales" debe ser una lista y no debe estar vacia');
-			}
-			
-			con.setAutoCommit(false);
-			
-			// ---Conversión---
-			
-			Long caseid = -1L;
-			Long catRequisitoId = -1L;
-			
-			try {
-				caseid = Long.valueOf(object.caseid);
-			}
-			catch (Exception e) {
-				throw new Exception("Falló al tratar de convertir el caseid a Long. " + e.message);
-			}
-			
-			object.requisitosAdicionales.eachWithIndex { item, index ->
-				
-				try {
-					catRequisitoId = Long.valueOf(item.persistenceId_string);
-				}
-				catch (Exception e) {
-					throw new Exception("Falló al tratar de convertir el persistenceId_string a Long. " + e.message);
-				}
-				
-				// ---Ejecución---
-				
-				pstm = con.prepareStatement(Statements.INSERT_REQUISITO_ADICIONAL_AUXILIAR);
-				pstm.setLong(1, caseid);
-				pstm.setBoolean(2, false);
-				pstm.setLong(3, catRequisitoId);
-				
-				rs = pstm.executeQuery();
-			
-				if (rs.next()) {
-					Long idResult = rs.getLong("persistenceid");
-					dataResult.add(idResult);
-				} else {
-					throw new Exception("No se pudo insertar el registro.");
-				}
-			}
-
-			con.commit();
-			resultado.setData(dataResult);
-			resultado.setSuccess(true);
-			
-		} catch (Exception e) {
-			resultado.setSuccess(false);
-			resultado.setError("[insertRequisitoAdicionalAuxiliar] " + e.getMessage());
-			if (!con.autoCommit) con.rollback();
-		} finally {
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm);
-			}
-		}
-	
-		return resultado;
 	}
 	
 	// Actualiza la lista de requisitos adicionales en base a un caseid y
