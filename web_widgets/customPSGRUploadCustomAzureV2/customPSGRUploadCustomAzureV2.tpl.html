@@ -33,9 +33,10 @@
                             <span class="input-group-btn">
                                 <span class="btn"
                                     ng-class="{'btn-default disabled':$isUploading, 'btn-primary':!$isUploading}">
+                                    <input type="checkbox" ng-model="fileSelectModel" ng-required="properties.required">
                                     <input ng-disabled="!properties.editar" class="file-upload-input"
                                         ng-class="{'file-upload-input--disabled':$isUploading}" name="{{ctrl.name}}"
-                                        type="file" ng-required="properties.required" ng-model="ctrl.filemodel"
+                                        type="file"
                                         accept="image/jpg, image/jpeg, image/png, application/pdf, application/xml" />
                                     <i class="glyphicon"
                                         ng-class="{'glyphicon-cloud-upload':$isUploading, 'glyphicon-paperclip':!$isUploading}"></i>

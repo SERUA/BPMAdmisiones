@@ -1,4 +1,4 @@
-function PbTableCtrl($scope) {
+function PbTableCtrl($scope, modalService, $http) {
 
     this.isArray = Array.isArray;
   
@@ -70,5 +70,42 @@ function PbTableCtrl($scope) {
               }
           }
       });
+      
+      // ------------
+      
+    $scope.openModalFile = function(row){
+        // Mejorar esto
+        $scope.downloadFile(row);
+        openModal($scope.properties.idModal);
+    }
+    
+    function openModal(modalId) {
+        modalService.open(modalId);
+    }
+    
+    $scope.downloadFile = function(row){
+        let obj = {
+            "linkSource": row.url_azure,
+            "fileName":  row.documento.nombre_documento,
+            "extension": ".pdf",
+        };
+        var req = {
+            method: "GET",
+            url: "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure=	" + row.url_azure
+        };
+
+        return $http(req)
+        .success(function (data, status) {
+            if(data.data){
+                obj.linkSource = data.data[0].b64;
+                $scope.properties.selectedFile = obj;
+            } else {
+                obj.linkSource = data[0].b64;
+                $scope.properties.selectedFile = obj;
+            }
+        })
+        .error(function (data, status) {
+        })
+    };      
   }
   

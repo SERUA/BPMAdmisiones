@@ -4,7 +4,7 @@
             <tr>
                 <th>Estado</th>
                 <th>Descripción</th>
-                <th>Tamaño</th>
+                <!--<th>Tamaño</th>-->
                 <th>Acciones</th>
             </tr>
         </thead>
@@ -24,9 +24,11 @@
                     <span><b>{{row.documento.nombre_documento}}</b></span><br>
                     <span>{{row.documento.descripcion}}</span>
                 </td>
+                <!--
                 <td>
                     {{ row.tamano_documento ? row.tamano_documento : "0 KB"  }}
                 </td>
+                -->
                 <!-- style="display: none" -->
                 <td style="display: inline-flex;">
                     <!--
@@ -40,13 +42,15 @@
                     <button type="button" class="btn btn-default" ng-if="!row.url_azure" ng-click="activarInputArchivo(index)">
                         <span class="glyphicon glyphicon-upload"></span>
                     </button>
-                    <button type="button" class="btn btn-default" ng-if="row.url_azure">
+                     
+                    <button type="button" class="btn btn-default" ng-if="row.url_azure" ng-click="openModalFile(row)">
                         <span class="glyphicon glyphicon-eye-open"></span>
                     </button>
+                    
                 </td>
             </tr>
             <tr ng-if="!properties.content || properties.content.length === 0">
-                <td colspan="4" style="text-align: center;">
+                <td colspan="3" style="text-align: center;">
                     No se encontraron registros para mostrar.
                 </td>
             </tr>

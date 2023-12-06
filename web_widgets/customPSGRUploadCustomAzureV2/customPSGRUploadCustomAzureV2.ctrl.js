@@ -3,6 +3,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     this.name = widgetNameFactory.getName('pbInput');
     this.filename = '';
     this.filemodel = '';
+    $scope.fileSelectModel = false;
 
     $scope.documetObject = {
         "b64": "",
@@ -220,7 +221,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
     this.forceSubmit = function (event) {
         $scope.procesar = false;
-        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + event.target.files[0].name + "_" + new Date().getTime();
+        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + new Date().getTime()  + "_" + event.target.files[0].name;
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         
@@ -235,6 +236,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                 if (event.target.files[0].type === "application/pdf") {
                     $scope.properties.isPDF = "true";
                     $scope.procesar = true;
+                    $scope.fileSelectModel = true;
                     handleFileSelect(event);
                 }
                 else errorMsg = "Solo puede agregar archivos PDF";
@@ -243,6 +245,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                 if (event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png") {
                     $scope.properties.isImagen = "true";
                     $scope.procesar = true;
+                    ctrl.filemodel = true;
                     handleFileSelectImg(event);
                 }
                 else errorMsg = "Solo puede agregar imagenes PNG o JPEG";
@@ -251,6 +254,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                 if (event.target.files[0].type === "application/xml") {
                     $scope.properties.isXML = "true";
                     $scope.procesar = true;
+                    $scope.fileSelectModel = true;
                     //handleFileSelectImg(event);
                 }
                 else errorMsg = "Solo puede agregar archivos XML";

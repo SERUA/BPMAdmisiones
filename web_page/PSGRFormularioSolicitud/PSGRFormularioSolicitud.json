@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1701369755735,
+  "lastUpdate" : 1701822418373,
   "rows" : [
     [
       {
@@ -88,7 +88,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "Context\n<pre>{{context | json}}</pre>\nDocumentos\n<pre>{{datosDocumentos | json}}</pre>\nDocumentos otros\n<pre>{{datosDocumentosOtros | json}}</pre>\nFormOutpu\n<pre>{{formOutput| json}}</pre>"
+            "value" : "Context\n<pre>{{context | json}}</pre>\nFormOutput\n<pre>{{formOutput| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -96,6 +96,58 @@
           }
         },
         "reference" : "9b580ecc-bdb4-40ba-a4d9-5144323ffc1f",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "selectedFile \n<pre>{{selectedFile | json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "cdef1e4b-6e6d-4e3b-b280-51d6e2c2d8bd",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -22201,11 +22253,11 @@
         "\r",
         "// varManifiesto\t{ \"datos\":false, \"consentimiento\":false }\r",
         "debugger;\r",
-        "if(!$data.formOutput.citaAspirante){\r",
+        "if(!$data.citaAspirante.cita_horario){\r",
         "    valid = false;\r",
         "    $data.errorStep6 = { \r",
-        "        \"errorMessage\": \"Debes seleccionar una fecha de entrevista para continuar\", \r",
-        "        \"title\": \"¡Manifiesto!\",\r",
+        "        \"errorMessage\": \"Debes seleccionar una fecha y un horario para la entrevista\", \r",
+        "        \"title\": \"¡Cita aspirante!\",\r",
         "        \"error\": true \r",
         "    }\r",
         "}  else {\r",

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1701733146396,
+  "lastUpdate" : 1701824297085,
   "rows" : [
     [
       {
@@ -204,7 +204,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{datosPersonales | json}}</pre>"
+            "value" : "selectedFile \n<pre>{{selectedFile  | json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -3228,15 +3228,15 @@
                               },
                               "hidden" : {
                                 "type" : "constant",
-                                "value" : true
+                                "value" : false
                               },
                               "disabled" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "solicitudesDuplicadas.length === 1"
                               },
                               "required" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "label" : {
                                 "type" : "interpolation",
@@ -4147,8 +4147,8 @@
                                                         "value" : false
                                                       },
                                                       "required" : {
-                                                        "type" : "constant",
-                                                        "value" : false
+                                                        "type" : "expression",
+                                                        "value" : "$item.requiere_documento"
                                                       },
                                                       "labelHidden" : {
                                                         "type" : "constant",
@@ -4175,7 +4175,7 @@
                                                       },
                                                       "value" : {
                                                         "type" : "variable",
-                                                        "value" : ""
+                                                        "value" : "guardarRequisitosForm.requisitos_adicionales[$index].url_azure"
                                                       },
                                                       "urlretorno" : {
                                                         "type" : "variable",
@@ -16233,6 +16233,14 @@
                                   "readOnly" : {
                                     "type" : "constant",
                                     "value" : true
+                                  },
+                                  "selectedFile" : {
+                                    "type" : "variable",
+                                    "value" : "selectedFile"
+                                  },
+                                  "idModal" : {
+                                    "type" : "constant",
+                                    "value" : "modalDocumentoPV"
                                   }
                                 },
                                 "reference" : "8c107581-78dd-471c-a35e-76567e4d55fb",
@@ -16699,6 +16707,94 @@
                                 "propertyValues" : {
                                   "cssClasses" : {
                                     "type" : "constant",
+                                    "value" : "color-orange"
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "Cita de entrevista<hr>"
+                                  },
+                                  "level" : {
+                                    "type" : "constant",
+                                    "value" : "Level 4"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "center"
+                                  }
+                                },
+                                "reference" : "b6ac57ea-cb54-4e0e-9d6e-3a95722a5a75",
+                                "hasValidationError" : false,
+                                "id" : "pbTitle"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<br>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "efb8e672-eb2f-4b76-820b-bceefa60544f",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
                                     "value" : ""
                                   },
                                   "hidden" : {
@@ -16760,6 +16856,58 @@
                                 "reference" : "f3dee74e-6489-44be-943d-9bf439a979fa",
                                 "hasValidationError" : false,
                                 "id" : "customPSGRcalendarioCitasV1"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<br><br>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "57686d0a-3a9a-4094-a80a-6c0211820c4f",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
                               }
                             ],
                             [
@@ -26486,6 +26634,13 @@
         "} else if (!$data.indexSection && ($data.selectedIndexMain === null || $data.selectedIndexMain === undefined)) {",
         "     $data.selectedIndexMain = 0;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "selectedFileDoc" : {
+      "type" : "expression",
+      "value" : [
+        "return {};"
       ],
       "exposed" : false
     }
