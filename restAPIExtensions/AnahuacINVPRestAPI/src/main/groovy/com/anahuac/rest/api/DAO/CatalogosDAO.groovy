@@ -24,6 +24,7 @@ import com.anahuac.catalogos.CatCampus
 import com.anahuac.catalogos.CatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
+import com.anahuac.rest.api.Entity.INVPFiltroSeguridad
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.CatPreguntasCustomFiltro
 import com.anahuac.rest.api.Entity.custom.ConfiguracionesINVP
@@ -2174,8 +2175,191 @@ public Result getCatPreguntas(String jsonData) {
 	}
 	
 	private Result insertRespuestasPeticion() {
-		
-		
 		return new Result();
+	}
+	
+	public Result insertCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			if(object.rol.equals("") || object.rol == null) {
+				throw new Exception("El campo \"Clave\" no debe ir vacío");
+			} else if(object.servicio.equals("") || object.servicio == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(Statements.INSERT_CATFILTROSEGURIDAD);
+			pstm.setLong(1, 0);
+			pstm.setString(2, object.rol);
+			pstm.setString(3, object.servicio);
+		
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo insertar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[insertCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result deleteCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceid\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(Statements.DELETE_CATFILTROSEGURIDAD);
+			pstm.setLong(1, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo eliminar el registro.");
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[deleteCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result updateCatFiltroSeguridad(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+	
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData)
+			
+			if(object.rol.equals("") || object.rol == null) {
+				throw new Exception("El campo \"rol\" no debe ir vacío");
+			} else if(object.servicio.equals("") || object.servicio == null) {
+				throw new Exception("El campo \"servicio\" no debe ir vacío");
+			} else if(object.persistenceid.equals("") || object.persistenceid == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			}
+	
+			pstm = con.prepareStatement(Statements.UPDATE_CATFILTROSEGURIDAD);
+			pstm.setString(1, object.rol);
+			pstm.setString(2, object.servicio);
+			pstm.setLong(3, object.persistenceid);
+	
+			if (pstm.executeUpdate() > 0) {
+				resultado.setSuccess(true);
+			} else {
+				throw new Exception("No se pudo modificar el registro.")
+			}
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateCatFiltroSeguridad] " + e.getMessage())
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatFiltroSeguridad(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<INVPFiltroSeguridad> data = new ArrayList<>();
+		String where = ""; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+	
+			closeCon = validarConexion();
+			
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				
+				switch (filtro.get("columna")) {
+					case "rol":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(rol) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "servicio":
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(servicio) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+	
+			String consulta = Statements.SELECT_CATFILTROSEGURIDAD.replace("[WHERE]", where).replace("[ORDERBY]", orderby);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				INVPFiltroSeguridad row = new INVPFiltroSeguridad();
+				row.setPersistenceid(rs.getLong("persistenceid"));
+				row.setRol(rs.getString("rol"));
+				row.setServicio(rs.getString("servicio"));
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatFiltroSeguridad] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 }
