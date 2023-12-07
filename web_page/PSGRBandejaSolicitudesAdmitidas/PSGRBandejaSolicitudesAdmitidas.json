@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRBandejaSolicitudesAdmitidas",
   "name" : "PSGRBandejaSolicitudesAdmitidas",
-  "lastUpdate" : 1701910421685,
+  "lastUpdate" : 1701968021408,
   "rows" : [
     [
       {
@@ -27,7 +27,8 @@
             "value" : "URL"
           },
           "url" : {
-            "type" : "constant"
+            "type" : "constant",
+            "value" : "../API/extension/posgradosRest?url=getExcelFileSolicitudesAdmitidas"
           },
           "assetName" : {
             "type" : "constant"
@@ -38,14 +39,15 @@
           },
           "dataToSend" : {
             "type" : "variable",
-            "value" : ""
+            "value" : "filtroExcel"
           },
           "fileExtension" : {
             "type" : "constant",
             "value" : "xls"
           },
           "nombre" : {
-            "type" : "constant"
+            "type" : "constant",
+            "value" : "Dictamen"
           }
         },
         "reference" : "89ca9c74-2acd-4d94-af18-0f043d76837a",
@@ -371,6 +373,10 @@
                             "abrirPagina" : {
                               "type" : "constant",
                               "value" : "pg_dictaminar_solicitud"
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : "filtroExcel"
                             }
                           },
                           "reference" : "859f5385-2a58-469d-8937-f1ad6c1df210",
@@ -501,6 +507,10 @@
                             "abrirPagina" : {
                               "type" : "constant",
                               "value" : "verSolicitud"
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : "filtroExcel"
                             }
                           },
                           "reference" : "6559ad3d-69e1-4b32-a02a-d3d04d159b30",
@@ -631,6 +641,10 @@
                             "abrirPagina" : {
                               "type" : "constant",
                               "value" : "autorizacionApoyo"
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : "filtroExcel"
                             }
                           },
                           "reference" : "9a0e179a-6502-4fc4-9b0c-3f0063250b85",
@@ -740,7 +754,7 @@
                             },
                             "dataToSend" : {
                               "type" : "variable",
-                              "value" : "dataToSend"
+                              "value" : "dataToSendArchivadas"
                             },
                             "lstContenido" : {
                               "type" : "variable",
@@ -761,6 +775,10 @@
                             "abrirPagina" : {
                               "type" : "constant",
                               "value" : "pg_ver_solicitud_admision"
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : "filtroExcel"
                             }
                           },
                           "reference" : "f211783a-8834-4194-a265-6e6cf27f5cf2",
@@ -911,7 +929,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\":\"'Solicitud Archivada'\",\r",
+        "    \"estatusSolicitud\":\"'solicitud_rechazada_admin'\",\r",
         "    \"tarea\":\"Validar Información\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"type\": \"nuevas_solicitudes\",\r",
@@ -1048,6 +1066,13 @@
         "    \"offset\":0,\r",
         "    \"campus\":$data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",
         "};\r"
+      ],
+      "exposed" : false
+    },
+    "filtroExcel" : {
+      "type" : "json",
+      "value" : [
+        "{}"
       ],
       "exposed" : false
     }

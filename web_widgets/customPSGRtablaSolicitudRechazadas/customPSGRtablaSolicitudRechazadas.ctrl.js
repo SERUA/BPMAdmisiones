@@ -19,6 +19,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
     function doRequest(method, url, params) {
         blockUI.start();
+        $scope.properties.filtroExcel = $scope.properties.dataToSend;
         var req = {
             method: method,
             url: url,
