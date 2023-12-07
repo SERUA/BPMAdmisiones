@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1701890716459,
+  "lastUpdate" : 1701977055607,
   "rows" : [
     [
       {
@@ -116,7 +116,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -3542,7 +3542,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "ID estudiante:"
+                                    "value" : "ID Banner:"
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -3561,7 +3561,7 @@
                                   },
                                   "type" : {
                                     "type" : "constant",
-                                    "value" : "number"
+                                    "value" : "text"
                                   },
                                   "min" : {
                                     "type" : "constant",
@@ -22392,7 +22392,7 @@
       "type" : "expression",
       "value" : [
         "if ($data.datosPersonales.id_banner.length > 8) {",
-        "    $data.datosPersonales.id_banner = datosPersonales.id_banner.slice(0, 8);",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 8);",
         "}"
       ],
       "exposed" : false
