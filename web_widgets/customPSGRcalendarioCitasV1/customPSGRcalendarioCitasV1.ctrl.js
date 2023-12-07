@@ -11,7 +11,7 @@ function($scope, $http, blockUI, $window) {
         
         swal({
             "title": "Confirmación",
-            "text": "¿Estás seguro que deseas seeccionar tu cita para el día " + fechaAStringConFormato($scope.seleccionada.start_date) + " en el horario " + horario + "?",
+            "text": "¿Estás seguro que deseas seleccionar tu cita para el día " + fechaAStringConFormato($scope.seleccionada.start_date) + " en el horario " + horario + "?",
             icon: "warning",
             buttons: [
                 'Cancelar',
@@ -20,17 +20,22 @@ function($scope, $http, blockUI, $window) {
         }).then(function (isConfirm) {
             if (isConfirm) {
                 swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
-                    $scope.properties.cita = {
-                        "cita_horario": angular.copy($scope.horario)
-                    };
-                    
+                    if ($scope.properties.cita) {
+                        $scope.properties.cita.cita_horario = angular.copy($scope.horario);
+                    }
+                    else {
+                        $scope.properties.cita = {
+                            "cita_horario": angular.copy($scope.horario)
+                        };
+                    }
+                      
                     $scope.$apply();
                     $("#modalConfirmar").modal("hide");
                 })
             }
         })
     }
-
+ 
     function fechaAStringConFormato(fecha) {
         var dia = fecha.getDate();
         var mes = fecha.getMonth() + 1;
@@ -39,6 +44,15 @@ function($scope, $http, blockUI, $window) {
         mes = mes < 10 ? '0' + mes : mes;
       
         return dia + '/' + mes + '/' + ano;
+    }
+    $scope.formatDate = function (textDate) {
+        try {
+            let dateObj = new Date(textDate);
+            return fechaAStringConFormato(dateObj);
+        }
+        catch (e) {
+            return "formato incorrecto"
+        }
     }
 
     function generarEventosPorMes(mes, ano) {

@@ -1,6 +1,6 @@
 <!-- ng-hide="properties.cita.cita_horario" -->
 <div class="panel panel-danger col-md-12" ng-show="!properties.readOnly" >
-    <div class="panel-heading" style="background-color: #ff5900" align="center" ng-show="properties.cita.cita_horario"><strong style="color:white;">Calendario de entrevistas</strong></div>
+    <div class="panel-heading" style="background-color: #ff5900" align="center" ng-show="!properties.cita.cita_horario"><strong style="color:white;">Calendario de entrevistas</strong></div>
     <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;' ng-show="!properties.cita.cita_horario">
         <div class="dhx_cal_navline">
             <div class="dhx_cal_prev_button">&nbsp;</div>
@@ -16,24 +16,61 @@
         <div class="dhx_cal_header"></div>
         <div class="dhx_cal_data"></div>
     </div>
-    <div class="row" ng-show="properties.cita.cita_horario">
-        <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
-        <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
-        <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
-        <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null">Cambiar fecha y hora de la cita</button>
+    <div class="row" ng-show="properties.cita.cita_horario" style="text-align: center; ">
+        <div style="text-align: center; background-color: #ff5900; color: white; padding: 15px; border-radius: 16px; margin: 30px;">
+            <h2 style="color: white;">Cita del aspirante</h2>
+            <div style="display: flex; gap: 30px; justify-content: space-evenly; flex-wrap: wrap;">
+                <div>
+                    <h3><b>Sesión:</b></h3>
+                    <p>{{properties.cita.cita_horario.cita_entrevista.nombre}}</p>
+                </div>
+                <div>
+                    <h3><b>Descripción:</b></h3>
+                    <p>{{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</p>
+                </div>
+                <div>
+                    <h3><b>Fecha:</b></h3>
+                    <p>{{formatDate(properties.cita.cita_horario.cita_entrevista.fecha_entrevista)}}</p>
+                </div>
+                <div>
+                    <h3><b>Horario:</b></h3>
+                    <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <button type="button" class="btn btn-primary" ng-click="properties.cita.cita_horario = null" style="margin-bottom: 30px">Cambiar fecha y hora de la cita</button>
+        </div>
     </div>
 </div>
 <div class="col-xs-12" ng-show="properties.readOnly" style="text-align: center;">
-    <div class="row" ng-show="properties.cita.cita_horario">
-        <h2>Sesión: {{properties.cita.cita_horario.cita_entrevista.nombre}}</h2>
-        <h2>Descripción: {{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</h2>
-        <h2>Horario: {{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</h2>
-    </div>
-    <div class="row" ng-show="!properties.cita.cita_horario">
-        <br><br>
-        <h2><b>No hay datos para mostrar</b></h2><br>
-        <p>No se ha registrado ninguna cita para el aspirante.</p>
-        <br><br>
+
+    <div style="text-align: center; background-color: #ff5900; color: white; padding: 15px; border-radius: 16px;">
+        <h2 style="color: white;">Cita del aspirante</h2>
+        <div ng-show="properties.cita.cita_horario" style="display: flex; gap: 30px; justify-content: space-evenly; flex-wrap: wrap;">
+            <div>
+                <h3><b>Sesión:</b></h3>
+                <p>{{properties.cita.cita_horario.cita_entrevista.nombre}}</p>
+            </div>
+            <div>
+                <h3><b>Descripción:</b></h3>
+                <p>{{properties.cita.cita_horario.cita_entrevista.descripcion_entrevista}}</p>
+            </div>
+            <div>
+                <h3><b>Fecha:</b></h3>
+                <p>{{formatDate(properties.cita.cita_horario.cita_entrevista.fecha_entrevista)}}</p>
+            </div>
+            <div>
+                <h3><b>Horario:</b></h3>
+                <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
+            </div>
+        </div>
+        <div class="row" ng-show="!properties.cita.cita_horario">
+            <br><br>
+            <h2><b>No hay datos para mostrar</b></h2><br>
+            <p>No se ha registrado ninguna cita para el aspirante.</p>
+            <br><br>
+        </div>
     </div>
 </div>
 

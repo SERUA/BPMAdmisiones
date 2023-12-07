@@ -196,6 +196,7 @@ class SesionesDAO {
 				SesionesPosibles sesion = new SesionesPosibles();
 				sesion.setNombre(rs.getString("nombre"));
 				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
+				sesion.setFecha_entrevista(rs.getString("fecha_entrevista"));
 				row.put("cita_entrevista", sesion);
 				row.put("persistenceId", rs.getLong("persistenceid"));
 				row.put("persistenceId_string", rs.getString("persistenceid"));
