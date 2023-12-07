@@ -701,21 +701,52 @@ class Index implements RestApiController {
 				
 			break;
 			case "PostMasivoRespuestaSesion":
-			try{
-				result =  new EnvioRespuestasDAO().PostMasivoRespuestaSesion(jsonData);
+				try{
+					result =  new EnvioRespuestasDAO().PostMasivoRespuestaSesion(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				}catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				
+			break;
+			case "insertCatFiltroSeguridad":
+				result = new CatalogosDAO().insertCatFiltroSeguridad(jsonData, context)
 				if (result.isSuccess()) {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 				}else {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
-			}catch(Exception ou){
-				result.setSuccess(false)
-				result.setError(ou.getMessage())
-				return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
-			}
-			
-		break;
-			
+				break;
+			case "deleteCatFiltroSeguridad":
+				result = new CatalogosDAO().deleteCatFiltroSeguridad(jsonData, context)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+			case "updateCatFiltroSeguridad":
+				result = new CatalogosDAO().updateCatFiltroSeguridad(jsonData, context)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
+			case "getCatFiltroSeguridad":
+				result = new CatalogosDAO().getCatFiltroSeguridad(jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;
 			default:
 				result = notFound(url);
 				if (result.isSuccess()) {
