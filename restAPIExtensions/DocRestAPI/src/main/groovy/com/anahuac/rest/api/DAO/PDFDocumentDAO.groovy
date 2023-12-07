@@ -1347,6 +1347,7 @@ class PDFDocumentDAO {
 			
 			con.close();
 			
+			errorLog += "| [1]";
 			validarConexionBonita();
 			String ids = "";
 			pstm = con.prepareStatement(Statements.GET_IDS_SOLICITUD);
@@ -1355,12 +1356,24 @@ class PDFDocumentDAO {
 			
 			rs = pstm.executeQuery();
 			
-			while (rs.next()) {
+			if (rs.next()) {
+				errorLog += "| [2]";
 				ids = rs.getString("concatenated_data_ids");
+			} else {
+				pstm = con.prepareStatement(Statements.GET_IDS_SOLICITUD_ARCH);
+				pstm.setLong(1, Long.valueOf(caseidSolicitud));
+				pstm.setString(2, "tutor");
+				
+				rs = pstm.executeQuery(); 
+				
+				if (rs.next()) {
+					errorLog += "| [2.1]";
+					ids = rs.getString("data_id");
+				}
 			}
 			
 			con.close();
-			
+			errorLog += "| [3]";
 			closeCon = validarConexion();
 			
 			pstm = con.prepareStatement(Statements.GET_DATOS_TUTOR_PDF_IDS.replace("[IDS]", ids));
@@ -1368,6 +1381,7 @@ class PDFDocumentDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
+				errorLog += "| [4]";
 				columns.put("nombreTutor", rs.getString("nombre") + " " + rs.getString("apellidos"));
 				columns.put("emailTutor", rs.getString("correoelectronico"));
 				columns.put("ocupacionTutor", rs.getString("titulo"));
@@ -1376,12 +1390,12 @@ class PDFDocumentDAO {
 				columns.put("empresaTutor", rs.getString("empresatrabaja") ?  rs.getString("empresatrabaja") : "N/A");
 				columns.put("puestoTutor", rs.getString("puesto") ? rs.getString("puesto") : "N/A");
 			}
-			
+			errorLog += "| [5]";
 			
 			pstm = con.prepareStatement(Statements.GET_SOLICITUD_APOYO_INFO);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
-			
+			errorLog += "| [6]";
 			while (rs.next()) {
 				columns.put("tipoApoyo", rs.getString("tipoapoyo"));
 				columns.put("terrenoM2Casa", rs.getString("terrenom2casa"));
