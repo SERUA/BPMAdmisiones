@@ -25,7 +25,7 @@
                                 placeholder="{{properties.placeholder | uiTranslate}}" value="{{ctrl.filename}}"
                                 class="form-control">
 
-                            <button ng-disabled="!properties.editar" type="button" ng-if="ctrl.filename"
+                            <button ng-show="properties.editar" type="button" ng-if="ctrl.filename"
                                 ng-click="ctrl.clear()" class="file-upload-clear">
                                 <i class="glyphicon glyphicon-remove-circle"></i>
                                 <span class="hide" translate>Close</span>
@@ -33,7 +33,7 @@
                             <span class="input-group-btn">
                                 <span class="btn"
                                     ng-class="{'btn-default disabled':$isUploading, 'btn-primary':!$isUploading}">
-                                    <input type="checkbox" ng-model="fileSelectModel" ng-required="properties.required">
+                                    <input type="checkbox" ng-model="fileSelectModel" ng-required="properties.required" ng-show="false">
                                     <input ng-disabled="!properties.editar" class="file-upload-input"
                                         ng-class="{'file-upload-input--disabled':$isUploading}" name="{{ctrl.name}}"
                                         type="file"

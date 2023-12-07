@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1701822418373,
+  "lastUpdate" : 1701977055607,
   "rows" : [
     [
       {
@@ -116,7 +116,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -3542,7 +3542,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "ID estudiante:"
+                                    "value" : "ID Banner:"
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -3561,7 +3561,7 @@
                                   },
                                   "type" : {
                                     "type" : "constant",
-                                    "value" : "number"
+                                    "value" : "text"
                                   },
                                   "min" : {
                                     "type" : "constant",
@@ -21612,6 +21612,13 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
+        "} else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner.length !== 8){\r",
+        "    valid = false;\r",
+        "    $data.errorStep2 = { \r",
+        "        \"errorMessage\": \"El campo 'ID Banner' debe tener una logitud de 8 caracteres\", \r",
+        "        \"title\": \"¡Datos personales!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
         "} else if($data.datosPersonales.alumno_anahuac && !validarIdBanner($data.datosPersonales.id_banner)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
@@ -21653,12 +21660,8 @@
         "}\r",
         "\r",
         "function validarIdBanner(id) {\r",
-        "    var expresionId = /^[0-9]{1,8}$/;\r",
-        "    if (expresionId.test(id)) {\r",
-        "        return true;\r",
-        "    } else {\r",
-        "        return false;\r",
-        "    }\r",
+        "    const expresionId = /^[0-9]{1,8}$/;\r",
+        "    return expresionId.test(id);\r",
         "}"
       ],
       "exposed" : false
@@ -22382,6 +22385,28 @@
         "/*if ($data.nuevoInfoEscolar.pais) {",
         "    $data.nuevoInfoEscolar.promedio = \"\";",
         "}*/"
+      ],
+      "exposed" : false
+    },
+    "idBannerCheckLogitud" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.datosPersonales.id_banner.length > 8) {",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 8);",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "idBannerCheckOnlyNumber" : {
+      "type" : "expression",
+      "value" : [
+        "let variable = $data.datosPersonales.id_banner;",
+        "if (variable) {",
+        "    let len = variable.length;",
+        "    if (isNaN(variable[len - 1]) || variable[len - 1] == \" \") {",
+        "        $data.datosPersonales.id_banner = variable.slice(0, len - 1);",
+        "    }",
+        "}"
       ],
       "exposed" : false
     }

@@ -245,7 +245,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                 if (event.target.files[0].type === "image/jpeg" || event.target.files[0].type === "image/png") {
                     $scope.properties.isImagen = "true";
                     $scope.procesar = true;
-                    ctrl.filemodel = true;
+                    $scope.fileSelectModel = true;
                     handleFileSelectImg(event);
                 }
                 else errorMsg = "Solo puede agregar imagenes PNG o JPEG";
@@ -349,7 +349,8 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         $scope.linkSource  = '';
         $scope.fileName  = '';
         $scope.extension  = '';
-        $scope.properties.urlAzure = "";
+        $scope.properties.urlAzure = null;
+        $scope.fileSelectModel = false;
         
         let obj = {
             "linkSource": "",
@@ -363,6 +364,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     function uploadError(error) {
         $log.warn('upload fails too', error);
         ctrl.filemodel = '';
+        $scope.fileSelectModel = false;
         ctrl.filename = gettextCatalog.getString('Upload failed');
     }
 
@@ -381,6 +383,9 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
             ctrl.filename = array[array.length - 1];
             this.uploadComplete = true;
             $scope.downloadFile2();
+        } 
+        else {
+            clear()
         }
     });
 
