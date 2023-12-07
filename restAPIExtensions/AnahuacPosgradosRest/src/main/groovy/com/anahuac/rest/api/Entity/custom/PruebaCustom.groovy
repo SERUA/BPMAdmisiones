@@ -4,8 +4,9 @@ import com.anahuac.catalogos.CatCampus
 import com.anahuac.catalogos.CatEstados
 import com.anahuac.catalogos.CatPais
 import com.anahuac.rest.api.Entity.db.CatTipoPrueba
+import com.anahuac.rest.api.Entity.db.Prueba
 
-class PruebaCustom {
+class PruebaCustom extends Prueba {
 	private List<ResponsableCustom> psicologos;
 	private CatCampus campus;
 	private CatPais pais;

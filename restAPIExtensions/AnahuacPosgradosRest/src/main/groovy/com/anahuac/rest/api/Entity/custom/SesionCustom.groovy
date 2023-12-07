@@ -2,8 +2,9 @@ package com.anahuac.rest.api.Entity.custom
 
 import com.anahuac.catalogos.CatBachilleratos
 import com.anahuac.catalogos.CatEstados
+import com.anahuac.rest.api.Entity.db.Sesion
 
-class SesionCustom {
+class SesionCustom extends Sesion {
 	private CatEstados estado;
 	private com.anahuac.catalogos.CatPais pais;
 	private CatBachilleratos preparatoria;
