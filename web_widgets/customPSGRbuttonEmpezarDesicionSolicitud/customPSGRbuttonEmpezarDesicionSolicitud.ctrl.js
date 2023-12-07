@@ -6,6 +6,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
   this.action = function action() {
     
+    if ($scope.properties.hasInvalidFormat) {
+        swal($scope.properties.formatInvalidTitle, $scope.properties.formatInvalidMessage, "warning");
+        return;
+    }
+    
     $scope.properties.variable = $scope.properties.desicion;
       
     if ($scope.properties.action === 'Remove from collection') {
