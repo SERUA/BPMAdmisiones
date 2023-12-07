@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1701911791758,
+  "lastUpdate" : 1701977012185,
   "rows" : [
     [
       {
@@ -472,6 +472,58 @@
           }
         },
         "reference" : "d7b31fcd-8600-4580-8eec-e68a9c6f887c",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "contratoOutputAprobar:\n<pre>{{contratoOutputAprobar| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "5a32a4aa-aea9-40ab-a4c4-4f118944936c",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -4304,7 +4356,8 @@
                                                         "value" : "guardarRequisitosForm.requisitos_adicionales[$index].url_azure"
                                                       },
                                                       "urlDownloadFile" : {
-                                                        "type" : "constant"
+                                                        "type" : "expression",
+                                                        "value" : "urlDownloadFileazure"
                                                       },
                                                       "isMostrar" : {
                                                         "type" : "constant",
@@ -4318,11 +4371,12 @@
                                                         "value" : true
                                                       },
                                                       "idModal" : {
-                                                        "type" : "constant"
+                                                        "type" : "constant",
+                                                        "value" : "modalDocumentoPV"
                                                       },
                                                       "selectedFile" : {
                                                         "type" : "variable",
-                                                        "value" : ""
+                                                        "value" : "selectedFile"
                                                       },
                                                       "tipoDocumento" : {
                                                         "type" : "constant",
@@ -4336,7 +4390,8 @@
                                                         "type" : "constant"
                                                       },
                                                       "caseid" : {
-                                                        "type" : "constant"
+                                                        "type" : "expression",
+                                                        "value" : "caseId"
                                                       }
                                                     },
                                                     "reference" : "24748b37-b568-4d6e-9081-a3bd91e5ff26",
@@ -4690,7 +4745,7 @@
                                           },
                                           "alignment" : {
                                             "type" : "constant",
-                                            "value" : "left"
+                                            "value" : "right"
                                           },
                                           "buttonStyle" : {
                                             "type" : "constant",
@@ -4782,7 +4837,7 @@
                                           },
                                           "alignment" : {
                                             "type" : "constant",
-                                            "value" : "right"
+                                            "value" : "left"
                                           },
                                           "buttonStyle" : {
                                             "type" : "constant",
@@ -26733,13 +26788,9 @@
     "requisitosAdicionales" : {
       "type" : "url",
       "value" : [
-        "/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid={{caseId}}"
+        "/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid={{caseId}}&reload={{requisitosAdicionalesReloadCount}}"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "mensajeResultadoUpdate" : {
@@ -26900,15 +26951,40 @@
     "showGuardarRequisitosRespuesta" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "if ($data.guardarRequisitosRespuesta) {",
         "    if ($data.guardarRequisitosRespuesta.toString().startsWith(\"2\")) {",
+        "        // Notificar exito",
         "        Swal.fire({",
         "            icon: 'success',",
         "            title: \"Respuesta\",",
         "            text: \"Los cambios fueron guardados correctamente.\",",
         "            confirmButtonText: \"Ok\",",
         "        });",
+        "        // Volver a cargar la información de requisitos adicionales",
+        "        console.log($data.requisitosAdicionalesReloadCount)",
+        "        $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
+        "        /*",
+        "        fetch('/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid=' + $data.caseId)",
+        "            .then(response => {",
+        "                if (response.ok){ ",
+        "                    return response.json()",
+        "                }",
+        "                else throw new Error(\"Error\")",
+        "            })",
+        "            .then(data => {",
+        "                console.log(data)",
+        "                // Forzar a recargar los datos",
+        "                $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
+        "                ",
+        "            })",
+        "            .catch(error => {",
+        "                 Swal.fire({",
+        "                    icon: 'warning',",
+        "                    title: \"Descarga de los nuevos datos\",",
+        "                    text: \"Los cambios fueron guardados correctamente pero surgió un error al descargar los nuevos datos. \" + error.message,",
+        "                    confirmButtonText: \"Ok\",",
+        "                });",
+        "            })*/",
         "    }",
         "    else {",
         "        Swal.fire({",
@@ -27060,6 +27136,13 @@
         "../{{context.datosRequisitosAdicionales_ref.link}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "requisitosAdicionalesReloadCount" : {
+      "type" : "expression",
+      "value" : [
+        "return 0;"
+      ],
       "exposed" : false
     }
   },
