@@ -39,4 +39,6 @@ class Statements {
 	
 	public static final String GET_IDS_SOLICITUD = "SELECT CONCAT(data_id) AS concatenated_data_ids FROM (SELECT md.data_id FROM ref_biz_data_inst data  INNER JOIN multi_biz_data md on md.id=data.id WHERE proc_inst_id = ? AND data.name = ? LIMIT 1) AS subquery; ";
 	
+	public static final String GET_IDS_SOLICITUD_ARCH = "SELECT md.data_id FROM arch_ref_biz_data_inst data INNER JOIN arch_multi_biz_data md on md.id=data.id WHERE orig_proc_inst_id = ? AND data.name = ?  LIMIT 1";
+	
 	}

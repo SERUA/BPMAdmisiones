@@ -22,6 +22,7 @@ import com.anahuac.rest.api.DAO.CatalogoBachilleratoDAO
 import com.anahuac.rest.api.DAO.CatalogosDAO
 import com.anahuac.rest.api.DAO.ConektaDAO
 import com.anahuac.rest.api.DAO.CustomUserRequestDAO
+import com.anahuac.rest.api.DAO.DocumentosProcesosDAO
 import com.anahuac.rest.api.DAO.AvanzeProcesoDAO
 import com.anahuac.rest.api.DAO.HubspotDAO
 import com.anahuac.rest.api.DAO.ImportacionPAADAO
@@ -1775,7 +1776,19 @@ class IndexGet implements RestApiController {
 					}
 					
 				break;
-				
+				case "getCasosALimpiar":
+					String estatus = request.getParameter "estatus"
+					String offset = request.getParameter "offset"
+					String limit = request.getParameter "limit"
+					result = new DocumentosProcesosDAO().getCasosALimpiar(estatus, offset, limit);
+					responseBuilder.withMediaType("application/json")
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					
+				break;
 				case "getFileTest":
 				byte[] resultado = new FileDownload().getByteFromUrl("https://bpmintegra.blob.core.windows.net/privado/47044/Fot_47044.jpg?sv=2020-04-08&st=2021-05-04T19%3A38%3A43Z&se=2035-02-01T20%3A38%3A00Z&sr=c&sp=r&sig=ZCmK9hcMcFMZRk4PJyDd6BKPtNjRaho3MjCPGVoEnfo%3D&v=0.23659524683358757")
 				String s = new String(resultado, StandardCharsets.UTF_8)
