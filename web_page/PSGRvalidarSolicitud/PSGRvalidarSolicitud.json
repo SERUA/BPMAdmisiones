@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1701977012185,
+  "lastUpdate" : 1702000115756,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "validarInput:\n<pre>{{validarFormInput| json}}</pre>"
+            "value" : "caseId:\n<pre>{{caseId| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -204,7 +204,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "context \n<pre>{{context | json}}</pre>"
+            "value" : "cancelarCambiosRequisitosClickEvent\n<pre>{{cancelarCambiosRequisitosClickEvent| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -256,7 +256,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "requisitos\n<pre>{{requisitosAdicionales| json}}</pre>\nseleccionados:\n<pre>\n{{requisitosAdicionalesSeleccionados| json}}</pre>"
+            "value" : "requisitos\n<pre>{{requisitosAdicionales| json}}</pre>\nguardarRequisitosForm:\n<pre>\n{{guardarRequisitosForm| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -523,7 +523,7 @@
             "value" : "left"
           }
         },
-        "reference" : "5a32a4aa-aea9-40ab-a4c4-4f118944936c",
+        "reference" : "4d94b965-d0e2-4e8b-b20c-40dfbde466a6",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -3295,7 +3295,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "validarFormInput.datosPersonalesInput.id_banner"
+                                "value" : "validarFormInput.registroInput.id_banner_validacion"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -4986,7 +4986,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Rechazar"
+                          "value" : "Archivar"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -18186,7 +18186,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 12,
-                "lg" : 6
+                "lg" : 12
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -18230,7 +18230,8 @@
                   "value" : "_self"
                 },
                 "appToken" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "posgrados"
                 },
                 "urlParams" : {
                   "type" : "constant"
@@ -18348,7 +18349,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>No admisión<hr>"
+                    "value" : "<br>Archivar<hr>"
                   },
                   "level" : {
                     "type" : "constant",
@@ -18464,8 +18465,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -18552,8 +18553,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -18614,8 +18615,7 @@
                     "value" : ""
                   },
                   "targetUrlOnSuccess" : {
-                    "type" : "interpolation",
-                    "value" : ""
+                    "type" : "interpolation"
                   },
                   "collectionToModify" : {
                     "type" : "variable"
@@ -18640,12 +18640,6 @@
                   "errorMessage" : {
                     "type" : "constant"
                   },
-                  "urlBitacora" : {
-                    "type" : "constant"
-                  },
-                  "objetoBitacora" : {
-                    "type" : "constant"
-                  },
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
@@ -18657,9 +18651,17 @@
                   "mensajeResultadoDeEnvio" : {
                     "type" : "variable",
                     "value" : "mensajeResultadoDeEnvio"
+                  },
+                  "deleteRequisitosAuxiliaresAllowed" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "caseid" : {
+                    "type" : "variable",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "b2a60162-0211-4859-a437-15618733dfce",
+                "reference" : "ab730145-5e18-4d90-84cc-c3b985ed047b",
                 "hasValidationError" : false,
                 "id" : "customPSGRbuttonFinalizarDesicionSolicitud"
               }
@@ -18844,8 +18846,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -18932,8 +18934,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -19019,12 +19021,6 @@
                   "errorMessage" : {
                     "type" : "constant"
                   },
-                  "urlBitacora" : {
-                    "type" : "constant"
-                  },
-                  "objetoBitacora" : {
-                    "type" : "constant"
-                  },
                   "taskId" : {
                     "type" : "variable",
                     "value" : "taskId"
@@ -19036,9 +19032,17 @@
                   "mensajeResultadoDeEnvio" : {
                     "type" : "variable",
                     "value" : "mensajeResultadoDeEnvio"
+                  },
+                  "deleteRequisitosAuxiliaresAllowed" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "caseid" : {
+                    "type" : "variable",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "34db0446-83a6-46f4-a4a8-207b68cc6858",
+                "reference" : "bbfa4ae8-bfaf-4ed6-a81e-4b09f9fb2e7b",
                 "hasValidationError" : false,
                 "id" : "customPSGRbuttonFinalizarDesicionSolicitud"
               }
@@ -19179,8 +19183,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -19267,8 +19271,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -19365,9 +19369,17 @@
                   "mensajeResultadoDeEnvio" : {
                     "type" : "variable",
                     "value" : ""
+                  },
+                  "deleteRequisitosAuxiliaresAllowed" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "caseid" : {
+                    "type" : "variable",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "87efdb81-684c-4428-a77c-e850eb1463f7",
+                "reference" : "3b6010e5-f73f-427b-a935-86df20c07cf7",
                 "hasValidationError" : false,
                 "id" : "customPSGRbuttonFinalizarDesicionSolicitud"
               }
@@ -19744,6 +19756,14 @@
                   "mensajeResultadoDeEnvio" : {
                     "type" : "variable",
                     "value" : "mensajeResultadoDeEnvio"
+                  },
+                  "deleteRequisitosAuxiliaresAllowed" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "caseid" : {
+                    "type" : "variable",
+                    "value" : ""
                   }
                 },
                 "reference" : "0164b6e2-ed05-4af6-9bea-caee15e953d5",
@@ -20979,7 +20999,7 @@
                   },
                   "label" : {
                     "type" : "interpolation",
-                    "value" : "Activar"
+                    "value" : "Actualizar"
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -21064,6 +21084,10 @@
                   "caseid" : {
                     "type" : "expression",
                     "value" : "caseId"
+                  },
+                  "updateResponseStatusCode" : {
+                    "type" : "variable",
+                    "value" : "updateListaRequisitosRespuesta"
                   }
                 },
                 "reference" : "8409e811-8df3-4d08-818a-665c4a0a397b",
@@ -26297,7 +26321,7 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  true,",
         "    \"isModificarSolicitudInput\": false,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar ? $data.validarFormInput.registroInput.mensaje_admin_escolar : null,",
         "        \"aprobado_admin_escolar\": false,",
         "        \"tipo_alumno\": {",
         "            \"persistenceId_string\": null,",
@@ -26311,9 +26335,8 @@
         "        \"curp_validada\": false,",
         "        \"documentos_validados\": false,",
         "        \"no_duplicado\": false,",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": null",
+        "        \"id_banner_validacion\": $data.validarFormInput.registroInput.id_banner_validacion ? $data.validarFormInput.registroInput.id_banner_validacion : null,",
+        "        \"tiene_requisitos_adicionales\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
         "};"
@@ -26327,7 +26350,7 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
         "    \"isModificarSolicitudInput\": true,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar ? $data.validarFormInput.registroInput.mensaje_admin_escolar : null,",
         "        \"aprobado_admin_escolar\": false,",
         "        \"tipo_alumno\": {",
         "            \"persistenceId_string\": null",
@@ -26340,10 +26363,9 @@
         "        },",
         "        \"curp_validada\": false,",
         "        \"documentos_validados\": false,",
-        "        \"no_duplicado\": false",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": null",
+        "        \"no_duplicado\": false,",
+        "        \"id_banner_validacion\": $data.validarFormInput.registroInput.id_banner_validacion ? $data.validarFormInput.registroInput.id_banner_validacion : null,",
+        "        \"tiene_requisitos_adicionales\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
         "};"
@@ -26357,7 +26379,7 @@
         "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
         "    \"isModificarSolicitudInput\": false,",
         "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
+        "        \"mensaje_admin_escolar\": null,",
         "        \"aprobado_admin_escolar\": true,",
         "        \"tipo_alumno\": $data.validarFormInput.registroInput.tipo_alumno ? {",
         "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_alumno.persistenceId_string",
@@ -26376,31 +26398,34 @@
         "        },",
         "        \"curp_validada\": $data.validarFormInput.registroInput.curp_validada,",
         "        \"documentos_validados\": $data.validarFormInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado",
+        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado,",
+        "        \"id_banner_validacion\": $data.validarFormInput.registroInput.id_banner_validacion ? $data.validarFormInput.registroInput.id_banner_validacion : null,",
+        "        \"tiene_requisitos_adicionales\": tieneRequisitosAdicionales(),",
         "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": $data.validarFormInput.datosPersonalesInput && $data.validarFormInput.datosPersonalesInput.id_banner ? $data.validarFormInput.datosPersonalesInput.id_banner : null,",
-        "    },",
-        "    \"datosRequisitosAdicionalesInput\": [],",
-        "    /* En este punto puede que exista o no información en el datosRequisitosAdicionales... Se debe tomar en cuenta eso.",
-        "    \"datosRequisitosAdicionalesInput\": $data.guardarRequisitosForm && $data.guardarRequisitosForm.requisitos_adicionales ? $data.guardarRequisitosForm.requisitos_adicionales.map( it => ({",
-        "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,",
-        "        url_azure: it.url_azure !== undefined ? it.url_azure : null,",
-        "        tamano_documento: it.tamano_documento !== undefined ? it.tamano_documento : null,",
-        "        documento: getCatalogo(it, \"documento\")",
-        "    })) : [],*/",
+        "    \"datosRequisitosAdicionalesInput\": getRequisitosAdicionales(),",
         "};",
         "",
-        "function getCatalogo(_objeto, _nombre){",
-        "    if(!_objeto){",
-        "        return null;",
-        "    } else if(_objeto){",
-        "        if(_objeto[_nombre]){",
-        "            return {persistenceId_string: _objeto[_nombre].persistenceId_string}",
-        "        } else {",
-        "            return null;",
-        "        }",
+        "function tieneRequisitosAdicionales() {",
+        "    if ($data.guardarRequisitosForm && $data.guardarRequisitosForm.requisitos_adicionales) {",
+        "        return $data.guardarRequisitosForm.requisitos_adicionales.length > 0;   ",
         "    }",
+        "    return false;",
+        "}",
+        "function getRequisitosAdicionales() {",
+        "    if ($data.guardarRequisitosForm && $data.guardarRequisitosForm.requisitos_adicionales) {",
+        "        ",
+        "        return $data.guardarRequisitosForm.requisitos_adicionales.map((item) => {",
+        "            return {",
+        "                persistenceId_string: null,",
+        "                cumplido: item.cumplido,",
+        "                url_azure: item.url_azure,",
+        "                requisito_adicional: {",
+        "                    persistenceId_string: item.requisito_adicional_pid,",
+        "                }",
+        "            }",
+        "        })   ",
+        "    }",
+        "    else return [];",
         "}"
       ],
       "exposed" : false
@@ -26648,28 +26673,7 @@
     "validarFormInput" : {
       "type" : "json",
       "value" : [
-        "{",
-        "    \"desicionInput\": null,",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": null,",
-        "        \"aprobado_admin_escolar\": false,",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"curp_validada\": false,",
-        "        \"documentos_validados\": false,",
-        "        \"no_duplicado\": false",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": null",
-        "    }",
-        "}"
+        "{}"
       ],
       "exposed" : false
     },
@@ -26716,7 +26720,7 @@
       "value" : [
         "if ($data.recuperarIdBannerClickEvent) {",
         "    if ($data.datosPersonales.id_banner) {",
-        "        $data.validarFormInput.datosPersonalesInput.id_banner = $data.datosPersonales.id_banner;",
+        "        $data.validarFormInput.registroInput.id_banner_validacion = $data.datosPersonales.id_banner;",
         "    }",
         "    ",
         "    $data.recuperarIdBannerClickEvent = null;",
@@ -26790,7 +26794,11 @@
       "value" : [
         "/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid={{caseId}}&reload={{requisitosAdicionalesReloadCount}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "mensajeResultadoUpdate" : {
@@ -26852,10 +26860,19 @@
         "// Si hay información:",
         "if ($data.requisitosAdicionales && $data.requisitosAdicionales.length > 0) {",
         "    // Y no se ha inicializado todavia:",
-        "    if (!$data.guardarRequisitosForm || Object.keys($data.guardarRequisitosForm).length === 0 || ($data.guardarRequisitosForm.requisitos_adicionales.length === 0) || !$data.guardarRequisitosForm.requisitos_adicionales[0].persistenceId) {",
+        "    if (!$data.guardarRequisitosForm || Object.keys($data.guardarRequisitosForm).length === 0 || ($data.guardarRequisitosForm.requisitos_adicionales.length === 0) || hayElementosDesactualizados()) {",
         "        // Inicializar mediante una copia de datos.",
         "        $data.guardarRequisitosForm = copyData();",
         "    }",
+        "}",
+        "",
+        "",
+        "function hayElementosDesactualizados() {",
+        "    let desactualizado = false;",
+        "    $data.guardarRequisitosForm.requisitos_adicionales.forEach((item) => {",
+        "        if (!item.persistenceId) desactualizado = true;",
+        "    })",
+        "    return desactualizado;",
         "}",
         "",
         "function copyData() {",
@@ -26890,22 +26907,18 @@
         "    }",
         "});",
         "",
-        "return {",
-        "    caseid: $data.registro.caseid ? $data.registro.caseid : null,",
-        "    requisitosAdicionalesCatalogos: requisitosSeleccionados,",
-        "};",
-        "",
-        "/*",
-        "let requisitosSeleccionados = $data.requisitosAdicionalesSeleccionados.map((item) => {",
+        "if (requisitosSeleccionados.length === 0 && updateRequisitosForm.requisitos_adicionales_disponibles.length === 0) {",
         "    return {",
-        "        persistenceId_string: item.persistenceId_string",
-        "    }",
-        "});",
+        "        confirmarLimpiarLista: true,",
+        "        caseid: $data.registro.caseid ? $data.registro.caseid : null,",
+        "        requisitosAdicionalesCatalogos: requisitosSeleccionados,",
+        "    };",
+        "}",
         "",
         "return {",
         "    caseid: $data.registro.caseid ? $data.registro.caseid : null,",
         "    requisitosAdicionalesCatalogos: requisitosSeleccionados,",
-        "}*/"
+        "};"
       ],
       "exposed" : false
     },
@@ -26961,30 +26974,7 @@
         "            confirmButtonText: \"Ok\",",
         "        });",
         "        // Volver a cargar la información de requisitos adicionales",
-        "        console.log($data.requisitosAdicionalesReloadCount)",
         "        $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
-        "        /*",
-        "        fetch('/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid=' + $data.caseId)",
-        "            .then(response => {",
-        "                if (response.ok){ ",
-        "                    return response.json()",
-        "                }",
-        "                else throw new Error(\"Error\")",
-        "            })",
-        "            .then(data => {",
-        "                console.log(data)",
-        "                // Forzar a recargar los datos",
-        "                $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
-        "                ",
-        "            })",
-        "            .catch(error => {",
-        "                 Swal.fire({",
-        "                    icon: 'warning',",
-        "                    title: \"Descarga de los nuevos datos\",",
-        "                    text: \"Los cambios fueron guardados correctamente pero surgió un error al descargar los nuevos datos. \" + error.message,",
-        "                    confirmButtonText: \"Ok\",",
-        "                });",
-        "            })*/",
         "    }",
         "    else {",
         "        Swal.fire({",
@@ -27065,8 +27055,8 @@
     "idBannerCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.validarFormInput.datosPersonalesInput.id_banner.length > 8) {",
-        "    $data.validarFormInput.datosPersonalesInput.id_banner = $data.validarFormInput.datosPersonalesInput.id_banner.slice(0, 8);",
+        "if ($data.validarFormInput.registroInput.id_banner_validacion.length > 8) {",
+        "    $data.validarFormInput.registroInput.id_banner_validacion = $data.validarFormInput.registroInput.id_banner_validacion.slice(0, 8);",
         "}"
       ],
       "exposed" : false
@@ -27074,11 +27064,11 @@
     "idBannerCheckOnlyNumber" : {
       "type" : "expression",
       "value" : [
-        "let variable = $data.validarFormInput.datosPersonalesInput.id_banner;",
+        "let variable = $data.validarFormInput.registroInput.id_banner_validacion;",
         "if (variable) {",
         "    let len = variable.length;",
         "    if (isNaN(variable[len - 1]) || variable[len - 1] == \" \") {",
-        "        $data.validarFormInput.datosPersonalesInput.id_banner = variable.slice(0, len - 1);",
+        "        $data.validarFormInput.registroInput.id_banner_validacion = variable.slice(0, len - 1);",
         "    }",
         "}"
       ],
@@ -27122,6 +27112,7 @@
       "type" : "expression",
       "value" : [
         "if ($data.cancelarCambiosRequisitosClickEvent) {",
+        "    console.log(\"estoy entrando al evento\")",
         "    // Limpiamos el objeto guardarRequisitosForm para que se vuelva a cargar con los datos reales.",
         "    $data.guardarRequisitosForm = { requisitos_adicionales: [] };",
         "    // Borramos el evento para que solo se ejecute una vez.",
@@ -27142,6 +27133,72 @@
       "type" : "expression",
       "value" : [
         "return 0;"
+      ],
+      "exposed" : false
+    },
+    "validarFormInit" : {
+      "type" : "expression",
+      "value" : [
+        "// Si hay información:",
+        "if ($data.registro) {",
+        "    // Y no se ha inicializado todavia:",
+        "    if (!$data.validarFormInput || Object.keys($data.validarFormInput).length === 0) {",
+        "        // Inicializar datos.",
+        "        $data.validarFormInput = {",
+        "            registroInput: {",
+        "                mensaje_admin_escolar: null,",
+        "                aprobado_admin_escolar: null,",
+        "                tipo_alumno: null,",
+        "                residencia: null,",
+        "                tipo_admision: null,",
+        "                curp_validada: false,",
+        "                documentos_validados: false,",
+        "                no_duplicados: false,",
+        "                id_banner_validacion: $data.registro.id_banner_validacion ? $data.registro.id_banner_validacion : null,",
+        "            },",
+        "            datosRequisitosAdicionalesInput: null",
+        "        };",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "updateListaRequisitosRespuesta" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "showUpdateListaRequisitosRespuesta" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.updateListaRequisitosRespuesta) {",
+        "    if ($data.updateListaRequisitosRespuesta.toString().startsWith(\"2\")) {",
+        "        // Volver a cargar la información de requisitos adicionales",
+        "        $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
+        "        ",
+        "        // Notificar exito",
+        "        Swal.fire({",
+        "            icon: 'success',",
+        "            title: \"Respuesta\",",
+        "            text: \"La lista de requisitos fue actualizada correctamente.\",",
+        "            confirmButtonText: \"Ok\",",
+        "        })",
+        "        // Actualizar el requisitos adicionales form con la nueva data",
+        "        $data.cancelarCambiosRequisitosClickEvent = true;",
+        "    }",
+        "    else {",
+        "        Swal.fire({",
+        "            icon: 'error',",
+        "            title: \"Respuesta\",",
+        "            text: \"Algo falló al intentar actualizar la lista de requisitos.\",",
+        "            confirmButtonText: \"Ok\",",
+        "        });",
+        "    }",
+        "    ",
+        "    $data.updateListaRequisitosRespuesta = null;",
+        "}"
       ],
       "exposed" : false
     }
