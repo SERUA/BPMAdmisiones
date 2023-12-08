@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1701977055607,
+  "lastUpdate" : 1702053114091,
   "rows" : [
     [
       {
@@ -20989,7 +20989,8 @@
         "        cnem_correo_electronico:  $data.datosContacto !== undefined ? $data.datosContacto.cnem_correo_electronico : \"\"\r",
         "    },\r",
         "    citaAspiranteInput: {\r",
-        "      cita_horario: getCatalogo($data.citaAspirante, \"cita_horario\")\r",
+        "      cita_horario: getCatalogo($data.citaAspirante, \"cita_horario\"),\r",
+        "      responsable: getCatalogo($data.citaAspirante.cita_horario, \"cita_entrevista\"),\r",
         "    },\r",
         "    datosAcademicosInput: $data.datosAcademicos === undefined ? [] : $data.datosAcademicos.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
@@ -21062,6 +21063,7 @@
         "}\r",
         "\r",
         "function getCatalogo(_objeto, _nombre){\r",
+        "    debugger;\r",
         "    if(!_objeto){\r",
         "        return null;\r",
         "    } else if(_objeto){\r",
