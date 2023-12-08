@@ -29,10 +29,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     $scope.enviarCarta = function() {
         doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, 
             function(datos) { 
-                $scope.properties.mensajeResultadoDeEnvio = "¡Se envio el correo correctamente!"; 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += " ¡Se envio el correo correctamente!";
+                }
+                else $scope.properties.mensajeResultadoDeEnvio =  "¡Se envio el correo correctamente!";
             },
             function(datos) { 
-                $scope.properties.mensajeResultadoDeEnvio = "Algo falló al enviar el correo.";
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += " Algo falló al enviar el correo.";
+                }
+                else $scope.properties.mensajeResultadoDeEnvio =  "Algo falló al enviar el correo.";
             }
         );
     }
@@ -165,6 +171,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $log.log('Impossible to retrieve the task id value from the URL');
             }
     }
+
+    // Se espera que solo se ejecute la tarea de Validar solicitud.
     function doRequest(method, url, params) {
         let dataToSend = angular.copy($scope.properties.dataToSend);
         vm.busy = true;
@@ -189,7 +197,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
               redirectIfNeeded();
             }
-            
+            // Eliminar los requisitos adicionales de la tabla auxiliar
+            if ($scope.properties.deleteRequisitosAuxiliaresAllowed) {
+                deleteRequisitos();
+            }
             // Cerrar modal
             closeModal($scope.properties.closeOnSuccess);
           })
@@ -224,6 +235,50 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         return $http(req)
             .success(function(data, status) {
                 callbackSuccess(data)
+            })
+            .error(function(data, status) {
+                callbackError(data);
+                console.error(data);
+            })
+            .finally(function() {
+                vm.busy = false;
+            });
+    }
+
+    function deleteRequisitos() {
+        const dataToUpdate = {
+            confirmarLimpiarLista: true,
+            caseid: $scope.properties.caseid,
+            requisitosAdicionalesCatalogos: [],
+        };
+        doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, dataToUpdate, 
+            function(datos, status) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += " Los requisitos fueron procesados correctamente."
+                }
+                else $scope.properties.mensajeResultadoDeEnvio = "Los requisitos fueron procesados correctamente."
+            },
+            function(datos) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += " Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
+                }
+                else $scope.properties.mensajeResultadoDeEnvio = "Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
+            }
+        );
+    }
+
+    function doRequestUpdate(method, url, params, dataToSend, callbackSuccess, callbackError) {
+        vm.busy = true;
+        var req = {
+            method: method,
+            url: url,
+            data: dataToSend,
+            params: params
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+                callbackSuccess(data, status)
             })
             .error(function(data, status) {
                 callbackError(data);

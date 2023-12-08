@@ -12,31 +12,15 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     $scope.updateRequisitos = function() {
         doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
-            function(datos) { 
+            function(datos, status) { 
                 closeModal(true);
                 location.reload();
+                /* AQUI SE ENVIABA LA RESPUESTA DEL UPDATE -> para hacer un reload de la informacion y para notificar respuesta...
+                if (status) {
+                    $scope.properties.updateResponseStatusCode = status    
+                }
+                else $scope.properties.updateResponseStatusCode = "200"*/
                 
-                /*
-                var req = {
-                  method: "GET",
-                  url: "/API/extension/posgradosRestGet?url=getRequisitosAdicionalesAuxiliar&caseid=" + $scope.properties.caseid,
-                  data: null,
-                  params: params
-                };
-            
-                $http(req)
-                  .success(function(data, status) {
-                    
-                    $scope.properties.cartaDatos = data;
-                    
-                  })
-                  .error(function(data, status) {
-                    
-                  })
-                  .finally(function() {
-                    
-                  });*/
-                //$scope.properties.cartaDatos = 
             },
             function(datos) { 
                 
@@ -218,7 +202,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
             .success(function(data, status) {
-                callbackSuccess(data)
+                callbackSuccess(data, status)
             })
             .error(function(data, status) {
                 callbackError(data);
