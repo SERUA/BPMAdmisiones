@@ -6,7 +6,13 @@ function($scope, $http, blockUI, $window) {
     };
 
     $scope.seleccionarHorario = function (_horario){
+        debugger;
         $scope.horario = _horario;
+        $scope.responsable = _horario.cita_entrevista.responsable_id;
+        var responsablesArray = $scope.responsable.split(',').map(Number);
+        $scope.responsable = responsablesArray[Math.floor(Math.random() * responsablesArray.length)].toString();
+
+
         let horario = _horario.hora_inicio + " - " + _horario.hora_fin
         
         swal({
@@ -20,8 +26,10 @@ function($scope, $http, blockUI, $window) {
         }).then(function (isConfirm) {
             if (isConfirm) {
                 swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
+                    debugger;
                     if ($scope.properties.cita) {
                         $scope.properties.cita.cita_horario = angular.copy($scope.horario);
+                        $scope.properties.cita.cita_horario.cita_entrevista.persistenceId_string = angular.copy($scope.responsable);
                     }
                     else {
                         $scope.properties.cita = {

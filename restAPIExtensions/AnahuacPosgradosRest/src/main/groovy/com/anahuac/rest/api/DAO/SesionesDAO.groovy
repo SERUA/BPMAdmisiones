@@ -99,7 +99,7 @@ class SesionesDAO {
 				row.setFecha_entrevista(convertirFecha(rs.getString("fecha_entrevista")));
 				row.setNombre(rs.getString("nombre"));
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
-				
+				row.setResponsable_id(rs.getString("responsable_id"));
 				rows.add(row);
 			}
 			
@@ -199,6 +199,7 @@ class SesionesDAO {
 				sesion.setNombre(rs.getString("nombre"));
 				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				sesion.setFecha_entrevista(rs.getString("fecha_entrevista"));
+				sesion.setResponsable_id(rs.getString("persistenceId_string"));	
 				row.put("cita_entrevista", sesion);
 				row.put("persistenceId", rs.getLong("persistenceid"));
 				row.put("persistenceId_string", rs.getString("persistenceid"));
