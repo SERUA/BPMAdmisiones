@@ -14,12 +14,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
             function(datos, status) { 
                 closeModal(true);
-                location.reload();
-                /* AQUI SE ENVIABA LA RESPUESTA DEL UPDATE -> para hacer un reload de la informacion y para notificar respuesta...
+                //location.reload();
                 if (status) {
-                    $scope.properties.updateResponseStatusCode = status    
+                    $scope.properties.updateResponseStatusCode = status   
                 }
-                else $scope.properties.updateResponseStatusCode = "200"*/
+                else $scope.properties.updateResponseStatusCode = "200"
                 
             },
             function(datos) { 

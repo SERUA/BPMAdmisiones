@@ -26,19 +26,65 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
     };
 
-    $scope.enviarCarta = function() {
+    function enviarCarta() {
         doRequestCarta("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, 
             function(datos) { 
                 if ($scope.properties.mensajeResultadoDeEnvio) {
-                    $scope.properties.mensajeResultadoDeEnvio += " ¡Se envio el correo correctamente!";
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✔ El correo se envió correctamente.";
                 }
-                else $scope.properties.mensajeResultadoDeEnvio =  "¡Se envio el correo correctamente!";
+                else $scope.properties.mensajeResultadoDeEnvio =  "✔ El correo se envió correctamente.";
             },
             function(datos) { 
                 if ($scope.properties.mensajeResultadoDeEnvio) {
-                    $scope.properties.mensajeResultadoDeEnvio += " Algo falló al enviar el correo.";
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✖ Algo falló al enviar el correo.";
                 }
-                else $scope.properties.mensajeResultadoDeEnvio =  "Algo falló al enviar el correo.";
+                else $scope.properties.mensajeResultadoDeEnvio =  "✖ Algo falló al enviar el correo.";
+            }
+        );
+    }
+
+    function guardarComentario() {
+        if ($scope.properties.comentarioDataToSend && $scope.properties.comentarioDataToSend.mensaje !== null) {
+            const dataToSend = {
+                content: JSON.stringify($scope.properties.comentarioDataToSend),
+                processInstanceId: $scope.properties.caseid,
+            };
+            doRequestAddCaseComment("POST","/API/bpm/comment/", null, dataToSend, 
+            function(datos) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✔ El comentario de caso fue guardado correctamente.";
+                }
+                else $scope.properties.mensajeResultadoDeEnvio =  "✔ El comentario de caso fue guardado correctamente.";
+            },
+            function(datos) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✖ Algo falló al intentar guardar el comentario de caso.";
+                }
+                else $scope.properties.mensajeResultadoDeEnvio =  "✖ Algo falló al intentar guardar el comentario de caso.";
+            }  
+            );
+        }
+        
+    }
+
+    function deleteRequisitos() {
+        const dataToUpdate = {
+            confirmarLimpiarLista: true,
+            caseid: $scope.properties.caseid,
+            requisitosAdicionalesCatalogos: [],
+        };
+        doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, dataToUpdate, 
+            function(datos, status) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✔ Los requisitos fueron procesados correctamente."
+                }
+                else $scope.properties.mensajeResultadoDeEnvio = "✔ Los requisitos fueron procesados correctamente."
+            },
+            function(datos) { 
+                if ($scope.properties.mensajeResultadoDeEnvio) {
+                    $scope.properties.mensajeResultadoDeEnvio += "\n✖ Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
+                }
+                else $scope.properties.mensajeResultadoDeEnvio = "✖ Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
             }
         );
     }
@@ -187,7 +233,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
           .success(function(data, status) {
             // Enviar carta
             if ($scope.properties.cartaDatos) {
-                $scope.enviarCarta();   
+                enviarCarta();   
             }
             // Guardar datos 
             $scope.properties.dataFromSuccess = "success";
@@ -201,6 +247,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             if ($scope.properties.deleteRequisitosAuxiliaresAllowed) {
                 deleteRequisitos();
             }
+            // Guardar el mensaje de la carta en el historial de comentarios. (Comentario de area academica).
+            guardarComentario();
             // Cerrar modal
             closeModal($scope.properties.closeOnSuccess);
           })
@@ -222,8 +270,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
           .finally(function() {
             vm.busy = false;
           });
-      }
-      function doRequestCarta(method, url, params, dataToSend, callbackSuccess, callbackError) {
+    }
+
+    function doRequestCarta(method, url, params, dataToSend, callbackSuccess, callbackError) {
         vm.busy = true;
         var req = {
             method: method,
@@ -245,28 +294,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             });
     }
 
-    function deleteRequisitos() {
-        const dataToUpdate = {
-            confirmarLimpiarLista: true,
-            caseid: $scope.properties.caseid,
-            requisitosAdicionalesCatalogos: [],
-        };
-        doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, dataToUpdate, 
-            function(datos, status) { 
-                if ($scope.properties.mensajeResultadoDeEnvio) {
-                    $scope.properties.mensajeResultadoDeEnvio += " Los requisitos fueron procesados correctamente."
-                }
-                else $scope.properties.mensajeResultadoDeEnvio = "Los requisitos fueron procesados correctamente."
-            },
-            function(datos) { 
-                if ($scope.properties.mensajeResultadoDeEnvio) {
-                    $scope.properties.mensajeResultadoDeEnvio += " Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
-                }
-                else $scope.properties.mensajeResultadoDeEnvio = "Los requisitos auxiliares no fueron eliminados. Avisar al administrador."
-            }
-        );
-    }
-
     function doRequestUpdate(method, url, params, dataToSend, callbackSuccess, callbackError) {
         vm.busy = true;
         var req = {
@@ -279,6 +306,28 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         return $http(req)
             .success(function(data, status) {
                 callbackSuccess(data, status)
+            })
+            .error(function(data, status) {
+                callbackError(data);
+                console.error(data);
+            })
+            .finally(function() {
+                vm.busy = false;
+            });
+    }
+
+    function doRequestAddCaseComment(method, url, params, dataToSend, callbackSuccess, callbackError) {
+        vm.busy = true;
+        var req = {
+            method: method,
+            url: url,
+            data: dataToSend,
+            params: params
+        };
+
+        return $http(req)
+            .success(function(data, status) {
+                callbackSuccess(data)
             })
             .error(function(data, status) {
                 callbackError(data);
