@@ -22,6 +22,7 @@ import com.anahuac.rest.api.DAO.UsuariosDAO
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.AppMenuRole
 import com.anahuac.rest.api.Entity.db.Role
+import com.anahuac.rest.api.security.SecurityFilter
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.bonitasoft.web.extension.rest.RestApiController
@@ -47,6 +48,12 @@ class Index implements RestApiController {
         if (url == null) {
             return buildResponse(responseBuilder, HttpServletResponse.SC_BAD_REQUEST,"""{"error" : "the parameter url is missing"}""")
         }
+		
+//		SecurityFilter security = new SecurityFilter();
+//		Result resultadoFiltro = security.allowedUrl(context, url);
+//		if(!resultadoFiltro.isSuccess()){
+//			return buildResponse(responseBuilder, HttpServletResponse.SC_FORBIDDEN,"""{"error" : "No tienes permisos"}""")
+//		}
 		
 		//VARIABLES===========================================================
 		Integer parameterP = Integer.valueOf(p);

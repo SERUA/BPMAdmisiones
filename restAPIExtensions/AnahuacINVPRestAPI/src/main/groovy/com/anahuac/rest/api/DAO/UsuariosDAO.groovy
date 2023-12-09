@@ -1942,6 +1942,7 @@ class UsuariosDAO {
 //			} else if(object.campus != null) {
 //				where += " AND ccam.grupobonita = '" + object.campus + "'"
 //			}
+			
 			where += " ) OR (temp.username IS NOT NULL AND (CASE WHEN sesq.sesiones_pid IS NOT NULL THEN ctpr.descripcion = 'Examen Psicométrico'  ELSE true END ) ) )";
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
@@ -1953,8 +1954,8 @@ class UsuariosDAO {
 							where += " WHERE "
 						}
 //						where += " ( prue.sesion_pid = [valor] )";
-						where += "( ( sesq.sesiones_pid = [valor] )";
-						where += "OR ( temp.idprueba = [valor] ) ";
+						where += "( (( sesq.sesiones_pid = [valor] )";
+						where += "OR ( temp.idprueba = [valor] ) )";
 						where = where.replace("[valor]", filtro.get("valor"));
 						idprueba = filtro.get("valor");
 						
@@ -2137,7 +2138,7 @@ class UsuariosDAO {
 					orderBy = " ORDER BY extr.fechafin " + object.orientation;
 				break;
 				default:
-					orderBy = " ORDER BY creg.caseid " + object.orientation;
+					orderBy = " ORDER BY creg.apellidopaterno " + object.orientation;
 				break;
 			}
 			
