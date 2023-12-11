@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1702324145567,
+  "lastUpdate" : 1702334465310,
   "rows" : [
     [
       {
@@ -3329,6 +3329,58 @@
                             "propertyValues" : {
                               "cssClasses" : {
                                 "type" : "constant",
+                                "value" : "text-danger"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "!idBannerValidacionDuplicado"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "ID Banner duplicado"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "6fb00702-3441-4a02-9d66-58c70152b744",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
                                 "value" : "input-etiqueta"
                               },
                               "hidden" : {
@@ -5253,7 +5305,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "$form.$invalid || guardarRequisitosExistenCambios"
+                          "value" : "$form.$invalid || guardarRequisitosExistenCambios || idBannerValidacionDuplicado"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -19995,7 +20047,7 @@
                     "value" : "pg_ver_solicitud_admision"
                   }
                 },
-                "reference" : "953e6080-841e-473e-aa4b-22bdfe7929a3",
+                "reference" : "53764bad-a538-4515-8621-7fc6cbff8b27",
                 "hasValidationError" : false,
                 "id" : "customPSGRTableSolicitudesDuplicadas"
               }
@@ -26878,7 +26930,7 @@
         "addParam(\"apellido_paterno\", $data.registro.apellido_paterno ? $data.registro.apellido_paterno : null);",
         "addParam(\"apellido_materno\", $data.registro.apellido_materno ? $data.registro.apellido_materno : null);",
         "addParam(\"curp\", $data.datosPersonales.curp ? $data.datosPersonales.curp : null);",
-        "addParam(\"id_banner\", $data.datosPersonales.id_banner ? $data.datosPersonales.id_banner : null);",
+        "addParam(\"id_banner\", $data.idBannerParametro ? $data.idBannerParametro : null);",
         "addParam(\"pasaporte\", $data.datosPersonales.pasaporte ? $data.datosPersonales.pasaporte : null);",
         "",
         "return url;",
@@ -27019,7 +27071,7 @@
         "    }",
         "});",
         "",
-        "if (requisitosSeleccionados.length === 0 && updateRequisitosForm.requisitos_adicionales_disponibles.length === 0) {",
+        "if (requisitosSeleccionados.length === 0 && $data.updateRequisitosForm.requisitos_adicionales_disponibles.length > 0) {",
         "    return {",
         "        confirmarLimpiarLista: true,",
         "        caseid: $data.registro.caseid ? $data.registro.caseid : null,",
@@ -27408,6 +27460,35 @@
         "return {",
         "    caseId: $data.solicitudDuplicadaSelected.caseid",
         "};"
+      ],
+      "exposed" : false
+    },
+    "idBannerValidacionDuplicado" : {
+      "type" : "expression",
+      "value" : [
+        "let duplicado = false;",
+        "$data.solicitudesDuplicadas.forEach(item => {",
+        "    if (item.id_banner === $data.validarFormInput.registroInput.id_banner_validacion) {",
+        "        duplicado = true;",
+        "    }",
+        "})",
+        "return duplicado;"
+      ],
+      "exposed" : false
+    },
+    "idBannerParametro" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "UpdateIdBannerParametro" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.validarFormInput.registroInput.id_banner_validacion.length === 8) {",
+        "    $data.idBannerParametro = $data.validarFormInput.registroInput.id_banner_validacion;",
+        "}"
       ],
       "exposed" : false
     }
