@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1702083439048,
+  "lastUpdate" : 1702324145567,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "solicitudesDuplicadas:\n<pre>{{solicitudesDuplicadas| json}}</pre>"
+            "value" : "solicitudesDuplicadas:\n<pre>{{solicitudesDuplicadas| json}}</pre>\n\nsolicitudesDuplicadasFormateadas:\n<pre>{{solicitudesDuplicadasFormateadas| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -3958,7 +3958,7 @@
                                       {
                                         "type" : "component",
                                         "dimension" : {
-                                          "xs" : 4,
+                                          "xs" : 12,
                                           "sm" : 5,
                                           "md" : 6,
                                           "lg" : 6
@@ -4008,7 +4008,7 @@
                                       {
                                         "type" : "component",
                                         "dimension" : {
-                                          "xs" : 6,
+                                          "xs" : 10,
                                           "sm" : 5,
                                           "md" : 4,
                                           "lg" : 4
@@ -4058,8 +4058,8 @@
                                       {
                                         "type" : "component",
                                         "dimension" : {
-                                          "xs" : 12,
-                                          "sm" : 12,
+                                          "xs" : 2,
+                                          "sm" : 2,
                                           "md" : 2,
                                           "lg" : 2
                                         },
@@ -4386,8 +4386,8 @@
                                                         "value" : "selectedFile"
                                                       },
                                                       "tipoDocumento" : {
-                                                        "type" : "constant",
-                                                        "value" : "pdf"
+                                                        "type" : "expression",
+                                                        "value" : "$item.tipo_de_archivo_aceptado"
                                                       },
                                                       "requiereEjemplo" : {
                                                         "type" : "constant",
@@ -4410,15 +4410,15 @@
                                                   {
                                                     "type" : "component",
                                                     "dimension" : {
-                                                      "xs" : 12,
-                                                      "sm" : 12,
-                                                      "md" : 12,
-                                                      "lg" : 12
+                                                      "xs" : 6,
+                                                      "sm" : 6,
+                                                      "md" : 6,
+                                                      "lg" : 6
                                                     },
                                                     "propertyValues" : {
                                                       "cssClasses" : {
                                                         "type" : "constant",
-                                                        "value" : ""
+                                                        "value" : "text-muted text-uppercase"
                                                       },
                                                       "hidden" : {
                                                         "type" : "constant",
@@ -4446,7 +4446,57 @@
                                                       },
                                                       "text" : {
                                                         "type" : "interpolation",
-                                                        "value" : "{{$item.requiere_documento ? \"(Requerido) *\" : \"(Opcional)\"}}"
+                                                        "value" : "<small>{{$item.tipo_de_archivo_aceptado}}</small>"
+                                                      },
+                                                      "alignment" : {
+                                                        "type" : "constant",
+                                                        "value" : "left"
+                                                      }
+                                                    },
+                                                    "reference" : "a47c0db1-5c52-4d33-b97d-d9770b09181a",
+                                                    "hasValidationError" : false,
+                                                    "id" : "pbText"
+                                                  },
+                                                  {
+                                                    "type" : "component",
+                                                    "dimension" : {
+                                                      "xs" : 6,
+                                                      "sm" : 6,
+                                                      "md" : 6,
+                                                      "lg" : 6
+                                                    },
+                                                    "propertyValues" : {
+                                                      "cssClasses" : {
+                                                        "type" : "constant",
+                                                        "value" : "text-muted"
+                                                      },
+                                                      "hidden" : {
+                                                        "type" : "constant",
+                                                        "value" : false
+                                                      },
+                                                      "labelHidden" : {
+                                                        "type" : "constant",
+                                                        "value" : true
+                                                      },
+                                                      "label" : {
+                                                        "type" : "interpolation",
+                                                        "value" : "Default label"
+                                                      },
+                                                      "labelPosition" : {
+                                                        "type" : "constant",
+                                                        "value" : "top"
+                                                      },
+                                                      "labelWidth" : {
+                                                        "type" : "constant",
+                                                        "value" : 4
+                                                      },
+                                                      "allowHTML" : {
+                                                        "type" : "constant",
+                                                        "value" : true
+                                                      },
+                                                      "text" : {
+                                                        "type" : "interpolation",
+                                                        "value" : "<small>{{$item.requiere_documento ? \"Documento requerido *\" : \"Documento opcional\"}}</small>"
                                                       },
                                                       "alignment" : {
                                                         "type" : "constant",
@@ -5337,7 +5387,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<br>Existen cambios en los requisitos adicionales. Cancela o guarda los cambios para habilitar los botones."
+                          "value" : "<br>Existen cambios en los requisitos adicionales. Cancela o Guarda los cambios para habilitar los botones."
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -19895,12 +19945,14 @@
                   "headers" : {
                     "type" : "constant",
                     "value" : [
-                      "Nombre",
-                      "Apellido paterno",
-                      "Apellido materno",
+                      "Nombre completo",
                       "CURP",
                       "Pasaporte",
                       "ID Banner",
+                      "Campus",
+                      "Posgrado",
+                      "Programa",
+                      "Periodo",
                       "Fecha de registro"
                     ]
                   },
@@ -19911,12 +19963,14 @@
                   "columnsKey" : {
                     "type" : "constant",
                     "value" : [
-                      "nombre",
-                      "apellido_paterno",
-                      "apellido_materno",
+                      "nombre_completo",
                       "curp",
                       "pasaporte",
                       "id_banner",
+                      "campus_clave",
+                      "posgrado_clave",
+                      "programa_interes_clave",
+                      "periodo_ingreso",
                       "fecha_registro | uiDate"
                     ]
                   },
@@ -19935,11 +19989,15 @@
                   "bordered" : {
                     "type" : "constant",
                     "value" : false
+                  },
+                  "abrirPagina" : {
+                    "type" : "constant",
+                    "value" : "pg_ver_solicitud_admision"
                   }
                 },
-                "reference" : "76de67d8-5819-4073-9972-bdd7604a6523",
+                "reference" : "953e6080-841e-473e-aa4b-22bdfe7929a3",
                 "hasValidationError" : false,
-                "id" : "pbTable"
+                "id" : "customPSGRTableSolicitudesDuplicadas"
               }
             ],
             [
@@ -20000,78 +20058,8 @@
                 "dimension" : {
                   "xs" : 12,
                   "sm" : 12,
-                  "md" : 6,
-                  "lg" : 6
-                },
-                "propertyValues" : {
-                  "cssClasses" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "hidden" : {
-                    "type" : "expression",
-                    "value" : "!solicitudDuplicadaSelected"
-                  },
-                  "text" : {
-                    "type" : "interpolation",
-                    "value" : "Ver solicitud seleccionada"
-                  },
-                  "type" : {
-                    "type" : "constant",
-                    "value" : "page"
-                  },
-                  "targetUrl" : {
-                    "type" : "constant",
-                    "value" : "http://"
-                  },
-                  "pageToken" : {
-                    "type" : "constant",
-                    "value" : "pg_ver_solicitud_admision"
-                  },
-                  "processName" : {
-                    "type" : "constant"
-                  },
-                  "processVersion" : {
-                    "type" : "constant"
-                  },
-                  "taskId" : {
-                    "type" : "constant"
-                  },
-                  "caseId" : {
-                    "type" : "constant"
-                  },
-                  "target" : {
-                    "type" : "constant",
-                    "value" : "_blank"
-                  },
-                  "appToken" : {
-                    "type" : "constant",
-                    "value" : "posgrados"
-                  },
-                  "urlParams" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "alignment" : {
-                    "type" : "constant",
-                    "value" : "left"
-                  },
-                  "buttonStyle" : {
-                    "type" : "constant",
-                    "value" : "default"
-                  }
-                },
-                "reference" : "1f73e2db-ff9f-47ef-98dd-7902afab24d2",
-                "hasValidationError" : false,
-                "id" : "pbLink"
-              },
-              {
-                "type" : "component",
-                "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
-                  "md" : 6,
-                  "lg" : 6
+                  "md" : 12,
+                  "lg" : 12
                 },
                 "propertyValues" : {
                   "cssClasses" : {
@@ -20092,7 +20080,7 @@
                   },
                   "alignment" : {
                     "type" : "constant",
-                    "value" : "right"
+                    "value" : "center"
                   },
                   "buttonStyle" : {
                     "type" : "constant",
@@ -26910,19 +26898,6 @@
       "type" : "constant",
       "exposed" : false
     },
-    "contenidoTablaDuplicados" : {
-      "type" : "expression",
-      "value" : [
-        "let data = $data.solicitudesDuplicadas;",
-        "",
-        "return data.map((item) => {",
-        "    return {",
-        "        nombre: item.nombre + \"\\n\" + ",
-        "    }",
-        "});"
-      ],
-      "exposed" : false
-    },
     "requisitosAdicionalesDisponibles" : {
       "type" : "businessdata",
       "value" : [
@@ -26953,23 +26928,21 @@
       "type" : "expression",
       "value" : [
         "let copy = $data.solicitudesDuplicadas.map((item) => {",
-        "    return item;",
+        "    ",
+        "    let copyObj = Object.assign({}, item);",
+        "",
+        "    for (let clave in copyObj) {",
+        "        if (!copyObj[clave]) {",
+        "            copyObj[clave] = \"n/a\"",
+        "        }",
+        "    }",
+        "    ",
+        "    copyObj.nombre_completo = item.nombre + \" \" + item.apellido_paterno + \" \" + item.apellido_materno;",
+        "    ",
+        "    return copyObj;",
         "});",
-        "copy.forEach((item) => {",
-        "    if (!item.apellido_materno){",
-        "        item.apellido_materno = \"n/a\";",
-        "    }",
-        "    if (!item.id_banner){",
-        "        item.id_banner = \"n/a\";",
-        "    }",
-        "    if (!item.curp){",
-        "        item.curp = \"n/a\";",
-        "    }",
-        "    if (!item.pasaporte){",
-        "        item.pasaporte = \"n/a\";",
-        "    }",
-        "})",
-        "return copy"
+        "",
+        "return copy;"
       ],
       "exposed" : false
     },

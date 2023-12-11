@@ -871,6 +871,11 @@ class SolicitudDeAdmisionDAO {
 			
 			while (rs.next()) {
 				row = new HashMap<String, Object>();
+				row.put("caseid", rs.getString("caseid"));
+				row.put("campus_clave", rs.getString("campus_clave"));
+				row.put("posgrado_clave", rs.getString("posgrado_clave"));
+				row.put("programa_interes_clave", rs.getString("programa_interes_clave"));
+				row.put("periodo_ingreso", rs.getString("periodo_ingreso"));
 				row.put("nombre", rs.getString("nombre"));
 				row.put("apellido_paterno", rs.getString("apellido_paterno"));
 				row.put("apellido_materno", rs.getString("apellido_materno"));
