@@ -14,7 +14,6 @@ function PbButtonCtrl($scope, $http) {
     };
 
     function accionCatalogo(_url){
-        debugger;
         vm.busy = true;
         $http.post(_url, $scope.properties.dataToSend).success(function(_response){
             swal("OK", "Guardado correctamente", "success");

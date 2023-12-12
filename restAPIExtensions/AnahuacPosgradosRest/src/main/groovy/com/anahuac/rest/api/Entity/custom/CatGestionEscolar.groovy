@@ -38,6 +38,7 @@ class CatGestionEscolar {
 	private Long orden;
 	private String posgrado;
 	private String periodo;
+	private String tipo_de_archivo;
 	
 	
 	public Long getPersistenceId() {
@@ -231,6 +232,12 @@ class CatGestionEscolar {
 	}
 	public void setEs_opcional(Boolean es_opcional) {
 		this.es_opcional = es_opcional;
+	}
+	public String getTipo_de_archivo() {
+		return tipo_de_archivo;
+	}
+	public void setTipo_de_archivo(String tipo_de_archivo) {
+		this.tipo_de_archivo = tipo_de_archivo;
 	}
 	public Long getPosgrado_pid() {
 		return posgrado_pid;

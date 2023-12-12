@@ -7319,6 +7319,8 @@ class CatalogosDAO {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
 			}  else if(object.nombre_documento.equals("") || object.nombre_documento == null) {
 				throw new Exception("El campo \"nombre_documento\" no debe ir vacío");
+			}  else if(object.tipo_de_archivo.equals("") || object.tipo_de_archivo == null) {
+				throw new Exception("El campo \"tipo_de_archivo\" no debe ir vacío");
 			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATDOCUMENTOS);
@@ -7330,8 +7332,9 @@ class CatalogosDAO {
 			String fechaHoraFormateada = formato.format(timestampActual);
 			pstm.setString(4, fechaHoraFormateada);
 			pstm.setBoolean(5, object.es_opcional);
-			pstm.setLong(6, object.campus_pid.persistenceId);
-			pstm.setLong(7, object.posgrado_pid.persistenceId);
+			pstm.setString(6, object.tipo_de_archivo);
+			pstm.setLong(7, object.campus_pid.persistenceId);
+			pstm.setLong(8, object.posgrado_pid.persistenceId);
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
 			} else {
@@ -7367,18 +7370,17 @@ class CatalogosDAO {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
 			} else if(object.nombre_documento.equals("") || object.nombre_documento == null) {
 				throw new Exception("El campo \"nombre_documento\" no debe ir vacío");
+			} else if(object.tipo_de_archivo.equals("") || object.tipo_de_archivo == null) {
+				throw new Exception("El campo \"tipo_de_archivo\" no debe ir vacío");
 			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATDOCUMENTOS);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.descripcion);
 			pstm.setString(3, object.nombre_documento);
-//			pstm.setLong(4, Long.valueOf(object.fecha_creacion_date));
 			pstm.setBoolean(4, object.es_opcional);
-			pstm.setLong(5, object.persistenceId);
-//			pstm.setLong(6, Long.valueOf(object.is_eliminado));
-//			pstm.setLong(7, Long.valueOf(object.campus_pid));
-//			pstm.setLong(7, Long.valueOf(object.posgrado_pid));
+			pstm.setString(5, object.tipo_de_archivo);
+			pstm.setLong(6, object.persistenceId);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -7558,6 +7560,7 @@ class CatalogosDAO {
 				row.setFecha_creacion_date(rs.getString("fecha_creacion_date"));
 //				row.setFechaCreacion(rs.getString("fecha_creacion"));
 				row.setEs_opcional(rs.getBoolean("es_opcional"));
+				row.setTipo_de_archivo(rs.getString("tipo_de_archivo"))
 				row.setCampus_pid(rs.getLong("campus_pid"))
 				row.setPersistenceId(rs.getLong("persistenceId"))
 				
