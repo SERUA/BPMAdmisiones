@@ -2111,7 +2111,7 @@ class UsuariosDAO {
 					orderBy = " ORDER BY dets.idbanner " + object.orientation;
 				break;
 				case "nombre":
-					orderBy = " ORDER BY creg.primernombre " + object.orientation;
+					orderBy = " ORDER BY creg.apellidopaterno " + object.orientation;
 				break;
 				case "uni":
 					orderBy = " ORDER BY ccam.descripcion " + object.orientation;
@@ -2124,12 +2124,6 @@ class UsuariosDAO {
 				break;
 				case "correo":
 					orderBy = " ORDER BY creg.correoelectronico " + object.orientation;
-				break;
-				case "preguntas":
-					orderBy = " ORDER BY total_preguntas " + object.orientation;
-				break;
-				case "contestadas":
-					orderBy = " ORDER BY total_respuestas " + object.orientation;
 				break;
 				case "inicio":
 					orderBy = " ORDER BY extr.fechainicio " + object.orientation;

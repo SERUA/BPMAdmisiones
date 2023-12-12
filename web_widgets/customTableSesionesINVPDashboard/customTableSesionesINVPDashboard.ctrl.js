@@ -456,6 +456,17 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest("POST", $scope.properties.urlPost);
     }
 
+    $scope.setOrderByAsp = function (order) {
+        if ($scope.properties.dataToSendAsp.orderby == order) {
+            $scope.properties.dataToSendAsp.orientation = ($scope.properties.dataToSendAsp.orientation == "ASC") ? "DESC" : "ASC";
+        } else {
+            $scope.properties.dataToSendAsp.orderby = order;
+            $scope.properties.dataToSendAsp.orientation = "ASC";
+        }
+        
+        getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
+
     $scope.filterKeyPressAspirantes = function(columna, press) {
         var aplicado = true;
 

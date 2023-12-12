@@ -256,11 +256,12 @@ function($scope, $http) {
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    if(data === null ){
-                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/"
-                    } else if(data.error === "test_end"){
-                        window.location.reload();
-                    }
+                    window.location.reload();
+                    // if(data === null ){
+                    //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/"
+                    // } else if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // }
                 });
             })
             .finally(function() {
@@ -306,11 +307,12 @@ function($scope, $http) {
                     html:mensaje, 
                     showCloseButton: false
                 }).then((result)=>{
-                    if(data === null ){
-                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
-                    } else if(data.error === "test_end"){
-                        window.location.reload();
-                    }
+                    window.location.reload();
+                    // if(data === null ){
+                    //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
+                    // } else if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // }
                 });
             })
             .finally(function() {
