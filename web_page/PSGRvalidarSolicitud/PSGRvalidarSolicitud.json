@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1702334465310,
+  "lastUpdate" : 1702424023133,
   "rows" : [
     [
       {
@@ -412,7 +412,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "updateRequisitosFormOutput:\n<pre>{{updateRequisitosFormOutput| json}}</pre>\n\nguardarRequisitosForm:\n<pre>{{guardarRequisitosForm| json}}</pre>\n\nguardarRequisitosFormOutput:\n<pre>{{guardarRequisitosFormOutput| json}}</pre>\n\nvalidarFormInput:\n<pre>{{validarFormInput| json}}</pre>\n\ncontratoOutputAprobar\n<pre>{{contratoOutputAprobar| json}}</pre>"
+            "value" : "validarFormInput:\n<pre>{{validarFormInput| json}}</pre>\n\ncontratoOutputAprobar\n<pre>{{contratoOutputAprobar| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -472,58 +472,6 @@
           }
         },
         "reference" : "d7b31fcd-8600-4580-8eec-e68a9c6f887c",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "contratoOutputAprobar:\n<pre>{{contratoOutputAprobar| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "4d94b965-d0e2-4e8b-b20c-40dfbde466a6",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -27290,7 +27238,11 @@
       "value" : [
         "../{{context.datosRequisitosAdicionales_ref.link}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "requisitosAdicionalesReloadCount" : {
@@ -27468,7 +27420,7 @@
       "value" : [
         "let duplicado = false;",
         "$data.solicitudesDuplicadas.forEach(item => {",
-        "    if (item.id_banner === $data.validarFormInput.registroInput.id_banner_validacion) {",
+        "    if (item.id_banner_validacion === $data.validarFormInput.registroInput.id_banner_validacion && item.caseid != $data.caseId) {",
         "        duplicado = true;",
         "    }",
         "})",

@@ -880,7 +880,7 @@ class SolicitudDeAdmisionDAO {
 				row.put("apellido_paterno", rs.getString("apellido_paterno"));
 				row.put("apellido_materno", rs.getString("apellido_materno"));
 				row.put("curp", rs.getString("curp"));
-				row.put("id_banner", rs.getString("id_banner"));
+				row.put("id_banner_validacion", rs.getString("id_banner_validacion"));
 				row.put("fecha_registro", rs.getString("fecha_registro"));
 				row.put("pasaporte", rs.getString("pasaporte"));
 				
