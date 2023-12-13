@@ -383,6 +383,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
             ctrl.filename = array[array.length - 1];
             this.uploadComplete = true;
             $scope.downloadFile2();
+            $scope.fileSelectModel = true;
         } 
         else {
             clear()

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1702344198432,
+  "lastUpdate" : 1702417941159,
   "rows" : [
     [
       {
@@ -88,7 +88,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "datosDocumentos\n<pre>{{datosDocumentos| json}}</pre>"
+            "value" : "datosPersonales\n<pre>{{datosPersonales | json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -140,7 +140,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "selectedFile \n<pre>{{selectedFile | json}}</pre>"
+            "value" : "$data.task\n<pre>{{task| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -2607,7 +2607,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"MEX\""
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -2684,7 +2684,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"MEX\""
                                   },
                                   "text" : {
                                     "type" : "interpolation",
@@ -2753,7 +2753,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave === \"ME\""
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave === \"MEX\""
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -8669,9 +8669,9 @@
                           "type" : "component",
                           "dimension" : {
                             "xs" : 6,
-                            "sm" : 7,
-                            "md" : 6,
-                            "lg" : 7
+                            "sm" : 5,
+                            "md" : 7,
+                            "lg" : 8
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -8718,59 +8718,9 @@
                         {
                           "type" : "component",
                           "dimension" : {
-                            "xs" : 2,
-                            "sm" : 2,
-                            "md" : 2,
-                            "lg" : 1
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "<b><br>Tamaño</b>"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "5f3e2e04-b85d-44e3-bea0-be186c69550d",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        },
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 4,
-                            "sm" : 3,
-                            "md" : 4,
+                            "xs" : 12,
+                            "sm" : 7,
+                            "md" : 5,
                             "lg" : 4
                           },
                           "propertyValues" : {
@@ -8903,9 +8853,9 @@
                           "type" : "component",
                           "dimension" : {
                             "xs" : 12,
-                            "sm" : 12,
-                            "md" : 5,
-                            "lg" : 7
+                            "sm" : 5,
+                            "md" : 7,
+                            "lg" : 8
                           },
                           "propertyValues" : {
                             "cssClasses" : {
@@ -8950,60 +8900,10 @@
                           "id" : "pbText"
                         },
                         {
-                          "type" : "component",
+                          "type" : "container",
                           "dimension" : {
                             "xs" : 12,
-                            "sm" : 12,
-                            "md" : 2,
-                            "lg" : 1
-                          },
-                          "propertyValues" : {
-                            "cssClasses" : {
-                              "type" : "constant",
-                              "value" : ""
-                            },
-                            "hidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Default label"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "allowHTML" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "text" : {
-                              "type" : "interpolation",
-                              "value" : "{{ $item.tamano_documento ? row.tamano_documento : \"0 KB\"  }}"
-                            },
-                            "alignment" : {
-                              "type" : "constant",
-                              "value" : "left"
-                            }
-                          },
-                          "reference" : "84e2a191-bf3e-482b-afc8-1af8b21cb704",
-                          "hasValidationError" : false,
-                          "id" : "pbText"
-                        },
-                        {
-                          "type" : "component",
-                          "dimension" : {
-                            "xs" : 12,
-                            "sm" : 12,
+                            "sm" : 7,
                             "md" : 5,
                             "lg" : 4
                           },
@@ -9016,102 +8916,234 @@
                               "type" : "constant",
                               "value" : false
                             },
-                            "required" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "labelHidden" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "label" : {
-                              "type" : "interpolation",
-                              "value" : "Documento"
-                            },
-                            "labelPosition" : {
-                              "type" : "constant",
-                              "value" : "top"
-                            },
-                            "labelWidth" : {
-                              "type" : "constant",
-                              "value" : 4
-                            },
-                            "placeholder" : {
-                              "type" : "interpolation"
-                            },
-                            "url" : {
-                              "type" : "constant",
-                              "value" : "../API/formFileUpload"
-                            },
-                            "value" : {
+                            "repeatedCollection" : {
                               "type" : "variable",
                               "value" : ""
-                            },
-                            "urlretorno" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "documentName" : {
-                              "type" : "expression",
-                              "value" : "$item.documento.nombre_documento"
-                            },
-                            "documentDescription" : {
-                              "type" : "constant",
-                              "value" : "$item.documento.descripcion"
-                            },
-                            "documentoInfo" : {
-                              "type" : "variable",
-                              "value" : ""
-                            },
-                            "isObligatorio" : {
-                              "type" : "constant"
-                            },
-                            "urlAzure" : {
-                              "type" : "variable",
-                              "value" : "$item.url_azure"
-                            },
-                            "urlDownloadFile" : {
-                              "type" : "expression",
-                              "value" : "urlDownloadFileazure"
-                            },
-                            "isMostrar" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "idDocumento" : {
-                              "type" : "constant"
-                            },
-                            "editar" : {
-                              "type" : "constant",
-                              "value" : true
-                            },
-                            "idModal" : {
-                              "type" : "constant",
-                              "value" : "modalDocumentoPV"
-                            },
-                            "selectedFile" : {
-                              "type" : "variable",
-                              "value" : "selectedFile"
-                            },
-                            "tipoDocumento" : {
-                              "type" : "constant",
-                              "value" : "pdf"
-                            },
-                            "requiereEjemplo" : {
-                              "type" : "constant",
-                              "value" : false
-                            },
-                            "urlEjemplo" : {
-                              "type" : "constant"
-                            },
-                            "caseid" : {
-                              "type" : "expression",
-                              "value" : "caseid"
                             }
                           },
-                          "reference" : "37fbe3a3-7b21-4b0d-8996-c45d1b917247",
+                          "reference" : "1af922a3-a733-49d9-bb73-132af05e32c5",
                           "hasValidationError" : false,
-                          "id" : "customPSGRUploadCustomAzureV2"
+                          "id" : "pbContainer",
+                          "rows" : [
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "required" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Documento"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "placeholder" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "url" : {
+                                    "type" : "constant",
+                                    "value" : "../API/formFileUpload"
+                                  },
+                                  "value" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "urlretorno" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "documentName" : {
+                                    "type" : "expression",
+                                    "value" : "$item.documento.nombre_documento"
+                                  },
+                                  "documentDescription" : {
+                                    "type" : "constant",
+                                    "value" : "$item.documento.descripcion"
+                                  },
+                                  "documentoInfo" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "isObligatorio" : {
+                                    "type" : "constant"
+                                  },
+                                  "urlAzure" : {
+                                    "type" : "variable",
+                                    "value" : "$item.url_azure"
+                                  },
+                                  "urlDownloadFile" : {
+                                    "type" : "expression",
+                                    "value" : "urlDownloadFileazure"
+                                  },
+                                  "isMostrar" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "idDocumento" : {
+                                    "type" : "constant"
+                                  },
+                                  "editar" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "idModal" : {
+                                    "type" : "constant",
+                                    "value" : "modalDocumentoPV"
+                                  },
+                                  "selectedFile" : {
+                                    "type" : "variable",
+                                    "value" : "selectedFile"
+                                  },
+                                  "tipoDocumento" : {
+                                    "type" : "constant",
+                                    "value" : "pdf"
+                                  },
+                                  "requiereEjemplo" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "urlEjemplo" : {
+                                    "type" : "constant"
+                                  },
+                                  "caseid" : {
+                                    "type" : "expression",
+                                    "value" : "caseid"
+                                  }
+                                },
+                                "reference" : "37fbe3a3-7b21-4b0d-8996-c45d1b917247",
+                                "hasValidationError" : false,
+                                "id" : "customPSGRUploadCustomAzureV2"
+                              }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 6,
+                                  "sm" : 6,
+                                  "md" : 6,
+                                  "lg" : 6
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "text-muted text-uppercase"
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<small>{{$item.documento.tipo_de_archivo}}</small>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "2176208e-024e-4119-b714-3340694236b7",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              },
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 6,
+                                  "sm" : 12,
+                                  "md" : 6,
+                                  "lg" : 6
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : "text-muted"
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<small>{{$item.documento.es_opcional ? \"Documento  opcional\" : \"Documento requerido *\"}}</small>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "right"
+                                  }
+                                },
+                                "reference" : "6ff09b4a-731e-4b39-bdb2-78c36e8af968",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
+                            ]
+                          ]
                         }
                       ],
                       [
@@ -20990,7 +21022,8 @@
         "    },\r",
         "    citaAspiranteInput: {\r",
         "      cita_horario: getCatalogo($data.citaAspirante, \"cita_horario\"),\r",
-        "      responsable: getCatalogo($data.citaAspirante.cita_horario, \"cita_entrevista\"),\r",
+        "      responsable: getCatalogo($data.citaAspirante, \"cita_entrevista\"),\r",
+        "      caseid: null,\r",
         "    },\r",
         "    datosAcademicosInput: $data.datosAcademicos === undefined ? [] : $data.datosAcademicos.map( it => ({\r",
         "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
@@ -21063,7 +21096,6 @@
         "}\r",
         "\r",
         "function getCatalogo(_objeto, _nombre){\r",
-        "    debugger;\r",
         "    if(!_objeto){\r",
         "        return null;\r",
         "    } else if(_objeto){\r",
@@ -21558,28 +21590,28 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !$data.datosPersonales.curp){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && !$data.datosPersonales.curp){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' no debe ir vacío\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && $data.datosPersonales.curp.length !== 18){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && $data.datosPersonales.curp.length !== 18){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' debe tener 18 caracteres\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !validarCURP($data.datosPersonales.curp)){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && !validarCURP($data.datosPersonales.curp)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El formato de la 'CURP' es inválido\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "}  else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
+        "}  else if($data.datosPersonales.nacionalidad.clave !== \"MEX\" && !$data.datosPersonales.pasaporte){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Pasaporte' no debe ir vacío\", \r",
