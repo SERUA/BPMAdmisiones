@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1701731684179,
+  "lastUpdate" : 1702511145758,
   "rows" : [
     [
       {
@@ -2262,7 +2262,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -3227,7 +3227,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -3254,12 +3254,8 @@
                   "value" : 4
                 },
                 "availableValues" : {
-                  "type" : "constant",
-                  "value" : [
-                    "green",
-                    "red",
-                    "blue"
-                  ]
+                  "type" : "expression",
+                  "value" : "periodos"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -3553,6 +3549,58 @@
             }
           ]
         ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "aaa9c7f5-a25f-4d50-a23f-3aeb6a284a45",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -4783,7 +4831,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -5672,7 +5720,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -5700,7 +5748,7 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "lstPeriodo"
+                        "value" : "periodos"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -7305,7 +7353,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPeriodo?q=findByIs_eliminado&p=0&c=999&f=is_eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },

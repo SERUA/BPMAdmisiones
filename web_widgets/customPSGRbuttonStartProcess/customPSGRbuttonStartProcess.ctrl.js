@@ -54,7 +54,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             message = "El campo 'Apellido paterno' no debe ir vacío";
         } else if(!data.registroInput.telefono_celular){
             valid = false;
-            message = "El campo 'Teléfono celular' no debe ir vacío";
+            message = "El campo 'Teléfono celular' no debe ir vacío"; 
+        } else if(data.registroInput.telefono_celular.toString().length < 10 || data.registroInput.telefono_celular.toString().length > 14){
+            valid = false;
+            message = "La logintud del campo 'Teléfono celular' debe ser de 10 a 14 caracteres.";
         } else if(!data.registroInput.correo_electronico){
             valid = false;
             message = "El campo 'Correo electrónico' no debe ir vacío";

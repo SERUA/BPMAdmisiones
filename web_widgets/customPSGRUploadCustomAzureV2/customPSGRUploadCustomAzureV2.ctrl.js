@@ -110,16 +110,19 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         reader2.onload = function(e){
             var image = new Image();
             image.onload = function(){
-                var height = this.height;
-                var width = this.width;
-                if(width >= 1024 && height >= 768){
+                reader.readAsBinaryString(f);
+                //width >= 1024 && height >= 768
+                /*
+                var height = image.height;
+                var width = image.width;
+                if(width >= 460 && height >= 460){
                     reader.readAsBinaryString(f);
                 }  else {
                     // swal("No se pudo cargar la imagen","La imagen es muy pequeña, esta debe ser por  1024 x 768 pixeles. ","error")
                     let swalObject = {
                         title: "",
                         icon:"warning",
-                        text: "Estás intentando subir una foto que no cumple con las recomendaciones. ¿Deseas continuar?",
+                        text: "Estás intentando subir una foto que no cumple con las recomendaciones (tamaño minimo recomendado de 460 x 460). ¿Deseas continuar?",
                         buttons: {
                             no: {
                                 text: "No",
@@ -139,7 +142,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                             reader.readAsBinaryString(f);
                         }
                     });
-                }
+                }*/
             }
 
             image.src = e.target.result;
@@ -221,7 +224,18 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
     this.forceSubmit = function (event) {
         $scope.procesar = false;
-        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + new Date().getTime()  + "_" + event.target.files[0].name;
+        let filename = event.target.files[0].name 
+        let file_splited = filename.split(".");
+        let ext = "";
+        
+        if (file_splited.length > 1) {
+            ext = file_splited[file_splited.length - 1]
+        }
+        
+        let name_without_ext = filename.replace("." + ext, "");
+        let extension = ext ? "." + ext : "";
+
+        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + name_without_ext + "_" + new Date().getTime() + extension;
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         

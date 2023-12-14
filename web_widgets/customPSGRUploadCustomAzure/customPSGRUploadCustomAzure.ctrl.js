@@ -220,7 +220,18 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
 
     this.forceSubmit = function (event) {
         $scope.procesar = false;
-        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + new Date().getTime() + "_" + event.target.files[0].name;
+        let filename = event.target.files[0].name 
+        let file_splited = filename.split(".");
+        let ext = "";
+        
+        if (file_splited.length > 1) {
+            ext = file_splited[file_splited.length - 1]
+        }
+        
+        let name_without_ext = filename.replace("." + ext, "");
+        let extension = ext ? "." + ext : "";
+
+        $scope.documetObject["filename"] = $scope.properties.caseid + "/" + name_without_ext + "_" + new Date().getTime() + extension;
         $scope.documetObject["filetype"] = event.target.files[0].type;
         $scope.documetObject["contenedor"] = "privado";
         
