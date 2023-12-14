@@ -661,11 +661,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         let url = "../API/bpm/userTask/" + _taskid + "/execution";
 
         return $http.post(url, _contract).success(function (data, status) {    
-            setTimeout(() => {
-                $scope.hideModal();
-                swal("Ok", "Usuario avanzado con éxito", "succcess");
-                doRequest("POST", $scope.properties.urlPost);
-            }, 3000);
+            swal("Ok", "Usuario avanzado con éxito", "success").then((result) => {
+                window.location.reload();
+            });
+            
+            // setTimeout(() => {
+            //     $scope.hideModal();
+                
+            //     // doRequest("POST", $scope.properties.urlPost);
+            // }, 3000);
         }).error(function (data, status) {
             swal("¡Atención!","No se ha podido ejecutar la tarea. Intente de nuevo mas tarde.", "warning")
         }).finally(function () {
