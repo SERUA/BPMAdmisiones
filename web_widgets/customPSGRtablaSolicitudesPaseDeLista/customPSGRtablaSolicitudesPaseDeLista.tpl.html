@@ -112,13 +112,18 @@
                         {{row.updateDate}}
                     </td-->
                     <td style="display: inline-flex; ">
+                        <abbr title="Ver solicitud">
+                            <button type="button" class="btn btn-default" ng-click="abrirSolicitud(row)" ng-if="properties.isEnReagendacion">
+                                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                            </button>
+                        </abbr>
                         <abbr title="Pasar lista">
-                            <button type="button" class="btn btn-primary" ng-click="pasarListaSolicitud(row)">
+                            <button type="button" class="btn btn-primary" ng-click="pasarListaSolicitud(row)" ng-if="!properties.isEnReagendacion">
                                 <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                             </button>
                         </abbr>
                         <abbr title="Reagendar cita">
-                            <button type="button" class="btn btn-default" ng-click="reagendarCita(row)">
+                            <button type="button" class="btn btn-default" ng-click="reagendarCita(row)" ng-if="!properties.isEnReagendacion">
                                 <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                             </button>
                         </abbr>

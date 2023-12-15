@@ -159,8 +159,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             });
     }
     
-    function abrirSolicitud(rowData) {
-        var url = "/bonita/portal/resource/app/sdae/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + rowData.caseid;
+    $scope.abrirSolicitud = function (rowData) {
+        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=posgrados&caseId=" + rowData.caseid;
         window.open(url, '_blank');
     }
     

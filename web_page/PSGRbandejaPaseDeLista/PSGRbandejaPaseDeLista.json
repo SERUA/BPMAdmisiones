@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRbandejaPaseDeLista",
   "name" : "PSGRbandejaPaseDeLista",
-  "lastUpdate" : 1702428055150,
+  "lastUpdate" : 1702593806260,
   "rows" : [
     [
       {
@@ -222,7 +222,7 @@
           ],
           [
             {
-              "type" : "component",
+              "type" : "tabsContainer",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -238,110 +238,367 @@
                   "type" : "constant",
                   "value" : false
                 },
-                "content" : {
-                  "type" : "variable",
-                  "value" : "lstFiltros"
+                "vertical" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "tabs"
                 }
               },
-              "reference" : "2e54705d-e26a-45a3-94e4-a77d36488ad4",
+              "reference" : "500034f6-52b9-4567-a379-f4abf8cd84e9",
               "hasValidationError" : false,
-              "id" : "customSDAElistFiltrosBloqueoCampus"
-            }
-          ],
-          [
-            {
-              "type" : "component",
-              "dimension" : {
-                "xs" : 12,
-                "sm" : 12,
-                "md" : 12,
-                "lg" : 12
-              },
-              "propertyValues" : {
-                "cssClasses" : {
-                  "type" : "constant",
-                  "value" : ""
+              "id" : "pbTabsContainer",
+              "tabList" : [
+                {
+                  "type" : "tabContainer",
+                  "dimension" : {
+                    "xs" : 12,
+                    "sm" : 12,
+                    "md" : 12,
+                    "lg" : 12
+                  },
+                  "propertyValues" : {
+                    "cssClasses" : {
+                      "type" : "constant",
+                      "value" : ""
+                    },
+                    "hidden" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "disabled" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "title" : {
+                      "type" : "interpolation",
+                      "value" : "Pase de lista"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : ""
+                    }
+                  },
+                  "reference" : "f56747bd-a768-4fd4-a53f-fc054a38e131",
+                  "hasValidationError" : false,
+                  "id" : "pbTabContainer",
+                  "container" : {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12
+                    },
+                    "propertyValues" : { },
+                    "reference" : "697be93d-d8ce-4831-a3c7-0adc8bd51e85",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltros"
+                            }
+                          },
+                          "reference" : "2e54705d-e26a-45a3-94e4-a77d36488ad4",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Id",
+                                "Name",
+                                "Description",
+                                "Date"
+                              ]
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "../API/extension/posgradosRest?url=selectBandejaPaseDeLista&p=0&c=10"
+                            },
+                            "dataToSend" : {
+                              "type" : "variable",
+                              "value" : "dataToSend"
+                            },
+                            "lstContenido" : {
+                              "type" : "variable",
+                              "value" : "lstContenido"
+                            },
+                            "userId" : {
+                              "type" : "variable",
+                              "value" : "userData.user_id"
+                            },
+                            "campusSeleccionado" : {
+                              "type" : "variable",
+                              "value" : "getCampus"
+                            },
+                            "lstCampus" : {
+                              "type" : "variable",
+                              "value" : "lstCatCampus"
+                            },
+                            "abrirPagina" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "isDirectToPaseDeLista" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "modalReagendar" : {
+                              "type" : "constant",
+                              "value" : "modalReagendar"
+                            },
+                            "isEnReagendacion" : {
+                              "type" : "constant",
+                              "value" : false
+                            }
+                          },
+                          "reference" : "353a20b5-7b80-4862-892b-71e5d903071f",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRtablaSolicitudesPaseDeLista"
+                        }
+                      ]
+                    ]
+                  }
                 },
-                "hidden" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "allowHTML" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "headers" : {
-                  "type" : "constant",
-                  "value" : [
-                    "Id",
-                    "Name",
-                    "Description",
-                    "Date"
-                  ]
-                },
-                "columnsKey" : {
-                  "type" : "constant"
-                },
-                "selectedRow" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "striped" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "condensed" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "bordered" : {
-                  "type" : "constant",
-                  "value" : false
-                },
-                "urlPost" : {
-                  "type" : "constant",
-                  "value" : "../API/extension/posgradosRest?url=selectBandejaPaseDeLista&p=0&c=10"
-                },
-                "dataToSend" : {
-                  "type" : "variable",
-                  "value" : "dataToSend"
-                },
-                "lstContenido" : {
-                  "type" : "variable",
-                  "value" : "lstContenido"
-                },
-                "userId" : {
-                  "type" : "variable",
-                  "value" : "userData.user_id"
-                },
-                "campusSeleccionado" : {
-                  "type" : "variable",
-                  "value" : "getCampus"
-                },
-                "lstCampus" : {
-                  "type" : "variable",
-                  "value" : "lstCatCampus"
-                },
-                "abrirPagina" : {
-                  "type" : "constant",
-                  "value" : ""
-                },
-                "isDirectToPaseDeLista" : {
-                  "type" : "constant",
-                  "value" : true
-                },
-                "filtroExcel" : {
-                  "type" : "variable",
-                  "value" : ""
-                },
-                "modalReagendar" : {
-                  "type" : "constant",
-                  "value" : "modalReagendar"
+                {
+                  "type" : "tabContainer",
+                  "dimension" : {
+                    "xs" : 12,
+                    "sm" : 12,
+                    "md" : 12,
+                    "lg" : 12
+                  },
+                  "propertyValues" : {
+                    "cssClasses" : {
+                      "type" : "constant",
+                      "value" : ""
+                    },
+                    "hidden" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "disabled" : {
+                      "type" : "constant",
+                      "value" : false
+                    },
+                    "title" : {
+                      "type" : "interpolation",
+                      "value" : "Solicitudes en reagendación"
+                    },
+                    "active" : {
+                      "type" : "variable",
+                      "value" : ""
+                    }
+                  },
+                  "reference" : "bf1b07c6-59f7-46fc-8abe-891f8021a183",
+                  "hasValidationError" : false,
+                  "id" : "pbTabContainer",
+                  "container" : {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12
+                    },
+                    "propertyValues" : { },
+                    "reference" : "10a24a9b-c3b3-4782-8599-f72be1b768b2",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltrosEnReagendacion"
+                            }
+                          },
+                          "reference" : "3eb71fa4-2001-41a3-aae4-911a31195bae",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "headers" : {
+                              "type" : "constant",
+                              "value" : [
+                                "Id",
+                                "Name",
+                                "Description",
+                                "Date"
+                              ]
+                            },
+                            "columnsKey" : {
+                              "type" : "constant"
+                            },
+                            "selectedRow" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "striped" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "condensed" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "bordered" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "urlPost" : {
+                              "type" : "constant",
+                              "value" : "../API/extension/posgradosRest?url=selectBandejaPaseDeLista&p=0&c=10"
+                            },
+                            "dataToSend" : {
+                              "type" : "variable",
+                              "value" : "dataToSendEnReagendacion"
+                            },
+                            "lstContenido" : {
+                              "type" : "variable",
+                              "value" : "lstContenido"
+                            },
+                            "userId" : {
+                              "type" : "variable",
+                              "value" : "userData.user_id"
+                            },
+                            "campusSeleccionado" : {
+                              "type" : "variable",
+                              "value" : "getCampus"
+                            },
+                            "lstCampus" : {
+                              "type" : "variable",
+                              "value" : "lstCatCampus"
+                            },
+                            "abrirPagina" : {
+                              "type" : "constant",
+                              "value" : "pg_ver_solicitud_admision"
+                            },
+                            "isDirectToPaseDeLista" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "filtroExcel" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "modalReagendar" : {
+                              "type" : "constant"
+                            },
+                            "isEnReagendacion" : {
+                              "type" : "constant",
+                              "value" : true
+                            }
+                          },
+                          "reference" : "8b198617-f5fb-4601-8aff-65272f827f68",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRtablaSolicitudesPaseDeLista"
+                        }
+                      ]
+                    ]
+                  }
                 }
-              },
-              "reference" : "353a20b5-7b80-4862-892b-71e5d903071f",
-              "hasValidationError" : false,
-              "id" : "customPSGRtablaSolicitudesPaseDeLista"
+              ]
             }
           ]
         ]
@@ -811,6 +1068,36 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "lstFiltrosEnReagendacion" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "dataToSendEnReagendacion" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"estatusSolicitud\": \"'esperando_agendacion_cita'\",\r",
+        "    \"lstFiltro\": $data.lstFiltrosEnReagendacion,\r",
+        "    \"usuario\":$data.userData.user_name,\r",
+        "    \"orderby\": \"\",\r",
+        "    \"orientation\": \"DESC\",\r",
+        "    \"limit\": 20,\r",
+        "    \"offset\": 0,\r",
+        "    \"campus\": $data.getCampus != null? ($data.getCampus+\"\"):$data.getCampus\r",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "lstContenidoEnReagendacion" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
       "exposed" : false
     }
   },

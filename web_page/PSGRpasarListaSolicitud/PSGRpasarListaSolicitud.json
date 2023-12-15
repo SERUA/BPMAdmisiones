@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1702428462121,
+  "lastUpdate" : 1702596286865,
   "rows" : [
     [
       {
@@ -2610,6 +2610,190 @@
                               }
                             },
                             "reference" : "535b835f-f41b-4bf9-926f-40616a001e92",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
+                          }
+                        ]
+                      ]
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "container",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "repeatedCollection" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "ceec1798-3b76-4e85-b6fc-1ba4ee4ae8c7",
+                      "hasValidationError" : false,
+                      "id" : "pbContainer",
+                      "rows" : [
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "<br>Historial de comentarios área académica"
+                              },
+                              "level" : {
+                                "type" : "constant",
+                                "value" : "Level 4"
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "6d7b3b04-1f60-4e56-80d2-2e8fc53581ee",
+                            "hasValidationError" : false,
+                            "id" : "pbTitle"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "headers" : {
+                                "type" : "constant",
+                                "value" : [
+                                  "Asunto",
+                                  "Comentario",
+                                  "Fecha",
+                                  "Nombre del administrativo"
+                                ]
+                              },
+                              "content" : {
+                                "type" : "expression",
+                                "value" : "historialDeComentariosAreaAcademica"
+                              },
+                              "columnsKey" : {
+                                "type" : "constant",
+                                "value" : [
+                                  "asunto",
+                                  "mensaje",
+                                  "fecha | uiDate",
+                                  "autor"
+                                ]
+                              },
+                              "selectedRow" : {
+                                "type" : "variable",
+                                "value" : ""
+                              },
+                              "striped" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "condensed" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "bordered" : {
+                                "type" : "constant",
+                                "value" : false
+                              }
+                            },
+                            "reference" : "ae969827-6816-456b-8cb2-720989d6f200",
+                            "hasValidationError" : false,
+                            "id" : "pbTable"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "historialDeComentariosAreaAcademica"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "No hay comentarios registrados hasta el momento."
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "center"
+                              }
+                            },
+                            "reference" : "48ee2d02-bd82-419f-8b16-f223a28079fe",
                             "hasValidationError" : false,
                             "id" : "pbText"
                           }
@@ -22169,9 +22353,35 @@
     "entrevistaFormOutput" : {
       "type" : "expression",
       "value" : [
+        "const esReagendar = $data.entrevistaFormInput.desicion && $data.entrevistaFormInput.desicion === \"Marcar sin asistencia y reagendar cita.\" ? true : false;",
+        "",
+        "// Obtener los valor correctamente.",
+        "",
         "return {",
-        "    isReagendarInput: $data.entrevistaFormInput.desicion && $data.entrevistaFormInput.desicion === \"Marcar sin asistencia y reagendar cita.\" ? true : false",
+        "    isReagendarInput: esReagendar,",
+        "    asistenciaInput: !esReagendar",
         "};"
+      ],
+      "exposed" : false
+    },
+    "historialDeComentariosAreaAcademica" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.caseUserComments) {",
+        "    let comentarios = [];",
+        "    $data.caseUserComments.forEach((item) => {",
+        "        if (item.content.area === \"Área académica\") {",
+        "            let comentarioFormateadoParaTabla = {",
+        "                asunto: item.content.asunto,",
+        "                mensaje: item.content.mensaje,",
+        "                fecha: item.postDate,",
+        "                autor: item.userId.firstname + \" \" + item.userId.lastname,",
+        "            }",
+        "            comentarios.push(comentarioFormateadoParaTabla);",
+        "        }",
+        "    });",
+        "    return comentarios;",
+        "}"
       ],
       "exposed" : false
     }
