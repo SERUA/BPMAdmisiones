@@ -5,6 +5,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
   var vm = this;
 
   this.action = function action() {
+    
+    // Verificar incumplimiento
+    if ($scope.properties.showNonComplianceMessage) {
+        let title = "Titulo";
+        let message = "Sin mensaje";
+        let icon = null;
+        try {
+            if ($scope.properties.nonComplianceMessage.title) title = $scope.properties.nonComplianceMessage.title;
+            if ($scope.properties.nonComplianceMessage.message) message = $scope.properties.nonComplianceMessage.message ? $scope.properties.nonComplianceMessage.message : "Sin mensaje.";
+            icon = $scope.properties.nonComplianceMessage.icon && ['success', 'info', 'warning', 'error'].includes($scope.properties.nonComplianceMessage.icon) ? $scope.properties.nonComplianceMessage.icon : null;    
+        }
+        catch(e) {}
+        
+        Swal.fire({
+            title: title,
+            text: message,
+            icon: icon,
+            confirmButtonText: "Aceptar",
+        });
+        return;
+    }
+      
+    // Realizar acción
     if ($scope.properties.action === 'Remove from collection') {
       removeFromCollection();
       closeModal($scope.properties.closeOnSuccess);
@@ -102,6 +125,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $scope.properties.dataFromSuccess = data;
         $scope.properties.responseStatusCode = status;
         $scope.properties.dataFromError = undefined;
+        $ccope.properties.taskCompleted = true;
         notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status});
         if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
           redirectIfNeeded();
@@ -112,6 +136,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         $scope.properties.dataFromError = data;
         $scope.properties.responseStatusCode = status;
         $scope.properties.dataFromSuccess = undefined;
+        $ccope.properties.taskCompleted = false;
         notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
       })
       .finally(function() {

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitudReagendarCita1",
   "name" : "PSGRFormularioSolicitudReagendarCita",
-  "lastUpdate" : 1702598948671,
+  "lastUpdate" : 1702689102330,
   "rows" : [
     [
       {
@@ -149,11 +149,11 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : ""
+            "value" : "bg-white"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!isCorrectTask"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -203,7 +203,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : ""
+                        "value" : "color-orange"
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -211,7 +211,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Reagendación de cita"
+                        "value" : "Reagendar cita de entrevista"
                       },
                       "level" : {
                         "type" : "constant",
@@ -297,7 +297,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Agenda tu Cita para la solicitud de admisión de posgrado."
+                        "value" : "Agenda tu cita para la entrevista a continuación."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -429,7 +429,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "!codigoRespuestaTarea"
+                        "value" : "!tareaCompletada"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -481,7 +481,7 @@
                       },
                       "hidden" : {
                         "type" : "expression",
-                        "value" : "codigoRespuestaTarea"
+                        "value" : "tareaCompletada"
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -489,7 +489,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Enviar"
+                        "value" : "Reagendar"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -553,6 +553,18 @@
                       "taskId" : {
                         "type" : "expression",
                         "value" : "taskId"
+                      },
+                      "taskCompleted" : {
+                        "type" : "variable",
+                        "value" : "tareaCompletada"
+                      },
+                      "showNonComplianceMessage" : {
+                        "type" : "expression",
+                        "value" : "formFormato.invalid"
+                      },
+                      "nonComplianceMessage" : {
+                        "type" : "variable",
+                        "value" : "formFormato"
                       }
                     },
                     "reference" : "2ff191bf-e497-44ab-a681-34a48bc6b91a",
@@ -561,6 +573,153 @@
                   }
                 ]
               ]
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "a7929710-3135-484b-ab1c-80792c3d4b06",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 4
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "bg-white"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "isCorrectTask"
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "cd3c750e-6722-4d8f-9a7b-59cb6802abbd",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : "color-orange"
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<b>Reagendar cita</b>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 3"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "8ed4679f-9d79-41e1-86e6-07360fed52f7",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Esta tarea no esta disponible actualmente."
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "85929021-3cf2-478d-bcb2-c5ebfb546046",
+              "hasValidationError" : false,
+              "id" : "pbText"
             }
           ]
         ]
@@ -728,11 +887,63 @@
       ],
       "exposed" : false
     },
-    "codigoRespuestaTarea" : {
+    "formFormato" : {
       "type" : "expression",
       "value" : [
-        "return null;"
+        "let formato = {",
+        "    \"invalid\": true,",
+        "    \"message\": \"\", ",
+        "    \"title\": \"Cita aspirante\",",
+        "    \"icon\": \"warning\",",
+        "};",
+        "",
+        "if(!$data.citaAspirante.cita_horario){",
+        "    formato.message = \"Selecciona un horario para la cita\";",
+        "} else {",
+        "    formato.invalid = false;",
+        "    formato.message = \"\";",
+        "    formato.title = \"\";",
+        "    formato.icon = null;",
+        "}",
+        "",
+        "return formato;"
       ],
+      "exposed" : false
+    },
+    "tareaCompletada" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "isCorrectTask" : {
+      "type" : "expression",
+      "value" : [
+        "// Los nombre esperado de la tarea es el que aparece en el diagrama.",
+        "const expectedTaskName = [\"Reagendar cita\"]",
+        "",
+        "if ($data.task && exists($data.task.name, expectedTaskName)) {",
+        "    return true;",
+        "}",
+        "return false;",
+        "",
+        "function exists(item, array) {",
+        "    let found = false;",
+        "    array.forEach(current => {",
+        "        if (item === current) found = true;",
+        "    });",
+        "    return found;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "task" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/userTask/{{taskId}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
