@@ -220,6 +220,7 @@ class ConektaDAO {
 	
 	public Result pagoTarjeta(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
+		String errorLog = "";
 		List<ConektaPaymentResponse> lstResultado = new ArrayList<ConektaPaymentResponse>();
 //		Conekta.setApiKey("key_dHs4rzK9otyxcbqTrzn5sw");
 		String token = "";
@@ -257,15 +258,16 @@ class ConektaDAO {
 			nombrePago = object.nombrePago;
 			campus = object.campus;
 			idbanner = object.idbanner;
-			
+			errorLog += "|1";
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
 			if(resultApiKey.success) {
+				errorLog += "|2";
 				Conekta.setApiKey(resultApiKey.getData().get(0));
 			} else {
 				throw new Exception("Error inesperado");
 			}
-			
+			errorLog += "|3";
 			Customer customer = Customer.create(new JSONObject("{"
 				+ "'name': '" + name + "',"
 				+ "'email': '" + email + "',"
@@ -278,6 +280,7 @@ class ConektaDAO {
 			+ "}"
 			));
 
+			errorLog += "|4";
 			Order order = Order.create(new JSONObject("{"
 				+ "'currency': 'MXN', "
 				+ "'customer_info': {"
@@ -295,20 +298,21 @@ class ConektaDAO {
 				+ "}]"
 			+ "}"
 			));
-		
+			errorLog += "|5";
+			
 			LineItems line_item = (LineItems)order.line_items.get(0);
 			Charge charge = (Charge) order.charges.get(0);
 			PaymentMethod payment_method = (PaymentMethod) charge.payment_method;
 			order_id = order.id;
 			amount = order.amount / 100;
-			
+			errorLog += "|6";
 			lstResultado.add(new ConektaPaymentResponse(order.id, "" + (order.amount/100) + order.currency, line_item.quantity + " - "
 				+ line_item.name + " - "
 				+ (line_item.unit_price/100), payment_method.getVal("auth_code")+"", payment_method.getVal("name") + " - "
 				+ payment_method.getVal("last4") + " - "
 				+ payment_method.getVal("brand") + " - "
 				+ payment_method.getVal("type")));
-			
+			errorLog += "|7";
 			//--------------------PARA LA BITACORA DE PAGOS---------------------------
 			OrdenBitacora ordenBit = new OrdenBitacora();
 			ordenBit.setNoTransaccion(order.id);
@@ -352,6 +356,8 @@ class ConektaDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();
+		} finally {
+			resultado.setError_info(errorLog);
 		}
 		
 		return resultado;
@@ -1202,6 +1208,7 @@ class ConektaDAO {
 	
 	public Result pagoTarjetaBecas(Integer parameterP, Integer parameterC, String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
+		String errorLog = "";
 		List<ConektaPaymentResponse> lstResultado = new ArrayList<ConektaPaymentResponse>();
 		String token = "";
 		String name = "";
@@ -1238,10 +1245,11 @@ class ConektaDAO {
 			nombrePago = object.nombrePago;
 			campus = object.campus;
 			concepto = object.concepto;
-			
+			errorLog += "|1";
 			Result resultApiKey = getApiKeyByCampus(context, campus_id);
 			
 			if(resultApiKey.success) {
+				errorLog += "|2";
 				Conekta.setApiKey(resultApiKey.getData().get(0));
 			} else {
 				throw new Exception("Error inesperado");
@@ -1258,7 +1266,7 @@ class ConektaDAO {
 				+ "}]"
 			+ "}"
 			));
-
+			errorLog += "|3 + " + token;
 			Order order = Order.create(new JSONObject("{"
 				+ "'currency': 'MXN', "
 				+ "'customer_info': {"
@@ -1276,20 +1284,20 @@ class ConektaDAO {
 				+ "}]"
 			+ "}"
 			));
-		
+			errorLog += "|4";
 			LineItems line_item = (LineItems)order.line_items.get(0);
 			Charge charge = (Charge) order.charges.get(0);
 			PaymentMethod payment_method = (PaymentMethod) charge.payment_method;
 			order_id = order.id;
 			amount = order.amount / 100;
-			
+			errorLog += "|5";
 			lstResultado.add(new ConektaPaymentResponse(order.id, "" + (order.amount/100) + order.currency, line_item.quantity + " - "
 				+ line_item.name + " - "
 				+ (line_item.unit_price/100), payment_method.getVal("auth_code")+"", payment_method.getVal("name") + " - "
 				+ payment_method.getVal("last4") + " - "
 				+ payment_method.getVal("brand") + " - "
 				+ payment_method.getVal("type")));
-			
+			errorLog += "|6";
 			//--------------------PARA LA BITACORA DE PAGOS---------------------------
 			/*OrdenBitacora ordenBit = new OrdenBitacora();
 			ordenBit.setNoTransaccion(order.id);
@@ -1307,7 +1315,7 @@ class ConektaDAO {
 			//--------------------FIN PARA LA BITACORA DE PAGOS-----------------------
 			resultado.setData(lstResultado)
 			resultado.setSuccess(true)
-		  
+			errorLog += "|7";
 		} catch (io.conekta.ErrorList error) {
 			LOGGER.error error.details.get(0).message;
 			String errorMessage =  error.details.get(0).message;
@@ -1327,12 +1335,14 @@ class ConektaDAO {
 			crearRegistroPago(ordenBit);
 			
 			resultado.setSuccess(false);
-			resultado.setError(error.details.get(0).message);
+			resultado.setError(error.details.get(0).message + " | " + error.details.get(0).code + " | " + error.details.get(0).debug_message);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();
+		} finally {
+			resultado.setError_info(errorLog);
 		}
 		
 		return resultado;
