@@ -54,12 +54,15 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                     }
                     // Asignar tarea
                     var params = {};
-                    params.assign = $scope.properties.assign;
-
+                    params.assign = true;
+                    
                     // Ejecutar tarea Pase de lista
                     doRequestGenerico("POST", "/API/bpm/userTask/" + taskId + '/execution', params, dataToSend, 
                         (data, status) => {
-                            location.reload
+                            // Solicitar recargar datos
+                            setTimeout(() => {
+                                doRequest("POST", $scope.properties.urlPost);
+                            }, 1000)
                         }, 
                         (data, status) => {
                             console.log("Algo falló al ejecutar la tarea de Pase de lista")
