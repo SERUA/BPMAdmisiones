@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1702685954492,
+  "lastUpdate" : 1702945652785,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "taskId:\n<pre>{{taskId}}</pre>\nisCorrectTask:\n<pre>{{isCorrectTask}}</pre>\ntask\n<pre>{{task | json}}</pre>"
+            "value" : "comentarioToSendAsistio:\n<pre>{{comentarioToSendNoAsistio | json}}</pre>\n\n\ncaseId:\n<pre>{{caseId}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -209,7 +209,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "tareaFinalizada || !isCorrectTask"
+            "value" : "taskState !== 'ready'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -2273,7 +2273,7 @@
                                             },
                                             "maxLength" : {
                                               "type" : "constant",
-                                              "value" : ""
+                                              "value" : 255
                                             },
                                             "labelHidden" : {
                                               "type" : "constant",
@@ -15699,7 +15699,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "!tareaFinalizada || !isCorrectTask"
+            "value" : "taskState !== 'completed'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -15710,6 +15710,42 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<b>La tarea fue completada</b>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 3"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "6c027166-3e0b-4800-b0c1-882b1697e496",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
           [
             {
               "type" : "component",
@@ -15750,14 +15786,14 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><h3><b>La tarea fue completada</b></h3>\nLa solicitud fue mandada a reagendar. Regresa al menú principal para continuar llevando a cabo otras actividades.\n<br><b>{{mensajeResultadoDeEnvio}}</b><br><br>"
+                  "value" : "La solicitud fue mandada a reagendar. Regresa al menú principal para continuar llevando a cabo otras actividades.<br>\n<b>{{mensajeResultadoDeEnvio}}</b><br>"
                 },
                 "alignment" : {
                   "type" : "constant",
                   "value" : "center"
                 }
               },
-              "reference" : "abcda0fa-f5ee-46fc-b978-6f37e338d352",
+              "reference" : "6dba411f-912a-4305-abf7-dd875c14f8cd",
               "hasValidationError" : false,
               "id" : "pbText"
             }
@@ -15881,7 +15917,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "isCorrectTask"
+            "value" : "taskState !== 'incorrect'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -15904,7 +15940,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "color-orange"
+                  "value" : ""
                 },
                 "hidden" : {
                   "type" : "constant",
@@ -15968,7 +16004,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Esta tarea no esta disponible actualmente."
+                  "value" : "Esta tarea no esta disponible actualmente.<br>{{task ? \"Tarea actual: \" + task.name : \"\"}}\n<br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -16460,8 +16496,7 @@
                     "value" : "caseId"
                   },
                   "comentarioDataToSend" : {
-                    "type" : "expression",
-                    "value" : "comentarioDataToSend"
+                    "type" : "constant"
                   }
                 },
                 "reference" : "1dde4443-949e-41c7-847b-2fb811a45831",
@@ -16605,8 +16640,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -16693,8 +16728,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -16729,7 +16764,7 @@
                   },
                   "assign" : {
                     "type" : "constant",
-                    "value" : false
+                    "value" : true
                   },
                   "url" : {
                     "type" : "interpolation"
@@ -16775,17 +16810,36 @@
                     "type" : "variable"
                   },
                   "taskId" : {
-                    "type" : "constant",
+                    "type" : "expression",
                     "value" : "taskId"
                   },
                   "taskCompleted" : {
                     "type" : "variable",
-                    "value" : "tareaFinalizada"
+                    "value" : "taskCompleted"
+                  },
+                  "showNonComplianceMessage" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "nonComplianceMessage" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "casiId" : {
+                    "type" : "constant"
+                  },
+                  "caseUserCommentToSend" : {
+                    "type" : "variable",
+                    "value" : "comentarioToSendAsistio"
+                  },
+                  "caseId" : {
+                    "type" : "expression",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "3727883b-386e-460d-853d-3afc5136efea",
+                "reference" : "886a032f-51f7-4012-a6b7-3935f60652d8",
                 "hasValidationError" : false,
-                "id" : "customPSGRButtonTask"
+                "id" : "customPSGRButtonPaseDeListaTask"
               }
             ],
             [
@@ -16864,7 +16918,7 @@
           },
           "size" : {
             "type" : "constant",
-            "value" : "sm"
+            "value" : ""
           },
           "animation" : {
             "type" : "constant",
@@ -16960,7 +17014,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a reagendar. Si deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
+                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a <b>reagendar</b>. Si deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -16976,8 +17030,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -17064,8 +17118,8 @@
               {
                 "type" : "component",
                 "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
+                  "xs" : 6,
+                  "sm" : 6,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -17100,7 +17154,7 @@
                   },
                   "assign" : {
                     "type" : "constant",
-                    "value" : false
+                    "value" : true
                   },
                   "url" : {
                     "type" : "interpolation"
@@ -17151,12 +17205,31 @@
                   },
                   "taskCompleted" : {
                     "type" : "variable",
-                    "value" : "tareaFinalizada"
+                    "value" : "taskCompleted"
+                  },
+                  "showNonComplianceMessage" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "nonComplianceMessage" : {
+                    "type" : "variable",
+                    "value" : ""
+                  },
+                  "casiId" : {
+                    "type" : "constant"
+                  },
+                  "caseUserCommentToSend" : {
+                    "type" : "variable",
+                    "value" : "comentarioToSendNoAsistio"
+                  },
+                  "caseId" : {
+                    "type" : "expression",
+                    "value" : "caseId"
                   }
                 },
-                "reference" : "eecde62e-6afd-4d60-b38a-e7c7f8854b5b",
+                "reference" : "3ee20db9-2332-4c1c-ac60-c318a648cdaa",
                 "hasValidationError" : false,
-                "id" : "customPSGRButtonTask"
+                "id" : "customPSGRButtonPaseDeListaTask"
               }
             ],
             [
@@ -21925,13 +21998,6 @@
       "type" : "constant",
       "exposed" : false
     },
-    "caseid" : {
-      "type" : "constant",
-      "value" : [
-        ""
-      ],
-      "exposed" : false
-    },
     "userData" : {
       "type" : "url",
       "value" : [
@@ -22525,13 +22591,6 @@
       ],
       "exposed" : false
     },
-    "tareaFinalizada" : {
-      "type" : "expression",
-      "value" : [
-        "return false;"
-      ],
-      "exposed" : false
-    },
     "cartaDatosEnviarRechazo" : {
       "type" : "expression",
       "value" : [
@@ -22588,7 +22647,7 @@
         "    case \"solicitud_reactivada\":",
         "        return \"Reactivada\";",
         "    default:",
-        "        return \"Estatus no encontrado [\" + estatus_solicitud + \"]\";",
+        "        return estatus_solicitud;",
         "}"
       ],
       "exposed" : false
@@ -22720,17 +22779,6 @@
         "    });",
         "    return comentarios;",
         "}"
-      ],
-      "exposed" : false
-    },
-    "comentarioDataToSend" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    area: \"Área académica\",",
-        "    asunto: \"Pase de lista\",",
-        "    mensaje: $data.entrevistaFormInput.comentario ? $data.entrevistaFormInput.comentario : null,",
-        "};"
       ],
       "exposed" : false
     },
@@ -22913,7 +22961,9 @@
         "// Los nombre esperado de la tarea es el que aparece en el diagrama.",
         "const expectedTaskName = [\"Pase de lista de entrevista\"]",
         "",
-        "if ($data.task && exists($data.task.name, expectedTaskName)) {",
+        "if (!$data.task) return null;",
+        "",
+        "if (exists($data.task.name, expectedTaskName)) {",
         "    return true;",
         "}",
         "return false;",
@@ -22925,6 +22975,46 @@
         "    });",
         "    return found;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "taskCompleted" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "taskState" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.isCorrectTask === false) return \"incorrect\";",
+        "if ($data.isCorrectTask && $data.taskCompleted) return \"completed\";",
+        "if ($data.isCorrectTask && !$data.taskCompleted) return \"ready\";",
+        "",
+        "return \"undefined\";"
+      ],
+      "exposed" : false
+    },
+    "comentarioToSendAsistio" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    area: \"Área académica\",",
+        "    asunto: \"Asistió a la entrevista\",",
+        "    mensaje: $data.entrevistaFormInput.comentario ? $data.entrevistaFormInput.comentario : null,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "comentarioToSendNoAsistio" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    area: \"Área académica\",",
+        "    asunto: \"No asistió a la entrevista\",",
+        "    mensaje: $data.entrevistaFormInput.comentario ? $data.entrevistaFormInput.comentario : null,",
+        "};"
       ],
       "exposed" : false
     }

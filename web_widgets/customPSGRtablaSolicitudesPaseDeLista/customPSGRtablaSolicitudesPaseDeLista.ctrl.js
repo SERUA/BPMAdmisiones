@@ -1,6 +1,7 @@
 function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
     this.isArray = Array.isArray;
+    let selectedRow = null; 
   
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
@@ -25,9 +26,50 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         window.open(url, '_blank');
     }
 
-    $scope.reagendarCita = function(row) {
-        if ($scope.properties.modalReagendar)
-        modalService.open($scope.properties.modalReagendar);
+    $scope.openModalReagendar = function(row) {
+        $("#modalReagendar").modal("show");
+        $scope.selectedRow = row;
+    }
+
+    $scope.closeModalReagendar = function() {
+        $("#modalReagendar").modal("hide");
+        $scope.selectedRow = {};
+    }
+
+    $scope.reagendarCita = function() {
+        // Contrato de la tarea Pase de lista
+        let caseId = $scope.selectedRow.caseid;
+
+        // Get task id
+        var url = "../API/bpm/humanTask?c=1&f=state=ready&p=0&f=caseId=" + caseId;
+        $http.get(url)
+        .success((data) => {
+            if (data.length) {
+                let taskId = data[0].id;
+
+                if (taskId) {
+                    const dataToSend = {
+                        isReagendarInput: true,
+                        asistenciaInput: false,
+                    }
+                    // Asignar tarea
+                    var params = {};
+                    params.assign = $scope.properties.assign;
+
+                    // Ejecutar tarea Pase de lista
+                    doRequestGenerico("POST", "/API/bpm/userTask/" + taskId + '/execution', params, dataToSend, 
+                        (data, status) => {
+                            location.reload
+                        }, 
+                        (data, status) => {
+                            console.log("Algo falló al ejecutar la tarea de Pase de lista")
+                        });
+                }
+            }
+        })
+        .error((err) => {
+            
+        });
     }
 
     $scope.archivarSolicitud = function(row) {
@@ -57,6 +99,22 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 blockUI.stop();
             });
     }
+
+    function doRequestGenerico(method, url, params, dataToSend, successCallback, errorCallback) {
+
+        var req = {
+          method: method,
+          url: url,
+          data: angular.copy(dataToSend),
+          params: params
+        };
+    
+        return $http(req)
+          .success(successCallback)
+          .error(errorCallback)
+          .finally(function() {
+          });
+      }
   
     $scope.verSolicitud = function(rowData) {
           var req = {

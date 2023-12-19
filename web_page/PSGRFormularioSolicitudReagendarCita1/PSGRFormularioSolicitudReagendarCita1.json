@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitudReagendarCita1",
   "name" : "PSGRFormularioSolicitudReagendarCita",
-  "lastUpdate" : 1702689102330,
+  "lastUpdate" : 1702942630485,
   "rows" : [
     [
       {
@@ -54,58 +54,6 @@
         "reference" : "f45564a1-6d34-48be-8a2c-38da4bf8a3e9",
         "hasValidationError" : false,
         "id" : "customPSGRBackgroundSol"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "citaAspirante\n<pre>{{citaAspirante| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "b2bdc328-f85b-49eb-96d3-ee424b4fbfda",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -297,7 +245,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Agenda tu cita para la entrevista a continuación."
+                        "value" : "En el siguiente apartado se mostrarán las sesiones disponibles. Selecciona una sesión y agenda tu cita de entrevista."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -348,8 +296,8 @@
                         "value" : "citaAspirante"
                       },
                       "readOnly" : {
-                        "type" : "constant",
-                        "value" : false
+                        "type" : "expression",
+                        "value" : "tareaCompletada"
                       },
                       "idcampus" : {
                         "type" : "expression",
@@ -467,7 +415,7 @@
                 ],
                 [
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -483,93 +431,175 @@
                         "type" : "expression",
                         "value" : "tareaCompletada"
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Reagendar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Submit task"
-                      },
-                      "assign" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "url" : {
-                        "type" : "interpolation"
-                      },
-                      "responseStatusCode" : {
-                        "type" : "variable",
-                        "value" : "codigoRespuestaTarea"
-                      },
-                      "dataToSend" : {
-                        "type" : "expression",
-                        "value" : "formOutput"
-                      },
-                      "dataFromSuccess" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
                         "value" : ""
-                      },
-                      "closeOnSuccess" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "dataFromError" : {
-                        "type" : "variable",
-                        "value" : ""
-                      },
-                      "targetUrlOnSuccess" : {
-                        "type" : "interpolation"
-                      },
-                      "collectionToModify" : {
-                        "type" : "variable"
-                      },
-                      "modalId" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "collectionPosition" : {
-                        "type" : "constant",
-                        "value" : "Last"
-                      },
-                      "valueToAdd" : {
-                        "type" : "constant"
-                      },
-                      "removeItem" : {
-                        "type" : "variable"
-                      },
-                      "taskId" : {
-                        "type" : "expression",
-                        "value" : "taskId"
-                      },
-                      "taskCompleted" : {
-                        "type" : "variable",
-                        "value" : "tareaCompletada"
-                      },
-                      "showNonComplianceMessage" : {
-                        "type" : "expression",
-                        "value" : "formFormato.invalid"
-                      },
-                      "nonComplianceMessage" : {
-                        "type" : "variable",
-                        "value" : "formFormato"
                       }
                     },
-                    "reference" : "2ff191bf-e497-44ab-a681-34a48bc6b91a",
+                    "reference" : "3d9b402f-7f35-4746-a3b6-5d7da63a6adc",
                     "hasValidationError" : false,
-                    "id" : "customPSGRButtonTask"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Para que tu cita sea guarda confirma en el siguiente botón."
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "a96ed6af-35b1-4db4-a1c3-2908e796714e",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "disabled" : {
+                              "type" : "expression",
+                              "value" : "formFormato.invalid"
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Confirmar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Submit task"
+                            },
+                            "assign" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "url" : {
+                              "type" : "interpolation"
+                            },
+                            "responseStatusCode" : {
+                              "type" : "variable",
+                              "value" : "codigoRespuestaTarea"
+                            },
+                            "dataToSend" : {
+                              "type" : "expression",
+                              "value" : "formOutput"
+                            },
+                            "dataFromSuccess" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "closeOnSuccess" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "dataFromError" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "targetUrlOnSuccess" : {
+                              "type" : "interpolation"
+                            },
+                            "collectionToModify" : {
+                              "type" : "variable"
+                            },
+                            "modalId" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "collectionPosition" : {
+                              "type" : "constant",
+                              "value" : "Last"
+                            },
+                            "valueToAdd" : {
+                              "type" : "constant"
+                            },
+                            "removeItem" : {
+                              "type" : "variable"
+                            },
+                            "taskId" : {
+                              "type" : "expression",
+                              "value" : "taskId"
+                            },
+                            "taskCompleted" : {
+                              "type" : "variable",
+                              "value" : "tareaCompletada"
+                            },
+                            "showNonComplianceMessage" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "nonComplianceMessage" : {
+                              "type" : "variable",
+                              "value" : ""
+                            }
+                          },
+                          "reference" : "2ff191bf-e497-44ab-a681-34a48bc6b91a",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRButtonTask"
+                        }
+                      ]
+                    ]
                   }
                 ]
               ]
