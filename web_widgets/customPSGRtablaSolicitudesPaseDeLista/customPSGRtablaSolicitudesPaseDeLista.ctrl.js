@@ -36,8 +36,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         $scope.selectedRow = {};
     }
 
+    // Ejecutar tarea Pase de lista (reagendar)
     $scope.reagendarCita = function() {
-        // Contrato de la tarea Pase de lista
         let caseId = $scope.selectedRow.caseid;
 
         // Get task id
@@ -48,18 +48,23 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 let taskId = data[0].id;
 
                 if (taskId) {
+                    // Contrato de la tarea Pase de lista
                     const dataToSend = {
                         isReagendarInput: true,
                         asistenciaInput: false,
+                        isArchivarEnAreaAcademicaInput: false,
                     }
                     // Asignar tarea
                     var params = {};
-                    params.assign = $scope.properties.assign;
-
+                    params.assign = true;
+                    
                     // Ejecutar tarea Pase de lista
                     doRequestGenerico("POST", "/API/bpm/userTask/" + taskId + '/execution', params, dataToSend, 
                         (data, status) => {
-                            location.reload
+                            // Solicitar recargar datos
+                            setTimeout(() => {
+                                doRequest("POST", $scope.properties.urlPost);
+                            }, 1000)
                         }, 
                         (data, status) => {
                             console.log("Algo falló al ejecutar la tarea de Pase de lista")
@@ -72,8 +77,55 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         });
     }
 
-    $scope.archivarSolicitud = function(row) {
+    $scope.openModalArchivarSolicitud = function(row) {
+        $("#modalArchivar").modal("show");
+        $scope.selectedRow = row;
+    }
 
+    $scope.closeModalArchivarSolicitud = function() {
+        $("#modalArchivar").modal("hide");
+        $scope.selectedRow = {};
+    }
+
+    // Ejecutar tarea Pase de lista (archivar)
+    $scope.archivarSolicitud = function() {
+        let caseId = $scope.selectedRow.caseid;
+
+        // Get task id
+        var url = "../API/bpm/humanTask?c=1&f=state=ready&p=0&f=caseId=" + caseId;
+        $http.get(url)
+        .success((data) => {
+            if (data.length) {
+                let taskId = data[0].id;
+
+                if (taskId) {
+                    // Contrato de la tarea Pase de lista
+                    const dataToSend = {
+                        isReagendarInput: false,
+                        asistenciaInput: false,
+                        isArchivarEnAreaAcademicaInput: true,
+                    }
+                    // Asignar tarea
+                    var params = {};
+                    params.assign = true;
+                    
+                    // Ejecutar tarea Pase de lista
+                    doRequestGenerico("POST", "/API/bpm/userTask/" + taskId + '/execution', params, dataToSend, 
+                        (data, status) => {
+                            // Solicitar recargar datos
+                            setTimeout(() => {
+                                doRequest("POST", $scope.properties.urlPost);
+                            }, 1000)
+                        }, 
+                        (data, status) => {
+                            console.log("Algo falló al ejecutar la tarea de Pase de lista")
+                        });
+                }
+            }
+        })
+        .error((err) => {
+            
+        });
     }
   
     function doRequest(method, url, params) {
