@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1699582191084,
+  "lastUpdate" : 1703035122672,
   "rows" : [
     [
       {
@@ -104,8 +104,8 @@
             "value" : "bg-white"
           },
           "hidden" : {
-            "type" : "constant",
-            "value" : false
+            "type" : "expression",
+            "value" : "!pagina || pagina !== \"solicitud\""
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -7764,6 +7764,9 @@
                             "readOnly" : {
                               "type" : "constant",
                               "value" : true
+                            },
+                            "idcampus" : {
+                              "type" : "constant"
                             }
                           },
                           "reference" : "b62e601d-ffa5-4870-a16d-b124fe3f532c",
@@ -13490,7 +13493,7 @@
         "type" : "container",
         "dimension" : {
           "xs" : 12,
-          "sm" : 12,
+          "sm" : 1,
           "md" : 2,
           "lg" : 2
         },
@@ -13513,6 +13516,177 @@
         "id" : "pbContainer",
         "rows" : [
           [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 10,
+          "md" : 8,
+          "lg" : 8
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "bg-white"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "pagina !== \"cita\""
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "9eb9c3b9-c745-430e-b048-e9dc2915ffec",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "events" : {
+                  "type" : "expression",
+                  "value" : "registro"
+                },
+                "idUsuario" : {
+                  "type" : "variable",
+                  "value" : "userData.user_id"
+                },
+                "hideCalendario" : {
+                  "type" : "variable",
+                  "value" : "hideCalendario"
+                },
+                "usuario" : {
+                  "type" : "variable",
+                  "value" : "userData"
+                },
+                "cita" : {
+                  "type" : "variable",
+                  "value" : "citaAspirante"
+                },
+                "readOnly" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "idcampus" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "bf9c9ed1-44fd-4c3f-8283-ff3428482883",
+              "hasValidationError" : false,
+              "id" : "customPSGRcalendarioCitasV1"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 1,
+          "md" : 1,
+          "lg" : 1
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "63ec3611-2109-4c8b-a36f-83c26bec6420",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 10,
+          "md" : 10,
+          "lg" : 10
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "bg-white carta"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "pagina !== \"dictamen\""
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "61e6f09b-301d-49cd-bb42-d5016d64bad7",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "assetName" : {
+                  "type" : "constant"
+                },
+                "alogo" : {
+                  "type" : "constant"
+                },
+                "text" : {
+                  "type" : "constant"
+                }
+              },
+              "reference" : "65a8ee02-2790-4d83-bd65-1e7ad7909d73",
+              "hasValidationError" : false,
+              "id" : "customPSGRBackgroundImageCarta"
+            }
+          ]
         ]
       }
     ],
@@ -17655,13 +17829,6 @@
       "external" : false
     },
     {
-      "id" : "b7709bee-abbd-4774-8d23-6aa0f65f7270",
-      "name" : "localization.json",
-      "type" : "json",
-      "order" : 0,
-      "external" : false
-    },
-    {
       "id" : "0eed3d00-45d9-43b2-b6ce-333b5d4e60a4",
       "name" : "noimageavailabledoc.png",
       "type" : "img",
@@ -17669,17 +17836,10 @@
       "external" : false
     },
     {
-      "id" : "e3e589d1-02bf-4c83-8daf-b11ded5c88ba",
-      "name" : "style.css",
-      "type" : "css",
-      "order" : 0,
-      "external" : false
-    },
-    {
-      "id" : "e8ba0ebe-38d7-4c03-8391-4a2afdf697a3",
-      "name" : "noimageavailable (1).png",
+      "id" : "e93c0eda-fdf6-4afd-aeac-c1a28f66d3c4",
+      "name" : "Posgrado Blanco@2x.png",
       "type" : "img",
-      "order" : 8,
+      "order" : 14,
       "external" : false
     },
     {
@@ -17687,13 +17847,6 @@
       "name" : "sweetalert.min.js",
       "type" : "js",
       "order" : 4,
-      "external" : false
-    },
-    {
-      "id" : "c495d0c7-2970-4c7c-a794-74967a60306d",
-      "name" : "capitalizacion.js",
-      "type" : "js",
-      "order" : 9,
       "external" : false
     },
     {
@@ -17711,10 +17864,10 @@
       "external" : false
     },
     {
-      "id" : "8b3c35d2-43fe-4d59-9d86-ce3e2419c03c",
-      "name" : "pdf.png",
+      "id" : "5f27f2ad-c1fc-4f9a-b773-77962d1ce4ad",
+      "name" : "Correo@2x.png",
       "type" : "img",
-      "order" : 6,
+      "order" : 12,
       "external" : false
     },
     {
@@ -17722,6 +17875,62 @@
       "name" : "jquery.min (1).js",
       "type" : "js",
       "order" : 2,
+      "external" : false
+    },
+    {
+      "id" : "262073d2-dcea-42f3-a42b-e786c4d04782",
+      "name" : "Posgrado Naranja@2x.png",
+      "type" : "img",
+      "order" : 10,
+      "external" : false
+    },
+    {
+      "id" : "b7709bee-abbd-4774-8d23-6aa0f65f7270",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "e3e589d1-02bf-4c83-8daf-b11ded5c88ba",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "e8ba0ebe-38d7-4c03-8391-4a2afdf697a3",
+      "name" : "noimageavailable (1).png",
+      "type" : "img",
+      "order" : 8,
+      "external" : false
+    },
+    {
+      "id" : "c495d0c7-2970-4c7c-a794-74967a60306d",
+      "name" : "capitalizacion.js",
+      "type" : "js",
+      "order" : 9,
+      "external" : false
+    },
+    {
+      "id" : "903382c2-889f-4957-a9f2-ef639db769c5",
+      "name" : "5.jpg",
+      "type" : "img",
+      "order" : 11,
+      "external" : false
+    },
+    {
+      "id" : "8b3c35d2-43fe-4d59-9d86-ce3e2419c03c",
+      "name" : "pdf.png",
+      "type" : "img",
+      "order" : 6,
+      "external" : false
+    },
+    {
+      "id" : "54646324-2c93-48f6-8fcd-c9b386b031d9",
+      "name" : "semicirculo_2.png",
+      "type" : "img",
+      "order" : 13,
       "external" : false
     }
   ],
@@ -18644,6 +18853,13 @@
       "type" : "expression",
       "value" : [
         "return $data.wizardContent.length;"
+      ],
+      "exposed" : false
+    },
+    "pagina" : {
+      "type" : "urlparameter",
+      "value" : [
+        "pagina"
       ],
       "exposed" : false
     }

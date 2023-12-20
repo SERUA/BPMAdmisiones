@@ -1,6 +1,39 @@
 function WidgetlivingApplicationMenuController($scope, $http, $window, $location, $timeout) {
     var ctrl = this;
     
+    $scope.redirect = function(_url){
+        let url = "";
+        
+        if(_url === "solicitud" && $scope.properties.estatus){
+            $scope.properties.targetUrl = "../../../portal/resource/app/pg_aspirante/pg_ver_solicitud/content/?caseId=" + $scope.properties.caseid + "&pagina=solicitud";
+            $scope.properties.pagina = "solicitud";
+        } else if (_url === "cita"){
+            $scope.properties.targetUrl = "../../../portal/resource/app/pg_aspirante/pg_ver_solicitud/content/?caseId=" + $scope.properties.caseid + "&pagina=cita";
+            $scope.properties.pagina = "cita";
+        } else if (_url === "dictamen"){
+            $scope.properties.targetUrl = "../../../portal/resource/app/pg_aspirante/pg_ver_solicitud/content/?caseId=" + $scope.properties.caseid + "&pagina=dictamen";
+            $scope.properties.pagina = "dictamen";
+        }
+    }
+    
+    let lstEstatusBloqueo = [
+        "aspirante_registrado",
+        "aspirante_validado",
+        "solicitud_iniciada",
+        "solicitud_completada",
+        "modificaciones_solicitadas",
+        "modificaciones_realizadas",
+        "solicitud_reactivada",
+        "solicitud_aprobada_admin",
+        "solicitud_rechazada_admin",
+        "solicitud_lista_para_dictamen",
+        "solicitud_archivada_dictamen",
+        "solicitud_no_admitida",
+        "solicitud_admitida",
+        "esperando_agendacion_cita"
+    ]
+
+    
     function parseCurrentURL() {
         var pathArray = $window.location.pathname.split( '/' );
         ctrl.applicationToken =  pathArray[pathArray.length-3]; 

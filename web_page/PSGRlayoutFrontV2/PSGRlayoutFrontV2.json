@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.46",
   "id" : "PSGRlayoutFrontV2",
   "name" : "PSGRlayoutFrontV2",
-  "lastUpdate" : 1697509842243,
+  "lastUpdate" : 1703029434489,
   "rows" : [
     [
       {
@@ -26,6 +26,18 @@
           "targetUrl" : {
             "type" : "variable",
             "value" : "targetedPageUrl"
+          },
+          "estatus" : {
+            "type" : "expression",
+            "value" : "registro_ref.estatus_solicitud"
+          },
+          "caseid" : {
+            "type" : "expression",
+            "value" : "caseid"
+          },
+          "pagina" : {
+            "type" : "variable",
+            "value" : "pagina"
           }
         },
         "reference" : "0a6bbe24-ecfc-4f29-a7b9-d3ffccdfad27",
@@ -98,6 +110,13 @@
   ],
   "assets" : [
     {
+      "id" : "fb956503-8b1f-401f-9849-096878f83abe",
+      "name" : "Solicitud.png",
+      "type" : "img",
+      "order" : 6,
+      "external" : false
+    },
+    {
       "id" : "af1eb65d-e733-4a92-882d-8f0fd465fe66",
       "name" : "Mitadciculoazulnaranja.png",
       "type" : "img",
@@ -105,10 +124,31 @@
       "external" : false
     },
     {
+      "id" : "063764a8-0464-48f1-b54b-36fdb4b09062",
+      "name" : "Entrevista.png",
+      "type" : "img",
+      "order" : 7,
+      "external" : false
+    },
+    {
       "id" : "e556318a-76ff-443e-92e8-dc7992b84512",
       "name" : "Letra I_1.png",
       "type" : "img",
       "order" : 5,
+      "external" : false
+    },
+    {
+      "id" : "758c2f0c-ccec-4a49-9505-427517a3352a",
+      "name" : "Insumos MENU-25.png",
+      "type" : "img",
+      "order" : 11,
+      "external" : false
+    },
+    {
+      "id" : "33cf311c-3006-42af-beef-efed3d0e4737",
+      "name" : "Insumos MENU-23.png",
+      "type" : "img",
+      "order" : 9,
       "external" : false
     },
     {
@@ -123,6 +163,20 @@
       "name" : "layout.css",
       "type" : "css",
       "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "c9d77c8d-85dd-4e51-989b-3bc870792d2f",
+      "name" : "Dictamen.png",
+      "type" : "img",
+      "order" : 8,
+      "external" : false
+    },
+    {
+      "id" : "f0255734-07d8-4e57-9561-bc319a522157",
+      "name" : "Insumos MENU-24.png",
+      "type" : "img",
+      "order" : 10,
       "external" : false
     },
     {
@@ -146,6 +200,85 @@
       "type" : "constant",
       "value" : [
         ""
+      ],
+      "exposed" : false
+    },
+    "solicitudContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{caseid}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "solicitudContextArchivado" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{archievedCase[0].id}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "archievedCase" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{caseid}}&p=0"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "caseList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case?c=10&p=0&f=started_by={{session.user_id}}&d=processDefinitionId"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "session" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/1"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "caseid" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.caseList){",
+        "    for(let caseD of $data.caseList){",
+        "        if(caseD.processDefinitionId.name === \"Solicitud de admisión a posgrados\"){",
+        "            return caseD.id;",
+        "        }",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "registro_ref" : {
+      "type" : "url",
+      "value" : [
+        "../{{registro_ref_url}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "registro_ref_url" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.archievedCase){",
+        "    return $data.solicitudContextArchivado.registro_ref.link",
+        "} else {",
+        "    return $data.solicitudContext.registro_ref.link",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "pagina" : {
+      "type" : "constant",
+      "value" : [
+        "solicitud"
       ],
       "exposed" : false
     }
