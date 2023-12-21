@@ -4949,6 +4949,19 @@
             <queries/>
             <indexes/>
         </businessObject>
+        <businessObject qualifiedName="com.anahuac.posgrados.bitacora.PSGRLogTransferencias">
+            <fields>
+                <field type="LONG" length="255" name="caseid" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus_destino" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="lic_origen" nullable="true" collection="false"/>
+                <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="lic_destino" nullable="true" collection="false"/>
+                <field type="LOCALDATETIME" length="255" name="fecha_transferencia" nullable="true" collection="false"/>
+            </fields>
+            <uniqueConstraints/>
+            <queries/>
+            <indexes/>
+        </businessObject>
         <businessObject qualifiedName="com.anahuac.posgrados.catalog.PSGRCatCampus">
             <fields>
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
