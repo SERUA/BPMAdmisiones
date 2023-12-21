@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1703194569122,
+  "lastUpdate" : 1703201132730,
   "rows" : [
     [
       {
@@ -1280,7 +1280,7 @@
                                 "value" : 1
                               }
                             },
-                            "reference" : "5a2de601-27d7-40e9-a248-5f0d12844db8",
+                            "reference" : "b70ed558-cff3-4fa9-aa3d-e1bd34b4246b",
                             "hasValidationError" : false,
                             "id" : "pbInput"
                           }
@@ -1488,7 +1488,7 @@
                                 "value" : "selectedRow.campus_transferencia"
                               }
                             },
-                            "reference" : "868ff9be-c7a1-496f-aa98-246345ede0b9",
+                            "reference" : "8c070df5-ecb0-42e3-ba69-86e1c02a38ca",
                             "hasValidationError" : false,
                             "id" : "pbSelect"
                           }
@@ -1622,7 +1622,7 @@
                                 "value" : "selectedRow.carrera_transferencia"
                               }
                             },
-                            "reference" : "4d4b60da-a6ac-4a27-a086-28c6ff280408",
+                            "reference" : "6882b7fc-8371-449c-b008-4eca78575100",
                             "hasValidationError" : false,
                             "id" : "pbSelect"
                           }
@@ -1744,7 +1744,7 @@
                           "value" : "left"
                         }
                       },
-                      "reference" : "bc49ead5-729c-4711-9db9-af20922a7607",
+                      "reference" : "9ca5a0fa-45c7-460c-926f-1b2703e6ab69",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -1910,14 +1910,16 @@
                           "value" : false
                         },
                         "url" : {
-                          "type" : "interpolation"
+                          "type" : "interpolation",
+                          "value" : "../API/extension/posgradosRest?url=transferirAspirante"
                         },
                         "responseStatusCode" : {
                           "type" : "variable",
                           "value" : ""
                         },
                         "dataToSend" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "selectedRow"
                         },
                         "dataFromSuccess" : {
                           "type" : "variable",
@@ -1925,7 +1927,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "dataFromError" : {
                           "type" : "variable",
