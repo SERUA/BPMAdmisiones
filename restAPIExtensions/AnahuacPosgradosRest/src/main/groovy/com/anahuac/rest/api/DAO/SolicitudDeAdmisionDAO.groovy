@@ -5,6 +5,8 @@ import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
+import java.sql.Timestamp
+import java.text.SimpleDateFormat
 import java.sql.Types
 
 import org.bonitasoft.engine.identity.UserMembership
@@ -1261,4 +1263,55 @@ class SolicitudDeAdmisionDAO {
 		return resultado
 	}
 	
+	
+	public Result transferirAspirante(String jsonData) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_REGISTRO);
+			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
+			pstm.setLong(2, Long.parseLong(object.caseid));
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
+			}
+			
+			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_SOLICITUD);
+			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
+			pstm.setLong(2, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
+			pstm.setLong(1, Long.parseLong(object.carrera_transferencia.persistenceId_string));
+			pstm.setLong(2, Long.parseLong(object.periodo_transferencia.persistenceId_string));
+			pstm.setLong(2, Long.parseLong(object.caseid));
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
+			}
+			
+			con.commit();
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			if(con != null) {
+				con.rollback();
+			}
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }
