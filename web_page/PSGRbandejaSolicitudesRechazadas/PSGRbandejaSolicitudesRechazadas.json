@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRbandejaSolicitudesRechazadas",
   "name" : "PSGRbandejaSolicitudesRechazadas",
-  "lastUpdate" : 1700091128157,
+  "lastUpdate" : 1703099672319,
   "rows" : [
     [
       {
@@ -274,6 +274,10 @@
                 "abrirPagina" : {
                   "type" : "constant",
                   "value" : "pg_ver_solicitud_admision"
+                },
+                "filtroExcel" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
               "reference" : "60c82c16-b9e2-49e7-937d-fe0cab200afa",
@@ -354,7 +358,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\": \"'solicitud_rechazada_admin'\",\r",
+        "    \"estatusSolicitud\": \"'solicitud_rechazada_admin', 'solicitud_archivada_area_academica', 'solicitud_archivada_reagendacion', 'solicitud_archivada_dictamen'\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\":$data.userData.user_name,\r",
         "    \"orderby\": \"\",\r",

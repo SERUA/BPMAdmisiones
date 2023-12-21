@@ -21,7 +21,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         const pageToken = "pg_pasar_lista_solicitud";
         var url = "/bonita/portal/resource/app/posgrados/"+pageToken+"/content/?app=posgrados&caseId=" + row.caseid;
         if ($scope.properties.isDirectToPaseDeLista) {
-            url += "&indexSection=1";
+            url += "&indexSection=last";
         }
         window.open(url, '_blank');
     }
@@ -99,17 +99,31 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 let taskId = data[0].id;
 
                 if (taskId) {
-                    // Contrato de la tarea Pase de lista
-                    const dataToSend = {
-                        isReagendarInput: false,
-                        asistenciaInput: false,
-                        isArchivarEnAreaAcademicaInput: true,
+                    let dataToSend = {};
+                    if ($scope.properties.isEnReagendacion) {
+                        // Contrato de la tarea Reagendar cita
+                        dataToSend = {
+                            citaAspiranteInput: {
+                                cita_horario: null,
+                                responsable: null,
+                            },
+                            isArchivarEnReagendarInput: true,
+                        }
                     }
+                    else {
+                        // Contrato de la tarea Pase de lista
+                        dataToSend = {
+                            isReagendarInput: false,
+                            asistenciaInput: false,
+                            isArchivarEnAreaAcademicaInput: true,
+                        }
+                    }
+                    
                     // Asignar tarea
                     var params = {};
                     params.assign = true;
                     
-                    // Ejecutar tarea Pase de lista
+                    // Ejecutar tarea Pase de lista o Reagendar cita
                     doRequestGenerico("POST", "/API/bpm/userTask/" + taskId + '/execution', params, dataToSend, 
                         (data, status) => {
                             // Solicitar recargar datos
@@ -118,7 +132,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                             }, 1000)
                         }, 
                         (data, status) => {
-                            console.log("Algo falló al ejecutar la tarea de Pase de lista")
+                            console.log("Algo falló al ejecutar la tarea de Pase de lista o Reagendar cita")
                         });
                 }
             }
