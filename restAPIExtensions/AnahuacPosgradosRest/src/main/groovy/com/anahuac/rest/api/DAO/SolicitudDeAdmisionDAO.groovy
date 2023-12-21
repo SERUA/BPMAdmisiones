@@ -1277,31 +1277,27 @@ class SolicitudDeAdmisionDAO {
 			
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			errorLog += "1|";
 			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_REGISTRO);
 			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
 			pstm.setLong(2, Long.parseLong(object.caseid));
-			errorLog += "2|";
+			
 			if(pstm.executeUpdate() < 1) {
-				errorLog += "2.1|";
 				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
 			}
-			errorLog += "3|";
+			
 			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_SOLICITUD);
 			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
 			pstm.setLong(2, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
 			pstm.setLong(3, Long.parseLong(object.carrera_transferencia.persistenceId_string));
 			pstm.setLong(4, Long.parseLong(object.periodo_transferencia.persistenceId_string));
 			pstm.setLong(5, Long.parseLong(object.caseid));
-			errorLog += "4|";
+
 			if(pstm.executeUpdate() < 1) {
-				errorLog += "4.1|";
 				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
 			}
 			
-			errorLog += "5|";
 			con.commit();
-			errorLog += "6|";
+			
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
