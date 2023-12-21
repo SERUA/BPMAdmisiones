@@ -13,6 +13,7 @@ import java.time.LocalDate
 import java.time.Period
 import java.text.NumberFormat
 import java.text.ParseException
+import java.text.SimpleDateFormat
 
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
@@ -1656,5 +1657,131 @@ class PDFDocumentDAO {
 
 		// Retornar el valor formateado o una cadena vacía si no se pudo formatear
 		return numeroFormateado != null ? numeroFormateado : "";
+	}
+	
+	public Result pdfCartaPosgrados(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String errorLog = "";
+		
+		try {
+			errorLog += "Entr al metodo ";
+			def jsonSlurper = new JsonSlurper();
+			Result dataResult = new Result();
+			List<List < Object >> lstParams;
+			Result solicitud = getSolicitudPosgrados(caseid, context);
+			List<?> info = solicitud.getData();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			
+			if(info != null){
+				if(info.size() < 1) {
+					throw new Exception("400 Bad Request Usuario no encontrado");
+				} else {
+					columns = (Map < String, Object >) info.get(0);
+				}
+			} else {
+				throw new Exception("400 Bad Request Usuario no encontrado");
+			}
+			
+			String comentarios = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty("jasperCartaPosgrados");
+			inputStream.close();
+			byte [] file = Base64.getDecoder().decode(plantilla);
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream);
+			JRDataSource dataSource = new JREmptyDataSource();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			String result = new String(encode);
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result)
+			lstResultado.add(errorLog)
+						
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(errorLog);
+			
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+		}
+		
+		return resultado;
+	}
+	
+	public Result getSolicitudPosgrados(String caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long caseidSolicitud = 0L;
+		String idbanner = "";
+		
+		try {
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_CARTA_POSGRADOS);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				if(rs.getString("clave").equals("carta_posgrado_firma")) {
+					columns.put("remitenteNombre", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_puesto")) {
+					columns.put("remitentePuesto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_lugar")) {
+					columns.put("direccionCampus", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contenido")) {
+					columns.put("textoCarta", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contacto")) {
+					columns.put("campusContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_contacto_dir")) {
+					columns.put("campusContactoDireccion", rs.getString("valor"));
+				} 
+			}
+			
+			Date fechaActual = new Date();
+			SimpleDateFormat formato = new SimpleDateFormat("EEEE dd 'de' MMMM 'del' yyyy", new Locale("es", "ES"));
+			String fechaFormateada = formato.format(fechaActual);
+			
+			columns.put("fecha", fechaFormateada);
+			
+			resultado.setSuccess(true);
+			rows.add(columns);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
 	}
 }

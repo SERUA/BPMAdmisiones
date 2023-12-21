@@ -41,4 +41,5 @@ class Statements {
 	
 	public static final String GET_IDS_SOLICITUD_ARCH = "SELECT md.data_id FROM arch_ref_biz_data_inst data INNER JOIN arch_multi_biz_data md on md.id=data.id WHERE orig_proc_inst_id = ? AND data.name = ?  LIMIT 1";
 	
+	public static final String GET_CONFIGURACIONES_CARTA_POSGRADOS = "SELECT clave, valor FROM PSGRConfiguraciones WHERE clave IN ('carta_posgrado_firma', 'carta_posgrado_puesto', 'carta_posgrado_lugar', 'carta_posgrado_contenido', 'carta_posgrado_contacto', 'carta_posgrado_contacto_dir') AND id_campus = (SELECT campus_pid FROM PSGRRegistro WHERE caseid = ? LIMIT 1)";
 	}
