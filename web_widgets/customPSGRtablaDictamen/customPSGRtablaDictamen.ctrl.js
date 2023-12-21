@@ -781,7 +781,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.abrirSolicitud = function(row) {
-        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
+        let indexSectionParam = ""
+        if ($scope.properties.isDirectToDictamen) {
+            indexSectionParam = "&indexSection=last"
+        }
+        var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=posgrados&caseId=" + row.caseid + indexSectionParam;
         window.open(url, '_blank');
     }
   

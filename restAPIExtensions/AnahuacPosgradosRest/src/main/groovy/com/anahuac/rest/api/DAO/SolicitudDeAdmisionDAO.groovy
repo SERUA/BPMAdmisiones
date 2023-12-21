@@ -985,7 +985,8 @@ class SolicitudDeAdmisionDAO {
 			if (rs.next()) {
 				SSA = rs.getString("valor")
 			}
-			String consulta = Statements.GET_LISTADO_SOLICITUDES;
+			// GET LISTADO DE PASE LISTA
+			String consulta = Statements.GET_LISTADO_SOLICITUDES_PASE_LISTA;
 			String consultaCount = Statements.GET_CONTEO_SOLICITUDES;
 			if (object.caseId == null) {
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {

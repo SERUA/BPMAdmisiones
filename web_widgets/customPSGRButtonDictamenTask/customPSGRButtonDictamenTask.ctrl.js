@@ -59,7 +59,18 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     );
   }
 
-  // Ejecución de tarea Pase de lista (Reagendar o Asistió)
+  function enviarCarta() {
+    doRequest("POST","/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.cartaDatos, 
+      function(data, status) {
+        $scope.properties.taskResultMessages.push("✔ El correo se envió correctamente.")
+       },
+      function(data, status) { 
+        $scope.properties.taskResultMessages.push("✖ Algo falló al enviar el correo.")
+      }  
+    );
+  }
+
+  // Ejecución de tarea Dictamen (Admisión, No admisión o Archivar)
   function submitTask() {
     var id;
     id = $scope.properties.taskId;
@@ -79,13 +90,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             redirectIfNeeded();
           }
           closeModal($scope.properties.closeOnSuccess);
+          // Enviar carta
+          if ($scope.properties.cartaToSend) {
+            enviarCarta();   
+          }
+          // Enviar comentario de caso
           if ($scope.properties.caseUserCommentToSend && $scope.properties.caseUserCommentToSend.mensaje !== null) {
             addCaseComment();
           }
-          if ($scope.properties.dataToSend && $scope.properties.dataToSend.isReagendarInput) {
-              $scope.properties.taskResultMessages.push("La solicitud fue mandada a reagendar.")
-          }
-          
           
         // Error callback
       }, (data, status) => {

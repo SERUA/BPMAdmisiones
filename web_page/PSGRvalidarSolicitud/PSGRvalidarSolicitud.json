@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1702936140763,
+  "lastUpdate" : 1703115999265,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "solicitudesDuplicadas:\n<pre>{{solicitudesDuplicadas| json}}</pre>\n\nsolicitudesDuplicadasFormateadas:\n<pre>{{solicitudesDuplicadasFormateadas| json}}</pre>"
+            "value" : "datosRequisitosAdicionales:\n<pre>{{datosRequisitosAdicionales| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -18134,8 +18134,8 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
-          "md" : 2,
-          "lg" : 2
+          "md" : 3,
+          "lg" : 3
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -18163,8 +18163,8 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
-          "md" : 8,
-          "lg" : 8
+          "md" : 6,
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -18224,7 +18224,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><br><br><h3><b>La tarea fue completada</b></h3>\nRegresa al menú principal para continuar llevando a cabo otras actividades.\n<br><b>{{mensajeResultadoDeEnvio}}</b><br><br><br><br>"
+                  "value" : "<br><br><h3><b>La tarea fue completada</b></h3>\nRegresa al menú principal para continuar llevando a cabo otras actividades.\n<br><b>{{mensajeResultadoDeEnvio}}</b><br><br>"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -19236,7 +19236,7 @@
                   },
                   "alignment" : {
                     "type" : "constant",
-                    "value" : "left"
+                    "value" : "center"
                   }
                 },
                 "reference" : "ea658272-106c-4544-a9e0-d528c2533694",
@@ -27120,6 +27120,9 @@
         "        case \"1\":",
         "            $data.selectedIndexMain = 1;",
         "            break;",
+        "        case \"last\":",
+        "            $data.selectedIndexMain = $data.wizartContentMain.length - 1;",
+        "            break;",
         "        default:",
         "            $data.selectedIndexMain = 0;",
         "            break;",
@@ -27386,7 +27389,7 @@
         "            comentarios.push(comentarioFormateadoParaTabla);",
         "        }",
         "    });",
-        "    return comentarios;",
+        "    return comentarios.reverse();",
         "}"
       ],
       "exposed" : false
