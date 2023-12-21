@@ -1290,9 +1290,9 @@ class SolicitudDeAdmisionDAO {
 			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_SOLICITUD);
 			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
 			pstm.setLong(2, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
-			pstm.setLong(1, Long.parseLong(object.carrera_transferencia.persistenceId_string));
-			pstm.setLong(2, Long.parseLong(object.periodo_transferencia.persistenceId_string));
-			pstm.setLong(2, Long.parseLong(object.caseid));
+			pstm.setLong(3, Long.parseLong(object.carrera_transferencia.persistenceId_string));
+			pstm.setLong(4, Long.parseLong(object.periodo_transferencia.persistenceId_string));
+			pstm.setLong(5, Long.parseLong(object.caseid));
 			errorLog += "4|";
 			if(pstm.executeUpdate() < 1) {
 				errorLog += "4.1|";
