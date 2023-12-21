@@ -5229,6 +5229,113 @@
         <value xmi:type="expression:Expression" xmi:id="_IuupnlzAEe6Pc6WsAlY1eg" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
+    <elements xmi:type="process:Pool" xmi:id="_vuBbsKBLEe6aP8SkgOZ7bw" name="Agregar bitácora de transferencias">
+      <elements xmi:type="process:StartEvent" xmi:id="_2iojEKBLEe6aP8SkgOZ7bw" name="Inicio log bitácora" outgoing="_4cvfUKBLEe6aP8SkgOZ7bw">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_2iq_UaBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_2iq_UKBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_2iq_UqBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <elements xmi:type="process:EndTerminatedEvent" xmi:id="_4cnjgKBLEe6aP8SkgOZ7bw" name="Fin log bitácora" incoming="_4cvfUKBLEe6aP8SkgOZ7bw">
+        <dynamicLabel xmi:type="expression:Expression" xmi:id="_4coKkaBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+        <dynamicDescription xmi:type="expression:Expression" xmi:id="_4coKkKBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+        <stepSummary xmi:type="expression:Expression" xmi:id="_4coKkqBLEe6aP8SkgOZ7bw" name="" content="" returnTypeFixed="true"/>
+      </elements>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_Y2vsgKBMEe6aP8SkgOZ7bw" name="logBitacoraTransferencias" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogTransferencias">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_alOAgKBMEe6aP8SkgOZ7bw" name="initLogBitacoraTransferencias()" content="def pSGRLogTransferenciasVar = new com.anahuac.posgrados.bitacora.PSGRLogTransferencias()&#xD;&#xA;pSGRLogTransferenciasVar.caseid = logBitacoraTransferenciasInput?.caseid?.trim() ? logBitacoraTransferenciasInput.caseid.toLong() : null&#xD;&#xA;pSGRLogTransferenciasVar.campus_origen = {&#xD;&#xA;&#x9;//Retrieve aggregated PSGRCatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;def pSGRCatCampusVar = pSGRCatCampusDAO.findByPersistenceId(logBitacoraTransferenciasInput?.campus_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_origen.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;if (!pSGRCatCampusVar) {&#xD;&#xA;&#x9;&#x9;if (logBitacoraTransferenciasInput?.campus_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_origen.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatCampus` with the persistence id &quot; + logBitacoraTransferenciasInput?.campus_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_origen.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;return null&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return pSGRCatCampusVar}()&#xD;&#xA;pSGRLogTransferenciasVar.campus_destino = {&#xD;&#xA;&#x9;//Retrieve aggregated PSGRCatCampus using its DAO and persistenceId&#xD;&#xA;&#x9;def pSGRCatCampusVar2 = pSGRCatCampusDAO.findByPersistenceId(logBitacoraTransferenciasInput?.campus_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_destino.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;if (!pSGRCatCampusVar2) {&#xD;&#xA;&#x9;&#x9;if (logBitacoraTransferenciasInput?.campus_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_destino.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatCampus` with the persistence id &quot; + logBitacoraTransferenciasInput?.campus_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.campus_destino.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;return null&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return pSGRCatCampusVar2}()&#xD;&#xA;pSGRLogTransferenciasVar.lic_origen = {&#xD;&#xA;&#x9;//Retrieve aggregated PSGRCatGestionEscolar using its DAO and persistenceId&#xD;&#xA;&#x9;def pSGRCatGestionEscolarVar = pSGRCatGestionEscolarDAO.findByPersistenceId(logBitacoraTransferenciasInput?.lic_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_origen.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;if (!pSGRCatGestionEscolarVar) {&#xD;&#xA;&#x9;&#x9;if (logBitacoraTransferenciasInput?.lic_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_origen.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatGestionEscolar` with the persistence id &quot; + logBitacoraTransferenciasInput?.lic_origen?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_origen.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;return null&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return pSGRCatGestionEscolarVar}()&#xD;&#xA;pSGRLogTransferenciasVar.lic_destino = {&#xD;&#xA;&#x9;//Retrieve aggregated PSGRCatGestionEscolar using its DAO and persistenceId&#xD;&#xA;&#x9;def pSGRCatGestionEscolarVar2 = pSGRCatGestionEscolarDAO.findByPersistenceId(logBitacoraTransferenciasInput?.lic_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_destino.persistenceId_string.toLong() : null)&#xD;&#xA;&#x9;if (!pSGRCatGestionEscolarVar2) {&#xD;&#xA;&#x9;&#x9;if (logBitacoraTransferenciasInput?.lic_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_destino.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCatGestionEscolar` with the persistence id &quot; + logBitacoraTransferenciasInput?.lic_destino?.persistenceId_string?.trim() ? logBitacoraTransferenciasInput.lic_destino.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;return null&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return pSGRCatGestionEscolarVar2}()&#xD;&#xA;pSGRLogTransferenciasVar.fecha_transferencia = logBitacoraTransferenciasInput?.fecha_transferencia&#xD;&#xA;return pSGRLogTransferenciasVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.bitacora.PSGRLogTransferencias">
+          <referencedElements xmi:type="process:ContractInput" xmi:id="_alOAgaBMEe6aP8SkgOZ7bw" name="logBitacoraTransferenciasInput" type="COMPLEX"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_alOAgqBMEe6aP8SkgOZ7bw" name="pSGRCatCampusDAO" content="pSGRCatCampusDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatCampusDAO" returnTypeFixed="true"/>
+          <referencedElements xmi:type="expression:Expression" xmi:id="_alOAg6BMEe6aP8SkgOZ7bw" name="pSGRCatGestionEscolarDAO" content="pSGRCatGestionEscolarDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.catalog.PSGRCatGestionEscolarDAO" returnTypeFixed="true"/>
+        </defaultValue>
+      </data>
+      <formMapping xmi:type="process:FormMapping" xmi:id="_vuEfAKBLEe6aP8SkgOZ7bw">
+        <targetForm xmi:type="expression:Expression" xmi:id="_vuEfAaBLEe6aP8SkgOZ7bw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </formMapping>
+      <overviewFormMapping xmi:type="process:FormMapping" xmi:id="_vuEfAqBLEe6aP8SkgOZ7bw">
+        <targetForm xmi:type="expression:Expression" xmi:id="_vuEfA6BLEe6aP8SkgOZ7bw" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
+      </overviewFormMapping>
+      <connections xmi:type="process:SequenceFlow" xmi:id="_4cvfUKBLEe6aP8SkgOZ7bw" target="_4cnjgKBLEe6aP8SkgOZ7bw" source="_2iojEKBLEe6aP8SkgOZ7bw">
+        <decisionTable xmi:type="decision:DecisionTable" xmi:id="_4cvfUaBLEe6aP8SkgOZ7bw"/>
+        <condition xmi:type="expression:Expression" xmi:id="_4cvfUqBLEe6aP8SkgOZ7bw" name="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
+      </connections>
+      <actors xmi:type="process:Actor" xmi:id="_zeXg0KBLEe6aP8SkgOZ7bw" name="Iniciador" initiator="true"/>
+      <configurations xmi:type="configuration:Configuration" xmi:id="_tqZsMKBNEe6aP8SkgOZ7bw" name="integration" version="7.12.0-004" username="Administrador" password="bpm">
+        <actorMappings xmi:type="actormapping:ActorMappingsType" xmi:id="_tqaTQKBNEe6aP8SkgOZ7bw">
+          <actorMapping xmi:type="actormapping:ActorMapping" xmi:id="_tqaTQaBNEe6aP8SkgOZ7bw" name="Iniciador">
+            <groups xmi:type="actormapping:Groups" xmi:id="_tqaTQqBNEe6aP8SkgOZ7bw"/>
+            <memberships xmi:type="actormapping:Membership" xmi:id="_tqaTQ6BNEe6aP8SkgOZ7bw"/>
+            <roles xmi:type="actormapping:Roles" xmi:id="_tqaTRKBNEe6aP8SkgOZ7bw">
+              <role>ADMIN ESCOLAR</role>
+              <role>ADMINISTRADOR</role>
+              <role>AREA ACADEMICA</role>
+              <role>COMITE DE ADMISION</role>
+              <role>SERUA</role>
+              <role>TI CAMPUS</role>
+              <role>TI SERUA</role>
+            </roles>
+            <users xmi:type="actormapping:Users" xmi:id="_tqaTRaBNEe6aP8SkgOZ7bw"/>
+          </actorMapping>
+        </actorMappings>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsMaBNEe6aP8SkgOZ7bw" id="CONNECTOR"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsMqBNEe6aP8SkgOZ7bw" id="GROOVY_SCRIPT"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsM6BNEe6aP8SkgOZ7bw" id="ACTOR_FILTER"/>
+        <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsNKBNEe6aP8SkgOZ7bw" id="OTHER"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsNaBNEe6aP8SkgOZ7bw" id="GROOVY_SCRIPT"/>
+        <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_tqZsNqBNEe6aP8SkgOZ7bw" id="OTHER"/>
+      </configurations>
+      <contract xmi:type="process:Contract" xmi:id="_vuEfBKBLEe6aP8SkgOZ7bw">
+        <inputs xmi:type="process:ContractInput" xmi:id="_alNZcKBMEe6aP8SkgOZ7bw" name="logBitacoraTransferenciasInput" type="COMPLEX" dataReference="logBitacoraTransferencias">
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZcaBMEe6aP8SkgOZ7bw" name="caseid"/>
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZcqBMEe6aP8SkgOZ7bw" name="campus_origen" type="COMPLEX">
+            <inputs xmi:type="process:ContractInput" xmi:id="_alNZc6BMEe6aP8SkgOZ7bw" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZdKBMEe6aP8SkgOZ7bw" name="campus_destino" type="COMPLEX">
+            <inputs xmi:type="process:ContractInput" xmi:id="_alNZdaBMEe6aP8SkgOZ7bw" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZdqBMEe6aP8SkgOZ7bw" name="lic_origen" type="COMPLEX">
+            <inputs xmi:type="process:ContractInput" xmi:id="_alNZd6BMEe6aP8SkgOZ7bw" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZeKBMEe6aP8SkgOZ7bw" name="lic_destino" type="COMPLEX">
+            <inputs xmi:type="process:ContractInput" xmi:id="_alNZeaBMEe6aP8SkgOZ7bw" name="persistenceId_string"/>
+          </inputs>
+          <inputs xmi:type="process:ContractInput" xmi:id="_alNZeqBMEe6aP8SkgOZ7bw" name="fecha_transferencia" type="LOCALDATETIME"/>
+        </inputs>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_alNZe6BMEe6aP8SkgOZ7bw" expression="!logBitacoraTransferenciasInput?.caseid || logBitacoraTransferenciasInput?.caseid.isLong()" errorMessage="A Long value is expected for PSGRLogTransferencias.caseid" name="type_long_logBitacoraTransferenciasInput_caseid">
+          <inputNames>logBitacoraTransferenciasInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_alNZfKBMEe6aP8SkgOZ7bw" expression="!logBitacoraTransferenciasInput?.campus_origen || logBitacoraTransferenciasInput?.campus_origen?.persistenceId_string" errorMessage="PSGRCatCampus must reference an existing instance with a persistenceId for PSGRLogTransferencias" name="aggregation_logBitacoraTransferenciasInput_campus_origen">
+          <inputNames>logBitacoraTransferenciasInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_alNZfaBMEe6aP8SkgOZ7bw" expression="!logBitacoraTransferenciasInput?.campus_destino || logBitacoraTransferenciasInput?.campus_destino?.persistenceId_string" errorMessage="PSGRCatCampus must reference an existing instance with a persistenceId for PSGRLogTransferencias" name="aggregation_logBitacoraTransferenciasInput_campus_destino">
+          <inputNames>logBitacoraTransferenciasInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_alNZfqBMEe6aP8SkgOZ7bw" expression="!logBitacoraTransferenciasInput?.lic_origen || logBitacoraTransferenciasInput?.lic_origen?.persistenceId_string" errorMessage="PSGRCatGestionEscolar must reference an existing instance with a persistenceId for PSGRLogTransferencias" name="aggregation_logBitacoraTransferenciasInput_lic_origen">
+          <inputNames>logBitacoraTransferenciasInput</inputNames>
+        </constraints>
+        <constraints xmi:type="process:ContractConstraint" xmi:id="_alNZf6BMEe6aP8SkgOZ7bw" expression="!logBitacoraTransferenciasInput?.lic_destino || logBitacoraTransferenciasInput?.lic_destino?.persistenceId_string" errorMessage="PSGRCatGestionEscolar must reference an existing instance with a persistenceId for PSGRLogTransferencias" name="aggregation_logBitacoraTransferenciasInput_lic_destino">
+          <inputNames>logBitacoraTransferenciasInput</inputNames>
+        </constraints>
+      </contract>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_vuD38KBLEe6aP8SkgOZ7bw">
+        <name xmi:type="expression:Expression" xmi:id="_vuD38aBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_vuD38qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_vuD386BLEe6aP8SkgOZ7bw">
+        <name xmi:type="expression:Expression" xmi:id="_vuD39KBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_vuD39aBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_vuD39qBLEe6aP8SkgOZ7bw">
+        <name xmi:type="expression:Expression" xmi:id="_vuD396BLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_vuD3-KBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_vuD3-aBLEe6aP8SkgOZ7bw">
+        <name xmi:type="expression:Expression" xmi:id="_vuD3-qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_vuD3-6BLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+      <searchIndexes xmi:type="process:SearchIndex" xmi:id="_vuD3_KBLEe6aP8SkgOZ7bw">
+        <name xmi:type="expression:Expression" xmi:id="_vuD3_aBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+        <value xmi:type="expression:Expression" xmi:id="_vuD3_qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
+      </searchIndexes>
+    </elements>
     <datatypes xmi:type="process:BooleanType" xmi:id="_RS3WrFZtEe6T3bm1fu0vzg" name="Boolean"/>
     <datatypes xmi:type="process:DateType" xmi:id="_RS3WrVZtEe6T3bm1fu0vzg" name="Date"/>
     <datatypes xmi:type="process:IntegerType" xmi:id="_RS3WrlZtEe6T3bm1fu0vzg" name="Integer"/>
@@ -5614,6 +5721,28 @@
       <styles xmi:type="notation:LineStyle" xmi:id="_IvRcI1zAEe6Pc6WsAlY1eg"/>
       <styles xmi:type="notation:FillStyle" xmi:id="_IvSDMlzAEe6Pc6WsAlY1eg"/>
       <layoutConstraint xmi:type="notation:Bounds" xmi:id="_IvRcJFzAEe6Pc6WsAlY1eg" width="910" height="250"/>
+    </children>
+    <children xmi:type="notation:Node" xmi:id="_vuFGEKBLEe6aP8SkgOZ7bw" type="2007" element="_vuBbsKBLEe6aP8SkgOZ7bw">
+      <children xmi:type="notation:DecorationNode" xmi:id="_vuFtIKBLEe6aP8SkgOZ7bw" type="5008"/>
+      <children xmi:type="notation:DecorationNode" xmi:id="_vuFtIaBLEe6aP8SkgOZ7bw" type="7001">
+        <children xmi:type="notation:Shape" xmi:id="_2iziMKBLEe6aP8SkgOZ7bw" type="3002" element="_2iojEKBLEe6aP8SkgOZ7bw" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_2iziMqBLEe6aP8SkgOZ7bw" type="5024">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_2iziM6BLEe6aP8SkgOZ7bw" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_2iziMaBLEe6aP8SkgOZ7bw" x="81" y="110"/>
+        </children>
+        <children xmi:type="notation:Shape" xmi:id="_4coxoKBLEe6aP8SkgOZ7bw" type="3062" element="_4cnjgKBLEe6aP8SkgOZ7bw" fontName="Segoe UI">
+          <children xmi:type="notation:DecorationNode" xmi:id="_4cpYsKBLEe6aP8SkgOZ7bw" type="5090">
+            <layoutConstraint xmi:type="notation:Location" xmi:id="_4cpYsaBLEe6aP8SkgOZ7bw" y="5"/>
+          </children>
+          <layoutConstraint xmi:type="notation:Bounds" xmi:id="_4coxoaBLEe6aP8SkgOZ7bw" x="323" y="114"/>
+        </children>
+      </children>
+      <styles xmi:type="notation:DescriptionStyle" xmi:id="_vuFGEaBLEe6aP8SkgOZ7bw"/>
+      <styles xmi:type="notation:FontStyle" xmi:id="_vuFGEqBLEe6aP8SkgOZ7bw" fontName="Segoe UI"/>
+      <styles xmi:type="notation:LineStyle" xmi:id="_vuFGE6BLEe6aP8SkgOZ7bw"/>
+      <styles xmi:type="notation:FillStyle" xmi:id="_vuFtIqBLEe6aP8SkgOZ7bw"/>
+      <layoutConstraint xmi:type="notation:Bounds" xmi:id="_vuFGFKBLEe6aP8SkgOZ7bw" width="1320" height="250"/>
     </children>
     <styles xmi:type="notation:DiagramStyle" xmi:id="_RS3WzVZtEe6T3bm1fu0vzg"/>
     <edges xmi:type="notation:Connector" xmi:id="_RS3WzlZtEe6T3bm1fu0vzg" type="4001" element="_RS3WmFZtEe6T3bm1fu0vzg" source="_RS3Wv1ZtEe6T3bm1fu0vzg" target="_qh1OcFZvEe6T3bm1fu0vzg" roundedBendpointsRadius="10" routing="Rectilinear">
@@ -6053,6 +6182,13 @@
       <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_RGDsop7GEe6ITZHZHml78g" points="[0, 8, -74, 0]$[66, 8, -8, 0]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_RGETsJ7GEe6ITZHZHml78g" id="(1.0,0.4)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_RGETsZ7GEe6ITZHZHml78g" id="(0.23529411764705882,0.5)"/>
+    </edges>
+    <edges xmi:type="notation:Connector" xmi:id="_4cwtcKBLEe6aP8SkgOZ7bw" type="4001" element="_4cvfUKBLEe6aP8SkgOZ7bw" source="_2iziMKBLEe6aP8SkgOZ7bw" target="_4coxoKBLEe6aP8SkgOZ7bw" roundedBendpointsRadius="10" routing="Rectilinear">
+      <children xmi:type="notation:DecorationNode" xmi:id="_4cwtc6BLEe6aP8SkgOZ7bw" type="6001">
+        <layoutConstraint xmi:type="notation:Location" xmi:id="_4cwtdKBLEe6aP8SkgOZ7bw" y="-10"/>
+      </children>
+      <styles xmi:type="notation:FontStyle" xmi:id="_4cwtcaBLEe6aP8SkgOZ7bw" fontName="Segoe UI"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_4cwtcqBLEe6aP8SkgOZ7bw" points="[0, 0, 0, 0]$[0, 0, 0, 0]"/>
     </edges>
   </notation:Diagram>
 </xmi:XMI>

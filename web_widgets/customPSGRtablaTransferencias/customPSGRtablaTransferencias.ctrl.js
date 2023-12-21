@@ -1,5 +1,14 @@
-function PbTableCtrl($scope, $http, $window, blockUI) {
+function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
+    
+    
+    $scope.openModal = function openModal() {
+        modalService.open($scope.properties.modalId);
+    }
 
+    $scope.closeModal = function closeModal(shouldClose) {
+        modalService.close();
+    }
+    
     this.isArray = Array.isArray;
   
     this.isClickable = function() {
