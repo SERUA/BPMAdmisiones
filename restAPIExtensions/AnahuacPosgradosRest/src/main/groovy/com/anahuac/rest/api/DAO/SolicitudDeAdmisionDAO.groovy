@@ -7,10 +7,14 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.sql.Timestamp
 import java.text.SimpleDateFormat
+
+import javax.naming.directory.SearchResult
+
 import java.sql.Types
 
 import org.bonitasoft.engine.identity.UserMembership
 import org.bonitasoft.engine.identity.UserMembershipCriterion
+import org.bonitasoft.engine.search.SearchOptionsBuilder
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
@@ -25,6 +29,8 @@ import com.anahuac.rest.api.Utilities.FileDownload
 import org.slf4j.LoggerFactory
 
 import org.bonitasoft.engine.bpm.document.Document
+import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
+import org.bonitasoft.engine.bpm.flownode.HumanTaskInstanceSearchDescriptor
 
 import groovy.json.JsonSlurper
 
@@ -1296,11 +1302,16 @@ class SolicitudDeAdmisionDAO {
 				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
 			}
 			
-			con.commit();
+			SearchOptionsBuilder searchOptionsBuilder = new SearchOptionsBuilder(0, 1);
+			searchOptionsBuilder.filter(HumanTaskInstanceSearchDescriptor.PROCESS_INSTANCE_ID, Long.parseLong(object.caseid));
+			
+			List<HumanTaskInstance> tareas = context.apiClient.processAPI.searchHumanTaskInstances(searchOptionsBuilder.done()).getResult();
 			
 			
+//			con.commit();
 			
 			resultado.setData(rows);
+			resultado.setAdditional_data(tareas);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
