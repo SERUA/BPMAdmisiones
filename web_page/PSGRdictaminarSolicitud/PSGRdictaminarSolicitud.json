@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1703117793432,
+  "lastUpdate" : 1703203148096,
   "rows" : [
     [
       {
@@ -105,7 +105,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "tareaFinalizada"
+            "value" : "taskState !== 'ready'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -11835,8 +11835,8 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
-          "md" : 2,
-          "lg" : 2
+          "md" : 4,
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -11852,7 +11852,7 @@
             "value" : ""
           }
         },
-        "reference" : "40d14f24-baca-4f2d-aabe-ce5f7accf547",
+        "reference" : "dd5a831b-a57c-4de9-9ca0-57b5f5f4de91",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
@@ -11864,27 +11864,63 @@
         "dimension" : {
           "xs" : 12,
           "sm" : 12,
-          "md" : 8,
-          "lg" : 8
+          "md" : 4,
+          "lg" : 6
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "bg-white"
+            "value" : ""
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "!tareaFinalizada"
+            "value" : "taskState !== 'completed'"
           },
           "repeatedCollection" : {
             "type" : "variable",
             "value" : ""
           }
         },
-        "reference" : "c4323b3d-3bcc-41a8-aff3-7b3aa0de763a",
+        "reference" : "1fa3eb11-31f9-4e5e-9bcc-efc43de3bbb0",
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<b>La tarea fue completada</b>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 3"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "0c76342d-5e1b-4a6a-82fb-778a3b7ac1f5",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
           [
             {
               "type" : "component",
@@ -11925,7 +11961,329 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br><br><br><br><h3><b>La tarea fue completada</b></h3>\nRegresa al menú principal para continuar llevando a cabo otras actividades.\n<br><b>{{mensajeResultadoDeEnvio}}</b><br><br><br><br>"
+                  "value" : "Regresa al menú principal para continuar llevando a cabo otras actividades."
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "7bd42cb9-b7b9-4330-aef8-07a5c4fb431b",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "81be5b2b-ff7a-4a0d-be0b-78966d0aaf36",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Regresar"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "pg_solicitudes_dictamen"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant",
+                  "value" : "posgrados"
+                },
+                "urlParams" : {
+                  "type" : "constant"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                }
+              },
+              "reference" : "4f1874de-fdf9-412b-9e00-4319004651c8",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            }
+          ]
+        ]
+      }
+    ],
+    [
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 2
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "40d14f24-baca-4f2d-aabe-ce5f7accf547",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [ ]
+        ]
+      },
+      {
+        "type" : "container",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 4,
+          "lg" : 8
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : "bg-white"
+          },
+          "hidden" : {
+            "type" : "expression",
+            "value" : "taskState !== 'incorrect'"
+          },
+          "repeatedCollection" : {
+            "type" : "variable",
+            "value" : ""
+          }
+        },
+        "reference" : "c4323b3d-3bcc-41a8-aff3-7b3aa0de763a",
+        "hasValidationError" : false,
+        "id" : "pbContainer",
+        "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<b>Dictamen de solicitud</b>"
+                },
+                "level" : {
+                  "type" : "constant",
+                  "value" : "Level 3"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "ba2a07bd-14aa-4b86-97da-273e1199565d",
+              "hasValidationError" : false,
+              "id" : "pbTitle"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Esta tarea no esta disponible actualmente.<br>{{task ? \"Tarea actual: \" + task.name : \"\"}}"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                }
+              },
+              "reference" : "9d54f782-853c-4e12-9513-0ebca1501b94",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : ""
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -11969,7 +12327,7 @@
                 },
                 "pageToken" : {
                   "type" : "constant",
-                  "value" : "pg_solicitudes_nuevas"
+                  "value" : "pg_solicitudes_dictamen"
                 },
                 "processName" : {
                   "type" : "constant"
@@ -11988,7 +12346,8 @@
                   "value" : "_self"
                 },
                 "appToken" : {
-                  "type" : "constant"
+                  "type" : "constant",
+                  "value" : "posgrados"
                 },
                 "urlParams" : {
                   "type" : "constant"
@@ -12194,7 +12553,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "validarFormInput.registroInput.mensaje_admin_escolar"
+                    "value" : "dictamenForm.comentario"
                   },
                   "id" : {
                     "type" : "constant",
@@ -12206,11 +12565,11 @@
                   },
                   "datosPrevisualizar" : {
                     "type" : "variable",
-                    "value" : "cartaDatosPrevisualizarRechazo"
+                    "value" : "cartaDatosPrevisualizarNoAdmision"
                   },
                   "replace" : {
                     "type" : "constant",
-                    "value" : "[RECHAZO-COMENTARIOS]"
+                    "value" : "[NO-ADMISION-COMENTARIO]"
                   }
                 },
                 "reference" : "1e0e5330-1531-40ea-9ffa-1bf264b3457b",
@@ -12361,7 +12720,7 @@
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : "tareaFinalizada"
+                    "value" : ""
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
@@ -12393,12 +12752,12 @@
                     "type" : "variable"
                   },
                   "taskId" : {
-                    "type" : "variable",
+                    "type" : "expression",
                     "value" : "taskId"
                   },
                   "taskCompleted" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "taskCompleted"
                   },
                   "showNonComplianceMessage" : {
                     "type" : "constant",
@@ -12421,7 +12780,7 @@
                   },
                   "cartaToSend" : {
                     "type" : "variable",
-                    "value" : "cartaDatosEnviarRechazo"
+                    "value" : ""
                   }
                 },
                 "reference" : "7bb5f1d6-e171-4515-b7e7-89419a04833e",
@@ -12593,11 +12952,11 @@
                   },
                   "datosPrevisualizar" : {
                     "type" : "variable",
-                    "value" : "cartaDatosPrevisualizarAprobacion"
+                    "value" : "cartaDatosPrevisualizarAdmision"
                   },
                   "replace" : {
                     "type" : "constant",
-                    "value" : "[COMENTARIOS-CAMBIO]"
+                    "value" : "[ADMISION-COMENTARIO]"
                   }
                 },
                 "reference" : "8fe34104-bf43-43e1-8b59-a02ad3042af4",
@@ -12748,7 +13107,7 @@
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : "tareaFinalizada"
+                    "value" : ""
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
@@ -12779,12 +13138,12 @@
                     "type" : "variable"
                   },
                   "taskId" : {
-                    "type" : "variable",
+                    "type" : "expression",
                     "value" : "taskId"
                   },
                   "taskCompleted" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "taskCompleted"
                   },
                   "showNonComplianceMessage" : {
                     "type" : "constant",
@@ -13086,7 +13445,7 @@
                   },
                   "dataToSend" : {
                     "type" : "expression",
-                    "value" : "contratoOutputAprobar"
+                    "value" : "dictamenFormOutputArchivar"
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
@@ -13121,12 +13480,12 @@
                     "type" : "variable"
                   },
                   "taskId" : {
-                    "type" : "variable",
+                    "type" : "expression",
                     "value" : "taskId"
                   },
                   "taskCompleted" : {
                     "type" : "variable",
-                    "value" : ""
+                    "value" : "taskCompleted"
                   },
                   "showNonComplianceMessage" : {
                     "type" : "constant",
@@ -18673,32 +19032,6 @@
       ],
       "exposed" : false
     },
-    "cartaDatosPrevisualizarRechazo" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-rechazada\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": false",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "cartaDatosPrevisualizarModificaciones" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": false",
-        "};"
-      ],
-      "exposed" : false
-    },
     "updateFormInput" : {
       "type" : "expression",
       "value" : [
@@ -18708,128 +19041,6 @@
         "    $data.formInput.registroInput = $data.registro;",
         "    ",
         "}"
-      ],
-      "exposed" : false
-    },
-    "contratoOutputRechazar" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"isSolicitudRechazadaAdminEscolarInput\":  true,",
-        "    \"isModificarSolicitudInput\": false,",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": false,",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": null,",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": null,",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": null,",
-        "        },",
-        "        \"curp_validada\": false,",
-        "        \"documentos_validados\": false,",
-        "        \"no_duplicado\": false,",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": null",
-        "    }",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "contratoOutputModificaciones" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
-        "    \"isModificarSolicitudInput\": true,",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": false,",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"curp_validada\": false,",
-        "        \"documentos_validados\": false,",
-        "        \"no_duplicado\": false",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": null",
-        "    }",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "contratoOutputAprobar" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
-        "    \"isModificarSolicitudInput\": false,",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": true,",
-        "        \"tipo_alumno\": $data.validarFormInput.registroInput.tipo_alumno ? {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_alumno.persistenceId_string",
-        "        } : {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"residencia\": $data.validarFormInput.registroInput.residencia ? {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.residencia.persistenceId_string",
-        "        } : {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"tipo_admision\": $data.validarFormInput.registroInput.tipo_admision ? {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_admision.persistenceId_string",
-        "        } : {",
-        "            \"persistenceId_string\": null",
-        "        },",
-        "        \"curp_validada\": $data.validarFormInput.registroInput.curp_validada,",
-        "        \"documentos_validados\": $data.validarFormInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado",
-        "    },",
-        "    \"datosPersonalesInput\": {",
-        "        \"id_banner\": $data.validarFormInput.datosPersonalesInput && $data.validarFormInput.datosPersonalesInput.id_banner ? $data.validarFormInput.datosPersonalesInput.id_banner : null,",
-        "    },",
-        "};",
-        "/*",
-        "",
-        "",
-        "    \"datosPersonalesInput\": $data.validarFormInput.datosPersonalesInput ? {",
-        "        \"id_banner\": $data.validarFormInput.datosPersonalesInput.id_banner.persistenceId_string",
-        "    } : {",
-        "        \"id_banner\": null",
-        "    }",
-        "",
-        "return {",
-        "    \"isSolicitudRechazadaAdminEscolarInput\":  false,",
-        "    \"isModificarSolicitudInput\": false,",
-        "    \"registroInput\": {",
-        "        \"mensaje_admin_escolar\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "        \"aprobado_admin_escolar\": true,",
-        "        \"tipo_alumno\": {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_alumno.persistenceId_string",
-        "        },",
-        "        \"residencia\": {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.residencia.persistenceId_string",
-        "        },",
-        "        \"tipo_admision\": {",
-        "            \"persistenceId_string\": $data.validarFormInput.registroInput.tipo_admision.persistenceId_string",
-        "        },",
-        "        \"curp_validada\": $data.validarFormInput.registroInput.curp_validada,",
-        "        \"documentos_validados\": $data.validarFormInput.registroInput.documentos_validados,",
-        "        \"no_duplicado\": $data.validarFormInput.registroInput.no_duplicado",
-        "    },",
-        "};*/"
       ],
       "exposed" : false
     },
@@ -18861,47 +19072,8 @@
       ],
       "exposed" : false
     },
-    "cartaDatosEnviarRechazo" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-rechazada\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": true",
-        "};"
-      ],
-      "exposed" : false
-    },
-    "cartaDatosEnviarModificaciones" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-modificaciones\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": true",
-        "};"
-      ],
-      "exposed" : false
-    },
     "mensajeResultadoDeEnvio" : {
       "type" : "constant",
-      "exposed" : false
-    },
-    "cartaDatosEnviarAprobacion" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-aprobada\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": true",
-        "};"
-      ],
       "exposed" : false
     },
     "correccionFormInput" : {
@@ -18976,19 +19148,6 @@
         "        \"id_banner\": null",
         "    }",
         "}"
-      ],
-      "exposed" : false
-    },
-    "cartaDatosPrevisualizarAprobacion" : {
-      "type" : "expression",
-      "value" : [
-        "return {",
-        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
-        "    \"codigo\": \"psgr-solicitud-aprobada\",",
-        "    \"mensaje\": $data.validarFormInput.registroInput.mensaje_admin_escolar,",
-        "    \"isEnviar\": false",
-        "};"
       ],
       "exposed" : false
     },
@@ -19212,6 +19371,115 @@
         "if ($data.citaAspirante.cita_horario.cita_entrevista.fecha_entrevista) {",
         "    const date = new Date($data.citaAspirante.cita_horario.cita_entrevista.fecha_entrevista);",
         "    return formatDate(date);",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "dictamenFormOutputArchivar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isSolicitudNoAdmitidaDictamenInput: false,",
+        "    isSolicitudAdmitidaDictamenInput: false,",
+        "    isSolicitudArchivadaDictamenInput: true,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "dictamenFormOutputAdmitir" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isSolicitudNoAdmitidaDictamenInput: false,",
+        "    isSolicitudAdmitidaDictamenInput: true,",
+        "    isSolicitudArchivadaDictamenInput: false,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "dictamenFormOutputNoAdmitir" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    isSolicitudNoAdmitidaDictamenInput: true,",
+        "    isSolicitudAdmitidaDictamenInput: false,",
+        "    isSolicitudArchivadaDictamenInput: false,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "cartaDatosPrevisualizarAdmision" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-admitida\",",
+        "    //\"mensaje\": $data.dictamenFormInput.comentario,",
+        "    \"isEnviar\": false",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "cartaDatosPrevisualizarNoAdmision" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
+        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"codigo\": \"psgr-solicitud-no-admitida\",",
+        "    //\"mensaje\": $data.dictamenFormInput.comentario,",
+        "    \"isEnviar\": false",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "dictamenFormInput" : {
+      "type" : "json",
+      "value" : [
+        "{",
+        "    \"comentario\": null",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "taskCompleted" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "taskState" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.isCorrectTask === false) return \"incorrect\";",
+        "if ($data.isCorrectTask && $data.taskCompleted) return \"completed\";",
+        "if ($data.isCorrectTask && !$data.taskCompleted) return \"ready\";",
+        "",
+        "return \"undefined\";"
+      ],
+      "exposed" : false
+    },
+    "isCorrectTask" : {
+      "type" : "expression",
+      "value" : [
+        "// Los nombre esperado de la tarea es el que aparece en el diagrama.",
+        "const expectedTaskName = [\"Dictamen de solicitud\"]",
+        "",
+        "if (!$data.task) return null;",
+        "",
+        "if (exists($data.task.name, expectedTaskName)) {",
+        "    return true;",
+        "}",
+        "return false;",
+        "",
+        "function exists(item, array) {",
+        "    let found = false;",
+        "    array.forEach(current => {",
+        "        if (item === current) found = true;",
+        "    });",
+        "    return found;",
         "}"
       ],
       "exposed" : false
