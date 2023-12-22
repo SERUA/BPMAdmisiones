@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1703203148096,
+  "lastUpdate" : 1703273563707,
   "rows" : [
     [
       {
@@ -34,6 +34,58 @@
         "reference" : "7d0659f6-3f5e-4590-8da0-34af6366b782",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "dictamenFormOutputArchivar\n<pre>{{dictamenFormOutputArchivar | json}}</pre>\n\ndictamenFormOutputAdmitir\t\n<pre>{{dictamenFormOutputAdmitir | json}}</pre>\n\ndictamenFormOutputNoAdmitir\n<pre>{{dictamenFormOutputNoAdmitir| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "d166080f-03a4-4f37-8824-0001666fef6b",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -2532,7 +2584,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "true"
+                                "value" : "citaAspirante.asistio"
                               }
                             },
                             "reference" : "8c0b5537-2f2b-473a-84b2-cd3ae8af6b34",
@@ -12013,7 +12065,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br>"
+                  "value" : ""
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -12553,7 +12605,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "dictamenForm.comentario"
+                    "value" : "dictamenFormInput.comentarioNoAdmision"
                   },
                   "id" : {
                     "type" : "constant",
@@ -12575,6 +12627,58 @@
                 "reference" : "1e0e5330-1531-40ea-9ffa-1bf264b3457b",
                 "hasValidationError" : false,
                 "id" : "customPSGRtextEditorAJS"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<hr>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "53d3d1fb-5f77-4078-83b5-ce5ffd5517c5",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ],
             [
@@ -12609,7 +12713,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "default"
+                    "value" : "info"
                   },
                   "action" : {
                     "type" : "constant",
@@ -12697,7 +12801,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "danger"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -12716,7 +12820,7 @@
                   },
                   "dataToSend" : {
                     "type" : "expression",
-                    "value" : "contratoOutputRechazar"
+                    "value" : "dictamenFormOutputNoAdmitir"
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
@@ -12786,6 +12890,58 @@
                 "reference" : "7bb5f1d6-e171-4515-b7e7-89419a04833e",
                 "hasValidationError" : false,
                 "id" : "customPSGRButtonDictamenTask"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : ""
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "43286464-8dc7-43e6-8a40-ce79ee33b7a6",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ]
           ]
@@ -12940,7 +13096,7 @@
                   },
                   "value" : {
                     "type" : "variable",
-                    "value" : "validarFormInput.registroInput.mensaje_admin_escolar"
+                    "value" : "dictamenFormInput.comentarioAdmision"
                   },
                   "id" : {
                     "type" : "constant",
@@ -12962,6 +13118,58 @@
                 "reference" : "8fe34104-bf43-43e1-8b59-a02ad3042af4",
                 "hasValidationError" : false,
                 "id" : "customPSGRtextEditorAJS"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<hr>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "e5f35f2d-b38e-457f-b4a4-3c7ad11564e6",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ],
             [
@@ -12996,7 +13204,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "default"
+                    "value" : "info"
                   },
                   "action" : {
                     "type" : "constant",
@@ -13084,7 +13292,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "success"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -13103,7 +13311,7 @@
                   },
                   "dataToSend" : {
                     "type" : "expression",
-                    "value" : "contratoOutputAprobar"
+                    "value" : "dictamenFormOutputAdmitir"
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
@@ -13172,6 +13380,58 @@
                 "reference" : "c0c99a10-b3ab-442e-888c-fa02ec5a8669",
                 "hasValidationError" : false,
                 "id" : "customPSGRButtonDictamenTask"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : ""
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "03bb8325-f9a5-4893-aaa9-d022ce832a26",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ]
           ]
@@ -13312,6 +13572,58 @@
                 "dimension" : {
                   "xs" : 12,
                   "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<hr>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "65e69e41-b133-44cf-8ceb-78709f65d222",
+                "hasValidationError" : false,
+                "id" : "pbText"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -13338,7 +13650,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "default"
+                    "value" : "info"
                   },
                   "action" : {
                     "type" : "constant",
@@ -13426,7 +13738,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "info"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -13449,7 +13761,7 @@
                   },
                   "dataFromSuccess" : {
                     "type" : "variable",
-                    "value" : "tareaFinalizada"
+                    "value" : ""
                   },
                   "closeOnSuccess" : {
                     "type" : "constant",
@@ -13514,6 +13826,58 @@
                 "reference" : "b350597a-da67-4252-bea7-1160ded946fa",
                 "hasValidationError" : false,
                 "id" : "customPSGRButtonDictamenTask"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : ""
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "e01a53fd-b636-468b-a298-502abb213818",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ]
           ]
@@ -19382,6 +19746,10 @@
         "    isSolicitudNoAdmitidaDictamenInput: false,",
         "    isSolicitudAdmitidaDictamenInput: false,",
         "    isSolicitudArchivadaDictamenInput: true,",
+        "    registroInput: {",
+        "        mensaje_comite_admision: null,",
+        "        is_transferido: false,",
+        "    },",
         "};"
       ],
       "exposed" : false
@@ -19393,6 +19761,10 @@
         "    isSolicitudNoAdmitidaDictamenInput: false,",
         "    isSolicitudAdmitidaDictamenInput: true,",
         "    isSolicitudArchivadaDictamenInput: false,",
+        "    registroInput: {",
+        "        mensaje_comite_admision: $data.dictamenFormInput && $data.dictamenFormInput.comentarioAdmision ? $data.dictamenFormInput.comentarioAdmision : null,",
+        "        is_transferido: false,",
+        "    },",
         "};"
       ],
       "exposed" : false
@@ -19404,6 +19776,10 @@
         "    isSolicitudNoAdmitidaDictamenInput: true,",
         "    isSolicitudAdmitidaDictamenInput: false,",
         "    isSolicitudArchivadaDictamenInput: false,",
+        "    registroInput: {",
+        "        mensaje_comite_admision: $data.dictamenFormInput && $data.dictamenFormInput.comentarioNoAdmision ? $data.dictamenFormInput.comentarioNoAdmision : null,",
+        "        is_transferido: false,",
+        "    },",
         "};"
       ],
       "exposed" : false
@@ -19438,7 +19814,8 @@
       "type" : "json",
       "value" : [
         "{",
-        "    \"comentario\": null",
+        "    \"comentarioAdmision\": null,",
+        "    \"comentarioNoAdmision\": null",
         "}"
       ],
       "exposed" : false
