@@ -1211,7 +1211,7 @@ class Index implements RestApiController {
 					}
 					break;
 				case "transferirAspirante":
-					result = new SolicitudDeAdmisionDAO().transferirAspirante(jsonData);
+					result = new SolicitudDeAdmisionDAO().transferirAspirante(jsonData, context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
