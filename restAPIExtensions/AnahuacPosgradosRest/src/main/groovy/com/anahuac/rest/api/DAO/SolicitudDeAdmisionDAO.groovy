@@ -1264,7 +1264,7 @@ class SolicitudDeAdmisionDAO {
 	}
 	
 	
-	public Result transferirAspirante(String jsonData) {
+	public Result transferirAspirante(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -1297,6 +1297,8 @@ class SolicitudDeAdmisionDAO {
 			}
 			
 			con.commit();
+			
+			
 			
 			resultado.setData(rows);
 			resultado.setSuccess(true);
