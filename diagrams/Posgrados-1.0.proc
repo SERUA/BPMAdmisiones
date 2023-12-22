@@ -2131,7 +2131,7 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_XU-CAH5xEe6TwbILgRGNhw" subprocessTarget="plantillaInput">
-            <processSource xmi:type="expression:Expression" xmi:id="_XU-CAX5xEe6TwbILgRGNhw" name="newScript()" content="&quot;&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_XU-CAX5xEe6TwbILgRGNhw" name="psgr-reagendar-cita" content="&quot;psgr-reagendar-cita&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_XeE6sH5xEe6TwbILgRGNhw" subprocessTarget="campusInput">
             <processSource xmi:type="expression:Expression" xmi:id="_XeE6sX5xEe6TwbILgRGNhw" name="newScript()" content="registro.campus.grupo_bonita" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -3337,6 +3337,33 @@
               <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="__0OEYKBlEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="__0OEYaBlEe6I3cpu7ZGGKg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_BQIowKBmEe6I3cpu7ZGGKg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="__0OEYqBlEe6I3cpu7ZGGKg" name="null" content="null" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+            <operator xmi:type="expression:Operator" xmi:id="__0OEY6BlEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setAsistio">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_X2o7kKBmEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_X2o7kaBmEe6I3cpu7ZGGKg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_YS-SQKBmEe6I3cpu7ZGGKg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_X2o7kqBmEe6I3cpu7ZGGKg" name="null" content="null" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario"/>
+            <operator xmi:type="expression:Operator" xmi:id="_X2o7k6BmEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setCita_horario">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_avv2sKBmEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_avv2saBmEe6I3cpu7ZGGKg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_btpCUKBmEe6I3cpu7ZGGKg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_avv2sqBmEe6I3cpu7ZGGKg" name="null" content="null" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaResponsable"/>
+            <operator xmi:type="expression:Operator" xmi:id="_avv2s6BmEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setResponsable">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaResponsable</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_3Mis5FZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_3Mis5VZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_3Mis5lZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -3766,6 +3793,19 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_Pm4Rg57JEe6ITZHZHml78g" type="ASSIGNMENT"/>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_tEbZ4KBkEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_tEbZ4aBkEe6I3cpu7ZGGKg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_uKEzUKBkEe6I3cpu7ZGGKg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_tEbZ4qBkEe6I3cpu7ZGGKg" name="asistenciaInput" content="asistenciaInput" type="TYPE_CONTRACT_INPUT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_92j6UKBkEe6I3cpu7ZGGKg" name="asistenciaInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_92j6UaBkEe6I3cpu7ZGGKg"/>
+              </referencedElements>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_tEbZ46BkEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setAsistio">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_a0sbo1Z5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_a0sbpFZ5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_a0sbpVZ5Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -3892,6 +3932,30 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_IIs-05neEe6BLbGPQjgoHQ" type="ASSIGNMENT"/>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_cl5K4KBkEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_cl5K4aBkEe6I3cpu7ZGGKg" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_cl5K4qBkEe6I3cpu7ZGGKg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_cl5K46BkEe6I3cpu7ZGGKg" name="registroInput.mensaje_comite_admision" content="registroInput?.mensaje_comite_admision" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_cl5K5KBkEe6I3cpu7ZGGKg" name="registroInput" type="COMPLEX" createMode="false"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_cl5K5aBkEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setMensaje_comite_admision">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_cl5K5qBkEe6I3cpu7ZGGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_cl5K56BkEe6I3cpu7ZGGKg" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_cl5K6KBkEe6I3cpu7ZGGKg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_cl5K6aBkEe6I3cpu7ZGGKg" name="isSolicitudAdmitidaDictamenInput" content="isSolicitudAdmitidaDictamenInput" type="TYPE_CONTRACT_INPUT" returnType="java.lang.Boolean">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_n1IqgKBkEe6I3cpu7ZGGKg" name="isSolicitudAdmitidaDictamenInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_n1JRkKBkEe6I3cpu7ZGGKg"/>
+              </referencedElements>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_cl5K66BkEe6I3cpu7ZGGKg" type="JAVA_METHOD" expression="setAprobado_comite_admision">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_scTiY1l1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_scTiZFl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_scTiZVl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -3910,11 +3974,9 @@
             <inputs xmi:type="process:ContractInput" xmi:id="__SJN0JndEe6BLbGPQjgoHQ" name="isSolicitudArchivadaDictamenInput" type="BOOLEAN">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="__SJN0ZndEe6BLbGPQjgoHQ"/>
             </inputs>
-            <constraints xmi:type="process:ContractConstraint" xmi:id="_ba06UJnfEe6BLbGPQjgoHQ" expression="int selected = 0;&#xD;&#xA;&#xD;&#xA;if (isSolicitudAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudNoAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudArchivadaDictamenInput) selected++;&#xD;&#xA;&#xD;&#xA;if (selected != 1){&#xD;&#xA;&#x9;return true&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return false&#xD;&#xA;}" errorMessage="Más de una bandera en el contrato esta seleccionda" name="onlyOneSelected" description="Solo una de las banderas en el contrato de la tarea de Dictamen debe estar seleccionda como True">
-              <inputNames>isSolicitudArchivadaDictamenInput</inputNames>
-              <inputNames>isSolicitudNoAdmitidaDictamenInput</inputNames>
-              <inputNames>isSolicitudAdmitidaDictamenInput</inputNames>
-            </constraints>
+            <inputs xmi:type="process:ContractInput" xmi:id="_cl38wKBkEe6I3cpu7ZGGKg" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_cl4j0KBkEe6I3cpu7ZGGKg" name="mensaje_comite_admision" createMode="false"/>
+            </inputs>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_vh72nFl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
         </elements>
@@ -4058,7 +4120,7 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_0F3EYH56Ee6TwbILgRGNhw" subprocessTarget="plantillaInput">
-            <processSource xmi:type="expression:Expression" xmi:id="_0F3EYX56Ee6TwbILgRGNhw" name="newScript()" content="&quot;&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_0F3EYX56Ee6TwbILgRGNhw" name="newScript()" content="&quot;psgr-solicitud-archivada-dictamen&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_0PN0sH56Ee6TwbILgRGNhw" subprocessTarget="campusInput">
             <processSource xmi:type="expression:Expression" xmi:id="_0PN0sX56Ee6TwbILgRGNhw" name="newScript()" content="registro.campus.grupo_bonita" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -4215,7 +4277,7 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_geCTwH57Ee6TwbILgRGNhw" subprocessTarget="plantillaInput">
-            <processSource xmi:type="expression:Expression" xmi:id="_geC60H57Ee6TwbILgRGNhw" name="newScript()" content="&quot;&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_geC60H57Ee6TwbILgRGNhw" name="psgr-solicitud-admitida" content="&quot;psgr-solicitud-admitida&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_gnCewH57Ee6TwbILgRGNhw" subprocessTarget="campusInput">
             <processSource xmi:type="expression:Expression" xmi:id="_gnCewX57Ee6TwbILgRGNhw" name="newScript()" content="registro.campus.grupo_bonita&#xD;&#xA;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -4434,7 +4496,7 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_tOLgJ5niEe6BLbGPQjgoHQ" subprocessTarget="plantillaInput">
-            <processSource xmi:type="expression:Expression" xmi:id="_tOLgKJniEe6BLbGPQjgoHQ" name="newScript()" content="&quot;&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_tOLgKJniEe6BLbGPQjgoHQ" name="psgr-solicitud-no-admitida" content="&quot;psgr-solicitud-no-admitida&quot;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_tOLgKZniEe6BLbGPQjgoHQ" subprocessTarget="campusInput">
             <processSource xmi:type="expression:Expression" xmi:id="_tOLgKpniEe6BLbGPQjgoHQ" name="newScript()" content="registro.campus.grupo_bonita&#xD;&#xA;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
