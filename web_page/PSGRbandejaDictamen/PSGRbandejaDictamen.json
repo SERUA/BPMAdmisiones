@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRbandejaDictamen",
   "name" : "PSGRbandejaDictamen",
-  "lastUpdate" : 1703115351845,
+  "lastUpdate" : 1703181996779,
   "rows" : [
     [
       {
@@ -515,6 +515,10 @@
                             "filtroExcel" : {
                               "type" : "variable",
                               "value" : "filtroExcel"
+                            },
+                            "isDirectToDictamen" : {
+                              "type" : "constant",
+                              "value" : true
                             }
                           },
                           "reference" : "6559ad3d-69e1-4b32-a02a-d3d04d159b30",
@@ -649,6 +653,10 @@
                             "filtroExcel" : {
                               "type" : "variable",
                               "value" : "filtroExcel"
+                            },
+                            "isDirectToDictamen" : {
+                              "type" : "constant",
+                              "value" : true
                             }
                           },
                           "reference" : "9a0e179a-6502-4fc4-9b0c-3f0063250b85",
@@ -702,6 +710,58 @@
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "En esta bandeja se muestra las solicitudes que fueron <b>archivadas en dictamen</b>."
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "left"
+                            }
+                          },
+                          "reference" : "bb172f9d-bcd9-43de-bdbe-48fddf5c6710",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
                       [
                         {
                           "type" : "component",
@@ -933,7 +993,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\":\"'solicitud_rechazada_admin'\",\r",
+        "    \"estatusSolicitud\":\"'solicitud_archivada_dictamen'\",\r",
         "    \"tarea\":\"Validar Información\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"type\": \"nuevas_solicitudes\",\r",
@@ -1045,7 +1105,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\":\"'solicitud_aprobada_admin'\",\r",
+        "    \"estatusSolicitud\":\"'solicitud_admitida'\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\":$data.userData.user_name,\r",
         "    \"orderby\":\"\",\r",
@@ -1061,7 +1121,7 @@
       "type" : "expression",
       "value" : [
         "return {\r",
-        "    \"estatusSolicitud\":\"'solicitud_aprobada_admin'\",\r",
+        "    \"estatusSolicitud\":\"'solicitud_no_admitida'\",\r",
         "    \"lstFiltro\": $data.lstFiltros,\r",
         "    \"usuario\":$data.userData.user_name,\r",
         "    \"orderby\":\"\",\r",

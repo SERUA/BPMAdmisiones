@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1703115915967,
+  "lastUpdate" : 1703271679079,
   "rows" : [
     [
       {
@@ -2310,7 +2310,7 @@
                                             },
                                             "required" : {
                                               "type" : "constant",
-                                              "value" : false
+                                              "value" : true
                                             },
                                             "minLength" : {
                                               "type" : "constant",
@@ -16994,7 +16994,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "<br>"
+                  "value" : ""
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -17038,7 +17038,7 @@
                 },
                 "pageToken" : {
                   "type" : "constant",
-                  "value" : "pg_pase_lista"
+                  "value" : "pg_solicitudes_pase_lista"
                 },
                 "processName" : {
                   "type" : "constant"
@@ -17212,7 +17212,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Esta tarea no esta disponible actualmente.<br>{{task ? \"Tarea actual: \" + task.name : \"\"}}\n<br>"
+                  "value" : "Esta tarea no esta disponible actualmente.<br>{{task ? \"Tarea actual: \" + task.name : \"\"}}"
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -17220,6 +17220,58 @@
                 }
               },
               "reference" : "04ed3012-2250-4d43-9ec9-d7fbc4bc6b27",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : ""
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "9ab54b40-6042-4e68-bf5a-7393ccb2d135",
               "hasValidationError" : false,
               "id" : "pbText"
             }
@@ -17256,7 +17308,7 @@
                 },
                 "pageToken" : {
                   "type" : "constant",
-                  "value" : "pg_pase_lista"
+                  "value" : "pg_solicitudes_pase_lista"
                 },
                 "processName" : {
                   "type" : "constant"
@@ -17624,7 +17676,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "danger"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -17776,7 +17828,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>Confirmación<hr>"
+                    "value" : "<br>Confirmar asistencia<hr>"
                   },
                   "level" : {
                     "type" : "constant",
@@ -17848,6 +17900,58 @@
               {
                 "type" : "component",
                 "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<hr>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "83825a34-4560-41fb-a4bf-839f5d973dfd",
+                "hasValidationError" : false,
+                "id" : "pbText"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
                   "xs" : 6,
                   "sm" : 6,
                   "md" : 6,
@@ -17876,7 +17980,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "default"
+                    "value" : "info"
                   },
                   "action" : {
                     "type" : "constant",
@@ -17964,7 +18068,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "success"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -18094,14 +18198,14 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>"
+                    "value" : ""
                   },
                   "alignment" : {
                     "type" : "constant",
                     "value" : "left"
                   }
                 },
-                "reference" : "83825a34-4560-41fb-a4bf-839f5d973dfd",
+                "reference" : "40f896d6-7d16-48db-a07f-ac2b13cfdca4",
                 "hasValidationError" : false,
                 "id" : "pbText"
               }
@@ -18170,7 +18274,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>Confirmación<hr>"
+                    "value" : "<br>Confirmar no asistencia<hr>"
                   },
                   "level" : {
                     "type" : "constant",
@@ -18226,7 +18330,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a <b>reagendar</b>. Si deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
+                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a <b>reagendar</b>. Si, por lo contrario, deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -18234,6 +18338,58 @@
                   }
                 },
                 "reference" : "20ef5938-4424-4ded-ab62-65da96cc89c8",
+                "hasValidationError" : false,
+                "id" : "pbText"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : false
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<hr>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "086c8f5d-307a-463b-88d7-f08e643c1124",
                 "hasValidationError" : false,
                 "id" : "pbText"
               }
@@ -18270,7 +18426,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "default"
+                    "value" : "info"
                   },
                   "action" : {
                     "type" : "constant",
@@ -18358,7 +18514,7 @@
                   },
                   "buttonStyle" : {
                     "type" : "constant",
-                    "value" : "danger"
+                    "value" : "primary"
                   },
                   "action" : {
                     "type" : "constant",
@@ -18488,14 +18644,14 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "<br>"
+                    "value" : ""
                   },
                   "alignment" : {
                     "type" : "constant",
                     "value" : "left"
                   }
                 },
-                "reference" : "086c8f5d-307a-463b-88d7-f08e643c1124",
+                "reference" : "2d920016-33b3-44ac-90f3-341f46c0036a",
                 "hasValidationError" : false,
                 "id" : "pbText"
               }
@@ -24089,20 +24245,6 @@
       ],
       "exposed" : false
     },
-    "entrevistaFormOutput" : {
-      "type" : "expression",
-      "value" : [
-        "const esReagendar = $data.entrevistaFormInput.desicion && $data.entrevistaFormInput.desicion === \"Marcar sin asistencia y reagendar cita.\" ? true : false;",
-        "",
-        "// Obtener los valor correctamente.",
-        "",
-        "return {",
-        "    isReagendarInput: esReagendar,",
-        "    asistenciaInput: !esReagendar",
-        "};"
-      ],
-      "exposed" : false
-    },
     "historialDeComentariosAreaAcademica" : {
       "type" : "expression",
       "value" : [
@@ -24131,6 +24273,9 @@
         "    isReagendarInput: false,",
         "    asistenciaInput: true,",
         "    isArchivarEnAreaAcademicaInput: false,",
+        "    registroInput: {",
+        "        is_transferido: false",
+        "    },",
         "};"
       ],
       "exposed" : false
@@ -24142,6 +24287,9 @@
         "    isReagendarInput: true,",
         "    asistenciaInput: false,",
         "    isArchivarEnAreaAcademicaInput: false,",
+        "    registroInput: {",
+        "        is_transferido: false",
+        "    },",
         "};"
       ],
       "exposed" : false

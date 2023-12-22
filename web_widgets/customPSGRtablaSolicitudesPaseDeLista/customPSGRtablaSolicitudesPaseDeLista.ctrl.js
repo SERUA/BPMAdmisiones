@@ -108,6 +108,9 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                                 responsable: null,
                             },
                             isArchivarEnReagendarInput: true,
+                            registroInput: {
+                                is_transferido: false,
+                            },
                         }
                     }
                     else {
@@ -116,6 +119,9 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                             isReagendarInput: false,
                             asistenciaInput: false,
                             isArchivarEnAreaAcademicaInput: true,
+                            registroInput: {
+                                is_transferido: false,
+                            },
                         }
                     }
                     
