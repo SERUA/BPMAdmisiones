@@ -29,9 +29,9 @@ function($scope, $http) {
     $scope.previsualizar = function() {
         // "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10"
         doRequest("POST", "/API/extension/posgradosRest?url=generateHtml", null, $scope.properties.datosPrevisualizar, function(datos) {
-            //console.log(document.getElementById($scope.properties.id).innerHTML);
-            //var respuesta = datos.data[0].replace($scope.properties.replace, document.getElementById($scope.properties.id).innerHTML);
-            var respuesta = datos.data[0];
+            //console.log("Esto: " + $scope.properties.value);
+            var respuesta = datos.data[0].replace($scope.properties.replace, document.getElementById($scope.properties.id).innerHTML);
+            //var respuesta = datos.data[0];
             Swal.fire({
                 html: respuesta,
                 showCloseButton: false,

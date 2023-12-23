@@ -147,6 +147,13 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             
         });
     }
+    
+    $scope.tieneCita = function (row) {
+        if (row && row.fecha_entrevista) {
+            return true;
+        }
+        return false;
+    }
   
     function doRequest(method, url, params) {
         $scope.properties.filtroExcel = $scope.properties.dataToSend;

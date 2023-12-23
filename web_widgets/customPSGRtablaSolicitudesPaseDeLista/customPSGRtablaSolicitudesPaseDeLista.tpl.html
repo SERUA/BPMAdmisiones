@@ -51,8 +51,10 @@
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
                   -->
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAREGISTRO')">Fecha de registro<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FERHAREGISTRO'"></i></span></th>
-
+                  <!--
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
+                  -->
+                  <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAENTREVISTA')">Fecha de entrevista<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAENTREVISTA'"></i></span></th>
                   <th> Acciones</th>     
               </tr>
           </thead>
@@ -69,8 +71,10 @@
                   </td>
                   -->
                   <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
-                
-                  <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                  <!--
+                    <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
+                  -->
+                  <td><input ng-model="dynamicInput['fechaentrevista']" class="form-control" ng-enter="filterKeyPress('FECHAENTREVISTA',dynamicInput['fechaentrevista'])"></td>
                   <td></td>
               </tr>
               <tr ng-repeat="row in properties.lstContenido" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
@@ -105,9 +109,12 @@
                       <b>{{row.fecha_registro | date:'dd/MM/yyyy HH:mm'}}</b><br>
                   </td>
                 
-                  <td>
-                      <b>{{row.fecha_ultima_modificacion | date:'dd/MM/yyyy HH:mm'}}</b><br>
+                  <td ng-if="tieneCita(row)">
+                      <b>{{row.fecha_entrevista| date:'dd/MM/yyyy HH:mm'}}</b><br>
                   </td>
+                  <td ng-if="!tieneCita(row)" class="text-danger blink_me">
+                    <b>Cita sin registrar</b><br>
+                    </td>
                   <!--td>
                       {{row.updateDate}}
                   </td-->
@@ -118,7 +125,7 @@
                           </button>
                       </abbr>
                       <abbr title="Pasar lista">
-                          <button type="button" class="btn btn-primary" ng-click="pasarListaSolicitud(row)" ng-if="!properties.isEnReagendacion">
+                          <button type="button" class="btn btn-primary" ng-click="pasarListaSolicitud(row)" ng-if="!properties.isEnReagendacion" ng-disabled="!tieneCita(row)">
                               <span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
                           </button>
                       </abbr>

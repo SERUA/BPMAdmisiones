@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1703273563707,
+  "lastUpdate" : 1703294855231,
   "rows" : [
     [
       {
@@ -52,7 +52,7 @@
           },
           "hidden" : {
             "type" : "constant",
-            "value" : false
+            "value" : true
           },
           "labelHidden" : {
             "type" : "constant",
@@ -76,7 +76,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "dictamenFormOutputArchivar\n<pre>{{dictamenFormOutputArchivar | json}}</pre>\n\ndictamenFormOutputAdmitir\t\n<pre>{{dictamenFormOutputAdmitir | json}}</pre>\n\ndictamenFormOutputNoAdmitir\n<pre>{{dictamenFormOutputNoAdmitir| json}}</pre>"
+            "value" : "task\n<pre>{{task | json}}</pre>\n\ntaskId\t\n<pre>{{taskId}}</pre>\n\ntaskState\n<pre>{{taskState}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -11888,7 +11888,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 6
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -11917,12 +11917,12 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 6
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : ""
+            "value" : "bg-white"
           },
           "hidden" : {
             "type" : "expression",
@@ -12158,7 +12158,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 2
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -12187,7 +12187,7 @@
           "xs" : 12,
           "sm" : 12,
           "md" : 4,
-          "lg" : 8
+          "lg" : 4
         },
         "propertyValues" : {
           "cssClasses" : {
@@ -12196,7 +12196,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "taskState !== 'incorrect'"
+            "value" : "taskState !== 'noTask'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -12283,7 +12283,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Esta tarea no esta disponible actualmente.<br>{{task ? \"Tarea actual: \" + task.name : \"\"}}"
+                  "value" : "No hay tareas disponibles."
                 },
                 "alignment" : {
                   "type" : "constant",
@@ -12354,7 +12354,7 @@
                 "xs" : 12,
                 "sm" : 12,
                 "md" : 12,
-                "lg" : 6
+                "lg" : 12
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -19791,7 +19791,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-admitida\",",
-        "    //\"mensaje\": $data.dictamenFormInput.comentario,",
+        "    \"mensaje\": $data.dictamenFormInput.comentarioAdmision,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -19804,7 +19804,7 @@
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
         "    \"correo\": $data.datosContacto.correo_contacto,",
         "    \"codigo\": \"psgr-solicitud-no-admitida\",",
-        "    //\"mensaje\": $data.dictamenFormInput.comentario,",
+        "    \"mensaje\": $data.dictamenFormInput.comentarioNoAdmision,",
         "    \"isEnviar\": false",
         "};"
       ],
@@ -19830,6 +19830,7 @@
     "taskState" : {
       "type" : "expression",
       "value" : [
+        "if (!$data.taskId) return \"noTask\"",
         "if ($data.isCorrectTask === false) return \"incorrect\";",
         "if ($data.isCorrectTask && $data.taskCompleted) return \"completed\";",
         "if ($data.isCorrectTask && !$data.taskCompleted) return \"ready\";",

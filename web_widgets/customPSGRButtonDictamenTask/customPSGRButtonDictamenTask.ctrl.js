@@ -75,8 +75,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var id;
     id = $scope.properties.taskId;
     if (id) {
-      var params = getUserParam();
-	    params.assign = $scope.properties.assign;
+      var params = {};
+	  params.assign = true;
 
       doRequest('POST', '../API/bpm/userTask/' + id + '/execution', params, $scope.properties.dataToSend,
         // Success callback
@@ -209,14 +209,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
       var dataToSend = angular.extend({}, $scope.properties, additionalProperties);
       $window.parent.postMessage(JSON.stringify(dataToSend), '*');
     }
-  }
-
-  function getUserParam() {
-    var userId = getUrlParam('user');
-    if (userId) {
-      return { 'user': userId };
-    }
-    return {};
   }
 
   /**

@@ -31,7 +31,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 $scope.properties.lstContenido = data.data;
                 $scope.value = data.totalRegistros;
                 $scope.loadPaginado();
-                console.log(data.data)
             })
             .error(function(data, status) {
                 notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
@@ -238,8 +237,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 case "reactivarSolicitud":
                     executeTarea('POST', '../API/bpm/userTask/' + rowData.taskId + '/execution', {}).then(function () {
                         console.log("tarea realizada");
-                        // Recargar pagina
-                        location.reload(true);
+                        // Solicitar recargar datos
+                        setTimeout(() => {
+                            doRequest("POST", $scope.properties.urlPost);
+                        }, 1000)
+                        
                     });
                     break;
             }
