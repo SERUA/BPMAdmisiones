@@ -27,7 +27,7 @@ import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Utilities.FileDownload
 import org.slf4j.LoggerFactory
-
+import org.bonitasoft.engine.bpm.contract.ContractDefinition
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstanceSearchDescriptor
@@ -1275,7 +1275,7 @@ class SolicitudDeAdmisionDAO {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Map<String, Object> row = new HashMap<String, Object>();
-		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		List <?> rows = new ArrayList <?> ();
 		
 		try {
 			def jsonSlurper = new JsonSlurper();
@@ -1306,12 +1306,67 @@ class SolicitudDeAdmisionDAO {
 			searchOptionsBuilder.filter(HumanTaskInstanceSearchDescriptor.PROCESS_INSTANCE_ID, Long.parseLong(object.caseid));
 			
 			List<HumanTaskInstance> tareas = context.apiClient.processAPI.searchHumanTaskInstances(searchOptionsBuilder.done()).getResult();
+			resultado.setAdditional_data(tareas);
+			HumanTaskInstance tareaEjecutar;
+			Map<String, Serializable> contrato = new HashMap<String, Serializable>();
 			
+			if(tareas.size() > 0) {
+				tareaEjecutar = tareas.get(0);
+				rows.add(tareaEjecutar);
+				if(tareaEjecutar.name.equals("Revisar solicitud")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("mensaje_admin_escolar", "Tu solicitud fué transferida, es necesario  que vuelvas a seleccionar la cita para la entrevista");
+					registroInput.put("aprobado_admin_escolar", false);
+					registroInput.put("is_transferido", false);
+					registroInput.put("tipo_alumno", null);
+					registroInput.put("residencia", null);
+					registroInput.put("tipo_admision", null);
+					registroInput.put("curp_validada", false);
+					registroInput.put("documentos_validados", false);
+					registroInput.put("no_duplicado", false);
+					registroInput.put("tiene_requisitos_adicionales", false);
+					registroInput.put("id_banner_validacion", null);
+					registroInput.put("isSolicitudRechazadaAdminEscolarInput", false);
+					registroInput.put("is_transferido", true);
+					contrato.put("registroInput", registroInput);
+					contrato.put("isSolicitudRechazadaAdminEscolarInput", false);
+					contrato.put("isModificarSolicitudInput", false);
+					contrato.put("datosRequisitosAdicionalesInput", new ArrayList<?>());
+				} else if(tareaEjecutar.name.equals("Pase de lista de entrevista")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("is_transferido", true);
+					contrato.put("registroInput", registroInput);
+					contrato.put("isReagendarInput", false);
+					contrato.put("asistenciaInput", false);
+					contrato.put("isArchivarEnAreaAcademicaInput", false);
+				} else if(tareaEjecutar.name.equals("Dictamen de solicitud")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("is_transferido", true);
+					contrato.put("registroInput", registroInput);
+					contrato.put("isSolicitudNoAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudArchivadaDictamenInput", false);
+				} else if(tareaEjecutar.name.equals("Reagendar cita")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("is_transferido", true);
+					contrato.put("registroInput", registroInput);
+					Map<String, Serializable> citaAspiranteInput = new HashMap<String, Serializable>();
+					citaAspiranteInput.put("cita_horario", null);
+					citaAspiranteInput.put("responsable", null);
+					contrato.put("citaAspiranteInput", citaAspiranteInput);
+					contrato.put("isSolicitudNoAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudArchivadaDictamenInput", false);
+				}
+				
+				rows.add(contrato);
+				resultado.setData(rows);
+				context.apiClient.processAPI.assignAndExecuteUserTask(context.apiClient.session.userId, tareaEjecutar.id,  contrato);
+			}
 			
-//			con.commit();
+			con.commit();
 			
 			resultado.setData(rows);
-			resultado.setAdditional_data(tareas);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
