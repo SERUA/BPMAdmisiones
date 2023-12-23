@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1703120175367,
+  "lastUpdate" : 1703291317064,
   "rows" : [
     [
       {
@@ -18560,7 +18560,7 @@
     "context" : {
       "type" : "url",
       "value" : [
-        "../API/bpm/userTask/{{taskId}}/context"
+        "../API/bpm/case/{{caseId}}/context"
       ],
       "advancedOptions" : { },
       "exposed" : false
@@ -18865,6 +18865,14 @@
       "value" : [
         "pagina"
       ],
+      "exposed" : false
+    },
+    "archievedCase" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{caseId}}&p=0"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
