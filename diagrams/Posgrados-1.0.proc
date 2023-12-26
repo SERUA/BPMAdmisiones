@@ -4571,10 +4571,11 @@
                 <mapping xmi:type="process:ContractInputMapping" xmi:id="_26SAMaQ_Ee6lb7B6DUr_kg"/>
               </inputs>
             </inputs>
-            <constraints xmi:type="process:ContractConstraint" xmi:id="_aYtAoKRAEe6lb7B6DUr_kg" expression="int selected = 0;&#xD;&#xA;&#xD;&#xA;if (isSolicitudAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudNoAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudArchivadaDictamenInput) selected++;&#xD;&#xA;&#xD;&#xA;if (selected == 1) {&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return false;&#xD;&#xA;}" errorMessage="Más de una bandera en el contrato esta seleccionda" name="onlyOneSelected" description="Solo una de las banderas en el contrato de la tarea de Dictamen debe estar seleccionda como True">
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_aYtAoKRAEe6lb7B6DUr_kg" expression="int selected = 0;&#xD;&#xA;&#xD;&#xA;if (registroInput.is_transferido) return true;&#xD;&#xA;&#xD;&#xA;if (isSolicitudAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudNoAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudArchivadaDictamenInput) selected++;&#xD;&#xA;&#xD;&#xA;if (selected == 1) {&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return false;&#xD;&#xA;}" errorMessage="Más de una bandera en el contrato esta seleccionda" name="onlyOneSelected" description="Solo una de las banderas en el contrato de la tarea de Dictamen debe estar seleccionda como True">
               <inputNames>isSolicitudArchivadaDictamenInput</inputNames>
               <inputNames>isSolicitudNoAdmitidaDictamenInput</inputNames>
               <inputNames>isSolicitudAdmitidaDictamenInput</inputNames>
+              <inputNames>registroInput</inputNames>
             </constraints>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_vh72nFl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
