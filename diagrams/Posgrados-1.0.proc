@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.85">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.86">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -856,29 +856,6 @@
               <inputTypes>com.anahuac.posgrados.catalog.PSGRCatParentesco</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_VniW0XRgEe62io6YL6-dRw">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_VniW0nRgEe62io6YL6-dRw" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Vni94HRgEe62io6YL6-dRw" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Vni94XRgEe62io6YL6-dRw" name="citaAspiranteInput.cita_horario" content="//Retrieve aggregated PSGRCitaHorario using its DAO and persistenceId&#xD;&#xA;def pSGRCitaHorarioVar = pSGRCitaHorarioDAO.findByPersistenceId(citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaHorarioVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaHorario` with the persistence id &quot; + citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaHorarioVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_Vni94nRgEe62io6YL6-dRw" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_Vni943RgEe62io6YL6-dRw" name="pSGRCitaHorarioDAO" content="pSGRCitaHorarioDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaHorarioDAO" returnTypeFixed="true"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_Vni95HRgEe62io6YL6-dRw" type="JAVA_METHOD" expression="setCita_horario">
-              <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
-            </operator>
-          </operations>
-          <operations xmi:type="expression:Operation" xmi:id="__Fh1gJ68Ee6ITZHZHml78g">
-            <leftOperand xmi:type="expression:Expression" xmi:id="__Fh1gZ68Ee6ITZHZHml78g" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_AM3RAJ69Ee6ITZHZHml78g" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="__Fh1gp68Ee6ITZHZHml78g" name="processInstanceId" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_HVKwcJ69Ee6ITZHZHml78g" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="__Fh1g568Ee6ITZHZHml78g" type="JAVA_METHOD" expression="setCaseid">
-              <inputTypes>java.lang.Long</inputTypes>
-            </operator>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_z8chgHdaEe6y74B7-cOmMw">
             <leftOperand xmi:type="expression:Expression" xmi:id="_z8chgXdaEe6y74B7-cOmMw" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_0lrEsHdaEe6y74B7-cOmMw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
@@ -927,6 +904,41 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_VIwhU4sjEe6Sw7X9paHvZg" type="JAVA_METHOD" expression="setCampus_alumno">
               <inputTypes>com.anahuac.posgrados.catalog.PSGRCatCampus</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="__Fh1gJ68Ee6ITZHZHml78g">
+            <leftOperand xmi:type="expression:Expression" xmi:id="__Fh1gZ68Ee6ITZHZHml78g" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_AM3RAJ69Ee6ITZHZHml78g" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="__Fh1gp68Ee6ITZHZHml78g" name="processInstanceId" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_HVKwcJ69Ee6ITZHZHml78g" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="__Fh1g568Ee6ITZHZHml78g" type="JAVA_METHOD" expression="setCaseid">
+              <inputTypes>java.lang.Long</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_3Hr7V6RFEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_3Hr7WKRFEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_3Hr7WaRFEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_3Hr7WqRFEe6lb7B6DUr_kg" name="citaAspiranteInput.cita_horario" content="//Retrieve aggregated PSGRCitaHorario using its DAO and persistenceId&#xD;&#xA;def pSGRCitaHorarioVar = pSGRCitaHorarioDAO.findByPersistenceId(citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaHorarioVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaHorario` with the persistence id &quot; + citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaHorarioVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_3Hr7W6RFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_3Hr7XKRFEe6lb7B6DUr_kg" name="pSGRCitaHorarioDAO" content="pSGRCitaHorarioDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaHorarioDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_3Hr7XaRFEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setCita_horario">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_3Hr7XqRFEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_3Hr7X6RFEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_3Hr7YKRFEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_3Hr7YaRFEe6lb7B6DUr_kg" name="citaAspiranteInput.responsable" content="//Retrieve aggregated PSGRCitaResponsable using its DAO and persistenceId&#xD;&#xA;def pSGRCitaResponsableVar = pSGRCitaResponsableDAO.findByPersistenceId(citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaResponsableVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaResponsable` with the persistence id &quot; + citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaResponsableVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaResponsable">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_3Hr7YqRFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_3Hr7Y6RFEe6lb7B6DUr_kg" name="pSGRCitaResponsableDAO" content="pSGRCitaResponsableDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaResponsableDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_3Hr7ZKRFEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setResponsable">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaResponsable</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_WsYcE1ZxEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -1188,12 +1200,18 @@
             <inputs xmi:type="process:ContractInput" xmi:id="_Hrvd0GiNEe6xz654-6OqsQ" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
               <inputs xmi:type="process:ContractInput" xmi:id="_HrwE4GiNEe6xz654-6OqsQ" name="lastIndex" type="INTEGER" createMode="false"/>
             </inputs>
-            <inputs xmi:type="process:ContractInput" xmi:id="_VnhvwHRgEe62io6YL6-dRw" name="citaAspiranteInput" type="COMPLEX" dataReference="citaAspirante" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_VnhvwXRgEe62io6YL6-dRw" name="cita_horario" type="COMPLEX" createMode="false">
-                <inputs xmi:type="process:ContractInput" xmi:id="_VnhvwnRgEe62io6YL6-dRw" name="persistenceId_string" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_3Hr7UKRFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" dataReference="citaAspirante" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_3Hr7UaRFEe6lb7B6DUr_kg" name="cita_horario" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_3Hr7UqRFEe6lb7B6DUr_kg" name="persistenceId_string" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_3Hr7U6RFEe6lb7B6DUr_kg" name="responsable" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_3Hr7VKRFEe6lb7B6DUr_kg" name="persistenceId_string" createMode="false"/>
               </inputs>
             </inputs>
-            <constraints xmi:type="process:ContractConstraint" xmi:id="_VniW0HRgEe62io6YL6-dRw" expression="!citaAspiranteInput?.cita_horario || citaAspiranteInput?.cita_horario?.persistenceId_string" errorMessage="PSGRCitaHorario must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_cita_horario">
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_3Hr7VaRFEe6lb7B6DUr_kg" expression="!citaAspiranteInput?.cita_horario || citaAspiranteInput?.cita_horario?.persistenceId_string" errorMessage="PSGRCitaHorario must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_cita_horario">
+              <inputNames>citaAspiranteInput</inputNames>
+            </constraints>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_3Hr7VqRFEe6lb7B6DUr_kg" expression="!citaAspiranteInput?.responsable || citaAspiranteInput?.responsable?.persistenceId_string" errorMessage="PSGRCitaResponsable must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_responsable">
               <inputNames>citaAspiranteInput</inputNames>
             </constraints>
           </contract>
@@ -1209,6 +1227,17 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_vE0X0lZ3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_vE0X0VZ3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_vE0X01Z3Ee6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
+          <operations xmi:type="expression:Operation" xmi:id="_DQ8MIKRGEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_DQ8MIaRGEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Dy2mYKRGEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_DQ8MIqRGEe6lb7B6DUr_kg" name="processInstanceId" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_G5fnMKRGEe6lb7B6DUr_kg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_DQ8MI6RGEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setCaseid">
+              <inputTypes>java.lang.Long</inputTypes>
+            </operator>
+          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_ozP_AprGEe6fdNfdU8bJmQ">
             <leftOperand xmi:type="expression:Expression" xmi:id="_ozP_A5rGEe6fdNfdU8bJmQ" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_ozP_BJrGEe6fdNfdU8bJmQ" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
@@ -2775,18 +2804,6 @@
               <inputTypes>com.anahuac.posgrados.catalog.PSGRCatParentesco</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_Czj5v39IEe6a08PJntrWjQ">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5wH9IEe6a08PJntrWjQ" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5wX9IEe6a08PJntrWjQ" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5wn9IEe6a08PJntrWjQ" name="citaAspiranteInput.cita_horario" content="//Retrieve aggregated PSGRCitaHorario using its DAO and persistenceId&#xD;&#xA;def pSGRCitaHorarioVar = pSGRCitaHorarioDAO.findByPersistenceId(citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaHorarioVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaHorario` with the persistence id &quot; + citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaHorarioVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_Czj5w39IEe6a08PJntrWjQ" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_Czj5xH9IEe6a08PJntrWjQ" name="pSGRCitaHorarioDAO" content="pSGRCitaHorarioDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaHorarioDAO" returnTypeFixed="true"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_Czj5xX9IEe6a08PJntrWjQ" type="JAVA_METHOD" expression="setCita_horario">
-              <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
-            </operator>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_Czj5xn9IEe6a08PJntrWjQ">
             <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5x39IEe6a08PJntrWjQ" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5yH9IEe6a08PJntrWjQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
@@ -2794,6 +2811,41 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5yX9IEe6a08PJntrWjQ" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;return LocalDateTime.now()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.time.LocalDateTime"/>
             <operator xmi:type="expression:Operator" xmi:id="_Czj5yn9IEe6a08PJntrWjQ" type="JAVA_METHOD" expression="setFecha_ultima_modificacion">
               <inputTypes>java.time.LocalDateTime</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_drBJIKREEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_drBJIaREEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_e8FIYKREEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_drBJIqREEe6lb7B6DUr_kg" name="processInstanceId" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_id9TsKREEe6lb7B6DUr_kg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_drBJI6REEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setCaseid">
+              <inputTypes>java.lang.Long</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_RAlod6RFEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_RAloeKRFEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_RAloeaRFEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_RAloeqRFEe6lb7B6DUr_kg" name="citaAspiranteInput.cita_horario" content="//Retrieve aggregated PSGRCitaHorario using its DAO and persistenceId&#xD;&#xA;def pSGRCitaHorarioVar = pSGRCitaHorarioDAO.findByPersistenceId(citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaHorarioVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaHorario` with the persistence id &quot; + citaAspiranteInput?.cita_horario?.persistenceId_string?.trim() ? citaAspiranteInput.cita_horario.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaHorarioVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_RAloe6RFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_RAlofKRFEe6lb7B6DUr_kg" name="pSGRCitaHorarioDAO" content="pSGRCitaHorarioDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaHorarioDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_RAlofaRFEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setCita_horario">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_RAlofqRFEe6lb7B6DUr_kg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_RAlof6RFEe6lb7B6DUr_kg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_RAlogKRFEe6lb7B6DUr_kg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_RAlogaRFEe6lb7B6DUr_kg" name="citaAspiranteInput.responsable" content="//Retrieve aggregated PSGRCitaResponsable using its DAO and persistenceId&#xD;&#xA;def pSGRCitaResponsableVar = pSGRCitaResponsableDAO.findByPersistenceId(citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null)&#xD;&#xA;if (!pSGRCitaResponsableVar) {&#xD;&#xA;&#x9;if (citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null) {&#xD;&#xA;&#x9;&#x9;throw new IllegalArgumentException(&quot;The aggregated reference of type `PSGRCitaResponsable` with the persistence id &quot; + citaAspiranteInput?.responsable?.persistenceId_string?.trim() ? citaAspiranteInput.responsable.persistenceId_string.toLong() : null + &quot; has not been found.&quot;)&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return null&#xD;&#xA;}&#xD;&#xA;return pSGRCitaResponsableVar" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaResponsable">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_RAlogqRFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_RAlog6RFEe6lb7B6DUr_kg" name="pSGRCitaResponsableDAO" content="pSGRCitaResponsableDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.posgrados.model.PSGRCitaResponsableDAO" returnTypeFixed="true"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_RAlohKRFEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setResponsable">
+              <inputTypes>com.anahuac.posgrados.model.PSGRCitaResponsable</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_Czj5y39IEe6a08PJntrWjQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -3043,12 +3095,18 @@
             <inputs xmi:type="process:ContractInput" xmi:id="_Czj6fH9IEe6a08PJntrWjQ" name="registroInput" type="COMPLEX" dataReference="registro" createMode="false">
               <inputs xmi:type="process:ContractInput" xmi:id="_Czj6fX9IEe6a08PJntrWjQ" name="lastIndex" type="INTEGER" createMode="false"/>
             </inputs>
-            <inputs xmi:type="process:ContractInput" xmi:id="_Czj6fn9IEe6a08PJntrWjQ" name="citaAspiranteInput" type="COMPLEX" dataReference="citaAspirante" createMode="false">
-              <inputs xmi:type="process:ContractInput" xmi:id="_Czj6f39IEe6a08PJntrWjQ" name="cita_horario" type="COMPLEX" createMode="false">
-                <inputs xmi:type="process:ContractInput" xmi:id="_Czj6gH9IEe6a08PJntrWjQ" name="persistenceId_string" createMode="false"/>
+            <inputs xmi:type="process:ContractInput" xmi:id="_RAlocKRFEe6lb7B6DUr_kg" name="citaAspiranteInput" type="COMPLEX" dataReference="citaAspirante" createMode="false">
+              <inputs xmi:type="process:ContractInput" xmi:id="_RAlocaRFEe6lb7B6DUr_kg" name="cita_horario" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_RAlocqRFEe6lb7B6DUr_kg" name="persistenceId_string" createMode="false"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_RAloc6RFEe6lb7B6DUr_kg" name="responsable" type="COMPLEX" createMode="false">
+                <inputs xmi:type="process:ContractInput" xmi:id="_RAlodKRFEe6lb7B6DUr_kg" name="persistenceId_string" createMode="false"/>
               </inputs>
             </inputs>
-            <constraints xmi:type="process:ContractConstraint" xmi:id="_Czj6gX9IEe6a08PJntrWjQ" expression="!citaAspiranteInput?.cita_horario || citaAspiranteInput?.cita_horario?.persistenceId_string" errorMessage="PSGRCitaHorario must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_cita_horario">
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_RAlodaRFEe6lb7B6DUr_kg" expression="!citaAspiranteInput?.cita_horario || citaAspiranteInput?.cita_horario?.persistenceId_string" errorMessage="PSGRCitaHorario must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_cita_horario">
+              <inputNames>citaAspiranteInput</inputNames>
+            </constraints>
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_RAlodqRFEe6lb7B6DUr_kg" expression="!citaAspiranteInput?.responsable || citaAspiranteInput?.responsable?.persistenceId_string" errorMessage="PSGRCitaResponsable must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_responsable">
               <inputNames>citaAspiranteInput</inputNames>
             </constraints>
           </contract>
@@ -6587,7 +6645,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_5rEaRlZ2Ee6T3bm1fu0vzg" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_5rEaQ1Z2Ee6T3bm1fu0vzg" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5rEaRFZ2Ee6T3bm1fu0vzg" points="[-32, -1, 201, -164]$[-98, -1, 135, -164]$[-98, 163, 135, 0]$[-211, 163, 22, 0]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_5rEaRFZ2Ee6T3bm1fu0vzg" points="[-32, -15, 201, -178]$[-98, -15, 135, -178]$[-98, 163, 135, 0]$[-211, 163, 22, 0]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_5rFBUFZ2Ee6T3bm1fu0vzg" id="(0.2222222222222222,0.6944444444444444)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_6eVNw1Z3Ee6T3bm1fu0vzg" type="4001" element="_6eVNwFZ3Ee6T3bm1fu0vzg" source="_7M_Dg1Z3Ee6T3bm1fu0vzg" target="_JxTQQFZyEe6T3bm1fu0vzg" roundedBendpointsRadius="10" routing="Rectilinear">
