@@ -288,10 +288,21 @@ class NotificacionDAO {
 			closeCon = validarConexion();
 			String ordenpago = ""
 			String campus_id =""
-			pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD)
+			//pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD)
+			pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD_PSGR)
 			pstm.setString(1, object.correo)
 			rs = pstm.executeQuery()
 				if (rs.next()) {
+					if(object.isEnviar) {
+						// Correos de validación
+						plantilla=plantilla.replace("[MODIFICACIONES-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[MODIFICACIONES-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+						plantilla=plantilla.replace("[ARCHIVAR-EN-VALIDACION-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[ARCHIVAR-EN-VALIDACION-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+						
+						// Correos de dictamen
+						plantilla=plantilla.replace("[ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
+						plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
+					}
+					/*
 					errorlog += "| Variable15.1"
 					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner")==null?"":rs.getString("IdBanner"))
 					errorlog += "| Variable15.2"
@@ -301,6 +312,11 @@ class NotificacionDAO {
 						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
 						errorlog += "| Variable15.3"
 						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
+						
+						// Correos de validación
+						plantilla=plantilla.replace("[MODIFICACIONES-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[MODIFICACIONES-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+						plantilla=plantilla.replace("[ARCHIVAR-EN-VALIDACION-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[ARCHIVAR-EN-VALIDACION-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+						
 					}
 					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
 					
@@ -322,7 +338,7 @@ class NotificacionDAO {
 							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
 						}
 						
-					}
+					}*/
 					
 				}
 			}catch(Exception ex) {
