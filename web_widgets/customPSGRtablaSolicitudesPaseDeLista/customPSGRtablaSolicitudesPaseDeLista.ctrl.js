@@ -53,6 +53,10 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                         isReagendarInput: true,
                         asistenciaInput: false,
                         isArchivarEnAreaAcademicaInput: false,
+                        registroInput: {
+                            is_transferido: false,
+                            mensaje_area_academic: null,
+                        }
                     }
                     // Asignar tarea
                     var params = {};
@@ -121,6 +125,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                             isArchivarEnAreaAcademicaInput: true,
                             registroInput: {
                                 is_transferido: false,
+                                mensaje_area_academic: null,
                             },
                         }
                     }

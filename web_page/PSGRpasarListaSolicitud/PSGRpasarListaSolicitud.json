@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1703286982719,
+  "lastUpdate" : 1703631557227,
   "rows" : [
     [
       {
@@ -16939,11 +16939,11 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "$item"
+                        "value" : "{{$item}}"
                       },
                       "alignment" : {
                         "type" : "constant",
-                        "value" : "left"
+                        "value" : "center"
                       }
                     },
                     "reference" : "8f666a5c-42b5-4e21-a601-10765f673fa9",
@@ -24274,7 +24274,8 @@
         "    asistenciaInput: true,",
         "    isArchivarEnAreaAcademicaInput: false,",
         "    registroInput: {",
-        "        is_transferido: false",
+        "        is_transferido: false,",
+        "        mensaje_area_academic: $data.entrevistaFormInput && $data.entrevistaFormInput.comentario ? $data.entrevistaFormInput.comentario : null,",
         "    },",
         "};"
       ],
@@ -24288,7 +24289,8 @@
         "    asistenciaInput: false,",
         "    isArchivarEnAreaAcademicaInput: false,",
         "    registroInput: {",
-        "        is_transferido: false",
+        "        is_transferido: false,",
+        "        mensaje_area_academic: $data.entrevistaFormInput && $data.entrevistaFormInput.comentario ? $data.entrevistaFormInput.comentario : null,",
         "    },",
         "};"
       ],
