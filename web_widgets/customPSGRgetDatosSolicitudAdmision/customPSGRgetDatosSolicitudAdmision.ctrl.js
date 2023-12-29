@@ -21,7 +21,6 @@ function ($scope, $http) {
                 //getCurrentContext();
             }
         }).error((err) => {
-            debugger;
             task = false;
             //getModelSolicitudApoyoEducativoAlt("../API/bdm/businessData/com.anahuac.SDAE.model.SolicitudApoyoEducativo?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);
             //getModelAutos("../API/bdm/businessData/com.anahuac.SDAE.model.AutosSolicitante?q=findByCaseId&p=0&c=10&f=caseId=" + $scope.properties.caseId);

@@ -1664,12 +1664,40 @@ class PDFDocumentDAO {
 		InputStream targetStream;
 		Boolean streamOpen = false;
 		String errorLog = "";
+		Boolean closeCon = false;
 		
 		try {
-			errorLog += "Entr al metodo ";
+			errorLog += "Entre al metodo ";
 			def jsonSlurper = new JsonSlurper();
 			Result dataResult = new Result();
 			List<List < Object >> lstParams;
+			String estatusSolicitud = "";
+			String jasperParameterName = "";
+			
+			// Verificar caso valido
+			if (!caseid) {
+				throw new Exception('El parametro "caseid" no debe ir vacío');
+			}
+			
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				estatusSolicitud = rs.getString("estatus_solicitud")
+			}
+			else {
+				throw new Exception("No se encontraron registros para el caseid proporcionado. caseid: " + caseid);
+			}
+			
+			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmision";
+			else if (estatusSolicitud == "solicitud_no_admitida") jasperParameterName = "jasperCartaPosgradosNoAdmision";
+			else {
+				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida o solicitud_no_admitida");
+			}
+
+			// Obtener parametros para jasper
 			Result solicitud = getSolicitudPosgrados(caseid, context);
 			List<?> info = solicitud.getData();
 			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
@@ -1681,9 +1709,10 @@ class PDFDocumentDAO {
 					columns = (Map < String, Object >) info.get(0);
 				}
 			} else {
-				throw new Exception("400 Bad Request Usuario no encontrado");
+				throw new Exception("Algo falló al consultar los parametros para la carta de posgrados");
 			}
 			
+			// Generar carta
 			String comentarios = "";
 			Properties prop = new Properties();
 			String propFileName = "configuration.properties";
@@ -1696,7 +1725,7 @@ class PDFDocumentDAO {
 				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
 			}
 			
-			String plantilla = prop.getProperty("jasperCartaPosgrados");
+			String plantilla = prop.getProperty(jasperParameterName);
 			inputStream.close();
 			byte [] file = Base64.getDecoder().decode(plantilla);
 			targetStream = new ByteArrayInputStream(file);
@@ -1724,6 +1753,9 @@ class PDFDocumentDAO {
 			if(streamOpen) {
 				targetStream.close();
 			}
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
 		}
 		
 		return resultado;
@@ -1740,6 +1772,8 @@ class PDFDocumentDAO {
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
+			
+			// Configuraciones (Valores estaticos)
 			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_CARTA_POSGRADOS);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
@@ -1759,14 +1793,50 @@ class PDFDocumentDAO {
 				} else if(rs.getString("clave").equals("carta_posgrado_contacto_dir")) {
 					columns.put("campusContactoDireccion", rs.getString("valor"));
 				} 
+				
+				else if(rs.getString("clave").equals("carta_posgrado_campus")) {
+					columns.put("campus", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_telefono_contacto")) {
+					columns.put("campusTelefonoContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_correo_contacto")) {
+					columns.put("campusCorreoContacto", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_campus_pagina")) {
+					columns.put("campusPagina", rs.getString("valor"));
+				} else if(rs.getString("clave").equals("carta_posgrado_lista_documentos")) {
+					def listaDocumentos = rs.getString("valor").split(",");
+					String listaDocumentosFormateda = "";
+					char letra = 'a';
+					for (String documento : listaDocumentos) {
+						listaDocumentosFormateda += "["+letra+"]. " + documento.trim() + "\n";
+						letra = (char) (letra + 1);
+					}
+					columns.put("listaDocumentos", listaDocumentosFormateda);
+				}
 			}
 			
-			Date fechaActual = new Date();
-			SimpleDateFormat formato = new SimpleDateFormat("EEEE dd 'de' MMMM 'del' yyyy", new Locale("es", "ES"));
-			String fechaFormateada = formato.format(fechaActual);
+			// Variables (Valores dinamicos)
+			pstm = con.prepareStatement(Statements.GET_VARIABLES_CARTA_POSGRADOS);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
 			
-			columns.put("fecha", fechaFormateada);
-			
+			if (rs.next()) {
+				
+				String nombreCompleto = rs.getString("nombre") + " " + rs.getString("apellido_paterno");
+				if (rs.getString("apellido_materno")) nombreCompleto += " " + rs.getString("apellido_materno");
+
+				String fechaDictamen = rs.getString("fecha_dictamen");
+				if (!fechaDictamen) fechaDictamen = "Fecha no definida";
+				
+				columns.put("nombreAspirante", nombreCompleto);
+				columns.put("idBanner", rs.getString("id_banner_validacion"));
+				columns.put("fecha", fechaDictamen);
+				columns.put("campus", rs.getString("campus"));
+				columns.put("posgrado", rs.getString("posgrado"));
+				columns.put("programa", rs.getString("programa_interes"));
+				columns.put("periodoIngreso", rs.getString("periodo_ingreso"));
+				columns.put("fechaLimiteDocumentos", "No definida");
+			}
+
 			resultado.setSuccess(true);
 			rows.add(columns);
 			resultado.setData(rows);

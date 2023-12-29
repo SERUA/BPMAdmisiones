@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1703291317064,
+  "lastUpdate" : 1703808964397,
   "rows" : [
     [
       {
@@ -13683,7 +13683,7 @@
                 },
                 "caseid" : {
                   "type" : "expression",
-                  "value" : "caseId"
+                  "value" : "archievedCaseid"
                 }
               },
               "reference" : "65a8ee02-2790-4d83-bd65-1e7ad7909d73",
@@ -18871,6 +18871,31 @@
       "type" : "url",
       "value" : [
         "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{caseId}}&p=0"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "archievedCaseList" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase?p=0&c=100&f=started_by={{session.user_id}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "archievedCaseid" : {
+      "type" : "expression",
+      "value" : [
+        "if($data.archievedCaseList){",
+        "    return $data.archievedCaseList[0].rootCaseId;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "session" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/1"
       ],
       "advancedOptions" : { },
       "exposed" : false
