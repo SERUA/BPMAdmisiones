@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1703808964397,
+  "lastUpdate" : 1703886994165,
   "rows" : [
     [
       {
@@ -13594,6 +13594,129 @@
               "hasValidationError" : false,
               "id" : "customPSGRcalendarioCitasV1"
             }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "<br>"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "4e0b57fa-e7f3-4776-babb-c6581059c54a",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "Ir a reagendar"
+                },
+                "type" : {
+                  "type" : "constant",
+                  "value" : "page"
+                },
+                "targetUrl" : {
+                  "type" : "constant",
+                  "value" : "http://"
+                },
+                "pageToken" : {
+                  "type" : "constant",
+                  "value" : "pg_reagendar_cita"
+                },
+                "processName" : {
+                  "type" : "constant"
+                },
+                "processVersion" : {
+                  "type" : "constant"
+                },
+                "taskId" : {
+                  "type" : "constant"
+                },
+                "caseId" : {
+                  "type" : "constant"
+                },
+                "target" : {
+                  "type" : "constant",
+                  "value" : "_self"
+                },
+                "appToken" : {
+                  "type" : "constant",
+                  "value" : "pg_aspirante"
+                },
+                "urlParams" : {
+                  "type" : "constant"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "center"
+                },
+                "buttonStyle" : {
+                  "type" : "constant",
+                  "value" : "primary"
+                }
+              },
+              "reference" : "37a4acdb-2d29-4d40-a1fa-9fec0a6f0865",
+              "hasValidationError" : false,
+              "id" : "pbLink"
+            }
           ]
         ]
       }
@@ -13684,6 +13807,10 @@
                 "caseid" : {
                   "type" : "expression",
                   "value" : "archievedCaseid"
+                },
+                "estatusSolicitud" : {
+                  "type" : "expression",
+                  "value" : "estatusSolicitud"
                 }
               },
               "reference" : "65a8ee02-2790-4d83-bd65-1e7ad7909d73",
@@ -18880,7 +19007,11 @@
       "value" : [
         "../API/bpm/archivedCase?p=0&c=100&f=started_by={{session.user_id}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "archievedCaseid" : {
@@ -18898,6 +19029,16 @@
         "../API/system/session/1"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "estatusSolicitud" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.archievedCaseid === undefined || $data.archievedCaseid === null)",
+        "    return \"No definido\";",
+        "if ($data.archievedCase[0])",
+        "return \"Admitido\";"
+      ],
       "exposed" : false
     }
   },
