@@ -2269,6 +2269,8 @@ class CatalogosDAO {
 				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
 			}
 	
+			// Actualizar datos del registro Gestion escolar.
+			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATGESTIONESCOLAR);
 //			pstm.setString(1, object.CAMPUS); // CAMPUS
 //			pstm.setInt(4, 0); // PROPEDEUTICOS
@@ -2294,10 +2296,17 @@ class CatalogosDAO {
 			pstm.setLong(17, object.persistenceId);
 	
 			if (pstm.executeUpdate() > 0) {
-				resultado.setSuccess(true);
+				
 			} else {
 				throw new Exception("No se pudo modificar el registro.")
 			}
+			
+			// Actualizar la lista de periodos disponibles:
+			
+			
+			
+			resultado.setSuccess(true);
+			
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[updateCatGestionEscolar] " + e.getMessage())
@@ -2359,7 +2368,7 @@ class CatalogosDAO {
 			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
 			closeCon = validarConexion();
 
-			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND posgrado.persistenceid = GE.posgrado_pid "
+			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND GE.posgrado_pid = " + object.posgrado_pid
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {

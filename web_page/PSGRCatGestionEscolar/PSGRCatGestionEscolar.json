@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1702511145758,
+  "lastUpdate" : 1703898658082,
   "rows" : [
     [
       {
@@ -41,6 +41,58 @@
         "reference" : "0fe6a521-a619-43a9-9a38-9324a47e0ebc",
         "hasValidationError" : false,
         "id" : "customPSGRWidgetHeader"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "5ccc7269-b9bf-4dfb-94df-34ded8e446bf",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -3553,58 +3605,6 @@
     ],
     [
       {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "aaa9c7f5-a25f-4d50-a23f-3aeb6a284a45",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
-    [
-      {
         "type" : "container",
         "dimension" : {
           "xs" : 12,
@@ -5770,6 +5770,58 @@
                     "hasValidationError" : false,
                     "id" : "customChecklist3MD"
                   }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "aaa9c7f5-a25f-4d50-a23f-3aeb6a284a45",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
                 ]
               ]
             }
@@ -6933,7 +6985,7 @@
     "urlRefreshPaginado" : {
       "type" : "expression",
       "value" : [
-        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatGestionEscolar?q=getCatGestionEscolarByCampus&p=\"+$data.inicio+\"&c=\"+$data.numeroRegistro+\"&f=campus=\"+$data.campusSelected.valor;"
+        "return \"../API/bdm/businessData/com.anahuac.catalogos.CatGestionEscolar?q=getCatGestionEscolarByCampus&p=\"+$data.inicio+\"&c=\"+$data.numeroRegistro+\"&f=campus=\"+$data.campusSelected.valor+\"f=posgrado=\"+$data.gradoSelected;"
       ],
       "exposed" : false
     },
@@ -7201,8 +7253,9 @@
         "    \"orientation\":\"ASC\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
-        "    \"persistenceid\":$data.campusSelected.persistenceid,\r",
-        "    \"campus\":$data.campusSelected.descripcion\r",
+        "    \"campus\":$data.campusSelected.descripcion,\r",
+        "    \"campus_pid\":$data.campusSelected.persistenceId,\r",
+        "    \"posgrado_pid\": $data.gradoSelected.persistenceId,\r",
         "};"
       ],
       "exposed" : false
