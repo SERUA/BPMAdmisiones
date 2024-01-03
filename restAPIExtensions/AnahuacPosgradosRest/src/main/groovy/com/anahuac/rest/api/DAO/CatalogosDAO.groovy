@@ -2231,6 +2231,8 @@ class CatalogosDAO {
 	
 		try {
 			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
 			def jsonSlurper = new JsonSlurper()
 			def jsonObject = jsonSlurper.parseText(jsonData)
 			
@@ -2303,13 +2305,48 @@ class CatalogosDAO {
 			
 			// Actualizar la lista de periodos disponibles:
 			
+			if (object.periodo_disponible && object.periodo_disponible instanceof ArrayList) {
+				
+				// Conversión
+				Long programa_pid = 0L;
+				try {
+					programa_pid = Long.valueOf(object.persistenceId);
+				}
+				catch (Exception e) {
+					throw new Exception("Falló al tratar de convertir el persistenceId a Long. " + e.message);
+				}
+				
+				if (programa_pid != 0) {
+					// Eliminar las relaciones existentes para el programa especificado
+					pstm = con.prepareStatement(StatementsCatalogos.DELETE_LST_PERIODOS_DISPONIBLES);
+					pstm.setLong(1, programa_pid);
+					
+					pstm.executeUpdate();
+					
+					// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
+					String valuesToInsert = ""
+					object.periodo_disponible.eachWithIndex { periodo, index ->						
+						if (index != 0) {
+							valuesToInsert += ", "
+						}
+						
+						int orderValue = index + 1;
+						valuesToInsert += "(" + programa_pid + ", " + periodo.persistenceId + ", " + orderValue + ")"
+					}
+					
+					pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
+					pstm.execute();
+				}
+			}
 			
+			con.commit();
 			
 			resultado.setSuccess(true);
 			
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateCatGestionEscolar] " + e.getMessage())
+			resultado.setError("[updateCatGestionEscolar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -2617,6 +2654,78 @@ class CatalogosDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getLstPeriodosDisponibles(String programa_pid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			// ---Validación---
+			if (programa_pid == null) {
+				throw new Exception('El parametro "programa_pid" es requerido');
+			}
+			
+			// ---Conversión---
+			Long programaId = -1L;
+			
+			try {
+				programaId = Long.valueOf(programa_pid);
+			}
+			catch (Exception e) {
+				throw new Exception('Falló al tratar de convertir el parametro "programa_pid" a Long. ' + e.message);
+			}
+			
+			// ---Ejecución---
+			pstm = con.prepareStatement(StatementsCatalogos.GET_LST_PERIODOS_DISPONIBLES);
+			pstm.setLong(1, programaId);
+
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("activo", rs.getBoolean("activo"));
+				row.put("is_eliminado", rs.getBoolean("is_eliminado"));
+				row.put("clave", rs.getString("clave"));
+				row.put("descripcion", rs.getString("descripcion"));
+				row.put("fecha_inicio", rs.getString("fecha_inicio"));
+				row.put("fecha_fin", rs.getString("fecha_fin"));
+				row.put("fecha_creacion", rs.getString("fecha_creacion"));
+				row.put("fecha_importacion", rs.getString("fecha_importacion"));
+				row.put("id", rs.getString("id"));
+				row.put("is_anual", rs.getBoolean("is_anual"));
+				row.put("is_cuatrimestral", rs.getBoolean("is_cuatrimestral"));
+				row.put("is_semestral", rs.getBoolean("is_semestral"));
+				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
+				row.put("is_enabled", rs.getBoolean("is_enabled"));
+				row.put("ano", rs.getString("ano"));
+				row.put("codigo", rs.getString("codigo"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getLstPeriodosDisponibles] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 	
 	public Result getLstCampus(String jsonData) {

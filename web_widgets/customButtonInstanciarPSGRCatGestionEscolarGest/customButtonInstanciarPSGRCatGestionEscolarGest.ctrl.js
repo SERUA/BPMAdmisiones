@@ -18,7 +18,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             addToCollection();
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Submit task') {
-            debugger;
             if($scope.properties.dataToChange == "agregar"){
                 accionCatalogoInsert($scope.properties.urlInsert)
             }else if($scope.properties.dataToChange == "editar"){
@@ -40,7 +39,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     function accionCatalogoInsert(urlInsert){
-        debugger;
         vm.busy = true;
         $scope.properties.dataToSend.lstCatGestionEscolarInput[0].CAMPUS = $scope.properties.campusSelected;
 
@@ -550,7 +548,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * @return {void}
      */
     function doRequest(method, url, params) {
-        ddebugger;
         vm.busy = true;
         var req = {
             method: method,

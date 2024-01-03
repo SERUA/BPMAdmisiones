@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1703891683842,
+  "lastUpdate" : 1704249025649,
   "rows" : [
     [
       {
@@ -88,7 +88,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "datosDocumentosDisponibles\n<pre>{{datosDocumentosDisponibles | json}}</pre>"
+            "value" : "Consultando mediente bonita:<br>\ndatosPrograma_programa_interes_periodo_disponible\n<pre>{{datosPrograma_programa_interes_periodo_disponible | json}}</pre>\n\nConsultando mediante servicio:<br>\nperiodos_disponibles_query\n<pre>{{periodos_disponibles_query | json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -140,7 +140,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>"
+            "value" : "datosPrograma.programa_interes\n<pre>{{datosPrograma.programa_interes| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -22860,6 +22860,18 @@
         "    return datosDocumentosDisponibles;",
         "}"
       ],
+      "exposed" : false
+    },
+    "periodos_disponibles_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getLstPeriodosDisponibles&programa_pid={{datosPrograma.programa_interes.persistenceId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     }
   },

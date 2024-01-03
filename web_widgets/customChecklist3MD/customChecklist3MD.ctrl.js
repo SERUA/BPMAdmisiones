@@ -7,7 +7,11 @@ function PbChecklistCtrl($scope, $parse, widgetNameFactory, $log) {
    * Watch the data source and set wrapChoices and $scope.properties.selectedValues
    */
   function comparator(item, initialValue) {
-    return angular.equals(item, initialValue);
+    // Se espera utilizar esta funcion para comparar dos objetos que representen el registro de un PSGRCatPeriodo.
+    if (item.persistenceId && initialValue.persistenceId) {
+      return item.persistenceId === initialValue.persistenceId;
+    }
+    return false;
   }
 
   function createGetter(accessor) {
@@ -27,6 +31,7 @@ function PbChecklistCtrl($scope, $parse, widgetNameFactory, $log) {
    * update the scope.properties.selectedValues with the selected items
    */
   this.updateValues = function () {
+    debugger
     $scope.properties.selectedValues = ctrl.selectedItems
       .map(function (checked, index) {
         if (checked !== true) {
@@ -40,6 +45,7 @@ function PbChecklistCtrl($scope, $parse, widgetNameFactory, $log) {
   };
 
   function updateSelectedValues() {
+    console.log("entre en updateSelectedValues()")
     ctrl.selectedItems = ($scope.properties.availableValues || []).map(function (item) {
       if (Array.isArray($scope.properties.selectedValues)) {
         return $scope.properties.selectedValues.some(comparator.bind(null, ctrl.getValue(item)));

@@ -58,7 +58,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     }
 
     function doRequest(method, url, params) {
-        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -363,7 +362,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     });
     */
     function doRequestEstado(method, url, params) {
-        debugger;
         return $http({
             method: method,
             url: url,
@@ -383,7 +381,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     }
 
     this.handleTrashClick = function (row) {
-        debugger;
         var persistenceid = row.persistenceId; // Obtener el persistenceid del row
         $scope.deleteCatalogo({ persistenceid: persistenceid }) // Enviar persistenceid como objeto JSON
             .then(function () {
@@ -396,7 +393,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };
     
     $scope.deleteCatalogo = function (dataToDelete) {
-        debugger;
         // Realiza la solicitud HTTP para eliminar el registro utilizando la matriz JSON
         $scope.busy = true;
     

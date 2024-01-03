@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1703898658082,
+  "lastUpdate" : 1704248563018,
   "rows" : [
     [
       {
@@ -83,7 +83,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>"
+            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>\n\ncatGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>\n\ncatGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -5759,7 +5759,7 @@
                       },
                       "selectedValues" : {
                         "type" : "variable",
-                        "value" : "catGestionEscolar_selected.periodoDisponible"
+                        "value" : "catGestionEscolar_selected.periodo_disponible"
                       },
                       "anchoEtiqueta" : {
                         "type" : "variable",
@@ -6831,7 +6831,7 @@
       "type" : "json",
       "value" : [
         "{\r",
-        "    \"persistenceId\": 0, \r",
+        "    \"persistenceId\": null, \r",
         "    \"persistenceId_string\": \"0\", \r",
         "    \"persistenceVersion\": 0, \r",
         "    \"persistenceVersion_string\": \"0\", \r",
@@ -6843,7 +6843,7 @@
         "    \"matematicas\": false, \r",
         "    \"inscripcion_enero\": null, \r",
         "    \"inscripcion_agosto\": null,\r",
-        "    \"periodoDisponible\": [], \r",
+        "    \"periodo_disponible\": [], \r",
         "    \"propedeuticos\":[],\r",
         "    \"tipo_centro_estudios\": null, \r",
         "    \"isEliminado\": false, \r",
@@ -6999,7 +6999,6 @@
     "cargar_catDatos" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "if ($data.gradoSelected === undefined || $data.gradoSelected.length < 1) {",
         "    return false;",
         "} else {",
@@ -7011,7 +7010,6 @@
     "lstCampus" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "var resultado = [];",
         "",
         "for(var x in $data.lstCampusByUser){",
@@ -7032,7 +7030,6 @@
     "lstCampusByUser" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "var resultado=[];",
         "",
         "for(var x in $data.lstMembership){",
@@ -7064,7 +7061,6 @@
     "lstCampusRole" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var lstData = []\r",
         "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
@@ -7315,7 +7311,6 @@
       "type" : "expression",
       "value" : [
         "if($data.editable  === \"editar\"){",
-        "    debugger;",
         "    if($data.catGestionEscolar_selected.tipo_licenciatura === \"Cuatrimestral\"){",
         "        $data.catGestionEscolar_selected.inscripcion_agosto = \"0\";",
         "    }else if($data.catGestionEscolar_selected.tipo_licenciatura === \"Anual\"){",
@@ -7373,15 +7368,6 @@
       ],
       "exposed" : false
     },
-    "debugger" : {
-      "type" : "expression",
-      "value" : [
-        "debugger;",
-        "$data.campusSelected;",
-        "$data.gradoSelected;"
-      ],
-      "exposed" : false
-    },
     "pSGRCatPosgrado_query" : {
       "type" : "url",
       "value" : [
@@ -7411,6 +7397,36 @@
         "statusCode" : "",
         "failedResponseValue" : ""
       },
+      "exposed" : false
+    },
+    "catGestionEscolar_selected_periodo_disponible" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getLstPeriodosDisponibles&programa_pid={{catGestionEscolar_selected.persistenceId}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "addPeriodosDisponiblesToSelectedPrograma" : {
+      "type" : "expression",
+      "value" : [
+        "// Agrega el resultado de la consulta de PeriodosDisponibles a programa seleccionado actualmente.",
+        "if ($data.catGestionEscolar_selected_periodo_disponible && $data.catGestionEscolar_selected && !$data.periodo_disponible_initialized) {",
+        "    $data.catGestionEscolar_selected.periodo_disponible = $data.catGestionEscolar_selected_periodo_disponible;",
+        "    $data.periodo_disponible_initialized = true;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "periodo_disponible_initialized" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
       "exposed" : false
     }
   },
