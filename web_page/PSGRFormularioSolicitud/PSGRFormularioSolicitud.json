@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1704249025649,
+  "lastUpdate" : 1704395775145,
   "rows" : [
     [
       {
@@ -46,110 +46,6 @@
         "reference" : "59e43d40-d3ac-4588-9d48-6f1418afb3a7",
         "hasValidationError" : false,
         "id" : "customPSGRgetdatosSolicitud"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "Consultando mediente bonita:<br>\ndatosPrograma_programa_interes_periodo_disponible\n<pre>{{datosPrograma_programa_interes_periodo_disponible | json}}</pre>\n\nConsultando mediante servicio:<br>\nperiodos_disponibles_query\n<pre>{{periodos_disponibles_query | json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "9b580ecc-bdb4-40ba-a4d9-5144323ffc1f",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "datosPrograma.programa_interes\n<pre>{{datosPrograma.programa_interes| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "cdef1e4b-6e6d-4e3b-b280-51d6e2c2d8bd",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -845,7 +741,7 @@
                     "description" : ""
                   },
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
                       "xs" : 12,
                       "sm" : 12,
@@ -861,53 +757,161 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "expression",
-                        "value" : "!datosPrograma.programa_interes"
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Período:"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "placeholder" : {
-                        "type" : "interpolation",
-                        "value" : "Selecciona una opción"
-                      },
-                      "availableValues" : {
-                        "type" : "expression",
-                        "value" : "periodos"
-                      },
-                      "displayedKey" : {
-                        "type" : "constant",
-                        "value" : "descripcion"
-                      },
-                      "returnedKey" : {
-                        "type" : "constant"
-                      },
-                      "value" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "datosPrograma.periodo_ingreso"
+                        "value" : ""
                       }
                     },
-                    "reference" : "7cda0052-9877-4ffd-85c6-510b6d2574be",
+                    "reference" : "8e96fd0f-0e0b-4fd6-99dc-42531232129f",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "periodos_disponibles_formateado.length === 0"
+                            },
+                            "disabled" : {
+                              "type" : "expression",
+                              "value" : "!datosPrograma.programa_interes"
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Período:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation",
+                              "value" : "Selecciona una opción"
+                            },
+                            "availableValues" : {
+                              "type" : "expression",
+                              "value" : "periodos_disponibles_formateado"
+                            },
+                            "displayedKey" : {
+                              "type" : "constant",
+                              "value" : "descripcion"
+                            },
+                            "returnedKey" : {
+                              "type" : "constant"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : "datosPrograma.periodo_ingreso"
+                            }
+                          },
+                          "reference" : "7cda0052-9877-4ffd-85c6-510b6d2574be",
+                          "hasValidationError" : false,
+                          "id" : "pbSelect"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "periodos_disponibles_formateado.length !== 0"
+                            },
+                            "required" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "minLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "maxLength" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "readOnly" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Período:"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "placeholder" : {
+                              "type" : "interpolation",
+                              "value" : "El programa no tiene periodos disponibles"
+                            },
+                            "value" : {
+                              "type" : "variable",
+                              "value" : ""
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "text"
+                            },
+                            "min" : {
+                              "type" : "constant"
+                            },
+                            "max" : {
+                              "type" : "constant"
+                            },
+                            "step" : {
+                              "type" : "constant",
+                              "value" : 1
+                            }
+                          },
+                          "reference" : "38a4de2e-e2cf-4121-a637-4c4e09de2784",
+                          "hasValidationError" : false,
+                          "id" : "pbInput"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
@@ -21209,13 +21213,6 @@
   ],
   "inactiveAssets" : [ ],
   "variables" : {
-    "datosPrograma_programa_interes_periodo_disponible" : {
-      "type" : "url",
-      "value" : [
-        "{{datosPrograma_programa_interes|lazyRef:'periodo_disponible'}}"
-      ],
-      "exposed" : false
-    },
     "pSGRMedioInformacionSolicitud_query" : {
       "type" : "url",
       "value" : [
@@ -21576,13 +21573,6 @@
       "type" : "url",
       "value" : [
         "../{{context.datosLaboralPrevio_ref.link}}"
-      ],
-      "exposed" : false
-    },
-    "datosPrograma_programa_interes" : {
-      "type" : "url",
-      "value" : [
-        "{{datosPrograma|lazyRef:'programa_interes'}}"
       ],
       "exposed" : false
     },
@@ -22862,16 +22852,19 @@
       ],
       "exposed" : false
     },
-    "periodos_disponibles_query" : {
+    "periodos_disponibles" : {
       "type" : "url",
       "value" : [
-        "../API/extension/posgradosRestGet?url=getLstPeriodosDisponibles&programa_pid={{datosPrograma.programa_interes.persistenceId}}"
+        "{{datosPrograma.programa_interes|lazyRef:'periodo_disponible'}}"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "periodos_disponibles_formateado" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.periodos_disponibles.filter(item => item !== null);"
+      ],
       "exposed" : false
     }
   },

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAspiranteHome",
   "name" : "PSGRappAspiranteHome",
-  "lastUpdate" : 1704329680802,
+  "lastUpdate" : 1704389975447,
   "rows" : [
     [
       {
@@ -952,10 +952,9 @@
     "redirect" : {
       "type" : "expression",
       "value" : [
+        "const tokenApp = \"pg_aspirante\";",
+        "// redirección en caso de tarea ",
         "if ($data.task) {",
-        "    const tokenApp = \"pg_aspirante\";",
-        "    //let currentURL = window.location;",
-        "    //let newURL = currentURL.slice(0, currentURL.indexOf(tokenApp));",
         "    if ($data.task.name === \"Llenar solicitud de posgrado\") {",
         "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
         "    } ",
@@ -965,6 +964,11 @@
         "    else if ($data.task.name === \"Reagendar cita\") {",
         "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_reagendar_cita/content/\";",
         "    }",
+        "}",
+        "",
+        "// redireccion en caso de caso finalizado",
+        "else if ($data.currentCase.end_date) {",
+        "    window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_ver_solicitud/content/?caseId=\" + $data.currentCase.rootCaseId + \"&pagina=dictamen\";",
         "}"
       ],
       "exposed" : false
