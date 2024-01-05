@@ -64,5 +64,6 @@ class Statements {
 	//Transferencias 
 	public static final String UPDATE_TRANSFERENCIA_REGISTRO = "UPDATE PSGRRegistro SET campus_pid = ? WHERE caseid = ?;";
 	public static final String UPDATE_TRANSFERENCIA_SOLICITUD = "UPDATE PSGRSolAdmiPrograma SET campus_pid = ?, posgrado_pid = ?, programa_interes_pid = ?, periodo_ingreso_pid = ? WHERE caseid = ?;";
+	public static final String INSERT_BITACORA_TRANSFERENCIA = "INSERT INTO PSGRLogTransferencias";
 	
 }

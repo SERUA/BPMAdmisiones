@@ -1362,6 +1362,17 @@ class SolicitudDeAdmisionDAO {
 				rows.add(contrato);
 				resultado.setData(rows);
 				context.apiClient.processAPI.assignAndExecuteUserTask(context.apiClient.session.userId, tareaEjecutar.id,  contrato);
+				
+				pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
+				pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
+				pstm.setLong(2, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
+				pstm.setLong(3, Long.parseLong(object.carrera_transferencia.persistenceId_string));
+				pstm.setLong(4, Long.parseLong(object.periodo_transferencia.persistenceId_string));
+				pstm.setLong(5, Long.parseLong(object.caseid));
+	
+				if(pstm.executeUpdate() < 1) {
+					throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
+				}
 			}
 			
 			con.commit();
@@ -1383,4 +1394,6 @@ class SolicitudDeAdmisionDAO {
 		
 		return resultado;
 	}
+	
+	
 }
