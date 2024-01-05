@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "SDAEformularioSolicitud",
   "name" : "SDAEformularioSolicitud",
-  "lastUpdate" : 1701370637975,
+  "lastUpdate" : 1704483102923,
   "rows" : [
     [
       {
@@ -24242,7 +24242,7 @@
         "    output = false;\r",
         "    $data.errorPaso5 = \"Debes llenar el campo 'Video de habilidades'\";\r",
         "    $data.tituloErrorPaso5 = \"Video de habilidades\";\r",
-        "} else if (($data.returnCatValue.catTipoApoyo.isArtistica || $data.returnCatValue.catTipoApoyo.isDeportiva) && !$data.formOutputTest.solicitudApoyoEducativoInput.urlCurriculum){\r",
+        "} else if (($data.returnCatValue.catTipoApoyo.isArtistica || $data.returnCatValue.catTipoApoyo.isDeportiva) && $data.returnCatValue.catTipoApoyo.requiereCurriculum  && !$data.formOutputTest.solicitudApoyoEducativoInput.urlCurriculum){\r",
         "    output = false;\r",
         "    $data.errorPaso5 = \"Debes subir el curriculum para completar la solicitud.\";\r",
         "    $data.tituloErrorPaso5 = $data.returnCurriculumInfo.documentName;\r",
