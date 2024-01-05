@@ -1,4 +1,4 @@
-function PbTableCtrl($scope, $http, modalService, blockUI) {
+function PbTableCtrl($scope, $http, modalService, blockUI, $location) {
 
     this.isArray = Array.isArray;
     $scope.loading = false;
@@ -21,7 +21,6 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
 
 
     $scope.modificarData = function (row, index) {
-        debugger;
         $scope.properties.selectedToModificate = row;
         $scope.properties.selectedDataPID = row.persistenceId ? row.persistenceId + "" : "";
         $scope.properties.selectedToModificate.persistenceId_string =  row.persistenceId ? row.persistenceId + "" : "";
@@ -158,12 +157,24 @@ function PbTableCtrl($scope, $http, modalService, blockUI) {
 
     $scope.preview = function (codigo) {
         blockUI.start()
+        debugger;
+        // Parametro opcional para cambiar el correo que se envia al servicio generateHtml.
+        var correoTestParametro = $location.absUrl().match('[//?&]' + 'correoTest' + '=([^&#]*)($|[&#])');
+        let correoTest = "correo@test.com";
+        if (correoTestParametro) {
+            console.log(correoTestParametro)
+            correoTest = correoTestParametro[1];
+        }
+        
         var req = {
             method: "POST",
-            url: "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10",
+            // Se usaba en SDAE
+            //url: "/bonita/API/extension/AnahuacRest?url=generateHtmlSDAE&p=0&c=10",
+            // Se usa en PSGR
+            url: "/bonita/API/extension/posgradosRest?url=generateHtml&p=0&c=10",
             data: angular.copy({
                 "campus": $scope.properties.campusSelected,
-                "correo": "correo@test.com",
+                "correo": correoTest,
                 "codigo": codigo,
                 "isEnviar": false
             })
