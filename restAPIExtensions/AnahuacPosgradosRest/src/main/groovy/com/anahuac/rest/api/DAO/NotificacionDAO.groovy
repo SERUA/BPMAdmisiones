@@ -13,6 +13,10 @@ import com.anahuac.posgrados.catalog.PSGRCatNotificaciones
 import com.anahuac.posgrados.catalog.PSGRCatNotificacionesDAO
 import com.anahuac.posgrados.catalog.PSGRCatRegistro
 import com.anahuac.posgrados.catalog.PSGRCatRegistroDAO
+import com.anahuac.posgrados.config.PSGRConfiguracionesDAO
+import com.anahuac.posgrados.config.PSGRConfiguraciones
+import com.anahuac.posgrados.model.PSGRCitaAspirante
+import com.anahuac.posgrados.model.PSGRCitaAspiranteDAO
 import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
 import com.anahuac.posgrados.model.PSGRRegistro
@@ -39,6 +43,7 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
+import java.time.format.DateTimeFormatter
 
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.web.extension.rest.RestAPIContext
@@ -283,77 +288,105 @@ class NotificacionDAO {
 					}
 				}
 			}
-			Boolean closeCon=false;
+			
+			// AGREGANDO CONFIGURACIONES (valores estaticos)
+			
 			try {
-			closeCon = validarConexion();
-			String ordenpago = ""
-			String campus_id =""
-			//pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD)
-			pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD_PSGR)
-			pstm.setString(1, object.correo)
-			rs = pstm.executeQuery()
-				if (rs.next()) {
-					if(object.isEnviar) {
-						// Correos de validación
-						plantilla=plantilla.replace("[MODIFICACIONES-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[MODIFICACIONES-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
-						plantilla=plantilla.replace("[ARCHIVAR-EN-VALIDACION-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[ARCHIVAR-EN-VALIDACION-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
-						
-						// Correos de dictamen
-						plantilla=plantilla.replace("[ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
-						plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
-					}
-					/*
-					errorlog += "| Variable15.1"
-					plantilla=plantilla.replace("[IDBANNER]",rs.getString("IdBanner")==null?"":rs.getString("IdBanner"))
-					errorlog += "| Variable15.2"
-					if(object.isEnviar) {
-						plantilla=plantilla.replace("[RECHAZO-COMENTARIOS]",rs.getString("ObservacionesRechazo")==null?"[RECHAZO-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesRechazo"):"[RECHAZO-COMENTARIOS]")
-						errorlog += "| Variable15.3"
-						plantilla=plantilla.replace("[LISTAROJA-COMENTARIOS]",rs.getString("ObservacionesListaRoja")==null?"[LISTAROJA-COMENTARIOS]":(object.isEnviar)?rs.getString("ObservacionesListaRoja"):"[LISTAROJA-COMENTARIOS]")
-						errorlog += "| Variable15.3"
-						plantilla=plantilla.replace("[COMENTARIOS-CAMBIO]", rs.getString("ObservacionesCambio")==null?"[COMENTARIOS-CAMBIO]": (object.isEnviar)?rs.getString("ObservacionesCambio"):"[COMENTARIOS-CAMBIO]")
-						
-						// Correos de validación
-						plantilla=plantilla.replace("[MODIFICACIONES-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[MODIFICACIONES-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
-						plantilla=plantilla.replace("[ARCHIVAR-EN-VALIDACION-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[ARCHIVAR-EN-VALIDACION-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
-						
-					}
-					ordenpago = rs.getString("ordenpago")==null?"": rs.getString("ordenpago")
-					
-					if(!ordenpago.equals("")) {
-						errorlog += "| campusid"
-						pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE)
-						pstm.setString(1, object.campus)
-						rs = pstm.executeQuery()
-						if(rs.next()) {
-							
-							campus_id = rs.getString("campus_id")==null?"": rs.getString("campus_id")
-							errorlog += "| se obtuvo el campusid"+campus_id
-							resultado = new ConektaDAO().getOrderDetails(0, 999, "{\"order_id\":\""+ordenpago+"\", \"campus_id\":\""+campus_id+"\"}", context)
-							errorlog += "| se va castear map string string por data"
-							Map<String, String> conektaData =(Map<String, String>) resultado.getData().get(0)
-							errorlog += "| casteo exitoso"
-							plantilla=plantilla.replace("[MONTO]", conektaData.get("amount")==null?"": conektaData.get("amount"))
-							plantilla=plantilla.replace("[TRANSACCION]", conektaData.get("authorizationCode")==null?"": conektaData.get("authorizationCode"))
-							plantilla=plantilla.replace("[METODO]", conektaData.get("type")==null?"": (conektaData.get("type").equals("credit"))?"Tarjeta":(conektaData.get("type").equals("oxxo"))?"OXXO Pay":"SPEI")
-						}
-						
-					}*/
-					
-				}
-			}catch(Exception ex) {
-				errorlog +=", consulta custom " + ex.getMessage();
-			}finally {
-			if(closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm);
-			}
+				// Obteniendo las configuraciones
+				PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
+				PSGRSolAdmiProgramaDAO programaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class)
+				PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
 				
+				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
+				PSGRRegistro registro = listaRegistros.get(0)
+				caseId = registro.caseid
+				
+				List<PSGRSolAdmiPrograma> listaProgramas = programaDAO.findByCaseid(registro.caseid, 0, 99)
+				PSGRSolAdmiPrograma programa = listaProgramas.get(0)
+				
+				List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)
+				
+				// Replace
+				listaConfiguraciones.each { conf ->
+					plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+				}
 			}
+			catch (Exception e) {
+				throw new Exception("Fallo al tratar de obtener las configuraciones. " + e.message)
+			}
+			
+			// AGREGANDO VARIABLES (valores dinamicos)
+			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog,object.isEnviar);
-			errorlog += "| Variable8.6 DataUsuarioRegistro"
-			plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
-
+			
+			//errorlog += "| Variable8.6 DataUsuarioRegistro"
+			//plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
+			
+			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
+			// Son variables que deben estar disponibles unicamente en un momento del proceso
+			
+			Boolean closeCon=false;
+			try {
+				// Liga confirmar cuenta
+				if(object.codigo.equals("psgr-validar-cuenta") && object.isEnviar) {
+					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");
+				}
+				
+				// Liga aspirante inicio
+				if (object.isEnviar) {
+					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/pg_aspirante/pg_home/")
+				}
+				
+				// Requisitos adicionales auxiliares
+				if (object.codigo.equals("psgr-requisitos-adicionales") && object.isEnviar) {
+					
+					Result getRequisitosAdicionalesAuxiliarResult = new com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO().getRequisitosAdicionalesAuxiliar(caseId.toString());
+					
+					if (getRequisitosAdicionalesAuxiliarResult.isSuccess() && getRequisitosAdicionalesAuxiliarResult.data) {
+						String requisitosFormateados = ""
+						getRequisitosAdicionalesAuxiliarResult.data.eachWithIndex { item, index ->
+							String num = (index + 1).toString()
+							requisitosFormateados += num + ". " + item.nombre + "\n"
+						}
+						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", requisitosFormateados)
+					}else {
+						
+					}		
+				}
+				
+				// Fecha limite de los documentos oficiales
+				if (object.codigo.equals("psgr-solicitud-admitida") && object.isEnviar) {
+					plantilla = plantilla.replace("[DOCUMENTOS-OFICIALES-FECHA-LIMITE]", "No definida")
+				}
+					
+				// Comentarios
+				closeCon = validarConexion();
+				String ordenpago = ""
+				String campus_id =""
+				pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD_PSGR)
+				pstm.setString(1, object.correo)
+				rs = pstm.executeQuery()
+				
+				if (rs.next() && object.isEnviar) {
+					// Correos de validación
+					plantilla=plantilla.replace("[MODIFICACIONES-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[MODIFICACIONES-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+					plantilla=plantilla.replace("[ARCHIVAR-EN-VALIDACION-COMENTARIO]", rs.getString("mensaje_admin_escolar")==null?"[ARCHIVAR-EN-VALIDACION-COMENTARIO]": rs.getString("mensaje_admin_escolar"))
+					
+					// Correos de dictamen
+					plantilla=plantilla.replace("[ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
+					plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
+				}
+			}
+			catch(Exception ex) {
+				errorlog +=", consulta custom " + ex.getMessage();
+			}
+			finally {
+				if(closeCon) {
+					new DBConnect().closeObj(con, stm, rs, pstm);
+				}	
+			}	
+			
 			String tablaPasos=""
 			String plantillaPasos="<tr> <td class= \"col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center aling-middle backgroundOrange color-index number-table \"> [numero]</td> <td class= \"col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center aling-middle backgroundDGray \"> <div class= \"row \"> <div class= \"col-12 form-group color-titulo \"> <img src= \"[imagen] \"> </div> <div class= \"col-12 color-index sub-img \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [titulo] </div> </div> </td> <td class= \"col-xs-7 col-sm-7 col-md-7 col-lg-7 col-7 text-justify aling-middle backgroundLGray \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [descripcion] </td> </tr>"
 			try {
@@ -399,10 +432,6 @@ class NotificacionDAO {
 			}
 			
 			errorlog += "| Variable15 PLANTILLA: " + object.codigo + " | ";
-			
-			if(object.codigo.equals("psgr-validar-cuenta") && object.isEnviar) {
-				plantilla = plantilla.replace("[href-confirmar]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");	
-			}
 			
 			try {
 				Result hffc = new Result()
@@ -556,107 +585,121 @@ class NotificacionDAO {
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
 		try {
-		def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
-		def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
-		def objPSGRCatEstatusProcesoDAO = context.apiClient.getDAO(PSGRCatEstatusProcesoDAO.class);
-		List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
-		def caseid = objSolicitudDeAdmision.get(0).caseid;
-		def estatus_solicitud = objSolicitudDeAdmision.get(0).estatus_solicitud;
-		List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
-		List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
-		if(objSolicitudDeAdmision.size()>0) {
-			Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(objSolicitudDeAdmision.get(0).campus.getPersistenceId());
+			def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+			def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+			def objPSGRCatEstatusProcesoDAO = context.apiClient.getDAO(PSGRCatEstatusProcesoDAO.class);
+			def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
+
+			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 			
-			plantilla=plantilla.replace("[NOMBRE-COMPLETO]",objSolicitudDeAdmision.get(0).nombre+" "+objSolicitudDeAdmision.get(0).apellido_paterno+" "+objSolicitudDeAdmision.get(0).apellido_materno)
-			plantilla=plantilla.replace("[NOMBRE]",objSolicitudDeAdmision.get(0).nombre);
-			plantilla=plantilla.replace("[ESTATUS]",objPSGRCatEstatusProceso.get(0).descripcion);
+			List<PSGRRegistro> objSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCorreo_electronico(correo, 0, 999)
+			PSGRRegistro registro = objSolicitudDeAdmision.get(0)
+			def caseid = registro.caseid;
+			def estatus_solicitud = registro.estatus_solicitud;
 			
-			try {
-				plantilla=plantilla.replace("[CAMPUS]", objSolicitudDeAdmision.get(0).campus.descripcion)
-			} catch (Exception e) {
-				plantilla=plantilla.replace("[CAMPUS]","CAMPUS PREVIEW")
-			}
+			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
+			List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
+			List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseid, 0, 99);
 			
-			plantilla=plantilla.replace("[PROGRAMA]", objPSGRSolAdmiPrograma.get(0).programa_interes.nombre)
-			plantilla=plantilla.replace("[PERIODO]", objPSGRSolAdmiPrograma.get(0).periodo_ingreso.descripcion)
-//			plantilla=plantilla.replace("[PREPARATORIA]",(objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion().equals("Otro"))?objSolicitudDeAdmision.get(0).getBachillerato():objSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion())
-//			plantilla=plantilla.replace("[PROMEDIO]",objSolicitudDeAdmision.get(0).getPromedioGeneral())
-//			plantilla=plantilla.replace("[ESTATUS]",objSolicitudDeAdmision.get(0).getEstatusSolicitud())
-			
-			errorlog += ", Variable14"
-			
-			if(cn.isInformacionLic()) {
-				errorlog += ", Variable14.1"
-				plantilla=plantilla.replace("<!--isInformacionLic-->", "<table width=\"80%\"> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-4\" style=\"width:33.33%;margin: 0; padding:0; vertical-align: middle;\"> <img style=\"width:193px\" src=\"[URL-IMG-LICENCIATURA]\"> </td> <td class=\"col-4\" style=\"width:33.33%; background: #4F4E4D; vertical-align: middle; padding: 0; margin: 0;\"> <div class=\"row\"> <div class=\"col-12 form-group color-titulo\"> <img src=\"https://i.ibb.co/C8yv3pD/sello.png\"> </div> <div class=\"col-12 color-index sub-img\" style=\"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> <a  style=\"font-size: 15px;color: white;\" href=\"[LICENCIATURA-URL]\"  target=\"_blank\">[LICENCIATURA]</a> </div> </div> </td> <td class=\"col-4\" style=\"width:33.33%; text-decoration: underline; font-size: 9px; background: #ff5900; color: white; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; margin: 0; padding:0; vertical-align: middle;\"> <p>[descripcion-licenciatura] </p> </td> </tr> </tbody> </table>"+"<hr>")
-				errorlog += ", Variable14.2"
-				plantilla=plantilla.replace("[LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getNombre())
-				//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
-				//plantilla=plantilla.replace("[LICENCIATURA-COSTO2]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero)
-				//plantilla=plantilla.replace("[LICENCIATURA-COSTO3]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo)
-				//plantilla=plantilla.replace("[LICENCIATURA-COSTO4]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre)
-				periodo = objSolicitudDeAdmision.get(0).getCatPeriodo().getClave()
-			
-			try {
-					costo1=Float.parseFloat( periodo.substring(4,6).equals("10")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
-					periodo.substring(4,6).equals("05")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
-					periodo.substring(4,6).equals("60")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto:
-					periodo.substring(4,6).equals("35")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo:
-					periodo.substring(4,6).equals("75")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre:"0")
-					
-					plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", costo1.toString())
-				} catch (Exception e) {
-					e.printStackTrace()
-				}
-				errorlog += ", Variable14.3"
-				plantilla=plantilla.replace("[descripcion-licenciatura]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getDescripcion())
+			PSGRSolAdmiPrograma datosPrograma = objPSGRSolAdmiPrograma.get(0)
+			PSGRCitaAspirante citaAspirante = objPSGRCitaAspirante.get(0)
+						
+			if(objSolicitudDeAdmision.size()>0) {
+				Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
+
+				plantilla = plantilla.replace("[NOMBRE-COMPLETO]",registro.nombre+" "+registro.apellido_paterno+" "+registro.apellido_materno)
+				plantilla = plantilla.replace("[NOMBRE]",registro.nombre);
+				plantilla = plantilla.replace("[ID-BANNER]",registro.id_banner_validacion);
 				
-				plantilla=plantilla.replace("[LICENCIATURA-URL]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getEnlace())
-				try {
-					if(objSolicitudDeAdmision.get(0).getCatGestionEscolar().getUrlImgLicenciatura().equals("")) {
+				plantilla = plantilla.replace("[ESTATUS]",objPSGRCatEstatusProceso.get(0).descripcion);
+
+				plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
+				plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado.descripcion)
+				plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
+				plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
+				
+				def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
+				plantilla = plantilla.replace("[CITA-FECHA]", citaAspirante.cita_horario.cita_entrevista.fecha_entrevista.format(formatter))
+				plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio)
+				plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato)
+				plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista.liga)
+				plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista.ubicacion)
+
+				/*
+				errorlog += ", Variable14"
+
+				if(cn.isInformacionLic()) {
+					errorlog += ", Variable14.1"
+					plantilla=plantilla.replace("<!--isInformacionLic-->", "<table width=\"80%\"> <tbody> <tr style=\"text-align: center;\"> <td class=\"col-4\" style=\"width:33.33%;margin: 0; padding:0; vertical-align: middle;\"> <img style=\"width:193px\" src=\"[URL-IMG-LICENCIATURA]\"> </td> <td class=\"col-4\" style=\"width:33.33%; background: #4F4E4D; vertical-align: middle; padding: 0; margin: 0;\"> <div class=\"row\"> <div class=\"col-12 form-group color-titulo\"> <img src=\"https://i.ibb.co/C8yv3pD/sello.png\"> </div> <div class=\"col-12 color-index sub-img\" style=\"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> <a  style=\"font-size: 15px;color: white;\" href=\"[LICENCIATURA-URL]\"  target=\"_blank\">[LICENCIATURA]</a> </div> </div> </td> <td class=\"col-4\" style=\"width:33.33%; text-decoration: underline; font-size: 9px; background: #ff5900; color: white; font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; margin: 0; padding:0; vertical-align: middle;\"> <p>[descripcion-licenciatura] </p> </td> </tr> </tbody> </table>"+"<hr>")
+					errorlog += ", Variable14.2"
+					plantilla=plantilla.replace("[LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getNombre())
+					//plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto)
+					//plantilla=plantilla.replace("[LICENCIATURA-COSTO2]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero)
+					//plantilla=plantilla.replace("[LICENCIATURA-COSTO3]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo)
+					//plantilla=plantilla.replace("[LICENCIATURA-COSTO4]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre==0?"":objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre)
+					periodo = objSolicitudDeAdmision.get(0).getCatPeriodo().getClave()
+
+					try {
+						costo1=Float.parseFloat( periodo.substring(4,6).equals("10")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
+								periodo.substring(4,6).equals("05")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionenero:
+								periodo.substring(4,6).equals("60")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionagosto:
+								periodo.substring(4,6).equals("35")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionMayo:
+								periodo.substring(4,6).equals("75")?objSolicitudDeAdmision.get(0).getCatGestionEscolar().inscripcionSeptiembre:"0")
+
+						plantilla=plantilla.replace("[LICENCIATURA-COSTO1]", costo1.toString())
+					} catch (Exception e) {
+						e.printStackTrace()
+					}
+					errorlog += ", Variable14.3"
+					plantilla=plantilla.replace("[descripcion-licenciatura]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getDescripcion())
+
+					plantilla=plantilla.replace("[LICENCIATURA-URL]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getEnlace())
+					try {
+						if(objSolicitudDeAdmision.get(0).getCatGestionEscolar().getUrlImgLicenciatura().equals("")) {
+							plantilla=plantilla.replace("[URL-IMG-LICENCIATURA]", "https://bpmpreprod.blob.core.windows.net/publico/Afirma_Mesa%20de%20trabajo%201.png")
+						}else {
+							plantilla=plantilla.replace("[URL-IMG-LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getUrlImgLicenciatura())
+						}
+					} catch (Exception e) {
 						plantilla=plantilla.replace("[URL-IMG-LICENCIATURA]", "https://bpmpreprod.blob.core.windows.net/publico/Afirma_Mesa%20de%20trabajo%201.png")
-					}else {
-						plantilla=plantilla.replace("[URL-IMG-LICENCIATURA]", objSolicitudDeAdmision.get(0).getCatGestionEscolar().getUrlImgLicenciatura())
 					}
-				} catch (Exception e) {
-					plantilla=plantilla.replace("[URL-IMG-LICENCIATURA]", "https://bpmpreprod.blob.core.windows.net/publico/Afirma_Mesa%20de%20trabajo%201.png")
-				}
-				
-				
-			}
-			
-			errorlog += ", Variable15"
-			String encoded = "";
-			Boolean closeCon=false;
-			
-			try {
-				closeCon = validarConexion();
-				if (objSolicitudDeAdmision.get(0).urlFoto!= null ) {
-					String SSA = "";
-					pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
-					rs= pstm.executeQuery();
-					if(rs.next()) {
-						SSA = rs.getString("valor")
-					}
-					plantilla=plantilla.replace("[USR-B64]", objSolicitudDeAdmision.get(0).urlFoto+SSA)
-				} else {
+
+
+				}*/
+
+				errorlog += ", Variable15"
+				String encoded = "";
+				Boolean closeCon=false;
+
+				try {
+					closeCon = validarConexion();
+					if (objSolicitudDeAdmision.get(0).urlFoto!= null ) {
+						String SSA = "";
+						pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
+						rs= pstm.executeQuery();
+						if(rs.next()) {
+							SSA = rs.getString("valor")
+						}
+						plantilla=plantilla.replace("[USR-B64]", objSolicitudDeAdmision.get(0).urlFoto+SSA)
+					} else {
 						for(Document doc : context.getApiClient().getProcessAPI().getDocumentList(objSolicitudDeAdmision.get(0).getCaseId(), "fotoPasaporte", 0, 10)) {
 							// convert byte[] back to a BufferedImage
 							InputStream is = new ByteArrayInputStream(context.getApiClient().getProcessAPI().getDocumentContent(doc.contentStorageId));
 							BufferedImage newBi = ImageIO.read(is);
-							
+
 							encoded = "data:image/png;base64, "+ Base64.getEncoder().encodeToString(toByteArray(resizeImage(newBi, 135, 180), "png"))
 							plantilla=plantilla.replace("[USR-B64]", encoded)
 						}
-				}
-			}catch(Exception e) {
-				plantilla=plantilla.replace("[USR-B64]", "https://i.ibb.co/WyCsXQy/usuariofoto.jpg")
-				errorlog+= ""+e.getMessage();
-			}finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
+					}
+				}catch(Exception e) {
+					plantilla=plantilla.replace("[USR-B64]", "https://i.ibb.co/WyCsXQy/usuariofoto.jpg")
+					errorlog+= ""+e.getMessage();
+				}finally {
+					if(closeCon) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
 				}
 			}
-		}
 		errorlog += ", Variable10 tablaUsuario"
 		if(!tablaUsuario.equals("")) {
 			plantilla = plantilla.replace("<!--[Variables de usuario]-->", "<table cellpadding=\"0\" cellspacing=\"0\" border=\"0\" width=\"88%\"style=\"width: 88% !important; min-width: 88%; max-width: 88%; padding-left: 50px;padding-right: 50px;\"> [getLstVariableNotificacion] </table>")
