@@ -64,6 +64,6 @@ class Statements {
 	//Transferencias 
 	public static final String UPDATE_TRANSFERENCIA_REGISTRO = "UPDATE PSGRRegistro SET campus_pid = ? WHERE caseid = ?;";
 	public static final String UPDATE_TRANSFERENCIA_SOLICITUD = "UPDATE PSGRSolAdmiPrograma SET campus_pid = ?, posgrado_pid = ?, programa_interes_pid = ?, periodo_ingreso_pid = ? WHERE caseid = ?;";
-	public static final String INSERT_BITACORA_TRANSFERENCIA = "INSERT INTO PSGRLogTransferencias";
+	public static final String INSERT_BITACORA_TRANSFERENCIA = "INSERT INTO PSGRLogTransferencias (persistenceid, persistenceversion, caseid, campus_origen, campus_destino, lic_origen, lic_destino, periodo_origen, periodo_destino, fecha_transferencia, usuario) VALUES (CASE WHEN (SELECT MAX(persistenceId) + 1 FROM PSGRLogTransferencias) IS NULL THEN 1 ELSE (SELECT max(persistenceId) + 1 FROM PSGRLogTransferencias) END, 0, ? ? ? ? ? ? ? ? ?)";
 	
 }
