@@ -1269,7 +1269,6 @@ class SolicitudDeAdmisionDAO {
 		return resultado
 	}
 	
-	
 	public Result transferirAspirante(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -1283,7 +1282,21 @@ class SolicitudDeAdmisionDAO {
 			
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
+			Long campus = 0L, carrera = 0L, posgrado = 0L, periodo = 0L;
 			
+			pstm = con.prepareStatement(Statements.GET_DATOS_REGISTRO);
+			pstm.setLong(1, Long.parseLong(object.caseid));
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				campus = rs.getLong("campus_pid");
+				carrera = rs.getLong("programa_interes_pid");
+				posgrado = rs.getLong("posgrado_pid");
+				periodo = rs.getLong("periodo_ingreso_pid");
+			} else {
+				throw new Exception("No se ha encontrado el registro.");
+			}
 			
 			pstm = con.prepareStatement(Statements.UPDATE_TRANSFERENCIA_REGISTRO);
 			pstm.setLong(1, Long.parseLong(object.campus_transferencia.persistenceId_string));
@@ -1337,6 +1350,7 @@ class SolicitudDeAdmisionDAO {
 				} else if(tareaEjecutar.name.equals("Pase de lista de entrevista")) {
 					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
 					registroInput.put("is_transferido", true);
+					registroInput.put("mensaje_area_academic", "");
 					contrato.put("registroInput", registroInput);
 					contrato.put("isReagendarInput", false);
 					contrato.put("asistenciaInput", false);
@@ -1359,6 +1373,7 @@ class SolicitudDeAdmisionDAO {
 					contrato.put("isSolicitudNoAdmitidaDictamenInput", false);
 					contrato.put("isSolicitudAdmitidaDictamenInput", false);
 					contrato.put("isSolicitudArchivadaDictamenInput", false);
+					contrato.put("isArchivarEnReagendarInput", false);
 				}
 				
 				rows.add(contrato);
@@ -1372,13 +1387,13 @@ class SolicitudDeAdmisionDAO {
 				
 				pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
 				pstm.setLong(1, Long.parseLong(object.caseid));
-				pstm.setLong(2, Long.parseLong(object.campus.persistenceId_string));
+				pstm.setLong(2, campus);
 				pstm.setLong(3, Long.parseLong(object.campus_transferencia.persistenceId_string));
-				pstm.setLong(4, Long.parseLong(object.posgrado.persistenceId_string));
+				pstm.setLong(4, posgrado);
 				pstm.setLong(5, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
-				pstm.setLong(6, Long.parseLong(object.carrera.persistenceId_string));
+				pstm.setLong(6, carrera);
 				pstm.setLong(7, Long.parseLong(object.carrera_transferencia.persistenceId_string));
-				pstm.setLong(8, Long.parseLong(object.periodo.persistenceId_string));
+				pstm.setLong(8, periodo);
 				pstm.setLong(9, Long.parseLong(object.periodo_transferencia.persistenceId_string));
 				pstm.setString(10, fechaHoraFormateada);
 				pstm.setString(11, context.apiSession.userName);
@@ -1386,6 +1401,7 @@ class SolicitudDeAdmisionDAO {
 				if(pstm.executeUpdate() < 1) {
 					throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
 				}
+				
 				//Fin bitácora transferencias
 			}
 			
