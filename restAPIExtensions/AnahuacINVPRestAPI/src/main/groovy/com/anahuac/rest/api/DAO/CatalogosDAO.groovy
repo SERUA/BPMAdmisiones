@@ -394,7 +394,6 @@ public Result getCatPreguntas(String jsonData) {
 						where += " OR "
 					}
 				}
-				errorLog += "] "
 			} else if(object.campus != null) {
 				where += " AND cca.grupobonita = '" + object.campus + "'"
 			}
@@ -426,14 +425,14 @@ public Result getCatPreguntas(String jsonData) {
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 
-					case "No. ":
-						errorlog += "id_sesion "
+					case "No.":
+						errorlog += "ses.persistenceid "
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " ( LOWER(id_sesion) like lower('%[valor]%') )";
+						where += " ( LOWER(ses.persistenceid::VARCHAR) like lower('%[valor]%') )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Nombre":
@@ -473,7 +472,7 @@ public Result getCatPreguntas(String jsonData) {
 						} else {
 							where += " WHERE "
 						}
-						where += " ( ses.fecha_inicio::VARCHAR like '%[valor]%' )";
+						where += " ( TO_CHAR(ses.fecha_inicio, 'DD/MM/YYYY') like '%[valor]%' )";
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
 					case "Hr. Inicio":
@@ -530,6 +529,8 @@ public Result getCatPreguntas(String jsonData) {
 						break;
 				}
 			}
+			
+			errorLog += where; 
 			
 			switch(object.orderby) {
 				case "id_sesion":
