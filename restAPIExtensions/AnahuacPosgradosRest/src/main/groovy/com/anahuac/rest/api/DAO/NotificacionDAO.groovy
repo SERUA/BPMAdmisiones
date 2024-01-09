@@ -321,7 +321,7 @@ class NotificacionDAO {
 			// AGREGANDO VARIABLES (valores dinamicos)
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
-			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog,object.isEnviar);
+			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo);
 			
 			//errorlog += "| Variable8.6 DataUsuarioRegistro"
 			//plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
@@ -582,7 +582,7 @@ class NotificacionDAO {
 		return retorno;
 	}
 	
-	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar) {
+	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar, String codigo) {
 		//8 Seccion table atributos usuario
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
@@ -601,12 +601,13 @@ class NotificacionDAO {
 			def estatus_solicitud = registro.estatus_solicitud;
 			
 			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
-			List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
 			List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseid, 0, 99);
+			List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
 			
-			PSGRSolAdmiPrograma datosPrograma = objPSGRSolAdmiPrograma.get(0)
-			PSGRCitaAspirante citaAspirante = objPSGRCitaAspirante.get(0)
-						
+			PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null
+			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
+			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null
+									
 			if(objSolicitudDeAdmision.size()>0) {
 				Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
 
@@ -614,19 +615,29 @@ class NotificacionDAO {
 				plantilla = plantilla.replace("[NOMBRE]",registro.nombre);
 				plantilla = plantilla.replace("[ID-BANNER]",registro.id_banner_validacion);
 				
-				plantilla = plantilla.replace("[ESTATUS]",objPSGRCatEstatusProceso.get(0).descripcion);
-
-				plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
-				plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado.descripcion)
-				plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
-				plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
+				if (estatus) {
+					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion);
+				}
 				
-				def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
-				plantilla = plantilla.replace("[CITA-FECHA]", citaAspirante.cita_horario.cita_entrevista.fecha_entrevista.format(formatter))
-				plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio)
-				plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato)
-				plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista.liga)
-				plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista.ubicacion)
+				if (codigo.equals("psgr-validar-cuenta")) {
+					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
+				}
+				
+				if (datosPrograma) {
+					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
+					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado.descripcion)
+					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
+					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
+				}
+				
+				if (citaAspirante) {
+					def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
+					plantilla = plantilla.replace("[CITA-FECHA]", citaAspirante.cita_horario.cita_entrevista.fecha_entrevista.format(formatter))
+					plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio)
+					plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato)
+					plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista.liga)
+					plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista.ubicacion)
+				}
 
 				/*
 				errorlog += ", Variable14"
@@ -911,8 +922,8 @@ class NotificacionDAO {
 			
 			if(object.persistenceId != null) {
 				pstm = con.prepareStatement(Statements.UPDATE_CAT_NOTIFICACIONES_SDAE);
-				pstm.setString(1, object.angulo_imagen_header);
-				pstm.setString(2, object.angulo_imagen_footer);
+				pstm.setString(1, object.angulo_imagen_footer);
+				pstm.setString(2, object.angulo_imagen_header);
 				pstm.setString(3, object.asunto);
 				pstm.setString(4, object.comentario_leon);
 				pstm.setString(5, object.contenido);

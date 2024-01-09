@@ -157,7 +157,6 @@ function PbTableCtrl($scope, $http, modalService, blockUI, $location) {
 
     $scope.preview = function (codigo) {
         blockUI.start()
-        debugger;
         // Parametro opcional para cambiar el correo que se envia al servicio generateHtml.
         var correoTestParametro = $location.absUrl().match('[//?&]' + 'correoTest' + '=([^&#]*)($|[&#])');
         let correoTest = "correo@test.com";
