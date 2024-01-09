@@ -291,13 +291,31 @@ class NotificacionDAO {
 				}
 			}
 			
+			
+			// Obteniendo las configuraciones
+			PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
+			PSGRSolAdmiProgramaDAO programaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class)
+			PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
+			
+			// Correo 
+			if (object.correo == "carta_posgrado_correo_previsualizacion") {
+				String correo_previsualizacion_conf = ""
+				if (object.campus_pid) {
+					List<PSGRConfiguraciones> confResult = configuracionesDAO.findById_campus(Long.valueOf(object.campus_pid), 0, 99)
+					
+					confResult.each { item ->
+						// Guardar el correo previsualizar para usarse despues.
+						if (item.clave == "carta_posgrado_correo_previsualizacion")
+							correo_previsualizacion_conf = item.valor
+					}	
+				}
+				correo = correo_previsualizacion_conf;
+			}
+			
+			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
-			String correo_previsualizacion_conf = ""
 			try {
-				// Obteniendo las configuraciones
-				PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
-				PSGRSolAdmiProgramaDAO programaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class)
-				PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
+				
 				
 				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
 				if (!listaRegistros.empty) {
@@ -312,21 +330,12 @@ class NotificacionDAO {
 					// Replace
 					listaConfiguraciones.each { conf ->
 						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
-						
-						// Guardar el correo previsualizar para usarse despues.
-						if (conf.clave == "carta_posgrado_correo_previsualizacion")
-							correo_previsualizacion_conf = conf.valor
 					}
 				}
 				
 			}
 			catch (Exception e) {
 				throw new Exception("Fallo al tratar de obtener las configuraciones. " + e.message)
-			}
-			
-			//
-			if (correo == "carta_posgrado_correo_previsualizacion") {
-				correo = correo_previsualizacion_conf;
 			}
 			
 			// AGREGANDO VARIABLES (valores dinamicos)
