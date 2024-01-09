@@ -1518,8 +1518,9 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
 				logTransferencia.setFoto(rs.getString("urlfoto") + SSA);
 				logTransferencia.setIdbanner(rs.getString("id_banner"));
+				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + (!rs.getString("apellido_materno").equals("") ? "" : rs.getString("apellido_materno")));
+				logTransferencia.setCorreo_electronico(rs.getString("correo_electronico"));
 				
-//				pers.urlfoto, pers.id_banner
 				rows.add(logTransferencia);
 			}
 			

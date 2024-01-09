@@ -1,4 +1,14 @@
 <div class="table-responsive">
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
+        <select class="form-control" ng-model="filtroCampus"
+            ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
+            ng-change="addFilter()">
+            <option style="display:none" value="">
+                Seleccionar campus
+            </option>
+        </select>
+    </div>
+    
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
             <tr>
@@ -23,7 +33,7 @@
                 </td>
                 <td>
                     <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-eye"></span>
+                        <span class="glyphicon glyphicon-eye-open"></span>
                     </button>
                 </td>
             </tr>
@@ -37,7 +47,7 @@
                 <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
                 <td>
                     <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-eye"></span>
+                        <span class="glyphicon glyphicon-eye-open"></span>
                     </button>
                 </td>
             </tr>
