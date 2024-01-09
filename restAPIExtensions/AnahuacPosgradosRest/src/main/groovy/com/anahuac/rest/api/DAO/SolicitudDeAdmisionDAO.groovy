@@ -24,6 +24,7 @@ import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
+import com.anahuac.rest.api.Entity.LogsTransferencias
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Utilities.FileDownload
 import org.slf4j.LoggerFactory
@@ -1428,96 +1429,31 @@ class SolicitudDeAdmisionDAO {
 	public Result selectBitacoraTransferencias(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		String where = "",campus = "", orderby = "ORDER BY ", errorlog = ""
+		String where = "", campus = "", orderby = "ORDER BY ", errorlog = "";
 		List < String > lstGrupo = new ArrayList < String > ();
-
-		Long userLogged = 0L;
-		Long caseId = 0L;
-		Long total = 0L;
-		Map < String, String > objGrupoCampus = new HashMap < String, String > ();
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
-			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999);
-			userLogged = context.getApiSession().getUserId();
-			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
-			for (UserMembership objUserMembership: lstUserMembership) {
-				for (PSGRCatCampus rowGrupo: lstCatCampus) {
-					if (objUserMembership.getGroupName().equals(rowGrupo.getGrupo_bonita())) {
-						lstGrupo.add(rowGrupo.getDescripcion());
-						break;
-					}
-				}
-			}
 
-			assert object instanceof Map;
-			where += " WHERE (regi.is_eliminado = false OR regi.is_eliminado IS null) "
-			
-			if (object.estatusSolicitud != null && object.estatusSolicitud.toString().trim() != "") {
-				where += " AND regi.estatus_solicitud IN ("+object.estatusSolicitud+") "
-			}
-			
-			if (object.caseId != null) {
-				where += " AND regi.caseId = " + object.caseId + " ";
-			}
-			
-			Boolean filtroCampus = false;
-			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
-				switch (filtro.get("columna")) {
-					case "CAMPUS":
-					filtroCampus = true
-					break;
-				}
-			}
-			
-			if (object.caseId == null && filtroCampus != true) {
-				errorlog += "filtroCampus = " + filtroCampus;
-				if (lstGrupo.size() > 0) {
-					where += " AND ("
-				}
-				
-				for (Integer i = 0; i < lstGrupo.size(); i++) {
-					String campusMiembro = lstGrupo.get(i);
-					where += "camp.descripcion='" + campusMiembro + "'";
-					if (i == (lstGrupo.size() - 1)) {
-						where += ") "
-					} else {
-						where += " OR "
-					}
-				}
-			} else {
-				where += " AND LOWER(camp.DESCRIPCION) = LOWER('" + object.lstFiltro[0].valor + "') ";
-			}
-			
-			if (object.en_requisitos_adicionales_auxiliar != null) {
-				
-				// Buscar las solicitudes en requisitos adicionales usando la tabla auxiliar.
-				if (object.en_requisitos_adicionales_auxiliar === true) {
-					where += " AND regi.caseid IN (" + Statements.SELECT_DISTINCT_CASEID_REQUISITO_ADICIONAL_AUXILIAR + ") ";
-				}
-				else if (object.en_requisitos_adicionales_auxiliar === false) {
-					where += " AND regi.caseid NOT IN (" + Statements.SELECT_DISTINCT_CASEID_REQUISITO_ADICIONAL_AUXILIAR + ") ";
-				}
-			}
-
-			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			List<LogsTransferencias> rows = new ArrayList<LogsTransferencias>();
 			closeCon = validarConexion();
 			String SSA = "";
 			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA)
 			rs = pstm.executeQuery();
+			
 			if (rs.next()) {
 				SSA = rs.getString("valor")
 			}
-			String consulta = Statements.GET_LISTADO_SOLICITUDES;
-			String consultaCount = Statements.GET_CONTEO_SOLICITUDES;
+			
+			String consulta = Statements.GET_BITACORA_TRANSFERENCIAS;
+			String consultaCount = Statements.GET_COUNT_BITACORA_TRANSFERENCIAS;
+			
 			if (object.caseId == null) {
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
-					
 					switch (filtro.get("columna")) {
-	
-						case "# EXPEDIENTE":
-							errorlog += "# EXPEDIENTE | "
+						case "IDBANNER, NOMBRE, CORREO":
+							errorlog += "IDBANNER, NOMBRE, CORREO";
 							if (where.contains("WHERE")) {
 								where += " AND "
 							} else {
@@ -1525,157 +1461,10 @@ class SolicitudDeAdmisionDAO {
 							}
 							where += " LOWER(regi.caseid::VARCHAR) like lower('%[valor]%')";
 							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-						case "NOMBRE,EMAIL,CURP":
-							errorlog += "NOMBRE,EMAIL,CURP"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " ( LOWER(concat(pers.apellido_paterno,' ',pers.apellido_materno,' ',pers.nombre)) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(regi.correo_electronico) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(pers.curp) like lower('%[valor]%') ) ";
-							where = where.replace("[valor]", filtro.get("valor"));
-	
-							break;
-						case "PROGRAMA,INGRESO,CAMPUS":
-							errorlog += "PROGRAMA,INGRESO,CAMPUS"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " ( LOWER(posg.descripcion) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(peri.descripcion) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(camp.descripcion) like lower('%[valor]%') )";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							break;
-						case "PROCEDENCIA,PROMEDIO":
-							errorlog += "PROCEDENCIA,PROMEDIO"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " ( LOWER(posinfo.institucion) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-	
-							where += " OR LOWER(posinfo.promedio) like lower('%[valor]%') )";
-							where = where.replace("[valor]", filtro.get("valor"))
-							errorlog += "saliendo de case"
-							break;
-						case "ESTATUS":
-							errorlog += "ESTATUS"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " ( LOWER(estatus.descripcion) like lower('%[valor]%') ) ";
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "FECHAREGISTRO":
-							errorlog += "FECHAREGISTRO"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							
-							where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) ";
-							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]')"
-							} else {
-								where += "LIKE LOWER('%[valor]%'))"
-							}
-	
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "ULTIMA MODIFICACION":
-							errorlog += "ULTIMA MODIFICACION"
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							
-							where += " (LOWER(to_char(regi.fecha_ultima_modificacion::timestamp, 'DD/MM/YYYY HH24:MI')) ";
-							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]')"
-							} else {
-								where += "LIKE LOWER('%[valor]%'))"
-							}
-	
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "MOTIVO":
-							errorlog += "# EXPEDIENTE | "
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(regi.mensaje_admin_escolar) like lower('%[valor]%')";
-							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-						case "CARRERA":
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(gest.nombre) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-						case "PERIODO":
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(peri.descripcion) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "ID BANNER":
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(regi.caseid::VARCHAR) like lower('%[valor]%')";
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "NOMBRE DEL ALUMNO":
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(concat(pers.apellido_paterno,' ',pers.apellido_materno,' ',pers.nombre)) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
-							break;
-						case "CORREO":
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(regi.correo_electronico) like lower('%[valor]%') ";
-							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						default:
 							break;
-					}
+					} 
 				}
 			}
 			
@@ -1685,9 +1474,6 @@ class SolicitudDeAdmisionDAO {
 				switch (object.orderby) {
 					case "ULTIMA MODIFICACION":
 						orderby += "sda.fechaultimamodificacion";
-						break;
-					case "NOMBRE":
-						orderby += "pers.apellido_paterno";
 						break;
 					default:
 						orderby += " regi.persistenceid "
@@ -1713,16 +1499,25 @@ class SolicitudDeAdmisionDAO {
 			
 			rs = pstm.executeQuery();
 			
-			rows = new ArrayList < Map < String, Object >> ();
-			ResultSetMetaData metaData = rs.getMetaData();
-			int columnCount = metaData.getColumnCount();
+			rows = new ArrayList < LogsTransferencias > ();
 			
 			while (rs.next()) {
+				LogsTransferencias logTransferencia = new LogsTransferencias();
+				logTransferencia.setPersistenceid(rs.getLong("persistenceid"));
+				logTransferencia.setCampus_origen(rs.getString("campus_origen"));
+				logTransferencia.setCampus_destino(rs.getString("campus_detino"));
+				logTransferencia.setPosgrado_origen(rs.getString("posgrado_origen"));
+				logTransferencia.setPosgrado_destino(rs.getString("posgrado_destino"));
+				logTransferencia.setCarrera_origen(rs.getString("carrera_origen"));
+				logTransferencia.setCarrera_destino(rs.getString("carrera_destino"));
+				logTransferencia.setPeriodo_origen(rs.getString("periodo_origen"));
+				logTransferencia.setPeriodo_destino(rs.getString("periodo_destino"));
+				logTransferencia.setUsuario(rs.getString("usuario"));
+				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
 				
-				rows.add(columns);
+				rows.add(logTransferencia);
 			}
 			
-			errorlog = consulta + " 9";
 			resultado.setSuccess(true);
 			resultado.setError_info(errorlog);
 			resultado.setData(rows);
