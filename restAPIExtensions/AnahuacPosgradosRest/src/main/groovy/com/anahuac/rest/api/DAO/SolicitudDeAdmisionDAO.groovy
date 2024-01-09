@@ -1459,7 +1459,7 @@ class SolicitudDeAdmisionDAO {
 							} else {
 								where += " WHERE "
 							}
-							where += " LOWER(regi.caseid::VARCHAR) like lower('%[valor]%')";
+							where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
 							where = where.replace("[valor]", filtro.get("valor"));
 							break;
 						default:
@@ -1476,13 +1476,15 @@ class SolicitudDeAdmisionDAO {
 						orderby += "sda.fechaultimamodificacion";
 						break;
 					default:
-						orderby += " regi.persistenceid "
+						orderby += " logs.persistenceid "
 						break;
 				}
 			}
 			
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);
+			
+			errorlog += consulta;
 			
 			pstm = con.prepareStatement(consultaCount);
 			rs = pstm.executeQuery();
@@ -1514,7 +1516,10 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setPeriodo_destino(rs.getString("periodo_destino"));
 				logTransferencia.setUsuario(rs.getString("usuario"));
 				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
+				logTransferencia.setFoto(rs.getString("urlfoto"));
+				logTransferencia.setIdbanner(rs.getString("id_banner"));
 				
+//				pers.urlfoto, pers.id_banner
 				rows.add(logTransferencia);
 			}
 			
@@ -1526,6 +1531,7 @@ class SolicitudDeAdmisionDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 		} finally {
+			resultado.setError_info(errorlog);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
