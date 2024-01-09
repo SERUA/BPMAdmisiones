@@ -2030,11 +2030,11 @@ class ImportacionPAADAO {
 				String fecha =  it.FECHAEXAMEN.substring(6, 10)+"-"+it.FECHAEXAMEN.substring(3, 5)+"-"+it.FECHAEXAMEN.substring(0, 2);
 				//fecha +="T12:00:00+00:00";
 				if(it.TIPOEXAMEN.toString().equals("MetaProfile")){
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.espanol, fecha);
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.ESPANOL, fecha);
 
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAN", it.matematicas, fecha);
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAN", it.MATEMATICAS, fecha);
 
-					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PARA", it.habilidadesblandas, fecha);
+					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PARA", it.HABILIDADESBLANDAS, fecha);
 				}else{
 					resultado = new BannerDAO().integracionBannerEthos(context, it.IDBANNER, "PAAV", it.PAAV, fecha);
 					//errorLog += "PAAV:"+resultado.isSuccess()+"ERROR:"+resultado.getError()+"ERROR_INFO:"+resultado.getError_info();

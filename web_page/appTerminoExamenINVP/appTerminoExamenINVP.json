@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "appTerminoExamenINVP",
   "name" : "appTerminoExamenINVP",
-  "lastUpdate" : 1701992356854,
+  "lastUpdate" : 1702403217857,
   "rows" : [
     [
       {
@@ -1674,6 +1674,14 @@
         "const url = `${protocol}//${domain}/apps/login/activate/?correo=`;\r",
         "return url + $data.userData.user_name;"
       ],
+      "exposed" : false
+    },
+    "bloquearUsuario" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/AnahuacINVPRestGet?url=bloquearAspiranteDef&p=0&c=10&username={{userData.user_name}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

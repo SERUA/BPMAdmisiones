@@ -239,7 +239,7 @@ function($scope, $http) {
                             $scope.anterior();
                             $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                         }
-                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
+                        mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                     }
                 } else {
                     if($scope.preguntaAvanzado === true){
@@ -248,7 +248,7 @@ function($scope, $http) {
                         $scope.anterior();
                         $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                     }
-                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
+                    mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                 }
                 
                 Swal.fire({
@@ -256,11 +256,12 @@ function($scope, $http) {
                     icon: 'error',
                     html:mensaje, showCloseButton: false
                 }).then((result)=>{
-                    if(data === null ){
-                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/"
-                    } else if(data.error === "test_end"){
-                        window.location.reload();
-                    }
+                    window.location.reload();
+                    // if(data === null ){
+                    //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/"
+                    // } else if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // }
                 });
             })
             .finally(function() {
@@ -294,10 +295,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba.";
+                        mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador.";
                     }
                 } else {
-                    mensaje = "Se detecta una falla de conexión, verifica tu servicio de internet, <b>cierra tu navegador</b> y contacta a tu aplicador para reactivar tu prueba."
+                    mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                 }
                 
                 Swal.fire({
@@ -306,11 +307,12 @@ function($scope, $http) {
                     html:mensaje, 
                     showCloseButton: false
                 }).then((result)=>{
-                    if(data === null ){
-                        window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
-                    } else if(data.error === "test_end"){
-                        window.location.reload();
-                    }
+                    window.location.reload();
+                    // if(data === null ){
+                    //     window.top.location.href = window.location.protocol + "//" + window.location.host + "/apps/login/testinvp/" 
+                    // } else if(data.error === "test_end"){
+                    //     window.location.reload();
+                    // }
                 });
             })
             .finally(function() {
