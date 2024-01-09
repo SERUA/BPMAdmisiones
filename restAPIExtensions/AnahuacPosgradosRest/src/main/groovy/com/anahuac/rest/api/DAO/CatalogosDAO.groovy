@@ -2180,7 +2180,7 @@ class CatalogosDAO {
 			if (object.periodoDisponible && object.periodoDisponible instanceof ArrayList) {
 				// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
 				String valuesToInsert = ""
-				object.periodo_disponible.eachWithIndex { periodo, index ->
+				object.periodoDisponible.eachWithIndex { periodo, index ->
 					if (index != 0) {
 						valuesToInsert += ", "
 					}
