@@ -275,7 +275,9 @@ class NotificacionDAO {
 			String tablaUsuario= ""
 			String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave] </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px; \"> [valor] </span> </font> </td> </tr>"
 			errorlog += "| Variable8.2 object.correo=" + object.correo
+			
 			correo=object.correo;
+			
 			errorlog += "| Variable8.3 cn.getAsunto()=" + cn.getAsunto()
 			asunto=cn.getAsunto();
 			errorlog += "| Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLst_correo_copia().size()
@@ -290,7 +292,7 @@ class NotificacionDAO {
 			}
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
-			
+			String correo_previsualizacion_conf = ""
 			try {
 				// Obteniendo las configuraciones
 				PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
@@ -310,12 +312,21 @@ class NotificacionDAO {
 					// Replace
 					listaConfiguraciones.each { conf ->
 						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+						
+						// Guardar el correo previsualizar para usarse despues.
+						if (conf.clave == "carta_posgrado_correo_previsualizacion")
+							correo_previsualizacion_conf = conf.valor
 					}
 				}
 				
 			}
 			catch (Exception e) {
 				throw new Exception("Fallo al tratar de obtener las configuraciones. " + e.message)
+			}
+			
+			//
+			if (correo == "carta_posgrado_correo_previsualizacion") {
+				correo = correo_previsualizacion_conf;
 			}
 			
 			// AGREGANDO VARIABLES (valores dinamicos)
