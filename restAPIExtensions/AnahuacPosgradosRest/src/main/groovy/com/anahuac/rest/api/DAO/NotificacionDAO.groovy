@@ -321,7 +321,7 @@ class NotificacionDAO {
 			// AGREGANDO VARIABLES (valores dinamicos)
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
-			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo);
+			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo.toString());
 			
 			//errorlog += "| Variable8.6 DataUsuarioRegistro"
 			//plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
@@ -609,19 +609,19 @@ class NotificacionDAO {
 			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null
 									
 			if(objSolicitudDeAdmision.size()>0) {
-				Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
+				//Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
 
+				if (codigo == "psgr-validar-cuenta") {
+					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
+				}
+				
 				plantilla = plantilla.replace("[NOMBRE-COMPLETO]",registro.nombre+" "+registro.apellido_paterno+" "+registro.apellido_materno)
 				plantilla = plantilla.replace("[NOMBRE]",registro.nombre);
 				plantilla = plantilla.replace("[ID-BANNER]",registro.id_banner_validacion);
 				
 				if (estatus) {
 					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion);
-				}
-				
-				if (codigo.equals("psgr-validar-cuenta")) {
-					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
-				}
+				}			
 				
 				if (datosPrograma) {
 					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
