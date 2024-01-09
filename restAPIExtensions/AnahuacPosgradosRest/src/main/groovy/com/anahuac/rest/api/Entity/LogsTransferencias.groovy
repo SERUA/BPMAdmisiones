@@ -12,6 +12,8 @@ class LogsTransferencias {
 	private String posgrado_destino;
 	private String usuario;
 	private String fecha_transferencia;
+	private String foto;
+	private String idbanner;
 	
 	public Long getPersistenceid() {
 		return persistenceid;
@@ -78,5 +80,17 @@ class LogsTransferencias {
 	}
 	public void setFecha_transferencia(String fecha_transferencia) {
 		this.fecha_transferencia = fecha_transferencia;
+	}
+	public String getFoto() {
+		return foto;
+	}
+	public void setFoto(String foto) {
+		this.foto = foto;
+	}
+	public String getIdbanner() {
+		return idbanner;
+	}
+	public void setIdbanner(String idbanner) {
+		this.idbanner = idbanner;
 	}
 }

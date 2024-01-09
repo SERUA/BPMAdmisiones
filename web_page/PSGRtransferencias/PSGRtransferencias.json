@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1704837307462,
+  "lastUpdate" : 1704840931457,
   "rows" : [
     [
       {
@@ -491,10 +491,20 @@
                               ]
                             },
                             "content" : {
-                              "type" : "constant"
+                              "type" : "expression",
+                              "value" : "bitacora"
                             },
                             "columnsKey" : {
-                              "type" : "constant"
+                              "type" : "constant",
+                              "value" : [
+                                "foto",
+                                "idbanner",
+                                "carrera_destino + \" / \" + periodo_destino + \" / \"+ campus_destino",
+                                "",
+                                "campus_origen",
+                                "campus_destino",
+                                "usuario + \" / \" + fecha|date:'dd/MM/yyyy'"
+                              ]
                             },
                             "selectedRow" : {
                               "type" : "variable",
@@ -513,7 +523,7 @@
                               "value" : false
                             }
                           },
-                          "reference" : "c9b2409c-03b9-4fe9-8f75-4dc16540723e",
+                          "reference" : "ff00e198-26c2-4e45-a772-84eec9006447",
                           "hasValidationError" : false,
                           "id" : "customPSGRtableBitacoraTransferencias"
                         }
@@ -2127,6 +2137,13 @@
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPeriodo?q=findByIs_eliminado&p=0&c=999&f=is_eliminado=false"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "bitacora" : {
+      "type" : "json",
+      "value" : [
+        "{}"
+      ],
       "exposed" : false
     }
   },
