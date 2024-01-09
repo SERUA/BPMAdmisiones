@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCartasv2",
   "name" : "PSGRCartasv2",
-  "lastUpdate" : 1704837423128,
+  "lastUpdate" : 1704843526573,
   "rows" : [
     [
       {
@@ -11015,6 +11015,14 @@
         "    \"nombre\": \"Cancelar seguro de gastos médicos\",\r",
         "    \"descripcion\": \"[CANCELAR-SEGURO-GASTOS]\"\r",
         "}]"
+      ],
+      "exposed" : false
+    },
+    "campusSelected_pid" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.campusSelected)",
+        "return $data.lstCampus.find(item => item.valor == $data.campusSelected);"
       ],
       "exposed" : false
     }
