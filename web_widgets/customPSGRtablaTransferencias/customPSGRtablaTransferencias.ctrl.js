@@ -26,7 +26,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
   
     function doRequest(method, url, params) {
-        debugger;
         blockUI.start();
         var req = {
             method: method,
@@ -59,7 +58,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
   
         return $http(req).success(function(data, status) {
-                debugger;
                 rowData.taskId = data[0].id;
                 rowData.taskName = data[0].name;
                 rowData.processId = data[0].processId;
@@ -160,7 +158,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
     
     $scope.abrirBitacora = function(rowData) {
-        debugger;
         var url = "/portal/resource/app/administrativo/SDAEBitacora/content/?caseId=" + rowData.caseid;
         window.open(url, '_blank');
     }
@@ -399,7 +396,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
     $scope.lstCampusByUser = [];
     $scope.campusByUser = function() {
-        debugger;
         var resultado = [];
         // var isSerua = true;
         resultado.push("Todos los campus")
@@ -430,7 +426,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             $scope.filtroPeriodo = "";
             $scope.filtroLicenciatura = "";
             $scope.mostrarFiltros = true;
-            debugger;
+            
             for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
                 if ($scope.properties.lstCampus[i].descripcion === $scope.filtroCampus) {
                     $scope.persistenceid = $scope.properties.lstCampus[i].persistenceId;
@@ -648,7 +644,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.carreraLista =[];
 
     $scope.filterSelectCarrera = function() {
-        debugger;
 		//$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -675,7 +670,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
     $scope.filterSelectPeriodo = function() {
 		//$scope.limpiarFiltrosTabla();
-        debugger;
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];
@@ -721,7 +715,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     function doRequestCarrera() {
-        debugger;
         blockUI.start();
         var req = {
             method: "GET",

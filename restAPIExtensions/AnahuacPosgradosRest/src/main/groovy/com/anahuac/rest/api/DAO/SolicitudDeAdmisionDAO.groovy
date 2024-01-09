@@ -1516,7 +1516,7 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setPeriodo_destino(rs.getString("periodo_destino"));
 				logTransferencia.setUsuario(rs.getString("usuario"));
 				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
-				logTransferencia.setFoto(rs.getString("urlfoto"));
+				logTransferencia.setFoto(rs.getString("urlfoto") + SSA);
 				logTransferencia.setIdbanner(rs.getString("id_banner"));
 				
 //				pers.urlfoto, pers.id_banner
