@@ -6,6 +6,7 @@ import java.sql.ResultSet
 import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.sql.Timestamp
+import java.sql.Types
 import java.text.SimpleDateFormat
 
 import org.bonitasoft.engine.bpm.process.ProcessDeploymentInfoSearchDescriptor
@@ -2111,20 +2112,15 @@ class CatalogosDAO {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
 			} else if (object.tipoLicenciatura == null || object.tipoLicenciatura.isEmpty()) {
 				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío.");
-			} else if (object.periodo == null) {
-				throw new Exception("El campo \"periodo\" no debe ir vacío.");
 			} 
-//			else if (object.inscripcionenero == null || object.inscripcionenero.isEmpty()) {
-//				throw new Exception("El campo \"inscripcionenero\" no debe ir vacío.");
-//			} else if (object.inscripcionMayo == null || object.inscripcionMayo.isEmpty()) {
-//				throw new Exception("El campo \"inscripcionMayo\" no debe ir vacío.");
-//			} else if (object.inscripcionagosto == null || object.inscripcionagosto.isEmpty()) {
-//				throw new Exception("El campo \"inscripcionagosto\" no debe ir vacío.");
-//			} else if (object.inscripcionSeptiembre == null || object.inscripcionSeptiembre.isEmpty()) {
-//				throw new Exception("El campo \"inscripcionSeptiembre\" no debe ir vacío.");
-//			} else if (object.urlImgLicenciatura == null || object.urlImgLicenciatura.isEmpty()) {
-//				throw new Exception("El campo \"urlImgLicenciatura\" no debe ir vacío.");
-//			} 
+			
+//			else if (object.periodo == null) {
+//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
+//			}
+			if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
+				throw new Exception("Debes seleccionar al menos un período.");
+			}
+			
 			else if (object.idioma == null || object.idioma.isEmpty()) {
 				throw new Exception("El campo \"idioma\" no debe ir vacío.");
 			} else if (object.usuarioCreacion == null || object.usuarioCreacion.isEmpty()) {
@@ -2168,13 +2164,33 @@ class CatalogosDAO {
 			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
 			pstm.setLong(20, object.CAMPUS.persistenceId);
 			pstm.setLong(21, object.orden);
-			pstm.setLong(22, object.periodo);
+			pstm.setNull(22, Types.BIGINT);
 			pstm.setLong(23, object.grado.persistenceId);
 			
-			if (pstm.executeUpdate() > 0) {
+			Long programa_pid = 0L;
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				programa_pid = rs.getLong("persistenceid");
 				resultado.setSuccess(true);
 			} else {
 				throw new Exception("No se pudo insertar el registro.");
+			}
+			
+			if (object.periodoDisponible && object.periodoDisponible instanceof ArrayList) {
+				// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
+				String valuesToInsert = ""
+				object.periodo_disponible.eachWithIndex { periodo, index ->
+					if (index != 0) {
+						valuesToInsert += ", "
+					}
+					
+					int orderValue = index + 1;
+					valuesToInsert += "(" + programa_pid + ", " + periodo.persistenceId + ", " + orderValue + ")"
+				}
+				
+				pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
+				pstm.execute();
 			}
 		} catch (Exception e) {
 			resultado.setSuccess(false);
@@ -2187,9 +2203,6 @@ class CatalogosDAO {
 	
 		return resultado;
 	}
-	
-	
-	
 	
 	public Result deleteCatGestionEscolar(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
