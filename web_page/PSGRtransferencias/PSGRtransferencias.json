@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1704840931457,
+  "lastUpdate" : 1704841797759,
   "rows" : [
     [
       {
@@ -481,7 +481,6 @@
                             "headers" : {
                               "type" : "constant",
                               "value" : [
-                                "Foto",
                                 "ID Banner / Nombre / Email",
                                 "Programa / Periodo / Campu Ingreso",
                                 "Estatus",
@@ -491,19 +490,18 @@
                               ]
                             },
                             "content" : {
-                              "type" : "expression",
+                              "type" : "variable",
                               "value" : "bitacora"
                             },
                             "columnsKey" : {
                               "type" : "constant",
                               "value" : [
-                                "foto",
                                 "idbanner",
                                 "carrera_destino + \" / \" + periodo_destino + \" / \"+ campus_destino",
                                 "",
                                 "campus_origen",
                                 "campus_destino",
-                                "usuario + \" / \" + fecha|date:'dd/MM/yyyy'"
+                                "usuario + \" / \" + fecha_transferencia|date:'dd/MM/yyyy'"
                               ]
                             },
                             "selectedRow" : {
