@@ -298,18 +298,21 @@ class NotificacionDAO {
 				PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
 				
 				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
-				PSGRRegistro registro = listaRegistros.get(0)
-				caseId = registro.caseid
-				
-				List<PSGRSolAdmiPrograma> listaProgramas = programaDAO.findByCaseid(registro.caseid, 0, 99)
-				PSGRSolAdmiPrograma programa = listaProgramas.get(0)
-				
-				List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)
-				
-				// Replace
-				listaConfiguraciones.each { conf ->
-					plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+				if (!listaRegistros.empty) {
+					PSGRRegistro registro = listaRegistros.get(0)
+					caseId = registro.caseid
+					
+					List<PSGRSolAdmiPrograma> listaProgramas = programaDAO.findByCaseid(registro.caseid, 0, 99)
+					PSGRSolAdmiPrograma programa = listaProgramas.get(0)
+					
+					List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)
+					
+					// Replace
+					listaConfiguraciones.each { conf ->
+						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+					}
 				}
+				
 			}
 			catch (Exception e) {
 				throw new Exception("Fallo al tratar de obtener las configuraciones. " + e.message)
