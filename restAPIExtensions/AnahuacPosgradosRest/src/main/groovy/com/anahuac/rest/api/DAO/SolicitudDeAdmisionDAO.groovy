@@ -1465,14 +1465,62 @@ class SolicitudDeAdmisionDAO {
 						
 						where = where.replace("[valor]", filtro.get("valor"));
 						break;
-					case "idbanner, nombre, correo":
+					case "estatus":
+						errorlog += "estatus";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(esta.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "programa, periodo, campus ingreso":
 						errorlog += "programa, periodo, campus ingreso";
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
-						where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
+						
+						where += " LOWER(gdes.descripcion) like lower('%[valor]%') OR";
+						where += " LOWER(pdes.descripcion) like lower('%[valor]%') OR";
+						where += " LOWER(cdes.descripcion) like lower('%[valor]%') ";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "vpd origen":
+						errorlog += "vpd origen";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(cori.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "vpd destino":
+						errorlog += "vpd destino";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(cdes.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "autor transferencia, fecha":
+						errorlog += "vpd destino";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(logs.usuario) like lower('%[valor]%') OR";
+						where += " LOWER(TO_CHAR(logs.fecha_transferencia::TIMESTAMP, 'DD/MM/YYYY dd:mm')) like lower('%[valor]%')";
 						
 						where = where.replace("[valor]", filtro.get("valor"));
 						break;
