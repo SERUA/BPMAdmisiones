@@ -1487,18 +1487,46 @@ class SolicitudDeAdmisionDAO {
 				}
 			}
 			
-			if (object.caseId != null) {
-				orderby = "";
-			} else {
-				switch (object.orderby) {
-					case "ULTIMA MODIFICACION":
-						orderby += "sda.fechaultimamodificacion";
-						break;
-					default:
-						orderby += " logs.persistenceid "
-						break;
-				}
+			switch (object.orderby) {
+				case "idbanner":
+					orderby += " pers.id_banner ";
+					break;
+				case "nombre":
+					orderby += " pers.nombre ";
+					break;
+				case "email":
+					orderby += " regi.correo_electronico ";
+					break;
+				case "carrera":
+					orderby += " gdes.descripcion ";
+					break;
+				case "periodo":
+					orderby += " edes.descripcion ";
+					break;
+				case "campus_ingreso":
+					orderby += " cdes.descripcion ";
+					break;
+				case "estatus":
+					orderby += " regi.estatus_solicitud ";
+					break;
+				case "vpd_origen":
+					orderby += " cori.descripcion ";
+					break;
+				case "vpd_destino":
+					orderby += " cdes.descripcion ";
+					break;
+				case "usuario":
+					orderby += " logs.usuario ";
+					break;
+				case "fecha":
+					orderby += " logs.fecha_transferencia ";
+					break;
+				default:
+					orderby += " logs.fecha_transferencia "
+					break;
 			}
+			
+			orderby += object.orientation;
 			
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);

@@ -21,38 +21,66 @@
         <thead>
             <tr>
                 <th>Foto</th>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                <!--<th ng-repeat="header in properties.headers">-->
+                <!--     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>-->
+                <!--  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>-->
+                <!--</th>-->
+                
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('idbanner')">ID Banner<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='idbanner'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('nombre')" >Nombre<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='nombre'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('email')">Email<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='email'"></i></span> 
                 </th>
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('carrera')">Programa<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='carrera'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('periodo')" >Periodo<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='periodo'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('campus_ingreso')">Campus ingreso<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='campus_ingreso'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_origen')">VPD origen<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='vpd_origen'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_destino')">VPD destino<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='vpd_destino'"></i></span> 
+                </th>
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('usuario')">Autor transferencia <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='usuario'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('fecha')" >Fecha<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='fecha'"></i></span>
+                </th>
+                
                 <th>Acciones</th>
             </tr>
         </thead>
-        <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
+        <tbody>
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
                     <img ng-src="{{row.foto}}" style="width: 64px;">
                 </td>
-                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    {{ $eval(column, row) | uiTranslate }}
-                </td>
-                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                <td>
+                    {{row.idbanner}}<br>
+                    {{nombre}}<br>
+                    {{correo_electronico}}
                 </td>
                 <td>
-                    <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                    </button>
+                    {{row.carrera_destino}}<br>
+                    {{periodo_destino}}<br>
+                    {{campus_destino}}
                 </td>
-            </tr>
-        </tbody>
-        <tbody ng-if="ctrl.isArray(properties.content) && !ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
-                    <img ng-src="{{row.foto}}" style="width: 64px;">
+                    {{row.estatus_solicitud}}
                 </td>
-                <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>
-                <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
+                <td>
+                    {{row.campus_origen}}
+                </td>
+                <td>
+                    {{row.campus_destino}}
+                </td>
+                <td>
+                    {{row.usuario}}<br>
+                    {{fecha_transferencia | date:'dd/MM/yyyy hh:mm'}}
+                </td>
                 <td>
                     <button class="btn btn-default" type="button">
                         <span class="glyphicon glyphicon-eye-open"></span>
