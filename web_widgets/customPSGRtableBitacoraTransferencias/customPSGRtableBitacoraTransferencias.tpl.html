@@ -11,7 +11,7 @@
     
     <div class="col-xs-6 col-xs-offset-3">
         Campus destino:  
-        <label class="switch"  ng-click="resetValues('isDeportiva')">
+        <label class="switch"  ng-model="dataToSend.esDestino">
             <input type="checkbox" ng-model="properties.value.isDeportiva"> 
             <span class="slider round"></span>
         </label>
@@ -51,6 +51,26 @@
                 </th>
                 
                 <th>Acciones</th>
+            </tr>
+            <tr>
+                <td>
+                    <input ng-model="dynamicInput['idbanner, nombre, correo']" class="form-control" ng-enter="filterKeyPress('idbanner, nombre, correo', dynamicInput['idbanner, nombre, correo'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['programa, periodo, campus ingreso']" class="form-control" ng-enter="filterKeyPress('programa, periodo, campus ingreso', dynamicInput['programa, periodo, campus ingreso'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('estatus', dynamicInput['estatus'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['vpd origen']" class="form-control" ng-enter="filterKeyPress('vpd origen', dynamicInput['vpd origen'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['vpd destino']" class="form-control" ng-enter="filterKeyPress('vpd destino', dynamicInput['vpd destino'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['autor transferencia, fecha']" class="form-control" ng-enter="filterKeyPress('autor transferencia, fecha', dynamicInput['autor transferencia, fecha'])">
+                </td>
             </tr>
         </thead>
         <tbody>

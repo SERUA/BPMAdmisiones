@@ -1449,42 +1449,37 @@ class SolicitudDeAdmisionDAO {
 			String consulta = Statements.GET_BITACORA_TRANSFERENCIAS;
 			String consultaCount = Statements.GET_COUNT_BITACORA_TRANSFERENCIAS;
 			
-			if (object.caseId == null) {
-				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
-					switch (filtro.get("columna")) {
-						case "IDBANNER, NOMBRE, CORREO":
-							errorlog += "IDBANNER, NOMBRE, CORREO";
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
-							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-						case "CAMPUS":
-							errorlog += "CAMPUS";
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							
-							where += " LOWER([CAMPUS]) like lower('%[valor]%')";
-							
-							if(object.esDestino == true) {
-								where = where.replace("[CAMPUS]", "cdes.descripcion");
-							} else {
-								where = where.replace("[CAMPUS]", "cori.descripcion");
-							}
-							
-							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-							
-						default:
-							break;
-					} 
-				}
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				switch (filtro.get("columna")) {
+					case "IDBANNER, NOMBRE, CORREO":
+						errorlog += "IDBANNER, NOMBRE, CORREO";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "CAMPUS":
+						errorlog += "CAMPUS";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						
+						if(object.esDestino == true) {
+							where += " LOWER(cdes.descripcion) like lower('%[valor]%')";
+						} else {
+							where += " LOWER(cori.descripcion) like lower('%[valor]%')";
+						}
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					default:
+						break;
+				} 
 			}
 			
 			switch (object.orderby) {
@@ -1531,7 +1526,7 @@ class SolicitudDeAdmisionDAO {
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);
 			
-			errorlog += consulta;
+			
 			
 			pstm = con.prepareStatement(consultaCount);
 			rs = pstm.executeQuery();
@@ -1542,6 +1537,7 @@ class SolicitudDeAdmisionDAO {
 			
 			consulta = consulta.replace("[ORDER_BY]", orderby);
 			consulta = consulta.replace("[LIMIT_OFFSET]", " LIMIT ? OFFSET ?");
+			errorlog += consulta;
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);
