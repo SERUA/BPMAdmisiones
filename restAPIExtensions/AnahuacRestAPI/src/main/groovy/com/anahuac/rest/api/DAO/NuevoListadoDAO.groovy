@@ -340,7 +340,6 @@ class NuevoListadoDAO {
 					rows.add(columns);
 				}
 				
-				
 //				//Parche para el conteo de aspirantes
 //				for(Map<String, Object> mapi : rows) {
 //					pstm = con.prepareStatement(NuevoStatements.GET_ASPIRANTES_SESIONES_COUNT_TODOS);
@@ -356,7 +355,6 @@ class NuevoListadoDAO {
 //					} else {
 //						mapi.put("conteo_aspirantes_todos", null);
 //					}
-				}
 					
 				resultado.setError_info("errorLog = "+errorlog)
 				resultado.setData(rows)
