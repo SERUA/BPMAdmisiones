@@ -736,7 +736,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
-        debugger;
         if (newValue !== undefined) {
             doRequestCarrera();
             doRequestPeriodo();
@@ -753,7 +752,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     });
 
     $scope.filterKeyPressSuperior = function(columna, press) {
-        debugger;
         //$scope.limpiarFiltrosTabla();
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
@@ -774,7 +772,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     $scope.limpiarFiltros = function(){
-        debugger;
         $scope.carreraSelected = null;
         $scope.peridoSelected = null;
         $scope.limpiarFiltrosTabla();
@@ -809,7 +806,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     $scope.limpiarFiltrosTabla = function(){
-        debugger;
         $('#tablaFiltro1').val('');
 		$('#tablaFiltro2').val('');
 		$('#tablaFiltro3').val('');

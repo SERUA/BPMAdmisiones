@@ -1443,7 +1443,7 @@ class SolicitudDeAdmisionDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				SSA = rs.getString("valor")
+				SSA = rs.getString("valor");
 			}
 			
 			String consulta = Statements.GET_BITACORA_TRANSFERENCIAS;
@@ -1462,6 +1462,25 @@ class SolicitudDeAdmisionDAO {
 							where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
 							where = where.replace("[valor]", filtro.get("valor"));
 							break;
+						case "CAMPUS":
+							errorlog += "CAMPUS";
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							
+							where += " LOWER('[CAMPUS]') like lower('%[valor]%')";
+							
+							if(object.esDestino == true) {
+								where = where.replace("[CAMPUS]", "cdes.descripcion");
+							} else {
+								where = where.replace("[CAMPUS]", "cori.descripcion");
+							}
+							
+							where = where.replace("[valor]", filtro.get("valor"));
+							break;
+							
 						default:
 							break;
 					} 
@@ -1518,7 +1537,7 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
 				logTransferencia.setFoto(rs.getString("urlfoto") + SSA);
 				logTransferencia.setIdbanner(rs.getString("id_banner"));
-				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + (!rs.getString("apellido_materno").equals("") ? "" : rs.getString("apellido_materno")));
+				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + rs.getString("apellido_materno"));
 				logTransferencia.setCorreo_electronico(rs.getString("correo_electronico"));
 				
 				rows.add(logTransferencia);

@@ -18,7 +18,11 @@ function PbTableCtrl($scope, $http) {
     
     $scope.dataToSend = {
         limit: 20,
-        offset: 0
+        offset: 0,
+        lstFiltro: [
+            
+        ],
+        esDestino: false
     }
     
     function selectBitacoraTransferencias(){
@@ -26,11 +30,11 @@ function PbTableCtrl($scope, $http) {
         $http.post(url, $scope.dataToSend).success(function(succsess){
             $scope.properties.content = succsess.data;
         }).error(function(err){
-            
+            swal("¡Atención!", err.error, "error");
         })
     }
     
-    selectBitacoraTransferencias();
+    // selectBitacoraTransferencias();
     
     $scope.getCampusByGrupo = function(campus) {
         var retorno = "";
@@ -88,7 +92,7 @@ function PbTableCtrl($scope, $http) {
         $scope.lstCampusByUser = resultado;
     }
     
-    $scope.filtroCampus = ""
+    $scope.filtroCampus = "";
 
     $scope.addFilter = function() {
         if ($scope.filtroCampus != "Todos los campus") {
@@ -184,18 +188,17 @@ function PbTableCtrl($scope, $http) {
             });
     }
     
-    $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
-        if (newValue !== undefined) {
-            doRequestCarrera();
-            doRequestPeriodo();
-        }
-    });
+    $scope.getCatCampus();
+    
+    // $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
+    //     if (newValue !== undefined) {
+    //         selectBitacoraTransferencias();
+    //     }
+    // });
 
     $scope.$watch("filtroCampus", function(newValue, oldValue) {
-        if (newValue !== undefined) {
-        	if(newValue == "Todos los campus"){
-        		doRequestCarrera();
-        	}
+        if (newValue) {
+        	selectBitacoraTransferencias();
         }
     });
 }
