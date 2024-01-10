@@ -1539,6 +1539,7 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setIdbanner(rs.getString("id_banner"));
 				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + rs.getString("apellido_materno"));
 				logTransferencia.setCorreo_electronico(rs.getString("correo_electronico"));
+				logTransferencia.setEstatus_solicitud(rs.getString("estatus_solicitud"));
 				
 				rows.add(logTransferencia);
 			}
