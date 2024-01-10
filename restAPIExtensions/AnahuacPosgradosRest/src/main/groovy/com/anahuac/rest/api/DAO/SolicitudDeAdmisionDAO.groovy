@@ -1451,14 +1451,29 @@ class SolicitudDeAdmisionDAO {
 			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
-					case "IDBANNER, NOMBRE, CORREO":
-						errorlog += "IDBANNER, NOMBRE, CORREO";
+					case "idbanner, nombre, correo":
+						errorlog += "idbanner, nombre, correo";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(pers.id_banner::VARCHAR) like lower('%[valor]%') OR";
+						where += " LOWER(pers.apellido_paterno::VARCHAR) like lower('%[valor]%') OR";
+						where += " LOWER(pers.apellido_materno::VARCHAR) like lower('%[valor]%') OR"
+						where += " LOWER(pers.nombre::VARCHAR) like lower('%[valor]%') ";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "idbanner, nombre, correo":
+						errorlog += "programa, periodo, campus ingreso";
 						if (where.contains("WHERE")) {
 							where += " AND "
 						} else {
 							where += " WHERE "
 						}
 						where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
+						
 						where = where.replace("[valor]", filtro.get("valor"));
 						break;
 					case "CAMPUS":

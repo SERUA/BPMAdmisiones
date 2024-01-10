@@ -11,8 +11,8 @@
     
     <div class="col-xs-6 col-xs-offset-3">
         Campus destino:  
-        <label class="switch"  ng-model="dataToSend.esDestino">
-            <input type="checkbox" ng-model="properties.value.isDeportiva"> 
+        <label class="switch"  >
+            <input type="checkbox" ng-model="dataToSend.esDestino"> 
             <span class="slider round"></span>
         </label>
     </div>
@@ -27,32 +27,33 @@
                 <!--</th>-->
                 
                 <th> 
-                    <span style="cursor:pointer" ng-click="setOrderBy('idbanner')">ID Banner<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='idbanner'"></i></span> / 
-                    <span style="cursor:pointer" ng-click="setOrderBy('nombre')" >Nombre<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='nombre'"></i></span> / 
-                    <span style="cursor:pointer" ng-click="setOrderBy('email')">Email<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='email'"></i></span> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('idbanner')">ID Banner<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='idbanner'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('nombre')" >Nombre<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='nombre'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('email')">Email<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='email'"></i></span> 
                 </th>
                 <th> 
-                    <span style="cursor:pointer" ng-click="setOrderBy('carrera')">Programa<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='carrera'"></i></span> / 
-                    <span style="cursor:pointer" ng-click="setOrderBy('periodo')" >Periodo<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='periodo'"></i></span> / 
-                    <span style="cursor:pointer" ng-click="setOrderBy('campus_ingreso')">Campus ingreso<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='campus_ingreso'"></i></span> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('carrera')">Programa<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='carrera'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('periodo')" >Periodo<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='periodo'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('campus_ingreso')">Campus ingreso<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='campus_ingreso'"></i></span> 
                 </th>
                 <th>
-                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='estatus'"></i></span> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')">Estatus<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='estatus'"></i></span> 
                 </th>
                 <th>
-                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_origen')">VPD origen<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='vpd_origen'"></i></span> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_origen')">VPD origen<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='vpd_origen'"></i></span> 
                 </th>
                 <th>
-                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_destino')">VPD destino<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='vpd_destino'"></i></span> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_destino')">VPD destino<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='vpd_destino'"></i></span> 
                 </th>
                 <th> 
-                    <span style="cursor:pointer" ng-click="setOrderBy('usuario')">Autor transferencia <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='usuario'"></i></span> / 
-                    <span style="cursor:pointer" ng-click="setOrderBy('fecha')" >Fecha<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='fecha'"></i></span>
+                    <span style="cursor:pointer" ng-click="setOrderBy('usuario')">Autor transferencia <i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='usuario'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('fecha')" >Fecha<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='fecha'"></i></span>
                 </th>
                 
                 <th>Acciones</th>
             </tr>
             <tr>
+                <td></td>
                 <td>
                     <input ng-model="dynamicInput['idbanner, nombre, correo']" class="form-control" ng-enter="filterKeyPress('idbanner, nombre, correo', dynamicInput['idbanner, nombre, correo'])">
                 </td>
@@ -80,13 +81,13 @@
                 </td>
                 <td>
                     {{row.idbanner}}<br>
-                    {{nombre}}<br>
-                    {{correo_electronico}}
+                    {{row.nombre}}<br>
+                    {{row.correo_electronico}}
                 </td>
                 <td>
                     {{row.carrera_destino}}<br>
-                    {{periodo_destino}}<br>
-                    {{campus_destino}}
+                    {{row.periodo_destino}}<br>
+                    {{row.campus_destino}}
                 </td>
                 <td>
                     {{row.estatus_solicitud}}
@@ -99,7 +100,7 @@
                 </td>
                 <td>
                     {{row.usuario}}<br>
-                    {{fecha_transferencia | date:'dd/MM/yyyy hh:mm'}}
+                    {{row.fecha_transferencia | date:'dd/MM/yyyy hh:mm'}}
                 </td>
                 <td>
                     <button class="btn btn-default" type="button">
@@ -110,7 +111,7 @@
         </tbody>
     </table>
     <div class="col-xs-5">
-        <div class="dataTables_info">Mostrando {{properties.dataToSend.offset+1}} a {{((properties.dataToSend.limit*valorSeleccionado)>value)?value:properties.dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
+        <div class="dataTables_info">Mostrando {{dataToSend.offset+1}} a {{((dataToSend.limit*valorSeleccionado)>value)?value:dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
     </div>
     <div class="col-xs-7 text-center">
         <div role="toolbar" aria-label="Toolbar with button groups">
