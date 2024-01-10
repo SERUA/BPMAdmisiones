@@ -1470,7 +1470,7 @@ class SolicitudDeAdmisionDAO {
 								where += " WHERE "
 							}
 							
-							where += " LOWER('[CAMPUS]') like lower('%[valor]%')";
+							where += " LOWER([CAMPUS]) like lower('%[valor]%')";
 							
 							if(object.esDestino == true) {
 								where = where.replace("[CAMPUS]", "cdes.descripcion");
