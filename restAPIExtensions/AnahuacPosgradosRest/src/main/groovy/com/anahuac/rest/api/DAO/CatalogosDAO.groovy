@@ -2087,114 +2087,141 @@ class CatalogosDAO {
 	
 		try {
 			closeCon = validarConexion();
+			def dataResultAgregados = [];
 			def jsonSlurper = new JsonSlurper()
 			def jsonObject = jsonSlurper.parseText(jsonData)
 			
-			def object = jsonObject.lstCatGestionEscolarInput[0]
-	
-			if (object == null) {
-				throw new Exception("El objeto 'object' no debe ser nulo.");
-			} else if (object.CAMPUS == null || object.CAMPUS.isEmpty()) {
-				throw new Exception("El campo \"CAMPUS\" no debe ir vacío.");
-			} else if (object.grado == null) {
-				throw new Exception("El campo \"grado\" no debe ir vacío.");
-			} else if (object.orden == null) {
-				throw new Exception("El campo \"orden\" no debe ir vacío.");
-			} else if (object.clave == null || object.clave.isEmpty()) {
-				throw new Exception("El campo \"Clave\" no debe ir vacío.");
-			} else if (object.nombre == null || object.nombre.isEmpty()) {
-				throw new Exception("El campo \"nombre\" no debe ir vacío.");
-			} else if (object.descripcion == null || object.descripcion.isEmpty()) {
-				throw new Exception("El campo \"descripcion\" no debe ir vacío.");
-			} else if (object.enlace == null || object.enlace.isEmpty()) {
-				throw new Exception("El campo \"enlace\" no debe ir vacío.");
-			} else if (object.tipoCentroEstudio == null || object.tipoCentroEstudio.isEmpty()) {
-				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
-			} else if (object.tipoLicenciatura == null || object.tipoLicenciatura.isEmpty()) {
-				throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío.");
-			} 
-			
-//			else if (object.periodo == null) {
-//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
-//			}
-			if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
-				throw new Exception("Debes seleccionar al menos un período.");
+			if (!jsonObject.lstCatGestionEscolarInput || !(jsonObject.lstCatGestionEscolarInput instanceof ArrayList)) {
+				throw new Exception("El objeto 'lstCatGestionEscolarInput' no debe ser nulo y debe ser una lista.");
 			}
 			
-			else if (object.idioma == null || object.idioma.isEmpty()) {
-				throw new Exception("El campo \"idioma\" no debe ir vacío.");
-			} else if (object.usuarioCreacion == null || object.usuarioCreacion.isEmpty()) {
-				throw new Exception("El campo \"usuarioCreacion\" no debe ir vacío.");
-			}
-	
-			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGESTIONESCOLAR);
-			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
-			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-			String fechaHoraFormateada = formato.format(timestampActual);
-			pstm.setString(1, fechaHoraFormateada);
-			pstm.setBoolean(2, false); // IS_ELIMINADO
-			pstm.setString(3, object.CAMPUS.descripcion); // CAMPUS
-//			pstm.setInt(4, 0); // PROPEDEUTICOS
-			pstm.setString(4, object.clave); // Clave
-			pstm.setString(5, object.nombre); // NOMBRE
-			pstm.setString(6, object.descripcion); // DESCRIPCION
-			pstm.setString(7, object.enlace); // ENLACE
-			pstm.setString(8, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
-//			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
-//			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
-//			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
-//			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
-//			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
-//			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
-			pstm.setBoolean(9, false); // PROPEDEUTICO siempre se guarda como false
-			pstm.setBoolean(10, false); // PROGRAMA_PARCIAL siempre se guarda como false
-			pstm.setBoolean(11, false); // IS_MEDICINA siempre se guarda como false
-			pstm.setString(12, object.tipoLicenciatura); // TIPO_LICENCIATURA
-//			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
-//			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
-//			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
-//			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
-//			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
-			pstm.setString(13, ""); // INSCRIPCION_ENERO
-			pstm.setString(14, ""); // INSCRIPCION_MAYO
-			pstm.setString(15, ""); // INSCRIPCION_AGOSTO
-			pstm.setString(16, ""); // INSCRIPCION_SEPTIEMBRE
-			pstm.setString(17, ""); // URL_IMG_LICENCIATURA
-			pstm.setString(18, object.idioma); // IDIOMA
-			pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
-			pstm.setLong(20, object.CAMPUS.persistenceId);
-			pstm.setLong(21, object.orden);
-			pstm.setNull(22, Types.BIGINT);
-			pstm.setLong(23, object.grado.persistenceId);
+			con.setAutoCommit(false);
 			
-			Long programa_pid = 0L;
-			rs = pstm.executeQuery();
-			
-			if (rs.next()) {
-				programa_pid = rs.getLong("persistenceid");
-				resultado.setSuccess(true);
-			} else {
-				throw new Exception("No se pudo insertar el registro.");
-			}
-			
-			if (object.periodoDisponible && object.periodoDisponible instanceof ArrayList) {
-				// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
-				String valuesToInsert = ""
-				object.periodoDisponible.eachWithIndex { periodo, index ->
-					if (index != 0) {
-						valuesToInsert += ", "
-					}
-					
-					int orderValue = index + 1;
-					valuesToInsert += "(" + programa_pid + ", " + periodo.persistenceId + ", " + orderValue + ")"
+			jsonObject.lstCatGestionEscolarInput.each { object ->
+				if (object == null) {
+					throw new Exception("El objeto 'object' no debe ser nulo.");
+				} else if (object.CAMPUS == null || object.CAMPUS.isEmpty()) {
+					throw new Exception("El campo \"CAMPUS\" no debe ir vacío.");
+				} else if (object.grado == null) {
+					throw new Exception("El campo \"grado\" no debe ir vacío.");
+				} else if (object.orden == null) {
+					throw new Exception("El campo \"orden\" no debe ir vacío.");
+				} else if (object.clave == null || object.clave.isEmpty()) {
+					throw new Exception("El campo \"Clave\" no debe ir vacío.");
+				} else if (object.nombre == null || object.nombre.isEmpty()) {
+					throw new Exception("El campo \"nombre\" no debe ir vacío.");
+				} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+					throw new Exception("El campo \"descripcion\" no debe ir vacío.");
+				} else if (object.enlace == null || object.enlace.isEmpty()) {
+					throw new Exception("El campo \"enlace\" no debe ir vacío.");
+				} else if (object.tipoCentroEstudio == null || object.tipoCentroEstudio.isEmpty()) {
+					throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
+				} else if (object.tipoLicenciatura == null || object.tipoLicenciatura.isEmpty()) {
+					throw new Exception("El campo \"tipoLicenciatura\" no debe ir vacío.");
 				}
 				
-				pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
-				pstm.execute();
+	//			else if (object.periodo == null) {
+	//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
+	//			}
+				
+				if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
+					throw new Exception("Debes seleccionar al menos un período.");
+				}
+				
+				else if (object.idioma == null || object.idioma.isEmpty()) {
+					throw new Exception("El campo \"idioma\" no debe ir vacío.");
+				} else if (object.usuarioCreacion == null || object.usuarioCreacion.isEmpty()) {
+					throw new Exception("El campo \"usuarioCreacion\" no debe ir vacío.");
+				}
+				
+				// Consultar no duplicados
+				pstm = con.prepareStatement(StatementsCatalogos.GET_SIMPLE_CATGESTIONESCOLAR);
+				pstm.setString(1, object.nombre);
+				pstm.setLong(2, object.CAMPUS.persistenceId);
+				pstm.setString(3, object.clave);
+				
+				rs = pstm.executeQuery();
+				
+				if (rs.next()) {
+					throw new Exception('El programa con nombre "' + object.nombre + '" y campus referencia "' + object.CAMPUS.persistenceId + '" ya existe, o la clave "' + object.clave + '" esta duplicada.' );
+				}
+				
+				// Insertar
+				pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATGESTIONESCOLAR);
+				Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+				String fechaHoraFormateada = formato.format(timestampActual);
+				pstm.setString(1, fechaHoraFormateada);
+				pstm.setBoolean(2, false); // IS_ELIMINADO
+				pstm.setString(3, object.CAMPUS.descripcion); // CAMPUS
+	//			pstm.setInt(4, 0); // PROPEDEUTICOS
+				pstm.setString(4, object.clave); // Clave
+				pstm.setString(5, object.nombre); // NOMBRE
+				pstm.setString(6, object.descripcion); // DESCRIPCION
+				pstm.setString(7, object.enlace); // ENLACE
+				pstm.setString(8, object.tipoCentroEstudio); // TIPO_CENTRO_ESTUDIO
+	//			Boolean propedeuticoValue = (object.propedeutico != null) ? object.propedeutico : false;
+	//			pstm.setBoolean(9, propedeuticoValue); // PROPEDEUTICO
+	//			Boolean programaParcialValue = (object.programaparcial != null) ? object.programaparcial : false;
+	//			pstm.setBoolean(10, programaParcialValue); // PROGRAMA_PARCIAL
+	//			Boolean isMedicina = object.isMedicina != null ? object.isMedicina : false;
+	//			pstm.setBoolean(11, isMedicina); // IS_MEDICINA
+				pstm.setBoolean(9, false); // PROPEDEUTICO siempre se guarda como false
+				pstm.setBoolean(10, false); // PROGRAMA_PARCIAL siempre se guarda como false
+				pstm.setBoolean(11, false); // IS_MEDICINA siempre se guarda como false
+				pstm.setString(12, object.tipoLicenciatura); // TIPO_LICENCIATURA
+	//			pstm.setString(13, object.inscripcionenero); // INSCRIPCION_ENERO
+	//			pstm.setString(14, object.inscripcionMayo); // INSCRIPCION_MAYO
+	//			pstm.setString(15, object.inscripcionagosto); // INSCRIPCION_AGOSTO
+	//			pstm.setString(16, object.inscripcionSeptiembre); // INSCRIPCION_SEPTIEMBRE
+	//			pstm.setString(17, object.urlImgLicenciatura); // URL_IMG_LICENCIATURA
+				pstm.setString(13, ""); // INSCRIPCION_ENERO
+				pstm.setString(14, ""); // INSCRIPCION_MAYO
+				pstm.setString(15, ""); // INSCRIPCION_AGOSTO
+				pstm.setString(16, ""); // INSCRIPCION_SEPTIEMBRE
+				pstm.setString(17, ""); // URL_IMG_LICENCIATURA
+				pstm.setString(18, object.idioma); // IDIOMA
+				pstm.setString(19, object.usuarioCreacion); // UUSUARIOCREACION
+				pstm.setLong(20, object.CAMPUS.persistenceId);
+				pstm.setLong(21, object.orden);
+				pstm.setNull(22, Types.BIGINT);
+				pstm.setLong(23, object.grado.persistenceId);
+				
+				Long idResult = 0L;
+				rs = pstm.executeQuery();
+				
+				if (rs.next()) {
+					idResult = rs.getLong("persistenceid");
+					dataResultAgregados.add(idResult);
+				} else {
+					throw new Exception("No se pudo insertar el registro con nombre: " + object.nombre);
+				}
+				
+				if (object.periodoDisponible && object.periodoDisponible instanceof ArrayList) {
+					// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
+					String valuesToInsert = ""
+					object.periodoDisponible.eachWithIndex { periodo, index ->
+						if (index != 0) {
+							valuesToInsert += ", "
+						}
+						
+						int orderValue = index + 1;
+						valuesToInsert += "(" + idResult + ", " + periodo.persistenceId + ", " + orderValue + ")"
+					}
+					
+					pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
+					pstm.execute();
+				}
 			}
+			
+			con.commit();
+			resultado.setData(dataResultAgregados);
+			resultado.setSuccess(true);
+			
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[insertCatGestionEscolar] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);

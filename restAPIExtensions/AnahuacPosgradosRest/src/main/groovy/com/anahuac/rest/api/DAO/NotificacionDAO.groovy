@@ -277,9 +277,6 @@ class NotificacionDAO {
 			String tablaUsuario= ""
 			String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave] </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px; \"> [valor] </span> </font> </td> </tr>"
 			errorlog += "| Variable8.2 object.correo=" + object.correo
-			
-			correo=object.correo;
-			
 			errorlog += "| Variable8.3 cn.getAsunto()=" + cn.getAsunto()
 			asunto=cn.getAsunto();
 			errorlog += "| Variable8.4 cn.getLstCorreoCopia().size()=" + cn.getLst_correo_copia().size()
@@ -293,37 +290,31 @@ class NotificacionDAO {
 				}
 			}
 			
-			
-			// Obteniendo las configuraciones
+			// Obteniendo los DAO a utilizar
 			PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
 			PSGRSolAdmiProgramaDAO programaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class)
 			PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
 			PSGRCatCampusDAO campusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class)
 			
-			// Correo 
-			if (object.correo == "carta_posgrado_correo_previsualizacion") {
-				String correo_previsualizacion_conf = ""
-				if (object.campus) {
-					List<PSGRCatCampus> campusResult = campusDAO.findByGrupo_bonita(object.campus, 0, 99)
-					PSGRCatCampus campusEnviado = !campusResult.empty ? campusResult.get(0) : null
-					if (campusEnviado) {
-						List<PSGRConfiguraciones> confResult = configuracionesDAO.findById_campus(Long.valueOf(campusEnviado.persistenceId), 0, 99)
-						
-						confResult.each { item ->
-							// Guardar el correo previsualizar para usarse despues.
-							if (item.clave == "carta_posgrado_correo_previsualizacion")
-								correo_previsualizacion_conf = item.valor
-						}
-					}				
-				}
-				correo = correo_previsualizacion_conf;
+			// Estableciendo el correo 
+			correo = object.correo;
+			if (correo == "carta_posgrado_correo_previsualizacion" && object.campus) {
+				
+				List<PSGRCatCampus> campusResult = campusDAO.findByGrupo_bonita(object.campus, 0, 99)
+				PSGRCatCampus campusEnviado = !campusResult.empty ? campusResult.get(0) : null
+				if (campusEnviado) {
+					// Buscar el correo definido en las configuraciones generales del campus
+					List<PSGRConfiguraciones> confResult = configuracionesDAO.findById_campus(Long.valueOf(campusEnviado.persistenceId), 0, 99)
+					
+					confResult.each { item ->
+						if (item.clave == "carta_posgrado_correo_previsualizacion")
+							correo = item.valor;
+					}
+				}	
 			}
-			
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
 			try {
-				
-				
 				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
 				if (!listaRegistros.empty) {
 					PSGRRegistro registro = listaRegistros.get(0)
@@ -339,7 +330,6 @@ class NotificacionDAO {
 						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
 					}
 				}
-				
 			}
 			catch (Exception e) {
 				throw new Exception("Fallo al tratar de obtener las configuraciones. " + e.message)
@@ -349,9 +339,6 @@ class NotificacionDAO {
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo.toString());
-			
-			//errorlog += "| Variable8.6 DataUsuarioRegistro"
-			//plantilla = DataUsuarioRegistro(plantilla, context, correo, cn, errorlog);
 			
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
