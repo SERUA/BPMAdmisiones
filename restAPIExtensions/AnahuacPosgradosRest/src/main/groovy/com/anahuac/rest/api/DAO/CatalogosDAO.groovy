@@ -8009,6 +8009,10 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
+			} else if(object.year.equals("") || object.year == null) {
+				throw new Exception("El campo \"Year\" no debe ir vacío");
+			} else if(object.codigo.equals("") || object.codigo == null) {
+				throw new Exception("El campo \"Codigo\" no debe ir vacío");
 			}
 			
 			Date fecha_inicio = sdfEntrada.parse(object.fecha_inicio);
@@ -8079,7 +8083,14 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Fecha fin\" no debe ir vacío");
 			} else if(object.id.equals("") || object.id == null) {
 				throw new Exception("El campo \"Id\" no debe ir vacío");
+			} else if(object.year.equals("") || object.year == null) {
+				throw new Exception("El campo \"Year\" no debe ir vacío");
+			} else if(object.codigo.equals("") || object.codigo == null) {
+				throw new Exception("El campo \"Codigo\" no debe ir vacío");
+			} else if(object.activo.equals("") || object.activo == null) {
+				throw new Exception("El campo \"Activo\" no debe ir vacío");
 			}
+			
 			Date fecha_inicio = formato.parse(object.fecha_inicio);
 			Date fecha_fin = formato.parse(object.fecha_fin);
 			
@@ -8098,7 +8109,11 @@ class CatalogosDAO {
 			pstm.setBoolean(6, object.is_anual);
 			pstm.setBoolean(7, false);
 			pstm.setBoolean(8, object.is_semestral);
-			pstm.setLong(9, object.persistenceid);
+			// is_trimestral
+			pstm.setInt(9, object.year);
+			pstm.setInt(10, object.codigo);
+			pstm.setBoolean(11, object.activo);
+			pstm.setLong(12, object.persistenceid);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
