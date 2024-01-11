@@ -2124,10 +2124,9 @@ class CatalogosDAO {
 	//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
 	//			}
 				
-				// Descomentar. Se comento para pruebas.
-				/*if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
+				if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
 					throw new Exception("Debes seleccionar al menos un período.");
-				}*/
+				}
 				
 				else if (object.idioma == null || object.idioma.isEmpty()) {
 					throw new Exception("El campo \"idioma\" no debe ir vacío.");
@@ -2182,7 +2181,7 @@ class CatalogosDAO {
 						// Si se mando la clave
 						else if (item.clave) {
 							pstm = con.prepareStatement(StatementsCatalogos.GET_PERIODO_BY_CLAVE);
-							pstm.setString(1, object.periodoDisponible.clave);
+							pstm.setString(1, item.clave);
 							
 							rs = pstm.executeQuery();
 							
