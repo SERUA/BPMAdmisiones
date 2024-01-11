@@ -1,7 +1,7 @@
 <img src="assets/img/dashboard_bg.png" class="img-bg">
 <div class="col-xs-12">
     <div class="col-xs-12 text-center title-div">
-        <h2>Menu principal</h2>
+        <h2>Mesa de trabajo</h2>
     </div>
 </div>
 
@@ -9,7 +9,7 @@
     <div class="row-line">
         <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle top-1">
+                <div ng-click="redirect('en_proceso')" class="indicator-circle top-1">
                     <h2 class="indicator-count">{{enProceso}}</h2>
                 </div>
                 <h4 class="indicator-title">Solicitudes en proceso</h4>
@@ -17,7 +17,7 @@
         </div>
         <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle top-2">
+                <div ng-click="redirect('nuevas_solicitudes')" class="indicator-circle top-2">
                     <h2 class="indicator-count">{{nuevasSolicitudes}}</h2>
                 </div>
                 <h4 class="indicator-title">Nuevas solicitudes</h4>
@@ -25,62 +25,70 @@
         </div>
         <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle top-3">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('citas')" class="indicator-circle top-3">
+                    <h2 class="indicator-count">{{citasAgendadas}}</h2>
                 </div>
-                <h4 class="indicator-title">Revisión de documentos</h4>
+                <h4 class="indicator-title">Citas agendadas</h4>
             </div>
         </div>
         <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle top-2">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('pase_lista')" class="indicator-circle top-2">
+                    <img style="width: 100%; height: 100%;" src="assets/img/pl1.jpg">
                 </div>
-                <h4 class="indicator-title">Validación de perfil de ingreso</h4>
+                <h4 class="indicator-title">Pase de lista</h4>
             </div>
         </div>
         <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle top-1">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('solicitudes_archivadas')" class="indicator-circle top-1">
+                    <h2 class="indicator-count">{{rechazados}}</h2>
                 </div>
-                <h4 class="indicator-title">Generación de cartas</h4>
+                <h4 class="indicator-title">Solicitudes archivadas</h4>
             </div>
         </div>
     </div>
 </div>
 <div class="col-xs-12 bottom-menu">
     <div class="row-line">
-        <div class="indicator-division-4">
+        <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle bottom-1">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('estadisticas')" class="indicator-circle bottom-1">
+                    <img style="width: 100%; height: 100%;" src="assets/img/rp1.jpg">
                 </div>
-                <h4 class="indicator-title">Citas agendadas</h4>
+                <h4 class="indicator-title">Estadísticas</h4>
             </div>
         </div>
-        <div class="indicator-division-4">
+        <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle bottom-2">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('dictamen')" class="indicator-circle bottom-2">
+                    <h2 class="indicator-count">{{dictamen}}</h2>
                 </div>
-                <h4 class="indicator-title">Dictamen del comité de admisión</h4>
+                <h4 class="indicator-title">En espera de dictamen</h4>
             </div>
         </div>
-        <div class="indicator-division-4">
+        <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle bottom-2">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('admitidos')" class="indicator-circle bottom-3">
+                    <h2 class="indicator-count">{{admitidos}}</h2>
                 </div>
-                <h4 class="indicator-title">Resultados de admisión</h4>
+                <h4 class="indicator-title">Admitidos</h4>
             </div>
         </div>
-        <div class="indicator-division-4">
+        <div class="indicator-division-5">
             <div class="col-xs-12">
-                <div class="indicator-circle bottom-1">
-                    <h2 class="indicator-count">0</h2>
+                <div ng-click="redirect('no_admitidos')" class="indicator-circle bottom-2">
+                    <h2 class="indicator-count">{{noAdmitidos}}</h2>
                 </div>
-                <h4 class="indicator-title">Resumen avance de campaña</h4>
+                <h4 class="indicator-title">No admitidos</h4>
+            </div>
+        </div>
+        <div class="indicator-division-5">
+            <div class="col-xs-12">
+                <div ng-click="redirect('transferencias')" class="indicator-circle bottom-1">
+                    <img style="width: 100%; height: 100%;" src="assets/img/tr1.jpg">
+                </div>
+                <h4 class="indicator-title">Transferencias</h4>
             </div>
         </div>
     </div>
