@@ -1443,50 +1443,154 @@ class SolicitudDeAdmisionDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				SSA = rs.getString("valor")
+				SSA = rs.getString("valor");
 			}
 			
 			String consulta = Statements.GET_BITACORA_TRANSFERENCIAS;
 			String consultaCount = Statements.GET_COUNT_BITACORA_TRANSFERENCIAS;
 			
-			if (object.caseId == null) {
-				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
-					switch (filtro.get("columna")) {
-						case "IDBANNER, NOMBRE, CORREO":
-							errorlog += "IDBANNER, NOMBRE, CORREO";
-							if (where.contains("WHERE")) {
-								where += " AND "
-							} else {
-								where += " WHERE "
-							}
-							where += " LOWER(logs.persistenceid::VARCHAR) like lower('%[valor]%')";
-							where = where.replace("[valor]", filtro.get("valor"));
-							break;
-						default:
-							break;
-					} 
-				}
-			}
-			
-			if (object.caseId != null) {
-				orderby = "";
-			} else {
-				switch (object.orderby) {
-					case "ULTIMA MODIFICACION":
-						orderby += "sda.fechaultimamodificacion";
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
+				switch (filtro.get("columna")) {
+					case "idbanner, nombre, correo":
+						errorlog += "idbanner, nombre, correo";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(pers.id_banner::VARCHAR) like lower('%[valor]%') OR";
+						where += " LOWER(pers.apellido_paterno::VARCHAR) like lower('%[valor]%') OR";
+						where += " LOWER(pers.apellido_materno::VARCHAR) like lower('%[valor]%') OR"
+						where += " LOWER(pers.nombre::VARCHAR) like lower('%[valor]%') ";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "estatus":
+						errorlog += "estatus";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(esta.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "programa, periodo, campus ingreso":
+						errorlog += "programa, periodo, campus ingreso";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						
+						where += " LOWER(gdes.descripcion) like lower('%[valor]%') OR";
+						where += " LOWER(edes.descripcion) like lower('%[valor]%') OR";
+						where += " LOWER(cdes.descripcion) like lower('%[valor]%') ";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "vpd origen":
+						errorlog += "vpd origen";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(cori.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "vpd destino":
+						errorlog += "vpd destino";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(cdes.descripcion) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "autor transferencia, fecha":
+						errorlog += "vpd destino";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						where += " LOWER(logs.usuario) like lower('%[valor]%') OR";
+						where += " LOWER(TO_CHAR(logs.fecha_transferencia::TIMESTAMP, 'DD/MM/YYYY dd:mm')) like lower('%[valor]%')";
+						
+						where = where.replace("[valor]", filtro.get("valor"));
+						break;
+					case "CAMPUS":
+						errorlog += "CAMPUS";
+						if (where.contains("WHERE")) {
+							where += " AND "
+						} else {
+							where += " WHERE "
+						}
+						
+						if(object.esDestino == true) {
+							where += " LOWER(cdes.descripcion) like lower('%[valor]%')";
+						} else {
+							where += " LOWER(cori.descripcion) like lower('%[valor]%')";
+						}
+						
+						where = where.replace("[valor]", filtro.get("valor"));
 						break;
 					default:
-						orderby += " logs.persistenceid "
 						break;
-				}
+				} 
 			}
+			
+			switch (object.orderby) {
+				case "idbanner":
+					orderby += " pers.id_banner ";
+					break;
+				case "nombre":
+					orderby += " pers.nombre ";
+					break;
+				case "email":
+					orderby += " regi.correo_electronico ";
+					break;
+				case "carrera":
+					orderby += " gdes.descripcion ";
+					break;
+				case "periodo":
+					orderby += " edes.descripcion ";
+					break;
+				case "campus_ingreso":
+					orderby += " cdes.descripcion ";
+					break;
+				case "estatus":
+					orderby += " regi.estatus_solicitud ";
+					break;
+				case "vpd_origen":
+					orderby += " cori.descripcion ";
+					break;
+				case "vpd_destino":
+					orderby += " cdes.descripcion ";
+					break;
+				case "usuario":
+					orderby += " logs.usuario ";
+					break;
+				case "fecha":
+					orderby += " logs.fecha_transferencia ";
+					break;
+				default:
+					orderby += " logs.fecha_transferencia "
+					break;
+			}
+			
+			orderby += object.orientation;
 			
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);
-			
-			errorlog += consulta;
-			
 			pstm = con.prepareStatement(consultaCount);
+			errorlog += consultaCount;
+			errorlog += " | ";
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
@@ -1495,6 +1599,7 @@ class SolicitudDeAdmisionDAO {
 			
 			consulta = consulta.replace("[ORDER_BY]", orderby);
 			consulta = consulta.replace("[LIMIT_OFFSET]", " LIMIT ? OFFSET ?");
+			errorlog += consulta;
 			pstm = con.prepareStatement(consulta);
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);
@@ -1518,8 +1623,9 @@ class SolicitudDeAdmisionDAO {
 				logTransferencia.setFecha_transferencia(rs.getString("fecha_transferencia"))
 				logTransferencia.setFoto(rs.getString("urlfoto") + SSA);
 				logTransferencia.setIdbanner(rs.getString("id_banner"));
-				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + (!rs.getString("apellido_materno").equals("") ? "" : rs.getString("apellido_materno")));
+				logTransferencia.setNombre(rs.getString("nombre") + " " + rs.getString("apellido_paterno") + " " + rs.getString("apellido_materno"));
 				logTransferencia.setCorreo_electronico(rs.getString("correo_electronico"));
+				logTransferencia.setEstatus_solicitud(rs.getString("estatus_solicitud"));
 				
 				rows.add(logTransferencia);
 			}

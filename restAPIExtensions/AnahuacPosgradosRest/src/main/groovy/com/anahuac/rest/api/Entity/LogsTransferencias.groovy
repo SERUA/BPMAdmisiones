@@ -16,6 +16,7 @@ class LogsTransferencias {
 	private String idbanner;
 	private String nombre;
 	private String correo_electronico;
+	private String estatus_solicitud;
 	
 	public Long getPersistenceid() {
 		return persistenceid;
@@ -106,5 +107,11 @@ class LogsTransferencias {
 	}
 	public void setCorreo_electronico(String correo_electronico) {
 		this.correo_electronico = correo_electronico;
+	}
+	public String getEstatus_solicitud() {
+		return estatus_solicitud;
+	}
+	public void setEstatus_solicitud(String estatus_solicitud) {
+		this.estatus_solicitud = estatus_solicitud;
 	}
 }

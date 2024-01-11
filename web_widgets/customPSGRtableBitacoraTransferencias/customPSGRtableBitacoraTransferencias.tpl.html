@@ -9,48 +9,136 @@
         </select>
     </div>
     
+    <div class="row">
+        <div class="col-lg-12">
+            <span>Filtrado por:</span>    
+        </div>
+        <div class="col-lg-12" ng-repeat="row in dataToSend.lstFiltro">
+            <strong>{{row.columna}} {{row.operador}} "{{row.valor}}" </strong><span ng-show="row.columna != 'CAMPUS'"  class="glyphicon glyphicon-remove buttonDelete" ng-click="deleteContent(row)" aria-hidden="true"></span>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-xs-3 col-xs-offset-3">
+            Campus destino:  
+            <label class="switch"  >
+                <input type="checkbox" ng-model="dataToSend.esDestino" ng-change="cambiarDestino()"> 
+                <span class="slider round"></span>
+            </label>
+        </div>
+        <div style="margin-bottom:15px;" class="col-xs-3 col-xs-offset-3  text-right">
+            <select ng-change="sizing()" class="form-control" ng-model="dataToSend.limit">
+                <option ng-value="20">20</option>
+                <option ng-value="40">40</option>
+                <option ng-value="100">100</option>
+            </select>
+        </div>
+    </div>
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
             <tr>
                 <th>Foto</th>
-                <th ng-repeat="header in properties.headers">
-                     <span ng-if="properties.allowHTML" ng-bind-html="header | uiTranslate"></span>
-                  	 <span ng-if="!properties.allowHTML">{{ header | uiTranslate }}</span>
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('idbanner')">ID Banner<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='idbanner'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('nombre')" >Nombre<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='nombre'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('email')">Email<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='email'"></i></span> 
                 </th>
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('carrera')">Programa<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='carrera'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('periodo')" >Periodo<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='periodo'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('campus_ingreso')">Campus ingreso<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='campus_ingreso'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('estatus')">Estatus<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='estatus'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_origen')">VPD origen<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='vpd_origen'"></i></span> 
+                </th>
+                <th>
+                    <span style="cursor:pointer" ng-click="setOrderBy('vpd_destino')">VPD destino<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='vpd_destino'"></i></span> 
+                </th>
+                <th> 
+                    <span style="cursor:pointer" ng-click="setOrderBy('usuario')">Autor transferencia <i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='usuario'"></i></span> / 
+                    <span style="cursor:pointer" ng-click="setOrderBy('fecha')" >Fecha<i class="glyphicon" ng-class="(dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="dataToSend.orderby=='fecha'"></i></span>
+                </th>
+                
                 <th>Acciones</th>
             </tr>
-        </thead>
-        <tbody ng-if="ctrl.isArray(properties.content) && ctrl.isArray(properties.columnsKey)">
-            <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+            <tr>
+                <td></td>
                 <td>
-                    <img ng-src="{{row.foto}}" style="width: 64px;">
-                </td>
-                <td ng-if="!properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    {{ $eval(column, row) | uiTranslate }}
-                </td>
-                <td ng-if="properties.allowHTML" ng-repeat="column in properties.columnsKey track by $index">
-                    <div ng-if="properties.allowHTML" ng-bind-html="$eval(column, row) | uiTranslate"></div>
+                    <input ng-model="dynamicInput['idbanner, nombre, correo']" class="form-control" ng-enter="filterKeyPress('idbanner, nombre, correo', dynamicInput['idbanner, nombre, correo'])">
                 </td>
                 <td>
-                    <button class="btn btn-default" type="button">
-                        <span class="glyphicon glyphicon-eye-open"></span>
-                    </button>
+                    <input ng-model="dynamicInput['programa, periodo, campus ingreso']" class="form-control" ng-enter="filterKeyPress('programa, periodo, campus ingreso', dynamicInput['programa, periodo, campus ingreso'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('estatus', dynamicInput['estatus'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['vpd origen']" class="form-control" ng-enter="filterKeyPress('vpd origen', dynamicInput['vpd origen'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['vpd destino']" class="form-control" ng-enter="filterKeyPress('vpd destino', dynamicInput['vpd destino'])">
+                </td>
+                <td>
+                    <input ng-model="dynamicInput['autor transferencia, fecha']" class="form-control" ng-enter="filterKeyPress('autor transferencia, fecha', dynamicInput['autor transferencia, fecha'])">
                 </td>
             </tr>
-        </tbody>
-        <tbody ng-if="ctrl.isArray(properties.content) && !ctrl.isArray(properties.columnsKey)">
+        </thead>
+        <tbody>
             <tr ng-repeat="row in properties.content" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
                 <td>
                     <img ng-src="{{row.foto}}" style="width: 64px;">
                 </td>
-                <td ng-if="!properties.allowHTML"> {{ row | uiTranslate }}</td>
-                <td ng-if="properties.allowHTML" ng-bind-html="row | uiTranslate"></td>
                 <td>
-                    <button class="btn btn-default" type="button">
+                    {{row.idbanner}}<br>
+                    {{row.nombre}}<br>
+                    {{row.correo_electronico}}
+                </td>
+                <td>
+                    {{row.carrera_destino}}<br>
+                    {{row.periodo_destino}}<br>
+                    {{row.campus_destino}}
+                </td>
+                <td>
+                    {{row.estatus_solicitud}}
+                </td>
+                <td>
+                    {{row.campus_origen}}
+                </td>
+                <td>
+                    {{row.campus_destino}}
+                </td>
+                <td>
+                    {{row.usuario}}<br>
+                    {{row.fecha_transferencia | date:'dd/MM/yyyy hh:mm'}}
+                </td>
+                <td>
+                    <button class="btn btn-default" type="button" ng-click="verTransferido(row)">
                         <span class="glyphicon glyphicon-eye-open"></span>
                     </button>
                 </td>
             </tr>
         </tbody>
     </table>
+    <div class="col-xs-5">
+        <div class="dataTables_info">Mostrando {{dataToSend.offset+1}} a {{((dataToSend.limit*valorSeleccionado)>value)?value:dataToSend.limit*valorSeleccionado}} de {{value}} registros</div>
+    </div>
+    <div class="col-xs-7 text-center">
+        <div role="toolbar" aria-label="Toolbar with button groups">
+            <div class="btn-group" role="group" aria-label="First group">
+                <button type="button" class="btn btn-default" ng-click="anterior()">Anterior
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="Second group">
+                <button ng-repeat="row in lstPaginado" ng-class="row.seleccionado?'btn-primary':'btn-default'" type="button" class="btn" ng-click="seleccionarPagina(row.numero)">{{row.numero}}
+                </button>
+            </div>
+            <div class="btn-group" role="group" aria-label="Third group">
+                <button type="button" class="btn btn-default" ng-click="siguiente()">Siguiente
+                </button>
+            </div>
+        </div>
+    </div>
 </div>
