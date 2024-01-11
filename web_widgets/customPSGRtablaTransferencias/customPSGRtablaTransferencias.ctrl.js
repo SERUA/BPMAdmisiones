@@ -44,7 +44,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                  }
             })
             .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function() {
                 blockUI.stop();
@@ -144,7 +144,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 redireccionarTarea(rowData);
             })
             .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function() {
   
@@ -182,7 +182,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 $window.location.assign(url);*/
             })
             .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function() {
   
@@ -238,7 +238,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $(function() {
         doRequest("POST", $scope.properties.urlPost);
     })
-  
   
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         if (newValue !== undefined) {
@@ -367,9 +366,10 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 if ($scope.lstCampusByUser.length == 2) {
                     $scope.properties.campusSeleccionado = $scope.properties.lstCampus[i].grupo_bonita
                 }
-            } else if (campus == "Todos los campus") {
-                retorno = campus
             }
+            //  else if (campus == "Todos los campus") {
+            //     retorno = campus
+            // }
         }
         return retorno;
     }
@@ -706,7 +706,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 $scope.periodoLista = data;
             })
             .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function() {
 
@@ -727,7 +727,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 $scope.carreraLista = data;
             })
             .error(function(data, status) {
-                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+                // notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
             })
             .finally(function() {
 

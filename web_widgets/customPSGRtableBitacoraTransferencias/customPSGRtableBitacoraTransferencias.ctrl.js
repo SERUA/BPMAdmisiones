@@ -1,4 +1,4 @@
-function PbTableCtrl($scope, $http) {
+function PbTableCtrl($scope, $http, modalService) {
 
     this.isArray = Array.isArray;
     
@@ -16,6 +16,10 @@ function PbTableCtrl($scope, $http) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
     
+    $scope.verTransferido = function(){
+        modalService.open("modalVerTransferido");    
+    }
+    
     $scope.dataToSend = {
         limit: 20,
         offset: 0,
@@ -30,6 +34,7 @@ function PbTableCtrl($scope, $http) {
         $http.post(url, $scope.dataToSend).success(function(success){
             $scope.properties.content = success.data;
             $scope.value = success.totalRegistros;
+            $scope.loadPaginado();
         }).error(function(err){
             swal("¡Atención!", err.error, "error");
         })
@@ -294,6 +299,32 @@ function PbTableCtrl($scope, $http) {
                 $scope.valorSeleccionado = $scope.lstPaginado[i].numero;
                 $scope.dataToSend.offset = (($scope.lstPaginado[i].numero - 1) * $scope.dataToSend.limit)
             }
+        }
+  
+        selectBitacoraTransferencias();
+    }
+    
+    $scope.deleteContent = function(objContent) {
+        var index = $scope.dataToSend.lstFiltros.indexOf(objContent);
+        if(index != -1){
+            $scope.dataToSend.lstFiltros.splice(index, 1);
+        }
+    }
+    
+    $scope.cambiarDestino = function(){
+        selectBitacoraTransferencias();
+    }
+    
+    $scope.sizing = function() {
+        $scope.lstPaginado = [];
+        $scope.valorSeleccionado = 1;
+        $scope.iniciarP = 1;
+        $scope.finalP = 10;
+        
+        try {
+            $scope.dataToSend.limit = parseInt($scope.dataToSend.limit);
+        } catch (exception) {
+  
         }
   
         selectBitacoraTransferencias();

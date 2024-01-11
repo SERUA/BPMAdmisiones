@@ -1588,10 +1588,9 @@ class SolicitudDeAdmisionDAO {
 			
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);
-			
-			
-			
 			pstm = con.prepareStatement(consultaCount);
+			errorlog += consultaCount;
+			errorlog += " | ";
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
