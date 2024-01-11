@@ -25,9 +25,11 @@ import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.PropertiesEntity
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.Calendario
+import com.anahuac.rest.api.Entity.custom.Horarios
 import com.anahuac.rest.api.Entity.custom.PruebaCustom
 import com.anahuac.rest.api.Entity.custom.PruebasCustom
 import com.anahuac.rest.api.Entity.custom.ResponsableCustom
+import com.anahuac.rest.api.Entity.custom.Responsables
 import com.anahuac.rest.api.Entity.custom.SesionCustom
 import com.anahuac.rest.api.Entity.custom.SesionesAspiranteCustom
 import com.anahuac.rest.api.Entity.custom.SesionesBack
@@ -454,6 +456,63 @@ class SesionesDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getHorariosCita(Long idsesion, RestAPIContext context) {
+		Result resultado = new Result();
+		List<Horarios> rows = new ArrayList<Horarios>();
+		Horarios horario = new Horarios();
+		Responsables resp = new Responsables();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.GET_HORARIOS_BY_SESION);
+			pstm.setLong(1, Long.valueOf(idsesion));
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				horario = new Horarios();
+				horario.setHora_fin(rs.getString("hora_fin"));
+				horario.setHora_inicio(rs.getString("hora_inicio"));
+				horario.setPersistenceid(rs.getLong("persistenceid"));
+				
+				rows.add(horario);
+			}
+			
+			for(Horarios hor: rows) {
+				pstm = con.prepareStatement(Statements.GET_RESPONSABLES_BY_ID_HORARIO);
+				pstm.setLong(1, hor.getPersistenceid());
+				
+				rs = pstm.executeQuery();
+				hor.setResponsables(new ArrayList<Responsables>());
+				while (rs.next()) {
+					resp = new Responsables();
+					resp.setResponsable_id(rs.getString("responsable_id"));
+					resp.setDisponible_resp(rs.getBoolean("disponible_resp"));
+					resp.setHorario_pid(rs.getLong("horario_pid"));
+					resp.setOcupado(rs.getBoolean("ocupado"));
+					
+					hor.getResponsables().add(resp);
+				}
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch(Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
 	}
 	
 	public Result getSesionesCalendarizadasPsicologoSupervisor(String jsonData, RestAPIContext context) {
