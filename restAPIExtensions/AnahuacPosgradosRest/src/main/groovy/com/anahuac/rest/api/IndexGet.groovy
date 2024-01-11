@@ -190,7 +190,7 @@ class IndexGet implements RestApiController {
 					}
 					break;
 				case "getHorariosCita":
-					String idcampus = request.getParameter "idsesion"
+					String idsesion = request.getParameter "idsesion"
 					result = new SesionesDAO().getHorariosCita(idsesion, context);
 					responseBuilder.withMediaType("application/json")
 					if (result.isSuccess()) {
