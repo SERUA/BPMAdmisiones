@@ -2124,9 +2124,10 @@ class CatalogosDAO {
 	//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
 	//			}
 				
-				if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
+				// Descomentar. Se comento para pruebas.
+				/*if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
 					throw new Exception("Debes seleccionar al menos un período.");
-				}
+				}*/
 				
 				else if (object.idioma == null || object.idioma.isEmpty()) {
 					throw new Exception("El campo \"idioma\" no debe ir vacío.");
@@ -2139,11 +2140,65 @@ class CatalogosDAO {
 				pstm.setString(1, object.nombre);
 				pstm.setLong(2, object.CAMPUS.persistenceId);
 				pstm.setString(3, object.clave);
+				pstm.setLong(4, object.CAMPUS.persistenceId);
 				
 				rs = pstm.executeQuery();
 				
 				if (rs.next()) {
-					throw new Exception('El programa con nombre "' + object.nombre + '" y campus referencia "' + object.CAMPUS.persistenceId + '" ya existe, o la clave "' + object.clave + '" esta duplicada.' );
+					throw new Exception('El programa con nombre "' + object.nombre + '" y campus referencia "' + object.CAMPUS.persistenceId + '" ya existe, o la clave "' + object.clave + '" esta duplicada en el mismo campus.' );
+				}
+				
+				// Obtener el posgrado id
+				Long posgrado_pid = 0L;
+				if (object.grado.persistenceId) {
+					posgrado_pid = object.grado.persistenceId;
+				}
+				else if (object.grado.clave) {
+					pstm = con.prepareStatement(StatementsCatalogos.GET_POSGRADO_BY_CLAVE);
+					pstm.setLong(1, object.CAMPUS.persistenceId);
+					pstm.setString(2, object.grado.clave);
+					
+					rs = pstm.executeQuery();
+					
+					if (rs.next()) {
+						posgrado_pid = rs.getLong("persistenceid")
+					}
+					else {
+						throw new Exception('No se encontró ningun posgrado con la clave: ' + object.grado.clave);
+					}
+				}
+				else {
+					throw new Exception('Se debe especificar el "persistenceId" o la "clave" en el objeto grado.');
+				}
+				
+				// Obtener los periodos id
+				if (object.periodoDisponible && object.periodoDisponible instanceof ArrayList) {
+					object.periodoDisponible.each { item ->
+						Long periodo_pid = 0L;
+						// Si se mando en el request
+						if (item.persistenceId) {
+							
+						}
+						// Si se mando la clave
+						else if (item.clave) {
+							pstm = con.prepareStatement(StatementsCatalogos.GET_PERIODO_BY_CLAVE);
+							pstm.setString(1, object.periodoDisponible.clave);
+							
+							rs = pstm.executeQuery();
+							
+							if (rs.next()) {
+								periodo_pid = rs.getLong("persistenceid")
+							}
+							else {
+								throw new Exception('No se encontró ningun periodo con la clave: ' + item.clave + ', en el programa ' + object.nombre);
+							}
+							item.persistenceId = periodo_pid
+						}
+						// Si no se mando nada
+						else {
+							throw new Exception('Se debe especificar el "persistenceId" o la "clave" para todos los elementos del objeto "periodoDisponible".');
+						}
+					}
 				}
 				
 				// Insertar
@@ -2185,8 +2240,8 @@ class CatalogosDAO {
 				pstm.setLong(20, object.CAMPUS.persistenceId);
 				pstm.setLong(21, object.orden);
 				pstm.setNull(22, Types.BIGINT);
-				pstm.setLong(23, object.grado.persistenceId);
-				
+				pstm.setLong(23, posgrado_pid);
+
 				Long idResult = 0L;
 				rs = pstm.executeQuery();
 				
