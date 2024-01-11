@@ -1485,7 +1485,7 @@ class SolicitudDeAdmisionDAO {
 						}
 						
 						where += " LOWER(gdes.descripcion) like lower('%[valor]%') OR";
-						where += " LOWER(pdes.descripcion) like lower('%[valor]%') OR";
+						where += " LOWER(edes.descripcion) like lower('%[valor]%') OR";
 						where += " LOWER(cdes.descripcion) like lower('%[valor]%') ";
 						
 						where = where.replace("[valor]", filtro.get("valor"));
