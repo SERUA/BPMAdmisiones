@@ -9,6 +9,7 @@ class SesionesPosibles {
 	private Long campus;
 	private Integer duracion_entrevista_minutos;
 	private String responsable_id;
+	private List<Responsables> responsables;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -58,5 +59,10 @@ class SesionesPosibles {
 	public void setResponsable_id(String responsable_id) {
 		this.responsable_id = responsable_id;
 	}
-	
+	public List<Responsables> getResponsables() {
+		return responsables;
+	}
+	public void setResponsables(List<Responsables> responsables) {
+		this.responsables = responsables;
+	}
 }

@@ -142,8 +142,9 @@ class SesionesDAO {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Map<String, Object> row = new HashMap<String, Object>();
-		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
-		
+		List <Map<String, Object>> rows = new ArrayList <Map<String, Object>>();
+		Responsables resp = new Responsables();
+		List <Responsables> responsables = new ArrayList<Responsables>();
 		try {
 			closeCon = validarConexion();
 			
@@ -164,6 +165,25 @@ class SesionesDAO {
 				row.put("hora_inicio", rs.getString("hora_inicio"));
 				
 				rows.add(row);
+			}
+			
+			for(Map<String, Object> hor: rows) {
+				responsables = new ArrayList<Responsables>()
+				pstm = con.prepareStatement(Statements.GET_RESPONSABLES_BY_ID_HORARIO);
+				pstm.setLong(1, hor.get("persistenceId"));
+				
+				rs = pstm.executeQuery();
+				
+				while (rs.next()) {
+					resp = new Responsables();
+					resp.setResponsable_id(rs.getString("responsable_id"));
+					resp.setDisponible_resp(rs.getBoolean("disponible_resp"));
+					resp.setOcupado(rs.getBoolean("ocupado"));
+					
+					responsables.add(resp);
+				}
+				
+				hor.put("responsables", responsables);
 			}
 			
 			resultado.setData(rows);
