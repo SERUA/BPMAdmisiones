@@ -145,6 +145,8 @@ class SesionesDAO {
 		List <Map<String, Object>> rows = new ArrayList <Map<String, Object>>();
 		Responsables resp = new Responsables();
 		List <Responsables> responsables = new ArrayList<Responsables>();
+		List<String> ids = new ArrayList<String>();
+		
 		try {
 			closeCon = validarConexion();
 			
@@ -181,13 +183,18 @@ class SesionesDAO {
 					resp.setOcupado(rs.getBoolean("ocupado"));
 					
 					responsables.add(resp);
+					if(!ids.contains(resp.getResponsable_id())) {
+						ids.add(resp.getResponsable_id());
+					}
 				}
 				
 				hor.put("responsables", responsables);
-			}
+			} 
+			
 			
 			resultado.setData(rows);
 			resultado.setSuccess(true);
+			resultado.setAdditional_data(ids);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
@@ -274,6 +281,7 @@ class SesionesDAO {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Long idSesion = 0L;
+		List<String> ids = new ArrayList<String>();
 		
 		try {
 			closeCon = validarConexion();
@@ -336,6 +344,10 @@ class SesionesDAO {
 					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
 					errorLog += "1|";
 					for(Map<String, Object> responsable: lstResponsables) {
+						if(!ids.contains(responsable.get("responsable_id"))) {
+							ids.add(responsable.get("responsable_id"));
+						}
+						
 						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
 						pstm.setLong(1, horario_pid);
 						pstm.setLong(2, Integer.valueOf(responsable.get("responsable_id")));
@@ -349,6 +361,20 @@ class SesionesDAO {
 					}
 				} else {
 					throw new Exception("No se ha podido insertar el  horario");
+				}
+			}
+			
+			if(!ids.empty) {
+				for(String id: ids) {
+					pstm = con.prepareStatement(Statements.INSERT_RESPONSABLES_LISTA);
+					pstm.setString(1, "");
+					pstm.setString(2, id);
+					pstm.setString(3, false);
+					pstm.setString(4, idSesion);
+					
+					if(pstm.executeUpdate() == 0) {
+						throw new Exception("No se ha podido insertar el responsable");
+					}
 				}
 			}
 			
