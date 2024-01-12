@@ -8207,9 +8207,10 @@ class CatalogosDAO {
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
 				row.put("id_campus", rs.getLong("id_campus"));
 				row.put("usuario_banner", rs.getString("usuario_banner"));
-				row.put("year", rs.getString("ano"));
-				row.put("codigo", rs.getString("codigo"));
-				
+				row.put("year", rs.getInt("ano"));
+				row.put("codigo", rs.getInt("codigo"));
+				row.put("activo", rs.getBoolean("activo"));
+								
 				data.add(row);
 			}
 			
