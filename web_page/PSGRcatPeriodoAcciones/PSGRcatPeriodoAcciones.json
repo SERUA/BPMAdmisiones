@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRcatPeriodoAcciones",
   "name" : "PSGRcatPeriodoAcciones",
-  "lastUpdate" : 1701897614846,
+  "lastUpdate" : 1705017758635,
   "rows" : [
     [
       {
@@ -1204,6 +1204,10 @@
                               "content" : {
                                 "type" : "variable",
                                 "value" : "lstFiltrosPre"
+                              },
+                              "retorno" : {
+                                "type" : "variable",
+                                "value" : ""
                               }
                             },
                             "reference" : "f5a0a351-432c-4562-acbd-ba9e2ec52589",
@@ -1526,7 +1530,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "codigos"
+                  "value" : "codigosDisponibles"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -1815,11 +1819,11 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Anual"
+                        "value" : "Trimestral"
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_anual"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_trimestral"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -1835,56 +1839,6 @@
                       }
                     },
                     "reference" : "8288a88e-7b77-467a-8125-76fdfada2959",
-                    "hasValidationError" : false,
-                    "id" : "customCheckboxLabel"
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 4,
-                      "lg" : 4
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Activo"
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].activo"
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      }
-                    },
-                    "reference" : "3f6c6a80-a737-41af-ac75-26199dd0444f",
                     "hasValidationError" : false,
                     "id" : "customCheckboxLabel"
                   }
@@ -2024,6 +1978,58 @@
               "reference" : "38db1cfe-05e5-45a3-b38b-ff9d56ad0396",
               "hasValidationError" : false,
               "id" : "pbDatePicker"
+            }
+          ],
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "disabled" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "required" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Activo"
+                },
+                "value" : {
+                  "type" : "variable",
+                  "value" : "formOutputAgregar.lstCatPeriodoInput[0].activo"
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : false
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                }
+              },
+              "reference" : "3f6c6a80-a737-41af-ac75-26199dd0444f",
+              "hasValidationError" : false,
+              "id" : "customCheckboxLabel"
             }
           ],
           [
@@ -2449,7 +2455,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "codigos"
+                  "value" : "codigosDisponibles"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -2734,11 +2740,11 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Anual"
+                        "value" : "Trimestral"
                       },
                       "value" : {
                         "type" : "variable",
-                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_anual"
+                        "value" : "formOutputAgregar.lstCatPeriodoInput[0].is_trimestral"
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -3656,21 +3662,38 @@
       ],
       "exposed" : false
     },
-    "debugger" : {
-      "type" : "expression",
-      "value" : [
-        "debugger;",
-        "$data.formOutputAgregar;",
-        "$data.year;"
-      ],
-      "exposed" : false
-    },
     "year" : {
       "type" : "json",
       "value" : [
         "{",
         "    \"year\":\"\"",
         "}"
+      ],
+      "exposed" : false
+    },
+    "codigosDisponibles" : {
+      "type" : "expression",
+      "value" : [
+        "return [",
+        "    {",
+        "        clave: 11",
+        "    },",
+        "    {",
+        "        clave: 13",
+        "    },",
+        "    {",
+        "        clave: 33",
+        "    },",
+        "    {",
+        "        clave: 53",
+        "    },",
+        "    {",
+        "        clave: 83",
+        "    },",
+        "    {",
+        "        clave: 61",
+        "    },",
+        "];"
       ],
       "exposed" : false
     }

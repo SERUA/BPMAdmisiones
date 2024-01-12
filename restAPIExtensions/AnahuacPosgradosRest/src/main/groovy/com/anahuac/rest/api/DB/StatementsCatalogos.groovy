@@ -198,7 +198,7 @@ class StatementsCatalogos {
 	//PSGRCatPeriodo
 	public static final String INSERT_CATPERIODO = "INSERT INTO PSGRCATPERIODO  (persistenceid, persistenceversion, activo, clave, descripcion, fecha_creacion, fecha_inicio, fecha_fin, fecha_importacion, id, is_anual, is_eliminado, is_enabled, is_propedeutico, is_semestral, id_campus, usuario_banner, ano, codigo) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCATPERIODO ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCATPERIODO) end), 0, true, ?, ?,?, ?, ?, ?, ?, ?, false, true, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPERIODO = "UPDATE PSGRCATPERIODO SET is_eliminado = ? WHERE persistenceid = ?";
-	public static final String UPDATE_CATPERIODO = "UPDATE PSGRCATPERIODO SET clave = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, id = ?, is_anual = ?, is_propedeutico = ?, is_semestral = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPERIODO = "UPDATE PSGRCATPERIODO SET clave = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, id = ?, is_anual = ?, is_propedeutico = ?, is_semestral = ?, ano = ?, codigo = ?, activo = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATPERIODO = "SELECT * FROM PSGRCATPERIODO [WHERE] [ORDERBY]";
 	public static final String SELECT_COUNT_CATPERIODO = "SELECT COUNT(*) AS total_rows FROM PSGRCATPERIODO [WHERE] [ORDERBY]";
 	
