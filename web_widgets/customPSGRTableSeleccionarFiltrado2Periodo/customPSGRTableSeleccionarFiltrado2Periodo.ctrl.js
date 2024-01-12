@@ -6,7 +6,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };
 
     this.selectRow = function(row) {
-        debugger;
         $scope.properties.selectedRow = row;
         $scope.properties.isSelected = 'editar';
         $scope.properties.selectedRow["todelete"] = false;
@@ -43,7 +42,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };*/
 
     this.isSelected = function(row) {
-        debugger;
         return angular.equals(row, $scope.properties.selectedRow);
     }
 
