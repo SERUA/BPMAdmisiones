@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1704248563018,
+  "lastUpdate" : 1705022846572,
   "rows" : [
     [
       {
@@ -83,7 +83,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>\n\ncatGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>\n\ncatGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible| json}}</pre>"
+            "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>\n<pre>{{periodosActivos | json}}</pre>\n\n\ncatGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -5748,7 +5748,7 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "periodos"
+                        "value" : "periodosActivos"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -7392,11 +7392,7 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPeriodo?q=findByIs_eliminado&p=0&c=999&f=is_eliminado=false"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "catGestionEscolar_selected_periodo_disponible" : {
@@ -7426,6 +7422,22 @@
       "type" : "expression",
       "value" : [
         "return false;"
+      ],
+      "exposed" : false
+    },
+    "cargarPeriodoDisponible" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.catGestionEscolar_selected_periodo_disponible && (!$data.catGestionEscolar_selected.periodo_disponible || $data.catGestionEscolar_selected.periodo_disponible.length === 0)) {",
+        "    $data.catGestionEscolar_selected.periodo_disponible = $data.catGestionEscolar_selected_periodo_disponible;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "periodosActivos" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.periodos.filter(item => item.activo);"
       ],
       "exposed" : false
     }
