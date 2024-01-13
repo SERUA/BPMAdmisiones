@@ -145,6 +145,8 @@ class SesionesDAO {
 		List <Map<String, Object>> rows = new ArrayList <Map<String, Object>>();
 		Responsables resp = new Responsables();
 		List <Responsables> responsables = new ArrayList<Responsables>();
+		List<Long> ids = new ArrayList<Long>();
+		
 		try {
 			closeCon = validarConexion();
 			
@@ -176,18 +178,24 @@ class SesionesDAO {
 				
 				while (rs.next()) {
 					resp = new Responsables();
+					resp.setPersistenceId(rs.getLong("persistenceid"));
 					resp.setResponsable_id(rs.getString("responsable_id"));
 					resp.setDisponible_resp(rs.getBoolean("disponible_resp"));
 					resp.setOcupado(rs.getBoolean("ocupado"));
 					
 					responsables.add(resp);
+					if(!ids.contains(Long.valueOf(resp.getResponsable_id()))) {
+						ids.add(Long.valueOf(resp.getResponsable_id()));
+					}
 				}
 				
 				hor.put("responsables", responsables);
-			}
+			} 
+			
 			
 			resultado.setData(rows);
 			resultado.setSuccess(true);
+			resultado.setAdditional_data(ids);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
@@ -274,6 +282,7 @@ class SesionesDAO {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Long idSesion = 0L;
+		List<String> ids = new ArrayList<String>();
 		
 		try {
 			closeCon = validarConexion();
@@ -336,6 +345,10 @@ class SesionesDAO {
 					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
 					errorLog += "1|";
 					for(Map<String, Object> responsable: lstResponsables) {
+						if(!ids.contains(responsable.get("responsable_id"))) {
+							ids.add(responsable.get("responsable_id"));
+						}
+						
 						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
 						pstm.setLong(1, horario_pid);
 						pstm.setLong(2, Integer.valueOf(responsable.get("responsable_id")));
@@ -349,6 +362,19 @@ class SesionesDAO {
 					}
 				} else {
 					throw new Exception("No se ha podido insertar el  horario");
+				}
+			}
+			
+			if(!ids.empty) {
+				for(String id: ids) {
+					pstm = con.prepareStatement(Statements.INSERT_RESPONSABLES_LISTA);
+					pstm.setString(1, "");
+					pstm.setLong(2, Long.valueOf(id));
+					pstm.setLong(3, idSesion);
+					
+					if(pstm.executeUpdate() == 0) {
+						throw new Exception("No se ha podido insertar el responsable");
+					}
 				}
 			}
 			
@@ -402,25 +428,31 @@ class SesionesDAO {
 			pstm = con.prepareStatement(Statements.UPDATE_SESION);
 			
 			pstm.setString(1, object.nombre);
-			pstm.setString(2, object.nombre);
-			pstm.setLong(3, Long.valueOf(object.persistenceid));
+			pstm.setString(2, object.descripcion_entrevista);
+			pstm.setLong(3, Long.valueOf(object.persistenceId));
 			
-			rs = pstm.executeQuery();
+			pstm.executeUpdate();
 			
-			List<Map<String, String>> lstHorarios = generarHoras(Integer.parseInt(object.duracion_entrevista_minutos));
+			List<Map<String, Object>> lstHorarios = (List<Map<String, Object>>) object.horarios;
+			
 			for(Map<String, String> horario: lstHorarios) {
-				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
-				pstm.setString(1, horario.get("inicio"));
-				pstm.setString(2, horario.get("fin"));
-				pstm.setLong(3, idSesion);
+				List<Responsables> lstResponsables = new ArrayList<Responsables>();
+				lstResponsables = (List<Responsables>) horario.get("responsables");
 				
-				pstm.executeUpdate();
+				for(Responsables responsable: lstResponsables) {
+					pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
+					pstm.setBoolean(1, responsable.getDisponible_resp());
+					pstm.setBoolean(2, responsable.getOcupado());
+					pstm.setLong(3, responsable.getPersistenceId());
+					
+					pstm.executeUpdate();
+				}
 			}
 			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[insertSesion] " + e.getMessage());
+			resultado.setError("[updateSesion] " + e.getMessage());
 		} finally {
 			resultado.setError_info(errorLog);
 			if (con != null) {

@@ -40,7 +40,9 @@ function($scope, $http, blockUI, $window) {
     
     $scope.initSesion = function(){
         $scope.navVar = "sesion";
-        
+        $scope.responsables = [];
+        $scope.horarios = [];
+        $scope.nuevoResponsable = null;
         $scope.sesion = {
             "nombre": "", 
             "descripcion_entrevista": "",
@@ -50,15 +52,15 @@ function($scope, $http, blockUI, $window) {
         }
     }
     
-    function fechaAStringConFormato(fecha) {
-        var dia = fecha.getDate();
-        var mes = fecha.getMonth() + 1;
-        var ano = fecha.getFullYear();
-        dia = dia < 10 ? '0' + dia : dia;
-        mes = mes < 10 ? '0' + mes : mes;
+    // function fechaAStringConFormato(fecha) {
+    //     var dia = fecha.getDate();
+    //     var mes = fecha.getMonth() + 1;
+    //     var ano = fecha.getFullYear();
+    //     dia = dia < 10 ? '0' + dia : dia;
+    //     mes = mes < 10 ? '0' + mes : mes;
       
-        return dia + '/' + mes + '/' + ano;
-    }
+    //     return dia + '/' + mes + '/' + ano;
+    // }
 
     var vm = this;
     $scope.resultado;
@@ -101,10 +103,15 @@ function($scope, $http, blockUI, $window) {
                 let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
 
                 $http.get(url).success(function(_data){
-                    $scope.entrevistas = angular.copy(_data);
+                    debugger;
+                    $scope.horarios = angular.copy(_data.data);
+
+                    for(let id of angular.copy(_data.additional_data)){
+                        $scope.agregarRespId(id); 
+                    }
+
                     $scope.$apply();
                 });
-                
                 
                 $scope.navVar = "sesion";
                 encontrado = true;
@@ -116,6 +123,40 @@ function($scope, $http, blockUI, $window) {
         if(!encontrado){
             swal("Evento no encontrado", "", "warning");
         }
+    }
+
+    $scope.agregarRespId = function(_id){
+        let _usuario = null;
+        let encontrado = false;
+
+        for(let usuarioResp of $scope.usuariosResponsables){
+            if(_id === parseInt(usuarioResp.id)){
+                _usuario = angular.copy(usuarioResp);
+            }
+        }
+
+        for(let usuario of $scope.responsables){
+            if(usuario.responsable_id === _usuario.id){
+                encontrado = true;
+            }
+        }
+
+        if(!encontrado){
+            let nuevoUsuario = {
+                "responsable_id": _usuario.id,
+                "horario": null, 
+                "cita_entrevista": {
+                    "persistenceId": $scope.sesion.persistenceId
+                },
+                "ocupado": false,
+                "disponible_resp": true,
+                "nombre": _usuario.firstname + " " + _usuario.lastname
+            }
+
+            $scope.responsables.push(nuevoUsuario);
+        } 
+
+        $scope.nuevoResponsable = null;
     }
 
     var eventos = [];
@@ -432,7 +473,6 @@ function($scope, $http, blockUI, $window) {
     }
 
     $scope.deleteResponsable = function(_usuario){
-        debugger;
         for(let horario of $scope.horarios){
             for(let responsable of horario.responsables){
                 if(_usuario.id === responsable.responsable_id){

@@ -1,6 +1,7 @@
 package com.anahuac.rest.api.Entity.custom
 
 class Responsables {
+	private Long persistenceId;
 	private Boolean disponible_resp;
 	private String nombre;
 	private Boolean ocupado;
@@ -29,5 +30,11 @@ class Responsables {
 	}
 	public void setResponsable_id(String responsable_id) {
 		this.responsable_id = responsable_id;
+	}
+	public Long getPersistenceId() {
+		return persistenceId;
+	}
+	public void setPersistenceId(Long persistenceId) {
+		this.persistenceId = persistenceId;
 	}
 }
