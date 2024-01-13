@@ -6,6 +6,7 @@ class Responsables {
 	private String nombre;
 	private Boolean ocupado;
 	private String responsable_id;
+	private Object horario;
 	
 	public Boolean getDisponible_resp() {
 		return disponible_resp;
@@ -36,5 +37,11 @@ class Responsables {
 	}
 	public void setPersistenceId(Long persistenceId) {
 		this.persistenceId = persistenceId;
+	}
+	public Object getHorario() {
+		return horario;
+	}
+	public void setHorario(Object horario) {
+		this.horario = horario;
 	}
 }
