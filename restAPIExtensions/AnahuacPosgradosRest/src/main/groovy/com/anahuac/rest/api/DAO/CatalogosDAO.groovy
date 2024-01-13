@@ -2496,7 +2496,7 @@ class CatalogosDAO {
 
 			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR
 			CatGestionEscolar row = new CatGestionEscolar();
-			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			List < CatGestionEscolar > rows = new ArrayList < CatGestionEscolar > ();
 			closeCon = validarConexion();
 
 			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND GE.posgrado_pid = " + object.posgrado_pid
@@ -2731,6 +2731,28 @@ class CatalogosDAO {
 				row.setPosgrado(rs.getString("posgrado"))
 
 				rows.add(row)
+			}
+			
+			// Agregando los periodos disponibles a la data respuesta
+			rows.each { programa ->
+				pstm = con.prepareStatement(StatementsCatalogos.GET_LST_PERIODOS_DISPONIBLES);
+				pstm.setLong(1, programa.getPersistenceId());
+	
+				rs = pstm.executeQuery();
+				String periodos_disponible_value = ""
+				boolean first = true;
+				
+				while (rs.next()) {
+					if (first) {
+						periodos_disponible_value += rs.getString("descripcion");
+						first = false;
+					}
+					else {
+						periodos_disponible_value += ", " + rs.getString("descripcion");
+					}
+				}
+				
+				programa.setPeriodos_disponible(periodos_disponible_value);
 			}
 
 			resultado.setSuccess(true)
@@ -8036,10 +8058,11 @@ class CatalogosDAO {
 			pstm.setBoolean(8, object.is_anual);
 			pstm.setBoolean(9, false);
 			pstm.setBoolean(10, object.is_semestral);
-			pstm.setLong(11, idCampus);
-			pstm.setString(12, object.usuario_banner);
-			pstm.setLong(13, object.year);
-			pstm.setLong(14, Long.parseLong(object.codigo));
+			pstm.setBoolean(11, object.is_trimestral);
+			pstm.setLong(12, idCampus);
+			pstm.setString(13, object.usuario_banner);
+			pstm.setLong(14, object.year);
+			pstm.setLong(15, Long.parseLong(object.codigo));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -8109,11 +8132,11 @@ class CatalogosDAO {
 			pstm.setBoolean(6, object.is_anual);
 			pstm.setBoolean(7, false);
 			pstm.setBoolean(8, object.is_semestral);
-			// is_trimestral
-			pstm.setInt(9, object.year);
-			pstm.setInt(10, object.codigo);
-			pstm.setBoolean(11, object.activo);
-			pstm.setLong(12, object.persistenceid);
+			pstm.setBoolean(9, object.is_trimestral);
+			pstm.setInt(10, object.year);
+			pstm.setInt(11, object.codigo);
+			pstm.setBoolean(12, object.activo);
+			pstm.setLong(13, object.persistenceid);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -8205,6 +8228,7 @@ class CatalogosDAO {
 				row.put("is_anual", rs.getBoolean("is_anual"));
 				row.put("is_propedeutico", rs.getBoolean("is_propedeutico"));
 				row.put("is_semestral", rs.getBoolean("is_semestral"));
+				row.put("is_trimestral", rs.getBoolean("is_trimestral"));
 				row.put("id_campus", rs.getLong("id_campus"));
 				row.put("usuario_banner", rs.getString("usuario_banner"));
 				row.put("year", rs.getInt("ano"));

@@ -38,6 +38,7 @@ class CatGestionEscolar {
 	private Long orden;
 	private String posgrado;
 	private String periodo;
+	private String periodos_disponible;
 	private String tipo_de_archivo;
 	
 	
@@ -262,6 +263,12 @@ class CatGestionEscolar {
 	}
 	public void setPeriodo(String periodo) {
 		this.periodo = periodo;
+	}
+	public String getPeriodos_disponible() {
+		return periodos_disponible;
+	}
+	public void setPeriodos_disponible(String periodos_disponible) {
+		this.periodos_disponible = periodos_disponible;
 	}
 	public String getPosgrado() {
 		return posgrado;

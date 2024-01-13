@@ -35,7 +35,7 @@ class StatementsCatalogos {
 	//PSGRCatGestionEscolar
 //	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCATGESTIONESCOLAR as GE  LEFT JOIN psgrcatcampus campus ON campus.grupo_bonita = GE.campus [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
 	
-	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.posgrado_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
+	public static final String GET_CATGESTIONESCOLAR = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid [CAMPUS] [WHERE] [ORDERBY] [LIMITOFFSET]";
 	public static final String GET_SIMPLE_CATGESTIONESCOLAR = "SELECT persistenceid, nombre, campus_referencia_pid, clave FROM PSGRCatGestionEscolar WHERE ((nombre = ? AND campus_referencia_pid = ?) OR (clave = ? AND campus_referencia_pid = ?)) AND is_eliminado = false"
 	public static final String GET_POSGRADO_BY_CLAVE = "SELECT persistenceid FROM PSGRCatPosgrado WHERE campus_pid = ? AND clave = ? AND is_eliminado = false"
 	public static final String GET_PERIODO_BY_CLAVE = "SELECT persistenceid FROM PSGRCatPeriodo WHERE clave = ? AND is_eliminado = false"
@@ -44,7 +44,7 @@ class StatementsCatalogos {
 	public static final String UPDATE_CATGESTIONESCOLAR  = "UPDATE PSGRCatGestionEscolar SET Clave=?, nombre=?, descripcion=?, enlace=?, tipo_centro_estudio=?, propedeutico=?, programa_parcial=?, is_medicina=?, tipo_licenciatura=?, inscripcion_enero=?, inscripcion_mayo=?, inscripcion_agosto=?, inscripcion_septiembre=?, url_img_licenciatura=?, idioma=?, usuario_creacion=? WHERE persistenceid=?;";
 	public static final String GET_LSTCAMPUS  = "SELECT * FROM PSGRCatCampus WHERE eliminado = false";
 	public static final String GET_LSTCAMPUSBYGRUPOBONITA  = "SELECT * FROM PSGRCatCampus WHERE grupo_bonita = ? AND eliminado = false";
-	public static final String GET_LST_PERIODOS_DISPONIBLES = "SELECT peri.* FROM PSGRCatGestion_periodo_dispon AS  disp LEFT JOIN PSGRCatPeriodo AS peri ON  disp.psgrcatperiodo_pid = peri.persistenceid WHERE psgrcatgestionescolar_pid = ?;";
+	public static final String GET_LST_PERIODOS_DISPONIBLES = "SELECT peri.* FROM PSGRCatGestion_periodo_dispon AS  disp LEFT JOIN PSGRCatPeriodo AS peri ON disp.psgrcatperiodo_pid = peri.persistenceid WHERE psgrcatgestionescolar_pid = ?;";
 	public static final String INSERT_LST_PERIODOS_DISPONIBLES = "INSERT INTO PSGRCatGestion_periodo_dispon (psgrcatgestionescolar_pid, psgrcatperiodo_pid, periodo_disponible_order) VALUES [VALUES];";
 	public static final String DELETE_LST_PERIODOS_DISPONIBLES = "DELETE FROM PSGRCatGestion_periodo_dispon WHERE psgrcatgestionescolar_pid = ?;";
 	
@@ -196,9 +196,9 @@ class StatementsCatalogos {
 	public static final String SELECT_CATMEDIOSENTERASTE = "SELECT persistenceid, orden, clave, descripcion FROM PSGRCatMedioEnteraste [WHERE] [ORDERBY]";
 	
 	//PSGRCatPeriodo
-	public static final String INSERT_CATPERIODO = "INSERT INTO PSGRCATPERIODO  (persistenceid, persistenceversion, activo, clave, descripcion, fecha_creacion, fecha_inicio, fecha_fin, fecha_importacion, id, is_anual, is_eliminado, is_enabled, is_propedeutico, is_semestral, id_campus, usuario_banner, ano, codigo) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCATPERIODO ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCATPERIODO) end), 0, true, ?, ?,?, ?, ?, ?, ?, ?, false, true, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_CATPERIODO = "INSERT INTO PSGRCATPERIODO  (persistenceid, persistenceversion, activo, clave, descripcion, fecha_creacion, fecha_inicio, fecha_fin, fecha_importacion, id, is_anual, is_eliminado, is_enabled, is_propedeutico, is_semestral, is_trimestral, id_campus, usuario_banner, ano, codigo) VALUES (( CASE WHEN (SELECT max(persistenceId) + 1 from PSGRCATPERIODO ) is null then 1 else (SELECT max(persistenceId) + 1 from PSGRCATPERIODO) end), 0, true, ?, ?,?, ?, ?, ?, ?, ?, false, true, ?, ?, ?, ?, ?, ?, ?);";
 	public static final String DELETE_CATPERIODO = "UPDATE PSGRCATPERIODO SET is_eliminado = ? WHERE persistenceid = ?";
-	public static final String UPDATE_CATPERIODO = "UPDATE PSGRCATPERIODO SET clave = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, id = ?, is_anual = ?, is_propedeutico = ?, is_semestral = ?, ano = ?, codigo = ?, activo = ? WHERE persistenceid = ?";
+	public static final String UPDATE_CATPERIODO = "UPDATE PSGRCATPERIODO SET clave = ?, descripcion = ?, fecha_inicio = ?, fecha_fin = ?, id = ?, is_anual = ?, is_propedeutico = ?, is_semestral = ?, is_trimestral = ?, ano = ?, codigo = ?, activo = ? WHERE persistenceid = ?";
 	public static final String SELECT_CATPERIODO = "SELECT * FROM PSGRCATPERIODO [WHERE] [ORDERBY]";
 	public static final String SELECT_COUNT_CATPERIODO = "SELECT COUNT(*) AS total_rows FROM PSGRCATPERIODO [WHERE] [ORDERBY]";
 	
