@@ -1,14 +1,33 @@
 <div ng-hide="isenvelope">
     <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
-        <select class="form-control" ng-model="filtroCampus"
+        <select class="form-control" ng-model="selectedCampus"
             ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
-            ng-change="addFilter()">
+            ng-change="campusChanged()">
             <option style="display:none" value="">
                 Seleccionar campus
             </option>
         </select>
     </div>
-    
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
+        <select class="form-control" ng-model="selectedPosgrado" ng-change="posgradoChanged()"> 
+            <option style="display:none" value="">
+                Seleccionar posgrado 
+            </option>
+            <option ng-repeat="posgrado in posgrados" value="{{posgrado.descripcion}}">
+                {{posgrado.descripcion}}
+            </option>
+        </select>
+    </div>
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
+        <select class="form-control" ng-model="selectedPrograma" ng-change="programaChanged()"> 
+            <option style="display:none" value="">
+                Seleccionar programa 
+            </option>
+            <option ng-repeat="programa in programas" value="{{programa.nombre}}">
+                {{programa.nombre}}
+            </option>
+        </select>
+    </div>
     <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
         <select class="form-control" ng-model="filtroPeriodo" ng-change="addFilterPeriodo()">
             <option style="display:none" value="">
@@ -19,17 +38,7 @@
             </option>
         </select>
     </div>
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
-        <select class="form-control" ng-model="filtroLicenciatura" ng-change="addFilterLicenciatura()"> 
-            <option style="display:none" value="">
-                Seleccionar programa 
-            </option>
-            <option ng-repeat="licenciatura in licenciaturas" value="{{licenciatura.nombre}}">
-                {{licenciatura.nombre}}
-            </option>
-        </select>
-    </div>
-
+    
     <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
         <select ng-change="sizing()" class="form-control" ng-model="properties.dataToSend.limit">
             <option ng-value="20">20</option>
