@@ -7,11 +7,13 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.programas = [];
     $scope.periodos = [];
 
+    // Valor del input select
     $scope.selectedCampus = "";
     $scope.selectedPosgrado = "";
     $scope.selectedPrograma = "";
     $scope.selectedPeriodo = "";
 
+    // Valor seleccionado
     $scope.properties.campusSeleccionado = null;
     $scope.properties.posgradoSeleccionado = null;
     $scope.properties.programaSeleccionado = null;
@@ -57,6 +59,108 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             });
     }
   
+    // Scope functions
+
+    $scope.campusChanged = function() {
+
+        if ($scope.selectedCampus === "" || $scope.selectedCampus === "Todos los campus") {
+            filterListRemove("CAMPUS");
+
+            $scope.mostrarFiltros = false;
+            $scope.properties.campusSeleccionado = $scope.selectedCampus;
+            $scope.posgrados = [];
+        } 
+        else {
+            // Nuevo valor del filtro campus
+            const campusFilter = {
+                "columna": "CAMPUS",
+                "operador": "Igual a",
+                "valor": $scope.selectedCampus
+            };
+
+            // Agregar o actualizar el filtro campus
+            filterListAdd("CAMPUS", campusFilter);
+
+            $scope.mostrarFiltros = true;
+            $scope.properties.campusSeleccionado = $scope.selectedCampus;
+            const campus = $scope.lstCampus.find(item => item.descripcion === $scope.selectedCampus)
+            getPosgrados(campus.persistenceId);
+        } 
+    }
+
+    $scope.posgradoChanged = function() {
+
+        if ($scope.selectedPosgrado === "") {
+            filterListRemove("POSGRADO");
+
+            $scope.properties.posgradoSeleccionado = $scope.selectedPosgrado;
+            $scope.programas = [];
+        } 
+        else {
+            // Nuevo valor del filtro posgrado
+            const posgradoFilter = {
+                "columna": "POSGRADO",
+                "operador": "Igual a",
+                "valor": $scope.selectedPosgrado
+            };
+
+            // Agregar o actualizar el filtro posgrado
+            filterListAdd("POSGRADO", posgradoFilter);
+
+            $scope.properties.posgradoSeleccionado = $scope.selectedPosgrado;
+            const campus = $scope.lstCampus.find(item => item.descripcion === $scope.selectedCampus)
+            const posgrado = $scope.posgrados.find(item => item.descripcion === $scope.selectedPosgrado)
+            getProgramas(campus.persistenceId , posgrado.persistenceId);
+        } 
+    }
+
+    $scope.programaChanged = function() {
+        
+        if ($scope.selectedPrograma === "") {
+            filterListRemove("PROGRAMA");
+
+            $scope.properties.programaSeleccionado = $scope.selectedPrograma;
+            $scope.periodos = [];
+        } 
+        else {
+            // Nuevo valor del filtro programa
+            const programaFilter = {
+                "columna": "PROGRAMA",
+                "operador": "Igual a",
+                "valor": $scope.selectedPrograma
+            };
+
+            // Agregar o actualizar el filtro campus
+            filterListAdd("PROGRAMA", programaFilter);
+
+            $scope.properties.programaSeleccionado = $scope.selectedPrograma;
+        } 
+    }
+
+    $scope.periodoChanged = function() {
+        
+        if ($scope.selectedPeriodo === "") {
+            filterListRemove("PERIODO");
+
+            $scope.properties.periodoSeleccionado = $scope.selectedPeriodo;
+        } 
+        else {
+            // Nuevo valor del filtro periodo
+            const periodoFilter = {
+                "columna": "PERIODO",
+                "operador": "Igual a",
+                "valor": $scope.selectedPeriodo
+            };
+
+            // Agregar o actualizar el filtro periodo
+            filterListAdd("PERIODO", periodoFilter);
+
+            $scope.properties.periodoSeleccionado = $scope.selectedPeriodo;
+        } 
+    }
+
+    // Utils
+
     function getCatCampus() {
         var req = {
             method: "GET",
@@ -137,117 +241,76 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         });
     }
 
-    $scope.campusChanged = function() {
-
+    function filterListAdd(columna, filter) {
         // Obteniendo la lista de filtros
         const filterList = $scope.properties.dataToSend.lstFiltro;
 
-        if ($scope.selectedCampus === "Todos los campus") {
-            const index = filterList.findIndex(filter => filter.columna === "CAMPUS");
-            filterList.splice(index, 1);
-
-            $scope.mostrarFiltros = false;
-            $scope.properties.campusSeleccionado = $scope.selectedCampus;
-            $scope.posgrados = [];
+        // Agregar o actualizar el filtro campus
+        const foundFilter = filterList.find(filtro => filtro.columna === columna)
+        if (foundFilter) {
+            foundFilter.columna = filter.columna;
+            foundFilter.operador = filter.operador;
+            foundFilter.valor = filter.valor;
         } 
         else {
-            // Nuevo valor del filtro campus
-            const campusFilter = {
-                "columna": "CAMPUS",
-                "operador": "Igual a",
-                "valor": $scope.selectedCampus
-            };
-
-            // Agregar o actualizar el filtro campus
-            const foundFilter = filterList.find(filtro => filtro.columna === "CAMPUS")
-            if (foundFilter) {
-                foundFilter.columna = campusFilter.columna;
-                foundFilter.operador = campusFilter.operador;
-                foundFilter.valor = campusFilter.valor;
-            } 
-            else {
-                filterList.push(campusFilter);
-            }
-
-            $scope.mostrarFiltros = true;
-            $scope.properties.campusSeleccionado = $scope.selectedCampus;
-            const campus = $scope.lstCampus.find(item => item.descripcion === $scope.selectedCampus)
-            getPosgrados(campus.persistenceId);
-        } 
+            filterList.push(filter);
+        }
     }
 
-    $scope.posgradoChanged = function() {
-
+    function filterListRemove(columna) {
         // Obteniendo la lista de filtros
         const filterList = $scope.properties.dataToSend.lstFiltro;
 
-        if ($scope.selectedPosgrado === "") {
-            const index = filterList.findIndex(filter => filter.columna === "POSGRADO");
-            filterList.splice(index, 1);
-
-            $scope.properties.posgradoSeleccionado = $scope.selectedPosgrado;
-            $scope.programas = [];
-        } 
-        else {
-            // Nuevo valor del filtro posgrado
-            const posgradoFilter = {
-                "columna": "POSGRADO",
-                "operador": "Igual a",
-                "valor": $scope.selectedPosgrado
-            };
-
-            // Agregar o actualizar el filtro campus
-            const foundFilter = filterList.find(filtro => filtro.columna === "POSGRADO")
-            if (foundFilter) {
-                foundFilter.columna = posgradoFilter.columna;
-                foundFilter.operador = posgradoFilter.operador;
-                foundFilter.valor = posgradoFilter.valor;
-            } 
-            else {
-                filterList.push(posgradoFilter);
-            }
-
-            $scope.properties.posgradoSeleccionado = $scope.selectedPosgrado;
-            const campus = $scope.lstCampus.find(item => item.descripcion === $scope.selectedCampus)
-            const posgrado = $scope.posgrados.find(item => item.descripcion === $scope.selectedPosgrado)
-            getProgramas(campus.persistenceId , posgrado.persistenceId);
-        } 
+        const index = filterList.findIndex(filter => filter.columna === columna);
+        filterList.splice(index, 1);
     }
 
-    $scope.programaChanged = function() {
+    function lstFiltrosChanged() {
+        if ($scope.properties.dataToSend.lstFiltro) {
+            const filterList = $scope.properties.dataToSend.lstFiltro;
+            // Eliminar filtros
+            if ($scope.selectedCampus && $scope.selectedCampus !== "Todos los campus" && !filterList.find(item => item.columna === "CAMPUS")) {
+                // Limpiar filtro campus
+                $scope.selectedCampus = "";
+                $scope.campusSeleccionado = null;
 
-        // Obteniendo la lista de filtros
-        const filterList = $scope.properties.dataToSend.lstFiltro;
-
-        if ($scope.selectedPrograma === "") {
-            const index = filterList.findIndex(filter => filter.columna === "PROGRAMA");
-            filterList.splice(index, 1);
-
-            $scope.properties.programaSeleccionado = $scope.selectedPrograma;
-            $scope.periodos = [];
-        } 
-        else {
-            // Nuevo valor del filtro programa
-            const programaFilter = {
-                "columna": "PROGRAMA",
-                "operador": "Igual a",
-                "valor": $scope.selectedPrograma
-            };
-
-            // Agregar o actualizar el filtro campus
-            const foundFilter = filterList.find(filtro => filtro.columna === "PROGRAMA")
-            if (foundFilter) {
-                foundFilter.columna = programaFilter.columna;
-                foundFilter.operador = programaFilter.operador;
-                foundFilter.valor = programaFilter.valor;
-            } 
-            else {
-                filterList.push(programaFilter);
+                filterListRemove("POSGRADOS");
+                $scope.posgrados = [];
             }
-
-            $scope.properties.programaSeleccionado = $scope.selectedPrograma;
-        } 
+            else if ($scope.selectedPosgrado && !filterList.find(item => item.columna === "POSGRADO")) {
+                // Limpiar filtro posgrado
+                $scope.selectedPosgrado = "";
+                $scope.posgradoSeleccionado = null;
+                
+                filterListRemove("PROGRAMA");
+                $scope.programas = [];
+            } 
+            else if ($scope.selectedPrograma && !filterList.find(item => item.columna === "PROGRAMA")) {
+                // Limpiar filtro programa
+                $scope.selectedPrograma = "";
+                $scope.programaSeleccionado = null;
+            }
+            
+            if ($scope.selectedPeriodo && !filterList.find(item => item.columna === "PERIODO")) {
+                $scope.selectedPeriodo = "";
+                $scope.periodoSeleccionado = null;
+            }
+        }
     }
+
+    // Watchers
+
+    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+        
+        // Actualizar lista de filtros
+        lstFiltrosChanged();
+
+        if (newValue !== undefined) {
+            if ($scope.properties.campusSeleccionado !== undefined) {
+                doRequest("POST", $scope.properties.urlPost);
+            }
+        }
+    });
 
     /* --------------------------------------------------------- */
 
@@ -623,16 +686,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $(function() {
         doRequest("POST", $scope.properties.urlPost);
     })
-  
-  
-    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
-        if (newValue !== undefined) {
-            if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
-            }
-        }
-        console.log($scope.properties.dataToSend);
-    });
   
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
         if (newValue !== undefined) {
