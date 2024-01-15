@@ -330,7 +330,7 @@ class SolicitudDeAdmisionDAO {
 							where += " LOWER(gest.nombre) like lower('%[valor]%') ";
 							where = where.replace("[valor]", filtro.get("valor"));
 							break;
-						case "PERIODO":
+						/*case "PERIODO":
 							if (where.contains("WHERE")) {
 								where += " AND "
 							} else {
@@ -338,7 +338,7 @@ class SolicitudDeAdmisionDAO {
 							}
 							where += " LOWER(peri.descripcion) like lower('%[valor]%') ";
 							where = where.replace("[valor]", filtro.get("valor"))
-							break;
+							break;*/
 						case "ID BANNER":
 							if (where.contains("WHERE")) {
 								where += " AND "
@@ -364,6 +364,37 @@ class SolicitudDeAdmisionDAO {
 								where += " WHERE "
 							}
 							where += " LOWER(regi.correo_electronico) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+							
+						case "POSGRADO":
+							errorlog += "POSGRADO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(posg.descripcion) = LOWER('[valor]')) ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PROGRAMA":
+							errorlog += "PROGRAMA"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(gest.nombre) = LOWER('[valor]')) ";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO":
+							errorlog += "PERIODO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(peri.descripcion) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						default:
