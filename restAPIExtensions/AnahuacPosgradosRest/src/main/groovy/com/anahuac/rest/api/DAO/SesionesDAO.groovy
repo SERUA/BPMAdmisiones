@@ -440,10 +440,22 @@ class SesionesDAO {
 				lstResponsables = (List<Responsables>) horario.get("responsables");
 				
 				for(Responsables responsable: lstResponsables) {
-					pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
-					pstm.setBoolean(1, responsable.getDisponible_resp());
-					pstm.setBoolean(2, responsable.getOcupado());
-					pstm.setLong(3, responsable.getPersistenceId());
+					if(responsable.getPersistenceId() != null) {
+						pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
+						pstm.setBoolean(1, responsable.getDisponible_resp());
+						pstm.setBoolean(2, responsable.getOcupado());
+						pstm.setLong(3, responsable.getPersistenceId());
+					} else {
+						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
+						pstm.setLong(1, horario.get(""));
+						pstm.setLong(2, horario.get(""));
+						pstm.setLong(3, Long.valueOf(object.persistenceId));
+						pstm.setBoolean(4, responsable.getOcupado());
+						pstm.setBoolean(5, responsable.getDisponible_resp());	
+					}
+					if(pstm.executeUpdate() == 0) {
+						throw new Exception("No se ha podido insertar el responsable");
+					}
 					
 					pstm.executeUpdate();
 				}
