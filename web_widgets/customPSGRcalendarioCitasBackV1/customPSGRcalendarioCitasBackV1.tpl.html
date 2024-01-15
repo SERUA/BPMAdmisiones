@@ -10,7 +10,7 @@
         </select>
     </div>
 </div>
-    
+
 <div class="row" ng-show="navVar === 'calendario' && (filtroCampus !== '' || lstCampusByUser.length === 1) ">
     <div class="col-xs-12 text-right" style="margin-bottom: 10px; padding-right: 32px;">
         <button type="button" class="btn btn-primary" ng-click="initSesion()">Agendar nueva sesión</button>
@@ -67,7 +67,7 @@
         <div class="form-group col-xs-6">
             <label class="control-label col-xs-12"> Fecha:</label>
             <div class="col-xs-12">
-                <input class="form-control" ng-if="!sesion.persistenceId" ng-model="sesion.fecha_entrevista" type="date">
+                <input class="form-control" ng-if="!sesion.persistenceId" ng-model="sesion.fecha_entrevista" type="date" min="{{limiteFecha()}}">
                 <input class="form-control" ng-disabled="sesion.persistenceId" ng-if="sesion.persistenceId" ng-model="sesion.fecha_entrevista_back" type="text">
             </div>
         </div>
