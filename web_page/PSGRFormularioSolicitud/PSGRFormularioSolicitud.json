@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705018168921,
+  "lastUpdate" : 1705427694896,
   "rows" : [
     [
       {
@@ -1818,7 +1818,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<ul>\n<li>Debe de tener solo tu imagen.</li>\n<li>Cara descubierta.</li>\n<li>Puede ser tomada con tu celular.</li>\n<li>Tomada de frente.</li>\n<li>Debe ser reciente y bien enfocada.</li>\n<li>Si la fotografía no cumple con las características indicadas, puede ser rechazada y deberás corregirla antes de que puedas continuar con tu trámite.</li>\n<li>Archivo máximo 1 MB.</li>\n</ul>"
+                              "value" : "<ul>\n<li>Debe de tener solo tu imagen.</li>\n<li>Cara descubierta.</li>\n<li>Puede ser tomada con tu celular.</li>\n<li>Tomada de frente.</li>\n<li>Debe ser reciente y bien enfocada.</li>\n<li>Si la fotografía no cumple con las características indicadas, puede ser rechazada y deberás corregirla antes de que puedas continuar con tu trámite.</li>\n<li>Archivo máximo 2 MB.</li>\n</ul>"
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -2611,7 +2611,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"MEX\""
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -2757,7 +2757,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave === \"MEX\""
+                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave === \"ME\""
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -21949,28 +21949,28 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && !$data.datosPersonales.curp){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !$data.datosPersonales.curp){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' no debe ir vacío\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && $data.datosPersonales.curp.length !== 18){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && $data.datosPersonales.curp.length !== 18){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' debe tener 18 caracteres\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"MEX\" && !validarCURP($data.datosPersonales.curp)){\r",
+        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !validarCURP($data.datosPersonales.curp)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El formato de la 'CURP' es inválido\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "}  else if($data.datosPersonales.nacionalidad.clave !== \"MEX\" && !$data.datosPersonales.pasaporte){\r",
+        "}  else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Pasaporte' no debe ir vacío\", \r",
