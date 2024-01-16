@@ -48,40 +48,40 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         if(!data.registroInput.nombre){
             valid = false;
-            message = "El campo 'Nombre' no debe ir vacío";
+            message = "El campo 'Nombre' no debe ir vacío.";
         } else if(!data.registroInput.apellido_paterno){
             valid = false;
-            message = "El campo 'Apellido paterno' no debe ir vacío";
+            message = "El campo 'Apellido paterno' no debe ir vacío.";
         } else if(!data.registroInput.telefono_celular){
             valid = false;
-            message = "El campo 'Teléfono celular' no debe ir vacío"; 
+            message = "El campo 'Teléfono celular' no debe ir vacío."; 
         } else if(data.registroInput.telefono_celular.toString().length < 10 || data.registroInput.telefono_celular.toString().length > 14){
             valid = false;
             message = "La logintud del campo 'Teléfono celular' debe ser de 10 a 14 caracteres.";
         } else if(!data.registroInput.correo_electronico){
             valid = false;
-            message = "El campo 'Correo electrónico' no debe ir vacío";
+            message = "El campo 'Correo electrónico' no debe ir vacío.";
         } else if(!data.registroInput.confirmar_correo_electronico){
             valid = false;
-            message = "El campo 'Confirmar correo electrónico' no debe ir vacío";
+            message = "El campo 'Confirmar correo electrónico' no debe ir vacío.";
         } else if(data.registroInput.confirmar_correo_electronico !== data.registroInput.confirmar_correo_electronico){
             valid = false;
-            message = "Los correos no coinciden";
+            message = "Los correos no coinciden.";
         } else if(!data.registroInput.password){
             valid = false;
-            message = "El campo 'Contraseña' no debe ir vacío";
+            message = "El campo 'Contraseña' no debe ir vacío.";
         } else if(!data.registroInput.confirmar_password){
             valid = false;
-            message = "El campo 'Confirmar contraseña' no debe ir vacío";
+            message = "El campo 'Confirmar contraseña' no debe ir vacío.";
         } else if(data.registroInput.password !== data.registroInput.confirmar_password){
             valid = false;
-            message = "Las contraseñas no coinciden";
+            message = "Las contraseñas no coinciden.";
         } else if(!data.registroInput.campus){
             valid = false;
-            message = "El campo 'Universidad a la que deseas ingresar' no debe ir vacío";
+            message = "El campo 'Universidad a la que deseas ingresar' no debe ir vacío.";
         } else if(!data.registroInput.acepto_avisoprivacidad){
             valid = false;
-            message = "Debes aceptar el aviso de privacidad";
+            message = "Debes aceptar el aviso de privacidad.";
         } 
 
         if(valid === false){
