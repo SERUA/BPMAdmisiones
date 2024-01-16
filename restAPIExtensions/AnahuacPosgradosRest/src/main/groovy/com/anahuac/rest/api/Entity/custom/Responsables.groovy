@@ -7,6 +7,7 @@ class Responsables {
 	private Boolean ocupado;
 	private String responsable_id;
 	private Object horario;
+	private Object cita_entrevista;
 	
 	public Boolean getDisponible_resp() {
 		return disponible_resp;
