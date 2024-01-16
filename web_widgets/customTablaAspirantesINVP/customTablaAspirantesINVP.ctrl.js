@@ -86,15 +86,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.lstCampus = [];
   
-    $(function() {
-        doRequest("POST", $scope.properties.urlPost);
-    })
+    // $(function() {
+    //     doRequest("POST", $scope.properties.urlPost);
+    // })
   
   
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                // doRequest("POST", $scope.properties.urlPost);
+                if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+                    doRequest("POST", $scope.properties.urlPost);
+                }
             }
         }
         console.log($scope.properties.dataToSend);
@@ -103,7 +106,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
         if (newValue !== undefined) {
             if ($scope.properties.campusSeleccionado !== undefined) {
-                doRequest("POST", $scope.properties.urlPost);
+                // doRequest("POST", $scope.properties.urlPost);
+                if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+                    doRequest("POST", $scope.properties.urlPost);
+                }
             }
         }
         console.log($scope.properties.dataToSend);
@@ -116,9 +122,23 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSend.orderby = order;
             $scope.properties.dataToSend.orientation = "ASC";
         }
-        doRequest("POST", $scope.properties.urlPost);
+        // doRequest("POST", $scope.properties.urlPost);
+        if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+            doRequest("POST", $scope.properties.urlPost);
+        }
+
     }
     
+    $scope.filterKeyPressTop = function(columna, value) {
+        debugger;
+        var aplicado = true;
+        $scope.properties.dataToSend[columna] = value
+        // doRequest("POST", $scope.properties.urlPost);
+        if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+            doRequest("POST", $scope.properties.urlPost);
+        }
+    }
+
     $scope.filterKeyPress = function(columna, press) {
         var aplicado = true;
   
@@ -136,7 +156,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.dataToSend.lstFiltro.push(obj);
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        // doRequest("POST", $scope.properties.urlPost);
+        if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+            doRequest("POST", $scope.properties.urlPost);
+        }
     }
   
     $scope.lstPaginado = [];
@@ -208,7 +231,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        // doRequest("POST", $scope.properties.urlPost);
+        if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+            doRequest("POST", $scope.properties.urlPost);
+        }
     }
   
     $scope.getCampusByGrupo = function(campus) {
@@ -344,7 +370,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
         }
   
-        doRequest("POST", $scope.properties.urlPost);
+        // doRequest("POST", $scope.properties.urlPost);
+        if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+            doRequest("POST", $scope.properties.urlPost);
+        }
     }
   
     $scope.getCatCampus = function() {
@@ -513,7 +542,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.post(url, dataToSend).success(function(_data){
             ocultarModal("modalTerminar");
             swal("Ok", "Usuario terminado", "success");
-            doRequest("POST", $scope.properties.urlPost);
+            // doRequest("POST", $scope.properties.urlPost);
+
+            if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+                doRequest("POST", $scope.properties.urlPost);
+            }
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
@@ -529,7 +562,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         $http.post(url, dataToSend).success(function(_data){
             ocultarModal("modalReactivar");
             swal("Ok", "El usuario ha sido reactivado", "success");
-            doRequest("POST", $scope.properties.urlPost);
+            // doRequest("POST", $scope.properties.urlPost);
+
+            if($scope.properties.dataToSend["idbanner"] || $scope.properties.dataToSend["idBpm"] || $scope.properties.dataToSend["correoelectronico"] ){
+                doRequest("POST", $scope.properties.urlPost);
+            }
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
@@ -777,5 +814,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.refresh = function(){
         getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
+    
+    $scope.limpiarFiltrosTop = function(){
+        $scope.dynamicInput["idbanner"] = "";
+        $scope.dynamicInput["idBpm"] = "";
+        $scope.dynamicInput["correoelectronico"] = "";
+        
+        $scope.properties.dataToSend["idbanner"] = "";
+        $scope.properties.dataToSend["idBpm"] = "";
+        $scope.properties.dataToSend["correoelectronico"] = "";
     }
 }
