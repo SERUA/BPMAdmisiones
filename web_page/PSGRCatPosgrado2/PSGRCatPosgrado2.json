@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatPosgrado2",
   "name" : "PSGRCatPosgrado2",
-  "lastUpdate" : 1701731390543,
+  "lastUpdate" : 1705370410233,
   "rows" : [
     [
       {
@@ -35,7 +35,7 @@
           },
           "alt" : {
             "type" : "interpolation",
-            "value" : "Catálogo posgrado"
+            "value" : "Grado académico"
           }
         },
         "reference" : "864931b9-e386-4147-a900-6a6fed1d49fd",
@@ -154,7 +154,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "lstCatCampus"
+                  "value" : "lstCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -820,8 +820,8 @@
                           "Clave",
                           "Descripción",
                           "ID Campus",
-                          "Usuario_creacion",
-                          "Fecha_creación"
+                          "Usuario creación",
+                          "Fecha creación"
                         ]
                       },
                       "content" : {
@@ -2413,17 +2413,17 @@
       "external" : false
     },
     {
-      "id" : "322857b5-ce01-4b49-b0ec-c8860a28aa25",
-      "name" : "style.css",
-      "type" : "css",
-      "order" : 0,
-      "external" : false
-    },
-    {
       "id" : "06979022-e852-4ff1-abec-47664342b8a8",
       "name" : "encabezados.css",
       "type" : "css",
       "order" : 3,
+      "external" : false
+    },
+    {
+      "id" : "322857b5-ce01-4b49-b0ec-c8860a28aa25",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
       "external" : false
     }
   ],
@@ -2633,7 +2633,6 @@
     "lstCampus" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "var resultado = [];",
         "",
         "for(var x in $data.lstCampusByUser){",
@@ -2686,16 +2685,12 @@
     "lstCampusRole" : {
       "type" : "expression",
       "value" : [
-        "debugger;\r",
         "var lstData = []\r",
-        "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
-        "\tobjData = {\r",
-        "\t\t\"descripcion\":\"\",\r",
-        "\t\t\"valor\":\"\"\r",
-        "\t}\r",
+        "    var objData = {}\r",
         "\tobjData[\"descripcion\"] = $data.lstCatCampus[index].descripcion;\r",
-        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupoBonita;\r",
+        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupo_bonita;\r",
+        "\tobjData[\"persistenceId\"] = $data.lstCatCampus[index].persistenceid;\r",
         "\tlstData.push(objData);\r",
         "}\r",
         "return lstData;"
@@ -2875,7 +2870,7 @@
         "    \"orientation\":\"ASC\",\r",
         "    \"limit\":20,\r",
         "    \"offset\":0,\r",
-        "    \"persistenceid\":$data.campusSelected.persistenceid,\r",
+        "    \"persistenceid\":$data.campusSelected.persistenceId,\r",
         "    \"campus\":$data.campusSelected.descripcion\r",
         "};"
       ],

@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCartasv2",
   "name" : "PSGRCartasv2",
-  "lastUpdate" : 1704843526573,
+  "lastUpdate" : 1705358035536,
   "rows" : [
     [
       {
@@ -35,7 +35,7 @@
           },
           "alt" : {
             "type" : "interpolation",
-            "value" : "Notificaciones y cartas"
+            "value" : "Cartas"
           }
         },
         "reference" : "40b0555f-670a-4321-a645-858458834ed7",
@@ -271,8 +271,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "lstCampusUsuario.length <= 1"
+                  "type" : "constant",
+                  "value" : false
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -796,6 +796,58 @@
                     "reference" : "4662dcdb-bf83-4ffe-8731-61f618139905",
                     "hasValidationError" : false,
                     "id" : "customSDAEtablaPSGRCatalogoNotificacionesCartas"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "campusSelected==undefined || (getNotificaciones && getNotificaciones.length !== 0)"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "No se encontraron cartas."
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "23f02676-8a92-4b56-801a-08d6f2223d75",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -10512,14 +10564,11 @@
       "type" : "expression",
       "value" : [
         "var lstData = []\r",
-        "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
-        "\tobjData = {\r",
-        "\t\t\"descripcion\":\"\",\r",
-        "\t\t\"valor\":\"\"\r",
-        "\t}\r",
+        "    var objData = {}\r",
         "\tobjData[\"descripcion\"] = $data.lstCatCampus[index].descripcion;\r",
-        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupoBonita;\r",
+        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupo_bonita;\r",
+        "\tobjData[\"persistenceId\"] = $data.lstCatCampus[index].persistenceId;\r",
         "\tlstData.push(objData);\r",
         "}\r",
         "return lstData;"
@@ -10783,6 +10832,7 @@
     "getCatNotificacionesFirmaString" : {
       "type" : "expression",
       "value" : [
+        "/*",
         "var filter = {",
         "    \"columna\": \"CAMPUS\",",
         "    \"operador\": \"Igual a\",",
@@ -10790,7 +10840,8 @@
         "}",
         "var jsonData={\"estatusSolicitud\":\"Solicitud en progreso\",\"tarea\":\"Llenar solicitud\",\"lstFiltro\":[],\"type\":\"solicitudes_progreso\",\"usuario\":0,\"orderby\":\"\",\"orientation\":\"DESC\",\"limit\":20,\"offset\":0}",
         "jsonData.lstFiltro.push(filter);",
-        "return \"/bonita/API/extension/AnahuacRestGet?url=getCatNotificacionesFirma&p=0&c=10&jsonData=\"+encodeURIComponent(JSON.stringify(jsonData));"
+        "return \"/bonita/API/extension/AnahuacRestGet?url=getCatNotificacionesFirma&p=0&c=10&jsonData=\"+encodeURIComponent(JSON.stringify(jsonData));",
+        "*/"
       ],
       "exposed" : false
     },
@@ -10818,7 +10869,7 @@
     "lstCatCampus" : {
       "type" : "businessdata",
       "value" : [
-        "{\"displayValue\":\"find [com.anahuac.catalogos.CatCampus]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"find\",\"displayName\":\"find\"},\"id\":\"com.anahuac.catalogos.CatCampus\",\"filters\":[],\"pagination\":{\"p\":\"0\",\"c\":\"999\"}}"
+        "{\"displayValue\":\"getCat [com.anahuac.posgrados.catalog.PSGRCatCampus]\",\"businessObjectName\":\"PSGRCatCampus\",\"query\":{\"name\":\"getCat\",\"displayName\":\"getCat\"},\"id\":\"com.anahuac.posgrados.catalog.PSGRCatCampus\",\"filters\":[{\"name\":\"eliminado\",\"type\":\"BOOLEAN\",\"collection\":false,\"value\":\"false\"}],\"pagination\":{\"p\":\"0\",\"c\":\"999\"}}"
       ],
       "exposed" : false
     },

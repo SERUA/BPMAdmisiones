@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatRequisitosAdicionales",
   "name" : "PSGRCatRequisitosAdicionales",
-  "lastUpdate" : 1702343722434,
+  "lastUpdate" : 1705361387483,
   "rows" : [
     [
       {
@@ -234,7 +234,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "pSGRCatCampus_query"
+                  "value" : "lstCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -497,6 +497,58 @@
                     "reference" : "f1285313-0a71-4905-a234-7a98ca66a6a3",
                     "hasValidationError" : false,
                     "id" : "customPSGRTablaCatDocumentos"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "navigationVar !== \"tabla\" || lstCat.length !== 0"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "No se encontraron requisitos adicionales."
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "80ee34c5-ca11-492a-983f-c649a615e7c9",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -1104,7 +1156,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=99&f=eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "pSGRCatPosgrado_query" : {
@@ -1144,6 +1200,73 @@
         "debugger;",
         "$data.navigationVar;",
         "$data.mostrarTabla;"
+      ],
+      "exposed" : false
+    },
+    "lstMembership" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/membership?f=user_id={{userData.user_id}}&d=role_id&d=group_id&c=100&p=0"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstCampusByUser" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado=[];",
+        "",
+        "for(var x in $data.lstMembership){",
+        "    if($data.lstMembership[x].group_id.name.indexOf(\"CAMPUS\") != -1){",
+        "        //resultado.push($data.lstMembership[x].group_id.name);",
+        "        let i = 0;",
+        "        resultado.forEach(value =>{",
+        "            if(value == $data.lstMembership[x].group_id.name){",
+        "               i++;",
+        "            }",
+        "        });",
+        "        if(i === 0){",
+        "           resultado.push($data.lstMembership[x].group_id.name);  ",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
+      ],
+      "exposed" : false
+    },
+    "lstCampusRole" : {
+      "type" : "expression",
+      "value" : [
+        "var lstData = []\r",
+        "for(var index in $data.pSGRCatCampus_query){\r",
+        "    var objData = {}\r",
+        "    objData[\"descripcion\"] = $data.pSGRCatCampus_query[index].descripcion;\r",
+        "\tobjData[\"valor\"] = $data.pSGRCatCampus_query[index].grupo_bonita;\r",
+        "\tobjData[\"persistenceId\"] = $data.pSGRCatCampus_query[index].persistenceId;\r",
+        "\tlstData.push(objData);\r",
+        "}\r",
+        "return lstData;"
+      ],
+      "exposed" : false
+    },
+    "lstCampus" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "for(var x in $data.lstCampusByUser){",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
+        "            if($data.lstCampusByUser.length == 1){",
+        "                $data.campusSelected = $data.lstCampusRole[index];",
+        "            }",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
       ],
       "exposed" : false
     }

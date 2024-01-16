@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRCatManejoDocumentos",
   "name" : "PSGRCatManejoDocumentos",
-  "lastUpdate" : 1702344056768,
+  "lastUpdate" : 1705360762326,
   "rows" : [
     [
       {
@@ -34,12 +34,64 @@
           },
           "alt" : {
             "type" : "interpolation",
-            "value" : "Catalogo Documentos"
+            "value" : "Documentos"
           }
         },
         "reference" : "ccd51c60-68f2-4f0f-b74a-948642e3cc1e",
         "hasValidationError" : false,
         "id" : "customPSGRWidgetHeader"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "lstMembership\n<pre>{{lstMembership| json}}</pre>\n\npSGRCatCampus_query\n<pre>{{pSGRCatCampus_query| json}}</pre>\n\nlstCampusByUser\n<pre>{{lstCampusByUser| json}}</pre>\n\nlstCampusRole\n<pre>{{lstCampusRole| json}}</pre>\n\nlstCampus\n<pre>{{lstCampus| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "cb2fc342-c336-470c-9d2b-fba0c6ef0b60",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -118,7 +170,7 @@
                 },
                 "text" : {
                   "type" : "interpolation",
-                  "value" : "Catalogo Documentos"
+                  "value" : "Catálogo Documentos"
                 },
                 "level" : {
                   "type" : "constant",
@@ -234,7 +286,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "pSGRCatCampus_query"
+                  "value" : "lstCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -493,6 +545,58 @@
                     "reference" : "16cd4fa5-dbf8-4351-b43b-8b7da1620015",
                     "hasValidationError" : false,
                     "id" : "customPSGRTablaCatDocumentos"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "navigationVar !== \"tabla\" || lstCat.length !== 0"
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "No se encontraron documentos."
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "377fbf91-26d7-4c06-bf67-b591ba1d6cfe",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ],
                 [
@@ -1123,7 +1227,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=99&f=eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "cargar_catDatos" : {
@@ -1159,6 +1267,81 @@
       "value" : [
         "{}"
       ],
+      "exposed" : false
+    },
+    "lstMembership" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/membership?f=user_id={{userData.user_id}}&d=role_id&d=group_id&c=100&p=0"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "lstCampusByUser" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado=[];",
+        "",
+        "for(var x in $data.lstMembership){",
+        "    if($data.lstMembership[x].group_id.name.indexOf(\"CAMPUS\") != -1){",
+        "        //resultado.push($data.lstMembership[x].group_id.name);",
+        "        let i = 0;",
+        "        resultado.forEach(value =>{",
+        "            if(value == $data.lstMembership[x].group_id.name){",
+        "               i++;",
+        "            }",
+        "        });",
+        "        if(i === 0){",
+        "           resultado.push($data.lstMembership[x].group_id.name);  ",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
+      ],
+      "exposed" : false
+    },
+    "lstCampusRole" : {
+      "type" : "expression",
+      "value" : [
+        "var lstData = []\r",
+        "for(var index in $data.lstCatCampus){\r",
+        "    var objData = {}\r",
+        "    objData[\"descripcion\"] = $data.lstCatCampus[index].descripcion;\r",
+        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupo_bonita;\r",
+        "\tobjData[\"persistenceId\"] = $data.lstCatCampus[index].persistenceId;\r",
+        "\tlstData.push(objData);\r",
+        "}\r",
+        "return lstData;"
+      ],
+      "exposed" : false
+    },
+    "lstCampus" : {
+      "type" : "expression",
+      "value" : [
+        "var resultado = [];",
+        "",
+        "for(var x in $data.lstCampusByUser){",
+        "    for(var index in $data.lstCampusRole){",
+        "        if($data.lstCampusByUser[x] === $data.lstCampusRole[index].valor){",
+        "            resultado.push($data.lstCampusRole[index]);",
+        "            if($data.lstCampusByUser.length == 1){",
+        "                $data.campusSelected = $data.lstCampusRole[index];",
+        "            }",
+        "        }",
+        "    }",
+        "}",
+        "",
+        "return resultado;"
+      ],
+      "exposed" : false
+    },
+    "lstCatCampus" : {
+      "type" : "url",
+      "value" : [
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=99&f=eliminado=false"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },
