@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1705085020227,
+  "lastUpdate" : 1705360058813,
   "rows" : [
     [
       {
@@ -35,64 +35,12 @@
           },
           "alt" : {
             "type" : "interpolation",
-            "value" : "Catálogo de gestión escolar"
+            "value" : "Oferta académica"
           }
         },
         "reference" : "0fe6a521-a619-43a9-9a38-9324a47e0ebc",
         "hasValidationError" : false,
         "id" : "customPSGRWidgetHeader"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>\n<pre>{{periodosActivos | json}}</pre>\n\n\ncatGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "5ccc7269-b9bf-4dfb-94df-34ded8e446bf",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -206,7 +154,7 @@
                 },
                 "availableValues" : {
                   "type" : "expression",
-                  "value" : "lstCatCampus"
+                  "value" : "lstCampus"
                 },
                 "displayedKey" : {
                   "type" : "constant",
@@ -258,7 +206,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Grado"
+                  "value" : "Posgrado"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -270,7 +218,7 @@
                 },
                 "placeholder" : {
                   "type" : "interpolation",
-                  "value" : "Selecciona un grado"
+                  "value" : "Selecciona una opción"
                 },
                 "availableValues" : {
                   "type" : "expression",
@@ -6972,7 +6920,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=99&f=eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "processAgregarData" : {
@@ -7062,14 +7014,11 @@
       "type" : "expression",
       "value" : [
         "var lstData = []\r",
-        "var objData = {}\r",
         "for(var index in $data.lstCatCampus){\r",
-        "\tobjData = {\r",
-        "\t\t\"descripcion\":\"\",\r",
-        "\t\t\"valor\":\"\"\r",
-        "\t}\r",
-        "\tobjData[\"descripcion\"] = $data.lstCatCampus[index].descripcion;\r",
-        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupoBonita;\r",
+        "    var objData = {}\r",
+        "    objData[\"descripcion\"] = $data.lstCatCampus[index].descripcion;\r",
+        "\tobjData[\"valor\"] = $data.lstCatCampus[index].grupo_bonita;\r",
+        "\tobjData[\"persistenceId\"] = $data.lstCatCampus[index].persistenceId;\r",
         "\tlstData.push(objData);\r",
         "}\r",
         "return lstData;"
