@@ -1,4 +1,4 @@
-function WidgetlivingApplicationMenuController($scope, $http, $window, $location, $timeout) {
+function WidgetlivingApplicationMenuController($scope, $http, $window, $location, $timeout, modalService) {
     var ctrl = this;
     
     $scope.redirect = function(_url){
@@ -124,5 +124,9 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
         setApplicationMenuList(application);
         setHomePage(application);
     });
+    
+    $scope.showModal = function(){
+        modalService.open("currentSessionModalId");
+    }
     
 }
