@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705453661709,
+  "lastUpdate" : 1705520094042,
   "rows" : [
     [
       {
@@ -10591,7 +10591,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Agenda tu Cita para la solicitud de admisión de posgrado."
+                        "value" : "Agenda tu cita para la solicitud de admisión de posgrado."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -17444,11 +17444,11 @@
                         },
                         "dateFormat" : {
                           "type" : "constant",
-                          "value" : "dd/MM/yyyy"
+                          "value" : "MM/dd/yyyy"
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Enter a date (dd/MM/yyyy)"
+                          "value" : "Enter a date (mm/dd/yyyy)"
                         },
                         "showToday" : {
                           "type" : "constant",
@@ -17494,7 +17494,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Fecha término:"
+                          "value" : "Fecha de término:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -17510,11 +17510,11 @@
                         },
                         "dateFormat" : {
                           "type" : "constant",
-                          "value" : "dd/MM/yyyy"
+                          "value" : "MM/dd/yyyy"
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Enter a date (dd/MM/yyyy)"
+                          "value" : "Enter a date (mm/dd/yyyy)"
                         },
                         "showToday" : {
                           "type" : "constant",
@@ -17554,7 +17554,7 @@
                         },
                         "required" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -17590,11 +17590,15 @@
                         "value" : {
                           "type" : "variable",
                           "value" : "nuevoInfoEscolar.pais"
+                        },
+                        "changedEvent" : {
+                          "type" : "variable",
+                          "value" : "infoEscolarSelectPais_ChangedEvent"
                         }
                       },
-                      "reference" : "45168534-b8fc-419b-95e9-228ba2d6b2b3",
+                      "reference" : "c2a33506-79c4-4d76-aee1-aaeb0d6d11c2",
                       "hasValidationError" : false,
-                      "id" : "pbSelect"
+                      "id" : "customPSGRSelectChangedEvent"
                     },
                     {
                       "type" : "container",
@@ -17624,7 +17628,7 @@
                       "rows" : [
                         [
                           {
-                            "type" : "component",
+                            "type" : "container",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -17637,72 +17641,178 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "nuevoInfoEscolar.pais.descripcion == \"Estados unidos\""
-                              },
-                              "required" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "minLength" : {
-                                "type" : "constant",
-                                "value" : 0
-                              },
-                              "maxLength" : {
-                                "type" : "constant",
-                                "value" : 3
-                              },
-                              "readOnly" : {
-                                "type" : "expression",
-                                "value" : "nuevoInfoEscolar.ver"
-                              },
-                              "labelHidden" : {
                                 "type" : "constant",
                                 "value" : false
                               },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Promedio (Formato decimal):"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation",
-                                "value" : "Ejemplo 9.5"
-                              },
-                              "value" : {
+                              "repeatedCollection" : {
                                 "type" : "variable",
-                                "value" : "nuevoInfoEscolar.promedio"
-                              },
-                              "type" : {
-                                "type" : "constant",
-                                "value" : "number"
-                              },
-                              "min" : {
-                                "type" : "constant",
-                                "value" : 0
-                              },
-                              "max" : {
-                                "type" : "constant",
-                                "value" : 10
-                              },
-                              "step" : {
-                                "type" : "constant",
-                                "value" : 0.1
+                                "value" : ""
                               }
                             },
-                            "reference" : "5babe12c-b69b-4c16-aeac-0da3a25663c5",
+                            "reference" : "cac3ef55-c4f9-4ce2-b6e0-4a0a2379ae75",
                             "hasValidationError" : false,
-                            "id" : "pbInput"
-                          }
-                        ],
-                        [
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "nuevoInfoEscolar.promedio_formato_alfabetico"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : 0
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : 3
+                                    },
+                                    "readOnly" : {
+                                      "type" : "expression",
+                                      "value" : "nuevoInfoEscolar.ver"
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Promedio (Formato decimal):"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Ejemplo 9.5"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "nuevoInfoEscolar.promedio"
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "number"
+                                    },
+                                    "min" : {
+                                      "type" : "constant",
+                                      "value" : 0
+                                    },
+                                    "max" : {
+                                      "type" : "constant",
+                                      "value" : 10
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 0.1
+                                    }
+                                  },
+                                  "reference" : "5babe12c-b69b-4c16-aeac-0da3a25663c5",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "!nuevoInfoEscolar.promedio_formato_alfabetico"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : 0
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : 2
+                                    },
+                                    "readOnly" : {
+                                      "type" : "expression",
+                                      "value" : "nuevoInfoEscolar.ver"
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Promedio (Formato alfabético):"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Ejemplo A+"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "nuevoInfoEscolar.promedio"
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "ff6d250a-8592-4887-b4b9-844f50ca4e2e",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ]
+                            ]
+                          },
                           {
                             "type" : "component",
                             "dimension" : {
@@ -17717,67 +17827,33 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "expression",
-                                "value" : "nuevoInfoEscolar.pais.descripcion != \"Estados unidos\""
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "disabled" : {
+                                "type" : "constant",
+                                "value" : false
                               },
                               "required" : {
-                                "type" : "constant",
-                                "value" : true
-                              },
-                              "minLength" : {
-                                "type" : "constant",
-                                "value" : 0
-                              },
-                              "maxLength" : {
-                                "type" : "constant",
-                                "value" : 2
-                              },
-                              "readOnly" : {
-                                "type" : "expression",
-                                "value" : "nuevoInfoEscolar.ver"
-                              },
-                              "labelHidden" : {
                                 "type" : "constant",
                                 "value" : false
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Promedio (Formato extranjero):"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation",
-                                "value" : "Ejemplo A+"
+                                "value" : "Formato alfabético"
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : "nuevoInfoEscolar.promedio"
+                                "value" : "nuevoInfoEscolar.promedio_formato_alfabetico"
                               },
-                              "type" : {
-                                "type" : "constant",
-                                "value" : "text"
-                              },
-                              "min" : {
-                                "type" : "constant"
-                              },
-                              "max" : {
-                                "type" : "constant"
-                              },
-                              "step" : {
-                                "type" : "constant",
-                                "value" : 1
+                              "changedEvent" : {
+                                "type" : "variable",
+                                "value" : "infoEscolarCheckboxPromedioFormato_ChangedEvent"
                               }
                             },
-                            "reference" : "ff6d250a-8592-4887-b4b9-844f50ca4e2e",
+                            "reference" : "28cfbafb-f98a-4fd0-85a5-f515601f43e1",
                             "hasValidationError" : false,
-                            "id" : "pbInput"
+                            "id" : "customPSGRCheckboxChangedEvent"
                           }
                         ]
                       ]
@@ -18723,7 +18799,7 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "required" : {
                           "type" : "constant",
@@ -18984,7 +19060,7 @@
                         },
                         "showToday" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "todayLabel" : {
                           "type" : "interpolation",
@@ -20116,7 +20192,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Date"
+                          "value" : "Fecha de inicio:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -20132,11 +20208,11 @@
                         },
                         "dateFormat" : {
                           "type" : "constant",
-                          "value" : "dd/MM/yyyy"
+                          "value" : "MM/dd/yyyy"
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Selecciona una fecha (dd/MM/yyyy)"
+                          "value" : "Enter a date (mm/dd/yyyy)"
                         },
                         "showToday" : {
                           "type" : "constant",
@@ -21936,7 +22012,7 @@
       "type" : "expression",
       "value" : [
         "let valid = true;\r",
-        "\r",
+        "debugger\r",
         "if(!$data.datosContacto.calle){\r",
         "    valid = false;\r",
         "    $data.errorStep3 = { \r",
@@ -21948,6 +22024,48 @@
         "    valid = false;\r",
         "    $data.errorStep3 = { \r",
         "        \"errorMessage\": \"El campo 'Número exterior' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.pais){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'País' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.cp){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'Codigo postal' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.estado){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'Estado' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.municipio){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'Municipio' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.ciudad){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'Ciudad' no debe ir vacío\", \r",
+        "        \"title\": \"¡Datos de contacto!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
+        "} else if(!$data.datosContacto.colonia){\r",
+        "    valid = false;\r",
+        "    $data.errorStep3 = { \r",
+        "        \"errorMessage\": \"El campo 'Colonia' no debe ir vacío\", \r",
         "        \"title\": \"¡Datos de contacto!\",\r",
         "        \"error\": true \r",
         "    }\r",
@@ -22704,7 +22822,6 @@
     "handleSelectPaisChange" : {
       "type" : "expression",
       "value" : [
-        "debugger;",
         "if ($data.selectPais_ChangedEvent) {",
         "    ",
         "    // Limpiar campos domicilio pais",
@@ -22715,6 +22832,80 @@
         "    $data.datosContacto.colonia = \"\";",
         "    ",
         "    $data.selectPais_ChangedEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "correosToLowerCase" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.datosContacto.correo_contacto) {",
+        "    $data.datosContacto.correo_contacto = $data.datosContacto.correo_contacto.toLowerCase();",
+        "}",
+        "",
+        "if ($data.datosContacto.cnem_correo_electronico) {",
+        "    $data.datosContacto.cnem_correo_electronico = $data.datosContacto.cnem_correo_electronico.toLowerCase();",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "infoEscolarSelectPais_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleInfoEscolarSelectPaisChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.infoEscolarSelectPais_ChangedEvent) {",
+        "    ",
+        "    if ($data.nuevoInfoEscolar.pais.descripcion === \"Estados Unidos\" && !$data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = true;",
+        "        $data.nuevoInfoEscolar.promedio = \"\";",
+        "    }",
+        "    else if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = false;",
+        "        $data.nuevoInfoEscolar.promedio = \"\";",
+        "    }",
+        "        ",
+        "    $data.infoEscolarSelectPais_ChangedEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "infoEscolarCheckboxPromedioFormato_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleCheckboxPromedioFormatoChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.infoEscolarCheckboxPromedioFormato_ChangedEvent) {",
+        "    ",
+        "    // Limpiar campos domicilio pais",
+        "    $data.nuevoInfoEscolar.promedio = \"\";",
+        "    ",
+        "    $data.infoEscolarCheckboxPromedioFormato_ChangedEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "promedioCheckFormatoAlfabetico" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.nuevoInfoEscolar.promedio_formato_alfabetico && $data.nuevoInfoEscolar.promedio) {",
+        "    debugger",
+        "    const promedio = $data.nuevoInfoEscolar.promedio;",
+        "    const len = promedio.length;",
+        "    const exp = /^[A-F]$/",
+        "    if (!(exp.test(promedio[len - 1].toUpperCase()) || promedio[len - 1] === \"+\") || len > 2 ) {",
+        "        $data.nuevoInfoEscolar.promedio = $data.nuevoInfoEscolar.promedio.toString().slice(0, len - 1)",
+        "    }",
         "}"
       ],
       "exposed" : false

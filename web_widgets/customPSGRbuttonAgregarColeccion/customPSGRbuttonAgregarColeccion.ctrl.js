@@ -85,17 +85,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             valido = false;
         } 
         
-        else if(!$scope.properties.valueToAdd.promedio){
+        else if(!$scope.properties.valueToAdd.pais){
+            mensaje = "El campo 'País' no debe ir vacío";
+            valido = false;
+        } else if(!$scope.properties.valueToAdd.promedio){
             mensaje = "El campo 'Promedio' no debe ir vacío";
             valido = false;
-        } else if($scope.properties.valueToAdd.pais.descripcion == "Estados unidos" && !checkPromedioExtranjero($scope.properties.valueToAdd.promedio)){
+        } else if($scope.properties.valueToAdd.promedio_formato_alfabetico && !checkPromedioExtranjero($scope.properties.valueToAdd.promedio)){
             mensaje = "El campo 'Promedio' tiene un formato no valido";
             valido = false;
-        } else if($scope.properties.valueToAdd.pais.descripcion != "Estados unidos" && !checkPromedioDecimal($scope.properties.valueToAdd.promedio)){
+        } else if(!$scope.properties.valueToAdd.promedio_formato_alfabetico && !checkPromedioDecimal($scope.properties.valueToAdd.promedio)){
             mensaje = "El campo 'Promedio' tiene un formato no valido";
-            valido = false;
-        } else if(!$scope.properties.valueToAdd.pais){
-            mensaje = "El campo 'País' no debe ir vacío";
             valido = false;
         } 
 
