@@ -45,6 +45,9 @@ import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
 import java.sql.Statement
+import java.text.SimpleDateFormat
+import java.time.LocalDateTime
+import java.time.ZoneId
 import java.time.format.DateTimeFormatter
 
 import org.bonitasoft.engine.bpm.document.Document
@@ -208,30 +211,15 @@ class NotificacionDAO {
 				}
 			}
 			
-			//SELECT * from catnotificaciones where caseid=(SELECT caseid FROM procesocaso where campus = 'CAMPUS-MNORTE' and proceso='CatNotificaciones') and codigo='registrar'
-			
-			errorlog += "| se obtiene el catNotificaciones para generar el b64 del documento "
-
-			errorlog += "|  catNotificacionDAO"
-
-			errorlog += "|  lcn"
-			// 1 variable plantilla [banner-href]
 			errorlog += "| Variable1"
 			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
-			
-			//cn = catNotificacionesDAO.getCatNotificaciones(procesoCaso.getCaseId(),object.codigo)
-			errorlog += "|  lstDoc"
-			errorlog+="| seteando mensaje"
 			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
 			
-			//3 variable plantilla [contacto]
 			errorlog += "| Variable3"
-			//7 variable plantilla [titulo]
 			errorlog += "| Variable7"
 			plantilla=plantilla.replace("[titulo]",cn.getTitulo())
 			
 			Calendar cal = Calendar.getInstance();
-			//cal.add(Calendar.HOUR_OF_DAY, -6)
 			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
 			
 			String dayOfMonthStr = String.valueOf(dayOfMonth);
@@ -339,7 +327,6 @@ class NotificacionDAO {
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo.toString());
-			
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
 			
@@ -376,7 +363,35 @@ class NotificacionDAO {
 				if (object.codigo.equals("psgr-solicitud-admitida") && object.isEnviar) {
 					plantilla = plantilla.replace("[DOCUMENTOS-OFICIALES-FECHA-LIMITE]", "No definida")
 				}
-					
+				if (object.codigo.equals("psgr-cita-agendada")) {
+					def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
+					List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseId, 0, 99);
+					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
+					if (citaAspirante) {
+						try {
+							errorlog += "| Variable8.5.4 CITA ENCONTRADA "
+							SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
+							LocalDateTime fecha_entrevista_LDT = citaAspirante.getCita_horario().getCita_entrevista().getFecha_entrevista();
+							Date fecha_entrevista = Date.from(fecha_entrevista_LDT.atZone(ZoneId.systemDefault()).toInstant());
+							plantilla = plantilla.replace("[CITA-FECHA]", formatter.format(fecha_entrevista));
+							errorlog += "| Variable8.5.4.1 "
+							def citaFormato = citaAspirante.getCita_horario().getCita_entrevista().isIs_presencial() ? "Prencial" : "En línea";
+							plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.getCita_horario().getHora_inicio());
+							errorlog += "| Variable8.5.4.2 "
+							plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato);
+							errorlog += "| Variable8.5.4.3 "
+							String liga = citaAspirante.getCita_horario().getCita_entrevista().getLiga();
+							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "N/A");
+							errorlog += "| Variable8.5.4.4 "
+							String ubicacion = citaAspirante.getCita_horario().getCita_entrevista().getUbicacion();
+							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "N/A");
+							errorlog += "| Variable8.5.4.5 "
+						} catch(Exception e) {
+							errorlog += "| ERROR EN LA CITA: " + e.getMessage();
+						}
+					}
+				}
+				
 				// Comentarios
 				closeCon = validarConexion();
 				String ordenpago = ""
@@ -451,29 +466,68 @@ class NotificacionDAO {
 			errorlog += "| Variable15 PLANTILLA: " + object.codigo + " | ";
 			
 			try {
+				errorlog +=  "| Variable15.1 "
 				Result hffc = new Result()
 				hffc = getCatNotificacionesCampusCodigoCampus(object.codigo, object.campus)
+				errorlog +=  "| Variable15.2 "
 				if(hffc.getData().size()>0) {
+					errorlog +=  "| Variable15.3 "
 					CatNotificacionesCampus catHffc = (CatNotificacionesCampus) hffc.getData().get(0)
 					plantilla=plantilla.replace("[HEADER-IMG]", catHffc.getHeader())
 					plantilla=plantilla.replace("[TEXTO-FOOTER]", catHffc.getFooter())
 					cc=catHffc.getCopia();
+					errorlog +=  "| Variable15.4 "
 					try {
+						errorlog +=  "| Variable15.5 "
 						plantilla=plantilla.replace("[firma]", generarFirma(catHffc.getCatnotificacionesfirma_pid().toString()))
 						Result rfirma = getFirma("{\"estatusSolicitud\":\"Solicitud en progreso\",\"tarea\":\"Llenar solicitud\",\"lstFiltro\":[{\"columna\":\"PERSISTENCEID\",\"operador\":\"Igual a\",\"valor\":\""+catHffc.getCatnotificacionesfirma_pid().toString()+"\"}],\"type\":\"solicitudes_progreso\",\"usuario\":0,\"orderby\":\"NOMBRECOMPLETO\",\"orientation\":\"ASC\",\"limit\":20,\"offset\":0}")
 						
 						plantilla=plantilla.replace("(CONTACTO DE CAMPUS DESTINO)", rfirma.data.get(0).nombreCompleto + " " +rfirma.data.get(0).apellido)
 					} catch (Exception e) {
+						errorlog +=  "| Variable15.4 "
 						plantilla=plantilla.replace("[firma]", "")
 					}
 					
 				}
 			} catch (Exception e) {
+				errorlog +=  "| Variable15.7 "
 				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAngulo_imagen_header())
 				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTexto_footer())
 				plantilla=plantilla.replace("[firma]", "")
 			}
+			
+//			errorlog +=  "| Variable16 "
+//			closeCon = validarConexion();
+//			Long idcampus =""
+//			pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE);
+//			pstm.setString(1, object.campus);
+//			rs = pstm.executeQuery();
+//			
+//			if(rs.next()) {
+//				idcampus = rs.getLong("campus_id");
+//			}
+//			errorlog +=  "| Variable17 idcampus::";
+//			closeCon = validarConexion();
+//			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_CAMPUS);
+//			pstm.setLong(1, idcampus);
+//			rs = pstm.executeQuery();
+//			errorlog +=  "| Variable17.1 "
+//			
+//			while(rs.next()) {
+//				errorlog +=  "| Variable17.1.2 "
+//				if(rs.getString("clave").equals("carta_posgrado_campus")) {
+//					plantilla=plantilla.replace("[carta_posgrado_campus]", rs.getString("valor"));
+//				} else if(rs.getString("clave").equals("carta_posgrado_campus_telefono_contacto")) {
+//					plantilla=plantilla.replace("[carta_posgrado_campus_telefono_contacto]", rs.getString("valor"));
+//				} else if(rs.getString("clave").equals("carta_posgrado_campus_pagina")) {
+//					plantilla=plantilla.replace("[carta_posgrado_campus_pagina]", rs.getString("valor"));
+//				} else if(rs.getString("clave").equals("carta_posgrado_campus_correo_contacto")) {
+//					plantilla=plantilla.replace("[carta_posgrado_campus_correo_contacto]", rs.getString("valor"));
+//				}
+//			}
+			
 			   
+			errorlog +=  "| Variable18"
 			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner())
 		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer())
 			List<String> lstData = new ArrayList();
@@ -496,7 +550,6 @@ class NotificacionDAO {
 				
 				if(resultado.success) {
 					catBitacoraCorreo.setEstatus("Enviado a Mailgun")
-					
 				}else {
 					catBitacoraCorreo.setEstatus("Fallido")
 				}
@@ -643,6 +696,8 @@ class NotificacionDAO {
 					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
 					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
 				}
+				
+				errorlog += "citaAspirante" + citaAspirante.getPersistenceId().toString();
 				
 				if (citaAspirante) {
 					def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
