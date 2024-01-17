@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705531550729,
+  "lastUpdate" : 1705532878748,
   "rows" : [
     [
       {
@@ -16288,7 +16288,7 @@
                         "value" : "link"
                       }
                     },
-                    "reference" : "da81dd2a-b03c-4f89-bc51-a0b693f11336",
+                    "reference" : "b8fc9ade-f704-40ff-b0f3-ef86e42a3513",
                     "hasValidationError" : false,
                     "id" : "pbLink"
                   }
@@ -16340,7 +16340,7 @@
                         "value" : "left"
                       }
                     },
-                    "reference" : "b90a6336-4477-41fd-96d9-82f5559d24ab",
+                    "reference" : "367d4061-1d6b-4abc-aaff-2f5970a0a526",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -16409,7 +16409,7 @@
                         "value" : "link"
                       }
                     },
-                    "reference" : "b2b9d376-8abe-4baa-ab32-c4bd15ce3221",
+                    "reference" : "97c6484b-0007-4a36-8d81-c1caf4a70ccd",
                     "hasValidationError" : false,
                     "id" : "pbLink"
                   },
@@ -18019,8 +18019,8 @@
                                 "value" : "nuevoInfoEscolar.ver"
                               },
                               "disabled" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "promedioFormatoReadOnly"
                               },
                               "required" : {
                                 "type" : "constant",
@@ -18039,7 +18039,7 @@
                                 "value" : "infoEscolarCheckboxPromedioFormato_ChangedEvent"
                               }
                             },
-                            "reference" : "11b691ce-d890-4354-bbfb-71ebf274ae3b",
+                            "reference" : "068cd234-a277-48a5-b2d8-707601ab3ad8",
                             "hasValidationError" : false,
                             "id" : "customPSGRCheckboxChangedEvent"
                           }
@@ -22891,13 +22891,29 @@
       "value" : [
         "if ($data.infoEscolarSelectPais_ChangedEvent) {",
         "    ",
-        "    if ($data.nuevoInfoEscolar.pais.descripcion === \"Estados Unidos\" && !$data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "    // Si es Estados Unidos bloquearlo a formato alfabetico",
+        "    if ($data.nuevoInfoEscolar.pais.descripcion === \"Estados Unidos\") {",
+        "        if (!$data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";    ",
+        "        }",
+        "        $data.promedioFormatoReadOnly = true;",
         "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = true;",
-        "        $data.nuevoInfoEscolar.promedio = \"\";",
         "    }",
-        "    else if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "    // Si es México bloquearlo a formato decimal",
+        "    else if ($data.nuevoInfoEscolar.pais.descripcion === \"México\") {",
+        "        if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";    ",
+        "        }",
+        "        $data.promedioFormatoReadOnly = true;",
         "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = false;",
-        "        $data.nuevoInfoEscolar.promedio = \"\";",
+        "    }",
+        "    // Si es otro desbloquearlo formato libre",
+        "    else {",
+        "        if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";",
+        "        }",
+        "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = false;",
+        "        $data.promedioFormatoReadOnly = false;",
         "    }",
         "        ",
         "    $data.infoEscolarSelectPais_ChangedEvent = null;",
@@ -23004,6 +23020,13 @@
       "type" : "businessdata",
       "value" : [
         "{\"displayValue\":\"findByClave [com.anahuac.posgrados.config.PSGRConfiguraciones]\",\"businessObjectName\":\"PSGRConfiguraciones\",\"query\":{\"name\":\"findByClave\",\"displayName\":\"findByClave\"},\"id\":\"com.anahuac.posgrados.config.PSGRConfiguraciones\",\"filters\":[{\"name\":\"clave\",\"type\":\"STRING\",\"collection\":false,\"value\":\"formulario_solicitud_aviso_privacidad_link\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "promedioFormatoReadOnly" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
       ],
       "exposed" : false
     }
