@@ -23,7 +23,10 @@ function($scope, $http, blockUI, $window) {
                 "duracion_entrevista_minutos": "",
                 "campus": "", 
                 "horarios": [],
-                "responsables": []
+                "responsables": [],
+                "is_presencial":false,
+                "liga":"",
+                "ubicacion":""
             }
             $scope.responsables = [];
             $scope.horarios = [];
@@ -48,7 +51,10 @@ function($scope, $http, blockUI, $window) {
             "descripcion_entrevista": "",
             "fecha_entrevista": "",
             "duracion_entrevista_minutos": "",
-            "campus": $scope.idcampus
+            "campus": $scope.idcampus, 
+            "is_presencial":false,
+            "liga":"",
+            "ubicacion":""
         }
     }
     
@@ -392,13 +398,18 @@ function($scope, $http, blockUI, $window) {
         });
     
         let hora = new Date();
-        hora.setHours(9, 0, 0, 0); 
+        let acumularMinutos = 0;
+        hora.setHours(9, acumularMinutos, 0, 0); 
     
         while (hora.getHours() <= 19) {
             let horario = {"hora_inicio":"", "hora_fin":""}
             horario["hora_inicio"] = formatoHora.format(hora);
-            hora.setMinutes(hora.getMinutes() + _duracion);
+            acumularMinutos += parseInt(_duracion);
+            hora.setHours(9, (acumularMinutos), 0, 0); 
             horario["hora_fin"] = formatoHora.format(hora);
+            acumularMinutos += parseInt(_duracion);
+            hora.setHours(9, (acumularMinutos), 0, 0); 
+
             horario["cita_entrevista"] = {
                 "persistenceId": $scope.sesion.persistenceId
             }, 
@@ -406,6 +417,8 @@ function($scope, $http, blockUI, $window) {
             
             $scope.horarios.push(horario);
         }
+
+        console.log($scope.horarios);
     }
     
     $scope.$watch("properties.roles", function(){

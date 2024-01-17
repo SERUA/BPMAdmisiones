@@ -320,6 +320,9 @@ class SesionesDAO {
 			pstm.setString(3, object.descripcion_entrevista);
 			pstm.setString(4, fechaHoraFormateada);
 			pstm.setLong(5, idCampus);
+			pstm.setBoolean(6, object.is_presencial);
+			pstm.setString(7, object.liga);
+			pstm.setString(8, object.ubicacion);
 			
 			rs = pstm.executeQuery();
 			
@@ -504,6 +507,9 @@ class SesionesDAO {
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				row.setDuracion_entrevista_minutos(rs.getInt("duracion_entrevista_minutos"));
 				row.setCampus(rs.getLong("campus_pid"));
+				row.setIs_presencial(rs.getBoolean("is_presencial"));
+				row.setLiga(rs.getString("liga"))
+				row.setUbicacion(rs.getString("ubicacion"));
 				
 				rows.add(row);
 			}

@@ -9,6 +9,9 @@ class SesionesBack {
 	private Long campus;
 	private Integer duracion_entrevista_minutos;
 	private fecha_entrevista_back;
+	private Boolean is_presencial;
+	private String liga;
+	private String ubicacion;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -57,5 +60,23 @@ class SesionesBack {
 	}
 	public void setFecha_entrevista_back(java.lang.Object fecha_entrevista_back) {
 		this.fecha_entrevista_back = fecha_entrevista_back;
+	}
+	public Boolean getIs_presencial() {
+		return is_presencial;
+	}
+	public void setIs_presencial(Boolean is_presencial) {
+		this.is_presencial = is_presencial;
+	}
+	public String getLiga() {
+		return liga;
+	}
+	public void setLiga(String liga) {
+		this.liga = liga;
+	}
+	public String getUbicacion() {
+		return ubicacion;
+	}
+	public void setUbicacion(String ubicacion) {
+		this.ubicacion = ubicacion;
 	}
 }

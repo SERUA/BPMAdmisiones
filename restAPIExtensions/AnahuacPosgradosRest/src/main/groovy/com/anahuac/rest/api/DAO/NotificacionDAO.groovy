@@ -333,7 +333,7 @@ class NotificacionDAO {
 			Boolean closeCon=false;
 			try {
 				// Liga confirmar cuenta
-				if(object.codigo.equals("psgr-validar-cuenta") && object.isEnviar) {
+				if(object.codigo.equals("psgr-validar-cuenta")) {
 					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");
 				}
 				
@@ -363,29 +363,24 @@ class NotificacionDAO {
 				if (object.codigo.equals("psgr-solicitud-admitida") && object.isEnviar) {
 					plantilla = plantilla.replace("[DOCUMENTOS-OFICIALES-FECHA-LIMITE]", "No definida")
 				}
+				
 				if (object.codigo.equals("psgr-cita-agendada")) {
 					def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
 					List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseId, 0, 99);
 					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
 					if (citaAspirante) {
 						try {
-							errorlog += "| Variable8.5.4 CITA ENCONTRADA "
 							SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 							LocalDateTime fecha_entrevista_LDT = citaAspirante.getCita_horario().getCita_entrevista().getFecha_entrevista();
 							Date fecha_entrevista = Date.from(fecha_entrevista_LDT.atZone(ZoneId.systemDefault()).toInstant());
 							plantilla = plantilla.replace("[CITA-FECHA]", formatter.format(fecha_entrevista));
-							errorlog += "| Variable8.5.4.1 "
 							def citaFormato = citaAspirante.getCita_horario().getCita_entrevista().isIs_presencial() ? "Prencial" : "En línea";
 							plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.getCita_horario().getHora_inicio());
-							errorlog += "| Variable8.5.4.2 "
 							plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato);
-							errorlog += "| Variable8.5.4.3 "
 							String liga = citaAspirante.getCita_horario().getCita_entrevista().getLiga();
 							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "N/A");
-							errorlog += "| Variable8.5.4.4 "
 							String ubicacion = citaAspirante.getCita_horario().getCita_entrevista().getUbicacion();
 							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "N/A");
-							errorlog += "| Variable8.5.4.5 "
 						} catch(Exception e) {
 							errorlog += "| ERROR EN LA CITA: " + e.getMessage();
 						}
@@ -409,10 +404,28 @@ class NotificacionDAO {
 					plantilla=plantilla.replace("[ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 					plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 				}
-			}
-			catch(Exception ex) {
+				
+				errorlog += "| Variable8.6.1 "
+				def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+				List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseId, 0, 99);
+				errorlog += "| Variable8.6.2 "
+				PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
+				errorlog += "| Variable8.6.3 "
+				if (datosPrograma) {
+					errorlog += "| Variable8.6.4.1 "
+					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
+					errorlog += "| Variable8.6.4.2 "
+					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.getPosgrado().getDescripcion());
+					errorlog += "| Variable8.6.4.3 "
+					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.getPrograma_interes().getNombre());
+					errorlog += "| Variable8.6.4.4 "
+					plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
+					errorlog += "| Variable8.6.4.5 "
+				}
+			} catch(Exception ex) {
 				errorlog +=", consulta custom " + ex.getMessage();
 			}
+			
 			finally {
 				if(closeCon) {
 					new DBConnect().closeObj(con, stm, rs, pstm);
