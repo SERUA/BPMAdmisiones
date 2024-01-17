@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705427694896,
+  "lastUpdate" : 1705453661709,
   "rows" : [
     [
       {
@@ -1021,7 +1021,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<hr>Medio por el cúal te enteraste de nosotros <br><br><br>"
+                        "value" : "<hr>Medio por el cual te enteraste de nosotros <br><br><br>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -1691,7 +1691,7 @@
                             },
                             "label" : {
                               "type" : "interpolation",
-                              "value" : "Fotografía"
+                              "value" : "Fotografía: *"
                             },
                             "labelPosition" : {
                               "type" : "constant",
@@ -1878,7 +1878,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "Escribe tu nombre y apellidos como aparecen en tu acta de nacimiento<br><br>"
+                              "value" : "Verifica que tu nombre y apellidos se muestren como en tu acta de nacimiento."
                             },
                             "level" : {
                               "type" : "constant",
@@ -4499,11 +4499,15 @@
                       "value" : {
                         "type" : "variable",
                         "value" : "datosContacto.pais"
+                      },
+                      "changedEvent" : {
+                        "type" : "variable",
+                        "value" : "selectPais_ChangedEvent"
                       }
                     },
-                    "reference" : "4204c519-9838-4dfc-95db-8a2c275f2c13",
+                    "reference" : "1b0c6fa8-873d-4dab-89eb-1a17742bd8a4",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "customPSGRSelectChangedEvent"
                   },
                   {
                     "type" : "container",
@@ -5124,169 +5128,6 @@
                     "reference" : "ee393fb2-e744-442b-b532-ecc6e1d2e342",
                     "hasValidationError" : false,
                     "id" : "pbInput"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "md" : 6,
-                      "sm" : 12,
-                      "xs" : 12,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 1
-                      },
-                      "readOnly" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Teléfono celular:"
-                      },
-                      "placeholder" : {
-                        "type" : "constant"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "number"
-                      },
-                      "dimension" : {
-                        "type" : "constant",
-                        "value" : 12
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "datosContacto.telefono_celular"
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "minLength" : {
-                        "type" : "constant",
-                        "value" : 10
-                      },
-                      "maxLength" : {
-                        "type" : "constant",
-                        "value" : 14
-                      },
-                      "min" : {
-                        "type" : "constant",
-                        "value" : 1
-                      },
-                      "max" : {
-                        "type" : "constant",
-                        "value" : 99999999999999
-                      },
-                      "step" : {
-                        "type" : "constant"
-                      }
-                    },
-                    "reference" : "36df291b-e9e1-457e-ae91-cb367addf4ae",
-                    "hasValidationError" : false,
-                    "id" : "pbInput",
-                    "description" : ""
-                  },
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "md" : 6,
-                      "sm" : 12,
-                      "xs" : 12,
-                      "lg" : 6
-                    },
-                    "propertyValues" : {
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 1
-                      },
-                      "readOnly" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Teléfono de casa:"
-                      },
-                      "placeholder" : {
-                        "type" : "constant"
-                      },
-                      "type" : {
-                        "type" : "constant",
-                        "value" : "text"
-                      },
-                      "dimension" : {
-                        "type" : "constant",
-                        "value" : 12
-                      },
-                      "value" : {
-                        "type" : "variable",
-                        "value" : "datosContacto.telefono_casa"
-                      },
-                      "required" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "minLength" : {
-                        "type" : "constant",
-                        "value" : 10
-                      },
-                      "maxLength" : {
-                        "type" : "constant",
-                        "value" : 14
-                      },
-                      "min" : {
-                        "type" : "constant"
-                      },
-                      "max" : {
-                        "type" : "constant"
-                      },
-                      "step" : {
-                        "type" : "constant",
-                        "value" : 1
-                      }
-                    },
-                    "reference" : "c180c3e2-2aac-487c-8c78-7ed675a9f497",
-                    "hasValidationError" : false,
-                    "id" : "pbInput",
-                    "description" : ""
                   }
                 ],
                 [
@@ -21487,7 +21328,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPais?q=query&p=0&c=99&f=is_eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "datosDocumentosOtros" : {
@@ -22735,24 +22580,6 @@
       ],
       "exposed" : false
     },
-    "cleanDomicilioPais" : {
-      "type" : "expression",
-      "value" : [
-        "/* Agregar logica para borrado",
-        "if ($data.datosContacto.pais) {",
-        "    if ($data.lastPaisSelected && $data.datosContacto.pais !== $data.lastPaisSelected) {",
-        "        // Limpiando los campos.",
-        "        $data.datosContacto.estado = \"\";",
-        "        $data.datosContacto.municipio = \"\";",
-        "        $data.datosContacto.ciudad = \"\";",
-        "        $data.datosContacto.colonia = \"\";",
-        "    }",
-        "    $data.lastPaisSelected = $data.datosContacto.pais;",
-        "}",
-        "*/"
-      ],
-      "exposed" : false
-    },
     "lastPaisSelected" : {
       "type" : "constant",
       "exposed" : false
@@ -22864,6 +22691,31 @@
       "type" : "expression",
       "value" : [
         "return $data.periodos_disponibles.filter(item => item !== null);"
+      ],
+      "exposed" : false
+    },
+    "selectPais_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleSelectPaisChange" : {
+      "type" : "expression",
+      "value" : [
+        "debugger;",
+        "if ($data.selectPais_ChangedEvent) {",
+        "    ",
+        "    // Limpiar campos domicilio pais",
+        "    $data.datosContacto.cp = \"\";",
+        "    $data.datosContacto.estado = \"\";",
+        "    $data.datosContacto.municipio = \"\";",
+        "    $data.datosContacto.ciudad = \"\";",
+        "    $data.datosContacto.colonia = \"\";",
+        "    ",
+        "    $data.selectPais_ChangedEvent = null;",
+        "}"
       ],
       "exposed" : false
     }

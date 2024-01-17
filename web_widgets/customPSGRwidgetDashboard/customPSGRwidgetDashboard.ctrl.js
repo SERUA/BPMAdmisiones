@@ -64,6 +64,18 @@ function($scope, $http, blockUI) {
 
     $scope.initializeDatosProceso = function() {
         doRequest("POST", "/bonita/API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=100", {}, {
+            "estatusSolicitud": "'solicitud_iniciada','modificaciones_solicitadas'",
+            "lstFiltro": [],
+            "type": "aspirantes_proceso",
+            "orderby": "",
+            "orientation": "DESC",
+            "limit": 10,
+            "offset": 0
+        }, function(datos) {
+            $scope.enProceso = datos.totalRegistros;
+        });
+
+        doRequest("POST", "/bonita/API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=100", {}, {
             "estatusSolicitud": "'solicitud_completada','modificaciones_realizadas','solicitud_reactivada'",
             "lstFiltro": [],
             "type": "aspirantes_proceso",

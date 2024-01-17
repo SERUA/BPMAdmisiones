@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAspiranteHome",
   "name" : "PSGRappAspiranteHome",
-  "lastUpdate" : 1704389975447,
+  "lastUpdate" : 1705448756935,
   "rows" : [
     [
       {
@@ -82,8 +82,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "!user.firstname || task === undefined"
                 },
                 "text" : {
                   "type" : "interpolation",
@@ -953,23 +953,28 @@
       "type" : "expression",
       "value" : [
         "const tokenApp = \"pg_aspirante\";",
-        "// redirección en caso de tarea ",
-        "if ($data.task) {",
-        "    if ($data.task.name === \"Llenar solicitud de posgrado\") {",
-        "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
-        "    } ",
-        "    else if ($data.task.name === \"Modificar solicitud\") {",
-        "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
-        "    } ",
-        "    else if ($data.task.name === \"Reagendar cita\") {",
-        "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_reagendar_cita/content/\";",
-        "    }",
-        "}",
+        "const timeToRedirect = 1000;",
         "",
-        "// redireccion en caso de caso finalizado",
-        "else if ($data.currentCase.end_date) {",
-        "    window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_ver_solicitud/content/?caseId=\" + $data.currentCase.rootCaseId + \"&pagina=dictamen\";",
-        "}"
+        "setTimeout(() => {",
+        "    // redirección en caso de tarea ",
+        "    if ($data.task) {",
+        "        if ($data.task.name === \"Llenar solicitud de posgrado\") {",
+        "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
+        "        } ",
+        "        else if ($data.task.name === \"Modificar solicitud\") {",
+        "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
+        "        } ",
+        "        else if ($data.task.name === \"Reagendar cita\") {",
+        "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_reagendar_cita/content/\";",
+        "        }",
+        "    }",
+        "    ",
+        "    // redireccion en caso de caso finalizado",
+        "    else if ($data.currentCase.end_date) {",
+        "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_ver_solicitud/content/?caseId=\" + $data.currentCase.rootCaseId + \"&pagina=dictamen\";",
+        "    }",
+        "    ",
+        "}, timeToRedirect)"
       ],
       "exposed" : false
     },
