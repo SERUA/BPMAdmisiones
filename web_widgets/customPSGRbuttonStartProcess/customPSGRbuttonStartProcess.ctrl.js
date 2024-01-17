@@ -61,10 +61,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if(!data.registroInput.correo_electronico){
             valid = false;
             message = "El campo 'Correo electrónico' no debe ir vacío.";
+        } else if(!validarCorreo(data.registroInput.correo_electronico)){
+            valid = false;
+            message = "El campo 'Correo electrónico' tiene un formato invalido.";
         } else if(!data.registroInput.confirmar_correo_electronico){
             valid = false;
             message = "El campo 'Confirmar correo electrónico' no debe ir vacío.";
-        } else if(data.registroInput.confirmar_correo_electronico !== data.registroInput.confirmar_correo_electronico){
+        } else if(data.registroInput.correo_electronico !== data.registroInput.confirmar_correo_electronico){
             valid = false;
             message = "Los correos no coinciden.";
         } else if(!data.registroInput.password){
@@ -89,6 +92,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }
 
         return valid;
+    }
+
+    function validarCorreo(correo) {
+        var expresionRegularCorreo = /^(([^<>()\[\]\\.,;:\s@”]+(\.[^<>()\[\]\\.,;:\s@”]+)*)|(“.+”))@((\[[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}\.[0–9]{1,3}])|(([a-zA-Z\-0–9]+\.)+[a-zA-Z]{2,}))$/;
+        correo = correo.trim().toLowerCase();
+        
+        if (expresionRegularCorreo.test(correo)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     function openModal(modalId) {
