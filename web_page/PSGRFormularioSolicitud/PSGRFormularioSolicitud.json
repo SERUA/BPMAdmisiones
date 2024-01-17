@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705520094042,
+  "lastUpdate" : 1705532878748,
   "rows" : [
     [
       {
@@ -15887,7 +15887,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Manifiesto que los datos asentados por mí y los documentos entregados son auténticos. Acepto que la Universidad Anáhuac aplique mi baja  definitiva en el caso que compruebe falsedad en alguno de ellos y que no me expida ningún certificado o constancia de estudios a menos que  haya entregado toda la documentación correspondiente. Si soy admitido(a) por la Universidad Anáhuac, acepto cumplir con las obligaciones académicas y administrativas contenidas en el Reglamento  General."
+                        "value" : "{{ configuracionManifiesto ? configuracionManifiesto : defaultManifiesto }}"
                       },
                       "value" : {
                         "type" : "variable",
@@ -16212,7 +16212,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Otorgo mi consentimiento para que los datos personales que proporciono sea tratados, durante el tiempo que resulte adecuado, por la  Universidad Anáhuac, institución de educación superio que opera a través de Investigaciones y Estudios Superiores, S.C., únicamente para las  finalidades establecidas en el presente Aviso de Privacidad, el cual manifiesto que conozco y que fue puesto a mi disposición previamente en el  vínculo de internet: https://www.anahuac.mx/mexico/proteccion-de-datos-personales/AvisosdePrivacidad/AdministracionEscolarCampusNorte Aviso de privacidad Para conocer nuesro Aviso de Privacidad consulte la página www.anahuac.mx/mexico."
+                        "value" : "{{ configuracionConsentimiento ? configuracionConsentimiento : defaultConsentimiento }}"
                       },
                       "value" : {
                         "type" : "variable",
@@ -16232,6 +16232,194 @@
                       "sm" : 12,
                       "md" : 12,
                       "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Aviso de privacidad"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "URL"
+                      },
+                      "targetUrl" : {
+                        "type" : "expression",
+                        "value" : "configuracionAvisoPrivacidadLink"
+                      },
+                      "pageToken" : {
+                        "type" : "constant"
+                      },
+                      "processName" : {
+                        "type" : "constant"
+                      },
+                      "processVersion" : {
+                        "type" : "constant"
+                      },
+                      "taskId" : {
+                        "type" : "constant"
+                      },
+                      "caseId" : {
+                        "type" : "constant"
+                      },
+                      "target" : {
+                        "type" : "constant",
+                        "value" : "_blank"
+                      },
+                      "appToken" : {
+                        "type" : "constant"
+                      },
+                      "urlParams" : {
+                        "type" : "constant"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "link"
+                      }
+                    },
+                    "reference" : "b8fc9ade-f704-40ff-b0f3-ef86e42a3513",
+                    "hasValidationError" : false,
+                    "id" : "pbLink"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Para conocer nuestro Aviso de Privacidad consulte la página:"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "367d4061-1d6b-4abc-aaff-2f5970a0a526",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Página"
+                      },
+                      "type" : {
+                        "type" : "constant",
+                        "value" : "URL"
+                      },
+                      "targetUrl" : {
+                        "type" : "constant",
+                        "value" : "http://www.anahuac.mx/mexico"
+                      },
+                      "pageToken" : {
+                        "type" : "constant"
+                      },
+                      "processName" : {
+                        "type" : "constant"
+                      },
+                      "processVersion" : {
+                        "type" : "constant"
+                      },
+                      "taskId" : {
+                        "type" : "constant"
+                      },
+                      "caseId" : {
+                        "type" : "constant"
+                      },
+                      "target" : {
+                        "type" : "constant",
+                        "value" : "_blank"
+                      },
+                      "appToken" : {
+                        "type" : "constant"
+                      },
+                      "urlParams" : {
+                        "type" : "constant"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      },
+                      "buttonStyle" : {
+                        "type" : "constant",
+                        "value" : "link"
+                      }
+                    },
+                    "reference" : "97c6484b-0007-4a36-8d81-c1caf4a70ccd",
+                    "hasValidationError" : false,
+                    "id" : "pbLink"
+                  },
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
                     },
                     "propertyValues" : {
                       "cssClasses" : {
@@ -17827,12 +18015,12 @@
                                 "value" : ""
                               },
                               "hidden" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "nuevoInfoEscolar.ver"
                               },
                               "disabled" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "promedioFormatoReadOnly"
                               },
                               "required" : {
                                 "type" : "constant",
@@ -17851,7 +18039,7 @@
                                 "value" : "infoEscolarCheckboxPromedioFormato_ChangedEvent"
                               }
                             },
-                            "reference" : "28cfbafb-f98a-4fd0-85a5-f515601f43e1",
+                            "reference" : "068cd234-a277-48a5-b2d8-707601ab3ad8",
                             "hasValidationError" : false,
                             "id" : "customPSGRCheckboxChangedEvent"
                           }
@@ -18710,85 +18898,6 @@
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "required" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "minLength" : {
-                          "type" : "constant",
-                          "value" : 10
-                        },
-                        "maxLength" : {
-                          "type" : "constant",
-                          "value" : 14
-                        },
-                        "readOnly" : {
-                          "type" : "expression",
-                          "value" : "nuevaEmpresaTrabajo.ver"
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Teléfono de la empresa:"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "placeholder" : {
-                          "type" : "interpolation"
-                        },
-                        "value" : {
-                          "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajo.telefono_empresa"
-                        },
-                        "type" : {
-                          "type" : "constant",
-                          "value" : "text"
-                        },
-                        "min" : {
-                          "type" : "constant",
-                          "value" : 1
-                        },
-                        "max" : {
-                          "type" : "constant",
-                          "value" : 99999999999999
-                        },
-                        "step" : {
-                          "type" : "constant",
-                          "value" : 1
-                        }
-                      },
-                      "reference" : "db088913-04a5-4760-b60a-b6b2f4c9a481",
-                      "hasValidationError" : false,
-                      "id" : "pbInput"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
                         "md" : 6,
                         "lg" : 6
                       },
@@ -18799,11 +18908,11 @@
                         },
                         "hidden" : {
                           "type" : "constant",
-                          "value" : true
+                          "value" : false
                         },
                         "required" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "minLength" : {
                           "type" : "constant",
@@ -19866,85 +19975,6 @@
                       "dimension" : {
                         "xs" : 12,
                         "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "required" : {
-                          "type" : "constant",
-                          "value" : true
-                        },
-                        "minLength" : {
-                          "type" : "constant",
-                          "value" : 10
-                        },
-                        "maxLength" : {
-                          "type" : "constant",
-                          "value" : 14
-                        },
-                        "readOnly" : {
-                          "type" : "expression",
-                          "value" : "nuevaEmpresaTrabajoPrevio.ver"
-                        },
-                        "labelHidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Teléfono de la empresa:"
-                        },
-                        "labelPosition" : {
-                          "type" : "constant",
-                          "value" : "top"
-                        },
-                        "labelWidth" : {
-                          "type" : "constant",
-                          "value" : 4
-                        },
-                        "placeholder" : {
-                          "type" : "interpolation"
-                        },
-                        "value" : {
-                          "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajoPrevio.telefono_empresa"
-                        },
-                        "type" : {
-                          "type" : "constant",
-                          "value" : "number"
-                        },
-                        "min" : {
-                          "type" : "constant",
-                          "value" : 1
-                        },
-                        "max" : {
-                          "type" : "constant",
-                          "value" : 99999999999999
-                        },
-                        "step" : {
-                          "type" : "constant",
-                          "value" : 1
-                        }
-                      },
-                      "reference" : "18720ae4-e0a1-4f3b-841d-86f3449054e5",
-                      "hasValidationError" : false,
-                      "id" : "customPSGRInputLimit"
-                    }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
                         "md" : 6,
                         "lg" : 6
                       },
@@ -19959,7 +19989,7 @@
                         },
                         "required" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "minLength" : {
                           "type" : "constant",
@@ -20240,7 +20270,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : ""
+                          "value" : "area-text-trabajo"
                         },
                         "hidden" : {
                           "type" : "constant",
@@ -22861,13 +22891,29 @@
       "value" : [
         "if ($data.infoEscolarSelectPais_ChangedEvent) {",
         "    ",
-        "    if ($data.nuevoInfoEscolar.pais.descripcion === \"Estados Unidos\" && !$data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "    // Si es Estados Unidos bloquearlo a formato alfabetico",
+        "    if ($data.nuevoInfoEscolar.pais.descripcion === \"Estados Unidos\") {",
+        "        if (!$data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";    ",
+        "        }",
+        "        $data.promedioFormatoReadOnly = true;",
         "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = true;",
-        "        $data.nuevoInfoEscolar.promedio = \"\";",
         "    }",
-        "    else if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "    // Si es México bloquearlo a formato decimal",
+        "    else if ($data.nuevoInfoEscolar.pais.descripcion === \"México\") {",
+        "        if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";    ",
+        "        }",
+        "        $data.promedioFormatoReadOnly = true;",
         "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = false;",
-        "        $data.nuevoInfoEscolar.promedio = \"\";",
+        "    }",
+        "    // Si es otro desbloquearlo formato libre",
+        "    else {",
+        "        if ($data.nuevoInfoEscolar.promedio_formato_alfabetico) {",
+        "            $data.nuevoInfoEscolar.promedio = \"\";",
+        "        }",
+        "        $data.nuevoInfoEscolar.promedio_formato_alfabetico = false;",
+        "        $data.promedioFormatoReadOnly = false;",
         "    }",
         "        ",
         "    $data.infoEscolarSelectPais_ChangedEvent = null;",
@@ -22886,7 +22932,6 @@
       "type" : "expression",
       "value" : [
         "if ($data.infoEscolarCheckboxPromedioFormato_ChangedEvent) {",
-        "    ",
         "    // Limpiar campos domicilio pais",
         "    $data.nuevoInfoEscolar.promedio = \"\";",
         "    ",
@@ -22907,6 +22952,81 @@
         "        $data.nuevoInfoEscolar.promedio = $data.nuevoInfoEscolar.promedio.toString().slice(0, len - 1)",
         "    }",
         "}"
+      ],
+      "exposed" : false
+    },
+    "configuracionAvisoPrivacidadLink" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.configuracionAvisoPrivacidadLink_query) {",
+        "    if ($data.configuracionAvisoPrivacidadLink_query.length !== 0) {",
+        "        return $data.configuracionAvisoPrivacidadLink_query[0].valor;",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "configuracionManifiesto" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.configuracionManifiesto_query) {",
+        "    if ($data.configuracionManifiesto_query.length !== 0) {",
+        "        return $data.configuracionManifiesto_query[0].valor;",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "configuracionConsentimiento" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.configuracionConsentimiento_query) {",
+        "    if ($data.configuracionConsentimiento_query.length !== 0) {",
+        "        return $data.configuracionConsentimiento_query[0].valor;",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "defaultManifiesto" : {
+      "type" : "constant",
+      "value" : [
+        "Manifiesto que los datos asentados por mí y los documentos entregados son auténticos. Acepto que la Universidad Anáhuac aplique mi baja  definitiva en el caso que compruebe falsedad en alguno de ellos y que no me expida ningún certificado o constancia de estudios a menos que  haya entregado toda la documentación correspondiente. Si soy admitido(a) por la Universidad Anáhuac, acepto cumplir con las obligaciones académicas y administrativas contenidas en el Reglamento General."
+      ],
+      "exposed" : false
+    },
+    "defaultConsentimiento" : {
+      "type" : "constant",
+      "value" : [
+        "Otorgo mi consentimiento para que los datos personales que proporciono sea tratados, durante el tiempo que resulte adecuado, por la  Universidad Anáhuac, institución de educación superio que opera a través de Investigaciones y Estudios Superiores, S.C., únicamente para las  finalidades establecidas en el presente Aviso de Privacidad, el cual manifiesto que conozco y que fue puesto a mi disposición previamente en el vínculo de internet:"
+      ],
+      "exposed" : false
+    },
+    "configuracionManifiesto_query" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByClave [com.anahuac.posgrados.config.PSGRConfiguraciones]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByClave\",\"displayName\":\"findByClave\"},\"id\":\"com.anahuac.posgrados.config.PSGRConfiguraciones\",\"filters\":[{\"name\":\"clave\",\"type\":\"STRING\",\"collection\":false,\"value\":\"formulario_solicitud_manifiesto\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "configuracionConsentimiento_query" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByClave [com.anahuac.posgrados.config.PSGRConfiguraciones]\",\"businessObjectName\":\"PSGRConfiguraciones\",\"query\":{\"name\":\"findByClave\",\"displayName\":\"findByClave\"},\"id\":\"com.anahuac.posgrados.config.PSGRConfiguraciones\",\"filters\":[{\"name\":\"clave\",\"type\":\"STRING\",\"collection\":false,\"value\":\"formulario_solicitud_consentimiento\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "configuracionAvisoPrivacidadLink_query" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByClave [com.anahuac.posgrados.config.PSGRConfiguraciones]\",\"businessObjectName\":\"PSGRConfiguraciones\",\"query\":{\"name\":\"findByClave\",\"displayName\":\"findByClave\"},\"id\":\"com.anahuac.posgrados.config.PSGRConfiguraciones\",\"filters\":[{\"name\":\"clave\",\"type\":\"STRING\",\"collection\":false,\"value\":\"formulario_solicitud_aviso_privacidad_link\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "promedioFormatoReadOnly" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
       ],
       "exposed" : false
     }
