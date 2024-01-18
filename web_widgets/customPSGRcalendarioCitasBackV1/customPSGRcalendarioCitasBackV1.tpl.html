@@ -161,13 +161,35 @@
                     <div>
                         Licenciatura
                     </div> 
+                    
+                    <table class="table table-responisve table-striped">
+                        <thead>
+                            <tr>
+                                <th>Carrera</th>
+                            </tr>    
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="carrera in compiladoCarrerassResponsable[usuario.responsable_id]; track by $index" >
+                                <td>
+                                    <!--<pre>{{ carrera | json }}</pre> -->
+                                    {{ carrera.nombre }}
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
                 <div class="col-xs-6">
+                    <div class="col-xs-12">
+                        <div class="form-group">
+                            <label>Licenciatura</label>
+                            <multiselect key="nombre" label="nombre" class="input-xlarge" multiple="true" ng-model="carrerasResponsableString" options="c.nombre for c in lstGestionEscolar" change="selected(c)"></multiselect>
+                        </div>
+                    </div>
                     <table class="table table-striped">
                         <thead>
                            <tr>
                                 <th>Horarios </th>
-                                <th> </th>
+                                <th>Acciones </th>
                            </tr>
                         </thead>
                         <tbody>
@@ -186,6 +208,11 @@
                             </tr>
                         </tbody>
                     </table>
+                </div>
+                
+                <div class="col-xs-12">
+                    <pre>{{ compiladoCarrerassResponsable | json }}</pre>
+                    <pre>{{ usuario | json }}</pre>0
                 </div>
             </div>
             <div class="modal-footer">

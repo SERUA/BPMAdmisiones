@@ -47,6 +47,7 @@ class StatementsCatalogos {
 	public static final String GET_LST_PERIODOS_DISPONIBLES = "SELECT peri.* FROM PSGRCatGestion_periodo_dispon AS  disp LEFT JOIN PSGRCatPeriodo AS peri ON disp.psgrcatperiodo_pid = peri.persistenceid WHERE psgrcatgestionescolar_pid = ?;";
 	public static final String INSERT_LST_PERIODOS_DISPONIBLES = "INSERT INTO PSGRCatGestion_periodo_dispon (psgrcatgestionescolar_pid, psgrcatperiodo_pid, periodo_disponible_order) VALUES [VALUES];";
 	public static final String DELETE_LST_PERIODOS_DISPONIBLES = "DELETE FROM PSGRCatGestion_periodo_dispon WHERE psgrcatgestionescolar_pid = ?;";
+	public static final String GET_CATGESTIONESCOLAR_BY_CAMPUS = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid WHERE GE.campus_pid = ?";
 	
 	//PSGRCatPosgrado2
 	public static final String GET_CATPOSGRADO2 = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatPosgrado as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";

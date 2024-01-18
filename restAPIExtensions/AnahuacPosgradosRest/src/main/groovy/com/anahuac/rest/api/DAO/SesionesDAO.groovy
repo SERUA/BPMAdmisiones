@@ -381,6 +381,42 @@ class SesionesDAO {
 				}
 			}
 			
+			List<Map<String, Object>> lstCarreras = (List<Map<String, Object>>) object.carreras;
+			
+			for(Map<String, Object> horario: lstHorarios) {
+				errorLog += "1|";
+				
+//				entrevistador_pid, carrera_pid, campus_pid;
+				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
+				pstm.setString(1, horario.get("hora_inicio"));
+				pstm.setString(2, horario.get("hora_fin"));
+				pstm.setLong(3, idSesion);
+				
+				rs = pstm.executeQuery();
+				
+				if(rs.next()) {
+					Long horario_pid = rs.getLong("persistenceid");
+					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
+					errorLog += "1|";
+					for(Map<String, Object> responsable: lstResponsables) {
+						if(!ids.contains(responsable.get("responsable_id"))) {
+							ids.add(responsable.get("responsable_id"));
+						}
+						
+						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
+						pstm.setLong(1, horario_pid);
+						pstm.setLong(2, Integer.valueOf(responsable.get("responsable_id")));
+						pstm.setLong(3, idSesion);
+						pstm.setBoolean(4, responsable.get("ocupado"));
+						pstm.setBoolean(5, responsable.get("disponible_resp"));
+						
+						if(pstm.executeUpdate() == 0) {
+							throw new Exception("No se ha podido insertar el responsable");
+						}
+					}
+				}
+			}
+			
 			con.commit();
 			resultado.setSuccess(true);
 		} catch (Exception e) {

@@ -8055,14 +8055,14 @@ class CatalogosDAO {
 			pstm.setString(5, formato.format(fecha_fin));
 			pstm.setString(6, fechaHoraFormateada);
 			pstm.setString(7, object.id);
-			pstm.setBoolean(8, object.is_anual);
+			pstm.setBoolean(8, false);
 			pstm.setBoolean(9, false);
 			pstm.setBoolean(10, object.is_semestral);
 			pstm.setBoolean(11, object.is_trimestral);
 			pstm.setLong(12, idCampus);
 			pstm.setString(13, object.usuario_banner);
 			pstm.setLong(14, object.year);
-			pstm.setLong(15, Long.parseLong(object.codigo));
+			pstm.setLong(15, Long.parseLong(object.codigo.toString()));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
