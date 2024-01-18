@@ -5747,7 +5747,15 @@
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatGestionEscolar" fetchType="LAZY" name="carrera" nullable="true" collection="false"/>
                 <relationField type="AGGREGATION" reference="com.anahuac.posgrados.catalog.PSGRCatCampus" fetchType="LAZY" name="campus" nullable="true" collection="false"/>
             </fields>
-            <uniqueConstraints/>
+            <uniqueConstraints>
+                <uniqueConstraint name="no_duplicados">
+                    <fieldNames>
+                        <fieldName>entrevistador</fieldName>
+                        <fieldName>campus</fieldName>
+                        <fieldName>carrera</fieldName>
+                    </fieldNames>
+                </uniqueConstraint>
+            </uniqueConstraints>
             <queries/>
             <indexes/>
         </businessObject>
