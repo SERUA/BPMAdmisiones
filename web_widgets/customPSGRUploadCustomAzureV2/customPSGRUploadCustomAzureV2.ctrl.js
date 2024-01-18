@@ -271,7 +271,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                     $scope.properties.isXML = "true";
                     $scope.procesar = true;
                     $scope.fileSelectModel = true;
-                    //handleFileSelect(event);
+                    handleFileSelect(event);
                 }
                 else errorMsg = "Solo puede agregar archivos XML";
                 break;
@@ -371,7 +371,8 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         let obj = {
             "linkSource": "",
             "fileName":  "",
-            "extension": ""
+            "extension": "",
+            "fileType": "",
         };
         
         $scope.properties.selectedFile = obj;
@@ -407,9 +408,19 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     });
 
     $scope.downloadFile2 = function(){
+        let url = $scope.properties.urlDownloadFile + $scope.properties.urlAzure;
+        // Si se conoce el fileType enviarlo por parametro (Util para los xml)
+        if ($scope.documetObject["filetype"]) {
+            url += "&fileType=" + $scope.documetObject["filetype"];
+        }
+        else {
+            // Si no se envia el filetype, por defecto al descargar archivos xml se trataran como text/xml.
+            // Para tratarlo como application/xml es necesario agregar el parametro "fileType=application/xml" aqui.
+        }
+
         var req = {
             method: "GET",
-            url: $scope.properties.urlDownloadFile + $scope.properties.urlAzure
+            url: url
         };
 
         return $http(req)
@@ -461,13 +472,16 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         $scope.linkSource = _document.b64;
         $scope.fileName = urlSplitted[urlSplitted.length - 1];
         $scope.extension = _document.extension;
+        if (_document.fileType)
+            $scope.fileType = _document.fileType;
     }
 
     function selectFile(){
         let obj = {
             "linkSource":$scope.linkSource,
             "fileName":  $scope.fileName ,
-            "extension": $scope.extension
+            "extension": $scope.extension,
+            "fileType": $scope.fileType ? $scope.fileType : "",
         };
         
         $scope.properties.selectedFile = obj;

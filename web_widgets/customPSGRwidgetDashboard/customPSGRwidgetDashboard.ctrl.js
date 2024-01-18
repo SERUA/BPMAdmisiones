@@ -64,7 +64,7 @@ function($scope, $http, blockUI) {
 
     $scope.initializeDatosProceso = function() {
         doRequest("POST", "/bonita/API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=100", {}, {
-            "estatusSolicitud": "'solicitud_iniciada','modificaciones_solicitadas'",
+            "estatusSolicitud": "'aspirante_registrado','aspirante_validado','solicitud_iniciada','modificaciones_solicitadas'",
             "lstFiltro": [],
             "type": "aspirantes_proceso",
             "orderby": "",
