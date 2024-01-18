@@ -53,7 +53,7 @@ class SolicitudDeAdmisionDAO {
 		return retorno
 	}
 	
-	public Result getB64FileByUrlAzure(String urlAzure) {
+	public Result getB64FileByUrlAzure(String urlAzure, String fileType) {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Result resultado = new Result();
@@ -96,6 +96,24 @@ class SolicitudDeAdmisionDAO {
 				}else if(urlAzure.toLowerCase().contains(".pdf")) {
 					columns.put("extension", ".pdf");
 					columns.put("b64", "data:application/pdf;base64, " + (new FileDownload().b64Url(finalURL, SSA + "&v=" + num)));
+				}else if(urlAzure.toLowerCase().contains(".xml")) {
+					columns.put("extension", ".xml");
+					
+					if (fileType == "text/xml") {
+						// Cuando es text/xml
+						columns.put("b64", "data:text/xml;base64, " + (new FileDownload().b64Url(finalURL, SSA + "&v=" + num)));
+						columns.put("fileType", "text/xml");
+					}
+					else if (fileType == "data:application/xml") {
+						// Cuando es application/xml
+						columns.put("b64", "data:application/xml;base64, " + (new FileDownload().b64Url(finalURL, SSA + "&v=" + num)));
+						columns.put("fileType", "application/xml");
+					} 
+					else {
+						// Por defecto
+						columns.put("b64", "data:text/xml;base64, " + (new FileDownload().b64Url(finalURL, SSA + "&v=" + num)));
+						columns.put("fileType", "text/xml");
+					}
 				}
 				
 				rows.add(columns);
