@@ -333,9 +333,7 @@ class SesionesDAO {
 			}
 			
 			List<Map<String, Object>> lstHorarios = (List<Map<String, Object>>) object.horarios;
-			errorLog += "1|";
 			for(Map<String, Object> horario: lstHorarios) {
-				errorLog += "1|";
 				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
 				pstm.setString(1, horario.get("hora_inicio"));
 				pstm.setString(2, horario.get("hora_fin"));
@@ -346,7 +344,6 @@ class SesionesDAO {
 				if(rs.next()) {
 					Long horario_pid = rs.getLong("persistenceid");
 					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
-					errorLog += "1|";
 					for(Map<String, Object> responsable: lstResponsables) {
 						if(!ids.contains(responsable.get("responsable_id"))) {
 							ids.add(responsable.get("responsable_id"));
@@ -369,50 +366,36 @@ class SesionesDAO {
 			}
 			
 			if(!ids.empty) {
+				errorLog += "|1";
 				for(String id: ids) {
+					errorLog += "|2";
 					pstm = con.prepareStatement(Statements.INSERT_RESPONSABLES_LISTA);
 					pstm.setString(1, "");
 					pstm.setLong(2, Long.valueOf(id));
 					pstm.setLong(3, idSesion);
-					
-					if(pstm.executeUpdate() == 0) {
+					errorLog += "|3";
+					if(pstm.executeUpdate() > 0) {
+						errorLog += "|4";
+						Map<String, Object> carreras = (Map<String, Object>) object.carreras;
+						errorLog += "|5";
+						List<Map<String, Object>> lstCarreras = (List<Map<String, Object>>) carreras.get(id);
+						errorLog += "|6";
+						for(Map<String, Object> responsableCarrera: lstCarreras) {
+							errorLog += "|7";
+							pstm = con.prepareStatement(Statements.INSERT_ENTREVISTADOR_CARRERA);
+							pstm.setLong(1, Long.valueOf(id));
+							pstm.setLong(2, Long.valueOf(responsableCarrera.get("persistenceId").toString()));
+							pstm.setLong(3, idCampus);
+							pstm.setLong(4, idSesion);
+							errorLog += "|8";
+							
+							if(pstm.executeUpdate() == 0){
+								throw new Exception("No se ha podido insertar el responsable relación carrera");
+							}
+							errorLog += "|9";
+						}
+					} else {
 						throw new Exception("No se ha podido insertar el responsable");
-					}
-				}
-			}
-			
-			List<Map<String, Object>> lstCarreras = (List<Map<String, Object>>) object.carreras;
-			
-			for(Map<String, Object> horario: lstHorarios) {
-				errorLog += "1|";
-				
-//				entrevistador_pid, carrera_pid, campus_pid;
-				pstm = con.prepareStatement(Statements.INSERT_HORARIOS);
-				pstm.setString(1, horario.get("hora_inicio"));
-				pstm.setString(2, horario.get("hora_fin"));
-				pstm.setLong(3, idSesion);
-				
-				rs = pstm.executeQuery();
-				
-				if(rs.next()) {
-					Long horario_pid = rs.getLong("persistenceid");
-					List<Map<String, Object>> lstResponsables = (List<Map<String, Object>>) horario.get("responsables");
-					errorLog += "1|";
-					for(Map<String, Object> responsable: lstResponsables) {
-						if(!ids.contains(responsable.get("responsable_id"))) {
-							ids.add(responsable.get("responsable_id"));
-						}
-						
-						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
-						pstm.setLong(1, horario_pid);
-						pstm.setLong(2, Integer.valueOf(responsable.get("responsable_id")));
-						pstm.setLong(3, idSesion);
-						pstm.setBoolean(4, responsable.get("ocupado"));
-						pstm.setBoolean(5, responsable.get("disponible_resp"));
-						
-						if(pstm.executeUpdate() == 0) {
-							throw new Exception("No se ha podido insertar el responsable");
-						}
 					}
 				}
 			}

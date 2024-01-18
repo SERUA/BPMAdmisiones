@@ -1,7 +1,6 @@
 function($scope, $http, blockUI, $window) {
-    
-    $scope.carrerasResponsableString = [];
     $scope.carrerasResponsable = [];
+    $scope.carrerasResponsableString = [];
     $scope.compiladoCarrerassResponsable = {}
     $scope.lstGestionEscolar = [];
     
@@ -12,7 +11,6 @@ function($scope, $http, blockUI, $window) {
     };
     
     $scope.selected = function(_option){
-        // $scope.carrerasResponsable = [];
         $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
         for(let str of $scope.carrerasResponsableString.split(",")){
             for(let carr of $scope.lstGestionEscolar){
@@ -34,6 +32,7 @@ function($scope, $http, blockUI, $window) {
         let dataToSend = angular.copy($scope.sesion);
         dataToSend["responsables"] = angular.copy($scope.responsables);
         dataToSend["horarios"] = angular.copy($scope.horarios);
+        dataToSend["carreras"] = angular.copy($scope.compiladoCarrerassResponsable);
         
         $http.post(url, dataToSend).success(function(_data){
             $scope.sesion = {
@@ -51,6 +50,8 @@ function($scope, $http, blockUI, $window) {
             $scope.responsables = [];
             $scope.horarios = [];
             $scope.nuevoResponsable = null;
+            $scope.carrerasResponsableString = ""
+            $scope.compiladoCarrerassResponsable = {};
             $scope.navVar = "calendario";
             swal("Ok", "Sesión guardada correctamente.", "success");
             loadFechas();
