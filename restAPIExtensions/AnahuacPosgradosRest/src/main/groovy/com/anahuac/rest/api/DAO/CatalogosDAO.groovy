@@ -4472,7 +4472,7 @@ class CatalogosDAO {
 			pstm.setString(4, object.clave); // Clave
 			pstm.setString(5, object.descripcion); // DESCRIPCION
 			pstm.setString(6, object.usuarioCreacion); // UUSUARIOCREACION
-			pstm.setLong(7, object.CAMPUS.persistenceid); // CAMPUS_pid
+			pstm.setLong(7, object.CAMPUS.persistenceId); // CAMPUS_pid
 
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
