@@ -198,6 +198,7 @@ class NuevoListadoDAO {
 
 				rows.add(columns);
 			}
+			
 			errorlog = consulta + " 9";
 			resultado.setSuccess(true)
 			resultado.setData(rows)
@@ -338,6 +339,22 @@ class NuevoListadoDAO {
 					}
 					rows.add(columns);
 				}
+				
+//				//Parche para el conteo de aspirantes
+//				for(Map<String, Object> mapi : rows) {
+//					pstm = con.prepareStatement(NuevoStatements.GET_ASPIRANTES_SESIONES_COUNT_TODOS);
+//					pstm.setLong(1, Long.valueOf(mapi.get("idsesion")));
+//					pstm.setLong(2, Long.valueOf(mapi.get("idsesion")));
+//					pstm.setLong(3, Long.valueOf(mapi.get("idsesion")));
+//					pstm.setLong(4, Long.valueOf(mapi.get("idsesion")));
+//					
+//					rs = pstm.executeQuery();
+//					
+//					if(rs.next()) {
+//						mapi.put("conteo_aspirantes_todos", rs.getString("total_registros"));
+//					} else {
+//						mapi.put("conteo_aspirantes_todos", null);
+//					}
 					
 				resultado.setError_info("errorLog = "+errorlog)
 				resultado.setData(rows)

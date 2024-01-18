@@ -556,6 +556,21 @@ class UsuariosDAO {
 				where += " AND ccam.grupobonita = '" + object.campus + "'"
 			}
 			
+			if(object.idbanner != null) {
+				where += "  AND ( LOWER(dets.idbanner) like lower('%[valor]%') )"
+				where = where.replace("[valor]", object.idbanner);
+			}
+			
+			if(object.idBpm != null) {
+				where += " AND ( LOWER(creg.caseid::VARCHAR) like lower('%[valor]%') )"
+				where = where.replace("[valor]", object.idBpm);
+			}
+			
+			if(object.correoelectronico != null) {
+				where += " AND ( LOWER(creg.correoelectronico) like lower('%[valor]%') ) "
+				where = where.replace("[valor]", object.correoelectronico);
+			}	
+			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 					case "id_sesion":

@@ -114,7 +114,7 @@ function ($scope, $http) {
                 var scope = angular.element($("custom-conekta-iframe")).scope();
                 scope.showModal();
                 scope.$apply(function(){
-                    scope.buildCardObject();
+                    scope.buildCardObject(_token);
                 })
             },
             onCreateTokenError: function (error) {
@@ -124,14 +124,14 @@ function ($scope, $http) {
         });
     }
 
-    $scope.buildCardObject = function(){
+    $scope.buildCardObject = function(_newToken){
         $scope.properties.objectCard = {
             "name": $scope.properties.objSolicitudAdmision.primerNombre + " "+ $scope.properties.objSolicitudAdmision.apellidoPaterno,
             "email": $scope.properties.objSolicitudAdmision.correoElectronico,
             "phone": $scope.properties.objSolicitudAdmision.telefono,
             "campus_id": $scope.properties.objSolicitudAdmision.catCampus.persistenceId + "",
             "unit_price": $scope.properties.configuracionesPago.monto * 100,//Conekta acepta le pago en centavos
-            "idToken": $scope.properties.tokenObject.id,
+            "idToken": _newToken.id,
             "caseId" : $scope.properties.objSolicitudAdmision.caseId + "",
             "last4": "4444",
             "nombrePago": "jose garcia",

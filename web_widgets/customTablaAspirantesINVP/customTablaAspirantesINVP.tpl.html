@@ -19,7 +19,45 @@
         <option ng-value="100">100</option>
     </select>
 </div>
-    
+<br>
+<div class="row">
+    <div class="col-xs-12">
+        <div class="col-xs-">
+            <label>Filtros específicos: </label>
+           <button class="btn btn-info" type="button" ng-click="limpiarFiltrosTop()">Limpiar filtros</button> 
+        </div>
+        <br>
+    </div>
+    <div class="col-xs-12">
+        <div class="col-xs-4">
+            <div class="col-xs-4">
+                <label>Id Banner:</label>
+            </div>
+            <div class="col-xs-8">
+                <input ng-model="dynamicInput['idbanner']" class="form-control" ng-enter="filterKeyPressTop('idbanner', dynamicInput['idbanner'])">
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="col-xs-4">
+                <label>ID Bpm:</label>
+            </div>
+            <div class="col-xs-8">
+                <input ng-model="dynamicInput['idBpm']" class="form-control" ng-enter="filterKeyPressTop('idBpm', dynamicInput['idBpm'])">
+            </div>
+        </div>
+        <div class="col-xs-4">
+            <div class="col-xs-4">
+                <label>Correo electrónico:</label>
+            </div>
+            <div class="col-xs-8">
+                <input ng-model="dynamicInput['correoelectronico']" class="form-control" ng-enter="filterKeyPressTop('correoelectronico', dynamicInput['correoelectronico'])">
+            </div>
+        </div>
+    </div>
+</div>
+
+<br><br>
+
 <div class="table-responsive col-xs-12" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
     <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
         <thead>
