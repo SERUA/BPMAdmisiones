@@ -76,14 +76,16 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     function handleFileSelect(evt) {
         startUploading();
         var f = evt.target.files[0];
-        var reader = new FileReader(); var size = parseFloat(f.size / 1024).toFixed(2);
-        
+        var reader = new FileReader(); 
+        var size = parseFloat(f.size / 1024).toFixed(2);
+
         if(size >= 2000){
             ctrl.filename = gettextCatalog.getString('Error al subir documento');
-            swal("El archivo es demasiado grande", "El tamaño máximo de la imagen es de 2MB", "error");
+            swal("El archivo es demasiado grande", "El tamaño máximo del archivo es de 2MB", "error");
         } else {
             reader.onload = (function (theFile) {
                 return function (e) {
+                    console.log(e)
                     var binaryData = e.target.result;
                     var base64String = window.btoa(binaryData);
                     $scope.documetObject["b64"] = $scope.documetObject["filetype"] +  "," +  base64String;
@@ -264,12 +266,12 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
                 }
                 else errorMsg = "Solo puede agregar imagenes PNG o JPEG";
                 break;
-            case "xml": 
-                if (event.target.files[0].type === "application/xml") {
+            case "xml":
+                if (event.target.files[0].type === "application/xml" || event.target.files[0].type === "text/xml") {
                     $scope.properties.isXML = "true";
                     $scope.procesar = true;
                     $scope.fileSelectModel = true;
-                    //handleFileSelectImg(event);
+                    //handleFileSelect(event);
                 }
                 else errorMsg = "Solo puede agregar archivos XML";
                 break;
