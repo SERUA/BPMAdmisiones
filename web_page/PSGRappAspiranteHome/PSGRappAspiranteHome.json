@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAspiranteHome",
   "name" : "PSGRappAspiranteHome",
-  "lastUpdate" : 1705448756935,
+  "lastUpdate" : 1705702764858,
   "rows" : [
     [
       {
@@ -119,7 +119,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "task || task === undefined"
+                  "value" : "task !== null && task !== undefined"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -224,7 +224,7 @@
                     "propertyValues" : {
                       "cssClasses" : {
                         "type" : "constant",
-                        "value" : "bg-white"
+                        "value" : ""
                       },
                       "hidden" : {
                         "type" : "constant",
@@ -252,16 +252,397 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "Por favor, espera a que la página te redireccione a la tarea correspondiente..."
+                        "value" : "Estimado(a) aspirante, tienes una tarea pendiente.<br><br><br>"
                       },
                       "alignment" : {
                         "type" : "constant",
                         "value" : "center"
                       }
                     },
-                    "reference" : "8f7dff8c-d25b-43ce-bca3-fabac4a86f84",
+                    "reference" : "9882b026-7283-4af4-b8eb-a8bcef3b08f9",
                     "hasValidationError" : false,
                     "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 3,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "3a1cba45-134b-44e0-a41b-ea871031c71e",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "task.name === \"Modificar solicitud\""
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "c2640a79-234f-4332-a319-f52e2c28d2c6",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "bg-white"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Por favor, espera a que la página te redireccione a la tarea correspondiente..."
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "8f7dff8c-d25b-43ce-bca3-fabac4a86f84",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ]
+                    ]
+                  }
+                ],
+                [
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 3,
+                      "lg" : 3
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "cb1fcf32-c099-4828-bda6-b20233f80d3b",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [ ]
+                    ]
+                  },
+                  {
+                    "type" : "container",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 6,
+                      "lg" : 6
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "task-card"
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "task.name !== \"Modificar solicitud\""
+                      },
+                      "repeatedCollection" : {
+                        "type" : "variable",
+                        "value" : ""
+                      }
+                    },
+                    "reference" : "11403473-6d8b-499f-bebb-bac6b9803bf5",
+                    "hasValidationError" : false,
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Modificar solicitud de admisión</b>"
+                            },
+                            "level" : {
+                              "type" : "constant",
+                              "value" : "Level 4"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "5d08f3bd-327e-433c-9ee1-5d2f9db9fc80",
+                          "hasValidationError" : false,
+                          "id" : "pbTitle"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Es necesario que realices los siguientes cambios en tu solicitud de admisión:"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "54f1374f-cb4e-41f4-be06-5bc70971c009",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 10,
+                            "md" : 10,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : "color-black"
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "labelHidden" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Default label"
+                            },
+                            "labelPosition" : {
+                              "type" : "constant",
+                              "value" : "top"
+                            },
+                            "labelWidth" : {
+                              "type" : "constant",
+                              "value" : 4
+                            },
+                            "allowHTML" : {
+                              "type" : "constant",
+                              "value" : true
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "<b>{{comentarioDeCorreciones}}</b><br><br>"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            }
+                          },
+                          "reference" : "e8967024-0c22-4716-acd8-e562003c4cd3",
+                          "hasValidationError" : false,
+                          "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "text" : {
+                              "type" : "interpolation",
+                              "value" : "Modificar solicitud"
+                            },
+                            "type" : {
+                              "type" : "constant",
+                              "value" : "page"
+                            },
+                            "targetUrl" : {
+                              "type" : "constant",
+                              "value" : "http://"
+                            },
+                            "pageToken" : {
+                              "type" : "constant",
+                              "value" : "pg_solicitud"
+                            },
+                            "processName" : {
+                              "type" : "constant"
+                            },
+                            "processVersion" : {
+                              "type" : "constant"
+                            },
+                            "taskId" : {
+                              "type" : "constant"
+                            },
+                            "caseId" : {
+                              "type" : "constant"
+                            },
+                            "target" : {
+                              "type" : "constant",
+                              "value" : "_self"
+                            },
+                            "appToken" : {
+                              "type" : "constant",
+                              "value" : "pg_aspirante"
+                            },
+                            "urlParams" : {
+                              "type" : "constant"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "center"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            }
+                          },
+                          "reference" : "125c05a1-b230-42cc-afd7-f59e4e851f0c",
+                          "hasValidationError" : false,
+                          "id" : "pbLink"
+                        }
+                      ]
+                    ]
                   }
                 ]
               ]
@@ -943,9 +1324,11 @@
     "task" : {
       "type" : "expression",
       "value" : [
-        "if ($data.tasks && $data.tasks.length !== 0)",
-        "    return $data.tasks[0];",
-        "else return null;"
+        "if ($data.tasks) {",
+        "    if ($data.tasks.length !== 0) return $data.tasks[0];",
+        "    else return null;",
+        "}",
+        "else return undefined;"
       ],
       "exposed" : false
     },
@@ -953,7 +1336,7 @@
       "type" : "expression",
       "value" : [
         "const tokenApp = \"pg_aspirante\";",
-        "const timeToRedirect = 1000;",
+        "const timeToRedirect = 1500;",
         "",
         "setTimeout(() => {",
         "    // redirección en caso de tarea ",
@@ -962,7 +1345,8 @@
         "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
         "        } ",
         "        else if ($data.task.name === \"Modificar solicitud\") {",
-        "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
+        "            // Se mostrá botón para redirigir.",
+        "            //window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
         "        } ",
         "        else if ($data.task.name === \"Reagendar cita\") {",
         "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_reagendar_cita/content/\";",
@@ -984,6 +1368,38 @@
         "../API/identity/user/{{session.user_id}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "context" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/case/{{currentCase.rootCaseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "registro" : {
+      "type" : "url",
+      "value" : [
+        "../{{context.registro_ref.link}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "comentarioDeCorreciones" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.registro) {",
+        "    if ($data.registro.mensaje_admin_escolar) {",
+        "        return $data.registro.mensaje_admin_escolar;",
+        "    }",
+        "    else {",
+        "        return \"No se encontró el comentario.\"",
+        "    }",
+        "    ",
+        "}",
+        "else return \"Cargando...\""
+      ],
       "exposed" : false
     }
   },
