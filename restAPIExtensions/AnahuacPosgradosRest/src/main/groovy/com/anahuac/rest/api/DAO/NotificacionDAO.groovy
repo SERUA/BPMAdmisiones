@@ -374,7 +374,7 @@ class NotificacionDAO {
 							LocalDateTime fecha_entrevista_LDT = citaAspirante.getCita_horario().getCita_entrevista().getFecha_entrevista();
 							Date fecha_entrevista = Date.from(fecha_entrevista_LDT.atZone(ZoneId.systemDefault()).toInstant());
 							plantilla = plantilla.replace("[CITA-FECHA]", formatter.format(fecha_entrevista));
-							def citaFormato = citaAspirante.getCita_horario().getCita_entrevista().isIs_presencial() ? "Prencial" : "En línea";
+							def citaFormato = citaAspirante.getCita_horario().getCita_entrevista().isIs_presencial() ? "Presencial" : "En línea";
 							plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.getCita_horario().getHora_inicio());
 							plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato);
 							String liga = citaAspirante.getCita_horario().getCita_entrevista().getLiga();
