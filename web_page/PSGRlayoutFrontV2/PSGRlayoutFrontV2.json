@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.46",
   "id" : "PSGRlayoutFrontV2",
   "name" : "PSGRlayoutFrontV2",
-  "lastUpdate" : 1705443675389,
+  "lastUpdate" : 1705696968861,
   "rows" : [
     [
       {
@@ -424,7 +424,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "{{loggedUser.userName}}"
+                                      "value" : "{{session.user_name}}"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -1387,12 +1387,23 @@
     "caseid" : {
       "type" : "expression",
       "value" : [
+        "let encontrado = false",
         "if($data.caseList){",
         "    for(let caseD of $data.caseList){",
         "        if(caseD.processDefinitionId.name === \"Solicitud de admisión a posgrados\"){",
+        "            encontrado = true;",
         "            return caseD.id;",
         "        }",
         "    }",
+        "}",
+        "",
+        "if(!encontrado){",
+        "    if($data.registro_bdm){",
+        "        return $data.registro_bdm[0].caseid    ",
+        "    } else {",
+        "        return null;",
+        "    }",
+        "    ",
         "}"
       ],
       "exposed" : false
@@ -1408,9 +1419,11 @@
     "registro_ref_url" : {
       "type" : "expression",
       "value" : [
-        "if($data.archievedCase){",
+        "if($data.solicitudContextArchivado){",
+        "    debugger;",
         "    return $data.solicitudContextArchivado.registro_ref.link",
         "} else {",
+        "    debugger;",
         "    return $data.solicitudContext.registro_ref.link",
         "}"
       ],
@@ -1485,6 +1498,13 @@
         "    \"newPassword\":\"\",",
         "    \"confirmPassword\": \"\"",
         "}"
+      ],
+      "exposed" : false
+    },
+    "registro_bdm" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCorreo_electronico [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"PSGRRegistro\",\"query\":{\"name\":\"findByCorreo_electronico\",\"displayName\":\"findByCorreo_electronico\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"correo_electronico\",\"type\":\"STRING\",\"collection\":false,\"value\":\"{{session.user_name}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
       "exposed" : false
     }
