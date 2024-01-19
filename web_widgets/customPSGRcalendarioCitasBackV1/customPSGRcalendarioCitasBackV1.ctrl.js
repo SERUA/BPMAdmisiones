@@ -16,7 +16,7 @@ function($scope, $http, blockUI, $window) {
             $scope.selected();
             
         }).error(function(err){
-            swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+            // swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
         });
     }
     
@@ -95,7 +95,7 @@ function($scope, $http, blockUI, $window) {
         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
              $scope.lstGestionEscolar = success;
         }).error(function(err){
-            swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+            // swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
         });
     }
 
