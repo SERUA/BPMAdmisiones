@@ -31,7 +31,6 @@ function PbTableCtrl($scope, $http) {
     });
 
     $scope.getCatalogo = function () {
-        debugger;
         if($scope.properties.dataToFilter.persistenceid != null){
         var req = {
             method: 'POST',  // o el método HTTP que necesites
@@ -59,7 +58,6 @@ function PbTableCtrl($scope, $http) {
     
     $scope.lstMembership = [];
     $scope.$watch("properties.userId", function(newValue, oldValue) {
-        debugger;
         if (Object.keys($scope.properties.lstCatCampus).length === 0) {
             if (newValue !== undefined) {
                 var req = {
@@ -83,7 +81,6 @@ function PbTableCtrl($scope, $http) {
     $scope.lstCampusByUser = [];
 
     $scope.campusByUser = function() {
-        debugger;
         var resultado = [];
         resultado.push("Todos los campus");
         for (var x in $scope.lstMembership) {
@@ -104,7 +101,6 @@ function PbTableCtrl($scope, $http) {
 
         // Llamar a $scope.$watch después de actualizar lstCatCampus
         $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
-            debugger;
             if (newValue !== undefined) {
                 doRequestEstado("POST", $scope.properties.urlGetCampus)
                     .then(function(response) {
@@ -121,7 +117,6 @@ function PbTableCtrl($scope, $http) {
     };
 
     function doRequestEstado(method, url, params) {
-        debugger;
         return $http({
             method: method,
             url: url,

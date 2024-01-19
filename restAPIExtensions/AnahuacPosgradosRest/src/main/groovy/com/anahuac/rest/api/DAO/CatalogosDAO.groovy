@@ -25,6 +25,7 @@ import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.rest.api.Entity.Result
 import com.anahuac.rest.api.Entity.custom.CatDescuentosCustom
 import com.anahuac.rest.api.Entity.custom.CatGestionEscolar
+import com.anahuac.rest.api.Entity.custom.ConfiguracionesGenerales
 import com.anahuac.rest.api.Entity.db.CatCampusCustomFiltro
 import com.anahuac.rest.api.Entity.db.CatGenerico
 import com.anahuac.rest.api.Entity.db.CatPaisCustomFiltro
@@ -7268,14 +7269,17 @@ class CatalogosDAO {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
 			} else if(object.valor.equals("") || object.valor == null) {
 				throw new Exception("El campo \"Valor\" no debe ir vacío");
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
 			} else if(object.id_campus.equals("") || object.id_campus == null) {
 				throw new Exception("No campus seleccionado");
-			}
+			} 
 			
 			pstm = con.prepareStatement(StatementsCatalogos.INSERT_CONFIGURACIONES);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.valor);
 			pstm.setLong(3, Long.valueOf(object.id_campus));
+			pstm.setString(4, object.descripcion);
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -7308,14 +7312,17 @@ class CatalogosDAO {
 				throw new Exception("El registro no existe.");
 			} else if(object.clave.equals("") || object.clave == null) {
 				throw new Exception("El campo \"Clave\" no debe ir vacío");
-			} else if(object.valor.equals("") || object.valor == null) {
+			} else if(object.descripcion.equals("") || object.descripcion == null) {
+				throw new Exception("El campo \"Descripción\" no debe ir vacío");
+			}else if(object.valor.equals("") || object.valor == null) {
 				throw new Exception("El campo \"Valor\" no debe ir vacío");
 			}
 			
 			pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CONFIGURACIONES);
 			pstm.setString(1, object.clave);
 			pstm.setString(2, object.valor);
-			pstm.setLong(3, Long.valueOf(object.persistenceId));
+			pstm.setString(3, object.descripcion);
+			pstm.setLong(4, Long.valueOf(object.persistenceId));
 			
 			if (pstm.executeUpdate() > 0) {
 				resultado.setSuccess(true);
@@ -7366,31 +7373,6 @@ class CatalogosDAO {
 	}
 	
 	public Result getConfiguraciones(String jsonData, RestAPIContext context) {
-//		Result resultado = new Result();
-//		Boolean closeCon = false;
-//		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
-//		Map<String, Object> row = new HashMap<String, Object>();
-//		String where = "", orderby = "";
-//		
-//		try {
-//			closeCon = validarConexion();
-//			def jsonSlurper = new JsonSlurper();
-//			def object = jsonSlurper.parseText(jsonData);
-//			
-//			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CONFIGURACIONES.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
-//			pstm.setLong(1, Long.valueOf(object.id_campus));
-//			rs = pstm.executeQuery();
-//			
-//			while(rs.next()) {
-//				row = new HashMap<String, Object>();
-//				row.put("clave", rs.getString("clave"));
-//				row.put("valor", rs.getString("valor"));
-//				row.put("id_campus", rs.getString("id_campus"));
-//				row.put("persistenceid", rs.getString("persistenceid"));
-//				
-//				data.add(row);
-//			}
-		
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String where = "", orderby = "ORDER BY ", errorLog = "", bachillerato = "", campus = ""
@@ -7405,12 +7387,9 @@ class CatalogosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-
 			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List < PSGRCatCampus > lstCatCampus = objCatCampusDAO.find(0, 9999)
-
 			userLogged = context.getApiSession().getUserId();
-
 			List < UserMembership > lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for (UserMembership objUserMembership: lstUserMembership) {
 				for (PSGRCatCampus rowGrupo: lstCatCampus) {
@@ -7434,11 +7413,12 @@ class CatalogosDAO {
 				}
 			}
 
-			String consulta = StatementsCatalogos.GET_CONFIGURACIONES
-			CatGestionEscolar row = new CatGestionEscolar();
-			List < CatDescuentosCustom > rows = new ArrayList < CatDescuentosCustom > ();
+			String consulta = StatementsCatalogos.GET_CONFIGURACIONES;
+			ConfiguracionesGenerales row = new ConfiguracionesGenerales();
+			List < ConfiguracionesGenerales > rows = new ArrayList < ConfiguracionesGenerales > ();
+			
 			closeCon = validarConexion();
-//			throw new Exception("El campo \"Descripción\" no debe ir vacío"+ object);
+			
 			where = "WHERE campus.eliminado = false and GE.id_campus = '" + object.persistenceid + "'"
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
@@ -7488,43 +7468,39 @@ class CatalogosDAO {
 			}
 
 			orderby += " " + object.orientation;
-			//where+=" "+campus
 			consulta = consulta.replace("[CAMPUS]", campus)
 			consulta = consulta.replace("[WHERE]", where);
 			
 			pstm = con.prepareStatement(consulta.replace("GE.*, campus.descripcion as nombreCampus", "COUNT(GE.persistenceid) as registros").replace("[LIMITOFFSET]", "").replace("[ORDERBY]", ""))
 			
-			rs = pstm.executeQuery()
+			rs = pstm.executeQuery();
+			
 			if (rs.next()) {
-				resultado.setTotalRegistros(rs.getInt("registros"))
+				resultado.setTotalRegistros(rs.getInt("registros"));
 			}
-			consulta = consulta.replace("[ORDERBY]", orderby)
-			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?")
-			errorLog += " " + consulta
-			errorLog += " consulta= "
-			errorLog += consulta
-			errorLog += " where = " + where
-			pstm = con.prepareStatement(consulta)
-			pstm.setInt(1, object.limit)
-			pstm.setInt(2, object.offset)
 			
-			errorLog += "fecha=="
+			consulta = consulta.replace("[ORDERBY]", orderby);
+			consulta = consulta.replace("[LIMITOFFSET]", " LIMIT ? OFFSET ?");
 
-			rs = pstm.executeQuery()
+			pstm = con.prepareStatement(consulta);
+			pstm.setInt(1, object.limit);
+			pstm.setInt(2, object.offset);
+			rs = pstm.executeQuery();
+			
 			while (rs.next()) {
-
-				row = new CatGestionEscolar()
-				row.setId_campus(rs.getLong("id_campus"))
-				row.setValor(rs.getString("valor"))
+				row = new ConfiguracionesGenerales();
+				row.setId_campus(rs.getLong("id_campus"));
+				row.setValor(rs.getString("valor"));
 				row.setClave(rs.getString("clave"));
-				row.setPersistenceId(rs.getLong("persistenceId"))
+				row.setPersistenceId(rs.getLong("persistenceId"));
+				row.setDescripcion(rs.getString("descripcion"));
 				
-				rows.add(row)
+				rows.add(row);
 			}
 			
-			resultado.setSuccess(true)
-			resultado.setError(errorLog)
-			resultado.setData(rows)
+			resultado.setSuccess(true);
+			resultado.setError(errorLog);
+			resultado.setData(rows);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[getConfiguraciones] " + e.getMessage());
