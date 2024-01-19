@@ -356,7 +356,9 @@ class SesionesDAO {
 						pstm.setBoolean(4, responsable.get("ocupado"));
 						pstm.setBoolean(5, responsable.get("disponible_resp"));
 						
-						if(pstm.executeUpdate() == 0) {
+						rs = pstm.executeQuery();
+						
+						if(!rs.next()) {
 							throw new Exception("No se ha podido insertar el responsable");
 						}
 					}
@@ -424,6 +426,7 @@ class SesionesDAO {
 		Boolean closeCon = false;
 		String errorLog = "";
 		Long idSesion = 0L;
+		Long idCampus = 0L;
 		
 		try {
 			closeCon = validarConexion();
@@ -455,31 +458,71 @@ class SesionesDAO {
 			
 			pstm.executeUpdate();
 			
+			if(object.campus == null || object.campus.equals("")) {
+				idCampus = 0L;
+			} else {
+				idCampus = Long.valueOf(object.campus);
+			}
+			
 			List<Map<String, Object>> lstHorarios = (List<Map<String, Object>>) object.horarios;
 			
 			for(Map<String, String> horario: lstHorarios) {
 				List<Responsables> lstResponsables = new ArrayList<Responsables>();
 				lstResponsables = (List<Responsables>) horario.get("responsables");
-				
+				Integer rows  = 0;
+				String idUsuarioResponsable = "";
 				for(Responsables responsable: lstResponsables) {
+					errorLog += "|1";
 					if(responsable.getPersistenceId() != null) {
+						errorLog += "|2";
 						pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
 						pstm.setBoolean(1, responsable.getDisponible_resp());
 						pstm.setBoolean(2, responsable.getOcupado());
 						pstm.setLong(3, responsable.getPersistenceId());
+						rows = pstm.executeUpdate();
+						idUsuarioResponsable = responsable.getResponsable_id();
 					} else {
+						errorLog += "|3";
 						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
 						pstm.setLong(1, horario.get(""));
 						pstm.setLong(2, horario.get(""));
 						pstm.setLong(3, Long.valueOf(object.persistenceId));
 						pstm.setBoolean(4, responsable.getOcupado());
 						pstm.setBoolean(5, responsable.getDisponible_resp());	
+						
+						rs = pstm.executeQuery();
+						errorLog += "|3.1";
+						if(rs.next()) {
+							Long idUsuarioLong = rs.getLong("persistenceid");
+							idUsuarioResponsable = idUsuarioLong.toString();
+							errorLog += "|3.2 ::"+ idUsuarioResponsable;
+						}
 					}
-					if(pstm.executeUpdate() == 0) {
-						throw new Exception("No se ha podido insertar el responsable");
+					errorLog += "|4";
+					pstm = con.prepareStatement(Statements.DELETE_ENTREVISTADOR_CARRERA_BY_CARRERA);
+					pstm.setLong(1, Long.valueOf(object.persistenceId));
+					pstm.executeUpdate();
+					
+					errorLog += "|5";
+					Map<String, Object> carreras = (Map<String, Object>) object.carreras;
+					errorLog += "|6";
+					List<Map<String, Object>> lstCarreras = (List<Map<String, Object>>) carreras.get(responsable.getResponsable_id());
+					errorLog += "|7";
+					for(Map<String, Object> responsableCarrera: lstCarreras) {
+						errorLog += "|8 ::" + idUsuarioResponsable + ":: ";
+						pstm = con.prepareStatement(Statements.INSERT_ENTREVISTADOR_CARRERA);
+						pstm.setLong(1, Long.valueOf(idUsuarioResponsable));
+						pstm.setLong(2, Long.valueOf(responsableCarrera.get("persistenceId").toString()));
+						pstm.setLong(3, idCampus);
+						pstm.setLong(4, Long.valueOf(object.persistenceId));
+						errorLog += "|9";
+						
+						if(pstm.executeUpdate() == 0){
+							throw new Exception("No se ha podido insertar el responsable relación carrera");
+						}
+						errorLog += "|10";
 					}
 					
-					pstm.executeUpdate();
 				}
 			}
 			
@@ -496,6 +539,8 @@ class SesionesDAO {
 	
 		return resultado;
 	}
+	
+	
 	
 	public Result getSesionesV2(String idcampus) {
 		Result resultado = new Result();
@@ -520,7 +565,6 @@ class SesionesDAO {
 				row.setPersistenceId_string(rs.getString("persistenceId_string"));
 				row.setFecha_entrevista(rs.getString("fecha_entrevista"));
 				row.setFecha_entrevista(sdfEntrada.format(formato.parse(rs.getString("fecha_entrevista"))));
-				
 				row.setFecha_entrevista_back(convertirFecha(rs.getString("fecha_entrevista")));
 				row.setNombre(rs.getString("nombre"));
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
@@ -534,6 +578,45 @@ class SesionesDAO {
 			}
 			
 			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getInfoCarrerasResponsable(Long idsesion, Long identrevistador) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		String carrerasString = "";
+		List<String> data = new ArrayList<String>();
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.GET_ENTREVISTADOR_CARRERA_INFO);
+			pstm.setLong(1, idsesion);
+			pstm.setLong(2, identrevistador);
+			
+			rs = pstm.executeQuery();
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			
+			while (rs.next()) {
+				carrerasString +=  rs.getString("nombre");
+				if(!rs.isLast()) {
+					carrerasString += ","
+				}
+			}
+			
+			data.add(carrerasString);
+			resultado.setData(data);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);

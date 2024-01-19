@@ -129,6 +129,17 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "getInfoCarrerasResponsable":
+					String idsesion = request.getParameter "idsesion"
+					String identrevistador = request.getParameter "identrevistador"
+					result = new SesionesDAO().getInfoCarrerasResponsable(Long.valueOf(idsesion), Long.valueOf(identrevistador))
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 				case "getLstPosgradoByIdCampus":
 					String id_campus = request.getParameter "id_campus"
 					result = new CatalogosDAO().getLstPosgradoByIdCampus(id_campus, context)

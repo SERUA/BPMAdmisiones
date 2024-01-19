@@ -10,14 +10,26 @@ function($scope, $http, blockUI, $window) {
         return check;
     };
     
-    $scope.selected = function(_option){
-        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
-        for(let str of $scope.carrerasResponsableString.split(",")){
-            for(let carr of $scope.lstGestionEscolar){
-                if(str === carr.nombre){
-                    // $scope.usuario.carrerasResponsable.push(carr);
-                    $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
-                    break;
+    function getInfoCarreras(){
+        $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + $scope.usuario.responsable_id).success(function(success){
+            $scope.carrerasResponsableString = success[0];
+            $scope.selected();
+            
+        }).error(function(err){
+            swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+        });
+    }
+    
+    $scope.selected = function(){
+        if($scope.usuario){
+            $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
+            for(let str of $scope.carrerasResponsableString.split(",")){
+                for(let carr of $scope.lstGestionEscolar){
+                    if(str === carr.nombre){
+                        // $scope.usuario.carrerasResponsable.push(carr);
+                        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
+                        break;
+                    }
                 }
             }
         }
@@ -60,6 +72,8 @@ function($scope, $http, blockUI, $window) {
         });
     }
     
+    
+    
     $scope.navVar = "calendario";
     
     $scope.initSesion = function(){
@@ -84,16 +98,6 @@ function($scope, $http, blockUI, $window) {
             swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
         });
     }
-    
-    // function fechaAStringConFormato(fecha) {
-    //     var dia = fecha.getDate();
-    //     var mes = fecha.getMonth() + 1;
-    //     var ano = fecha.getFullYear();
-    //     dia = dia < 10 ? '0' + dia : dia;
-    //     mes = mes < 10 ? '0' + mes : mes;
-      
-    //     return dia + '/' + mes + '/' + ano;
-    // }
 
     var vm = this;
     $scope.resultado;
@@ -136,11 +140,15 @@ function($scope, $http, blockUI, $window) {
                 let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesion&idSesion=" + _id;
 
                 $http.get(url).success(function(_data){
-                    debugger;
                     $scope.horarios = angular.copy(_data.data);
 
                     for(let id of angular.copy(_data.additional_data)){
                         $scope.agregarRespId(id); 
+                        $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
+                            $scope.lstGestionEscolar = success;
+                        }).error(function(err){
+                           swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+                        });
                     }
 
                     $scope.$apply();
@@ -223,6 +231,7 @@ function($scope, $http, blockUI, $window) {
     
     $scope.getInfoResponsable = function(_usuario){
         $scope.usuario = _usuario;
+        getInfoCarreras();
         //Llenar la lista de carreras  aquí
         $("#modalhorarios").modal("show");
     }
@@ -487,7 +496,6 @@ function($scope, $http, blockUI, $window) {
 
         if(!encontrado){
             let nuevoUsuario = {
-                "responsable_todas": true,
                 "responsable_id": _usuario.id,
                 "horario": null, 
                 "cita_entrevista": {
