@@ -497,6 +497,8 @@ class SesionesDAO {
 		return resultado;
 	}
 	
+	
+	
 	public Result getSesionesV2(String idcampus) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -534,6 +536,45 @@ class SesionesDAO {
 			}
 			
 			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result getInfoCarrerasResponsable(Long idsesion, Long identrevistador) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		String carrerasString = "";
+		List<String> data = new ArrayList<String>();
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			pstm = con.prepareStatement(Statements.GET_ENTREVISTADOR_CARRERA_INFO);
+			pstm.setLong(1, idsesion);
+			pstm.setLong(2, identrevistador);
+			
+			rs = pstm.executeQuery();
+			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			
+			while (rs.next()) {
+				carrerasString +=  rs.getString("nombre");
+				if(!rs.isLast()) {
+					carrerasString += ","
+				}
+			}
+			
+			data.add(carrerasString);
+			resultado.setData(data);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
