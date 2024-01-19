@@ -21,13 +21,15 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.selected = function(){
-        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
-        for(let str of $scope.carrerasResponsableString.split(",")){
-            for(let carr of $scope.lstGestionEscolar){
-                if(str === carr.nombre){
-                    // $scope.usuario.carrerasResponsable.push(carr);
-                    $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
-                    break;
+        if($scope.usuario){
+            $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
+            for(let str of $scope.carrerasResponsableString.split(",")){
+                for(let carr of $scope.lstGestionEscolar){
+                    if(str === carr.nombre){
+                        // $scope.usuario.carrerasResponsable.push(carr);
+                        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
+                        break;
+                    }
                 }
             }
         }
@@ -142,6 +144,11 @@ function($scope, $http, blockUI, $window) {
 
                     for(let id of angular.copy(_data.additional_data)){
                         $scope.agregarRespId(id); 
+                        $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
+                            $scope.lstGestionEscolar = success;
+                        }).error(function(err){
+                           swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+                        });
                     }
 
                     $scope.$apply();
@@ -489,7 +496,6 @@ function($scope, $http, blockUI, $window) {
 
         if(!encontrado){
             let nuevoUsuario = {
-                "responsable_todas": true,
                 "responsable_id": _usuario.id,
                 "horario": null, 
                 "cita_entrevista": {
