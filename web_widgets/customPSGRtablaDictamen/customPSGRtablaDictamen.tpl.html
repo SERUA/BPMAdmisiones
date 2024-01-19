@@ -1,33 +1,50 @@
 <div ng-hide="isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
-        <select class="form-control" ng-model="filtroCampus"
-            ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
-            ng-change="addFilter()">
-            <option style="display:none" value="">
-                Seleccionar campus
-            </option>
-        </select>
-    </div>
-    
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
-        <select class="form-control" ng-model="filtroPeriodo" ng-change="addFilterPeriodo()">
-            <option style="display:none" value="">
-                Seleccionar periodo
-            </option>
-            <option ng-repeat="periodo in periodos" value="{{periodo.descripcion}}">
-                {{periodo.descripcion}}
-            </option>
-        </select>
-    </div>
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
-        <select class="form-control" ng-model="filtroLicenciatura" ng-change="addFilterLicenciatura()"> 
-            <option style="display:none" value="">
-                Seleccionar programa 
-            </option>
-            <option ng-repeat="licenciatura in licenciaturas" value="{{licenciatura.nombre}}">
-                {{licenciatura.nombre}}
-            </option>
-        </select>
+    <div style="display: flex;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+        <div style="width: 50%;">
+            <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
+                <select class="form-control" ng-model="selectedCampus"
+                    ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
+                    ng-change="campusChanged()">
+                    <option style="display:none" value="">
+                        Seleccionar campus
+                    </option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
+                <select class="form-control" ng-model="selectedPosgrado" ng-change="posgradoChanged()"> 
+                    <option style="display:none" value="">
+                        Seleccionar posgrado 
+                    </option>
+                    <option ng-repeat="posgrado in posgrados" value="{{posgrado.descripcion}}">
+                        {{posgrado.descripcion}}
+                    </option>
+                </select>
+            </div>
+            
+            <div style="margin-bottom:15px;" class="col-xs-12" ng-hide="!mostrarFiltros">
+                <select class="form-control" ng-model="selectedPrograma" ng-change="programaChanged()"> 
+                    <option style="display:none" value="">
+                        Seleccionar programa 
+                    </option>
+                    <option ng-repeat="programa in programas" value="{{programa.nombre}}">
+                        {{programa.nombre}}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div style="width: 50%;">
+            <div style="margin-bottom:15px;" class="col-xs-12">
+                <select class="form-control" ng-model="selectedPeriodo" ng-change="periodoChanged()">
+                    <option style="display:none" value="">
+                        Seleccionar período
+                    </option>
+                    <option ng-repeat="periodo in periodos" value="{{periodo.descripcion}}">
+                        {{periodo.descripcion}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
 
     <div style="margin-bottom:15px;" class="col-xs-offset-9 col-xs-3" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">

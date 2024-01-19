@@ -2110,9 +2110,9 @@ class CatalogosDAO {
 					throw new Exception("El campo \"Clave\" no debe ir vacío.");
 				} else if (object.nombre == null || object.nombre.isEmpty()) {
 					throw new Exception("El campo \"nombre\" no debe ir vacío.");
-				} else if (object.descripcion == null || object.descripcion.isEmpty()) {
+				}/* else if (object.descripcion == null || object.descripcion.isEmpty()) {
 					throw new Exception("El campo \"descripcion\" no debe ir vacío.");
-				} else if (object.enlace == null || object.enlace.isEmpty()) {
+				}*/ else if (object.enlace == null || object.enlace.isEmpty()) {
 					throw new Exception("El campo \"enlace\" no debe ir vacío.");
 				} else if (object.tipoCentroEstudio == null || object.tipoCentroEstudio.isEmpty()) {
 					throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío.");
@@ -2339,9 +2339,9 @@ class CatalogosDAO {
 				throw new Exception("El campo \"clave\" no debe ir vacío");
 			} else if(object.nombre.equals("") || object.nombre == null) {
 				throw new Exception("El campo \"nombre\" no debe ir vacío");
-			} else if(object.descripcion.equals("") || object.descripcion == null) {
+			} /*else if(object.descripcion.equals("") || object.descripcion == null) {
 				throw new Exception("El campo \"descripcion\" no debe ir vacío");
-			} else if(object.enlace.equals("") || object.enlace == null) {
+			}*/ else if(object.enlace.equals("") || object.enlace == null) {
 				throw new Exception("El campo \"enlace\" no debe ir vacío");
 			} else if(object.tipoCentroEstudio.equals("") || object.tipo_centro_estudio == null) {
 				throw new Exception("El campo \"tipoCentroEstudio\" no debe ir vacío");

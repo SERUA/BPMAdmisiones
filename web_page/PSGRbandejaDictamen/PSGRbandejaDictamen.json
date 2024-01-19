@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRbandejaDictamen",
   "name" : "PSGRbandejaDictamen",
-  "lastUpdate" : 1704933000764,
+  "lastUpdate" : 1705626848899,
   "rows" : [
     [
       {
@@ -311,6 +311,34 @@
                               "type" : "constant",
                               "value" : false
                             },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltros"
+                            }
+                          },
+                          "reference" : "3fd73d47-e522-42c4-9b9e-3de05dd5e234",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
                             "allowHTML" : {
                               "type" : "constant",
                               "value" : true
@@ -452,6 +480,34 @@
                               "type" : "constant",
                               "value" : false
                             },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltrosAdmitidas"
+                            }
+                          },
+                          "reference" : "c0500da1-6377-4b41-9a7d-160c5ed2c85b",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
                             "allowHTML" : {
                               "type" : "constant",
                               "value" : true
@@ -572,6 +628,34 @@
                     "hasValidationError" : false,
                     "id" : "pbContainer",
                     "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltrosNoAdmitidas"
+                            }
+                          },
+                          "reference" : "5813d70c-2a69-435f-aecc-1cb7ecd7195f",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
+                        }
+                      ],
                       [
                         {
                           "type" : "component",
@@ -750,7 +834,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "En esta bandeja se muestran solamente las solicitudes que fueron <b>archivadas en dictamen</b>."
+                              "value" : "<br>En esta bandeja se muestran solamente las solicitudes que fueron <b>archivadas en dictamen</b>."
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -760,6 +844,34 @@
                           "reference" : "bb172f9d-bcd9-43de-bdbe-48fddf5c6710",
                           "hasValidationError" : false,
                           "id" : "pbText"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "content" : {
+                              "type" : "variable",
+                              "value" : "lstFiltrosArchivadas"
+                            }
+                          },
+                          "reference" : "65cd8586-8f81-4e3c-be24-a0524559f1e0",
+                          "hasValidationError" : false,
+                          "id" : "customSDAElistFiltrosBloqueoCampus"
                         }
                       ],
                       [
@@ -944,13 +1056,9 @@
     "lstCatCampus" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.catalogos.CatCampus?q=getCatCampus&p=0&c=1000"
+        "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&f=eliminado=false&p=0&c=1000"
       ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
+      "advancedOptions" : { },
       "exposed" : false
     },
     "dataToSendCorregidas" : {
@@ -1130,6 +1238,27 @@
       "type" : "json",
       "value" : [
         "{}"
+      ],
+      "exposed" : false
+    },
+    "lstFiltrosAdmitidas" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "lstFiltrosNoAdmitidas" : {
+      "type" : "json",
+      "value" : [
+        "[]"
+      ],
+      "exposed" : false
+    },
+    "lstFiltrosArchivadas" : {
+      "type" : "json",
+      "value" : [
+        "[]"
       ],
       "exposed" : false
     }

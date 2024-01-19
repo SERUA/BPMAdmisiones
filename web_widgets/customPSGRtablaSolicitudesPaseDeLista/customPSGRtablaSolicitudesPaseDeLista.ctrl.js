@@ -69,7 +69,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
 
     $scope.posgradoChanged = function() {
-        debugger
         if ($scope.selectedPosgrado === "") {
             filterListRemove("POSGRADO");
 

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1704736080178,
+  "lastUpdate" : 1705621805912,
   "rows" : [
     [
       {
@@ -19042,6 +19042,15 @@
         "    return \"No definido\";",
         "if ($data.archievedCase[0])",
         "return \"Admitido\";"
+      ],
+      "exposed" : false
+    },
+    "setDefaultPagina" : {
+      "type" : "expression",
+      "value" : [
+        "if (!$data.pagina) {",
+        "    $data.pagina = \"solicitud\";",
+        "}"
       ],
       "exposed" : false
     }
