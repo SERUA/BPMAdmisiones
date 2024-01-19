@@ -75,6 +75,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if(!$scope.properties.valueToAdd.telefono_empresa){
             mensaje = "El campo 'Teléfono de la empresa' no debe ir vacío";
             valido = false;
+        } else if($scope.properties.valueToAdd.telefono_empresa.length < 10 || $scope.properties.valueToAdd.telefono_empresa.length > 14){
+            mensaje = "El campo 'Teléfono de la empresa' debe tener una logitud de 10 a 14 caracteres";
+            valido = false;
         } else if(!$scope.properties.valueToAdd.reporta_a_puesto){
             mensaje = "El campo 'Reporta a' no debe ir vacío";
             valido = false;

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1703639351428,
+  "lastUpdate" : 1705681290071,
   "rows" : [
     [
       {
@@ -34,58 +34,6 @@
         "reference" : "7d0659f6-3f5e-4590-8da0-34af6366b782",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "task\n<pre>{{task | json}}</pre>\n\ntaskId\t\n<pre>{{taskId}}</pre>\n\ntaskState\n<pre>{{taskState}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "d166080f-03a4-4f37-8824-0001666fef6b",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -19789,7 +19737,7 @@
       "value" : [
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"correo\": $data.registro.correo_electronico,",
         "    \"codigo\": \"psgr-solicitud-admitida\",",
         "    //\"mensaje\": $data.dictamenFormInput.comentarioAdmision,",
         "    \"isEnviar\": false",
@@ -19802,7 +19750,7 @@
       "value" : [
         "return {",
         "    \"campus\": $data.datosPrograma.campus.grupo_bonita,",
-        "    \"correo\": $data.datosContacto.correo_contacto,",
+        "    \"correo\": $data.registro.correo_electronico,",
         "    \"codigo\": \"psgr-solicitud-no-admitida\",",
         "    //\"mensaje\": $data.dictamenFormInput.comentarioNoAdmision,",
         "    \"isEnviar\": false",
