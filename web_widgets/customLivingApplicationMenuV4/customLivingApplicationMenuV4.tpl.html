@@ -2,22 +2,26 @@
     <!--<img src="assets/img/Posgrado Naranja@2x.png" style="position: absolute;width: auto;height: auto;max-width: 80%;margin: 10%;background: #15243c;">-->
     
     <div style="position: absolute; height: auto; padding: 5%; background: #15243c; text-align: center;">
-        <img src="assets/img/Posgrado Naranja@2x.png" style="max-width: 80%;"><br>
-        <button ng-click="showModal()" type="button" class="btn btn-link ng-binding" style="font-size: 1.5rem;">{{ properties.username }}</button>
+        <img src="assets/img/Posgrado Naranja@2x.png" style="max-width: 80%;">
+        <hr style="margin:10px;">
+        <button ng-click="showModal()" type="button" class="btn btn-link ng-binding" style="font-size: 1.5rem;">
+            {{ properties.username }}&nbsp; 
+            <span style="background: #ff5900; width: 30px; height: 15px;" class="glyphicon glyphicon-option-horizontal btn-nombre "></span>
+        </button>
     </div>
     
     <img src="assets/img/semicirculo_no_margen.png" style="position: absolute; width: auto; height: auto; max-width: 95%; max-height: 100%; top: 50%; transform: translateY(-50%);">
     <div class="container-fluid">
         
     </div>
-    
-    <div class="menu-item menu-items-1" ng-class="{'menu-item-selected': properties.pagina === 'solicitud'}" ng-click="redirect('solicitud')">
+     
+    <div data-tooltip="Solicitud de admisión" class="menu-item menu-items-1" ng-class="{'menu-item-selected': properties.pagina === 'solicitud'}" ng-click="redirect('solicitud')">
         <img src="assets/img/Insumos MENU-23.png" class="menu-icon-img">
     </div>
-    <div class="menu-item menu-items-2" ng-class="{'menu-item-selected': properties.pagina === 'cita'}" ng-click="redirect('cita')">
+    <div data-tooltip="Cita de entrevista" class="menu-item menu-items-2" ng-class="{'menu-item-selected': properties.pagina === 'cita'}" ng-click="redirect('cita')">
         <img src="assets/img/Insumos MENU-24.png" class="menu-icon-img">
     </div>
-    <div class="menu-item menu-items-3" ng-class="{'menu-item-selected': properties.pagina === 'dictamen'}" ng-click="redirect('dictamen')">
-        <img src="assets/img/Insumos MENU-25.png" class="menu-icon-img">
+    <div data-tooltip="Resultado de admisión" class="menu-item menu-items-3" ng-class="{'menu-item-selected': properties.pagina === 'dictamen'}" ng-click="redirect('dictamen')">
+        <img  src="assets/img/Insumos MENU-25.png" class="menu-icon-img">
     </div>
 </div>

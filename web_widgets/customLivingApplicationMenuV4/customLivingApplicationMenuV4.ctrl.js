@@ -3,7 +3,6 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     
     $scope.redirect = function(_url){
         let url = "";
-        debugger;
         if(_url === "solicitud" && $scope.properties.estatus){
             $scope.properties.targetUrl = "../../../portal/resource/app/pg_aspirante/pg_ver_solicitud/content/?caseId=" + $scope.properties.caseid + "&pagina=solicitud";
             $scope.properties.pagina = "solicitud";
