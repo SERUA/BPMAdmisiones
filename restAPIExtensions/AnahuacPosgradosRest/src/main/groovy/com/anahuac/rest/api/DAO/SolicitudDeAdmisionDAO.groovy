@@ -1695,4 +1695,35 @@ class SolicitudDeAdmisionDAO {
 		
 		return resultado;
 	}
+	
+	public Result updateEstatsSolicitudByCaseid(Long caseid, String estatus) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.UPDATE_ESTATUS_BY_CASEID);
+			pstm.setLong(1, caseid);
+			pstm.setString(2, estatus);
+			
+			if (pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el estatus. Intente de nuevo mas tarde");
+			}
+			
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[updateEstatsSolicitudByCaseid] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
 }
