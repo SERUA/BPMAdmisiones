@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.46",
   "id" : "PSGRBackLayout",
   "name" : "PSGRBackLayout",
-  "lastUpdate" : 1705948234446,
+  "lastUpdate" : 1705961645412,
   "rows" : [
     [
       {
@@ -76,8 +76,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "!authenticated"
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -687,13 +687,49 @@
                       ]
                     ]
                   }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : "remove-padding-and-margin footer-fixed"
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "value" : {
+                        "type" : "constant",
+                        "value" : "This is the initial value"
+                      },
+                      "color" : {
+                        "type" : "constant",
+                        "value" : "RebeccaPurple"
+                      },
+                      "background" : {
+                        "type" : "constant",
+                        "value" : "Yellow"
+                      }
+                    },
+                    "reference" : "5e86dd5c-37d1-4b19-b45d-b51bdb44bf22",
+                    "hasValidationError" : false,
+                    "id" : "customCustomFooterBack"
+                  }
                 ]
               ]
             }
           ],
           [
             {
-              "type" : "component",
+              "type" : "container",
               "dimension" : {
                 "xs" : 12,
                 "sm" : 12,
@@ -703,28 +739,74 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "remove-padding-and-margin footer-fixed"
+                  "value" : ""
                 },
                 "hidden" : {
-                  "type" : "constant",
-                  "value" : false
+                  "type" : "expression",
+                  "value" : "authenticated"
                 },
-                "value" : {
-                  "type" : "constant",
-                  "value" : "This is the initial value"
-                },
-                "color" : {
-                  "type" : "constant",
-                  "value" : "RebeccaPurple"
-                },
-                "background" : {
-                  "type" : "constant",
-                  "value" : "Yellow"
+                "repeatedCollection" : {
+                  "type" : "variable",
+                  "value" : ""
                 }
               },
-              "reference" : "5e86dd5c-37d1-4b19-b45d-b51bdb44bf22",
+              "reference" : "88b00430-987e-497b-a024-259fe4df8d0e",
               "hasValidationError" : false,
-              "id" : "customCustomFooterBack"
+              "id" : "pbContainer",
+              "rows" : [
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "expression",
+                        "value" : "authStatus !== \"not authenticated\""
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br>No tienes permisos para ingresar a esta aplicación."
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "center"
+                      }
+                    },
+                    "reference" : "ccb6ce8e-100d-43a9-973d-1c2f2e47e914",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
+              ]
             }
           ]
         ]
@@ -2710,11 +2792,19 @@
         "            break;",
         "            ",
         "        case \"not authenticated\":",
-        "            logout();",
+        "            swal({",
+        "              title: \"Usuario no valido\",",
+        "              text: \"No tienes permisos para ingresar.\",",
+        "              icon: \"info\",",
+        "              timer: 3000,",
+        "              button: false",
+        "            })",
+        "            .then(() => {",
+        "                logout();    ",
+        "            });",
         "            break;",
         "            ",
         "        case \"pending\":",
-        "            // No mostrar contenido en la página mientras la autentificación esta pendiente...",
         "            break;",
         "    }",
         "}",

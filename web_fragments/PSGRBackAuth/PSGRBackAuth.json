@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRBackAuth",
   "name" : "PSGRBackAuth",
-  "lastUpdate" : 1705945720037,
+  "lastUpdate" : 1705961831171,
   "rows" : [
     [
       {
@@ -78,14 +78,16 @@
     "roles" : {
       "type" : "expression",
       "value" : [
-        "// Obteniendo los nombre de los roles del usuario",
-        "const roleNames = $data.memberships.map(mem => mem.role_id.name);",
-        "",
-        "// Obteniendo la lista de roles sin repetir",
-        "const nonRepeatedRoles = [...new Set(roleNames)];",
-        "",
-        "// Retornar roles",
-        "return nonRepeatedRoles;"
+        "if ($data.memberships) {",
+        "    // Obteniendo los nombre de los roles del usuario",
+        "    const roleNames = $data.memberships.map(mem => mem.role_id.name);",
+        "    ",
+        "    // Obteniendo la lista de roles sin repetir",
+        "    const nonRepeatedRoles = [...new Set(roleNames)];",
+        "    ",
+        "    // Retornar roles",
+        "    return nonRepeatedRoles;    ",
+        "}"
       ],
       "exposed" : false
     },
@@ -99,7 +101,7 @@
     "authorizedRoles" : {
       "type" : "expression",
       "value" : [
-        "return [\"Admisiones PSG\", \"Comite PSG\", \"TI campus PSG\", \"SERUA PSG\", \"Chat PSG\"];"
+        "return [\"Admisiones PSG\", \"Comite PSG\", \"TI campus PSG\", \"SERUA PSG\", \"Chat PSG\", \"ADMINISTRADOR\"];"
       ],
       "exposed" : false
     },
