@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.46",
   "id" : "PSGRBackLayout",
   "name" : "PSGRBackLayout",
-  "lastUpdate" : 1705084329000,
+  "lastUpdate" : 1705948234446,
   "rows" : [
     [
       {
@@ -32,6 +32,35 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "fragment",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : false
+                }
+              },
+              "reference" : "39120c10-049e-4a23-88e0-2c96f2992063",
+              "hasValidationError" : false,
+              "id" : "PSGRBackAuth",
+              "binding" : {
+                "session" : "session",
+                "authenticated" : "authenticated",
+                "authStatus" : "authStatus"
+              }
+            }
+          ],
           [
             {
               "type" : "container",
@@ -2659,6 +2688,62 @@
     },
     "ejecuto" : {
       "type" : "constant",
+      "exposed" : false
+    },
+    "authenticated" : {
+      "type" : "expression",
+      "value" : [
+        "return false;"
+      ],
+      "exposed" : false
+    },
+    "authStatus" : {
+      "type" : "constant",
+      "exposed" : false
+    },
+    "authentication" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.authStatus)  {",
+        "    switch ($data.authStatus) {",
+        "        case \"authenticated\":",
+        "            break;",
+        "            ",
+        "        case \"not authenticated\":",
+        "            logout();",
+        "            break;",
+        "            ",
+        "        case \"pending\":",
+        "            // No mostrar contenido en la página mientras la autentificación esta pendiente...",
+        "            break;",
+        "    }",
+        "}",
+        "",
+        "function logout() {",
+        "    // Deslogear",
+        "    try {",
+        "        if ($data.logoutURL) {",
+        "            fetch($data.logoutURL, {method: \"POST\", redirect: \"manual\"})",
+        "            .then((res) => {",
+        "                if (res.ok) {",
+        "                    console.log(\"Deslogeado correctamente.\")",
+        "                }",
+        "            })",
+        "            .catch((error) => {",
+        "                console.log(\"Error durante la petición de logout. \" + error)",
+        "            })",
+        "        }",
+        "    }",
+        "    catch (e) {",
+        "        console.log(\"Error en la funcion logout. \" + e.message)",
+        "    }",
+        "    finally {",
+        "        // Redirección",
+        "        const loginPageURL = \"/bonita/apps/login/admin_posgrados/\";",
+        "        window.location.href = window.location.origin + loginPageURL;",
+        "    }",
+        "}"
+      ],
       "exposed" : false
     }
   },

@@ -1,0 +1,140 @@
+{
+  "modelVersion" : "2.2",
+  "id" : "PSGRBackAuth",
+  "name" : "PSGRBackAuth",
+  "lastUpdate" : 1705945720037,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Autentificación de usuarios administrativos de posgrado."
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "a6ca74b5-ac9d-4b30-bc74-06761cf9783f",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ]
+  ],
+  "assets" : [ ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "session" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "memberships" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/membership?p=0&c=100&f=user_id%3d{{session.user_id}}&d=role_id&d=group_id"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "roles" : {
+      "type" : "expression",
+      "value" : [
+        "// Obteniendo los nombre de los roles del usuario",
+        "const roleNames = $data.memberships.map(mem => mem.role_id.name);",
+        "",
+        "// Obteniendo la lista de roles sin repetir",
+        "const nonRepeatedRoles = [...new Set(roleNames)];",
+        "",
+        "// Retornar roles",
+        "return nonRepeatedRoles;"
+      ],
+      "exposed" : false
+    },
+    "authenticated" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    },
+    "authorizedRoles" : {
+      "type" : "expression",
+      "value" : [
+        "return [\"Admisiones PSG\", \"Comite PSG\", \"TI campus PSG\", \"SERUA PSG\", \"Chat PSG\"];"
+      ],
+      "exposed" : false
+    },
+    "authenticateUser" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.session && $data.roles && $data.authorizedRoles) {",
+        "    for (let rol of $data.roles) {",
+        "        if ($data.authorizedRoles.includes(rol)) {",
+        "            // Autentificado",
+        "            $data.authStatus = \"authenticated\";",
+        "            $data.authenticated = true;",
+        "            return;",
+        "        }",
+        "    }",
+        "    // No autentificado",
+        "    $data.authStatus = \"not authenticated\";",
+        "    $data.authenticated = false;",
+        "}",
+        "else {",
+        "    // No definido",
+        "    $data.authStatus = \"pending\";",
+        "    $data.authenticated = false;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "authStatus" : {
+      "type" : "constant",
+      "value" : [
+        ""
+      ],
+      "exposed" : true
+    }
+  },
+  "hasValidationError" : false,
+  "type" : "fragment"
+}
