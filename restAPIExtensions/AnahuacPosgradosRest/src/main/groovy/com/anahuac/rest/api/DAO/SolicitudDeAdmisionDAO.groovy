@@ -1719,6 +1719,20 @@ class SolicitudDeAdmisionDAO {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
 			
+			//Para no actualizar el estatus con el pase de lista cuando está en validación 
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_BY_CASEID);
+			pstm.setLong(1, caseid);
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				String estatus_actual = rs.getString("estatus_solicitud");
+				if(estatus_actual.equals("solicitud_completada") && estatus.equals("solicitud_lista_para_dictamen")) {
+					estatus = "solicitud_pase_lista_esperando_validacion";
+				}
+			} else {
+				throw new Exception("No se ha encontrado la solicitud. Intente d enuevo mas tarde.");
+			}
+			
 			pstm = con.prepareStatement(Statements.UPDATE_ESTATUS_BY_CASEID);
 			pstm.setString(1, estatus);
 			pstm.setLong(2, caseid);

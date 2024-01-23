@@ -31,7 +31,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     function addCaseComment() {
-        debugger;
         const dataToSend = {
             content: JSON.stringify($scope.properties.caseUserCommentToSend),
             processInstanceId: $scope.properties.caseId,
@@ -164,7 +163,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function pasarLista() {
         vm.busy = true;
         let url = $scope.properties.urlPasarLista.replace("[ASISTIO]", !$scope.properties.showNonComplianceMessage).replace("[CASEID]", $scope.properties.caseId);
-        debugger;
 
         var req = {
             method: 'POST',
@@ -173,11 +171,10 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
         .success(()=>{
-            addCaseComment();
-            // actualizarEstatus();
+            actualizarEstatus();
         })
-        .error(()=>{
-
+        .error((err)=>{
+            swal("¡Algo ha fallado!", err.error, "error");
         })
         .finally(function () {
             vm.busy = false;
@@ -186,7 +183,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function actualizarEstatus() {
         vm.busy = true;
-        let url = $scope.properties.urlActualizarEstatus.replace("[CASEID]", $scope.properties.caseId).replace("[ESTATUS]", "estatus_nuevo"); 
+        let url = $scope.properties.urlActualizarEstatus.replace("[CASEID]", $scope.properties.caseId).replace("[ESTATUS]", "solicitud_lista_para_dictamen"); 
 
         var req = {
             method: 'POST',
@@ -195,13 +192,14 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
         return $http(req)
         .success(()=>{
-            
+            console.log("Estatus actualizado");
         })
         .error(()=>{
-            
+            console.log("Estatus no actualizado");
         })
         .finally(function () {
             vm.busy = false;
+            addCaseComment();
         });
     }
 
