@@ -2,6 +2,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     this.isArray = Array.isArray;
   
+    $scope.lstCampus = [];
+  
+    // Campus mostrados (resultado del match entre la lista del catalogo de campus y los campus disponibles para el usuarios)
+    $scope.campusDisponibles = [];
+    
+    // Valor del input select
+    $scope.selectedCampus = "";
+
+    // Valor seleccionado
+    $scope.properties.campusSeleccionado = null;
+  
+    // Forzar a actualizar la lstCampus
+    getCatCampus();
+  
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
     };
@@ -42,6 +56,95 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             });
     }
   
+    // Utils
+
+    function getCatCampus() {
+        var req = {
+            method: "GET",
+            url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&f=eliminado=false&p=0&c=1000"
+        };
+  
+        return $http(req)
+            .success(function(data, status) {
+                $scope.lstCampus = data;
+            })
+            .error(function(data, status) {
+                console.error(data);
+            });
+    }
+
+    function lstFiltrosChanged() {
+        if ($scope.properties.dataToSend.lstFiltro) {
+            const filterList = $scope.properties.dataToSend.lstFiltro;
+            // Eliminar filtros
+            if ($scope.selectedCampus && $scope.selectedCampus !== "Todos los campus" && !filterList.find(item => item.columna === "CAMPUS")) {
+                // Limpiar filtro campus
+                $scope.selectedCampus = "";
+                $scope.campusSeleccionado = null;
+
+                //filterListRemove("POSGRADOS");
+                //$scope.posgrados = [];
+            }
+            /*else if ($scope.selectedPosgrado && !filterList.find(item => item.columna === "POSGRADO")) {
+                // Limpiar filtro posgrado
+                $scope.selectedPosgrado = "";
+                $scope.posgradoSeleccionado = null;
+                
+                filterListRemove("PROGRAMA");
+                $scope.programas = [];
+            } 
+            else if ($scope.selectedPrograma && !filterList.find(item => item.columna === "PROGRAMA")) {
+                // Limpiar filtro programa
+                $scope.selectedPrograma = "";
+                $scope.programaSeleccionado = null;
+            }*/
+            
+            if ($scope.selectedPeriodo && !filterList.find(item => item.columna === "PERIODO")) {
+                $scope.selectedPeriodo = "";
+                $scope.periodoSeleccionado = null;
+            }
+        }
+    }
+
+    function updateCampusDisponibles() {
+        const campusDisponibles = [];
+        
+        if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
+            
+            for (let catCampus of $scope.lstCampus) {
+                if ($scope.lstCampusByUser.find(grupo_bonita => catCampus.grupo_bonita === grupo_bonita)) {
+                    campusDisponibles.push(catCampus);
+                }
+            }
+        }
+
+        $scope.campusDisponibles = campusDisponibles;
+    }
+
+    // Watchers
+
+    $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
+        
+        // Actualizar lista de filtros
+        lstFiltrosChanged();
+
+        if (newValue !== undefined) {
+            if ($scope.properties.campusSeleccionado !== undefined) {
+                doRequest("POST", $scope.properties.urlPost);
+            }
+        }
+    });
+
+    $scope.$watch("lstCampus", function(newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    $scope.$watch("lstCampusByUser", function(newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    // -------------------------------------------
+
     $scope.verSolicitud = function(rowData) {
           var req = {
             method: "GET",
@@ -391,7 +494,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         debugger;
         var resultado = [];
         // var isSerua = true;
-        resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;
@@ -559,6 +661,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         doRequest("POST", $scope.properties.urlPost);
     }
   
+    /*
     $scope.getCatCampus = function() {
         var req = {
             method: "GET",
@@ -578,7 +681,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             .error(function(data, status) {
                 console.error(data);
             });
-    }
+    }*/
     
     $scope.isPeriodoVencido = function(periodofin) {
         var fecha = new Date(periodofin.slice(0, 10))
@@ -589,9 +692,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
         window.open(url, '_blank');
     }
-  
-  
-    $scope.getCatCampus();
 
     $scope.getTareaByEstatus = function(_estatus){
         let output = "";
