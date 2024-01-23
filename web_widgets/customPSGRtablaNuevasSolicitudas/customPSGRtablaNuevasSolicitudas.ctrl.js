@@ -344,7 +344,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
   
         return $http(req).success(function(data, status) {
-                debugger;
                 rowData.taskId = data[0].id;
                 rowData.taskName = data[0].name;
                 rowData.processId = data[0].processId;

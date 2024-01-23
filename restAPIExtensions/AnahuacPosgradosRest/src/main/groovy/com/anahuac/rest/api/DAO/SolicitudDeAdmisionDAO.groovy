@@ -385,20 +385,20 @@ class SolicitudDeAdmisionDAO {
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
 						//
-							case "IDBANNER/IDBPM":
-								errorlog += "IDBANNER/IDBPM | "
-								if (where.contains("WHERE")) {
-									where += " AND "
-								} else {
-									where += " WHERE "
-								}
-								where += " ( LOWER(regi.id_banner_validacion) like lower('%[valor]%') ";
-								where = where.replace("[valor]", filtro.get("valor"))
-		
-								where += " OR LOWER(regi.caseid::VARCHAR) like lower('%[valor]%') )";
-								where = where.replace("[valor]", filtro.get("valor"))
-								
-								break;
+						case "IDBANNER/IDBPM":
+							errorlog += "IDBANNER/IDBPM | "
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							where += " ( LOWER(regi.id_banner_validacion) like lower('%[valor]%') ";
+							where = where.replace("[valor]", filtro.get("valor"))
+	
+							where += " OR LOWER(regi.caseid::VARCHAR) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							
+							break;
 						// 
 						case "POSGRADO":
 							errorlog += "POSGRADO"
