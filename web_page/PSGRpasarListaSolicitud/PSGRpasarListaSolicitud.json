@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1705973722188,
+  "lastUpdate" : 1706038564400,
   "rows" : [
     [
       {
@@ -209,7 +209,7 @@
           },
           "hidden" : {
             "type" : "expression",
-            "value" : "taskState !== 'ready'"
+            "value" : "taskState === 'completed'"
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -283,7 +283,58 @@
               "hasValidationError" : false,
               "id" : "pbContainer",
               "rows" : [
-                [ ]
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "{taskState !== 'ready'}"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "9fa6eb00-054f-4d0e-84c0-fa2536f454a4",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ]
               ]
             },
             {
@@ -17124,8 +17175,8 @@
             "value" : "bg-white"
           },
           "hidden" : {
-            "type" : "expression",
-            "value" : "taskState !== 'incorrect'"
+            "type" : "constant",
+            "value" : false
           },
           "repeatedCollection" : {
             "type" : "variable",
@@ -17136,6 +17187,58 @@
         "hasValidationError" : false,
         "id" : "pbContainer",
         "rows" : [
+          [
+            {
+              "type" : "component",
+              "dimension" : {
+                "xs" : 12,
+                "sm" : 12,
+                "md" : 12,
+                "lg" : 12
+              },
+              "propertyValues" : {
+                "cssClasses" : {
+                  "type" : "constant",
+                  "value" : ""
+                },
+                "hidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "labelHidden" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "label" : {
+                  "type" : "interpolation",
+                  "value" : "Default label"
+                },
+                "labelPosition" : {
+                  "type" : "constant",
+                  "value" : "top"
+                },
+                "labelWidth" : {
+                  "type" : "constant",
+                  "value" : 4
+                },
+                "allowHTML" : {
+                  "type" : "constant",
+                  "value" : true
+                },
+                "text" : {
+                  "type" : "interpolation",
+                  "value" : "taskState !== 'incorrect'"
+                },
+                "alignment" : {
+                  "type" : "constant",
+                  "value" : "left"
+                }
+              },
+              "reference" : "6f5ccfb9-1c83-4a70-9282-f9a8a69b7a7d",
+              "hasValidationError" : false,
+              "id" : "pbText"
+            }
+          ],
           [
             {
               "type" : "component",
@@ -18087,7 +18190,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Confirmar"
+                          "value" : "Confirmar no task"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -18153,7 +18256,7 @@
                         },
                         "taskCompleted" : {
                           "type" : "variable",
-                          "value" : ""
+                          "value" : "taskCompleted"
                         },
                         "showNonComplianceMessage" : {
                           "type" : "constant",
@@ -18164,15 +18267,24 @@
                           "value" : ""
                         },
                         "caseId" : {
-                          "type" : "constant"
+                          "type" : "expression",
+                          "value" : "caseId"
                         },
                         "caseUserCommentToSend" : {
                           "type" : "variable",
-                          "value" : ""
+                          "value" : "comentarioToSendAsistio"
                         },
                         "taskResultMessages" : {
                           "type" : "variable",
                           "value" : ""
+                        },
+                        "urlPasarLista" : {
+                          "type" : "expression",
+                          "value" : "urlPasarLista"
+                        },
+                        "urlActualizarEstatus" : {
+                          "type" : "expression",
+                          "value" : "urlUpdateEstatusSolicitudByCaseid"
                         }
                       },
                       "reference" : "db05d6eb-f378-4fca-8e97-515930b0159c",
@@ -24529,6 +24641,20 @@
       "type" : "expression",
       "value" : [
         "return [];"
+      ],
+      "exposed" : false
+    },
+    "urlUpdateEstatusSolicitudByCaseid" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/posgradosRest?url=updateEstatusSolicitudByCaseid&caseid=[CASEID]&estatus=[ESTATUS]"
+      ],
+      "exposed" : false
+    },
+    "urlPasarLista" : {
+      "type" : "constant",
+      "value" : [
+        "/API/extension/posgradosRest?url=pasarLista&asistio=[ASISTIO]&caseid=[CASEID]"
       ],
       "exposed" : false
     }
