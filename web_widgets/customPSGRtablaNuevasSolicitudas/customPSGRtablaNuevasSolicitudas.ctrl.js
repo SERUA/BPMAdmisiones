@@ -7,6 +7,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.programas = [];
     $scope.periodos = [];
 
+    // Campus mostrados (resultado del match entre la lista del catalogo de campus y los campus disponibles para el usuarios)
+    $scope.campusDisponibles = [];
+
     // Valor del input select
     $scope.selectedCampus = "";
     $scope.selectedPosgrado = "";
@@ -66,7 +69,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     // Scope functions
 
     $scope.campusChanged = function() {
-        debugger
         if ($scope.selectedCampus === "" || $scope.selectedCampus === "Todos los campus") {
             filterListRemove("CAMPUS");
 
@@ -173,14 +175,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
         return $http(req)
             .success(function(data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupo_bonita,
-                        "persistenceId": data[index].persistenceId,
-                    })
-                }
+                $scope.lstCampus = data;
             })
             .error(function(data, status) {
                 console.error(data);
@@ -266,7 +261,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         const filterList = $scope.properties.dataToSend.lstFiltro;
 
         const index = filterList.findIndex(filter => filter.columna === columna);
-        filterList.splice(index, 1);
+        if (index !== -1) filterList.splice(index, 1);
     }
 
     function lstFiltrosChanged() {
@@ -302,6 +297,21 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
     }
 
+    function updateCampusDisponibles() {
+        const campusDisponibles = [];
+        
+        if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
+            
+            for (let catCampus of $scope.lstCampus) {
+                if ($scope.lstCampusByUser.find(grupo_bonita => catCampus.grupo_bonita === grupo_bonita)) {
+                    campusDisponibles.push(catCampus);
+                }
+            }
+        }
+
+        $scope.campusDisponibles = campusDisponibles;
+    }
+
     // Watchers
 
     $scope.$watch("properties.dataToSend", function(newValue, oldValue) {
@@ -314,6 +324,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 doRequest("POST", $scope.properties.urlPost);
             }
         }
+    });
+
+    $scope.$watch("lstCampus", function(newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    $scope.$watch("lstCampusByUser", function(newValue, oldValue) {
+        updateCampusDisponibles();
     });
 
     /* --------------------------------------------------------- */
@@ -629,7 +647,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
   
     $scope.getCampusByGrupo = function(campus) {
-        var retorno = "";
+        var retorno = null;
         for (var i = 0; i < $scope.properties.lstCampus.length; i++) {
             if (campus == $scope.properties.lstCampus[i].grupo_bonita) {
                 retorno = $scope.properties.lstCampus[i].descripcion
@@ -664,10 +682,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     });
   
     $scope.lstCampusByUser = [];
+    
     $scope.campusByUser = function() {
         var resultado = [];
         // var isSerua = true;
-        resultado.push("Todos los campus")
         for (var x in $scope.lstMembership) {
             if ($scope.lstMembership[x].group_id.name.indexOf("CAMPUS") != -1) {
                 let i = 0;

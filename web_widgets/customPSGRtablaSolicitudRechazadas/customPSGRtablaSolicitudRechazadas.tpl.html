@@ -2,11 +2,15 @@
     <div style="display: flex;" class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
         <div style="width: 50%;">
             <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
-                <select class="form-control" ng-model="selectedCampus"
-                    ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
-                    ng-change="campusChanged()">
+                <select class="form-control" ng-model="selectedCampus" ng-change="campusChanged()">
                     <option style="display:none" value="">
                         Seleccionar campus
+                    </option>
+                    <option value="Todos los campus">
+                        Todos los campus
+                    </option>
+                    <option ng-repeat="campus in campusDisponibles" value="{{campus.descripcion}}">
+                        {{campus.descripcion}}
                     </option>
                 </select>
             </div>

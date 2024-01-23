@@ -6,6 +6,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.posgrados = [];
     $scope.programas = [];
     $scope.periodos = [];
+    
+    // Campus mostrados (resultado del match entre la lista del catalogo de campus y los campus disponibles para el usuarios)
+    $scope.campusDisponibles = [];
 
     // Valor del input select
     $scope.selectedCampus = "";
@@ -169,14 +172,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
         return $http(req)
             .success(function(data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupo_bonita,
-                        "persistenceId": data[index].persistenceId,
-                    })
-                }
+                $scope.lstCampus = data;
             })
             .error(function(data, status) {
                 console.error(data);
@@ -262,7 +258,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         const filterList = $scope.properties.dataToSend.lstFiltro;
 
         const index = filterList.findIndex(filter => filter.columna === columna);
-        filterList.splice(index, 1);
+        if (index !== -1) filterList.splice(index, 1);
     }
 
     function lstFiltrosChanged() {
@@ -297,6 +293,21 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
         }
     }
+    
+    function updateCampusDisponibles() {
+        const campusDisponibles = [];
+        
+        if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
+            
+            for (let catCampus of $scope.lstCampus) {
+                if ($scope.lstCampusByUser.find(grupo_bonita => catCampus.grupo_bonita === grupo_bonita)) {
+                    campusDisponibles.push(catCampus);
+                }
+            }
+        }
+
+        $scope.campusDisponibles = campusDisponibles;
+    }
 
     // Watchers
 
@@ -310,6 +321,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 doRequest("POST", $scope.properties.urlPost);
             }
         }
+    });
+    
+    $scope.$watch("lstCampus", function(newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    $scope.$watch("lstCampusByUser", function(newValue, oldValue) {
+        updateCampusDisponibles();
     });
 
     /* --------------------------------------------------------- */
