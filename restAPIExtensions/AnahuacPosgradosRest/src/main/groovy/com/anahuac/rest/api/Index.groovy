@@ -1135,6 +1135,16 @@ class Index implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
+				case "updateEstatusSolicitudByCaseid":
+					String estatus = request.getParameter "estatus"
+					String caseid = request.getParameter "caseid"
+					result = new SolicitudDeAdmisionDAO().updateEstatusSolicitudByCaseid(Long.valueOf(caseid), estatus);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;	
 				case "getExcelFileBandejaMaestra":
 					result = new DocumentosTextosDAO().getExcelFileBandejaMaestra(jsonData, context);
 					if (result.isSuccess()) {
