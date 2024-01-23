@@ -199,6 +199,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         })
         .finally(function () {
             vm.busy = false;
+            closeModal($scope.properties.closeOnSuccess);
+            $scope.properties.taskCompleted = true;
             addCaseComment();
         });
     }
