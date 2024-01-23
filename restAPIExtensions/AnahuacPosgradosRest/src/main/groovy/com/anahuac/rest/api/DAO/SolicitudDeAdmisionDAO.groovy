@@ -1723,9 +1723,7 @@ class SolicitudDeAdmisionDAO {
 			pstm.setString(1, estatus);
 			pstm.setLong(2, caseid);
 			
-			if (pstm.executeUpdate() < 1) {
-				throw new Exception("No se ha podido actualizar el estatus. Intente de nuevo mas tarde");
-			}
+			pstm.executeUpdate();
 			
 			con.commit();
 			resultado.setSuccess(true);
