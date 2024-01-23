@@ -64,7 +64,7 @@
             <thead>
                 <tr>
                     <th>Foto</th>
-                    <th><span style="cursor:pointer" ng-click="setOrderBy('EXPEDIENTE')">Expediente<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EXPEDIENTE'"></i></span></th>
+                    <th><span style="cursor:pointer" ng-click="setOrderBy('IDBANNER/IDBPM')">ID Banner / ID BPM<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='IDBPM'"></i></span></th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('NOMBRE')">Nombre<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NOMBRE'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('EMAIL')">Email<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='EMAIL'"></i></span> / <span style="cursor:pointer" ng-click="setOrderBy('CURP')">CURP<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CURP'"></i></span> </th>
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
     
@@ -81,7 +81,7 @@
             <tbody>
                 <tr>
                     <td></td>
-                    <td><input ng-model="dynamicInput['solicitud']" class="form-control" ng-enter="filterKeyPress('# EXPEDIENTE',dynamicInput['solicitud'])"></td>
+                    <td><input ng-model="dynamicInput['solicitud']" class="form-control" ng-enter="filterKeyPress('IDBANNER/IDBPM',dynamicInput['solicitud'])"></td>
                     <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
                     <td><input ng-model="dynamicInput['procedencia']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PROMEDIO',dynamicInput['procedencia'])"></td>
@@ -100,7 +100,10 @@
                     <td>
                         <img ng-src="{{row.fotografiab64}}" style="width: 64px;">
                     </td>
-                        <td>{{row.caseid}}</td>
+                    <td>
+                        <b>{{row.id_banner_validacion ? row.id_banner_validacion : "N/A"}}</b><br>
+                        {{row.caseid}}
+                    </td>
                     <td>
                        <b>{{row.apellido_paterno}} {{row.apellido_materno}} {{row.nombre}} </b><br>
                        {{row.correo_electronico}}<br>
