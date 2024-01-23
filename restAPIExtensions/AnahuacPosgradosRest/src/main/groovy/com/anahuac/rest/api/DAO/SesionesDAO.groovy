@@ -995,4 +995,36 @@ class SesionesDAO {
 		}
 		return resultado
 	}
+	
+	public Result pasarLista(Long caseid, Boolean asistio) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		List<String> data = new ArrayList<String>();
+		
+		try {
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.UPDATE_PASE_LISTA_ASISTENCIA);
+			pstm.setBoolean(1, asistio);
+			pstm.setLong(2, caseid);
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el pase de lista.");
+			}
+			
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }
