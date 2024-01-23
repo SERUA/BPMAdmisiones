@@ -1705,8 +1705,8 @@ class SolicitudDeAdmisionDAO {
 			con.setAutoCommit(false);
 			
 			pstm = con.prepareStatement(Statements.UPDATE_ESTATUS_BY_CASEID);
-			pstm.setLong(1, caseid);
-			pstm.setString(2, estatus);
+			pstm.setString(1, estatus);
+			pstm.setLong(2, caseid);
 			
 			if (pstm.executeUpdate() < 1) {
 				throw new Exception("No se ha podido actualizar el estatus. Intente de nuevo mas tarde");
