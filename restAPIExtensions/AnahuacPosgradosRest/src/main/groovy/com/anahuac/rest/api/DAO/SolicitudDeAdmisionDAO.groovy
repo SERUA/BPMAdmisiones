@@ -1696,7 +1696,7 @@ class SolicitudDeAdmisionDAO {
 		return resultado;
 	}
 	
-	public Result updateEstatsSolicitudByCaseid(Long caseid, String estatus) {
+	public Result updateEstatusSolicitudByCaseid(Long caseid, String estatus) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		
@@ -1716,7 +1716,7 @@ class SolicitudDeAdmisionDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[updateEstatsSolicitudByCaseid] " + e.getMessage());
+			resultado.setError("[updateEstatusSolicitudByCaseid] " + e.getMessage());
 			if (!con.autoCommit) con.rollback();
 		} finally {
 			if (closeCon) {

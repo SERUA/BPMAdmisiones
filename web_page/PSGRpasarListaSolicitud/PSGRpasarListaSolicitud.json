@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1705969057886,
+  "lastUpdate" : 1705973722188,
   "rows" : [
     [
       {
@@ -18038,10 +18038,10 @@
                 "id" : "pbButton"
               },
               {
-                "type" : "component",
+                "type" : "container",
                 "dimension" : {
-                  "xs" : 6,
-                  "sm" : 6,
+                  "xs" : 12,
+                  "sm" : 12,
                   "md" : 6,
                   "lg" : 6
                 },
@@ -18054,108 +18054,255 @@
                     "type" : "constant",
                     "value" : false
                   },
-                  "disabled" : {
-                    "type" : "constant",
-                    "value" : false
-                  },
-                  "label" : {
-                    "type" : "interpolation",
-                    "value" : "Confirmar"
-                  },
-                  "alignment" : {
-                    "type" : "constant",
-                    "value" : "right"
-                  },
-                  "buttonStyle" : {
-                    "type" : "constant",
-                    "value" : "primary"
-                  },
-                  "action" : {
-                    "type" : "constant",
-                    "value" : "Submit task"
-                  },
-                  "assign" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "url" : {
-                    "type" : "interpolation"
-                  },
-                  "responseStatusCode" : {
+                  "repeatedCollection" : {
                     "type" : "variable",
                     "value" : ""
-                  },
-                  "dataToSend" : {
-                    "type" : "expression",
-                    "value" : "entrevistaFormOutputAsistio"
-                  },
-                  "dataFromSuccess" : {
-                    "type" : "variable",
-                    "value" : ""
-                  },
-                  "closeOnSuccess" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "dataFromError" : {
-                    "type" : "variable",
-                    "value" : ""
-                  },
-                  "targetUrlOnSuccess" : {
-                    "type" : "interpolation"
-                  },
-                  "collectionToModify" : {
-                    "type" : "variable"
-                  },
-                  "modalId" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "collectionPosition" : {
-                    "type" : "constant",
-                    "value" : "Last"
-                  },
-                  "valueToAdd" : {
-                    "type" : "constant"
-                  },
-                  "removeItem" : {
-                    "type" : "variable"
-                  },
-                  "taskId" : {
-                    "type" : "expression",
-                    "value" : "taskId"
-                  },
-                  "taskCompleted" : {
-                    "type" : "variable",
-                    "value" : "taskCompleted"
-                  },
-                  "showNonComplianceMessage" : {
-                    "type" : "constant",
-                    "value" : false
-                  },
-                  "nonComplianceMessage" : {
-                    "type" : "variable",
-                    "value" : ""
-                  },
-                  "casiId" : {
-                    "type" : "constant"
-                  },
-                  "caseUserCommentToSend" : {
-                    "type" : "variable",
-                    "value" : "comentarioToSendAsistio"
-                  },
-                  "caseId" : {
-                    "type" : "expression",
-                    "value" : "caseId"
-                  },
-                  "taskResultMessages" : {
-                    "type" : "variable",
-                    "value" : "taskResultMessages"
                   }
                 },
-                "reference" : "886a032f-51f7-4012-a6b7-3935f60652d8",
+                "reference" : "ce13ee6e-9e04-4ab2-9a58-f2c33078a416",
                 "hasValidationError" : false,
-                "id" : "customPSGRButtonPaseDeListaTask"
+                "id" : "pbContainer",
+                "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Confirmar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "POST"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "entrevistaFormOutputAsistio"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "taskId" : {
+                          "type" : "constant"
+                        },
+                        "taskCompleted" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "showNonComplianceMessage" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "nonComplianceMessage" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "caseId" : {
+                          "type" : "constant"
+                        },
+                        "caseUserCommentToSend" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "taskResultMessages" : {
+                          "type" : "variable",
+                          "value" : ""
+                        }
+                      },
+                      "reference" : "db05d6eb-f378-4fca-8e97-515930b0159c",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRButtonPaseDeListaNOTask"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 6,
+                        "sm" : 6,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Confirmar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "primary"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Submit task"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "expression",
+                          "value" : "entrevistaFormOutputAsistio"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "taskId" : {
+                          "type" : "expression",
+                          "value" : "taskId"
+                        },
+                        "taskCompleted" : {
+                          "type" : "variable",
+                          "value" : "taskCompleted"
+                        },
+                        "showNonComplianceMessage" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "nonComplianceMessage" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "casiId" : {
+                          "type" : "constant"
+                        },
+                        "caseUserCommentToSend" : {
+                          "type" : "variable",
+                          "value" : "comentarioToSendAsistio"
+                        },
+                        "caseId" : {
+                          "type" : "expression",
+                          "value" : "caseId"
+                        },
+                        "taskResultMessages" : {
+                          "type" : "variable",
+                          "value" : "taskResultMessages"
+                        }
+                      },
+                      "reference" : "886a032f-51f7-4012-a6b7-3935f60652d8",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRButtonPaseDeListaTask"
+                    }
+                  ]
+                ]
               }
             ],
             [
