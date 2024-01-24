@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1705685308163,
+  "lastUpdate" : 1706125885867,
   "rows" : [
     [
       {
@@ -2611,7 +2611,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave !== \"ME\""
+                                    "value" : "!datosPersonales.nacionalidad || (datosPersonales.nacionalidad.clave !== \"ME\" && datosPersonales.nacionalidad.clave !== \"MEX\")"
                                   },
                                   "required" : {
                                     "type" : "constant",
@@ -2757,7 +2757,7 @@
                                   },
                                   "hidden" : {
                                     "type" : "expression",
-                                    "value" : "!datosPersonales.nacionalidad || datosPersonales.nacionalidad.clave === \"ME\""
+                                    "value" : "!datosPersonales.nacionalidad || (datosPersonales.nacionalidad.clave === \"ME\" || datosPersonales.nacionalidad.clave === \"MEX\")"
                                   },
                                   "labelPosition" : {
                                     "type" : "constant",
@@ -21826,28 +21826,28 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !$data.datosPersonales.curp){\r",
+        "} else if(($data.datosPersonales.nacionalidad.clave === \"ME\" || $data.datosPersonales.nacionalidad.clave === \"MEX\") && !$data.datosPersonales.curp){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' no debe ir vacío\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && $data.datosPersonales.curp.length !== 18){\r",
+        "} else if(($data.datosPersonales.nacionalidad.clave === \"ME\" || $data.datosPersonales.nacionalidad.clave === \"MEX\") && $data.datosPersonales.curp.length !== 18){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'CURP' debe tener 18 caracteres\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.nacionalidad.clave === \"ME\" && !validarCURP($data.datosPersonales.curp)){\r",
+        "} else if(($data.datosPersonales.nacionalidad.clave === \"ME\" || $data.datosPersonales.nacionalidad.clave === \"MEX\") && !validarCURP($data.datosPersonales.curp)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El formato de la 'CURP' es inválido\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "}  else if($data.datosPersonales.nacionalidad.clave !== \"ME\" && !$data.datosPersonales.pasaporte){\r",
+        "}  else if(($data.datosPersonales.nacionalidad.clave !== \"ME\" && $data.datosPersonales.nacionalidad.clave !== \"MEX\") && !$data.datosPersonales.pasaporte){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Pasaporte' no debe ir vacío\", \r",
