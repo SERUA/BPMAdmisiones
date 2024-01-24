@@ -2170,8 +2170,11 @@ class UsuariosDAO {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
 			}
 			
-			errorLog += where + " " + orderBy;
-			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
+//			errorLog += where + " " + orderBy;
+			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			
+			errorLog += consulta;
+			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
 			pstm.setLong(2, Long.valueOf(idprueba));
