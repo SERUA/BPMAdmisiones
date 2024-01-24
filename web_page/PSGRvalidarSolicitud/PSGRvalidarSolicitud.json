@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1705686688383,
+  "lastUpdate" : 1706054906368,
   "rows" : [
     [
       {
@@ -4649,7 +4649,7 @@
                                     },
                                     "text" : {
                                       "type" : "interpolation",
-                                      "value" : "Es necesario marcar todos los requisitos añadidos para validar la solicitud.*"
+                                      "value" : "Es necesario marcar como cumplido todos los requisitos añadidos para validar la solicitud.*"
                                     },
                                     "alignment" : {
                                       "type" : "constant",
@@ -5045,7 +5045,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Rechazar"
+                          "value" : "Archivar"
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -5389,7 +5389,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<br>Existen cambios en los requisitos adicionales. Cancela o Guarda los cambios para habilitar los botones."
+                          "value" : "<br>Existen cambios en los requisitos adicionales. Cancela o guarda los cambios para habilitar los botones."
                         },
                         "alignment" : {
                           "type" : "constant",
@@ -21061,58 +21061,6 @@
             ],
             [
               {
-                "type" : "component",
-                "dimension" : {
-                  "xs" : 12,
-                  "sm" : 12,
-                  "md" : 12,
-                  "lg" : 12
-                },
-                "propertyValues" : {
-                  "cssClasses" : {
-                    "type" : "constant",
-                    "value" : ""
-                  },
-                  "hidden" : {
-                    "type" : "constant",
-                    "value" : false
-                  },
-                  "labelHidden" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "label" : {
-                    "type" : "interpolation",
-                    "value" : "Default label"
-                  },
-                  "labelPosition" : {
-                    "type" : "constant",
-                    "value" : "top"
-                  },
-                  "labelWidth" : {
-                    "type" : "constant",
-                    "value" : 4
-                  },
-                  "allowHTML" : {
-                    "type" : "constant",
-                    "value" : true
-                  },
-                  "text" : {
-                    "type" : "interpolation",
-                    "value" : "Selecciona a continuación cuales requisitos adicionales deseas agregar para esta solicitud de admisión."
-                  },
-                  "alignment" : {
-                    "type" : "constant",
-                    "value" : "left"
-                  }
-                },
-                "reference" : "8d526863-562a-41bd-8b10-2be19e91d449",
-                "hasValidationError" : false,
-                "id" : "pbText"
-              }
-            ],
-            [
-              {
                 "type" : "container",
                 "dimension" : {
                   "xs" : 12,
@@ -21127,7 +21075,7 @@
                   },
                   "hidden" : {
                     "type" : "expression",
-                    "value" : ""
+                    "value" : "!requisitosAdicionalesDisponibles || requisitosAdicionalesDisponibles.length === 0"
                   },
                   "repeatedCollection" : {
                     "type" : "variable",
@@ -21138,6 +21086,58 @@
                 "hasValidationError" : false,
                 "id" : "pbContainer",
                 "rows" : [
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "Selecciona a continuación cuales requisitos adicionales deseas agregar para esta solicitud de admisión."
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "8d526863-562a-41bd-8b10-2be19e91d449",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
                   [
                     {
                       "type" : "container",
@@ -21713,7 +21713,7 @@
                   },
                   "hidden" : {
                     "type" : "expression",
-                    "value" : "requisitosAdicionalesDisponibles"
+                    "value" : "requisitosAdicionalesDisponibles && requisitosAdicionalesDisponibles.length !== 0"
                   },
                   "labelHidden" : {
                     "type" : "constant",
@@ -21737,7 +21737,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "No se encontraron requisitos disponibles con los datos proporcionados.<br>\n<b>Campus:</b> {{datosPrograma.campus.descripcion}}<br>\n<b>Posgrado:</b> {{datosPrograma.posgrado.descripcion}}"
+                    "value" : "No se encontraron requisitos disponibles para el posgrado <b>{{datosPrograma.posgrado.descripcion}}</b>, en la universidad <b>{{datosPrograma.campus.descripcion}}</b>.\n<br><br>"
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -21908,8 +21908,8 @@
                     "value" : false
                   },
                   "disabled" : {
-                    "type" : "constant",
-                    "value" : false
+                    "type" : "expression",
+                    "value" : "!requisitosAdicionalesDisponibles || requisitosAdicionalesDisponibles.length === 0"
                   },
                   "label" : {
                     "type" : "interpolation",
