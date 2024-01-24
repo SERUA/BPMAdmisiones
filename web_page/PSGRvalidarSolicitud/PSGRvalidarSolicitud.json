@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1706059502508,
+  "lastUpdate" : 1706124412936,
   "rows" : [
     [
       {
@@ -20304,7 +20304,7 @@
                   },
                   "comentarioDataToSend" : {
                     "type" : "expression",
-                    "value" : "comentarioDataToSend"
+                    "value" : "comentarioDataToSendValidar"
                   }
                 },
                 "reference" : "3b6010e5-f73f-427b-a935-86df20c07cf7",
@@ -27364,9 +27364,9 @@
       "type" : "json",
       "value" : [
         "[",
-        "    \"Rechazar\",",
-        "    \"Modificar\",",
-        "    \"Validar\"",
+        "    \"Archivado en validación\",",
+        "    \"Modificación\",",
+        "    \"Validación\"",
         "]"
       ],
       "exposed" : false
@@ -28505,6 +28505,17 @@
         "    return true;",
         "}",
         "return false;"
+      ],
+      "exposed" : false
+    },
+    "comentarioDataToSendValidar" : {
+      "type" : "expression",
+      "value" : [
+        "return {",
+        "    area: \"Adminitración escolar\",",
+        "    asunto: \"Validación\",",
+        "    mensaje: \"Se valido la solicitud.\",",
+        "};"
       ],
       "exposed" : false
     }
