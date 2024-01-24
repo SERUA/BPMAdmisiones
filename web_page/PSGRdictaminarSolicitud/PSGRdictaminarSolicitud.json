@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1705950610499,
+  "lastUpdate" : 1706126539453,
   "rows" : [
     [
       {
@@ -2174,7 +2174,7 @@
                               },
                               "value" : {
                                 "type" : "variable",
-                                "value" : ""
+                                "value" : "responsable_nombre"
                               },
                               "type" : {
                                 "type" : "constant",
@@ -2236,7 +2236,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Nombre:"
+                                "value" : "Nombre de la sesión:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -2311,7 +2311,7 @@
                               },
                               "label" : {
                                 "type" : "interpolation",
-                                "value" : "Descripción:"
+                                "value" : "Descripción de la sesión:"
                               },
                               "labelPosition" : {
                                 "type" : "constant",
@@ -2631,7 +2631,7 @@
                               "headers" : {
                                 "type" : "constant",
                                 "value" : [
-                                  "Acción",
+                                  "Asunto",
                                   "Comentario",
                                   "Fecha",
                                   "Nombre del administrativo"
@@ -2774,7 +2774,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "<br>Historial de comentarios área académica"
+                                "value" : "<br>Historial de comentarios entrevista"
                               },
                               "level" : {
                                 "type" : "constant",
@@ -2815,7 +2815,7 @@
                               "headers" : {
                                 "type" : "constant",
                                 "value" : [
-                                  "Acción",
+                                  "Asunto",
                                   "Comentario",
                                   "Fecha",
                                   "Nombre del administrativo"
@@ -19821,6 +19821,32 @@
         "    });",
         "    return found;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_responsable" : {
+      "type" : "url",
+      "value" : [
+        "{{citaAspirante|lazyRef:'responsable'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/user/{{citaAspirante_responsable.responsable_id}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable_nombre" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable) {",
+        "    return $data.responsable.firstname + \" \" + $data.responsable.lastname;",
+        "}",
+        "return undefined;"
       ],
       "exposed" : false
     }
