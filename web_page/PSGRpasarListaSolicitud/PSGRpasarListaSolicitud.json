@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1706049897680,
+  "lastUpdate" : 1706118984285,
   "rows" : [
     [
       {
@@ -100,59 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "datosRequisitosAdicionales:\n<pre>{{datosRequisitosAdicionales| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "5aa5c4e4-f6a6-4e46-aed2-0165cb2a4d5e",
-        "hasValidationError" : false,
-        "id" : "pbText"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "<pre>{{ citaAspirante | json }}</pre>"
+            "value" : "citaAspirante\n<pre>{{ citaAspirante| json }}</pre>\n\ncitaAspirante_responsable\n<pre>{{ citaAspirante_responsable| json }}</pre>\n\nresponsable\n<pre>{{ responsable| json }}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -2103,7 +2051,7 @@
                                             },
                                             "alignment" : {
                                               "type" : "constant",
-                                              "value" : "center"
+                                              "value" : "left"
                                             }
                                           },
                                           "reference" : "db61b3de-2908-491a-8e27-7275115740b7",
@@ -2167,7 +2115,7 @@
                                             },
                                             "value" : {
                                               "type" : "variable",
-                                              "value" : ""
+                                              "value" : "responsable_nombre"
                                             },
                                             "type" : {
                                               "type" : "constant",
@@ -2229,7 +2177,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Nombre:"
+                                              "value" : "Nombre de la sisión:"
                                             },
                                             "labelPosition" : {
                                               "type" : "constant",
@@ -2304,7 +2252,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Descripción:"
+                                              "value" : "Descripción de la sesión:"
                                             },
                                             "labelPosition" : {
                                               "type" : "constant",
@@ -2436,7 +2384,7 @@
                                             },
                                             "required" : {
                                               "type" : "constant",
-                                              "value" : false
+                                              "value" : true
                                             },
                                             "minLength" : {
                                               "type" : "constant",
@@ -2629,7 +2577,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Sin asistencia"
+                                              "value" : "Falta"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -2717,7 +2665,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Asistió"
+                                              "value" : "Asistencia"
                                             },
                                             "alignment" : {
                                               "type" : "constant",
@@ -3076,7 +3024,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "<br>Historial de comentarios área académica"
+                                "value" : "<br>Historial de comentarios entrevista"
                               },
                               "level" : {
                                 "type" : "constant",
@@ -4072,7 +4020,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "No se agregaron requisitos adicionales para esta solicitud."
+                              "value" : "<br><br>No se agregaron requisitos adicionales para esta solicitud."
                             },
                             "alignment" : {
                               "type" : "constant",
@@ -17987,7 +17935,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "La <b>asistencia</b> del aspirante será registrada en la cita de entrevista y el proceso de admisión continuará."
+                    "value" : "La <b>asistencia</b> del aspirante será registrada en la cita de entrevista."
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -18589,7 +18537,7 @@
                   },
                   "text" : {
                     "type" : "interpolation",
-                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a <b>reagendar</b>. Si, por lo contrario, deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
+                    "value" : "La <b>no asistencia</b> del aspirante será registrada en la cita de entrevista y se mandará a <b>reagendar</b>."
                   },
                   "alignment" : {
                     "type" : "constant",
@@ -18597,6 +18545,58 @@
                   }
                 },
                 "reference" : "20ef5938-4424-4ded-ab62-65da96cc89c8",
+                "hasValidationError" : false,
+                "id" : "pbText"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "Si, por lo contrario, deseas archivar la solicitud puedes hacerlo desde las bandejas de solicitudes en pase de lista."
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "center"
+                  }
+                },
+                "reference" : "a686ae4e-6a75-43d6-b37c-6a97f01bd1e9",
                 "hasValidationError" : false,
                 "id" : "pbText"
               }
@@ -24471,7 +24471,11 @@
       "value" : [
         "{{citaAspirante|lazyRef:'responsable'}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "fechaEntrevistaFormateada" : {
@@ -24654,6 +24658,24 @@
       "type" : "constant",
       "value" : [
         "/API/extension/posgradosRest?url=pasarLista&asistio=[ASISTIO]&caseid=[CASEID]"
+      ],
+      "exposed" : false
+    },
+    "responsable" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/user/{{citaAspirante_responsable.responsable_id}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable_nombre" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable) {",
+        "    return $data.responsable.firstname + \" \" + $data.responsable.lastname;",
+        "}",
+        "return undefined;"
       ],
       "exposed" : false
     }
