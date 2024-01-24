@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1706054906368,
+  "lastUpdate" : 1706059502508,
   "rows" : [
     [
       {
@@ -100,7 +100,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "datosRequisitosAdicionales:\n<pre>{{datosRequisitosAdicionales| json}}</pre>"
+            "value" : "citaAspirante:\n<pre>{{citaAspirante| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -2678,7 +2678,7 @@
                               },
                               "required" : {
                                 "type" : "constant",
-                                "value" : false
+                                "value" : true
                               },
                               "minLength" : {
                                 "type" : "constant",
@@ -2734,6 +2734,135 @@
                             "reference" : "7ed70538-355c-4580-a242-1ba941c8137f",
                             "hasValidationError" : false,
                             "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "hidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "required" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "minLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "maxLength" : {
+                                "type" : "constant",
+                                "value" : ""
+                              },
+                              "readOnly" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : false
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Cita de entrevista"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "placeholder" : {
+                                "type" : "interpolation"
+                              },
+                              "value" : {
+                                "type" : "variable",
+                                "value" : "citaAspirante_toString"
+                              },
+                              "type" : {
+                                "type" : "constant",
+                                "value" : "text"
+                              },
+                              "min" : {
+                                "type" : "constant"
+                              },
+                              "max" : {
+                                "type" : "constant"
+                              },
+                              "step" : {
+                                "type" : "constant",
+                                "value" : 1
+                              }
+                            },
+                            "reference" : "6da5c19c-7954-46e8-8014-bf5ea81a5c94",
+                            "hasValidationError" : false,
+                            "id" : "pbInput"
+                          }
+                        ],
+                        [
+                          {
+                            "type" : "component",
+                            "dimension" : {
+                              "xs" : 12,
+                              "sm" : 12,
+                              "md" : 12,
+                              "lg" : 12
+                            },
+                            "propertyValues" : {
+                              "cssClasses" : {
+                                "type" : "constant",
+                                "value" : "text-danger"
+                              },
+                              "hidden" : {
+                                "type" : "expression",
+                                "value" : "citaAspiranteValida"
+                              },
+                              "labelHidden" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "label" : {
+                                "type" : "interpolation",
+                                "value" : "Default label"
+                              },
+                              "labelPosition" : {
+                                "type" : "constant",
+                                "value" : "top"
+                              },
+                              "labelWidth" : {
+                                "type" : "constant",
+                                "value" : 4
+                              },
+                              "allowHTML" : {
+                                "type" : "constant",
+                                "value" : true
+                              },
+                              "text" : {
+                                "type" : "interpolation",
+                                "value" : "El aspirante no cuenta con una cita de entrevista."
+                              },
+                              "alignment" : {
+                                "type" : "constant",
+                                "value" : "left"
+                              }
+                            },
+                            "reference" : "ebd87f27-85cb-44e5-a978-7cf0d35fa3a8",
+                            "hasValidationError" : false,
+                            "id" : "pbText"
                           }
                         ],
                         [
@@ -28263,7 +28392,7 @@
       "value" : [
         "let duplicado = false;",
         "$data.solicitudesDuplicadas.forEach(item => {",
-        "    if (item.id_banner_validacion === $data.validarFormInput.registroInput.id_banner_validacion && item.caseid != $data.caseId) {",
+        "    if ($data.validarFormInput.registroInput.id_banner_validacion && item.id_banner_validacion === $data.validarFormInput.registroInput.id_banner_validacion && item.caseid != $data.caseId) {",
         "        duplicado = true;",
         "    }",
         "})",
@@ -28344,6 +28473,38 @@
         "    ",
         "    $data.verSolicitudClickEvent = null",
         "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_toString" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.citaAspiranteValida) {",
+        "    const fecha = new Date($data.citaAspirante.cita_horario.cita_entrevista.fecha_entrevista);",
+        "    const hora_inicio = $data.citaAspirante.cita_horario.hora_inicio;",
+        "    ",
+        "    const yyyy = fecha.getFullYear();",
+        "    let mm = fecha.getMonth() + 1;",
+        "    let dd = fecha.getDate();",
+        "    ",
+        "    if (dd < 10) dd = '0' + dd;",
+        "    if (mm < 10) mm = '0' + mm;",
+        "",
+        "    const formattedDate = dd + '/' + mm + '/' + yyyy + ' ' + hora_inicio;",
+        " ",
+        "    return formattedDate;",
+        "}",
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "citaAspiranteValida" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.citaAspirante && $data.citaAspirante.cita_horario && $data.citaAspirante.cita_horario.cita_entrevista) {",
+        "    return true;",
+        "}",
+        "return false;"
       ],
       "exposed" : false
     }
