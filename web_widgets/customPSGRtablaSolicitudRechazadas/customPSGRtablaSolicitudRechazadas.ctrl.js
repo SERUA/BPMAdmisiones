@@ -366,7 +366,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         };
   
         return $http(req).success(function(data, status) {
-                debugger;
                 rowData.taskId = data[0].id;
                 rowData.taskName = data[0].name;
                 rowData.processId = data[0].processId;
@@ -410,6 +409,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         //$scope.avanzarArchivar = false;
         $scope.caseIdTarea = rowData.caseid;
         $('#modalReactivarSolicitud').modal('show');
+    }
+
+    $scope.cerrarModalReactivarSolicitud = function () {
+        $('#modalReactivarSolicitud').modal('hide');
     }
 
     // Con modal de confirmacion. ?
@@ -533,7 +536,9 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                     break;
                 case "reactivarSolicitud":
                     executeTarea('POST', '../API/bpm/userTask/' + rowData.taskId + '/execution', {}).then(function () {
-                        console.log("tarea realizada");
+                        console.log("Tarea de reactivar realizada correctamente.");
+                        // Cerrar modal
+                        $scope.cerrarModalReactivarSolicitud();
                         // Solicitar recargar datos
                         setTimeout(() => {
                             doRequest("POST", $scope.properties.urlPost);
