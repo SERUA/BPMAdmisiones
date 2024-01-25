@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.91">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.92">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -175,6 +175,28 @@
             </leftOperand>
             <rightOperand xmi:type="expression:Expression" xmi:id="_oaW6Eo7iEe6zZe4yXynDhg" name="return []" content="return [];" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List"/>
             <operator xmi:type="expression:Operator" xmi:id="_oaW6E47iEe6zZe4yXynDhg" type="CREATE_BUSINESS_DATA"/>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_BeVf0LsgEe6N1L4gms5nXw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_BeVf0bsgEe6N1L4gms5nXw" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Cfs2MLsgEe6N1L4gms5nXw" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_BeVf0rsgEe6N1L4gms5nXw" name="registro.getTelefono_celular()" content="registro.getTelefono_celular()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_PKS5gLsgEe6N1L4gms5nXw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_BeVf07sgEe6N1L4gms5nXw" type="JAVA_METHOD" expression="setTelefono_celular">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_Cyq1gLsgEe6N1L4gms5nXw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_Cyq1gbsgEe6N1L4gms5nXw" name="datosContacto" content="datosContacto" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_DalxILsgEe6N1L4gms5nXw" name="datosContacto" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDatosContacto"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_Cyq1grsgEe6N1L4gms5nXw" name="registro.getCorreo_electronico()" content="registro.getCorreo_electronico()" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Rll3QLsgEe6N1L4gms5nXw" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_Cyq1g7sgEe6N1L4gms5nXw" type="JAVA_METHOD" expression="setCorreo_contacto">
+              <inputTypes>java.lang.String</inputTypes>
+            </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_RS3Wi1ZtEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_RS3WjFZtEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -2615,19 +2637,6 @@
               <inputTypes>java.util.Collection</inputTypes>
             </operator>
           </operations>
-          <operations xmi:type="expression:Operation" xmi:id="_Czj5U39IEe6a08PJntrWjQ">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5VH9IEe6a08PJntrWjQ" name="datosDocumentos" content="datosDocumentos" type="TYPE_VARIABLE" returnType="java.util.List">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5VX9IEe6a08PJntrWjQ" name="datosDocumentos" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDocs"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5Vn9IEe6a08PJntrWjQ" name="datosDocumentosInput" content="def pSGRSolAdmiDocsList = []&#xD;&#xA;//For each item collected in multiple input&#xD;&#xA;datosDocumentosInput.each{&#xD;&#xA;&#x9;//Add PSGRSolAdmiDocs instance&#xD;&#xA;&#x9;pSGRSolAdmiDocsList.add({ currentPSGRSolAdmiDocsInput ->&#xD;&#xA;&#x9;&#x9;def pSGRSolAdmiDocsVar = datosDocumentos.find { it.persistenceId.toString() == currentPSGRSolAdmiDocsInput.persistenceId_string} ?: new com.anahuac.posgrados.model.PSGRSolAdmiDocs()&#xD;&#xA;&#x9;&#x9;pSGRSolAdmiDocsVar.url_azure = currentPSGRSolAdmiDocsInput.url_azure&#xD;&#xA;&#x9;&#x9;pSGRSolAdmiDocsVar.tamano_documento = currentPSGRSolAdmiDocsInput.tamano_documento&#xD;&#xA;&#x9;&#x9;pSGRSolAdmiDocsVar.caseid = processInstanceId&#xD;&#xA;&#x9;&#x9;return pSGRSolAdmiDocsVar&#xD;&#xA;&#x9;}(it))&#xD;&#xA;}&#xD;&#xA;return pSGRSolAdmiDocsList" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
-              <referencedElements xmi:type="process:ContractInput" xmi:id="_Czj5V39IEe6a08PJntrWjQ" name="datosDocumentosInput" type="COMPLEX" multiple="true" createMode="false"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_Czj5WH9IEe6a08PJntrWjQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5WX9IEe6a08PJntrWjQ" name="datosDocumentos" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDocs"/>
-            </rightOperand>
-            <operator xmi:type="expression:Operator" xmi:id="_Czj5Wn9IEe6a08PJntrWjQ" type="ASSIGNMENT" expression="addAll">
-              <inputTypes>java.util.Collection</inputTypes>
-            </operator>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_Czj5W39IEe6a08PJntrWjQ">
             <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5XH9IEe6a08PJntrWjQ" name="datosDocumentosOtros" content="datosDocumentosOtros" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5XX9IEe6a08PJntrWjQ" name="datosDocumentosOtros" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDocs"/>
@@ -2850,6 +2859,23 @@
             <operator xmi:type="expression:Operator" xmi:id="_RAlohKRFEe6lb7B6DUr_kg" type="JAVA_METHOD" expression="setResponsable">
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaResponsable</inputTypes>
             </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_J0FH8LsOEe6N1L4gms5nXw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_J0FH8bsOEe6N1L4gms5nXw" name="datosDocumentos" content="datosDocumentos" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_LIyRELsOEe6N1L4gms5nXw" name="datosDocumentos" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDocs"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_J0FH8rsOEe6N1L4gms5nXw" name="updateDataDocumentos()" content="import com.anahuac.posgrados.catalog.PSGRCatManejoDocumentos&#xD;&#xA;import com.anahuac.posgrados.model.PSGRSolAdmiDocs&#xD;&#xA;import com.anahuac.posgrados.model.PSGRSolAdmiDocsDAO&#xD;&#xA;&#xD;&#xA;if (campusOrPosgradoChangedInput &amp;&amp; datosDocumentosNuevosInput) {&#xD;&#xA;&#x9;// Nueva lista de documentos&#xD;&#xA;&#x9;def pSGRSolAdmiDocsList = [];&#xD;&#xA;&#x9;def documentosRequeridos = initDocuments();&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;try {&#xD;&#xA;&#x9;&#x9;// Llenado de los documentos requerido que hacen match con los documentos enviados&#xD;&#xA;&#x9;&#x9;documentosRequeridos.each { documentoRequerido ->&#xD;&#xA;&#x9;&#x9;&#x9;datosDocumentosNuevosInput.each { documentoEnviado ->&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;def idEnviado = documentoEnviado?.documento?.persistenceId;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;if (idEnviado &amp;&amp; documentoRequerido.documento.persistenceId == idEnviado) {&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;documentoRequerido.url_azure = documentoEnviado?.url_azure;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;&#x9;documentoRequerido.tamano_documento = documentoEnviado?.tamaño_documento;&#xD;&#xA;&#x9;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;return documentosRequeridos;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;catch(e) {&#xD;&#xA;&#x9;&#x9;return documentosRequeridos;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;// Llenado normal&#xD;&#xA;&#x9;def pSGRSolAdmiDocsList = []&#xD;&#xA;&#x9;//For each item collected in multiple input&#xD;&#xA;&#x9;datosDocumentosInput.each{&#xD;&#xA;&#x9;&#x9;//Add PSGRSolAdmiDocs instance&#xD;&#xA;&#x9;&#x9;pSGRSolAdmiDocsList.add({ currentPSGRSolAdmiDocsInput ->&#xD;&#xA;&#x9;&#x9;&#x9;def pSGRSolAdmiDocsVar = datosDocumentos.find { it.persistenceId.toString() == currentPSGRSolAdmiDocsInput.persistenceId_string} ?: new com.anahuac.posgrados.model.PSGRSolAdmiDocs()&#xD;&#xA;&#x9;&#x9;&#x9;pSGRSolAdmiDocsVar.url_azure = currentPSGRSolAdmiDocsInput.url_azure&#xD;&#xA;&#x9;&#x9;&#x9;pSGRSolAdmiDocsVar.tamano_documento = currentPSGRSolAdmiDocsInput.tamano_documento&#xD;&#xA;&#x9;&#x9;&#x9;pSGRSolAdmiDocsVar.caseid = processInstanceId&#xD;&#xA;&#x9;&#x9;&#x9;return pSGRSolAdmiDocsVar&#xD;&#xA;&#x9;&#x9;}(it))&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;return pSGRSolAdmiDocsList&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;// ---&#xD;&#xA;&#xD;&#xA;List&lt;PSGRSolAdmiDocs> initDocuments() {&#xD;&#xA;&#x9;def documentos_requeridos = [];&#xD;&#xA;&#xD;&#xA;&#x9;// agregar los documentos necesario para el caso actual. Dependiendo del campus y el posgrado.&#xD;&#xA;&#x9;try {&#xD;&#xA;&#x9;&#x9;Long campus = datosPrograma.campus?.persistenceId;&#xD;&#xA;&#x9;&#x9;Long posgrado = datosPrograma.posgrado?.persistenceId;&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;def query_result = pSGRCatManejoDocumentosDAO.getCat(false, campus, posgrado, 0, 50);&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;query_result.each { item ->&#xD;&#xA;&#x9;&#x9;&#x9;PSGRSolAdmiDocs newDocumento = new PSGRSolAdmiDocs();&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;newDocumento.setDocumento(item);&#xD;&#xA;&#x9;&#x9;&#x9;newDocumento.setCaseid(registro.caseid);&#xD;&#xA;&#x9;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;&#x9;documentos_requeridos.add(newDocumento);&#xD;&#xA;&#x9;&#x9;}&#xD;&#xA;&#x9;&#x9;&#xD;&#xA;&#x9;&#x9;return documentos_requeridos;&#xD;&#xA;&#x9;}&#xD;&#xA;&#x9;catch (Exception e) {&#xD;&#xA;&#x9;&#x9;return documentos_requeridos;&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.List">
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_sAzEYLsYEe6N1L4gms5nXw" name="campusOrPosgradoChangedInput" type="BOOLEAN">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_sAzEYbsYEe6N1L4gms5nXw"/>
+              </referencedElements>
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_sAzEYrsYEe6N1L4gms5nXw" name="datosDocumentosInput" type="COMPLEX" multiple="true" createMode="false"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_sAzEY7sYEe6N1L4gms5nXw" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_sAzEZLsYEe6N1L4gms5nXw" name="datosDocumentos" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiDocs"/>
+              <referencedElements xmi:type="process:ContractInput" xmi:id="_sAzEZbsYEe6N1L4gms5nXw" name="datosDocumentosNuevosInput" type="COMPLEX" multiple="true">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_sAzEZrsYEe6N1L4gms5nXw"/>
+              </referencedElements>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_J0FH87sOEe6N1L4gms5nXw" type="ASSIGNMENT"/>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_Czj5y39IEe6a08PJntrWjQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_Czj5zH9IEe6a08PJntrWjQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -3104,6 +3130,27 @@
               </inputs>
               <inputs xmi:type="process:ContractInput" xmi:id="_RAloc6RFEe6lb7B6DUr_kg" name="responsable" type="COMPLEX" createMode="false">
                 <inputs xmi:type="process:ContractInput" xmi:id="_RAlodKRFEe6lb7B6DUr_kg" name="persistenceId_string" createMode="false"/>
+              </inputs>
+            </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_b_ED8LsJEe6N1L4gms5nXw" name="campusOrPosgradoChangedInput" type="BOOLEAN">
+              <mapping xmi:type="process:ContractInputMapping" xmi:id="_b_ErALsJEe6N1L4gms5nXw"/>
+            </inputs>
+            <inputs xmi:type="process:ContractInput" xmi:id="_oQXdgLsJEe6N1L4gms5nXw" name="datosDocumentosNuevosInput" type="COMPLEX" multiple="true">
+              <mapping xmi:type="process:ContractInputMapping" xmi:id="_oQXdgbsJEe6N1L4gms5nXw"/>
+              <inputs xmi:type="process:ContractInput" xmi:id="_qVk2gLsJEe6N1L4gms5nXw" name="persistenceId_string">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_qVk2gbsJEe6N1L4gms5nXw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_zvxgELsJEe6N1L4gms5nXw" name="url_azure">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_zvxgEbsJEe6N1L4gms5nXw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_0leZALsJEe6N1L4gms5nXw" name="tamaño_documento">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_0leZAbsJEe6N1L4gms5nXw"/>
+              </inputs>
+              <inputs xmi:type="process:ContractInput" xmi:id="_1baigLsJEe6N1L4gms5nXw" name="documento" type="COMPLEX">
+                <mapping xmi:type="process:ContractInputMapping" xmi:id="_1baigbsJEe6N1L4gms5nXw"/>
+                <inputs xmi:type="process:ContractInput" xmi:id="_3MbNILsJEe6N1L4gms5nXw" name="persistenceId_string">
+                  <mapping xmi:type="process:ContractInputMapping" xmi:id="_3MbNIbsJEe6N1L4gms5nXw"/>
+                </inputs>
               </inputs>
             </inputs>
             <constraints xmi:type="process:ContractConstraint" xmi:id="_RAlodaRFEe6lb7B6DUr_kg" expression="!citaAspiranteInput?.cita_horario || citaAspiranteInput?.cita_horario?.persistenceId_string" errorMessage="PSGRCitaHorario must reference an existing instance with a persistenceId for PSGRCitaAspirante" name="aggregation_citaAspiranteInput_cita_horario">
@@ -4214,8 +4261,8 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_90XUQZq5Ee6fdNfdU8bJmQ" name="fechaVencimientoCita" content="fechaVencimientoCita" type="TYPE_VARIABLE" returnType="java.util.Date">
               <referencedElements xmi:type="process:Data" xmi:id="_-Vg5gJq5Ee6fdNfdU8bJmQ" name="fechaVencimientoCita" dataType="_RS3WrVZtEe6T3bm1fu0vzg"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_90XUQpq5Ee6fdNfdU8bJmQ" name="calculateFechaVencimiento()" content="import java.time.LocalDateTime&#xD;&#xA;import java.time.ZoneId&#xD;&#xA;&#xD;&#xA;//def fechaEntrevista;&#xD;&#xA;//long diasParaVencer = 5L;&#xD;&#xA;long horasParaVencer = 2L;&#xD;&#xA;def fechaActual = LocalDateTime.now();&#xD;&#xA;def fechaEntrevista;&#xD;&#xA;def fechaVencimiento;&#xD;&#xA;&#xD;&#xA;if (citaAspirante.cita_horario &amp;&amp; citaAspirante.cita_horario.cita_entrevista &amp;&amp; citaAspirante.cita_horario.cita_entrevista.fecha_entrevista) {&#xD;&#xA;&#x9;fechaEntrevista = citaAspirante.cita_horario.cita_entrevista.fecha_entrevista;&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;if (fechaEntrevista.isAfter(fechaActual)) {&#xD;&#xA;&#x9;&#x9;//fechaVencimiento = fechaEntrevista.plusDays(diasParaVencer);&#xD;&#xA;&#x9;&#x9;fechaVencimiento = fechaEntrevista.plusHours(horasParaVencer);&#xD;&#xA;&#x9;&#x9;return toDate(fechaVencimiento);&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;//fechaVencimiento = fechaActual.plusDays(diasParaVencer);&#xD;&#xA;fechaVencimiento = fechaActual.plusHours(horasParaVencer);&#xD;&#xA;return toDate(fechaVencimiento);&#xD;&#xA;&#xD;&#xA;// Funcion convertir LocalDateTime a Date&#xD;&#xA;Date toDate(LocalDateTime localDateTime) {&#xD;&#xA;&#x9;return java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.Date">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_aQ8WsJrHEe6fdNfdU8bJmQ" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_90XUQpq5Ee6fdNfdU8bJmQ" name="calculateFechaVencimiento()" content="import java.time.LocalDateTime&#xD;&#xA;import java.time.ZoneId&#xD;&#xA;&#xD;&#xA;//def fechaEntrevista;&#xD;&#xA;long diasParaVencer = 5L;&#xD;&#xA;//long horasParaVencer = 2L;&#xD;&#xA;def fechaActual = LocalDateTime.now();&#xD;&#xA;def fechaEntrevista;&#xD;&#xA;def fechaVencimiento;&#xD;&#xA;&#xD;&#xA;if (citaAspirante.cita_horario &amp;&amp; citaAspirante.cita_horario.cita_entrevista &amp;&amp; citaAspirante.cita_horario.cita_entrevista.fecha_entrevista) {&#xD;&#xA;&#x9;fechaEntrevista = citaAspirante.cita_horario.cita_entrevista.fecha_entrevista;&#xD;&#xA;&#x9;&#xD;&#xA;&#x9;if (fechaEntrevista.isAfter(fechaActual)) {&#xD;&#xA;&#x9;&#x9;fechaVencimiento = fechaEntrevista.plusDays(diasParaVencer);&#xD;&#xA;&#x9;&#x9;//fechaVencimiento = fechaEntrevista.plusHours(horasParaVencer);&#xD;&#xA;&#x9;&#x9;return toDate(fechaVencimiento);&#xD;&#xA;&#x9;}&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;fechaVencimiento = fechaActual.plusDays(diasParaVencer);&#xD;&#xA;//fechaVencimiento = fechaActual.plusHours(horasParaVencer);&#xD;&#xA;return toDate(fechaVencimiento);&#xD;&#xA;&#xD;&#xA;// Funcion convertir LocalDateTime a Date&#xD;&#xA;Date toDate(LocalDateTime localDateTime) {&#xD;&#xA;&#x9;return java.util.Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());&#xD;&#xA;}" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.util.Date">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_k_u7wLsgEe6N1L4gms5nXw" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_90XUQ5q5Ee6fdNfdU8bJmQ" type="ASSIGNMENT"/>
           </operations>
