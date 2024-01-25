@@ -78,7 +78,8 @@ class PDFDocumentDAO {
 			  retorno=true
 		}
 		return retorno
-  }
+	}
+	
 	public Result PdfFileCatalogo(String jsonData,RestAPIContext context) {
 		Result resultado = new Result();
 		InputStream targetStream;
@@ -403,8 +404,6 @@ class PDFDocumentDAO {
 		is.close();
 		return bytes;
 	}
-
-	
 	
 	public Result getInfoReportes(String usuario,Long intento) {
 		Result resultado = new Result();
@@ -457,7 +456,6 @@ class PDFDocumentDAO {
 		}
 		return resultado
 	}
-	
 	
 	public Result getInfoRelativos(String caseid) {
 		Result resultado = new Result();
@@ -625,7 +623,6 @@ class PDFDocumentDAO {
 		}
 		return resultado
 	}
-	
 	
 	public Result getInfoCapacidadAdaptacion(String caseid, Long intentos) {
 		Result resultado = new Result();
@@ -1854,4 +1851,98 @@ class PDFDocumentDAO {
 		
 		return resultado;
 	}
+	
+	
+	public Result getSolicitudPosgradosInfo(String caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Long caseidSolicitud = 0L;
+		String idbanner = "";
+		
+		try {
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> medios_enteraste = new ArrayList < Map < String, Object >> ();
+			rows = new ArrayList < Map < String, Object >> ();
+			closeCon = validarConexion();
+			
+			// Variables (Valores dinamicos)
+			pstm = con.prepareStatement(Statements.GET_DATOS_PROGRAMA_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("campus", rs.getString("campus"));
+				columns.put("grado", rs.getString("posgrado"));
+				columns.put("carrera", rs.getString("carrera"));
+				columns.put("periodo", rs.getString("periodo"));
+				columns.put("opcion_titulacion", rs.getBoolean("estudiara_programa_otra_un"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_MEDIOS_ENTERASTE_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			Map < String, Object > medio_enteraste = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				medio_enteraste = new HashMap < String, Object > ();
+				
+				medio_enteraste.put("medio_enteraste", rs.getString("medio_enteraste"));
+				medio_enteraste.put("especifique", rs.getString("especifique"));
+				medio_enteraste.put("seleccionado", rs.getBoolean("seleccionado"));
+				
+				medios_enteraste.add(medio_enteraste);
+			}
+			
+			columns.put("medios_enteraste", medios_enteraste);
+
+			resultado.setSuccess(true);
+			rows.add(columns);
+			resultado.setData(rows);
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	
+//	dp_url_foto
+//	dp_nombre
+//	dp_apellido_paterno
+//	dp_apellido_materno
+//	dp_sexo
+//	dp_nacionalidad
+//	dp_estado_civil
+//	dp_curp_pasaporte
+//	dp_religion
+//	dp_fecha_nacimiento
+//	dp_pais_nacimiento
+//	dp_ciudad_nacimiento
+//	dp_id_banner
+//	dp_universidad
+//	dp_soy_alumno
+//	dp_estado_nacimiento
+	
+//	dc_calle
+//	dc_numero_exterior
+//	dc_numero_interior
+//	dc_pais
+//	dc_cp
+//	dc_estado
+//	dc_municipio
+//	dc_ciudad
+//	dc_colonia
+//	dc_telefono_cel
+//	dc_telefono_casa
+//	dc_correo
 }
