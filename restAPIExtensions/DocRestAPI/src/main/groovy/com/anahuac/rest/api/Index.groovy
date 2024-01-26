@@ -114,7 +114,16 @@ class Index implements RestApiController {
 					}
 				} else if (url.equals("getSolicitudPosgradosInfo") || url == "getSolicitudPosgradosInfo") {
 					String caseid = request.getParameter "caseid"
-					result = new PDFDocumentDAO().getSolicitudPosgradosInfo(caseid, context);
+					Map < String, Object > columns = new HashMap < String, Object > ();
+					result = new PDFDocumentDAO().getSolicitudPosgradosInfo(columns, caseid, context);
+					if(result.success) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR, new JsonBuilder(result).toString())
+					}
+				} else if (url.equals("pdfFileSolicitudPosgrado") || url == "pdfFileSolicitudPosgrado") {
+					String caseid = request.getParameter "caseid"
+					result = new PDFDocumentDAO().pdfFileSolicitudPosgrado(caseid, context);
 					if(result.success) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
