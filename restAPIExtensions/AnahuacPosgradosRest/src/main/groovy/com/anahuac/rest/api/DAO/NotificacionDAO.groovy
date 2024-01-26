@@ -35,7 +35,7 @@ import groovy.json.JsonSlurper
 
 
 import com.anahuac.rest.api.DB.Statements
-//import com.anahuac.model.ProcesoCasoDAO
+import com.anahuac.rest.api.DB.StatementsCatalogos
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
 
@@ -200,24 +200,22 @@ class NotificacionDAO {
 						cn.setTipo_correo(rs.getString("tipo_correo"))
 						cn.setTitulo(rs.getString("titulo"))
 						
+						plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
+						errorlog += "| Variable1"
+						errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
+						errorlog += "| Variable2"
+						plantilla=plantilla.replace("[titulo]",cn.getTitulo())
+					} else {
+						throw new Exception("Plantilla no encontrada");
 					}
-				}catch(Exception ex) {
+				} catch(Exception ex) {
 					errorlog +=", consulta custom " + ex.getMessage();
-				}finally {
-				if(closeCon2) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}
-					
+				} finally {
+					if(closeCon2) {
+						new DBConnect().closeObj(con, stm, rs, pstm);
+					}
 				}
 			}
-			
-			errorlog += "| Variable1"
-			errorlog += "| | procesoCaso.getCaseId() = "+procesoCaso.getCase_id()
-			plantilla=plantilla.replace("[banner-href]", cn.getEnlace_banner())
-			
-			errorlog += "| Variable3"
-			errorlog += "| Variable7"
-			plantilla=plantilla.replace("[titulo]",cn.getTitulo())
 			
 			Calendar cal = Calendar.getInstance();
 			int dayOfMonth = cal.get(Calendar.DAY_OF_MONTH);
@@ -411,7 +409,7 @@ class NotificacionDAO {
 				errorlog += "| Variable8.6.2 "
 				PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
 				errorlog += "| Variable8.6.3 "
-				if (datosPrograma) {
+				if (datosPrograma && !object.codigo.equals("psgr-validar-cuenta")) {
 					errorlog += "| Variable8.6.4.1 "
 					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
 					errorlog += "| Variable8.6.4.2 "
@@ -425,12 +423,6 @@ class NotificacionDAO {
 			} catch(Exception ex) {
 				errorlog +=", consulta custom " + ex.getMessage();
 			}
-			
-			finally {
-				if(closeCon) {
-					new DBConnect().closeObj(con, stm, rs, pstm);
-				}	
-			}	
 			
 			String tablaPasos=""
 			String plantillaPasos="<tr> <td class= \"col-xs-1 col-sm-1 col-md-1 col-lg-1 text-center aling-middle backgroundOrange color-index number-table \"> [numero]</td> <td class= \"col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center aling-middle backgroundDGray \"> <div class= \"row \"> <div class= \"col-12 form-group color-titulo \"> <img src= \"[imagen] \"> </div> <div class= \"col-12 color-index sub-img \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [titulo] </div> </div> </td> <td class= \"col-xs-7 col-sm-7 col-md-7 col-lg-7 col-7 text-justify aling-middle backgroundLGray \"style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; \"> [descripcion] </td> </tr>"
@@ -467,9 +459,6 @@ class NotificacionDAO {
 			
 			errorlog += "| Variable11"
 			plantilla=plantilla.replace("[pasos]", tablaPasos)
-			
-			
-			
 			errorlog += "| Variable13"
 			if(!cn.getContenido_leonel().equals("") ) {
 				plantilla=plantilla.replace("<!--Leonel-->", "<table width=\"80%\"> <thead></thead> <tbody> <tr> <td width=\"25%\" style=\"text-align: right;\"> <img style=\"width: 145px;\" src=\"https://bpmpreprod.blob.core.windows.net/publico/Leoneldmnisiones_Mesa%20de%20trabajo%201.png\"> </td> <td class=\"col-6\"> <div class=\"arrow_box\" style=\"position: relative; background: #ff5900; border: 4px solid #ff5900;border-radius: 50px;\"> <h6 class=\"logo\" style=\"font-size: 12px; padding: 10px; color: white; font-weight: 500;font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif;\"> [leonel]</h6> </div> </td> </tr> </tbody> </table>"+"<hr>")
@@ -509,37 +498,6 @@ class NotificacionDAO {
 				plantilla=plantilla.replace("[firma]", "")
 			}
 			
-//			errorlog +=  "| Variable16 "
-//			closeCon = validarConexion();
-//			Long idcampus =""
-//			pstm = con.prepareStatement(Statements.GET_CAMPUS_ID_FROM_CLAVE);
-//			pstm.setString(1, object.campus);
-//			rs = pstm.executeQuery();
-//			
-//			if(rs.next()) {
-//				idcampus = rs.getLong("campus_id");
-//			}
-//			errorlog +=  "| Variable17 idcampus::";
-//			closeCon = validarConexion();
-//			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_CAMPUS);
-//			pstm.setLong(1, idcampus);
-//			rs = pstm.executeQuery();
-//			errorlog +=  "| Variable17.1 "
-//			
-//			while(rs.next()) {
-//				errorlog +=  "| Variable17.1.2 "
-//				if(rs.getString("clave").equals("carta_posgrado_campus")) {
-//					plantilla=plantilla.replace("[carta_posgrado_campus]", rs.getString("valor"));
-//				} else if(rs.getString("clave").equals("carta_posgrado_campus_telefono_contacto")) {
-//					plantilla=plantilla.replace("[carta_posgrado_campus_telefono_contacto]", rs.getString("valor"));
-//				} else if(rs.getString("clave").equals("carta_posgrado_campus_pagina")) {
-//					plantilla=plantilla.replace("[carta_posgrado_campus_pagina]", rs.getString("valor"));
-//				} else if(rs.getString("clave").equals("carta_posgrado_campus_correo_contacto")) {
-//					plantilla=plantilla.replace("[carta_posgrado_campus_correo_contacto]", rs.getString("valor"));
-//				}
-//			}
-			
-			   
 			errorlog +=  "| Variable18"
 			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner())
 		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer())
@@ -552,11 +510,38 @@ class NotificacionDAO {
 			lstAdditionalData.add("correo="+correo)
 			lstAdditionalData.add("asunto="+asunto)
 			lstAdditionalData.add("cc="+cc);
+			
+//			pstm = con.prepareStatement(StatementsCatalogos.GET_APYKEYMAILGUN)
+//			pstm.setString(1, object.campus);
+//			rs = pstm.executeQuery();
+//			Map<String, Object> row = new HashMap<>();
+//			String dominio = ""
+//			String apikey = "";
+//			
+//			while (rs.next()) {
+//				LOGGER.error "[getCatConfiguraciones] " +  rs.getString("clave") + " | | " +  rs.getString("valor");
+//				if(rs.getString("clave").equals("mailgun_dominio")) {
+//					LOGGER.error "[getCatConfiguraciones] " +  rs.getString("clave") + " | | " +  rs.getString("valor");
+//					dominio = rs.getString("valor");
+//				} else if (rs.getString("clave").equals("mailgun_apikey")) {
+//					LOGGER.error "[getCatConfiguraciones] " +  rs.getString("clave") + " | | " +  rs.getString("valor");
+//					apikey = rs.getString("valor");
+//				}
+//			}
+//			
+//			row.put("id_campus", Long.valueOf(object.campus));
+//			row.put("mailgun_apikey", apikey);
+//			row.put("mailgun_dominio", dominio);
+			
+			errorlog +=  "| Variable18.1"
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
+				errorlog +=  "| Variable18.2"
 				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
+				errorlog +=  "| Variable18.3"
 				catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0))
+				errorlog +=  "| Variable18.4"
 				catBitacoraCorreo.setMensaje(object.mensaje)
 				catBitacoraCorreo.setPara(object.correo)
 				catBitacoraCorreo.setCampus(object.campus)
@@ -572,10 +557,15 @@ class NotificacionDAO {
 			
 			resultado.setSuccess(true)
 		} catch (Exception e) {
+			LOGGER.error("errorlog::" + errorlog)
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage())
 			
 			e.printStackTrace()
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
 		}
 		resultado.setError_info(errorlog);
 		return resultado;

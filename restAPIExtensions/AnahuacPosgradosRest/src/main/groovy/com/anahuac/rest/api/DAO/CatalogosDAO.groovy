@@ -3056,47 +3056,46 @@ class CatalogosDAO {
 		return resultado
 	}
 	
-	public Result getCatConfiguraciones(String jsonData) {
+	public Result getCatConfiguraciones(String campus) {
+		LOGGER.error "[getCatConfiguraciones] 1 " ;
 		Result resultado = new Result()
 		boolean closeCon = false
 		List<Map<String, Object>> data = new ArrayList<>();
-		Integer total_rows = 0;
-	
+		Map<String, Object> row = new HashMap<>();
+		
 		try {
-			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
-			def jsonSlurper = new JsonSlurper()
-			def object = jsonSlurper.parseText(jsonData)
-//			throw new Exception("El valor de 'object cuando llega a configuraciones' es" + object);
-			closeCon = validarConexion()
-	
+			closeCon = validarConexion();
+			LOGGER.error "[getCatConfiguraciones] 2 " ;
 			// Ejecutar la consulta SQL
 			pstm = con.prepareStatement(StatementsCatalogos.GET_APYKEYMAILGUN)
-			pstm.setLong(1, object.campus)
+			pstm.setString(1, campus);
+			LOGGER.error "[getCatConfiguraciones] " + campus;
 			rs = pstm.executeQuery();
-			// Obtener los metadatos de las columnas para obtener los nombres de los campos
-	
-			rs = pstm.executeQuery();
-			
+			LOGGER.error "[getCatConfiguraciones] 3 " ;
 			while (rs.next()) {
-			    Map<String, Object> row = new HashMap<>();
-			    row.put("mailgun_dominio", rs.getString("clave"));
-			    row.put("mailgun_apikey", rs.getString("valor"));
-			    row.put("id_campus", rs.getLong("id_campus"));
-			    data.add(row);
+				LOGGER.error "[getCatConfiguraciones] " +  rs.getString("clave") + " | | " +  rs.getString("valor");
+				if(rs.getString("clave").equals("mailgun_dominio")) {
+					row.put("mailgun_dominio", rs.getString("valor"));
+				} else if (rs.getString("clave").equals("mailgun_apikey")) {
+					row.put("mailgun_apikey", rs.getString("valor"));
+				} 
+				
+				row.put("id_campus", rs.getLong("id_campus"));
 			}
-
+			data.add(row);
+			
 			resultado.setData(data);
 			resultado.setSuccess(true)
 			
 		} catch (Exception e) {
-			resultado.setSuccess(false)
+			resultado.setSuccess(false);
 			resultado.setError("[getCatConfiguraciones] ${e.message}")
 		} finally {
-			// Cerrar la conexión en caso de que esté abierta
-			if (closeCon) {
-				new DBConnect().closeObj(con, stm, rs, pstm)
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
 		}
+		
 		return resultado
 	}
 	

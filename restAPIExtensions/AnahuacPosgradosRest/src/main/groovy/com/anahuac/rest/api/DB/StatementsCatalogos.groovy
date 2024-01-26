@@ -154,7 +154,7 @@ class StatementsCatalogos {
 	public static final String GET_GESTIONESCOLARBYIDCAMPUS  = "SELECT * FROM PSGRCatGestionEscolar WHERE campus_referencia_pid = ? AND is_eliminado <> true ";
 	
 	//CORREOS
-	public static final String GET_APYKEYMAILGUN="SELECT * FROM PSGRConfiguraciones WHERE id_campus = ? LIMIT 1"
+	public static final String GET_APYKEYMAILGUN="SELECT * FROM PSGRConfiguraciones WHERE id_campus = (SELECT persistenceid from PSGRCatCampus WHERE grupo_bonita = ? LIMIT 1) AND clave IN ('mailgun_apikey', 'mailgun_dominio')"
 	public static final String DELETE_CATNOTIFICACIONES = "DELETE FROM PSGRCatNotificaciones WHERE persistenceid = ?";
 	
 	//PSGRCatPais

@@ -57,24 +57,21 @@ class MailGunDAO {
 		ProcessDefinition objProcessDefinition
 		Long procesoid = 0L
 		List<String> lstResultado = new ArrayList<String>()
-		
 		String casoString = "";
 		String campus = "";
-		
 		Map<String, String> objGrupoSelected = new HashMap<String, String>();
 		Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
-		
+
 		try {
 			def jsonSlurper = new JsonSlurper()
 			def object = jsonSlurper.parseText(jsonData)
 			def correocopia = ""
-			
 			assert object instanceof Map
 			if(object.lstCopia != null) {
 				assert object.lstCopia instanceof List
 			}
-			
+
 			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
 			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
 			lstGrupoCampus = new ArrayList<Map<String, String>>();
@@ -133,13 +130,12 @@ class MailGunDAO {
 			campus =  String.valueOf(object.campus);
 			casoString = String.valueOf(object.idcaso)
 			procesoid = Long.valueOf(casoString)
-			
+
 			for(Map<String, String> row : lstGrupoCampus) {
 				if(row.get("descripcion").equals(campus)) {
 					objGrupoSelected = row;
 				}
 			}
-			
 			EstructuraMailGun estructura = new EstructuraMailGun()
 			estructura.setTo(object.to)
 			for(def row: object.lstCopia) {
@@ -154,12 +150,7 @@ class MailGunDAO {
 			estructura.setSubject(object.subject)
 			estructura.setBody(object.body)
 			
-			LOGGER.error "estructura para correo "+ estructura
-			
-			
 			JsonNode jsonNode = sendSimpleMessage(estructura)
-			LOGGER.error "================================="
-			LOGGER.error jsonNode.toString()
 			lstResultado.add(jsonNode.toString())
 			resultado.setData(lstResultado)
 			resultado.setSuccess(true)
@@ -293,72 +284,45 @@ class MailGunDAO {
 		Map<String, String> objGrupoCampus = new HashMap<String, String>();
 		List<Map<String, String>> lstGrupoCampus = new ArrayList<Map<String, String>>();
 		String errorlog = ""
-		def jsonData
 		def object
-		Result catConfiguracionesResult
+		Result catConfiguracionesResult;
+		
 		try {
 			
 			def correocopia = ""
-			errorlog += "Constructor EstructuraMailGun"
-			EstructuraMailGun estructura = new EstructuraMailGun()
-			
+			LOGGER.error "[sendEmailPlantilla] 1 |" + campus;
+			EstructuraMailGun estructura = new EstructuraMailGun();
+			LOGGER.error "[sendEmailPlantilla] 2 "
 			estructura.setTo(correo)
+			LOGGER.error "[sendEmailPlantilla] 3 "
 			estructura.setCc(cc)
+			LOGGER.error "[sendEmailPlantilla] 4 "
 			estructura.setSubject(asunto)
+			LOGGER.error "[sendEmailPlantilla] 5 "
 			estructura.setBody(body)
-			errorlog += ", get lstCatApikey"
-
-			def objCatCampusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class);
-			List<PSGRCatCampus> lstCatCampus = objCatCampusDAO.find(0, 9999)
-			lstGrupoCampus = new ArrayList<Map<String, String>>();
-			for(PSGRCatCampus objCatCampus : lstCatCampus) {
-				objGrupoCampus = new HashMap<String, String>();
-				objGrupoCampus.put("persistenceid", objCatCampus.getPersistenceId());
-				objGrupoCampus.put("descripcion", objCatCampus.getDescripcion());
-				objGrupoCampus.put("valor", objCatCampus.getGrupo_bonita());
-				lstGrupoCampus.add(objGrupoCampus);
-				errorlog += " CAMPUS " + " valor " + objCatCampus.getGrupo_bonita()
-			}
+			LOGGER.error "[sendEmailPlantilla] 6 "
+			catConfiguracionesResult = new CatalogosDAO().getCatConfiguraciones(campus);
+			LOGGER.error "[sendEmailPlantilla] 7 "
 			
-			errorlog += ", for Comparar  "  + lstGrupoCampus.size() + campus
-			for(Map<String, String> row : lstGrupoCampus) {
-				errorlog += row.get("valor") + campus
-				if(row.get("valor").equals(campus)) {
-					objGrupoSelected = row;
-					errorlog += " OBJGRUPOSELECTED " + row
-				}
-			}
-			
-			if (catalogosDAO == null) {
-				catalogosDAO = new CatalogosDAO();
-			}
-			
-			
-			jsonData = new groovy.json.JsonBuilder(campus: lstGrupoCampus.first().get("persistenceid")).toString()
-			
-			catConfiguracionesResult = catalogosDAO.getCatConfiguraciones(jsonData)
+			LOGGER.error "[sendEmailPlantilla] ESstructurA" + estructura
 			List<Map<String, Object>> configuracionesData = catConfiguracionesResult.getData();
-			object = new Expando(configuracionesData.first())
-			String correoDe = object.mailgun_dominio;
-//			estructura.setTo(correo);
+			object = new Expando(configuracionesData.first());
 			estructura.setApiKey(object.mailgun_apikey);
+			LOGGER.error "[sendEmailPlantilla] object.mailgun_apikey" + object.mailgun_apikey
 			estructura.setSandBox(object.mailgun_dominio);
-			
+			LOGGER.error "[sendEmailPlantilla] object.mailgun_dominio" + object.mailgun_dominio
+			String correoDe = "servicios@" + estructura.getSandBox();
 			List<String> ad = new ArrayList<String>()
 			ad.add(correoDe)
 			resultado.setAdditional_data(ad)
-			errorlog += ", estructura" + estructura.toString();
 			JsonNode jsonNode = sendSimpleMessage(estructura)
-			errorlog += ",jsonNode"
-			
 			lstResultado.add(jsonNode.toString())
-			errorlog += ",jsonNode.toString()= "+jsonNode.toString()
 			resultado.setData(lstResultado)
 			resultado.setSuccess(true)
 			resultado.setInfo(errorlog);
 		} catch(Exception ex) {
+			LOGGER.error "[sendEmailPlantilla] ERRRRROR " + ex.getMessage();
 			resultado.setInfo(errorlog);
-			LOGGER.error ex.getMessage()
 			resultado.setSuccess(false)
 			resultado.setError(ex.getMessage())
 		}
@@ -409,7 +373,7 @@ class MailGunDAO {
 			}
 
 			String correoDe = "";
-			def daoCatApiKey = context.getApiClient().getDAO(PSGRCatApiKeyDAO.class);
+//			def daoCatApiKey = context.getApiClient().getDAO(PSGRCatApiKeyDAO.class);
 
 //			for(PSGRCatApiKey ca : daoCatApiKey.find(0,9999)) {
 ////				errorlog += ", APIKEY " + ca.getCampus().getClave() +" = objGrupoSelected " + objGrupoSelected.get("valor");
@@ -446,24 +410,24 @@ class MailGunDAO {
 	}
 	
 	public static JsonNode sendSimpleMessage(EstructuraMailGun estructura) throws UnirestException {
+				LOGGER.error "[sendSimpleMessage] [estructura] " + estructura.getApiKey();
+				LOGGER.error "[sendSimpleMessage] [estructura] " + estructura.getSandBox();
+				
 				HttpResponse<JsonNode> request = (estructura.getCc().equals(""))?Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
 					.basicAuth("api", estructura.getApiKey())
 					.field("from", "Universidad Anáhuac <servicios@"+ estructura.getSandBox() +">")
 					.field("to", estructura.getTo())
-					//.field("to", "ricardo.riveroll@anahuac.mx")
-					//.field("cc", estructura.getCc())
 					.field("subject", estructura.getSubject())
 					.field("html", estructura.getBody().replace("\\", ""))
 					.asJson():Unirest.post("https://api.mailgun.net/v3/" + estructura.getSandBox() + "/messages")
 					.basicAuth("api", estructura.getApiKey())
 					.field("from", "Universidad Anáhuac <servicios@"+ estructura.getSandBox() +">")
 					.field("to", estructura.getTo())
-					//.field("to", "ricardo.riveroll@anahuac.mx")
 					.field("cc", estructura.getCc())
 					.field("subject", estructura.getSubject())
 					.field("html", estructura.getBody().replace("\\", ""))
 					.asJson()
-		
+					LOGGER.error "[sendSimpleMessage] 2| ";
 				return request.getBody()
 	}
 	
