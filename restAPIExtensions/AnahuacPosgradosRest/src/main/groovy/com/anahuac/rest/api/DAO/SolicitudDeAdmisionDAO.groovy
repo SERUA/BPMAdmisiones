@@ -1486,10 +1486,12 @@ class SolicitudDeAdmisionDAO {
 				} else if(tareaEjecutar.name.equals("Dictamen de solicitud")) {
 					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
 					registroInput.put("is_transferido", true);
+					registroInput.put("mensaje_comite_admision", "");
 					contrato.put("registroInput", registroInput);
 					contrato.put("isSolicitudNoAdmitidaDictamenInput", false);
 					contrato.put("isSolicitudAdmitidaDictamenInput", false);
 					contrato.put("isSolicitudArchivadaDictamenInput", false);
+					contrato.put("isReagendarInput", false);
 				} else if(tareaEjecutar.name.equals("Reagendar cita")) {
 					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
 					registroInput.put("is_transferido", true);
