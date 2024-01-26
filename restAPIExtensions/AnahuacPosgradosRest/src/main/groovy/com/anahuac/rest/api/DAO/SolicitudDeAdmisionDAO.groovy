@@ -1361,6 +1361,21 @@ class SolicitudDeAdmisionDAO {
 							errorlog += "" + e.getMessage();
 						}
 					}
+					// Trayendo el nombre del usuarios responsable de entrevista
+					if (metaData.getColumnLabel(i).toLowerCase().equals("responsable_id")) {
+						def nombre = null;
+						if (rs.getString(i) != null) {
+							try {
+								def id = Long.valueOf(rs.getString(i));
+								def responsableUser = context.apiClient.identityAPI.getUser(id);
+								nombre = responsableUser.firstName + " " + responsableUser.lastName;
+							}
+							catch(e) {
+								errorlog += "" + e.getMessage();
+							}
+						}
+						columns.put("responsable_nombre", nombre);
+					}
 				}
 
 				rows.add(columns);

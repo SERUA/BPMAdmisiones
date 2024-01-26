@@ -75,6 +75,7 @@
                   <!--
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
                   -->
+                  <th> <span style="cursor:pointer" ng-click="setOrderBy('RESPONSABLE')">Responsable<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='RESPONSABLE'"></i></span></th>
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAENTREVISTA')">Fecha de entrevista<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAENTREVISTA'"></i></span></th>
                   <th> Acciones</th>     
               </tr>
@@ -94,7 +95,7 @@
                   <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
                   <!--
                     <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
-                  -->
+                  --><td><input ng-model="dynamicInput['fechaentrevista']" class="form-control" ng-enter="filterKeyPress('RESPONSABLE',dynamicInput['responsable'])"></td>
                   <td><input ng-model="dynamicInput['fechaentrevista']" class="form-control" ng-enter="filterKeyPress('FECHAENTREVISTA',dynamicInput['fechaentrevista'])"></td>
                   <td></td>
               </tr>
@@ -132,13 +133,15 @@
                   <td>
                       <b>{{row.fecha_registro | date:'dd/MM/yyyy HH:mm'}}</b><br>
                   </td>
-                
+                  <td>
+                      {{row.responsable_nombre ? row.responsable_nombre : "Responsable no asignado" }}
+                  </td>
                   <td ng-if="tieneCita(row)">
                       <b>{{row.fecha_entrevista| date:'dd/MM/yyyy HH:mm'}}</b><br>
                   </td>
                   <td ng-if="!tieneCita(row)" class="text-danger blink_me">
                     <b>Cita sin registrar</b><br>
-                    </td>
+                  </td>
                   <!--td>
                       {{row.updateDate}}
                   </td-->
@@ -158,11 +161,11 @@
                               <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
                           </button>
                       </abbr>
-                      <!--<abbr title="Archivar solicitud">-->
-                      <!--    <button type="button" class="btn btn-default" ng-click="openModalArchivarSolicitud(row)">-->
-                      <!--        <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>-->
-                      <!--    </button>-->
-                      <!--</abbr>-->
+                      <abbr title="Archivar solicitud">
+                          <button type="button" class="btn btn-default" ng-click="openModalArchivarSolicitud(row)" ng-if="showArchivarButton">
+                             <span class="glyphicon glyphicon-folder-open" aria-hidden="true"></span>
+                          </button>
+                      </abbr>
                       
                       <!--
                       <button type="button" class="btn btn-default" ng-click="abrirBitacora(row)">
@@ -221,7 +224,7 @@
           <div class="modal-body row">
               <div class="col-xs-8 col-xs-offset-2 text-center">
                   <p>
-                    La cita será enviada a reagendar, donde el aspirante podrá seleccionar otra fecha para realizar su entrevista.
+                    Se le solicitara al aspirante reagendar su cita para realizar su entrevista.
                   </p>
               </div>
           </div>

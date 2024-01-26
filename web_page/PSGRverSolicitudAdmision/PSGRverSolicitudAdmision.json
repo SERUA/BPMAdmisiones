@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1705703447615,
+  "lastUpdate" : 1706232653145,
   "rows" : [
     [
       {
@@ -34,6 +34,58 @@
         "reference" : "7f1c1359-a4bf-4b2e-b7be-67bb0cd6ad7d",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "<pre>{{estatusSolicitud}}</pre>\n\n<pre>{{archivedCaseRegistro| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "dd622ce8-0e64-4e43-acda-e7255a767501",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -19076,8 +19128,12 @@
       "value" : [
         "if ($data.archievedCaseid === undefined || $data.archievedCaseid === null)",
         "    return \"No definido\";",
-        "if ($data.archievedCase[0])",
-        "return \"Admitido\";"
+        "    ",
+        "const currentArchievedCase = $data.archievedCase[0];",
+        "if (currentArchievedCase && $data.archivedCaseRegistro) {",
+        "    return $data.archivedCaseRegistro[0].estatus_solicitud;",
+        "}",
+        "else return \"No definido\";"
       ],
       "exposed" : false
     },
@@ -19087,6 +19143,13 @@
         "if (!$data.pagina) {",
         "    $data.pagina = \"solicitud\";",
         "}"
+      ],
+      "exposed" : false
+    },
+    "archivedCaseRegistro" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{archievedCaseid}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
       ],
       "exposed" : false
     }

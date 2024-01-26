@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1706221031302,
+  "lastUpdate" : 1706254029331,
   "rows" : [
     [
       {
@@ -112,7 +112,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "datosDocumentosNuevos\n<pre>{{datosDocumentosNuevos | json}}</pre>"
+            "value" : "campusOrPosgradoChanged\n<pre>{{campusOrPosgradoChanged| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -16557,7 +16557,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : false
+                        "value" : true
                       },
                       "labelHidden" : {
                         "type" : "constant",
@@ -21374,6 +21374,12 @@
         "        tamano_documento: it.tamano_documento !== undefined ? it.tamano_documento : null,\r",
         "        documento: getCatalogo(it, \"documento\")\r",
         "    })),\r",
+        "    /*datosDocumentosInput: $data.datosDocumentosNuevos === undefined  ? [] : $data.datosDocumentosNuevos.map( it => ({\r",
+        "        persistenceId_string: it.persistenceId_string !== undefined ? it.persistenceId_string : null,\r",
+        "        url_azure: it.url_azure !== undefined ? it.url_azure : null,\r",
+        "        tamano_documento: it.tamano_documento !== undefined ? it.tamano_documento : null,\r",
+        "        documento: getCatalogo(it, \"documento\")\r",
+        "    })),*/\r",
         "}\r",
         "\r",
         "function getCatalogo(_objeto, _nombre){\r",
