@@ -3078,6 +3078,8 @@ class CatalogosDAO {
 					row.put("mailgun_dominio", rs.getString("valor"));
 				} else if (rs.getString("clave").equals("mailgun_apikey")) {
 					row.put("mailgun_apikey", rs.getString("valor"));
+				}  else if (rs.getString("clave").equals("mailgun_apikey")) {
+					row.put("mailgun_correo", rs.getString("valor"));
 				} 
 				
 				row.put("id_campus", rs.getLong("id_campus"));

@@ -31,12 +31,13 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     function addCaseComment() {
+        debugger;
         const dataToSend = {
             content: JSON.stringify($scope.properties.caseUserCommentToSend),
             processInstanceId: $scope.properties.caseId,
         };
         doRequest("POST", "/API/bpm/comment/", null, dataToSend,
-            function (data, status) { },
+            function (data, status) { debugger; },
             function (data, status) { console.log("No se agregó el comentario de caso.") }
         );
     }
@@ -191,17 +192,30 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
 
         return $http(req)
-        .success(()=>{
+        .success((data)=>{
+            debugger;
             console.log("Estatus actualizado");
+            $scope.properties.dataFromSuccess = data;
+            $scope.properties.dataFromError = undefined;
+            $scope.properties.taskCompleted = true;
+
+            if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
+                redirectIfNeeded();
+            }
+
+            closeModal($scope.properties.closeOnSuccess);
+            if ($scope.properties.caseUserCommentToSend && $scope.properties.caseUserCommentToSend.mensaje !== null) {
+                addCaseComment();
+            }
+
+            vm.busy = false;
+            closeModal($scope.properties.closeOnSuccess);
         })
         .error(()=>{
             console.log("Estatus no actualizado");
         })
         .finally(function () {
-            vm.busy = false;
-            closeModal($scope.properties.closeOnSuccess);
-            $scope.properties.taskCompleted = true;
-            addCaseComment();
+            localStorageService.delete($window.location.href);
         });
     }
 
