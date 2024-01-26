@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1706118984285,
+  "lastUpdate" : 1706292047671,
   "rows" : [
     [
       {
@@ -18173,7 +18173,7 @@
                         },
                         "closeOnSuccess" : {
                           "type" : "constant",
-                          "value" : false
+                          "value" : true
                         },
                         "dataFromError" : {
                           "type" : "variable",
@@ -24591,11 +24591,16 @@
     "taskState" : {
       "type" : "expression",
       "value" : [
-        "if ($data.isCorrectTask === false) return \"incorrect\";",
-        "if ($data.isCorrectTask && $data.taskCompleted) return \"completed\";",
-        "if ($data.isCorrectTask && !$data.taskCompleted) return \"ready\";",
+        "if ($data.taskCompleted) return \"completed\";",
+        "if (!$data.taskCompleted) return \"ready\";",
         "",
-        "return \"undefined\";"
+        "return \"undefined\";",
+        "",
+        "// if ($data.isCorrectTask === false) return \"incorrect\";",
+        "// if ($data.isCorrectTask && $data.taskCompleted) return \"completed\";",
+        "// if ($data.isCorrectTask && !$data.taskCompleted) return \"ready\";",
+        "",
+        "// return \"undefined\";"
       ],
       "exposed" : false
     },
