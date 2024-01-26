@@ -164,6 +164,55 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.properties.periodoSeleccionado = $scope.selectedPeriodo;
         } 
     }
+    
+    $scope.descargarSolicitud = function(row) {
+        $scope.action = "descargarSolicitud";
+          var req = {
+            method: "POST",
+            url: `../API/extension/DocAPI?pdf=pdfFileSolicitudPosgrado&p=0&c=1&caseid=${row.caseid}`
+        };
+  
+        return $http(req).success(function(data, status) {
+                console.log("Ejecutado correctamente.")
+                console.log(data)
+                const documentoB64 = data.data[0];
+                downloadFile(documentoB64, row.caseid);
+            })
+            .error(function(data, status) {
+                console.log("Fallo algo en la descarga.")
+                console.log(data);
+            })
+            .finally(function() {});
+    }
+    
+    function downloadFile(documentoB64, caseid) {
+        debugger
+        var base64Data = documentoB64;
+
+        // Crear un objeto Blob a partir de la cadena base64
+        var binaryData = atob(base64Data);
+        var arrayBuffer = new ArrayBuffer(binaryData.length);
+        var uint8Array = new Uint8Array(arrayBuffer);
+
+        for (var i = 0; i < binaryData.length; i++) {
+        uint8Array[i] = binaryData.charCodeAt(i);
+        }
+
+        var blob = new Blob([uint8Array], { type: 'application/pdf' });
+
+        // Crear un enlace (link) y simular un clic para descargar el archivo
+        var a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = "Solicitud de admisión a posgrados " + caseid + ".pdf";
+        a.click();
+        /*const linkSource = documentoB64;
+        const downloadLink = document.createElement("a");
+        const fileName = "Solicitud de admisión a posgrados " + caseid + ".pdf";
+    
+        downloadLink.href = linkSource;
+        downloadLink.download = fileName;
+        downloadLink.click();*/
+    }
 
     // Utils
 
