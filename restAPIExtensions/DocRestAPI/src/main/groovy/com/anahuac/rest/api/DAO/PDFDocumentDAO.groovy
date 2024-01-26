@@ -1853,7 +1853,7 @@ class PDFDocumentDAO {
 	}
 	
 	
-	public Result getSolicitudPosgradosInfo(String caseId, RestAPIContext context) {
+	public Result getSolicitudPosgradosInfo(Map < String, Object > columns, String caseId, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -1861,7 +1861,7 @@ class PDFDocumentDAO {
 		String idbanner = "";
 		
 		try {
-			Map < String, Object > columns = new HashMap < String, Object > ();
+			columns = new HashMap < String, Object > ();
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> medios_enteraste = new ArrayList < Map < String, Object >> ();
 			rows = new ArrayList < Map < String, Object >> ();
@@ -1896,7 +1896,51 @@ class PDFDocumentDAO {
 			}
 			
 			columns.put("medios_enteraste", medios_enteraste);
+			
+			// Variables (Valores dinamicos)
+			pstm = con.prepareStatement(Statements.GET_DATOS_PERSONALES_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				String curp_pasaporte = rs.getString("curp");
+				
+				columns.put("dp_nombre", rs.getString("nombre"));
+				columns.put("dp_apellido_paterno", rs.getString("apellido_paterno"));
+				columns.put("dp_apellido_materno", rs.getString("apellido_materno"));
+				columns.put("dp_sexo", rs.getString("sexo"));
+				columns.put("dp_nacionalidad", rs.getString("nacionalidad"));
+				columns.put("dp_estado_civil", rs.getString("estado_civil"));
+				columns.put("dp_curp_pasaporte", curp_pasaporte != null ? curp_pasaporte : rs.getString("pasaporte"));
+				columns.put("dp_religion", rs.getString("religion"));
+				columns.put("dp_fecha_nacimiento", rs.getString("fecha_nacimiento"));
+				columns.put("dp_pais_nacimiento", rs.getString("lugar_nacimiento_pais"));
+				columns.put("dp_ciudad_nacimiento", rs.getString("lugar_nacimiento_ciudad"));
+				columns.put("dp_id_banner", rs.getString("id_banner"));
+				columns.put("dp_universidad", rs.getString("campus_alumno"));
+				columns.put("dp_soy_alumno", rs.getBoolean("alumno_anahuac"));
+				columns.put("dp_estado_nacimiento", rs.getString("lugar_nacimiento_estado"));
+			}
 
+			pstm = con.prepareStatement(Statements.GET_DATOS_CONTACTO_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("dc_calle", rs.getString("calle"));
+				columns.put("dc_numero_exterior", rs.getString("numero_ext"));
+				columns.put("dc_numero_interior", rs.getString("numero_int"));
+				columns.put("dc_pais", rs.getString("pais"));
+				columns.put("dc_cp", rs.getString("cp"));
+				columns.put("dc_estado", rs.getString("estado"));
+				columns.put("dc_municipio", rs.getString("municipio"));
+				columns.put("dc_ciudad", rs.getString("ciudad"));
+				columns.put("dc_colonia", rs.getString("colonia"));
+				columns.put("dc_telefono_cel", rs.getString("telefono_celular"));
+				columns.put("dc_telefono_casa", rs.getString("telefono_casa"));
+				columns.put("dc_correo", rs.getString("cnem_correo_electronico"));
+			}
+			
 			resultado.setSuccess(true);
 			rows.add(columns);
 			resultado.setData(rows);
@@ -1914,7 +1958,6 @@ class PDFDocumentDAO {
 		
 		return resultado;
 	}
-	
 	
 //	dp_url_foto
 //	dp_nombre
@@ -1945,4 +1988,63 @@ class PDFDocumentDAO {
 //	dc_telefono_cel
 //	dc_telefono_casa
 //	dc_correo
+	
+	public Result pdfFileSolicitudPosgrado(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String log = "";
+		
+		try {
+			Result dataResult = new Result();
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty("jasperSolicitudPosgrados");
+			inputStream.close();
+			
+			byte [] file = Base64.getDecoder().decode(plantilla)
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream)
+
+			JRDataSource dataSource = new JREmptyDataSource();
+			
+			Map < String, Object > columns = new HashMap < String, Object > ();
+			
+			Result solicitudPosgradosInfo = getSolicitudPosgradosInfo(columns, caseid, context); 
+			
+			columns = (Map < String, Object >) solicitudPosgradosInfo.getData().get(0);
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			String result = new String(encode);
+			
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result);
+			lstResultado.add(log);
+			
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(log)
+			
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(log)
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+		}
+		
+		return resultado;
+	}
 }
