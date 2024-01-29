@@ -738,7 +738,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     $scope.posgradoSelected = "";
     $scope.posgradosLista = [];
 
-    $scope.filterSelectCarrera = function () {
+    $scope.filterSelectPosgrado = function () {
         var aplicado = true;
         for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
             const element = $scope.properties.dataToSend.lstFiltro[index];

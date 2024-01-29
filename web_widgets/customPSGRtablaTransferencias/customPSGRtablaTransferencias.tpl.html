@@ -32,6 +32,20 @@
         <br>
         <div class="row">
             <div class="col-xs-2">
+                <label>Posgrado:</label>
+            </div>
+            <div class="col-xs-2">
+                <select class="form-control" ng-model="posgradoSelected" ng-change="filterSelectPosgrado()"
+                    id="posgrado2" ng-disabled="filtroCampus === 'Todos los campus'">
+                    <option value="">
+                        Seleccionar Posgrado:
+                    </option>
+                    <option ng-repeat="posgrado in posgradosLista" value="{{posgrado.descripcion}}">{{posgrado.descripcion}}
+                    </option>
+                </select>
+            </div>
+            
+            <div class="col-xs-2">
                 <label>Programa:</label>
             </div>
             <div class="col-xs-2">
