@@ -1895,7 +1895,8 @@ class PDFDocumentDAO {
 				medios_enteraste.add(medio_enteraste);
 			}
 			
-			columns.put("medios_enteraste", medios_enteraste);
+			JRBeanCollectionDataSource medios_enterasteDS = new JRBeanCollectionDataSource(medios_enteraste);
+			columns.put("medios_enteraste", medios_enterasteDS);
 			
 			// Variables (Valores dinamicos)
 			pstm = con.prepareStatement(Statements.GET_DATOS_PERSONALES_BY_CASEID);
@@ -1958,36 +1959,6 @@ class PDFDocumentDAO {
 		
 		return resultado;
 	}
-	
-//	dp_url_foto
-//	dp_nombre
-//	dp_apellido_paterno
-//	dp_apellido_materno
-//	dp_sexo
-//	dp_nacionalidad
-//	dp_estado_civil
-//	dp_curp_pasaporte
-//	dp_religion
-//	dp_fecha_nacimiento
-//	dp_pais_nacimiento
-//	dp_ciudad_nacimiento
-//	dp_id_banner
-//	dp_universidad
-//	dp_soy_alumno
-//	dp_estado_nacimiento
-	
-//	dc_calle
-//	dc_numero_exterior
-//	dc_numero_interior
-//	dc_pais
-//	dc_cp
-//	dc_estado
-//	dc_municipio
-//	dc_ciudad
-//	dc_colonia
-//	dc_telefono_cel
-//	dc_telefono_casa
-//	dc_correo
 	
 	public Result pdfFileSolicitudPosgrado(String caseid, RestAPIContext context) {
 		Result resultado = new Result();
