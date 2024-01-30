@@ -3,18 +3,17 @@
 <img src="assets/img/Correo@2x.png" class="icon-img-carta">
 <img src="assets/img/5.jpg" class="bg-full">
 
-<div class="col-xs-7 col-xs-offset-5" style="margin-top: 2vh; margin-bottom: 5vh;">
-    <div class="col-xs-5">
+<div class="col-xs-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida'">
+    <div class="col-xs-5 text-center">
         <label>¡BIENVENIDO(A)!</label>
-        <label ng-if="properties.estatusSolicitud !=='No definido'">Esta es tu carta de admisión</label>
-        <label ng-if="properties.estatusSolicitud ==='No definido'">El resultado de admisión aún no esta disponible</label>
+        <label>Esta es tu carta de admisión</label>
     </div>
-    <div ng-if="properties.estatusSolicitud ==='No definido'" class="col-xs-7 document-container-carta" id="carta" style="box-shadow: none">
-        
-    </div>
-    <div ng-if="properties.estatusSolicitud !=='No definido'" class="col-xs-7 document-container-carta" id="carta">
+    <div class="col-xs-7 document-container-carta" id="carta">
         <!-- Contenido de la carta -->
     </div>
+    <button class="btn btn-primary">
+        Descargar
+    </button>
     
     <!--<div class="col-xs-7 document-container-carta">-->
     <!--    <div class="col-xs-12">-->
@@ -50,14 +49,22 @@
     <!--    </div>-->
     <!--</div>-->
 </div>
+
+<div class="col-xs-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida')">
+    <div class="col-xs-8 text-center">
+        <label>¡BIENVENIDO(A)!</label>
+        <h2><b>Estimado aspirante, el resultado de admisión aún no esta disponible.</b></h2>
+    </div>
+</div>
+
 <div class="bottom-banner">
     <div class="col-xs-12 bottom-banner-content">
-        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud !=='No definido' && properties.estatusSolicitud !=='solicitud_no_admitida'">
+        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud ==='Admitida'">
             Sube tu carta a tus redes sociales
         </div>
-        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud ==='No definido'"></div>
+        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud !=='Admitida'"></div>
         <div class="col-xs-3 ">
-            <div ng-if="properties.estatusSolicitud !=='No definido' && properties.estatusSolicitud !=='solicitud_no_admitida'">
+            <div ng-if="properties.estatusSolicitud ==='Admitida'">
                 <div class="col-xs-3">
                     <a href="https://www.facebook.com" target="_blank">
                         <img src="widgets/customPSGRBackgroundImageCarta/assets/img/facebook.png" class="imagen-red-social"/>

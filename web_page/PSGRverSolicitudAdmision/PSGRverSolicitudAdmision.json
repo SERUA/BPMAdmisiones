@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1706232653145,
+  "lastUpdate" : 1706578428837,
   "rows" : [
     [
       {
@@ -76,7 +76,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "<pre>{{estatusSolicitud}}</pre>\n\n<pre>{{archivedCaseRegistro| json}}</pre>"
+            "value" : "citaAspirante\n<pre>{{citaAspirante | json}}</pre>\ncitaAspirante_responsable\n<pre>{{citaAspirante_responsable | json}}</pre>\nresponsable\n<pre>{{responsable| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -19087,7 +19087,11 @@
       "value" : [
         "../API/bpm/archivedCase?c=1&f=sourceObjectId%3D{{caseId}}&p=0"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "archievedCaseList" : {
@@ -19105,7 +19109,7 @@
     "archievedCaseid" : {
       "type" : "expression",
       "value" : [
-        "if($data.archievedCaseList){",
+        "if($data.archievedCaseList && $data.archievedCaseList.length > 0){",
         "    return $data.archievedCaseList[0].rootCaseId;",
         "}"
       ],
@@ -19126,14 +19130,25 @@
     "estatusSolicitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.archievedCaseid === undefined || $data.archievedCaseid === null)",
-        "    return \"No definido\";",
+        "if ($data.archievedCase.length > 0 && $data.archivedCaseRegistro) {",
         "    ",
-        "const currentArchievedCase = $data.archievedCase[0];",
-        "if (currentArchievedCase && $data.archivedCaseRegistro) {",
-        "    return $data.archivedCaseRegistro[0].estatus_solicitud;",
+        "    const currentArchievedCase = $data.archievedCase[0];",
+        "    ",
+        "    if (currentArchievedCase) {",
+        "        const estatus = $data.archivedCaseRegistro[0].estatus_solicitud",
+        "        switch(estatus) {",
+        "            case \"solicitud_admitida\": ",
+        "                return \"Admitida\"",
+        "                break;",
+        "            case \"solicitud_no_admitida\":",
+        "                return \"No admitida\"",
+        "                break;",
+        "            default:",
+        "                return \"No definido\";",
+        "        }",
+        "    }  ",
         "}",
-        "else return \"No definido\";"
+        "else return undefined;"
       ],
       "exposed" : false
     },
@@ -19149,7 +19164,46 @@
     "archivedCaseRegistro" : {
       "type" : "businessdata",
       "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{archievedCaseid}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_responsable" : {
+      "type" : "url",
+      "value" : [
+        "{{citaAspirante|lazyRef:'responsable'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable" : {
+      "type" : "url",
+      "value" : [
+        "../API/identity/user/{{citaAspirante_responsable.responsable_id}}"
+      ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
+      "exposed" : false
+    },
+    "responsable_nombre" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable) {",
+        "    return $data.responsable.firstname + \" \" + $data.responsable.lastname;",
+        "}",
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "updateResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable_nombre) {",
+        "    $data.citaAspirante.responsable_nombre = $data.responsable_nombre;",
+        "}"
       ],
       "exposed" : false
     }
