@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCartasv2",
   "name" : "PSGRCartasv2",
-  "lastUpdate" : 1705358035536,
+  "lastUpdate" : 1706572746468,
   "rows" : [
     [
       {
@@ -10582,8 +10582,13 @@
     "getCaseId" : {
       "type" : "url",
       "value" : [
-        "../API/bdm/businessData/com.anahuac.model.ProcesoCaso?q=getCaseId&f=campus={{campusSelected}}&f=proceso={{proceso}}&p=0&c=1"
+        "../API/bdm/businessData/com.anahuac.posgrados.model.PSGRProcesoCaso?q=getCase_id&f=campus={{campusSelected}}&f=proceso={{proceso}}&p=0&c=1"
       ],
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "proceso" : {
@@ -10600,7 +10605,7 @@
         "",
         "if($data.getCaseId != undefined || $data.getCaseId != null){",
         "    if($data.getCaseId.length > 0){",
-        "        resultado = $data.getCaseId[0].caseId;",
+        "        resultado = $data.getCaseId[0].case_id;",
         "    }",
         "}",
         "",
