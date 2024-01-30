@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1704937993570,
+  "lastUpdate" : 1706555234498,
   "rows" : [
     [
       {
@@ -3246,7 +3246,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatGestionEscolar?q=getCat&p=0&c=99&f=is_eliminado=false&f=campus={{selectedRow.campus_transferencia.persistenceId}}&f=posgrado={{selectedRow.posgrado_transferencia.persistenceId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "periodos" : {
@@ -3262,6 +3266,14 @@
       "value" : [
         "{}"
       ],
+      "exposed" : false
+    },
+    "periodos_disponibles" : {
+      "type" : "url",
+      "value" : [
+        "{{datosPrograma.programa_interes|lazyRef:'periodo_disponible'}}"
+      ],
+      "advancedOptions" : { },
       "exposed" : false
     }
   },

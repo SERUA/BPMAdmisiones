@@ -1,34 +1,27 @@
-/**
- * The controller is a JavaScript function that augments the AngularJS scope and exposes functions that can be used in the custom widget template
- * 
- * Custom widget properties defined on the right can be used as variables in a controller with $scope.properties
- * To use AngularJS standard services, you must declare them in the main function arguments.
- * 
- * You can leave the controller empty if you do not need it.
- */
 function($scope, $http, blockUI) {
-    
-    $scope.redirect = function(_param, filtro) {
-        if (_param === "en_proceso") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_iniciadas/";
-        } else if (_param === "nuevas_solicitudes") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_nuevas";
-        } else if (_param === "citas") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_citas";
-        } else if (_param === "pase_lista") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_pase_lista";
-        } else if (_param === "solicitudes_archivadas") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_rechazadas";
-        } else if (_param === "estadisticas") {
-            window.top.location.href = "/bonita/apps/posgrados/";
-        } else if (_param === "dictamen") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
-        } else if (_param === "admitidos") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
-        } else if (_param === "no_admitidos") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
-        } else if (_param === "transferencias") {
-            window.top.location.href = "/bonita/apps/posgrados/pg_transferencias";
+    $scope.redirect = function(_param, _valido) {
+        if(_valido){
+            if (_param === "en_proceso") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_iniciadas/";
+            } else if (_param === "nuevas_solicitudes") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_nuevas";
+            } else if (_param === "citas") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_citas";
+            } else if (_param === "pase_lista") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_pase_lista";
+            } else if (_param === "solicitudes_archivadas") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_rechazadas";
+            } else if (_param === "estadisticas") {
+                window.top.location.href = "/bonita/apps/posgrados/";
+            } else if (_param === "dictamen") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
+            } else if (_param === "admitidos") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
+            } else if (_param === "no_admitidos") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_solicitudes_dictamen";
+            } else if (_param === "transferencias") {
+                window.top.location.href = "/bonita/apps/posgrados/pg_transferencias";
+            }
         }
     };
 
@@ -146,6 +139,111 @@ function($scope, $http, blockUI) {
         }, function(datos) {
             $scope.dictamen = datos.totalRegistros;
         });
+
+        doRequest("POST", "/bonita/API/extension/posgradosRest?url=selectSolicitudesAdmision&p=0&c=100", {}, {
+            "estatusSolicitud" : "'solicitud_aprobada_admin', 'solicitud_completada','modificaciones_realizadas'",
+            "lstFiltro": [],
+            "type": "aspirantes_rechazados",
+            "orderby": "",
+            "orientation": "DESC",
+            "limit": 10,
+            "offset": 0
+        }, function(datos) {
+            $scope.paseLista = datos.totalRegistros;
+        });
+        
     }
+    
     $scope.initializeDatosProceso();
+    
+    $scope.lstMembership = [];
+    
+    $scope.$watch("properties.userId", function (newValue, oldValue) {
+        if (newValue !== undefined) {
+            var req = {
+                method: "GET",
+                url: `/API/identity/membership?p=0&c=1000&f=user_id%3d${$scope.properties.userId}&d=role_id&d=group_id`
+            };
+
+            return $http(req)
+            .success(function (data, status) {
+                
+                $scope.lstMembership = data;
+                leerRoles()
+                // $scope.campusByUser();
+                
+            })
+            .error(function (data, status) {
+                console.error(data);
+            })
+            .finally(function () { });
+        }
+    });
+    
+    $scope.isSerua = false;
+    $scope.isAdministrador = false;
+    $scope.isSeruaPSG = false;
+    $scope.isComite = false;
+    $scope.isTicampus = false;
+    
+    function leerRoles(){
+        for(let membership of $scope.lstMembership){
+            if(membership.role_id.name === "ADMINISTRADOR" ){
+                $scope.isAdministrador = true;
+                break;
+            } else if(membership.role_id.name === "SERUA" || membership.role_id.name === "SERUA PSG" || membership.role_id.name === "TI SERUA"){
+                $scope.isSeruaPSG = true;
+                break;
+            } else if(membership.role_id.name === "Comite PSG"){
+                $scope.isComite = true;
+                break;
+            } else if(membership.role_id.name === "TI CAMPUS"){
+                $scope.isTicampus = true;
+                break;
+            }
+        }
+    }
+
+    $scope.isActivadoMenu = function(_opcion){
+        let valido = false;
+        if(_opcion === "iniciadas"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus ) {
+                valido = true;
+            }
+        } else if(_opcion === "nuevas"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+                valido = true;
+            }
+        } else if(_opcion === "pase_lista"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus || $scope.isComite) {
+                valido = true;
+            }
+        } else if(_opcion === "archivadas"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+                valido = true;
+            }
+        } else if(_opcion === "estadisticas"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+                valido = true;
+            }   
+        } else if(_opcion === "dictamen"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus || $scope.isComite) {
+                valido = true;
+            }
+        } else if(_opcion === "admitidos"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+                valido = true;
+            }
+        } else if(_opcion === "no_admitidos"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus) {
+                valido = true;
+            }
+        } else if(_opcion === "transferencias"){
+            if($scope.isSerua || $scope.isAdministrador || $scope.isSeruaPSG || $scope.isTicampus ) {
+                valido = true;
+            }
+        }
+
+        return valido;
+    }
 }

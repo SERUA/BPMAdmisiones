@@ -266,6 +266,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         }
         doRequest("POST", $scope.properties.urlPost);
     }
+    
     $scope.filterKeyPress = function(columna, press) {
         var aplicado = true;
   
@@ -642,7 +643,39 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.periodoLista = [];
     $scope.carreraSelected = "";
     $scope.carreraLista =[];
+    
+    $scope.filterSelectPosgrado = function () {
+        var aplicado = true;
+        for (let index = 0; index < $scope.properties.dataToSend.lstFiltro.length; index++) {
+            const element = $scope.properties.dataToSend.lstFiltro[index];
+            if (element.columna == "POSGRADO") {
+                if ($scope.peridoSelected == "") {
+                    $scope.properties.dataToSend.lstFiltro.splice(index, index + 1);
+                } else {
+                    $scope.properties.dataToSend.lstFiltro[index].valor = $scope.posgradoSelected;
+                    $scope.properties.dataToSend.lstFiltro[index].operador = "Que contengan";
+                }
+                aplicado = false;
+            }
 
+        }
+        //if (aplicado) {
+        var obj = { "columna": "POSGRADO", "operador": "Que contengan", "valor": $scope.posgradoSelected }
+        $scope.properties.dataToSend.lstFiltro.push(obj);
+        //}
+        if (($scope.filtroCampus != "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0) || ($scope.filtroCampus == "Todos los campus" && $scope.properties.dataToSend.lstFiltro.length > 0)) {
+            doRequest("POST", $scope.properties.urlPost);
+            for (let posgrado of $scope.posgradosLista) {
+                if (posgrado.descripcion === $scope.posgradoSelected) {
+                    $scope.persistenceIdPosgrado = posgrado.persistenceId;
+                    break;
+                }
+            }
+
+            doRequestCarrera();
+        }
+    }
+    
     $scope.filterSelectCarrera = function() {
 		//$scope.limpiarFiltrosTabla();
         var aplicado = true;
@@ -734,10 +767,31 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 blockUI.stop();
             });
     }
+    
+    function doRequestPosgrado() {
+        blockUI.start();
+        var req = {
+            method: "GET",
+            url: "/API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPosgrado?q=getCat&p=0&c=9999&f=is_eliminado=false&f=campus=" + $scope.persistenceid,
+        };
+
+        return $http(req)
+            .success(function (data, status) {
+                $scope.posgradosLista = data;
+            })
+            .error(function (data, status) {
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function () {
+
+                blockUI.stop();
+            });
+    }
 
     $scope.$watch("properties.campusSeleccionado", function(newValue, oldValue) {
         if (newValue !== undefined) {
-            doRequestCarrera();
+            // doRequestCarrera();
+            doRequestPosgrado();
             doRequestPeriodo();
         }
     });
@@ -774,6 +828,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.limpiarFiltros = function(){
         $scope.carreraSelected = null;
         $scope.peridoSelected = null;
+        $scope.posgradoSelected = null;
         $scope.limpiarFiltrosTabla();
         $scope.properties.lstContenido = [];
         $scope.primerCheck = true;

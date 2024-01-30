@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRAppDashboard",
   "name" : "PSGRAppDashboard",
-  "lastUpdate" : 1705617437278,
+  "lastUpdate" : 1706565996036,
   "rows" : [
     [
       {
@@ -33,6 +33,10 @@
           "background" : {
             "type" : "constant",
             "value" : "Yellow"
+          },
+          "userId" : {
+            "type" : "expression",
+            "value" : "userData.user_id"
           }
         },
         "reference" : "fc172e6d-4944-4605-a3bc-9827e96aca72",
@@ -107,7 +111,16 @@
     }
   ],
   "inactiveAssets" : [ ],
-  "variables" : { },
+  "variables" : {
+    "userData" : {
+      "type" : "url",
+      "value" : [
+        "../API/system/session/1"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    }
+  },
   "hasValidationError" : false,
   "uuid" : "634d1ee3-a897-469a-8e30-d94707256e60",
   "type" : "page",
