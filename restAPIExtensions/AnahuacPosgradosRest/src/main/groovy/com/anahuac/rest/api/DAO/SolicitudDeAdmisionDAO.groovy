@@ -22,6 +22,7 @@ import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicionalDAO
 import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
+import com.anahuac.posgrados.model.PSGRCitaResponsableDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.LogsTransferencias
@@ -1818,4 +1819,59 @@ class SolicitudDeAdmisionDAO {
 	
 		return resultado;
 	}
+	
+	public Result getUserByCitaResponsable(String citaResponsable_pid, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			def identityAPI = context.getApiClient().getIdentityAPI();
+			def pSGRCitaResponsableDAO = context.getApiClient().getDAO(PSGRCitaResponsableDAO.class);
+			
+			// validación
+			if (!citaResponsable_pid) {
+				throw new Exception("El parametro 'citaResponsable_pid' no debe ir vacío")
+			}
+			
+			Long persistenceId = 0L;
+			try {
+				persistenceId = Long.valueOf(citaResponsable_pid);	
+			}
+			catch (exeption) {
+				throw new Exception("El parametro 'citaResponsable_pid' debe ser un número de tipo Long")
+			}
+			
+			// Consulta
+			def citaResponsable = pSGRCitaResponsableDAO.findByPersistenceId(persistenceId);
+			if (!citaResponsable) {
+				throw new Exception("No se encontró ningun registro de PSGRCitaResponsable con id " + persistenceId);	
+			}
+			
+			def user = identityAPI.getUser(citaResponsable.responsable_id)
+			if (!user) {
+				throw new Exception("No se encontró ningun usuario con id " + citaResponsable.responsable_id);
+			}
+			
+			row = new HashMap<String, Object>();
+			row.put("nombre", user.firstName + " " + user.lastName);
+			row.put("id", user.id);
+			rows.add(row);
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 }
