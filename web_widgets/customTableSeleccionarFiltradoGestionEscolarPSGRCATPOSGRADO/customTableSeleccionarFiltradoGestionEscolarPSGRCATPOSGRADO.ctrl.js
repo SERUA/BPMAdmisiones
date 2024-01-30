@@ -14,7 +14,7 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
 
     this.selectRowDelete = function(row) {
         swal({
-            title: "¿Estás seguro de que desea eliminar el registro?",
+            title: "¿Estás seguro de que deseas eliminar el registro?",
             text: "Si confirmas la operación se eliminará también toda la documentación del grado académico seleccionado.",
             icon: "warning",
             buttons: {
