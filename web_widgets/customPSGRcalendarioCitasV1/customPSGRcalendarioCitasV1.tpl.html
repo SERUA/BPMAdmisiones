@@ -36,6 +36,10 @@
                     <h3><b>Horario:</b></h3>
                     <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
                 </div>
+                <div ng-if="properties.cita.responsable_nombre">
+                    <h3><b>Responsable:</b></h3>
+                    <p>{{properties.cita.responsable_nombre}}</p>
+                </div>
             </div>
         </div>
         <div class="row">
@@ -63,6 +67,10 @@
             <div>
                 <h3><b>Horario:</b></h3>
                 <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
+            </div>
+            <div ng-if="properties.cita.responsable_nombre">
+                <h3><b>Responsable:</b></h3>
+                <p>{{properties.cita.responsable_nombre}}</p>
             </div>
         </div>
         <div class="row" ng-show="!properties.cita.cita_horario">

@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1706292047671,
+  "lastUpdate" : 1706652117398,
   "rows" : [
     [
       {
@@ -24681,6 +24681,15 @@
         "    return $data.responsable.firstname + \" \" + $data.responsable.lastname;",
         "}",
         "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "updateResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable_nombre) {",
+        "    $data.citaAspirante.responsable_nombre = $data.responsable_nombre;",
+        "}"
       ],
       "exposed" : false
     }

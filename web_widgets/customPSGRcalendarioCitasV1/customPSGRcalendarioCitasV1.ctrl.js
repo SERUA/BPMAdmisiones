@@ -6,7 +6,6 @@
         };
     
         $scope.seleccionarHorario = function (_horario){
-            debugger;
             $scope.horario = _horario;
             $scope.responsable = _horario.cita_entrevista.responsable_id;
             var responsablesArray = $scope.responsable.split(',').map(Number);
@@ -26,7 +25,6 @@
             }).then(function (isConfirm) {
                 if (isConfirm) {
                     swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
-                        debugger;
                         if ($scope.properties.cita) {
                             $scope.properties.cita.cita_horario = angular.copy($scope.horario);
                             $scope.properties.cita.cita_horario.cita_entrevista.persistenceId_string = angular.copy($scope.responsable);
@@ -134,7 +132,6 @@
                     $scope.seleccionada = angular.copy(evento);
                     let url = "../API/extension/posgradosRestGet?url=getHorariosByIdSesionV2&idSesion=" + _id;
                     $http.get(url).success(function(_data){
-                        debugger
                         console.log("entrevistas:")
                         console.log(_data)
                         $scope.entrevistas = angular.copy(_data);
