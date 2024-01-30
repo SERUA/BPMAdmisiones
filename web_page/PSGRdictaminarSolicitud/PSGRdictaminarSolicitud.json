@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1706126539453,
+  "lastUpdate" : 1706652288823,
   "rows" : [
     [
       {
@@ -19847,6 +19847,15 @@
         "    return $data.responsable.firstname + \" \" + $data.responsable.lastname;",
         "}",
         "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "updateResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable_nombre) {",
+        "    $data.citaAspirante.responsable_nombre = $data.responsable_nombre;",
+        "}"
       ],
       "exposed" : false
     }
