@@ -1,0 +1,157 @@
+{
+  "modelVersion" : "2.2",
+  "id" : "PSGRBitacoraSolicitud",
+  "name" : "PSGRBitacoraSolicitud",
+  "lastUpdate" : 1706739947840,
+  "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "Bitácora de solicitud"
+          },
+          "level" : {
+            "type" : "constant",
+            "value" : "Level 3"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "center"
+          }
+        },
+        "reference" : "9a8673d8-e25f-44b0-9858-4a0f2d689643",
+        "hasValidationError" : false,
+        "id" : "pbTitle"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "headers" : {
+            "type" : "constant",
+            "value" : [
+              "ID",
+              "Fecha",
+              "Comentarios",
+              "Usuario",
+              "Estatus solicitud"
+            ]
+          },
+          "content" : {
+            "type" : "expression",
+            "value" : "getBitacoraByCaseid"
+          },
+          "columnsKey" : {
+            "type" : "constant",
+            "value" : [
+              "persistenceid",
+              "fecha_operacion",
+              "comentarios",
+              "usuario",
+              "estatus"
+            ]
+          },
+          "selectedRow" : {
+            "type" : "variable",
+            "value" : ""
+          },
+          "striped" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "condensed" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "bordered" : {
+            "type" : "constant",
+            "value" : false
+          }
+        },
+        "reference" : "4b84314c-35f8-4d14-9186-96110e28282c",
+        "hasValidationError" : false,
+        "id" : "pbTable"
+      }
+    ]
+  ],
+  "assets" : [
+    {
+      "id" : "73733e19-3c61-4e9d-95d7-38fde063d05e",
+      "name" : "localization.json",
+      "type" : "json",
+      "order" : 0,
+      "external" : false
+    },
+    {
+      "id" : "3a456e23-6f0e-4905-be3c-c74543936c88",
+      "name" : "anahuac_custom_styles (2).css",
+      "type" : "css",
+      "order" : 1,
+      "external" : false
+    },
+    {
+      "id" : "a77b8533-30e2-48b5-a862-fe3a92886b0c",
+      "name" : "style.css",
+      "type" : "css",
+      "order" : 0,
+      "external" : false
+    }
+  ],
+  "inactiveAssets" : [ ],
+  "variables" : {
+    "getBitacoraByCaseid" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getBitacoraByCaseid&caseid={{caseid}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "caseid" : {
+      "type" : "urlparameter",
+      "value" : [
+        "caseid"
+      ],
+      "exposed" : false
+    }
+  },
+  "hasValidationError" : false,
+  "uuid" : "88cbe073-c7cf-4b0d-aa93-ebb0689aa4cb",
+  "type" : "page",
+  "description" : "Page generated with Bonita UI designer"
+}

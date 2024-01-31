@@ -252,8 +252,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     $scope.abrirBitacora = function (rowData) {
-        debugger;
-        var url = "/portal/resource/app/administrativo/SDAEBitacora/content/?caseId=" + rowData.caseid;
+        var url = "/portal/resource/app/posgrados/bitacora/content/?caseId=" + rowData.caseid;
         window.open(url, '_blank');
     }
 
