@@ -1,6 +1,20 @@
 function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     
+    // Campus del catalogo
+    $scope.lstCampus = [];
+
+    // Campus mostrados (resultado del match entre la lista del catalogo de campus y los campus disponibles para el usuarios)
+    $scope.campusDisponibles = [];
+
+    // Valor del input select
+    $scope.selectedCampus = "";
+
+    // Valor seleccionado
+    $scope.properties.campusSeleccionado = null;
     
+    // Forzar a cargar los campus del catalogo
+    getCatCampus();
+
     $scope.openModal = function openModal() {
         modalService.open($scope.properties.modalId);
     }
@@ -50,6 +64,51 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 blockUI.stop();
             });
     }
+    
+    // Scope functions 
+
+    // Utils
+
+    function getCatCampus() {
+        var req = {
+            method: "GET",
+            url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=9999&f=eliminado=false"
+        };
+  
+        return $http(req)
+            .success(function(data, status) {
+                $scope.lstCampus = data;
+            })
+            .error(function(data, status) {
+                console.error(data);
+            });
+    }
+    
+    function updateCampusDisponibles() {
+        debugger
+        const campusDisponibles = [];
+
+        if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
+
+            for (let catCampus of $scope.lstCampus) {
+                if ($scope.lstCampusByUser.find(grupo_bonita => catCampus.grupo_bonita === grupo_bonita)) {
+                    campusDisponibles.push(catCampus);
+                }
+            }
+        }
+
+        $scope.campusDisponibles = campusDisponibles;
+    }
+    
+    // Watchers
+
+    $scope.$watch("lstCampus", function (newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    $scope.$watch("lstCampusByUser", function (newValue, oldValue) {
+        updateCampusDisponibles();
+    });
   
     $scope.verSolicitud = function(rowData) {
           var req = {
@@ -188,52 +247,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
             });
     }
-  
-    $scope.isenvelope = false;
-    $scope.selectedrow = {};
-    $scope.mensaje = "";
-  
-    $scope.envelope = function(row) {
-        $scope.isenvelope = true;
-        $scope.mensaje = "";
-        $scope.selectedrow = row;
-    }
-  
-    $scope.envelopeCancel = function() {
-        $scope.isenvelope = false;
-        $scope.selectedrow = {};
-    }
-  
-    $scope.sendMail = function(row, mensaje) {
-        if (row.catCampus.grupoBonita == undefined) {
-            for (var i = 0; i < $scope.lstCampus.length; i++) {
-                if ($scope.lstCampus[i].descripcion == row.catCampus.descripcion) {
-                    row.catCampus.grupoBonita = $scope.lstCampus[i].valor;
-                }
-            }
-        }
-        var req = {
-            method: "POST",
-            url: "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10",
-            data: angular.copy({
-                "campus": row.catCampus.grupoBonita,
-                "correo": row.correoElectronico,
-                "codigo": "recordatorio",
-                "isEnviar": true,
-                "mensaje": mensaje
-            })
-        };
-  
-        return $http(req).success(function(data, status) {
-  
-                $scope.envelopeCancel();
-            })
-            .error(function(data, status) {
-                console.error(data)
-            })
-            .finally(function() {});
-    }
-    $scope.lstCampus = [];
   
     $(function() {
         doRequest("POST", $scope.properties.urlPost);
@@ -566,27 +579,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
   
         doRequest("POST", $scope.properties.urlPost);
     }
-  
-    $scope.getCatCampus = function() {
-        var req = {
-            method: "GET",
-            url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=9999&f=eliminado=false"
-        };
-  
-        return $http(req)
-            .success(function(data, status) {
-                $scope.lstCampus = [];
-                for (var index in data) {
-                    $scope.lstCampus.push({
-                        "descripcion": data[index].descripcion,
-                        "valor": data[index].grupoBonita
-                    })
-                }
-            })
-            .error(function(data, status) {
-                console.error(data);
-            });
-    }
     
     $scope.isPeriodoVencido = function(periodofin) {
         var fecha = new Date(periodofin.slice(0, 10))
@@ -597,9 +589,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         var url = "/bonita/portal/resource/app/posgrados/"+$scope.properties.abrirPagina+"/content/?app=sdae&caseId=" + row.caseid;
         window.open(url, '_blank');
     }
-  
-  
-    $scope.getCatCampus();
 
     $scope.getTareaByEstatus = function(_estatus){
         let output = "";
