@@ -27,6 +27,11 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     getPeriodos();
     
     getCatCampus();
+    
+    // propiedades para el correo express
+    $scope.isenvelope = false;
+    $scope.selectedrow = {};
+    $scope.mensaje = "";
   
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
@@ -139,6 +144,65 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
             $scope.properties.periodoSeleccionado = $scope.selectedPeriodo;
         } 
+    }
+
+    // correo express
+    $scope.envelope = function(row) {
+        $scope.isenvelope = true;
+        $scope.mensaje = "";
+        $scope.selectedrow = row;
+    }
+    
+    $scope.envelopeCancel = function() {
+        $scope.isenvelope = false;
+        $scope.selectedrow = {};
+    }
+    
+    $scope.sendMail = function(row, mensaje) {
+        if (row.grupo_bonita === undefined) {
+            for (var i = 0; i < $scope.lstCampus.length; i++) {
+                if ($scope.lstCampus[i].descripcion == row.campus) {
+                    row.grupo_bonita = $scope.lstCampus[i].valor;
+                }
+            }
+        }
+        var req = {
+            method: "POST",
+            url: "../API/extension/posgradosRest?url=generateHtml",
+            data: angular.copy({
+                "campus": row.grupo_bonita,
+                "correo": row.correo_electronico,
+                "codigo": "psgr-recordatorio",
+                "isEnviar": true,
+                "mensaje": mensaje
+            })
+        };
+
+        try {
+            return $http(req)
+            .success(function(data, status) {
+                swal({
+                    icon: "success",
+                    title: "El correo fue enviado correctamente"
+                })
+                $scope.envelopeCancel();
+            })
+            .error(function(data, status) {
+                swal({
+                    icon: "error",
+                    title: "No se pudo enviar el correo",
+                    text: "Por favor, revisa que exista la plantilla de correo para ese campus."
+                })
+                console.error(data)
+            })
+            .finally(function() {});
+        }
+        catch (e){
+            swal({
+                icon: "error",
+                title: "No se pudo enviar el correo"
+            })
+        }
     }
 
     // Utils
@@ -636,50 +700,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             });
     }
   
-    $scope.isenvelope = false;
-    $scope.selectedrow = {};
-    $scope.mensaje = "";
-  
-    $scope.envelope = function(row) {
-        $scope.isenvelope = true;
-        $scope.mensaje = "";
-        $scope.selectedrow = row;
-    }
-  
-    $scope.envelopeCancel = function() {
-        $scope.isenvelope = false;
-        $scope.selectedrow = {};
-    }
-  
-    $scope.sendMail = function(row, mensaje) {
-        if (row.catCampus.grupoBonita == undefined) {
-            for (var i = 0; i < $scope.lstCampus.length; i++) {
-                if ($scope.lstCampus[i].descripcion == row.catCampus.descripcion) {
-                    row.catCampus.grupoBonita = $scope.lstCampus[i].valor;
-                }
-            }
-        }
-        var req = {
-            method: "POST",
-            url: "/bonita/API/extension/AnahuacRest?url=generateHtml&p=0&c=10",
-            data: angular.copy({
-                "campus": row.catCampus.grupoBonita,
-                "correo": row.correoElectronico,
-                "codigo": "recordatorio",
-                "isEnviar": true,
-                "mensaje": mensaje
-            })
-        };
-  
-        return $http(req).success(function(data, status) {
-  
-                $scope.envelopeCancel();
-            })
-            .error(function(data, status) {
-                console.error(data)
-            })
-            .finally(function() {});
-    }
     $scope.lstCampus = [];
   
     $(function() {
