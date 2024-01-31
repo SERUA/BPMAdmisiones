@@ -202,7 +202,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             })
         };
 
-        try {
+        try {   
             return $http(req)
             .success(function(data, status) {
                 swal({
