@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.01">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.02">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -196,6 +196,15 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_Cyq1g7sgEe6N1L4gms5nXw" type="JAVA_METHOD" expression="setCorreo_contacto">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_MGPw8L_GEe6TXPvcuZwGKg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_MGPw8b_GEe6TXPvcuZwGKg" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Mhs94L_GEe6TXPvcuZwGKg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_MGPw8r_GEe6TXPvcuZwGKg" name="newScript()" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+            <operator xmi:type="expression:Operator" xmi:id="_MGPw87_GEe6TXPvcuZwGKg" type="JAVA_METHOD" expression="setIs_segunda_oportunidad">
+              <inputTypes>java.lang.Boolean</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_RS3Wi1ZtEe6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
