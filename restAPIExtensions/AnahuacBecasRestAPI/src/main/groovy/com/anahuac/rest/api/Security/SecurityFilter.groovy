@@ -740,6 +740,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Finanzas")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Comite de Finanzas")
+				if(allow){break;}
 				break;
 			case "getExcelFile":
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
