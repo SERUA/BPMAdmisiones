@@ -13,30 +13,35 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };
 
     this.selectRowDelete = function(row) {
-        swal("Esta seguro que desea eliminar?", {
-                buttons: {
-                    cancel: "No",
-                    catch: {
-                        text: "Si",
-                        value: "Si",
-                    }
-                },
-            })
-            .then((value) => {
-                switch (value) {
-                    case "Si":
-
-                        $scope.properties.selectedRow = row;
-                        $scope.properties.selectedRow["todelete"] = false;
-                        $scope.properties.selectedRow["isEliminado"] = true;
-                        $scope.$apply();
-                        this.handleTrashClick(row);
-                        //startProcess();
-                        break;
-                    default:
-
+        swal({
+            title: "¿Estás seguro de que deseas eliminar el registro?",
+            text: "Si confirmas la operación se eliminará también toda la documentación del grado académico seleccionado.",
+            icon: "warning",
+            buttons: {
+                cancel: "Cancelar",
+                catch: {
+                    text: "Eliminar",
+                    value: "Si",
+                    className: "red-button",
                 }
-            });
+            },
+            dangerMode: true,
+        })
+        .then((value) => {
+            switch (value) {
+                case "Si":
+
+                    $scope.properties.selectedRow = row;
+                    $scope.properties.selectedRow["todelete"] = false;
+                    $scope.properties.selectedRow["isEliminado"] = true;
+                    $scope.$apply();
+                    this.handleTrashClick(row);
+                    //startProcess();
+                    break;
+                default:
+
+            }
+        });
         /*
         
         $scope.properties.isSelected = 'editar';*/
@@ -58,7 +63,6 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     }
 
     function doRequest(method, url, params) {
-        debugger;
         blockUI.start();
         var req = {
             method: method,
