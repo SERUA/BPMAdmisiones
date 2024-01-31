@@ -91,7 +91,8 @@ function PbTableCtrl($scope, modalService, $http) {
         };
         var req = {
             method: "GET",
-            url: "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure=	" + row.url_azure
+            url: "../API/extension/posgradosRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="+ row.url_azure
+            //"../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure=" + row.url_azure
         };
 
         return $http(req)
