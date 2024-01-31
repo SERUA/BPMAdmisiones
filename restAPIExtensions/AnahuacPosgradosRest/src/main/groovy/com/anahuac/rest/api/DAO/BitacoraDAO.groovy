@@ -121,15 +121,12 @@ class BitacoraDAO {
 	public Result getBitacoraByCaseid(Long caseid) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		Comentarios comentario = new Comentarios();
-		List<Comentarios> lstComentarios = new ArrayList<Comentarios>();
 		String errorLog = "";
 		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 		
 		try {
 			closeCon = validarConexion();
-			String consulta = Statements.GET_BITACORA_BY_CASEID;
-			pstm = con.prepareStatement(consulta);
+			pstm = con.prepareStatement(Statements.GET_BITACORA_BY_CASEID);
 			pstm.setLong(1, caseid);
 			
 			rs = pstm.executeQuery();
@@ -137,7 +134,6 @@ class BitacoraDAO {
 			rows = new ArrayList < Map < String, Object >> ();
 			ResultSetMetaData metaData = rs.getMetaData();
 			int columnCount = metaData.getColumnCount();
-			errorLog = consulta + " 8";
 			
 			while (rs.next()) {
 				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
@@ -150,7 +146,7 @@ class BitacoraDAO {
 			}
 
 			resultado.setError(errorLog);
-			resultado.setData(lstComentarios);
+			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			LOGGER.error "[ERROR] " + e.getMessage();

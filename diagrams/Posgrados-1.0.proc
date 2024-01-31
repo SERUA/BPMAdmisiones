@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.03">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.04">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -737,9 +737,9 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_SDYKcWelEe6tZtxct1LlLA" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_SzrmAGelEe6tZtxct1LlLA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_SDYKcmelEe6tZtxct1LlLA" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_csuBMGklEe6bkuRQZidCNQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_csuBMWklEe6bkuRQZidCNQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_SDYKcmelEe6tZtxct1LlLA" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;Solicitud en progreso&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_VZ-dgMBzEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_VZ-dgcBzEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_SDYKc2elEe6tZtxct1LlLA" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -2032,6 +2032,18 @@
               <inputTypes>java.lang.Integer</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_hf6xEMByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_hf6xEcByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_iC47QMByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_hf6xEsByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;modificaciones_solicitadas&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(registro.mensaje_admin_escolar);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_pXfxUMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_pXfxUcByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_hf6xE8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_LP1tgmF4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_LP1tg2F4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_LP1thGF4Ee6RQJm-wpuHVw" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -2675,9 +2687,9 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_Czj5ZH9IEe6a08PJntrWjQ" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5ZX9IEe6a08PJntrWjQ" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5Zn9IEe6a08PJntrWjQ" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_Czj5Z39IEe6a08PJntrWjQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Czj5aH9IEe6a08PJntrWjQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_Czj5Zn9IEe6a08PJntrWjQ" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;modificaciones_realizadas&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_tmQQwMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_tmQQwcByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_Czj5aX9IEe6a08PJntrWjQ" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -3573,6 +3585,18 @@
               <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_AqaToMByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_AqaTocByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_BdJ_MMByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_AqaTosByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_en_pausa&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;La solicitud estuvo mucho tiempo en espera de ser completada.&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_GS1UsMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_GS1UscByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_AqaTo8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_1TBfgrrdEe6Y28HGBgakwA" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_1TBfg7rdEe6Y28HGBgakwA" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_1TBfhLrdEe6Y28HGBgakwA" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -3892,6 +3916,18 @@
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaResponsable</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_u3ZvkMByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_u3ZvkcByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_vk2EYMByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_u3ZvksByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_reactivada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_yeM3IMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_yeM3IcByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_u3Zvk8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_3Mis5FZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_3Mis5VZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_3Mis5lZ3Ee6T3bm1fu0vzg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -4203,6 +4239,18 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_x3BTIm60Ee63hKdJYdGuxA" name="solicitud_rechazada_admin" content="'solicitud_rechazada_admin'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
             <operator xmi:type="expression:Operator" xmi:id="_x3BTI260Ee63hKdJYdGuxA" type="JAVA_METHOD" expression="setEstatus_solicitud">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_IzxncMByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_IzxnccByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JaqBQMByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_IzxncsByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_rechazada_admin&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(registro.mensaje_admin_escolar);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_gSTucMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_gSTuccByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_Izxnc8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_Mascg1l0Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -4758,6 +4806,18 @@
               <inputTypes>java.lang.String</inputTypes>
             </operator>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_K2LHkMBzEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_K2LHkcBzEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_LZ6GwMBzEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_K2LHksBzEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_admitida&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;N/A&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_PRIP8MBzEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_PRIP8cBzEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_K2LHk8BzEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
+            </operator>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_6Met05nYEe6BLbGPQjgoHQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_6Met1JnYEe6BLbGPQjgoHQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_6Met1ZnYEe6BLbGPQjgoHQ" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -4794,6 +4854,18 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_Nf3XIpnmEe6BLbGPQjgoHQ" name="solicitud_no_admitida" content="'solicitud_no_admitida'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
             <operator xmi:type="expression:Operator" xmi:id="_Nf3XI5nmEe6BLbGPQjgoHQ" type="JAVA_METHOD" expression="setEstatus_solicitud">
               <inputTypes>java.lang.String</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_2CRa0MByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_2CRa0cByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2sZV4MByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_2CRa0sByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_no_admitida&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(registro.mensaje_comite_admision);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="__Vn1gMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="__Vn1gcByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_2CRa08ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_JHdfY5nZEe6BLbGPQjgoHQ" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -5022,6 +5094,18 @@
             <rightOperand xmi:type="expression:Expression" xmi:id="_-9tuEr-9Ee6TXPvcuZwGKg" name="newScript()" content="true" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
             <operator xmi:type="expression:Operator" xmi:id="_-9tuE7-9Ee6TXPvcuZwGKg" type="JAVA_METHOD" expression="setIs_segunda_oportunidad">
               <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="__x3FkMByEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="__x3FkcByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_BG6M8MBzEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="__x3FksByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;Solicitud enviada a segunda oportunidad&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_JLwNIMBzEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JLwNIcBzEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="__x3Fk8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
+              <inputTypes>java.lang.Object</inputTypes>
             </operator>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_6EvCY7-8Ee6TXPvcuZwGKg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
@@ -6290,7 +6374,7 @@
             </children>
             <children xmi:type="notation:Shape" xmi:id="_JHeGcJnZEe6BLbGPQjgoHQ" type="3027" element="_JHc4UJnZEe6BLbGPQjgoHQ" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_JHeGcpnZEe6BLbGPQjgoHQ" type="5017"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JHeGcZnZEe6BLbGPQjgoHQ" x="564" y="724" width="128" height="64"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_JHeGcZnZEe6BLbGPQjgoHQ" x="549" y="724" width="160" height="80"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_dHzoQZnZEe6BLbGPQjgoHQ" type="3062" element="_dHyaIJnZEe6BLbGPQjgoHQ" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_dH0PUJnZEe6BLbGPQjgoHQ" type="5090">
@@ -6300,13 +6384,13 @@
             </children>
             <children xmi:type="notation:Shape" xmi:id="_tOLgOZniEe6BLbGPQjgoHQ" type="3063" element="_tOLf0JniEe6BLbGPQjgoHQ" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_tOLgOpniEe6BLbGPQjgoHQ" type="5093" element="_tOLf0JniEe6BLbGPQjgoHQ"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tOLgO5niEe6BLbGPQjgoHQ" x="542" y="872" width="172" height="86"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_tOLgO5niEe6BLbGPQjgoHQ" x="548" y="872" width="172" height="86"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_opW9gKD4Ee67rOLoDRQjzg" type="3008" element="_opVvYKD4Ee67rOLoDRQjzg" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_opW9gqD4Ee67rOLoDRQjzg" type="5026">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_opW9g6D4Ee67rOLoDRQjzg" y="5"/>
               </children>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opW9gaD4Ee67rOLoDRQjzg" x="607" y="439"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_opW9gaD4Ee67rOLoDRQjzg" x="612" y="439"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_U70mcKD5Ee67rOLoDRQjzg" type="3018" element="_U7yKMKD5Ee67rOLoDRQjzg" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_U70mcqD5Ee67rOLoDRQjzg" type="5033">
@@ -6329,7 +6413,7 @@
               <children xmi:type="notation:DecorationNode" xmi:id="_YUCgcrlYEe6UNd1RmyC42g" type="5026">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_YUCgc7lYEe6UNd1RmyC42g" y="5"/>
               </children>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YUCgcblYEe6UNd1RmyC42g" x="603" y="260"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_YUCgcblYEe6UNd1RmyC42g" x="610" y="260"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_7WOxY7-6Ee6TXPvcuZwGKg" type="3008" element="_7WNjQL-6Ee6TXPvcuZwGKg" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_7WPYcL-6Ee6TXPvcuZwGKg" type="5026">
@@ -6741,7 +6825,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_6PF-EZq2Ee6fdNfdU8bJmQ" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_6PFXAZq2Ee6fdNfdU8bJmQ" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6PFXApq2Ee6fdNfdU8bJmQ" points="[-77, 0, 271, -338]$[-348, 0, 0, -338]$[-348, 322, 0, -16]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_6PFXApq2Ee6fdNfdU8bJmQ" points="[-77, 0, 271, -338]$[-330, 0, 18, -338]$[-330, 322, 18, -16]"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_3AppoLlWEe6UNd1RmyC42g" id="(0.44805194805194803,0.2077922077922078)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_j_oAUJq4Ee6fdNfdU8bJmQ" type="4001" element="_j_myMJq4Ee6fdNfdU8bJmQ" source="_hzkN4Jq3Ee6fdNfdU8bJmQ" target="_j_kV8Jq4Ee6fdNfdU8bJmQ" roundedBendpointsRadius="10" routing="Rectilinear">
@@ -6887,7 +6971,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_64j98b-6Ee6TXPvcuZwGKg" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_64jW4b-6Ee6TXPvcuZwGKg" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_64jW4r-6Ee6TXPvcuZwGKg" points="[-21, 15, 57, -128]$[-21, 99, 57, -44]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_64jW4r-6Ee6TXPvcuZwGKg" points="[-27, 19, 52, -112]$[-27, 87, 52, -44]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_o12UgL-8Ee6TXPvcuZwGKg" id="(0.6953125,0.765625)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_75WaoL-8Ee6TXPvcuZwGKg" id="(0.19186046511627908,0.5116279069767442)"/>
     </edges>
@@ -6896,7 +6980,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_92YIBL-8Ee6TXPvcuZwGKg" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_92YIAb-8Ee6TXPvcuZwGKg" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_92YIAr-8Ee6TXPvcuZwGKg" points="[-81, 57, 0, -124]$[-81, 160, 0, -21]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_92YIAr-8Ee6TXPvcuZwGKg" points="[-87, 57, 0, -124]$[-87, 160, 0, -21]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_92ZWIL-8Ee6TXPvcuZwGKg" id="(1.0,0.3372093023255814)"/>
     </edges>
     <edges xmi:type="notation:Connector" xmi:id="_KCh70L-9Ee6TXPvcuZwGKg" type="4001" element="_KCe4gL-9Ee6TXPvcuZwGKg" source="_7WOxY7-6Ee6TXPvcuZwGKg" target="_dHzoQZnZEe6BLbGPQjgoHQ" roundedBendpointsRadius="10" routing="Rectilinear">
