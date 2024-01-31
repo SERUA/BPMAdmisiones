@@ -1,10 +1,14 @@
-<div ng-hide="isenvelope">
-    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="lstCampusByUser.length>2">
-        <select class="form-control" ng-model="filtroCampus"
-            ng-options="getCampusByGrupo(member) as getCampusByGrupo(member) for member in lstCampusByUser"
-            ng-change="addFilter()">
+<div>
+    <div style="margin-bottom:15px;" class="col-xs-12" ng-show="campusDisponibles.length > 1">
+        <select class="form-control" ng-model="filtroCampus" ng-change="addFilter()">
             <option style="display:none" value="">
                 Seleccionar campus
+            </option>
+            <option value="Todos los campus">
+                Todos los campus
+            </option>
+            <option ng-repeat="campus in campusDisponibles" value="{{campus.descripcion}}">
+                {{campus.descripcion}}
             </option>
         </select>
     </div>
@@ -197,15 +201,5 @@
                 </div>
             </div>
         </div>
-    </div>
-</div>
-
-<div ng-show="isenvelope">
-    <label>Mensaje de recordatorio para usuario</label>
-    <textarea row="5" class="form-control" style="resize:none" ng-model="mensaje"></textarea>
-    <br>
-    <div class="col-md-12">
-        <div class="col-md-6"><button class="btn btn-danger" ng-click="envelopeCancel()">Cancelar</button></div>
-        <div class="col-md-6"><button class="btn btn-info" ng-click="sendMail(selectedrow,mensaje)">Enviar recordatorio</button></div>
     </div>
 </div>
