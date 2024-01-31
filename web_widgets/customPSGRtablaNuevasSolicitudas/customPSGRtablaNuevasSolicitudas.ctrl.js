@@ -27,6 +27,11 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
   
     // Forzar a actualizar la lstCampus
     getCatCampus();
+    
+    // propiedades para el correo express
+    $scope.isenvelope = false;
+    $scope.selectedrow = {};
+    $scope.mensaje = "";
 
     this.isClickable = function() {
         return $scope.properties.isBound('selectedRow');
@@ -163,6 +168,65 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
             $scope.properties.periodoSeleccionado = $scope.selectedPeriodo;
         } 
+    }
+    
+    // correo express
+    $scope.envelope = function(row) {
+        $scope.isenvelope = true;
+        $scope.mensaje = "";
+        $scope.selectedrow = row;
+    }
+    
+    $scope.envelopeCancel = function() {
+        $scope.isenvelope = false;
+        $scope.selectedrow = {};
+    }
+    
+    $scope.sendMail = function(row, mensaje) {
+        if (row.grupo_bonita === undefined) {
+            for (var i = 0; i < $scope.lstCampus.length; i++) {
+                if ($scope.lstCampus[i].descripcion == row.campus) {
+                    row.grupo_bonita = $scope.lstCampus[i].valor;
+                }
+            }
+        }
+        var req = {
+            method: "POST",
+            url: "../API/extension/posgradosRest?url=generateHtml",
+            data: angular.copy({
+                "campus": row.grupo_bonita,
+                "correo": row.correo_electronico,
+                "codigo": "psgr-recordatorio",
+                "isEnviar": true,
+                "mensaje": mensaje
+            })
+        };
+
+        try {
+            return $http(req)
+            .success(function(data, status) {
+                swal({
+                    icon: "success",
+                    title: "El correo fue enviado correctamente"
+                })
+                $scope.envelopeCancel();
+            })
+            .error(function(data, status) {
+                swal({
+                    icon: "error",
+                    title: "No se pudo enviar el correo",
+                    text: "Por favor, revisa que exista la plantilla de correo para ese campus."
+                })
+                console.error(data)
+            })
+            .finally(function() {});
+        }
+        catch (e){
+            swal({
+                icon: "error",
+                title: "No se pudo enviar el correo"
+            })
+        }
     }
 
     // Utils
@@ -475,7 +539,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             });
     }
   
-    $scope.isenvelope = false;
+    /*$scope.isenvelope = false;
     $scope.selectedrow = {};
     $scope.mensaje = "";
   
@@ -518,7 +582,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 console.error(data)
             })
             .finally(function() {});
-    }
+    }*/
     $scope.lstCampus = [];
   
     $(function() {
