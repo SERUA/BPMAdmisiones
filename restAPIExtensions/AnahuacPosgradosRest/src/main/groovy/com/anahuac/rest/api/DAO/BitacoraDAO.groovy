@@ -3,6 +3,7 @@ package com.anahuac.rest.api.DAO
 import java.sql.Connection
 import java.sql.PreparedStatement
 import java.sql.ResultSet
+import java.sql.ResultSetMetaData
 import java.sql.Statement
 
 import org.bonitasoft.web.extension.rest.RestAPIContext
@@ -113,6 +114,54 @@ class BitacoraDAO {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
+		return resultado;
+	}
+	
+	
+	public Result getBitacoraByCaseid(Long caseid) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		Comentarios comentario = new Comentarios();
+		List<Comentarios> lstComentarios = new ArrayList<Comentarios>();
+		String errorLog = "";
+		List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
+		
+		try {
+			closeCon = validarConexion();
+			String consulta = Statements.GET_BITACORA_BY_CASEID;
+			pstm = con.prepareStatement(consulta);
+			pstm.setLong(1, caseid);
+			
+			rs = pstm.executeQuery();
+			
+			rows = new ArrayList < Map < String, Object >> ();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			errorLog = consulta + " 8";
+			
+			while (rs.next()) {
+				Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+
+				for (int i = 1; i <= columnCount; i++) {
+					columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+				}
+
+				rows.add(columns);
+			}
+
+			resultado.setError(errorLog);
+			resultado.setData(lstComentarios);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError("[getBitacoraByCaseid] " + e.getMessage());
+		}finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
 		return resultado;
 	}
 }
