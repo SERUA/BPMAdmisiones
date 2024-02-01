@@ -54,7 +54,7 @@ function PbButtonCtrl($scope, $http) {
                 });
             });
         } else {
-            validarPeriodoVencido(angular.copy($scope.properties.objSolicitudDeAdmision));
+            // validarPeriodoVencido(angular.copy($scope.properties.objSolicitudDeAdmision));NO BORRAR
         }
     }
 }

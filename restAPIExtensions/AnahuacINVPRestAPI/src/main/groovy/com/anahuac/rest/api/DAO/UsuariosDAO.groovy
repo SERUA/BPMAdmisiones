@@ -2696,4 +2696,27 @@ class UsuariosDAO {
 		
 		return resultado;
 	}
+	
+	public Result cerrarSesionUsuarioRemoto(String username, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			Long user_id = context.apiClient.identityAPI.getUserByUserName(username).getId();
+			
+		}  catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
 }

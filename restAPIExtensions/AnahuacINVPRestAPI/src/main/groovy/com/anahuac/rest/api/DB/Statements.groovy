@@ -26,6 +26,8 @@ class Statements {
 	
 	public static final String GET_RESPUESTAS_BY_USUARIOCASO = "SELECT persistenceid, caseid, pregunta, respuesta, idusuario  FROM RESPUESTAINVP WHERE idusuario = ? AND caseid = ?;";
 	
+	public static final String GET_EXISTE_PREGUNTA = "SELECT (COUNT(*) > 0) AS existe FROM RESPUESTAINVP WHERE pregunta = ? AND caseid = ?";
+	
 	public static final String GET_RESPUESTAS_BY_USUARIO = "SELECT persistenceid, caseid, pregunta, respuesta, idusuario  FROM RESPUESTAINVP WHERE idusuario = ?;";
 	
 	public static final String GET_RESPUESTAS_BY_USUARIO_CASEID = "SELECT persistenceid, caseid, pregunta, respuesta, idusuario  FROM RESPUESTAINVP WHERE idusuario = ? AND caseid = ?;";
