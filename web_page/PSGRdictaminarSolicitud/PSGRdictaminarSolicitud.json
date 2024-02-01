@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1706652288823,
+  "lastUpdate" : 1706828797696,
   "rows" : [
     [
       {
@@ -14309,7 +14309,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{ selectedFile.fileName}}"
+                          "value" : "{{ selectedFile.documentName ? selectedFile.documentName : selectedFile.fileName }}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -14371,7 +14371,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "selectedFile.extension === \".pdf\""
+                          "value" : "selectedFile.extension !== \".png\" && selectedFile.extension !== \".jpg\"  && selectedFile.extension !== \".jpeg\" && selectedFile.extension !== \".jfif\""
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -14497,6 +14497,58 @@
                       "reference" : "6c85150d-6b15-4c4d-99ee-e33c4afd8410",
                       "hasValidationError" : false,
                       "id" : "customPSGRFileViewer"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.extension !== \".xml\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<b>Por el momento, no es posible visualizar archivos XML.</b><br>Puedes descárgalo en el siguiente botón:<br><br>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "4314cfcb-8942-44ff-9a87-d85fccb57618",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
                     }
                   ],
                   [
@@ -18932,7 +18984,7 @@
     "urlDownloadFileazure" : {
       "type" : "constant",
       "value" : [
-        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
+        "../API/extension/posgradosRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
       ],
       "exposed" : false
     },
