@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1706828797696,
+  "lastUpdate" : 1706830724073,
   "rows" : [
     [
       {
@@ -11763,6 +11763,98 @@
                                 "reference" : "a7a08896-7622-4df2-9bc9-b301ab9aba8d",
                                 "hasValidationError" : false,
                                 "id" : "customPSGRcustomBtnWizardValidationNoTask"
+                              },
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 6,
+                                  "lg" : 6
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Dictamen"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "right"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "primary"
+                                  },
+                                  "action" : {
+                                    "type" : "constant",
+                                    "value" : "Submit task"
+                                  },
+                                  "assign" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "url" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "responseStatusCode" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "dataToSend" : {
+                                    "type" : "constant"
+                                  },
+                                  "dataFromSuccess" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "closeOnSuccess" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "dataFromError" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "targetUrlOnSuccess" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "collectionToModify" : {
+                                    "type" : "variable"
+                                  },
+                                  "modalId" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "collectionPosition" : {
+                                    "type" : "constant",
+                                    "value" : "Last"
+                                  },
+                                  "valueToAdd" : {
+                                    "type" : "constant"
+                                  },
+                                  "removeItem" : {
+                                    "type" : "variable"
+                                  },
+                                  "event" : {
+                                    "type" : "variable",
+                                    "value" : "verDictamenClickEvent"
+                                  }
+                                },
+                                "reference" : "3c4df64e-1608-44d1-aaea-f65a0991c70b",
+                                "hasValidationError" : false,
+                                "id" : "customPSGRButtonEventAction"
                               }
                             ],
                             [
@@ -14546,7 +14638,7 @@
                           "value" : "center"
                         }
                       },
-                      "reference" : "4314cfcb-8942-44ff-9a87-d85fccb57618",
+                      "reference" : "1ed25dde-8379-4939-94b5-8e19306c4edb",
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
@@ -19907,6 +19999,25 @@
       "value" : [
         "if ($data.responsable_nombre) {",
         "    $data.citaAspirante.responsable_nombre = $data.responsable_nombre;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "verDictamenClickEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "handleVerDictamenClick" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.verDictamenClickEvent) {",
+        "    ",
+        "    $data.selectedIndexMain = 1;",
+        "    ",
+        "    $data.verDictamenClickEvent = null",
         "}"
       ],
       "exposed" : false
