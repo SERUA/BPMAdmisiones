@@ -84,11 +84,6 @@ function PbTableCtrl($scope, modalService, $http) {
     }
     
     $scope.downloadFile = function(row){
-        let obj = {
-            "linkSource": row.url_azure,
-            "fileName":  row.documento.nombre_documento,
-            "extension": ".pdf",
-        };
         var req = {
             method: "GET",
             url: "../API/extension/posgradosRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="+ row.url_azure
@@ -97,12 +92,18 @@ function PbTableCtrl($scope, modalService, $http) {
 
         return $http(req)
         .success(function (data, status) {
-            if(data.data){
-                obj.linkSource = data.data[0].b64;
-                $scope.properties.selectedFile = obj;
-            } else {
-                obj.linkSource = data[0].b64;
-                $scope.properties.selectedFile = obj;
+            const downloadedDocument = data.data ? data.data[0] : data[0]
+
+            let urlSplitted = row.url_azure.split("/");
+            const fileName = urlSplitted[urlSplitted.length - 1];
+
+            // select file
+            $scope.properties.selectedFile = {
+                "linkSource": downloadedDocument.b64,
+                "fileName":  fileName,
+                "documentName": row.documento.nombre_documento,
+                "extension": downloadedDocument.extension,
+                "fileType": downloadedDocument.fileType ? downloadedDocument.fileType : ""
             }
         })
         .error(function (data, status) {

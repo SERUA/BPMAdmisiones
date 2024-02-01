@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1706742264279,
+  "lastUpdate" : 1706745966375,
   "rows" : [
     [
       {
@@ -21969,7 +21969,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{ selectedFile.fileName}}"
+                          "value" : "{{ selectedFile.documentName ? selectedFile.documentName : selectedFile.fileName }}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -22031,7 +22031,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "selectedFile.extension === \".pdf\""
+                          "value" : "selectedFile.extension !== \".png\" && selectedFile.extension !== \".jpg\"  && selectedFile.extension !== \".jpeg\" && selectedFile.extension !== \".jfif\""
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -26688,7 +26688,7 @@
     "urlDownloadFileazure" : {
       "type" : "constant",
       "value" : [
-        "../API/extension/posgradosRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
+        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
       ],
       "exposed" : false
     },
