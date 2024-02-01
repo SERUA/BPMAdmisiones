@@ -586,7 +586,7 @@ class UsuariosDAO {
 	public Result getUsuarios(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		String where ="WHERE user_.userName!='Administrador' AND role.name IN ('Comite PSG', 'Admisiones PSG', 'Chat PSG', 'SERUA PSG', 'TI campus PSG') ", orderby="ORDER BY ", errorlog="",campus="";
+		String where = " WHERE user_.userName!='Administrador' AND role.name IN ('Comite PSG', 'Admisiones PSG', 'Chat PSG', 'SERUA PSG', 'TI campus PSG') ", orderby="ORDER BY ", errorlog="",campus="";
 		Long userLogged = 0L;
 		Long caseId = 0L;
 		Long total = 0L;
@@ -607,17 +607,12 @@ class UsuariosDAO {
 			List<UserMembership> lstUserMembership = context.getApiClient().getIdentityAPI().getUserMemberships(userLogged, 0, 99999, UserMembershipCriterion.GROUP_NAME_ASC)
 			for(UserMembership objUserMembership : lstUserMembership) {
 				lstGrupo.add(objUserMembership.getGroupId());
-				//break;
-				/*for(CatCampus rowGrupo : lstCatCampus) {
-					if(objUserMembership.getGroupId().equals(rowGrupo.getPersistenceId())) {
-						
-					}
-				}*/
 			}
 			
 			if(lstGrupo.size()>0) {
 				campus+=" ("
 			}
+			
 			for(Integer i=0; i<lstGrupo.size(); i++) {
 				String campusMiembro=lstGrupo.get(i);
 				campus+="group_.id="+campusMiembro
@@ -767,7 +762,7 @@ class UsuariosDAO {
 				orderby+="user_.firstname";
 				break;
 			}
-			orderby+=" "+object.orientation;
+			orderby += " " + object.orientation;
 			String consulta = ModuloUsuario.GET_USUARIOS_CUSTOM
 			/*if(where.length()>0) {
 				if(!hayCampus) {
@@ -815,7 +810,8 @@ class UsuariosDAO {
 				resultado.setSuccess(false);
 				resultado.setError(e.getMessage());
 				
-		}finally {
+		} finally {
+			resultado.setError_info(errorlog);
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
