@@ -75,22 +75,49 @@
             <label class="control-label col-xs-12"> Duración de las entrevistas: </label>
             <div class="col-xs-12">
                 <select class="form-control" ng-disabled="sesion.persistenceId" ng-change="generarHoras(sesion.duracion_entrevista_minutos)" ng-model="sesion.duracion_entrevista_minutos" >
+                    <option style="display: none" ng-value="">Seleccionar duración</option>
                     <option ng-repeat="opcion in lstDuracion" ng-value="opcion">{{opcion}}</option>
                 </select>
             </div>
         </div>
         <div class="form-group col-xs-6">
-            <div class="col-xs-12">
-                <input ng-disabled="sesion.persistenceId" type="checkbox" id="chk_presencial" ng-model="sesion.is_presencial" ng-change="sesion.ubicacion = ''; sesion.liga = '';"> <label for="chk_presencial">¿La sesión es presencial?</label>
-            </div>
+            <label class="control-label col-xs-12"> Formato de la sesión: </label>
+            <fieldset class="col-xs-12">
+                <div>
+                    <input 
+                        type="radio"
+                        id="chk_presencial"
+                        ng-model="sesion.formato"
+                        value="presencial"
+                        name="formato"
+                        ng-disabled="sesion.persistenceId"
+                        ng-change="sesion.ubicacion = ''; sesion.liga = '';">
+                    <label for="chk_presencial" style="font-weight: normal">
+                        Presencial
+                    </label>    
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        id="chk_en_linea"
+                        ng-model="sesion.formato"
+                        value="linea"
+                        name="formato"
+                        ng-disabled="sesion.persistenceId"
+                        ng-change="sesion.ubicacion = ''; sesion.liga = '';">
+                    <label for="chk_en_linea" style="font-weight: normal">
+                        En línea
+                    </label>
+                </div>
+            </fieldset>
         </div>
-        <div class="form-group col-xs-6" ng-if="sesion.is_presencial">
+        <div class="form-group col-xs-6" ng-if="sesion.formato === 'presencial'">
             <label class="control-label col-xs-12">Ubicación: </label>
             <div class="col-xs-12">
                 <input class="form-control" ng-disabled="sesion.persistenceId" type="text" maxlength="250" ng-model="sesion.ubicacion" > 
             </div>
         </div>
-        <div class="form-group col-xs-6" ng-if="!sesion.is_presencial">
+        <div class="form-group col-xs-6" ng-if="sesion.formato === 'linea'">
             <label class="control-label col-xs-12"> Liga:</label>
             <div class="col-xs-12">
                 <input class="form-control" ng-disabled="sesion.persistenceId" type="text" maxlength="250" ng-model="sesion.liga" > 

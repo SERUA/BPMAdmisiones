@@ -41,6 +41,16 @@ function($scope, $http, blockUI, $window) {
     $scope.guardarSesion = function(_sesion){
         let url = !_sesion.persistenceId ? "/API/extension/posgradosRest?url=insertSesion" : "/API/extension/posgradosRest?url=updateSesion";
 
+        if ($scope.sesion.formato) {
+            if ($scope.sesion.formato === "presencial")
+                $scope.sesion.is_presencial = true;
+            else
+                $scope.sesion.is_presencial = false;
+        }
+        else {
+            $scope.sesion.is_presencial = undefined;
+        }
+
         let dataToSend = angular.copy($scope.sesion);
         dataToSend["responsables"] = angular.copy($scope.responsables);
         dataToSend["horarios"] = angular.copy($scope.horarios);
@@ -55,7 +65,8 @@ function($scope, $http, blockUI, $window) {
                 "campus": "", 
                 "horarios": [],
                 "responsables": [],
-                "is_presencial":false,
+                "is_presencial": undefined,
+                "formato": "",
                 "liga":"",
                 "ubicacion":""
             }
@@ -87,7 +98,8 @@ function($scope, $http, blockUI, $window) {
             "fecha_entrevista": "",
             "duracion_entrevista_minutos": "",
             "campus": $scope.idcampus, 
-            "is_presencial":false,
+            "is_presencial": undefined,
+            "formato": "",
             "liga":"",
             "ubicacion":""
         }
@@ -133,6 +145,7 @@ function($scope, $http, blockUI, $window) {
                 for(let sesion of $scope.sesiones){
                     if(evento.id === sesion.persistenceId){
                         $scope.sesion = sesion;
+                        $scope.sesion.formato = $scope.sesion.is_presencial ? "presencial" : "linea";
                         break;
                     }
                 }
@@ -212,7 +225,9 @@ function($scope, $http, blockUI, $window) {
                 "descripcion_entrevista": "",
                 "fecha_entrevista": "",
                 "duracion_entrevista_minutos": "",
-                "campus": ""
+                "campus": "",
+                "is_presencial": undefined,
+                "formato": ""
             }
             $scope.responsables = [];
             $scope.horarios = [];
@@ -436,6 +451,7 @@ function($scope, $http, blockUI, $window) {
     
         let hora = new Date();
         let acumularMinutos = 0;
+        const descansoMinutos = 0;
         hora.setHours(9, acumularMinutos, 0, 0); 
     
         while (hora.getHours() <= 19) {
@@ -444,8 +460,8 @@ function($scope, $http, blockUI, $window) {
             acumularMinutos += parseInt(_duracion);
             hora.setHours(9, (acumularMinutos), 0, 0); 
             horario["hora_fin"] = formatoHora.format(hora);
-            acumularMinutos += parseInt(_duracion);
-            hora.setHours(9, (acumularMinutos), 0, 0); 
+            // Descanso entre sisiónes
+            //hora.setHours(9, (descansoMinutos), 0, 0); 
 
             horario["cita_entrevista"] = {
                 "persistenceId": $scope.sesion.persistenceId
@@ -559,7 +575,16 @@ function($scope, $http, blockUI, $window) {
         } else if(!$scope.sesion.duracion_entrevista_minutos){ 
             mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
             valid = false;
-        } else if(!$scope.responsables){ 
+        } else if(!$scope.sesion.formato){ 
+            mensaje = "Debes seleccionar el formato de la sesión";
+            valid = false;
+        } else if($scope.sesion.formato === "presencial" && !$scope.sesion.ubicacion){ 
+            mensaje = "Ubiación de la sesión no debe ir vacío";
+            valid = false;
+        } else if($scope.sesion.formato === "linea" && !$scope.sesion.liga){ 
+            mensaje = "Liga de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.responsables || $scope.responsables.length === 0){ 
             mensaje = "Debes agregar al menos un responsable a la sesión";
             valid = false;
         }

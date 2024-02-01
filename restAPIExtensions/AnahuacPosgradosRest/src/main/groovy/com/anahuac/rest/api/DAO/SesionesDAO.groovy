@@ -433,11 +433,15 @@ class SesionesDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
+			con.setAutoCommit(false);
+			
 			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
 			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
 			String fechaHoraFormateada = "";
 			
-			if(object.nombre.equals("") || object.nombre == null) {
+			if(!object.persistenceId) {
+				throw new Exception("El campo \"Persistence ID\" no debe ir vacío");
+			} else if(object.nombre.equals("") || object.nombre == null) {
 				throw new Exception("El campo \"Nombre sesión\" no debe ir vacío");
 			} else if(object.descripcion_entrevista.equals("") || object.descripcion_entrevista == null) {
 				throw new Exception("El campo \"Descripción\" no debe ir vacío");
@@ -484,8 +488,8 @@ class SesionesDAO {
 					} else {
 						errorLog += "|3";
 						pstm = con.prepareStatement(Statements.INSERT_RESPONSABLE_CITA);
-						pstm.setLong(1, horario.get(""));
-						pstm.setLong(2, horario.get(""));
+						pstm.setLong(1, Long.valueOf(responsable.getHorario()?.persistenceId)); // horario
+						pstm.setLong(2, Long.valueOf(responsable.getResponsable_id())); // responsable
 						pstm.setLong(3, Long.valueOf(object.persistenceId));
 						pstm.setBoolean(4, responsable.getOcupado());
 						pstm.setBoolean(5, responsable.getDisponible_resp());	
@@ -526,10 +530,12 @@ class SesionesDAO {
 				}
 			}
 			
+			con.commit();
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[updateSesion] " + e.getMessage());
+			if (!con.autoCommit) con.rollback();
 		} finally {
 			resultado.setError_info(errorLog);
 			if (con != null) {
