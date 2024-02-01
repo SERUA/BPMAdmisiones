@@ -371,6 +371,7 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
         let obj = {
             "linkSource": "",
             "fileName":  "",
+            "documentName": "",
             "extension": "",
             "fileType": "",
         };
@@ -479,7 +480,8 @@ function PbUploadCtrl($scope, $sce, $element, widgetNameFactory, $timeout, $log,
     function selectFile(){
         let obj = {
             "linkSource":$scope.linkSource,
-            "fileName":  $scope.fileName ,
+            "fileName":  $scope.fileName,
+            "documentName": $scope.properties.documentName,
             "extension": $scope.extension,
             "fileType": $scope.fileType ? $scope.fileType : "",
         };
