@@ -437,7 +437,11 @@ function($scope, $http, blockUI, $window) {
     $scope.getCatCampus();
     
     $scope.generarHoras = function(_duracion){
+        // Generar nuevos horarios
         generarHoras(_duracion);
+
+        // Limpiar lista de responsables
+        limpiarListaResponsables();
     }
     
     function generarHoras(_duracion) {
@@ -472,6 +476,10 @@ function($scope, $http, blockUI, $window) {
         }
 
         console.log($scope.horarios);
+    }
+
+    function limpiarListaResponsables() {
+        $scope.responsables = [];
     }
     
     $scope.$watch("properties.roles", function(){
