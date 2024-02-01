@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.04">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.05">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -3655,11 +3655,12 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_1z_HEWelEe6tZtxct1LlLA" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2VM9wGelEe6tZtxct1LlLA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_1z_HEmelEe6tZtxct1LlLA" name="log()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;String estatus = &quot;&quot;, comentarios = &quot;N/A&quot;;&#xD;&#xA;&#xD;&#xA;if(isSolicitudRechazadaAdminEscolar == true){&#xD;&#xA;&#x9;estatus = &quot;solicitud_rechazada_admin&quot;;&#xD;&#xA;} else if(isModificarSolicitud == true){&#xD;&#xA;&#x9;estatus = &quot;modificaciones_solicitadas&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;estatus = &quot;solicitud_aprobada_admin&quot;;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(estatus);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(comentarios);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="process:Data" xmi:id="_RoNEYIMPEe6hvPP7PHVsoQ" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
-              <referencedElements xmi:type="expression:Expression" xmi:id="_RoNEYYMPEe6hvPP7PHVsoQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:Data" xmi:id="_RoNEYoMPEe6hvPP7PHVsoQ" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_RoNEY4MPEe6hvPP7PHVsoQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_1z_HEmelEe6tZtxct1LlLA" name="log()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;String estatus = &quot;&quot;, comentarios = &quot;N/A&quot;;&#xD;&#xA;&#xD;&#xA;if(isSolicitudRechazadaAdminEscolar == true){&#xD;&#xA;&#x9;estatus = &quot;solicitud_rechazada_admin&quot;;&#xD;&#xA;} else if(isModificarSolicitud == true){&#xD;&#xA;&#x9;estatus = &quot;modificaciones_solicitadas&quot;;&#xD;&#xA;} else {&#xD;&#xA;&#x9;estatus = &quot;solicitud_aprobada_admin&quot;;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(estatus);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(apiAccessor.getIdentityAPI().getUser(taskAssigneeId).userName);&#xD;&#xA;log.setComentarios(comentarios);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="process:Data" xmi:id="_tM0eQMCMEe6Ts50QCPEUwg" name="isSolicitudRechazadaAdminEscolar" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_tM1FUMCMEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:Data" xmi:id="_tM1FUcCMEe6Ts50QCPEUwg" name="isModificarSolicitud" dataType="_RS3WrFZtEe6T3bm1fu0vzg"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_tM1FUsCMEe6Ts50QCPEUwg" name="apiAccessor" content="apiAccessor" type="TYPE_ENGINE_CONSTANT" returnType="com.bonitasoft.engine.api.APIAccessor"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_tM1FU8CMEe6Ts50QCPEUwg" name="taskAssigneeId" content="taskAssigneeId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_1z_HE2elEe6tZtxct1LlLA" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -4428,6 +4429,16 @@
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_lnjk87lYEe6UNd1RmyC42g" type="ASSIGNMENT"/>
           </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_wupmQMCMEe6Ts50QCPEUwg">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_wupmQcCMEe6Ts50QCPEUwg" name="correoDictamen" content="correoDictamen" type="TYPE_VARIABLE">
+              <referencedElements xmi:type="process:Data" xmi:id="_xH8QAMCMEe6Ts50QCPEUwg" name="correoDictamen" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_wupmQsCMEe6Ts50QCPEUwg" name="newScript()" content="apiAccessor.getIdentityAPI().getUser(taskAssigneeId).userName" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_z-4n8MCMEe6Ts50QCPEUwg" name="apiAccessor" content="apiAccessor" type="TYPE_ENGINE_CONSTANT" returnType="com.bonitasoft.engine.api.APIAccessor"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_z-4n8cCMEe6Ts50QCPEUwg" name="taskAssigneeId" content="taskAssigneeId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+            </rightOperand>
+            <operator xmi:type="expression:Operator" xmi:id="_wupmQ8CMEe6Ts50QCPEUwg" type="ASSIGNMENT"/>
+          </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_scTiY1l1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_scTiZFl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
           <cardinalityExpression xmi:type="expression:Expression" xmi:id="_scTiZVl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
@@ -4860,9 +4871,10 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_2CRa0cByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_2sZV4MByEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_2CRa0sByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_no_admitida&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(registro.mensaje_comite_admision);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="expression:Expression" xmi:id="__Vn1gMByEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="__Vn1gcByEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_2CRa0sByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_no_admitida&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(correoDictamen);&#xD;&#xA;log.setComentarios(registro.mensaje_comite_admision);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_4XzwAMCMEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_4XzwAcCMEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+              <referencedElements xmi:type="process:Data" xmi:id="_4XzwAsCMEe6Ts50QCPEUwg" name="correoDictamen" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_2CRa08ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -5100,9 +5112,10 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="__x3FkcByEe6Ts50QCPEUwg" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_BG6M8MBzEe6Ts50QCPEUwg" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="__x3FksByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(registro.correo_electronico);&#xD;&#xA;log.setComentarios(&quot;Solicitud enviada a segunda oportunidad&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
-              <referencedElements xmi:type="expression:Expression" xmi:id="_JLwNIMBzEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JLwNIcBzEe6Ts50QCPEUwg" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="__x3FksByEe6Ts50QCPEUwg" name="newScript()" content="import java.time.LocalDateTime&#xD;&#xA;&#xD;&#xA;import com.anahuac.posgrados.bitacora.PSGRLogSolicitudes&#xD;&#xA;&#xD;&#xA;PSGRLogSolicitudes log = new PSGRLogSolicitudes();&#xD;&#xA;&#xD;&#xA;log.setCaseid(processInstanceId);&#xD;&#xA;log.setClave_estatus(&quot;solicitud_iniciada&quot;);&#xD;&#xA;log.setFecha_operacion(LocalDateTime.now())&#xD;&#xA;log.setUsuario(apiAccessor.getIdentityAPI().getUser(taskAssigneeId).userName);&#xD;&#xA;log.setComentarios(&quot;Solicitud enviada a segunda oportunidad&quot;);&#xD;&#xA;&#xD;&#xA;return log;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object">
+              <referencedElements xmi:type="expression:Expression" xmi:id="_9vN5kMCMEe6Ts50QCPEUwg" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_9vN5kcCMEe6Ts50QCPEUwg" name="apiAccessor" content="apiAccessor" type="TYPE_ENGINE_CONSTANT" returnType="com.bonitasoft.engine.api.APIAccessor"/>
+              <referencedElements xmi:type="expression:Expression" xmi:id="_9vN5ksCMEe6Ts50QCPEUwg" name="taskAssigneeId" content="taskAssigneeId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="__x3Fk8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
@@ -5221,6 +5234,9 @@
       </data>
       <data xmi:type="process:Data" xmi:id="_kfF5sLwZEe6H5PsOpwyIRA" name="campusOrPosgradoChanged" dataType="_RS3WrFZtEe6T3bm1fu0vzg">
         <defaultValue xmi:type="expression:Expression" xmi:id="_kfF5sbwZEe6H5PsOpwyIRA" name="false" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+      </data>
+      <data xmi:type="process:Data" xmi:id="_vx0KkMCMEe6Ts50QCPEUwg" name="correoDictamen" dataType="_RS3WsVZtEe6T3bm1fu0vzg">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_vx0KkcCMEe6Ts50QCPEUwg" content=""/>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_RS3WlFZtEe6T3bm1fu0vzg" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_LYnmQF1rEe6Pc6WsAlY1eg" name="PSGRregistroDELETE" content="f095073a-5a96-4b07-b724-a76f83c7c8cd" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
