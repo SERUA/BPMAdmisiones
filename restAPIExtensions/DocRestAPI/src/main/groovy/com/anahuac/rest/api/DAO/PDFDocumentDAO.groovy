@@ -1966,11 +1966,11 @@ class PDFDocumentDAO {
 				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
 				trabajo.put("reporta_a", rs.getString("reporta_a"));
 				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
-				trabajo.put("extension", rs.getString("extension"));
+				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
 				trabajo.put("giro", rs.getString("giro_empresa"));
 				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
-				trabajo.put("nombre_empresa", rs.getString("calle"));
+				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
 				
 				trabajos_actuales.add(trabajo);
 			}
@@ -1992,11 +1992,11 @@ class PDFDocumentDAO {
 				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
 				trabajo.put("reporta_a", rs.getString("reporta_a"));
 				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
-				trabajo.put("extension", rs.getString("extension"));
+				trabajo.put("extension", rs.getString("ext_telefono_empresa"));
 				trabajo.put("giro", rs.getString("giro_empresa"));
 				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
-				trabajo.put("nombre_empresa", rs.getString("calle"));
+				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
 				
 				trabajos_previos.add(trabajo);
 			}
