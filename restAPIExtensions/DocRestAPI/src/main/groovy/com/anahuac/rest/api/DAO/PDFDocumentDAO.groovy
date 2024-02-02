@@ -1871,6 +1871,7 @@ class PDFDocumentDAO {
 			List < Map < String, Object >> medios_enteraste = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> trabajos_actuales = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> trabajos_previos = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> historial_academico = new ArrayList < Map < String, Object >> ();
 			rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 			
@@ -2008,6 +2009,31 @@ class PDFDocumentDAO {
 			
 			JRBeanCollectionDataSource trabajos_previosDS = new JRBeanCollectionDataSource(trabajos_previos);
 			columns.put("dl_trabajos_previos", trabajos_previosDS);
+			
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_INFO_ACADEMICA_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > historial = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				historial = new HashMap < String, Object > ();
+				historial.put("grado", rs.getString("grado"));
+				historial.put("carrera", rs.getString("programa"));
+				historial.put("escuela", rs.getString("institucion"));
+				historial.put("fecha_inicio", rs.getString("fecha_inicio"));
+				historial.put("fecha_termino", rs.getString("fecha_termino"));
+				historial.put("promedio", rs.getString("promedio"));
+				historial.put("titulo", rs.getString("titulo"));
+				historial.put("pais", rs.getString("pais"));
+				
+				historial_academico.add(historial);
+			}
+			
+			JRBeanCollectionDataSource historial_academicoDS = new JRBeanCollectionDataSource(historial_academico);
+			columns.put("da_historial_academico", historial_academicoDS);
 			
 			resultado.setSuccess(true);
 			rows.add(columns);
