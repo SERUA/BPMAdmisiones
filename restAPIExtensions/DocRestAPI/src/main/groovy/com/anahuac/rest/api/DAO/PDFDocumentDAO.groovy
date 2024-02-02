@@ -23,6 +23,11 @@ import net.sf.jasperreports.engine.JasperFillManager
 import net.sf.jasperreports.engine.JasperPrint
 import net.sf.jasperreports.engine.JasperReport
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
+import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
+import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+//import net.sf.jasperreports.engine.export.JRPngExporterParameter;
 
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion
@@ -2079,5 +2084,140 @@ class PDFDocumentDAO {
 		}
 		
 		return resultado;
+	}
+	
+	public Result pngCartaPosgrados(String caseid, RestAPIContext context) {
+		Result resultado = new Result();
+		InputStream targetStream;
+		Boolean streamOpen = false;
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			errorLog += "Entre al metodo ";
+			def jsonSlurper = new JsonSlurper();
+			Result dataResult = new Result();
+			List<List < Object >> lstParams;
+			String estatusSolicitud = "";
+			String jasperParameterName = "";
+			
+			// Verificar caso valido
+			if (!caseid) {
+				throw new Exception('El parametro "caseid" no debe ir vacío');
+			}
+			
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD);
+			pstm.setLong(1, Long.valueOf(caseid));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				estatusSolicitud = rs.getString("estatus_solicitud")
+			}
+			else {
+				throw new Exception("No se encontraron registros para el caseid proporcionado. caseid: " + caseid);
+			}
+			
+			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmision";
+			else if (estatusSolicitud == "solicitud_no_admitida") jasperParameterName = "jasperCartaPosgradosNoAdmision";
+			else {
+				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida o solicitud_no_admitida");
+			}
+
+			// Obtener parametros para jasper
+			Result solicitud = getSolicitudPosgrados(caseid, context);
+			List<?> info = solicitud.getData();
+			Map < String, Object > columns = new LinkedHashMap < String, Object > ();
+			
+			if(info != null){
+				if(info.size() < 1) {
+					throw new Exception("400 Bad Request Usuario no encontrado");
+				} else {
+					columns = (Map < String, Object >) info.get(0);
+				}
+			} else {
+				throw new Exception("Algo falló al consultar los parametros para la carta de posgrados");
+			}
+			
+			// Generar carta
+			String comentarios = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+			
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			String plantilla = prop.getProperty(jasperParameterName);
+			inputStream.close();
+			byte [] file = Base64.getDecoder().decode(plantilla);
+			targetStream = new ByteArrayInputStream(file);
+			streamOpen = true;
+			JasperReport jasperReport = JasperCompileManager.compileReport(targetStream);
+			JRDataSource dataSource = new JREmptyDataSource();
+			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			
+			byte[] encode = getImageBytes(exportToGraphics2D(jasperPrint));
+			//byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			String result = new String(encode);
+			List < Object > lstResultado = new ArrayList < Object > ();
+			lstResultado.add(result)
+			lstResultado.add(errorLog)
+						
+			resultado.setSuccess(true);
+			resultado.setData(lstResultado);
+			resultado.setError_info(errorLog);
+			
+			resultado.setError_info(errorLog);
+		} catch (Exception e) {
+			errorLog += e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+		}finally {
+			if(streamOpen) {
+				targetStream.close();
+			}
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
+	private BufferedImage exportToGraphics2D(JasperPrint jasperPrint) {
+	    JRGraphics2DExporter exporter = new JRGraphics2DExporter();
+	
+	    // Crear un objeto BufferedImage para almacenar la salida
+	    BufferedImage bufferedImage = new BufferedImage(720, 900, BufferedImage.TYPE_INT_ARGB);
+	    Graphics2D graphics2D = bufferedImage.createGraphics();
+	
+	    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+	    exporter.setParameter(JRExporterParameter.GRAPHICS_2D, graphics2D);
+	
+	    exporter.exportReport();
+	
+	    // Devolver el objeto BufferedImage para su posterior uso
+	    return bufferedImage;
+	}
+
+    private byte[] getImageBytes(BufferedImage bufferedImage) {
+	    // Crear un flujo de salida de bytes
+	    ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+	
+	    // Convertir la imagen a bytes
+	    try {
+	        ImageIO.write(bufferedImage, "png", byteArrayOutputStream);
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	
+	    // Obtener el array de bytes del flujo de salida
+	    return byteArrayOutputStream.toByteArray();
 	}
 }
