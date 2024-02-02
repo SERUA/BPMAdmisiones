@@ -1872,6 +1872,8 @@ class PDFDocumentDAO {
 			List < Map < String, Object >> trabajos_actuales = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> trabajos_previos = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> historial_academico = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> idiomas = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> documentos = new ArrayList < Map < String, Object >> ();
 			rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 			
@@ -2034,6 +2036,27 @@ class PDFDocumentDAO {
 			
 			JRBeanCollectionDataSource historial_academicoDS = new JRBeanCollectionDataSource(historial_academico);
 			columns.put("da_historial_academico", historial_academicoDS);
+			
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_INFO_IDIOMAS_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > idioma = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				idioma = new HashMap < String, Object > ();
+				idioma.put("idioma", rs.getString("idioma"));
+				idioma.put("habla", rs.getString("habla"));
+				idioma.put("escribe", rs.getString("escribe"));
+				idioma.put("traduce", rs.getString("traduce"));
+				
+				idiomas.add(idioma);
+			}
+			
+			JRBeanCollectionDataSource idiomasDS = new JRBeanCollectionDataSource(idiomas);
+			columns.put("da_idiomas", idiomasDS);
 			
 			resultado.setSuccess(true);
 			rows.add(columns);
