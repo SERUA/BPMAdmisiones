@@ -4,10 +4,24 @@ function PbTableCtrl($scope, blockUI, $http) {
     
     $scope.limpiarFiltros = function(){
         if($scope.filtroToSend){
-            if($scope.filtroToSend.lstFiltro){
-                $scope.filtroToSend.lstFiltro = [];
-            }    
+            for(let filtro of $scope.filtroToSend.lstFiltro){
+                if(filtro.columna !== "CAMPUS"){
+                    $scope.filtroToSend.lstFiltro.splice($scope.filtroToSend.lstFiltro.indexOf(filtro), 1);
+                }
+            }
         } 
+        
+        
+        for(let filtro of $scope.properties.headers){
+            $scope.dynamicInput[filtro] = "";
+        }
+    }
+    
+    $scope.deleteContent = function(objContent) {
+        var index = $scope.filtroToSend.lstFiltro.indexOf(objContent);
+        if(index != -1){
+            $scope.filtroToSend.lstFiltro.splice(index, 1);
+        }
     }
     
     $scope.pantalla = 'principal';

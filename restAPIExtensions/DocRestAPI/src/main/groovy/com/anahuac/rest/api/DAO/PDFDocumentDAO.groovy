@@ -1864,6 +1864,8 @@ class PDFDocumentDAO {
 			columns = new HashMap < String, Object > ();
 			List < Map < String, Object >> rows = new ArrayList < Map < String, Object >> ();
 			List < Map < String, Object >> medios_enteraste = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> trabajos_actuales = new ArrayList < Map < String, Object >> ();
+			List < Map < String, Object >> trabajos_previos = new ArrayList < Map < String, Object >> ();
 			rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 			
@@ -1941,6 +1943,66 @@ class PDFDocumentDAO {
 				columns.put("dc_telefono_casa", rs.getString("telefono_casa"));
 				columns.put("dc_correo", rs.getString("cnem_correo_electronico"));
 			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_EXP_LABORAL_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("dl_trabajas_actualmente", rs.getString("trabajas_actualmente"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_BY_CASEID_AND_ISACTUAL);
+			pstm.setLong(1, Long.valueOf(caseId));
+			pstm.setBoolean(2, true);
+			
+			rs = pstm.executeQuery();
+			
+			Map < String, Object > trabajo = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", rs.getString("desc_responsabilidad"));
+				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
+				trabajo.put("reporta_a", rs.getString("reporta_a"));
+				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
+				trabajo.put("extension", rs.getString("extension"));
+				trabajo.put("giro", rs.getString("giro_empresa"));
+				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+				trabajo.put("puesto", rs.getString("puesto"));
+				trabajo.put("nombre_empresa", rs.getString("calle"));
+				
+				trabajos_actuales.add(trabajo);
+			}
+			
+			JRBeanCollectionDataSource trabajos_actualesDS = new JRBeanCollectionDataSource(trabajos_actuales);
+			columns.put("dl_trabajos_actuales", trabajos_actualesDS);
+			
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_BY_CASEID_AND_ISACTUAL);
+			pstm.setLong(1, Long.valueOf(caseId));
+			pstm.setBoolean(2, false);
+			
+			rs = pstm.executeQuery();
+			
+			trabajo = new HashMap < String, Object > ();
+			
+			while (rs.next()) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", rs.getString("desc_responsabilidad"));
+				trabajo.put("fecha_inicio", rs.getString("fecha_inicio"));
+				trabajo.put("reporta_a", rs.getString("reporta_a"));
+				trabajo.put("telefono_empresa", rs.getString("telefono_empresa"));
+				trabajo.put("extension", rs.getString("extension"));
+				trabajo.put("giro", rs.getString("giro_empresa"));
+				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
+				trabajo.put("puesto", rs.getString("puesto"));
+				trabajo.put("nombre_empresa", rs.getString("calle"));
+				
+				trabajos_previos.add(trabajo);
+			}
+			
+			JRBeanCollectionDataSource trabajos_previosDS = new JRBeanCollectionDataSource(trabajos_previos);
+			columns.put("dl_trabajos_previos", trabajos_previosDS);
 			
 			resultado.setSuccess(true);
 			rows.add(columns);
