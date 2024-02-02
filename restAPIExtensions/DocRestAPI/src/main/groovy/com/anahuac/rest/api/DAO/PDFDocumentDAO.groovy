@@ -14,6 +14,9 @@ import java.time.Period
 import java.text.NumberFormat
 import java.text.ParseException
 import java.text.SimpleDateFormat
+import java.awt.image.BufferedImage;
+import java.awt.Graphics2D;
+import javax.imageio.ImageIO;
 
 import net.sf.jasperreports.engine.JRDataSource
 import net.sf.jasperreports.engine.JREmptyDataSource
@@ -25,9 +28,6 @@ import net.sf.jasperreports.engine.JasperReport
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource
 import net.sf.jasperreports.engine.export.JRGraphics2DExporter;
 import net.sf.jasperreports.engine.export.JRGraphics2DExporterParameter;
-import java.awt.image.BufferedImage;
-import java.awt.Graphics2D;
-//import net.sf.jasperreports.engine.export.JRPngExporterParameter;
 
 import org.bonitasoft.engine.bpm.document.Document
 import org.bonitasoft.engine.bpm.process.ProcessInstanceCriterion
@@ -2210,7 +2210,7 @@ class PDFDocumentDAO {
 			JRDataSource dataSource = new JREmptyDataSource();
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
 			
-			byte[] encode = [];//getImageBytes(exportToGraphics2D(jasperPrint));
+			byte[] encode = getImageBytes(exportToGraphics2D(jasperPrint));
 			//byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
 			String result = new String(encode);
 			List < Object > lstResultado = new ArrayList < Object > ();
@@ -2245,9 +2245,9 @@ class PDFDocumentDAO {
 	    // Crear un objeto BufferedImage para almacenar la salida
 	    BufferedImage bufferedImage = new BufferedImage(720, 900, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D graphics2D = bufferedImage.createGraphics();
-	
-	    exporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-	    exporter.setParameter(JRExporterParameter.GRAPHICS_2D, graphics2D);
+		
+	    exporter.setParameter(JRGraphics2DExporterParameter.JASPER_PRINT, jasperPrint);
+	    exporter.setParameter(JRGraphics2DExporterParameter.GRAPHICS_2D, graphics2D);
 	
 	    exporter.exportReport();
 	
