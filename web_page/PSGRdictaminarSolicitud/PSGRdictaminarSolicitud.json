@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRdictaminarSolicitud",
   "name" : "PSGRdictaminarSolicitud",
-  "lastUpdate" : 1706652288823,
+  "lastUpdate" : 1706830724073,
   "rows" : [
     [
       {
@@ -11763,6 +11763,98 @@
                                 "reference" : "a7a08896-7622-4df2-9bc9-b301ab9aba8d",
                                 "hasValidationError" : false,
                                 "id" : "customPSGRcustomBtnWizardValidationNoTask"
+                              },
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 6,
+                                  "lg" : 6
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "disabled" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Dictamen"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "right"
+                                  },
+                                  "buttonStyle" : {
+                                    "type" : "constant",
+                                    "value" : "primary"
+                                  },
+                                  "action" : {
+                                    "type" : "constant",
+                                    "value" : "Submit task"
+                                  },
+                                  "assign" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "url" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "responseStatusCode" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "dataToSend" : {
+                                    "type" : "constant"
+                                  },
+                                  "dataFromSuccess" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "closeOnSuccess" : {
+                                    "type" : "constant",
+                                    "value" : false
+                                  },
+                                  "dataFromError" : {
+                                    "type" : "variable",
+                                    "value" : ""
+                                  },
+                                  "targetUrlOnSuccess" : {
+                                    "type" : "interpolation"
+                                  },
+                                  "collectionToModify" : {
+                                    "type" : "variable"
+                                  },
+                                  "modalId" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "collectionPosition" : {
+                                    "type" : "constant",
+                                    "value" : "Last"
+                                  },
+                                  "valueToAdd" : {
+                                    "type" : "constant"
+                                  },
+                                  "removeItem" : {
+                                    "type" : "variable"
+                                  },
+                                  "event" : {
+                                    "type" : "variable",
+                                    "value" : "verDictamenClickEvent"
+                                  }
+                                },
+                                "reference" : "3c4df64e-1608-44d1-aaea-f65a0991c70b",
+                                "hasValidationError" : false,
+                                "id" : "customPSGRButtonEventAction"
                               }
                             ],
                             [
@@ -14309,7 +14401,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "{{ selectedFile.fileName}}"
+                          "value" : "{{ selectedFile.documentName ? selectedFile.documentName : selectedFile.fileName }}"
                         },
                         "level" : {
                           "type" : "constant",
@@ -14371,7 +14463,7 @@
                         },
                         "hidden" : {
                           "type" : "expression",
-                          "value" : "selectedFile.extension === \".pdf\""
+                          "value" : "selectedFile.extension !== \".png\" && selectedFile.extension !== \".jpg\"  && selectedFile.extension !== \".jpeg\" && selectedFile.extension !== \".jfif\""
                         },
                         "labelHidden" : {
                           "type" : "constant",
@@ -14497,6 +14589,58 @@
                       "reference" : "6c85150d-6b15-4c4d-99ee-e33c4afd8410",
                       "hasValidationError" : false,
                       "id" : "customPSGRFileViewer"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "expression",
+                          "value" : "selectedFile.extension !== \".xml\""
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<b>Por el momento, no es posible visualizar archivos XML.</b><br>Puedes descárgalo en el siguiente botón:<br><br>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "1ed25dde-8379-4939-94b5-8e19306c4edb",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
                     }
                   ],
                   [
@@ -18932,7 +19076,7 @@
     "urlDownloadFileazure" : {
       "type" : "constant",
       "value" : [
-        "../API/extension/AnahuacBecasRestGET?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
+        "../API/extension/posgradosRestGet?url=getB64FileByUrlAzure&p=0&c=100&urlAzure="
       ],
       "exposed" : false
     },
@@ -19855,6 +19999,25 @@
       "value" : [
         "if ($data.responsable_nombre) {",
         "    $data.citaAspirante.responsable_nombre = $data.responsable_nombre;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "verDictamenClickEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "handleVerDictamenClick" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.verDictamenClickEvent) {",
+        "    ",
+        "    $data.selectedIndexMain = 1;",
+        "    ",
+        "    $data.verDictamenClickEvent = null",
         "}"
       ],
       "exposed" : false
