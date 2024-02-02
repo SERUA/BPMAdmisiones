@@ -6,10 +6,14 @@ function PbTableCtrl($scope, $http, $location, $log, $window, localStorageServic
     };
 
     this.selectRow = function(row) {
-
+    
         $scope.properties.selectedRow = row;
         $scope.properties.isSelected = 'editar';
         $scope.properties.selectedRow["todelete"] = false;
+        
+        $scope.properties.selectedChangedEvent = {
+            type: "selectedChangedEvent"
+        }
     };
 
     this.selectRowDelete = function(row) {

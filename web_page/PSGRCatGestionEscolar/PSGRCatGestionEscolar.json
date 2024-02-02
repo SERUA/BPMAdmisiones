@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1705621364059,
+  "lastUpdate" : 1706896407049,
   "rows" : [
     [
       {
@@ -41,6 +41,58 @@
         "reference" : "0fe6a521-a619-43a9-9a38-9324a47e0ebc",
         "hasValidationError" : false,
         "id" : "customPSGRWidgetHeader"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "catGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible | json}}</pre>\n\n\ncatGestionEscolar_selected.tipo_licenciatura\n<pre>{{catGestionEscolar_selected.tipo_licenciatura | json}}</pre>\n\nperiodo_disponible_initialized\n<pre>{{periodo_disponible_initialized}}</pre>\n\nprogramaSelectedChangedEvent\n<pre>{{programaSelectedChangedEvent | json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "62138940-b6fc-48ea-9d6a-5752fa01cc8a",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -975,6 +1027,10 @@
                       "urlDelete" : {
                         "type" : "constant",
                         "value" : "/bonita/API/extension/posgradosRest?url=deleteCatGestionEscolar"
+                      },
+                      "selectedChangedEvent" : {
+                        "type" : "variable",
+                        "value" : "programaSelectedChangedEvent"
                       }
                     },
                     "reference" : "bcd49528-c62d-49b8-8b90-63dd0c333651",
@@ -1176,7 +1232,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Clave:"
+                  "value" : "Clave banner:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -3693,7 +3749,7 @@
                 },
                 "label" : {
                   "type" : "interpolation",
-                  "value" : "Clave:"
+                  "value" : "Clave banner:"
                 },
                 "labelPosition" : {
                   "type" : "constant",
@@ -4754,11 +4810,15 @@
                       "value" : {
                         "type" : "variable",
                         "value" : "catGestionEscolar_selected.tipo_licenciatura"
+                      },
+                      "changedEvent" : {
+                        "type" : "variable",
+                        "value" : "frecuenciaChangedEvent"
                       }
                     },
-                    "reference" : "c682dc1f-c56c-44b0-89d8-66ebb74e15ae",
+                    "reference" : "7e4277fe-cd13-4331-a236-ebe928031daf",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "customPSGRSelectChangedEvent"
                   }
                 ],
                 [
@@ -5694,7 +5754,7 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "periodosActivos"
+                        "value" : "periodosMostrados"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -5757,7 +5817,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "catGestionEscolar_selected\n<pre>{{catGestionEscolar_selected| json}}</pre>"
+                        "value" : "catGestionEscolar_selected.periodo_disponible\n<pre>{{catGestionEscolar_selected.periodo_disponible| json}}</pre>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -7339,7 +7399,11 @@
       "value" : [
         "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatPeriodo?q=findByIs_eliminado&p=0&c=999&f=is_eliminado=false"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "catGestionEscolar_selected_periodo_disponible" : {
@@ -7375,9 +7439,10 @@
     "cargarPeriodoDisponible" : {
       "type" : "expression",
       "value" : [
-        "if ($data.catGestionEscolar_selected_periodo_disponible && (!$data.catGestionEscolar_selected.periodo_disponible || $data.catGestionEscolar_selected.periodo_disponible.length === 0)) {",
+        "/*if ($data.catGestionEscolar_selected_periodo_disponible && (!$data.catGestionEscolar_selected.periodo_disponible || $data.catGestionEscolar_selected.periodo_disponible.length === 0) && !$data.periodo_disponible_initialized) {",
         "    $data.catGestionEscolar_selected.periodo_disponible = $data.catGestionEscolar_selected_periodo_disponible;",
-        "}"
+        "    $data.periodo_disponible_initialized = true;",
+        "}*/"
       ],
       "exposed" : false
     },
@@ -7385,6 +7450,62 @@
       "type" : "expression",
       "value" : [
         "return $data.periodos.filter(item => item.activo);"
+      ],
+      "exposed" : false
+    },
+    "frecuenciaChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "handleFrecuenciaChanged" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.frecuenciaChangedEvent) {",
+        "    ",
+        "    console.log(\"Limpiando...\")",
+        "    // Limpiar periodos seleccionados",
+        "    $data.catGestionEscolar_selected.periodo_disponible = [];",
+        "    ",
+        "    $data.frecuenciaChangedEvent = undefined",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "periodosMostrados" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.periodosActivos.filter(item => {",
+        "    const frecuencia = $data.catGestionEscolar_selected.tipo_licenciatura;",
+        "    if (frecuencia === \"Semestral\") {",
+        "        return item.is_semestral;",
+        "    }",
+        "    else if (frecuencia === \"Trimestral\") {",
+        "        return item.is_trimestral;",
+        "    }",
+        "    return false;",
+        "});"
+      ],
+      "exposed" : false
+    },
+    "programaSelectedChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return undefined;"
+      ],
+      "exposed" : false
+    },
+    "handleProgramaSelectedChanged" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.programaSelectedChangedEvent) {",
+        "    console.log(\"entre en programaSelectedChangedEvent\")",
+        "    $data.periodo_disponible_initialized = false;",
+        "    ",
+        "    $data.programaSelectedChangedEvent = undefined",
+        "}"
       ],
       "exposed" : false
     }

@@ -2082,6 +2082,11 @@ class CatalogosDAO {
         return resultado
     }
 	
+	/**
+	 * @param jsonData
+	 * @param context
+	 * @return
+	 */
 	public Result insertCatGestionEscolar(String jsonData, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -2125,9 +2130,9 @@ class CatalogosDAO {
 	//				throw new Exception("El campo \"periodo\" no debe ir vacío.");
 	//			}
 				
-				if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
-					throw new Exception("Debes seleccionar al menos un período.");
-				}
+//				if (!object.periodoDisponible || !object.periodoDisponible instanceof ArrayList) {
+//					throw new Exception("Debes seleccionar al menos un período.");
+//				}
 				
 				else if (object.idioma == null || object.idioma.isEmpty()) {
 					throw new Exception("El campo \"idioma\" no debe ir vacío.");
@@ -2400,7 +2405,7 @@ class CatalogosDAO {
 			
 			// Actualizar la lista de periodos disponibles:
 			
-			if (object.periodo_disponible && object.periodo_disponible instanceof ArrayList) {
+			if (object.periodo_disponible instanceof ArrayList) {
 				
 				// Conversión
 				Long programa_pid = 0L;
@@ -2419,18 +2424,20 @@ class CatalogosDAO {
 					pstm.executeUpdate();
 					
 					// Agregar las relaciones necesarias para actualiar el nuevo estado de la lista
-					String valuesToInsert = ""
-					object.periodo_disponible.eachWithIndex { periodo, index ->						
-						if (index != 0) {
-							valuesToInsert += ", "
+					if (!object.periodo_disponible.isEmpty()) {
+						String valuesToInsert = ""
+						object.periodo_disponible.eachWithIndex { periodo, index ->
+							if (index != 0) {
+								valuesToInsert += ", "
+							}
+							
+							int orderValue = index + 1;
+							valuesToInsert += "(" + programa_pid + ", " + periodo.persistenceId + ", " + orderValue + ")"
 						}
 						
-						int orderValue = index + 1;
-						valuesToInsert += "(" + programa_pid + ", " + periodo.persistenceId + ", " + orderValue + ")"
+						pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
+						pstm.execute();
 					}
-					
-					pstm = con.prepareStatement(StatementsCatalogos.INSERT_LST_PERIODOS_DISPONIBLES.replace("[VALUES]", valuesToInsert));
-					pstm.execute();
 				}
 			}
 			
