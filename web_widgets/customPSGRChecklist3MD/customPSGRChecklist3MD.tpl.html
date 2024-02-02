@@ -1,0 +1,19 @@
+<div class="row form-group" ng-class="{ 'form-horizontal':  !properties.labelHidden && properties.labelPosition === 'left' }">
+    <label
+            ng-if="!properties.labelHidden"
+            class="control-label col-xs-{{ !properties.labelHidden && properties.labelPosition === 'left' ? properties.labelWidth : 12 }}"
+            ng-bind-html="properties.label | uiTranslate">
+    </label>
+
+    <div class="col-xs-{{properties.anchoEtiqueta }}" ng-repeat="choice in properties.availableValues track by $index">
+        <label class="checkbox-inline" >
+            <input
+                    type="checkbox"
+                    name="{{ctrl.name}}"
+                    ng-model="ctrl.selectedItems[$index]"
+                    ng-change="ctrl.updateValues()"
+                    ng-disabled="properties.disabled">
+            {{ (ctrl.getLabel(choice) || choice) | uiTranslate }}
+        </label>
+    </div>
+</div>
