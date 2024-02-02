@@ -3,8 +3,58 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRmoduloUsuarios",
   "name" : "PSGRmoduloUsuarios",
-  "lastUpdate" : 1706746065372,
+  "lastUpdate" : 1706833737296,
   "rows" : [
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "srcType" : {
+            "type" : "constant",
+            "value" : "URL"
+          },
+          "url" : {
+            "type" : "constant"
+          },
+          "assetName" : {
+            "type" : "constant"
+          },
+          "alt" : {
+            "type" : "interpolation",
+            "value" : "Gestión de administrativos"
+          },
+          "dataToSend" : {
+            "type" : "variable",
+            "value" : "{}"
+          },
+          "fileExtension" : {
+            "type" : "constant",
+            "value" : "xls"
+          },
+          "nombre" : {
+            "type" : "constant",
+            "value" : "Gestión de administrativos"
+          }
+        },
+        "reference" : "7f56bdc1-da79-4475-9339-797a2241f585",
+        "hasValidationError" : false,
+        "id" : "customPSGRWidgetHeaderUsuarios"
+      }
+    ],
     [
       {
         "type" : "container",
@@ -156,7 +206,7 @@
                                         },
                                         "hidden" : {
                                           "type" : "constant",
-                                          "value" : false
+                                          "value" : true
                                         },
                                         "text" : {
                                           "type" : "interpolation",
@@ -351,6 +401,58 @@
                                   ]
                                 ]
                               }
+                            ],
+                            [
+                              {
+                                "type" : "component",
+                                "dimension" : {
+                                  "xs" : 12,
+                                  "sm" : 12,
+                                  "md" : 12,
+                                  "lg" : 12
+                                },
+                                "propertyValues" : {
+                                  "cssClasses" : {
+                                    "type" : "constant",
+                                    "value" : ""
+                                  },
+                                  "hidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "labelHidden" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "label" : {
+                                    "type" : "interpolation",
+                                    "value" : "Default label"
+                                  },
+                                  "labelPosition" : {
+                                    "type" : "constant",
+                                    "value" : "top"
+                                  },
+                                  "labelWidth" : {
+                                    "type" : "constant",
+                                    "value" : 4
+                                  },
+                                  "allowHTML" : {
+                                    "type" : "constant",
+                                    "value" : true
+                                  },
+                                  "text" : {
+                                    "type" : "interpolation",
+                                    "value" : "<pre>{{ lstCatCampus| json }}</pre>\n<pre>{{ lstCatCampusPosgrados | json }}</pre>"
+                                  },
+                                  "alignment" : {
+                                    "type" : "constant",
+                                    "value" : "left"
+                                  }
+                                },
+                                "reference" : "85a374b8-b4ea-47fe-b47a-fd61916141a7",
+                                "hasValidationError" : false,
+                                "id" : "pbText"
+                              }
                             ]
                           ]
                         }
@@ -536,6 +638,13 @@
       "type" : "json",
       "value" : [
         "[]"
+      ],
+      "exposed" : false
+    },
+    "lstCatCampusPosgrados" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"getCat [com.anahuac.posgrados.catalog.PSGRCatCampus]\",\"businessObjectName\":\"PSGRCatCampus\",\"query\":{\"name\":\"getCat\",\"displayName\":\"getCat\"},\"id\":\"com.anahuac.posgrados.catalog.PSGRCatCampus\",\"filters\":[{\"name\":\"eliminado\",\"type\":\"BOOLEAN\",\"collection\":false,\"value\":\"false\"}],\"pagination\":{\"p\":\"0\",\"c\":\"10\"}}"
       ],
       "exposed" : false
     }

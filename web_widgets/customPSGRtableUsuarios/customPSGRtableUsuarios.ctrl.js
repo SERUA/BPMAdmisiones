@@ -1,6 +1,15 @@
 function PbTableCtrl($scope, blockUI, $http) {
     var vm = this;
     this.isArray = Array.isArray;
+    
+    $scope.limpiarFiltros = function(){
+        if($scope.filtroToSend){
+            if($scope.filtroToSend.lstFiltro){
+                $scope.filtroToSend.lstFiltro = [];
+            }    
+        } 
+    }
+    
     $scope.pantalla = 'principal';
     $scope.filtroToSend = {
         "estatusSolicitud": "Solicitud en progreso",
@@ -73,13 +82,19 @@ function PbTableCtrl($scope, blockUI, $http) {
         $scope.loadCatalog();
     }
     $scope.loadCatalog = function() {
-        $scope.roles = [];
         doRequest("GET", `/bonita/API/extension/posgradosRestGet?url=getUsuarios&p=${$scope.pagina}&c=${$scope.cont}&jsonData=${encodeURIComponent(JSON.stringify($scope.filtroToSend))}`, null, null, null, function(datos, extra) {
             $scope.content = datos.data;
             $scope.value = datos.totalRegistros;
             $scope.loadPaginado();
+            $scope.roles = [];
+
             doRequest("GET", "/bonita/API/identity/role?p=0&c=100&o=displayName%20ASC", null, null, null, function(datos, extra) {
-                $scope.roles = datos;
+                for(let dato of datos ){
+                    if(dato.name === "Admisiones PSG" || dato.name === "Chat PSG" || dato.name === "TI campus PSG" || dato.name === "Comite PSG" || dato.name === "SERUA PSG" ){
+                        $scope.roles.push(dato);
+                    }
+                }
+                
                 doRequest("GET", "/API/identity/membership?p=0&c=100&f=user_id%3d" + $scope.properties.userid + "&d=role_id&d=group_id", null, null, null, function(datos, extra) {
 
                     var rolesMine = datos;
