@@ -7,7 +7,10 @@ margin-right: 15px;
     <button ng-show="group_id>0" ng-click="editar=false;cambiarPantalla('usuario')" class="btn btn-primary"> <i class="glyphicon glyphicon-plus"></i> Agregar</button>
 </div>
 <div class="col-xs-9 text-left" ng-show="pantalla=='principal'">
-    <a class="btn btn-primary" href="/portal/resource/app/administrativo/CatNotificacionesFirma/content/?app=administrativo">Configuración de firmas</a>
+    <!--<a class="btn btn-primary" href="/portal/resource/app/administrativo/CatNotificacionesFirma/content/?app=administrativo">Configuración de firmas</a>-->
+    <button type="button"  ng-click="limpiarFiltros()" class="btn btn-default">
+        Limpiar filtros
+    </button>
 </div>
 <div ng-show="pantalla=='principal'" style="margin-bottom:15px;" class="col-xs-3">
     <select ng-change="sizing()" class="form-control" ng-model="cont">
@@ -145,7 +148,7 @@ margin-right: 15px;
             name="select"
             ng-model="role_id"
             ng-model-options="{ allowInvalid: true }"
-            ng-options="rol.id as rol.displayName.toUpperCase() for rol in roles">
+            ng-options="rol.id as rol.name for rol in roles">
             <option style="display:none" value="">
                 Seleccionar...
             </option>
