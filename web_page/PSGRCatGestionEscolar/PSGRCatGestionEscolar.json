@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCatGestionEscolar",
   "name" : "PSGRCatGestionEscolar",
-  "lastUpdate" : 1706896407049,
+  "lastUpdate" : 1706902349157,
   "rows" : [
     [
       {
@@ -83,7 +83,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "catGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible | json}}</pre>\n\n\ncatGestionEscolar_selected.tipo_licenciatura\n<pre>{{catGestionEscolar_selected.tipo_licenciatura | json}}</pre>\n\nperiodo_disponible_initialized\n<pre>{{periodo_disponible_initialized}}</pre>\n\nprogramaSelectedChangedEvent\n<pre>{{programaSelectedChangedEvent | json}}</pre>"
+            "value" : "catGestionEscolar_selected_periodo_disponible\n<pre>{{catGestionEscolar_selected_periodo_disponible | json}}</pre>\n\nformOutputAgregar.lstCatGestionEscolarInput[0].tipoLicenciatura\n<pre>{{formOutputAgregar.lstCatGestionEscolarInput[0].tipoLicenciatura | json}}</pre>\n\ncatGestionEscolar_selected.tipo_licenciatura\n<pre>{{catGestionEscolar_selected.tipo_licenciatura | json}}</pre>\n\nperiodo_disponible_initialized\n<pre>{{periodo_disponible_initialized}}</pre>\n\nprogramaSelectedChangedEvent\n<pre>{{programaSelectedChangedEvent | json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -1033,7 +1033,7 @@
                         "value" : "programaSelectedChangedEvent"
                       }
                     },
-                    "reference" : "bcd49528-c62d-49b8-8b90-63dd0c333651",
+                    "reference" : "3d2fdf0e-85e1-4305-a1a2-32cd06651b96",
                     "hasValidationError" : false,
                     "id" : "customTableSeleccionarFiltradoGestionEscolarPSGRCATGESTIONESCOLAR"
                   }
@@ -2293,11 +2293,15 @@
                       "value" : {
                         "type" : "variable",
                         "value" : "formOutputAgregar.lstCatGestionEscolarInput[0].tipoLicenciatura"
+                      },
+                      "changedEvent" : {
+                        "type" : "variable",
+                        "value" : "frecuenciaChangedEvent"
                       }
                     },
-                    "reference" : "bbe85beb-e068-44d5-b3f4-e5fa8a409872",
+                    "reference" : "c0686c2c-c054-462d-b194-651750ea08c2",
                     "hasValidationError" : false,
-                    "id" : "pbSelect"
+                    "id" : "customPSGRSelectChangedEvent"
                   }
                 ],
                 [
@@ -3184,7 +3188,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : true
+                  "value" : false
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -3211,7 +3215,7 @@
                       },
                       "hidden" : {
                         "type" : "constant",
-                        "value" : true
+                        "value" : false
                       },
                       "disabled" : {
                         "type" : "constant",
@@ -3227,7 +3231,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Periodos disponibles"
+                        "value" : "Periodos disponibles:"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -3239,7 +3243,7 @@
                       },
                       "availableValues" : {
                         "type" : "expression",
-                        "value" : "lstPeriodoAgregar"
+                        "value" : "periodosMostrados"
                       },
                       "displayedKey" : {
                         "type" : "constant",
@@ -3257,9 +3261,61 @@
                         "value" : "3"
                       }
                     },
-                    "reference" : "ba7e09e9-5bef-41d8-89e5-9b0fb610b86a",
+                    "reference" : "2c94c1e4-46fb-49c3-9686-acd594692e0a",
                     "hasValidationError" : false,
-                    "id" : "customChecklist3MD"
+                    "id" : "customPSGRChecklist3MD"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Periodos seleccionados: <b>{{formOutputAgregar.lstCatGestionEscolarInput[0].periodoDisponible.length}}</b>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "8580310d-3cf0-478a-aaef-3298eb4e1ed2",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -3281,7 +3337,7 @@
                 },
                 "hidden" : {
                   "type" : "constant",
-                  "value" : false
+                  "value" : true
                 },
                 "disabled" : {
                   "type" : "constant",
@@ -5742,7 +5798,7 @@
                       },
                       "label" : {
                         "type" : "interpolation",
-                        "value" : "Periodos seleccionado"
+                        "value" : "Periodos seleccionado:"
                       },
                       "labelPosition" : {
                         "type" : "constant",
@@ -5772,9 +5828,61 @@
                         "value" : "3"
                       }
                     },
-                    "reference" : "ef4a56f3-9676-456f-a1ee-0bc99c54e574",
+                    "reference" : "cd13e08a-b530-40d1-bcc9-640a58a41084",
                     "hasValidationError" : false,
-                    "id" : "customChecklist3MD"
+                    "id" : "customPSGRChecklist3MD"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "Periodos seleccionados: <b>{{catGestionEscolar_selected.periodo_disponible.length}}</b>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "24df5aba-7021-4038-82cf-bfd05c789f04",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ],
                 [
@@ -7465,9 +7573,9 @@
       "value" : [
         "if ($data.frecuenciaChangedEvent) {",
         "    ",
-        "    console.log(\"Limpiando...\")",
-        "    // Limpiar periodos seleccionados",
+        "    // Limpiar periodos seleccionados (en agregar y editar)",
         "    $data.catGestionEscolar_selected.periodo_disponible = [];",
+        "    $data.formOutputAgregar.lstCatGestionEscolarInput[0].periodoDisponible = [];",
         "    ",
         "    $data.frecuenciaChangedEvent = undefined",
         "}"
@@ -7478,7 +7586,14 @@
       "type" : "expression",
       "value" : [
         "return $data.periodosActivos.filter(item => {",
-        "    const frecuencia = $data.catGestionEscolar_selected.tipo_licenciatura;",
+        "    let frecuencia = \"\";",
+        "    if ($data.editable === \"agregar\") {",
+        "        frecuencia = $data.formOutputAgregar.lstCatGestionEscolarInput[0].tipoLicenciatura;    ",
+        "    }",
+        "    else {",
+        "        frecuencia = $data.catGestionEscolar_selected.tipo_licenciatura;    ",
+        "    }",
+        "    ",
         "    if (frecuencia === \"Semestral\") {",
         "        return item.is_semestral;",
         "    }",
@@ -7502,6 +7617,9 @@
       "value" : [
         "if ($data.programaSelectedChangedEvent) {",
         "    console.log(\"entre en programaSelectedChangedEvent\")",
+        "    ",
+        "    // Limpiando la consulta y indicando que no se ha inicializado los periodos.",
+        "    $data.catGestionEscolar_selected_periodo_disponible = undefined;",
         "    $data.periodo_disponible_initialized = false;",
         "    ",
         "    $data.programaSelectedChangedEvent = undefined",
