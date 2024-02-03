@@ -2210,7 +2210,7 @@ class PDFDocumentDAO {
 			JRDataSource dataSource = new JREmptyDataSource();
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
 			
-			byte[] encode = getImageBytes(exportToGraphics2D(jasperPrint));
+			byte[] encode = Base64.getEncoder().encode(getImageBytes(exportToGraphics2D(jasperPrint)));
 			//byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
 			String result = new String(encode);
 			List < Object > lstResultado = new ArrayList < Object > ();
