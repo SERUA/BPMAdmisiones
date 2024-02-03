@@ -104,7 +104,7 @@ function PbTableCtrl($scope, blockUI, $http) {
 
             doRequest("GET", "/bonita/API/identity/role?p=0&c=100&o=displayName%20ASC", null, null, null, function(datos, extra) {
                 for(let dato of datos ){
-                    if(dato.name === "Admisiones PSG" || dato.name === "Chat PSG" || dato.name === "TI campus PSG" || dato.name === "Comite PSG" || dato.name === "SERUA PSG" ){
+                    if(dato.name === "Admisiones PSG" || dato.name === "TI campus PSG" || dato.name === "Comite PSG"){
                         $scope.roles.push(dato);
                     }
                 }
