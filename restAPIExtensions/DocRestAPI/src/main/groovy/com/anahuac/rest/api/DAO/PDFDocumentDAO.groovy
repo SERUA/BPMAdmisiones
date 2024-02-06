@@ -1890,7 +1890,7 @@ class PDFDocumentDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				columns.put("campus", rs.getString("estatus_solicitud"));
+				columns.put("estatus_solicitud", rs.getString("estatus_solicitud"));
 			}
 			
 			pstm = con.prepareStatement(Statements.GET_DATOS_PROGRAMA_BY_CASEID);
