@@ -1884,8 +1884,15 @@ class PDFDocumentDAO {
 			if (rs.next()) {
 				SSA = rs.getString("valor");
 			}
-		
-			// Variables (Valores dinamicos)
+			
+			pstm = con.prepareStatement(Statements.GET_ESTATUS_SOLICITUD_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("campus", rs.getString("estatus_solicitud"));
+			}
+			
 			pstm = con.prepareStatement(Statements.GET_DATOS_PROGRAMA_BY_CASEID);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
@@ -1925,14 +1932,12 @@ class PDFDocumentDAO {
 			JRBeanCollectionDataSource medios_enterasteDS = new JRBeanCollectionDataSource(medios_enteraste);
 			columns.put("medios_enteraste", medios_enterasteDS);
 			
-			// Variables (Valores dinamicos)
 			pstm = con.prepareStatement(Statements.GET_DATOS_PERSONALES_BY_CASEID);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
 				String curp_pasaporte = rs.getString("curp");
-				
 				columns.put("dp_nombre", rs.getString("nombre"));
 				columns.put("dp_apellido_paterno", rs.getString("apellido_paterno"));
 				columns.put("dp_apellido_materno", rs.getString("apellido_materno"));
