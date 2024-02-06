@@ -23,7 +23,7 @@ function ($scope, $http) {
             method: "POST",
             url: url,
         };
-  
+  /*
         return $http(req).success(function(success){
             $scope.b64File = success.data[0]; 
             
@@ -47,12 +47,33 @@ function ($scope, $http) {
             document.getElementById("carta").appendChild(obj2);
         }).error(function(error){
             
+        });*/
+    }
+
+    $scope.pngCartaPosgrados = function(){
+        let url = "../API/extension/DocAPI?pdf=pngCartaPosgrados&p=0&c=1&caseid=" + $scope.properties.caseid;
+        var req = {
+            method: "POST",
+            url: url,
+        };
+  
+        return $http(req).success(function(success){
+            $scope.b64File = success.data[0]; 
+            
+            let b64 = angular.copy($scope.b64File).toString().trim();
+
+            // Asignar la cadena Base64 como el origen de la imagen
+            document.getElementById('imagen-carta').src = 'data:image/png;base64,' + b64;
+
+        }).error(function(error){
+            console.log("Error al convertir la imagen Carta posgrados. " + error.message)
         });
     }
     
     $scope.$watch("properties.caseid", function(){
         if($scope.properties.caseid){
-            $scope.pdfCartaPosgrados();       
+            //$scope.pdfCartaPosgrados();       
+            $scope.pngCartaPosgrados()
         }
     })
     
