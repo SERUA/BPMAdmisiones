@@ -1902,15 +1902,24 @@ class PDFDocumentDAO {
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
 			Map < String, Object > medio_enteraste = new HashMap < String, Object > ();
+			Boolean isSegundo = false;//Para poder generar la lista en dos columnas en lugar de una
 			
 			while (rs.next()) {
-				medio_enteraste = new HashMap < String, Object > ();
-				
-				medio_enteraste.put("medio_enteraste", rs.getString("medio_enteraste"));
-				medio_enteraste.put("especifique", rs.getString("especifique"));
-				medio_enteraste.put("seleccionado", rs.getBoolean("seleccionado"));
-				
-				medios_enteraste.add(medio_enteraste);
+				if(isSegundo == false) {
+					medio_enteraste = new HashMap < String, Object > ();
+					
+					medio_enteraste.put("medio_enteraste", rs.getString("medio_enteraste"));
+					medio_enteraste.put("especifique", rs.getString("especifique"));
+					medio_enteraste.put("seleccionado", rs.getBoolean("seleccionado"));
+					isSegundo = true;
+				} else {
+					medio_enteraste.put("medio_enteraste2", rs.getString("medio_enteraste"));
+					medio_enteraste.put("especifique2", rs.getString("especifique"));
+					medio_enteraste.put("seleccionado2", rs.getBoolean("seleccionado"));
+					
+					medios_enteraste.add(medio_enteraste);
+					isSegundo = false;
+				}
 			}
 			
 			JRBeanCollectionDataSource medios_enterasteDS = new JRBeanCollectionDataSource(medios_enteraste);
@@ -1990,6 +1999,21 @@ class PDFDocumentDAO {
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
 				
 				trabajos_actuales.add(trabajo);
+			} 
+			
+			if(trabajos_actuales.empty) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", "N/A");
+				trabajo.put("fecha_inicio", "N/A");
+				trabajo.put("reporta_a", "N/A");
+				trabajo.put("telefono_empresa", "N/A");
+				trabajo.put("extension", "N/A");
+				trabajo.put("giro", "N/A");
+				trabajo.put("tipo_empresa", "N/A");
+				trabajo.put("puesto", "N/A");
+				trabajo.put("nombre_empresa", "N/A");
+				
+				trabajos_actuales.add(trabajo);
 			}
 			
 			JRBeanCollectionDataSource trabajos_actualesDS = new JRBeanCollectionDataSource(trabajos_actuales);
@@ -2014,6 +2038,21 @@ class PDFDocumentDAO {
 				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
+				
+				trabajos_previos.add(trabajo);
+			}
+			
+			if(trabajos_previos.empty) {
+				trabajo = new HashMap < String, Object > ();
+				trabajo.put("descripcion_responsabilidades", "N/A");
+				trabajo.put("fecha_inicio", "N/A");
+				trabajo.put("reporta_a", "N/A");
+				trabajo.put("telefono_empresa", "N/A");
+				trabajo.put("extension", "N/A");
+				trabajo.put("giro", "N/A");
+				trabajo.put("tipo_empresa", "N/A");
+				trabajo.put("puesto", "N/A");
+				trabajo.put("nombre_empresa", "N/A");
 				
 				trabajos_previos.add(trabajo);
 			}
@@ -2060,6 +2099,16 @@ class PDFDocumentDAO {
 				idioma.put("habla", rs.getString("habla"));
 				idioma.put("escribe", rs.getString("escribe"));
 				idioma.put("traduce", rs.getString("traduce"));
+				
+				idiomas.add(idioma);
+			} 
+			
+			if(idiomas.empty) {
+				idioma = new HashMap < String, Object > ();
+				idioma.put("idioma", "N/A");
+				idioma.put("habla", "N/A");
+				idioma.put("escribe", "N/A");
+				idioma.put("traduce", "N/A");
 				
 				idiomas.add(idioma);
 			}
