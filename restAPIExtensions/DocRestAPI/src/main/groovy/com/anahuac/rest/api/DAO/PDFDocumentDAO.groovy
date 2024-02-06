@@ -2176,10 +2176,9 @@ class PDFDocumentDAO {
 				throw new Exception("No se encontraron registros para el caseid proporcionado. caseid: " + caseid);
 			}
 			
-			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmision";
-			else if (estatusSolicitud == "solicitud_no_admitida") jasperParameterName = "jasperCartaPosgradosNoAdmision";
+			if (estatusSolicitud == "solicitud_admitida") jasperParameterName = "jasperCartaPosgradosAdmisionImagen";
 			else {
-				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida o solicitud_no_admitida");
+				throw new Exception("Estatus de solicitud no esperado: " + estatusSolicitud + ". Se espera solicitud_admitida");
 			}
 
 			// Obtener parametros para jasper
@@ -2219,8 +2218,9 @@ class PDFDocumentDAO {
 			JRDataSource dataSource = new JREmptyDataSource();
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
 			
+			// Exportar la imagen
 			byte[] encode = Base64.getEncoder().encode(getImageBytes(exportToGraphics2D(jasperPrint)));
-			//byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			
 			String result = new String(encode);
 			List < Object > lstResultado = new ArrayList < Object > ();
 			lstResultado.add(result)
@@ -2252,7 +2252,7 @@ class PDFDocumentDAO {
 	    JRGraphics2DExporter exporter = new JRGraphics2DExporter();
 	
 	    // Crear un objeto BufferedImage para almacenar la salida
-	    BufferedImage bufferedImage = new BufferedImage(720, 900, BufferedImage.TYPE_INT_ARGB);
+	    BufferedImage bufferedImage = new BufferedImage(940, 1220, BufferedImage.TYPE_INT_ARGB);
 	    Graphics2D graphics2D = bufferedImage.createGraphics();
 		
 	    exporter.setParameter(JRGraphics2DExporterParameter.JASPER_PRINT, jasperPrint);
@@ -2260,7 +2260,6 @@ class PDFDocumentDAO {
 	
 	    exporter.exportReport();
 	
-	    // Devolver el objeto BufferedImage para su posterior uso
 	    return bufferedImage;
 	}
 
