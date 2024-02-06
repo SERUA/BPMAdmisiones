@@ -1877,6 +1877,14 @@ class PDFDocumentDAO {
 			rows = new ArrayList < Map < String, Object >> ();
 			closeCon = validarConexion();
 			
+			String SSA = "";
+			pstm = con.prepareStatement(Statements.CONFIGURACIONESSSA);
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				SSA = rs.getString("valor");
+			}
+		
 			// Variables (Valores dinamicos)
 			pstm = con.prepareStatement(Statements.GET_DATOS_PROGRAMA_BY_CASEID);
 			pstm.setLong(1, Long.valueOf(caseId));
@@ -1931,6 +1939,7 @@ class PDFDocumentDAO {
 				columns.put("dp_universidad", rs.getString("campus_alumno"));
 				columns.put("dp_soy_alumno", rs.getBoolean("alumno_anahuac"));
 				columns.put("dp_estado_nacimiento", rs.getString("lugar_nacimiento_estado"));
+				columns.put("urlFoto", rs.getString("urlfoto") + SSA);
 			}
 
 			pstm = con.prepareStatement(Statements.GET_DATOS_CONTACTO_BY_CASEID);
