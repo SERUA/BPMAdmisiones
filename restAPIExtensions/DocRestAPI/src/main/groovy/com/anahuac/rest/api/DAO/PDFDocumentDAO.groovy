@@ -1990,15 +1990,15 @@ class PDFDocumentDAO {
 				columns.put("fecha_envio_solicitud", rs.getString("fecha_envio_solicitud"));
 			}
 			
-			pstm = con.prepareStatement(Statements.GET_DATOS_CONTACTO_BY_CASEID);
+			pstm = con.prepareStatement(Statements.GET_CONFIGURACIONES_POSGRADOS);
 			pstm.setLong(1, Long.valueOf(caseId));
 			rs = pstm.executeQuery();
 			
 			while (rs.next()) {
 				if(rs.getString("clave").equals("formulario_solicitud_consentimiento")) {
-					columns.put("consentimiento", rs.getString("calle"));
+					columns.put("consentimiento", rs.getString("valor"));
 				} else if (rs.getString("clave").equals("formulario_solicitud_manifiesto")) {
-					columns.put("manifiesto", rs.getString("calle"));
+					columns.put("manifiesto", rs.getString("valor"));
 				}
 			}
 			
