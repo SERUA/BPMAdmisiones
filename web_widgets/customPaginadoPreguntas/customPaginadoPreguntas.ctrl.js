@@ -239,7 +239,7 @@ function($scope, $http) {
                             $scope.anterior();
                             $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                         }
-                        mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
+                        mensaje = "\" La comunicación con  el servidor esta intermitente\". Asegúrate que tengas una conexión a internet estable.  Presiona Ok y el sistema intentará estabilizar la comunicación para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                     }
                 } else {
                     if($scope.preguntaAvanzado === true){
@@ -248,7 +248,7 @@ function($scope, $http) {
                         $scope.anterior();
                         $scope.properties.lstContestadas.splice($scope.properties.lstContestadas.length - 1, 1);
                     }
-                    mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
+                    mensaje = "\" La comunicación con  el servidor esta intermitente\". Asegúrate que tengas una conexión a internet estable.  Presiona Ok y el sistema intentará estabilizar la comunicación para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                 }
                 
                 Swal.fire({
@@ -295,10 +295,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "La sesión ha concluido, ya no se puede continuar con la prueba. Si tienes dudas contacta con tu aplicador.";
                     } else {
-                        mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador.";
+                        mensaje = "\" La comunicación con  el servidor esta intermitente\". Asegúrate que tengas una conexión a internet estable.  Presiona Ok y el sistema intentará estabilizar la comunicación para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador.";
                     }
                 } else {
-                    mensaje = "\" La conexión con el servidor se ha interrumpido inesperadamente\". Asegúrate que tengas una conexión a internet estable. El sistema intentará recuperar la conexión para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
+                    mensaje = "\" La comunicación con  el servidor esta intermitente\". Asegúrate que tengas una conexión a internet estable.  Presiona Ok y el sistema intentará estabilizar la comunicación para poder continuar. En caso de que se cierre tu sesión, notifícalo inmediatamente a tu aplicador."
                 }
                 
                 Swal.fire({

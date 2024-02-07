@@ -230,10 +230,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "Your session has ended. You cannot resume the test. If you have any questions, please contact your facilitator.";
                     } else {
-                        mensaje = "The connection to the server has been interrupted unexpectedly. Make sure you have a stable internet connection. The system will try to recover the connection to continue. If your session is closed, notify your applicator immediately. "
+                        mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
                     }
                 } else {
-                    mensaje = "The connection to the server has been interrupted unexpectedly. Make sure you have a stable internet connection. The system will try to recover the connection to continue. If your session is closed, notify your applicator immediately. "
+                    mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
                 }
 
                 Swal.fire({
@@ -280,10 +280,10 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
                     } else {
-                        mensaje = "The connection to the server has been interrupted unexpectedly. Make sure you have a stable internet connection. The system will try to recover the connection to continue. If your session is closed, notify your applicator immediately. "
+                        mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
                     }
                 } else {
-                    mensaje = "The connection to the server has been interrupted unexpectedly. Make sure you have a stable internet connection. The system will try to recover the connection to continue. If your session is closed, notify your applicator immediately. "
+                    mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
                 }
 
                 Swal.fire({
