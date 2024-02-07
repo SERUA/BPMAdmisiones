@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1707333323150,
+  "lastUpdate" : 1707336475008,
   "rows" : [
     [
       {
@@ -22359,15 +22359,21 @@
     "fechaSolicitud" : {
       "type" : "expression",
       "value" : [
-        "function obtenerFechaActual() {\r",
-        "    const fecha = new Date();\r",
+        "function formatFecha(fecha) {\r",
         "    const dia = String(fecha.getDate()).padStart(2, '0');\r",
         "    const mes = String(fecha.getMonth() + 1).padStart(2, '0');\r",
         "    const anio = fecha.getFullYear();\r",
         "    return `${dia}/${mes}/${anio}`;\r",
         "}\r",
         "\r",
-        "return obtenerFechaActual();"
+        "if ($data.isModificar)  {\r",
+        "    const fechaRegistrada = $data.registro.fecha_envio_solicitud;\r",
+        "    return formatFecha(fechaRegistrada);\r",
+        "}\r",
+        "else {\r",
+        "    const fechaActual = new Date()\r",
+        "    return formatFecha(fechaActual);    \r",
+        "}\r"
       ],
       "exposed" : false
     },
