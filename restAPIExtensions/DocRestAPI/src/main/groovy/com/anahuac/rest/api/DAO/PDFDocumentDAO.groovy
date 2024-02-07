@@ -1973,6 +1973,33 @@ class PDFDocumentDAO {
 				columns.put("dc_telefono_cel", rs.getString("telefono_celular"));
 				columns.put("dc_telefono_casa", rs.getString("telefono_casa"));
 				columns.put("dc_correo", rs.getString("cnem_correo_electronico"));
+				columns.put("dc_cnem_parentesco", rs.getString("parentesco"));
+				columns.put("dc_cnem_nombre", rs.getString("cnem_nombre"));
+				columns.put("dc_cnem_apellido_paterno", rs.getString("cnem_apellido_paterno"));
+				columns.put("dc_cnem_apellido_materno", rs.getString("cnem_apellido_materno"));
+				columns.put("dc_cnem_telefono_celular", rs.getString("cnem_telefono_celular"));
+				columns.put("dc_cnem_correo_electronico", rs.getString("cnem_correo_electronico"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_RV_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				columns.put("rv_id_banner", rs.getString("id_banner_validacion"));
+				columns.put("fecha_envio_solicitud", rs.getString("fecha_envio_solicitud"));
+			}
+			
+			pstm = con.prepareStatement(Statements.GET_DATOS_CONTACTO_BY_CASEID);
+			pstm.setLong(1, Long.valueOf(caseId));
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				if(rs.getString("clave").equals("formulario_solicitud_consentimiento")) {
+					columns.put("consentimiento", rs.getString("calle"));
+				} else if (rs.getString("clave").equals("formulario_solicitud_manifiesto")) {
+					columns.put("manifiesto", rs.getString("calle"));
+				}
 			}
 			
 			pstm = con.prepareStatement(Statements.GET_DATOS_EXP_LABORAL_BY_CASEID);
