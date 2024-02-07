@@ -1940,7 +1940,7 @@ class PDFDocumentDAO {
 				String curp_pasaporte = rs.getString("curp");
 				columns.put("dp_nombre", rs.getString("nombre"));
 				columns.put("dp_apellido_paterno", rs.getString("apellido_paterno"));
-				columns.put("dp_apellido_materno", rs.getString("apellido_materno"));
+				columns.put("dp_apellido_materno", (rs.getString("apellido_materno") != null ? rs.getString("apellido_materno") : "N/A"));
 				columns.put("dp_sexo", rs.getString("sexo"));
 				columns.put("dp_nacionalidad", rs.getString("nacionalidad"));
 				columns.put("dp_estado_civil", rs.getString("estado_civil"));
@@ -1949,8 +1949,8 @@ class PDFDocumentDAO {
 				columns.put("dp_fecha_nacimiento", rs.getString("fecha_nacimiento"));
 				columns.put("dp_pais_nacimiento", rs.getString("lugar_nacimiento_pais"));
 				columns.put("dp_ciudad_nacimiento", rs.getString("lugar_nacimiento_ciudad"));
-				columns.put("dp_id_banner", rs.getString("id_banner"));
-				columns.put("dp_universidad", rs.getString("campus_alumno"));
+				columns.put("dp_id_banner", rs.getBoolean("alumno_anahuac") ? rs.getString("id_banner") : "N/A");
+				columns.put("dp_universidad", rs.getBoolean("alumno_anahuac") ? rs.getString("campus_alumno"): "N/A");
 				columns.put("dp_soy_alumno", rs.getBoolean("alumno_anahuac"));
 				columns.put("dp_estado_nacimiento", rs.getString("lugar_nacimiento_estado"));
 				columns.put("urlFoto", rs.getString("urlfoto") + SSA);
@@ -1976,7 +1976,7 @@ class PDFDocumentDAO {
 				columns.put("dc_cnem_parentesco", rs.getString("parentesco"));
 				columns.put("dc_cnem_nombre", rs.getString("cnem_nombre"));
 				columns.put("dc_cnem_apellido_paterno", rs.getString("cnem_apellido_paterno"));
-				columns.put("dc_cnem_apellido_materno", rs.getString("cnem_apellido_materno"));
+				columns.put("dc_cnem_apellido_materno", (rs.getString("cnem_apellido_materno") != null ? rs.getString("cnem_apellido_materno") : "N/A"));
 				columns.put("dc_cnem_telefono_celular", rs.getString("cnem_telefono_celular"));
 				columns.put("dc_cnem_correo_electronico", rs.getString("cnem_correo_electronico"));
 			}
