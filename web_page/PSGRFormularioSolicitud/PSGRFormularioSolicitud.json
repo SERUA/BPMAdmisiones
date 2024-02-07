@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1706749569350,
+  "lastUpdate" : 1707336475008,
   "rows" : [
     [
       {
@@ -112,7 +112,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "campusOrPosgradoChanged\n<pre>{{campusOrPosgradoChanged| json}}</pre>"
+            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>\n\ndatosLaboralPrevio\n<pre>{{datosLaboralPrevio| json}}</pre>\n\ndatosInfoLaboralActual\n<pre>{{datosInfoLaboralActual| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -18782,7 +18782,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajo.tipo_empresa"
+                          "value" : "nuevaEmpresaTrabajo.tipo_empleado"
                         }
                       },
                       "reference" : "9cfa3dc4-9301-4781-a341-5a6dcefe7563",
@@ -19848,7 +19848,7 @@
                         },
                         "availableValues" : {
                           "type" : "expression",
-                          "value" : "pSGRCatTipoEmpresa_query"
+                          "value" : "pSGRCatTipoEmpleado_query"
                         },
                         "displayedKey" : {
                           "type" : "constant",
@@ -19859,7 +19859,7 @@
                         },
                         "value" : {
                           "type" : "variable",
-                          "value" : "nuevaEmpresaTrabajoPrevio.tipo_empresa"
+                          "value" : "nuevaEmpresaTrabajoPrevio.tipo_empleado"
                         }
                       },
                       "reference" : "54dc82c0-1940-4bff-bfa0-e3d77027ae75",
@@ -21264,6 +21264,7 @@
         "        tipo_empresa:  null,\r",
         "        nombre_empresa: it.nombre_empresa !== undefined ? it.nombre_empresa : null,\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
+        "        tipo_empleado: getCatalogo(it, \"tipo_empleado\"),\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
         "        ext_telefono_empresa: it.ext_telefono_empresa !== undefined ? it.ext_telefono_empresa : null,\r",
         "        reporta_a: it.reporta_a !== undefined ? it.reporta_a : null,\r",
@@ -21279,6 +21280,7 @@
         "        giro_empresa:  getCatalogo(it, \"giro_empresa\"),\r",
         "        tipo_empresa:  null,\r",
         "        puesto: it.puesto !== undefined ? it.puesto : null,\r",
+        "        tipo_empleado: getCatalogo(it, \"tipo_empleado\"),\r",
         "        telefono_empresa: it.telefono_empresa !== undefined ? it.telefono_empresa : null,\r",
         "        ext_telefono_empresa: it.ext_telefono_empresa !== undefined ? it.ext_telefono_empresa : null,\r",
         "        reporta_a: it.reporta_a !== undefined ? it.reporta_a : null,\r",
@@ -22357,15 +22359,21 @@
     "fechaSolicitud" : {
       "type" : "expression",
       "value" : [
-        "function obtenerFechaActual() {\r",
-        "    const fecha = new Date();\r",
+        "function formatFecha(fecha) {\r",
         "    const dia = String(fecha.getDate()).padStart(2, '0');\r",
         "    const mes = String(fecha.getMonth() + 1).padStart(2, '0');\r",
         "    const anio = fecha.getFullYear();\r",
         "    return `${dia}/${mes}/${anio}`;\r",
         "}\r",
         "\r",
-        "return obtenerFechaActual();"
+        "if ($data.isModificar)  {\r",
+        "    const fechaRegistrada = $data.registro.fecha_envio_solicitud;\r",
+        "    return formatFecha(fechaRegistrada);\r",
+        "}\r",
+        "else {\r",
+        "    const fechaActual = new Date()\r",
+        "    return formatFecha(fechaActual);    \r",
+        "}\r"
       ],
       "exposed" : false
     },

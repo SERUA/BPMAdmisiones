@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1707265489663,
+  "lastUpdate" : 1707336574822,
   "rows" : [
     [
       {
@@ -34,6 +34,58 @@
         "reference" : "7f1c1359-a4bf-4b2e-b7be-67bb0cd6ad7d",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "selectedFile\n<pre>{{selectedFile | json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "2b1a540d-94e3-4320-b0ef-aae707d1ff1a",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -13961,7 +14013,7 @@
       "type" : "expression",
       "value" : [
         "function obtenerFecha() {\r",
-        "    var valorGuardado = $data.registro.fecha_registro;\r",
+        "    var valorRegistrada = $data.registro.fecha_envio_solicitud;\r",
         "    const fecha = new Date(valorGuardado);\r",
         "    const dia = String(fecha.getDate()).padStart(2, '0');\r",
         "    const mes = String(fecha.getMonth() + 1).padStart(2, '0');\r",
@@ -14384,6 +14436,7 @@
         "// Datos para mostrar en la carta resultado de una solicitud finalizada",
         "const currentArchivedDatosPrograma = $data.archivedCaseDatosPrograma[0];",
         "const currentArchivedDatosPersonales = $data.archivedCaseDatosPersonales[0];",
+        "const currentArchivedRegistro = $data.archivedCaseRegistro[0];",
         "",
         "const nombreCompleto = currentArchivedDatosPersonales.nombre ",
         "    + \" \" + currentArchivedDatosPersonales.apellido_paterno ",
@@ -14392,6 +14445,7 @@
         "return {",
         "    nombreAspirante: nombreCompleto,",
         "    campus: currentArchivedDatosPrograma.campus.descripcion,",
+        "    idBanner: currentArchivedRegistro.id_banner_validacion,",
         "};"
       ],
       "exposed" : false

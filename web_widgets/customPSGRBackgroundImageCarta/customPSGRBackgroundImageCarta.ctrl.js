@@ -58,9 +58,8 @@ function ($scope, $http) {
         };
   
         return $http(req).success(function(success){
-            $scope.b64File = success.data[0]; 
-            
-            let b64 = angular.copy($scope.b64File).toString().trim();
+            const b64 = angular.copy(success.data[0]).toString().trim();
+            $scope.b64File = b64;
 
             // Asignar la cadena Base64 como el origen de la imagen
             document.getElementById('imagen-carta').src = 'data:image/png;base64,' + b64;
@@ -68,6 +67,24 @@ function ($scope, $http) {
         }).error(function(error){
             console.log("Error al convertir la imagen Carta posgrados. " + error.message)
         });
+    }
+    
+    $scope.downloadCarta = function () {
+        const linkSource = "data:image/png;base64, " + $scope.b64File;
+        let fileName = "Carta de admisión a posgrados";
+        if ($scope.properties.dataSolicitud.idBanner) {
+            fileName += " " + $scope.properties.dataSolicitud.idBanner
+        }
+        fileName += ".png";
+   
+        var enlaceDescarga = document.createElement("a");
+        enlaceDescarga.href = linkSource;
+        enlaceDescarga.download = fileName;
+        enlaceDescarga.target = "_blank"; 
+        
+        document.body.appendChild(enlaceDescarga);
+        enlaceDescarga.click();
+        document.body.removeChild(enlaceDescarga);
     }
     
     $scope.$watch("properties.caseid", function(){

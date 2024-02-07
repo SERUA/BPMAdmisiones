@@ -69,7 +69,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if(!$scope.properties.valueToAdd.giro_empresa){
             mensaje = "El campo 'Giro de la empresa' no debe ir vacío";
             valido = false;
-        } else if(!$scope.properties.valueToAdd.tipo_empresa){
+        } else if(!$scope.properties.valueToAdd.tipo_empleado){
             mensaje = "El campo 'Tipo de empleado' no debe ir vacío";
             valido = false;
         } else if(!$scope.properties.valueToAdd.telefono_empresa){
