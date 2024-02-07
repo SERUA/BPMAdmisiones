@@ -75,6 +75,7 @@ function ($scope, $http) {
         if ($scope.properties.dataSolicitud.idBanner) {
             fileName += " " + $scope.properties.dataSolicitud.idBanner
         }
+        fileName += ".png";
    
         var enlaceDescarga = document.createElement("a");
         enlaceDescarga.href = linkSource;
