@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1706918028774,
+  "lastUpdate" : 1707265489663,
   "rows" : [
     [
       {
@@ -34,58 +34,6 @@
         "reference" : "7f1c1359-a4bf-4b2e-b7be-67bb0cd6ad7d",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "citaAspirante\n<pre>{{citaAspirante | json}}</pre>\ncitaAspirante_responsable\n<pre>{{citaAspirante_responsable | json}}</pre>\nresponsable_query\n<pre>{{responsable_query| json}}</pre>\nresponsable\n<pre>{{responsable| json}}</pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "dd622ce8-0e64-4e43-acda-e7255a767501",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -8995,9 +8943,13 @@
                 "estatusSolicitud" : {
                   "type" : "expression",
                   "value" : "estatusSolicitud"
+                },
+                "dataSolicitud" : {
+                  "type" : "variable",
+                  "value" : "dataSolicitud"
                 }
               },
-              "reference" : "65a8ee02-2790-4d83-bd65-1e7ad7909d73",
+              "reference" : "01242851-9fc9-442f-b6c0-cb0174fba818",
               "hasValidationError" : false,
               "id" : "customPSGRBackgroundImageCarta"
             }
@@ -14423,6 +14375,38 @@
       "type" : "constant",
       "value" : [
         "Otorgo mi consentimiento para que los datos personales que proporciono sea tratados, durante el tiempo que resulte adecuado, por la  Universidad Anáhuac, institución de educación superio que opera a través de Investigaciones y Estudios Superiores, S.C., únicamente para las  finalidades establecidas en el presente Aviso de Privacidad, el cual manifiesto que conozco y que fue puesto a mi disposición previamente en el vínculo de internet."
+      ],
+      "exposed" : false
+    },
+    "dataSolicitud" : {
+      "type" : "expression",
+      "value" : [
+        "// Datos para mostrar en la carta resultado de una solicitud finalizada",
+        "const currentArchivedDatosPrograma = $data.archivedCaseDatosPrograma[0];",
+        "const currentArchivedDatosPersonales = $data.archivedCaseDatosPersonales[0];",
+        "",
+        "const nombreCompleto = currentArchivedDatosPersonales.nombre ",
+        "    + \" \" + currentArchivedDatosPersonales.apellido_paterno ",
+        "    + \" \" + currentArchivedDatosPersonales.apellido_materno;",
+        "",
+        "return {",
+        "    nombreAspirante: nombreCompleto,",
+        "    campus: currentArchivedDatosPrograma.campus.descripcion,",
+        "};"
+      ],
+      "exposed" : false
+    },
+    "archivedCaseDatosPrograma" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiPrograma]\",\"businessObjectName\":\"PSGRSolAdmiPrograma\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiPrograma\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+      ],
+      "exposed" : false
+    },
+    "archivedCaseDatosPersonales" : {
+      "type" : "businessdata",
+      "value" : [
+        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales]\",\"businessObjectName\":\"PSGRSolAdmiDatosPersonales\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
       ],
       "exposed" : false
     }

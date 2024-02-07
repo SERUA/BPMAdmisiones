@@ -3,16 +3,15 @@
 <img src="assets/img/Correo@2x.png" class="icon-img-carta">
 <img src="assets/img/5.jpg" class="bg-full">
 
-<div class="col-xs-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida'">
+<div class="col-xs-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida'">
     <div class="col-xs-5 text-center">
         <label>¡BIENVENIDO(A)!</label>
         <label>Esta es tu carta de admisión</label>
     </div>
     <div class="col-xs-7 document-container-carta" id="carta">
-        <!-- Contenido de la carta -->
         <img id="imagen-carta" alt="Imagen PNG">
     </div>
-    <button class="btn btn-primary">
+    <button class="btn btn-primary" ng-click="downloadCarta()">
         Descargar
     </button>
     
@@ -49,6 +48,17 @@
     <!--        </div>-->
     <!--    </div>-->
     <!--</div>-->
+</div>
+
+<div class="col-xs-7 no-result-container" ng-if="properties.estatusSolicitud ==='No admitida'">
+    <div class="col-xs-8 text-justify" style="font-size: 16px;">
+        <h3 class="text-center"><b>No admisión</b></h3><br>
+        <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
+        <p>Por este medio te informamos que el Comité de Admisiones de Posgrado de la universidad <b>{{properties.dataSolicitud.campus}}</b> ha evaluado tu solicitud de admisión, y la decisión fue de <b>no admisión</b> a la Red de Universidades Anáhuac.</p><br>
+        <p>Quedamos a tus órdenes.</p><br>
+        <p>Atentamente,</p>
+        <p class="color-orange"><b>Dirección de Posgrado</b></p><br>
+    </div>
 </div>
 
 <div class="col-xs-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida')">
