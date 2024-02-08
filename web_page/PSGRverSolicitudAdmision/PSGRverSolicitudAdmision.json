@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1707348761904,
+  "lastUpdate" : 1707418000830,
   "rows" : [
     [
       {
@@ -8938,11 +8938,11 @@
                 },
                 "caseid" : {
                   "type" : "expression",
-                  "value" : "archievedCaseid"
+                  "value" : "caseId"
                 },
                 "estatusSolicitud" : {
                   "type" : "expression",
-                  "value" : "estatusSolicitud"
+                  "value" : "resultadoSolicitud"
                 },
                 "dataSolicitud" : {
                   "type" : "variable",
@@ -13873,11 +13873,15 @@
       "exposed" : false
     },
     "context" : {
-      "type" : "url",
+      "type" : "expression",
       "value" : [
-        "../API/bpm/case/{{caseId}}/context"
+        "if ($data.isArchivedCase && $data.archivedCaseContext) {",
+        "    return $data.archivedCaseContext;",
+        "}",
+        "else {",
+        "    return $data.openCaseContext;",
+        "}"
       ],
-      "advancedOptions" : { },
       "exposed" : false
     },
     "test" : {
@@ -14194,27 +14198,6 @@
       },
       "exposed" : false
     },
-    "archievedCaseList" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedCase?p=0&c=100&f=started_by={{session.user_id}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
-      "exposed" : false
-    },
-    "archievedCaseid" : {
-      "type" : "expression",
-      "value" : [
-        "if($data.archievedCaseList && $data.archievedCaseList.length > 0){",
-        "    return $data.archievedCaseList[0].rootCaseId;",
-        "}"
-      ],
-      "exposed" : false
-    },
     "session" : {
       "type" : "url",
       "value" : [
@@ -14227,44 +14210,12 @@
       },
       "exposed" : false
     },
-    "estatusSolicitud" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.archievedCase.length > 0 && $data.archivedCaseRegistro) {",
-        "    ",
-        "    const currentArchievedCase = $data.archievedCase[0];",
-        "    ",
-        "    if (currentArchievedCase) {",
-        "        const estatus = $data.archivedCaseRegistro[0].estatus_solicitud",
-        "        switch(estatus) {",
-        "            case \"solicitud_admitida\": ",
-        "                return \"Admitida\"",
-        "                break;",
-        "            case \"solicitud_no_admitida\":",
-        "                return \"No admitida\"",
-        "                break;",
-        "            default:",
-        "                return \"No definido\";",
-        "        }",
-        "    }  ",
-        "}",
-        "else return undefined;"
-      ],
-      "exposed" : false
-    },
     "setDefaultPagina" : {
       "type" : "expression",
       "value" : [
         "if (!$data.pagina) {",
         "    $data.pagina = \"solicitud\";",
         "}"
-      ],
-      "exposed" : false
-    },
-    "archivedCaseRegistro" : {
-      "type" : "businessdata",
-      "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
       ],
       "exposed" : false
     },
@@ -14382,33 +14333,57 @@
       "type" : "expression",
       "value" : [
         "// Datos para mostrar en la carta resultado de una solicitud finalizada",
-        "const currentArchivedDatosPrograma = $data.archivedCaseDatosPrograma[0];",
-        "const currentArchivedDatosPersonales = $data.archivedCaseDatosPersonales[0];",
-        "const currentArchivedRegistro = $data.archivedCaseRegistro[0];",
-        "",
-        "const nombreCompleto = currentArchivedDatosPersonales.nombre ",
-        "    + \" \" + currentArchivedDatosPersonales.apellido_paterno ",
-        "    + \" \" + currentArchivedDatosPersonales.apellido_materno;",
-        "",
         "return {",
-        "    nombreAspirante: nombreCompleto,",
-        "    campus: currentArchivedDatosPrograma.campus.descripcion,",
-        "    idBanner: currentArchivedRegistro.id_banner_validacion,",
+        "    nombreAspirante: $data.nombreCompleto,",
+        "    campus: $data.datosPrograma.campus.descripcion,",
+        "    idBanner: $data.registro.id_banner_validacion,",
         "};"
       ],
       "exposed" : false
     },
-    "archivedCaseDatosPrograma" : {
-      "type" : "businessdata",
+    "openCaseContext" : {
+      "type" : "url",
       "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiPrograma]\",\"businessObjectName\":\"PSGRSolAdmiPrograma\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiPrograma\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+        "../API/bpm/case/{{caseId}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "archivedCaseContext" : {
+      "type" : "url",
+      "value" : [
+        "../API/bpm/archivedCase/{{archievedCase[0].id}}/context"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "isArchivedCase" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.archievedCase && $data.archievedCase.length !== 0) {",
+        "    return true;",
+        "}",
+        "else return false;"
       ],
       "exposed" : false
     },
-    "archivedCaseDatosPersonales" : {
-      "type" : "businessdata",
+    "resultadoSolicitud" : {
+      "type" : "expression",
       "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales]\",\"businessObjectName\":\"PSGRSolAdmiDatosPersonales\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
+        "const estatus = $data.registro.estatus_solicitud",
+        "",
+        "if (!estatus) return undefined;",
+        "",
+        "switch(estatus) {",
+        "    case \"solicitud_admitida\": ",
+        "        return \"Admitida\"",
+        "        break;",
+        "    case \"solicitud_no_admitida\":",
+        "        return \"No admitida\"",
+        "        break;",
+        "    default:",
+        "        return \"No definido\";",
+        "}"
       ],
       "exposed" : false
     }
