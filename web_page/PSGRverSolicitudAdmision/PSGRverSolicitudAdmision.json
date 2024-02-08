@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRverSolicitudAdmision",
   "name" : "PSGRverSolicitudAdmision",
-  "lastUpdate" : 1707416747111,
+  "lastUpdate" : 1707418000830,
   "rows" : [
     [
       {
@@ -34,58 +34,6 @@
         "reference" : "7f1c1359-a4bf-4b2e-b7be-67bb0cd6ad7d",
         "hasValidationError" : false,
         "id" : "customPSGRgetDatosSolicitudAdmision"
-      }
-    ],
-    [
-      {
-        "type" : "component",
-        "dimension" : {
-          "xs" : 12,
-          "sm" : 12,
-          "md" : 12,
-          "lg" : 12
-        },
-        "propertyValues" : {
-          "cssClasses" : {
-            "type" : "constant",
-            "value" : ""
-          },
-          "hidden" : {
-            "type" : "constant",
-            "value" : false
-          },
-          "labelHidden" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "label" : {
-            "type" : "interpolation",
-            "value" : "Default label"
-          },
-          "labelPosition" : {
-            "type" : "constant",
-            "value" : "top"
-          },
-          "labelWidth" : {
-            "type" : "constant",
-            "value" : 4
-          },
-          "allowHTML" : {
-            "type" : "constant",
-            "value" : true
-          },
-          "text" : {
-            "type" : "interpolation",
-            "value" : "caseId\n<pre>{{ caseId }} </pre>\n\narchievedCase\n<pre>{{ archievedCase| json }} </pre> \n\narchivedCaseContext\n<pre>{{ archivedCaseContext | json }} </pre>\n\nopenCaseContext\n<pre>{{ openCaseContext | json }} </pre>"
-          },
-          "alignment" : {
-            "type" : "constant",
-            "value" : "left"
-          }
-        },
-        "reference" : "bf0cb710-16d7-4a99-9d0d-1026aa2022ae",
-        "hasValidationError" : false,
-        "id" : "pbText"
       }
     ],
     [
@@ -8990,11 +8938,11 @@
                 },
                 "caseid" : {
                   "type" : "expression",
-                  "value" : "archievedCaseid"
+                  "value" : "caseId"
                 },
                 "estatusSolicitud" : {
                   "type" : "expression",
-                  "value" : "estatusSolicitud"
+                  "value" : "resultadoSolicitud"
                 },
                 "dataSolicitud" : {
                   "type" : "variable",
@@ -13927,7 +13875,7 @@
     "context" : {
       "type" : "expression",
       "value" : [
-        "if ($data.archivedCaseContext) {",
+        "if ($data.isArchivedCase && $data.archivedCaseContext) {",
         "    return $data.archivedCaseContext;",
         "}",
         "else {",
@@ -14250,27 +14198,6 @@
       },
       "exposed" : false
     },
-    "archievedCaseList" : {
-      "type" : "url",
-      "value" : [
-        "../API/bpm/archivedCase?p=0&c=100&f=started_by={{session.user_id}}"
-      ],
-      "advancedOptions" : {
-        "headers" : "",
-        "statusCode" : "",
-        "failedResponseValue" : ""
-      },
-      "exposed" : false
-    },
-    "archievedCaseid" : {
-      "type" : "expression",
-      "value" : [
-        "if($data.archievedCaseList && $data.archievedCaseList.length > 0){",
-        "    return $data.archievedCaseList[0].rootCaseId;",
-        "}"
-      ],
-      "exposed" : false
-    },
     "session" : {
       "type" : "url",
       "value" : [
@@ -14283,44 +14210,12 @@
       },
       "exposed" : false
     },
-    "estatusSolicitud" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.archievedCase.length > 0 && $data.archivedCaseRegistro) {",
-        "    ",
-        "    const currentArchievedCase = $data.archievedCase[0];",
-        "    ",
-        "    if (currentArchievedCase) {",
-        "        const estatus = $data.archivedCaseRegistro[0].estatus_solicitud",
-        "        switch(estatus) {",
-        "            case \"solicitud_admitida\": ",
-        "                return \"Admitida\"",
-        "                break;",
-        "            case \"solicitud_no_admitida\":",
-        "                return \"No admitida\"",
-        "                break;",
-        "            default:",
-        "                return \"No definido\";",
-        "        }",
-        "    }  ",
-        "}",
-        "else return undefined;"
-      ],
-      "exposed" : false
-    },
     "setDefaultPagina" : {
       "type" : "expression",
       "value" : [
         "if (!$data.pagina) {",
         "    $data.pagina = \"solicitud\";",
         "}"
-      ],
-      "exposed" : false
-    },
-    "archivedCaseRegistro" : {
-      "type" : "businessdata",
-      "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRRegistro]\",\"businessObjectName\":\"undefined\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRRegistro\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
       ],
       "exposed" : false
     },
@@ -14438,33 +14333,11 @@
       "type" : "expression",
       "value" : [
         "// Datos para mostrar en la carta resultado de una solicitud finalizada",
-        "const currentArchivedDatosPrograma = $data.archivedCaseDatosPrograma[0];",
-        "const currentArchivedDatosPersonales = $data.archivedCaseDatosPersonales[0];",
-        "const currentArchivedRegistro = $data.archivedCaseRegistro[0];",
-        "",
-        "const nombreCompleto = currentArchivedDatosPersonales.nombre ",
-        "    + \" \" + currentArchivedDatosPersonales.apellido_paterno ",
-        "    + \" \" + currentArchivedDatosPersonales.apellido_materno;",
-        "",
         "return {",
-        "    nombreAspirante: nombreCompleto,",
-        "    campus: currentArchivedDatosPrograma.campus.descripcion,",
-        "    idBanner: currentArchivedRegistro.id_banner_validacion,",
+        "    nombreAspirante: $data.nombreCompleto,",
+        "    campus: $data.datosPrograma.campus.descripcion,",
+        "    idBanner: $data.registro.id_banner_validacion,",
         "};"
-      ],
-      "exposed" : false
-    },
-    "archivedCaseDatosPrograma" : {
-      "type" : "businessdata",
-      "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiPrograma]\",\"businessObjectName\":\"PSGRSolAdmiPrograma\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiPrograma\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
-      ],
-      "exposed" : false
-    },
-    "archivedCaseDatosPersonales" : {
-      "type" : "businessdata",
-      "value" : [
-        "{\"displayValue\":\"findByCaseid [com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales]\",\"businessObjectName\":\"PSGRSolAdmiDatosPersonales\",\"query\":{\"name\":\"findByCaseid\",\"displayName\":\"findByCaseid\"},\"id\":\"com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales\",\"filters\":[{\"name\":\"caseid\",\"type\":\"LONG\",\"collection\":false,\"value\":\"{{caseId}}\"}],\"pagination\":{\"p\":\"0\",\"c\":\"1\"}}"
       ],
       "exposed" : false
     },
@@ -14482,6 +14355,36 @@
         "../API/bpm/archivedCase/{{archievedCase[0].id}}/context"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "isArchivedCase" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.archievedCase && $data.archievedCase.length !== 0) {",
+        "    return true;",
+        "}",
+        "else return false;"
+      ],
+      "exposed" : false
+    },
+    "resultadoSolicitud" : {
+      "type" : "expression",
+      "value" : [
+        "const estatus = $data.registro.estatus_solicitud",
+        "",
+        "if (!estatus) return undefined;",
+        "",
+        "switch(estatus) {",
+        "    case \"solicitud_admitida\": ",
+        "        return \"Admitida\"",
+        "        break;",
+        "    case \"solicitud_no_admitida\":",
+        "        return \"No admitida\"",
+        "        break;",
+        "    default:",
+        "        return \"No definido\";",
+        "}"
+      ],
       "exposed" : false
     }
   },
