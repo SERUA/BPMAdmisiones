@@ -114,7 +114,7 @@ function PbTableCtrl($scope, blockUI, $http) {
                     var rolesMine = datos;
                     var isSerua = false;
                     for (let index0 = 0; index0 < rolesMine.length; index0++) {
-                        if (rolesMine[index0].role_id.name == 'TI SERUA' || rolesMine[index0].role_id.name == 'ADMINISTRADOR') {
+                        if (rolesMine[index0].role_id.name == 'TI SERUA' || rolesMine[index0].role_id.name == 'ADMINISTRADOR' || rolesMine[index0].role_id.name == 'SERUA PSG') {
                             isSerua = true;
                         }
                     }
