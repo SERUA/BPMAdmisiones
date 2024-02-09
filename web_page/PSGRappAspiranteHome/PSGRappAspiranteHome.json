@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAspiranteHome",
   "name" : "PSGRappAspiranteHome",
-  "lastUpdate" : 1707418003711,
+  "lastUpdate" : 1707438918439,
   "rows" : [
     [
       {
@@ -340,7 +340,7 @@
                             },
                             "text" : {
                               "type" : "interpolation",
-                              "value" : "<br><b>Por favor, espera a que la página te redireccione a la tarea correspondiente...</b>"
+                              "value" : "<br><b>Redirigiendo a la tarea correspondiente...</b>"
                             },
                             "level" : {
                               "type" : "constant",
@@ -1337,7 +1337,9 @@
         "        }",
         "    }",
         "    ",
-        "    // redireccion en caso de caso finalizado",
+        "    // redirección en caso no admitido (primera oportunidad)",
+        "    ",
+        "    // redireccion en caso finalizado (admitido y no admitido)",
         "    else if ($data.currentCase.end_date) {",
         "        window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_ver_solicitud/content/?caseId=\" + $data.currentCase.rootCaseId + \"&pagina=dictamen\";",
         "    }",
