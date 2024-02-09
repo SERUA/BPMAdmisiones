@@ -73,11 +73,25 @@ function($scope, $http, blockUI, $window) {
     
     function getInfoCarreras(){
         $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + $scope.usuario.responsable_id).success(function(success){
-            $scope.carrerasResponsableString = success[0];
-            $scope.selected();
-            
+            if(success[0]){
+                $scope.carrerasResponsableString = success[0];
+                $scope.selected();
+            } else {
+                $scope.carrerasResponsableString = "";
+                for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
+                    $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
+                }
+                
+                $scope.selected();
+            }
         }).error(function(err){
-            // swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+            $scope.carrerasResponsableString = "";
+            for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
+                debugger;
+                $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
+            }
+            
+            $scope.selected();
         });
     }
     
@@ -642,10 +656,10 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.limiteFecha = function obtenerFechaActual() {
-      const hoy = new Date();
-      const year = hoy.getFullYear();
-      const month = String(hoy.getMonth() + 1).padStart(2, '0');
-      const day = String(hoy.getDate()).padStart(2, '0');
-      return `${year}-${month}-${day}`;
+        const hoy = new Date();
+        const year = hoy.getFullYear();
+        const month = String(hoy.getMonth() + 1).padStart(2, '0');
+        const day = String(hoy.getDate()).padStart(2, '0');
+        return `${year}-${month}-${day}`;
     }
 }
