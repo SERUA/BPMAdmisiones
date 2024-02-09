@@ -103,9 +103,9 @@ class NotificacionDAO {
 			LoadParametros objLoad = new LoadParametros();
 			PropertiesEntity objProperties = objLoad.getParametros();
 			
-			errorlog += "| username = "+ objProperties.getUsuario();
-			errorlog += "| password = "+ objProperties.getPassword();
-			errorlog += "| host =     "+ objProperties.getUrlHost();
+			//errorlog += "| username = "+ objProperties.getUsuario();
+			//errorlog += "| password = "+ objProperties.getPassword();
+			//errorlog += "| host =     "+ objProperties.getUrlHost();
 			/*-------------------------------------------------------------*/
 
 			def jsonSlurper = new JsonSlurper();
@@ -400,6 +400,7 @@ class NotificacionDAO {
 					
 					// Correos de dictamen
 					plantilla=plantilla.replace("[ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
+					plantilla=plantilla.replace("[ARCHIVAR-EN-DICTAMEN-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[ARCHIVAR-EN-DICTAMEN-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 					plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 				}
 				
