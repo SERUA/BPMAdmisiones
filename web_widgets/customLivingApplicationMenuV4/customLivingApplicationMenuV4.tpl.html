@@ -1,27 +1,28 @@
-<div class="navbar navbar-inverse" role="navigation" style="height: 96vh;" >
-    <!--<img src="assets/img/Posgrado Naranja@2x.png" style="position: absolute;width: auto;height: auto;max-width: 80%;margin: 10%;background: #15243c;">-->
+<div class="navbar navbar-inverse" role="navigation">
     
-    <div style="position: absolute; height: auto; padding: 5%; background: #15243c; text-align: center;">
-        <img src="assets/img/Posgrado Naranja@2x.png" style="max-width: 80%;">
+    <div class="navbar-header">
+        <img src="assets/img/Posgrado Naranja@2x.png" class="navbar-header-image">
         <hr style="margin:10px;">
         <button ng-click="showModal()" type="button" class="btn btn-link ng-binding" style="font-size: 1.5rem;">
             {{ properties.username }}&nbsp; 
             <span style="background: #ff5900; width: 30px; height: 15px;" class="glyphicon glyphicon-option-horizontal btn-nombre "></span>
         </button>
     </div>
-    
-    <img src="assets/img/semicirculo_no_margen.png" style="position: absolute; width: auto; height: auto; max-width: 95%; max-height: 100%; top: 50%; transform: translateY(-50%);">
-    <div class="container-fluid">
+
+    <div class="navbar-content">
+        <img src="assets/img/semicirculo_no_margen.png" class="navbar-background-image">
         
+        <div class="menu-container container-fluid">
+            <div data-tooltip="Solicitud de admisión" class="menu-item menu-items-1" ng-class="{'menu-item-selected': properties.pagina === 'solicitud'}" ng-click="redirect('solicitud')">
+                <img src="assets/img/Insumos MENU-23.png" class="menu-icon-img">
+            </div>
+            <div data-tooltip="Cita de entrevista" class="menu-item menu-items-2" ng-class="{'menu-item-selected': properties.pagina === 'cita'}" ng-click="redirect('cita')">
+                <img src="assets/img/Insumos MENU-24.png" class="menu-icon-img">
+            </div>
+            <div data-tooltip="Resultado de admisión" class="menu-item menu-items-3" ng-class="{'menu-item-selected': properties.pagina === 'dictamen'}" ng-click="redirect('dictamen')">
+                <img  src="assets/img/Insumos MENU-25.png" class="menu-icon-img">
+            </div>
+        </div>
     </div>
-     
-    <div data-tooltip="Solicitud de admisión" class="menu-item menu-items-1" ng-class="{'menu-item-selected': properties.pagina === 'solicitud'}" ng-click="redirect('solicitud')">
-        <img src="assets/img/Insumos MENU-23.png" class="menu-icon-img">
-    </div>
-    <div data-tooltip="Cita de entrevista" class="menu-item menu-items-2" ng-class="{'menu-item-selected': properties.pagina === 'cita'}" ng-click="redirect('cita')">
-        <img src="assets/img/Insumos MENU-24.png" class="menu-icon-img">
-    </div>
-    <div data-tooltip="Resultado de admisión" class="menu-item menu-items-3" ng-class="{'menu-item-selected': properties.pagina === 'dictamen'}" ng-click="redirect('dictamen')">
-        <img  src="assets/img/Insumos MENU-25.png" class="menu-icon-img">
-    </div>
+    
 </div>
