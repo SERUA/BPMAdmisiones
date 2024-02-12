@@ -503,6 +503,10 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Area Deportiva")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"PreAutorizacion")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Becas")
+				if(allow){break;}
 			break;
 			case "getCatTipoAoyo":
 				allow=bonitaRolFilter(context,"TI SERUA")
@@ -735,6 +739,8 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"ADMINISTRADOR")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Comite de Finanzas")
 				if(allow){break;}
 				break;
 			case "getExcelFile":

@@ -556,6 +556,21 @@ class UsuariosDAO {
 				where += " AND ccam.grupobonita = '" + object.campus + "'"
 			}
 			
+			if(object.idbanner != null) {
+				where += "  AND ( LOWER(dets.idbanner) like lower('%[valor]%') )"
+				where = where.replace("[valor]", object.idbanner);
+			}
+			
+			if(object.idBpm != null) {
+				where += " AND ( LOWER(creg.caseid::VARCHAR) like lower('%[valor]%') )"
+				where = where.replace("[valor]", object.idBpm);
+			}
+			
+			if(object.correoelectronico != null) {
+				where += " AND ( LOWER(creg.correoelectronico) like lower('%[valor]%') ) "
+				where = where.replace("[valor]", object.correoelectronico);
+			}	
+			
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				switch (filtro.get("columna")) {
 					case "id_sesion":
@@ -2155,8 +2170,11 @@ class UsuariosDAO {
 				resultado.setTotalRegistros(rs.getInt("total_registros"));
 			}
 			
-			errorLog += where + " " + orderBy;
-			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy)
+//			errorLog += where + " " + orderBy;
+			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			
+			errorLog += consulta;
+			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
 			pstm.setLong(2, Long.valueOf(idprueba));
@@ -2678,4 +2696,27 @@ class UsuariosDAO {
 		
 		return resultado;
 	}
+	
+	public Result cerrarSesionUsuarioRemoto(String username, RestAPIContext context) {
+		Result resultado = new Result();
+		String errorLog = "";
+		Boolean closeCon = false;
+		
+		try {
+			Long user_id = context.apiClient.identityAPI.getUserByUserName(username).getId();
+			
+		}  catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
+			e.printStackTrace();
+		}  finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+		
+		return resultado;
+	}
+	
 }

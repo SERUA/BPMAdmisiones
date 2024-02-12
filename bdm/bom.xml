@@ -3562,6 +3562,7 @@
                 <field type="INTEGER" length="255" name="toleranciaMinutos" nullable="true" collection="false"/>
                 <field type="LONG" length="255" name="idprueba" nullable="true" collection="false"/>
                 <field type="INTEGER" length="255" name="toleranciaSalidaMinutos" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="examenIniciado" nullable="true" collection="false"/>
             </fields>
             <uniqueConstraints/>
             <queries/>
@@ -3632,7 +3633,16 @@
             </fields>
             <uniqueConstraints/>
             <queries/>
-            <indexes/>
+            <indexes>
+                <index name="INDEX_1">
+                    <fieldNames>
+                        <fieldName>username</fieldName>
+                        <fieldName>caseid</fieldName>
+                        <fieldName>pregunta</fieldName>
+                        <fieldName>respuesta</fieldName>
+                    </fieldNames>
+                </index>
+            </indexes>
         </businessObject>
         <businessObject qualifiedName="com.anahuac.invp.RespuestasExamen">
             <fields>

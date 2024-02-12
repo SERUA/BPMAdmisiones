@@ -136,16 +136,31 @@ class RespuestasExamenDAO {
 			} 
 			
 			if(!terminado) {
-				pstm = con.prepareStatement(Statements.INSERT_RESPUESTA_EXAMEN, Statement.RETURN_GENERATED_KEYS)
+				pstm = con.prepareStatement(Statements.GET_EXISTE_PREGUNTA);
 				pstm.setLong(1, object.pregunta);
-				pstm.setBoolean(2, object.respuesta);
-				pstm.setLong(3,Long.valueOf(object.caseid));
-				pstm.setLong(4,Long.valueOf(object.idusuario));
-				pstm.setString(5, object.username);				
-				pstm.executeUpdate();
+				pstm.setLong(2,Long.valueOf(object.caseid));
 				
-				con.commit();
+				rs = pstm.executeQuery();
 				
+				if(rs.next()) {
+					if(!rs.getBoolean("existe")) {
+						pstm = con.prepareStatement(Statements.INSERT_RESPUESTA_EXAMEN, Statement.RETURN_GENERATED_KEYS)
+						pstm.setLong(1, object.pregunta);
+						pstm.setBoolean(2, object.respuesta);
+						pstm.setLong(3,Long.valueOf(object.caseid));
+						pstm.setLong(4,Long.valueOf(object.idusuario));
+						pstm.setString(5, object.username);
+						pstm.executeUpdate();
+						
+						con.commit();
+						resultado.setInfo("Pregunta contestada exitosamente");
+					} else {
+						resultado.setInfo("Pregunta anteriormente contestada");
+					}
+				} else {
+					resultado.setInfo("Pregunta no encontrada");
+				}
+
 				resultado.setSuccess(true);
 			} else {
 				String mensaje = "test_end";

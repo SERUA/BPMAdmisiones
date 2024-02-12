@@ -1402,7 +1402,7 @@ class ReportesDAO {
                     (object.carrera == null || object.carrera.equals("") ? "" : " AND sda.catgestionescolar_pid in (${object.carrera})") +
                     (object.preparatoria == null || object.preparatoria.equals("") ? "" : " AND sda.catbachilleratos_pid in (${object.preparatoria})") +
                     (object.sesion == null || object.sesion.equals("") ? "" : " AND s.persistenceid in (${object.sesion})") +
-                    (object.idbanner == null || object.idbanner.equals("") ? "" : " AND da.idbanner = '${object.idbanner}'")
+                    (object.idbanner == null || object.idbanner.equals("") ? "" : " AND ds.idbanner = '${object.idbanner}'")
     
             String consulta = Statements.Get_EXCEL_REPORTE_METAPROFILE + where;
             errorLog += consulta

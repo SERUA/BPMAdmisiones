@@ -1470,7 +1470,7 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 						}
 						plantilla = plantilla.replace("[MOTIVOSDERECHAZO-APOYO]", motivoRechazoFina);
 					} else if (object.codigo.equals("sdae-solicitudmodifcación-validaciónfinanzas")){
-					    plantilla = plantilla.replace("[COMENTARIOS-CAMBIO-AVAL]", rs.getString("observaciones_finanzas_fina"));
+					    plantilla = plantilla.replace("[COMENTARIOS-CAMBIO-AVAL]",  (object.isEnviar) ? rs.getString("observaciones_finanzas_fina") : "[COMENTARIOS-CAMBIO-AVAL]");
 					} else if (object.codigo.equals("sdae-solicitudrechaza-finanzas")){
 //					    plantilla = plantilla.replace("[RECHAZO-COMENTARIOS-FINANZAS]", rs.getString("observaciones_finanzas_fina"));
 						String comentarios = "";

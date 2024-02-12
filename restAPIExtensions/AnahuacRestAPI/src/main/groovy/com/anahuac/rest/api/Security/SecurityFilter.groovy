@@ -338,6 +338,10 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Finanzas")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"PreAutorizacion")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Becas")
+					if(allow){break;}
 				break;
 				case "getUsuarios":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
