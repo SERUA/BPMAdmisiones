@@ -1,18 +1,28 @@
 <div class="navbar navbar-inverse" role="navigation">
     
     <div class="navbar-header">
-        <img src="assets/img/Posgrado Naranja@2x.png" class="navbar-header-image">
-        <hr style="margin:10px;">
-        <button ng-click="showModal()" type="button" class="btn btn-link ng-binding" style="font-size: 1.5rem;">
-            {{ properties.username }}&nbsp; 
-            <span style="background: #ff5900; width: 30px; height: 15px;" class="glyphicon glyphicon-option-horizontal btn-nombre "></span>
-        </button>
+        <div class="col-xs-6 col-sm-12 navbar-header-image-container">
+           <img src="assets/img/Posgrado Naranja@2x.png" class="navbar-header-image">
+        </div>
+        <div class="col-xs-6 col-sm-12 navbar-header-buttons-container">
+            <button ng-click="showModal()" type="button" class="btn btn-link ng-binding" style="font-size: 1.5rem;">
+                {{ properties.username }}&nbsp; 
+                <span style="background: #ff5900; width: 30px; height: 15px;" class="glyphicon glyphicon-option-horizontal btn-nombre "></span>
+            </button>
+             <button type="button" ng-init="navCollapsed = true" ng-click="navCollapsed = !navCollapsed" class="navbar-toggle">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
+        
     </div>
 
-    <div class="navbar-content">
-        <img src="assets/img/semicirculo_no_margen.png" class="navbar-background-image">
-        
-        <div class="menu-container container-fluid">
+    <div class="navbar-content" ng-hide="shouldHide()">
+
+        <div class="menu-container">
+            <img src="assets/img/semicirculo_no_margen.png" class="navbar-background-image">
+
             <div data-tooltip="Solicitud de admisión" class="menu-item menu-items-1" ng-class="{'menu-item-selected': properties.pagina === 'solicitud'}" ng-click="redirect('solicitud')">
                 <img src="assets/img/Insumos MENU-23.png" class="menu-icon-img">
             </div>

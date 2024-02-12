@@ -1,5 +1,6 @@
 function WidgetlivingApplicationMenuController($scope, $http, $window, $location, $timeout, modalService) {
     var ctrl = this;
+    $scope.navCollapsed = true;
     
     $scope.redirect = function(_url){
         let url = "";
@@ -126,6 +127,32 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     
     $scope.showModal = function(){
         modalService.open("currentSessionModalId");
+    }
+    
+    
+    $scope.isSmallScreen = undefined;
+    if ($window.innerWidth <= 768) $scope.isSmallScreen = true;
+    else $scope.isSmallScreen = false;
+    
+    angular.element($window).bind('resize', function() {
+
+        // Actualizar cambios unicamente cuando cambie deje de ser o empiece a ser smallScreen
+        if ($scope.isSmallScreen && $window.innerWidth > 768) {
+            $scope.isSmallScreen = false;
+            $scope.$apply();
+        }
+        else if (!$scope.isSmallScreen && $window.innerWidth <= 768) {
+            $scope.isSmallScreen = true;
+            $scope.$apply();
+        }
+    });
+    
+    $scope.shouldHide = function() {
+        console.log($window.innerWidth)
+        if ($scope.isSmallScreen) {
+            return $scope.navCollapsed
+        }
+        else return false
     }
     
 }
