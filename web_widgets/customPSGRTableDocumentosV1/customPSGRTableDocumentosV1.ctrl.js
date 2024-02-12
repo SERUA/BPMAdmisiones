@@ -17,7 +17,6 @@ function PbTableCtrl($scope, modalService, $http) {
     }
     
       $scope.$watch("properties.content", function(){
-          debugger;
           if(!$scope.properties.content){
               $scope.properties.content.push({"documento":{
                   "descripcion": "Documento 1",
@@ -58,7 +57,6 @@ function PbTableCtrl($scope, modalService, $http) {
                       
                       $http.post("../API/extension/AnahuacAzureRest?url=uploadFile&p=0&c=0", $scope.documetObject )
                       .then(function (respuesta) {
-                          debugger;
                           $scope.properties.content[0].url_azure = respuesta[0];
                       })
                       .catch(function (error) {
