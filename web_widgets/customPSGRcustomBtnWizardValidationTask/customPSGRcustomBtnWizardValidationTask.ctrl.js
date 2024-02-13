@@ -5,8 +5,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         } else if ($scope.properties.action === "Siguiente" && $scope.properties.wizardLength > ($scope.properties.selectedIndex + 1)) {
             if ($scope.properties.isValidStep) {
                 $scope.properties.selectedIndex++;
-                
-                debugger;
                 if($scope.properties.isModificar !== true){
                     blockUI.start();
                     submitTask();
