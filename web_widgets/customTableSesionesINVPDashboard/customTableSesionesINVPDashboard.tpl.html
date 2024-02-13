@@ -114,7 +114,6 @@
     </div>
 </div>
 
-
 <div ng-if="properties.navigationVar === 'aspirantesEnSesion'">
     <div class="row" style="margin-bottom:25px;">
         <div class="col-xs-4">
@@ -153,7 +152,155 @@
         </div>
         <hr> 
     </div>
-    <div class="row">
+
+    <!-- <div class="tab-custom-container">
+        <div class="tab-custom" ng-click="switchTab('soporte')" ng-class="{ 'tab-custom-selected' : tabShown === 'soporte'}">Soporte técnico</div>
+        <div class="tab-custom" ng-click="switchTab('seguimiento')" ng-class="{ 'tab-custom-selected' : tabShown === 'seguimiento'}">Seguimiento</div>
+    </div> -->
+
+    <!-- <div class="row" ng-if="tabShown === 'soporte'">
+        <div class="col-xs-4">
+            <button class="btn btn-primary" type="button" ng-click="refreshAspirantes()" style="margin-left: 15px;">
+                <span class="glyphicon glyphicon-refresh"></span> Actualizar respuestas
+            </button>
+        </div>
+        <div class="col-xs-4 text-center">
+            <h4 class="color-orange">Aspirantes en sesión</h4>
+        </div>
+        <div class="col-xs-4 text-right" style="padding-right: 30px;">
+            <button ng-hide="selectedSesion.estatus === 'Concluida'" type="button" ng-click="mostrarModalTodos('modalIdiomaTodos')" class="button-margin btn btn-warning">
+                Cambiar idioma para todos
+            </button>
+            &nbsp;
+            <button ng-hide="selectedSesion.estatus === 'Concluida'" type="button" ng-click="mostrarModalTodos('modalTerminarTodos')" class="button-margin btn btn-danger">
+                Terminar todos <span class="glyphicon glyphicon-time"></span>
+            </button>
+            <button ng-hide="selectedSesion.estatus != 'Concluida'" type="button" ng-click="generarListaEnvios(true)" class="button-margin btn btn-success">
+                Envío de resultados <span class="glyphicon glyphicon-send"></span>
+            </button> 
+            <br>
+        </div>
+        <div class="col-xs-12">
+            <div class="col-xs-12">
+                <span>Filtrado por:</span>    
+            </div>
+            <div class="col-xs-12" ng-repeat="row in properties.dataToSendAsp.lstFiltro">
+                <strong>{{row.columna}} {{row.operador}} "{{row.valor}}" </strong><span ng-show="row.columna !== 'id_sesion'"  class="glyphicon glyphicon-remove buttonDelete" ng-click="deleteContent(row)" aria-hidden="true"></span>
+            </div>
+        </div>        
+        <div class="col-xs-12">
+            <div class="table-responsive col-xs-12" ng-show="properties.campusSeleccionado != undefined && properties.campusSeleccionado != null || filtroCampus =='Todos los campus'">
+                <table class="table" ng-class="{'table-hover': ctrl.isClickable(), 'table-striped': properties.striped, 'table-condensed': properties.condensed, 'table-bordered': properties.bordered}">
+                    <thead>
+                        <tr>
+                            <td></td>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('idBanner')"> Id Banner <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='idBanner'"></i></span> / 
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('idBpm')"> No. de caso<i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='idBpm'"></i></span>
+                            </th>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('nombre')"> Nombre  <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='nombre'"></i></span>
+                            </th>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('uni')"> Uni. <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='uni'"></i></span>
+                            </th>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('telefono')"> Teléfono <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='telefono'"></i></span> / 
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('celular')"> Celular <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='celular'"></i></span> / 
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('correo')"> Correo <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='correo'"></i></span>
+                            </th>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('estatus')"> Estatus <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='estatus'"></i></span>
+                            </th>
+                            <th>
+                                <span style="cursor:pointer" ng-click="setOrderByAsp('idioma')"> Idioma <i class="glyphicon" ng-class="(properties.dataToSendAsp.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSendAsp.orderby=='idioma'"></i></span>
+                            </th>
+                            
+                            <th> Acciones</th>     
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td></td>
+                            <td><input ng-model="dynamicInput['idBpm,idbanner']" class="form-control" ng-enter="filterKeyPressAspirantes('idBpm,idbanner', dynamicInput['idBpm,idbanner'])"></td>
+                            <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPressAspirantes('nombre', dynamicInput['nombre'])"></td>
+                            <td>
+                                
+                            </td>
+                            <td><input ng-model="dynamicInput['telefono,celular,correo']" class="form-control" ng-enter="filterKeyPressAspirantes('telefono,celular,correo', dynamicInput['telefono,celular,correo'])"></td>
+                            <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPressAspirantes('Estatus', dynamicInput['estatus'])"></td>
+                            <td><input ng-model="dynamicInput['idioma']" class="form-control" ng-enter="filterKeyPressAspirantes('Idioma', dynamicInput['idioma'])"></td>
+                            <td></td>
+                        </tr>
+                        <tr ng-repeat="row in aspirantes" ng-click="ctrl.selectRow(row)" ng-class="{'info': ctrl.isSelected(row)}">
+                            <td class="text-center">
+                                <span ng-if="row.isTemporal" class="glyphicon glyphicon-user color-purple"></span>
+                                <span ng-if="!row.isTemporal" class="glyphicon glyphicon-user color-orange"></span>
+                            </td>
+                            <td>
+                                <b>{{row.idBanner ? row.idBanner : "N/A"}}</b><br>
+                                {{row.idBpm}} 
+                            </td>
+                            <td>{{row.nombre}}</td>
+                            <td>{{row.uni}}</td>
+                            <td>
+                                {{row.telefono}}<br>
+                                {{row.celular}}<br>
+                                {{row.correoElectronico}}
+                            </td>
+                            <td>{{ validarEstatus(row.resultadoEnviado, row.estatusINVP) }}</td>
+                            <td>
+                                <button ng-disabled="row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')" 
+                                    type="button" 
+                                    ng-click="cambiarIdioma(row, 'idioma')" 
+                                    class="btn" 
+                                    ng-class=
+                                        "{'btn-default': (row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
+                                        'btn-warning': !(row.resultadoEnviado && (selectedSesion.estatus === 'Concluida' || row.estatusINVP === 'Prueba finalizada')), 
+                                        'tooltips-info': !row.resultadoEnviado}" 
+                                    data-tooltip="{{row.resultadoEnviado ? '' : 'Cambiar idioma'}}">
+                                    <span>{{row.idioma}}</span>
+                                </button>
+                            </td>    
+                            <td class="text-center ">
+                                <button ng-disabled="(selectedSesion.estatus ==='Por aplicar') || (row.estatusINVP === 'Por iniciar')"  
+                                    ng-if="(row.estatusINVP !== 'Prueba terminada por administrador' && row.estatusINVP !== 'Prueba terminada'  && row.estatusINVP !== 'Por iniciar') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'terminar')" class="btn btn-danger tooltips-info" data-tooltip="Terminar examen">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+                                <button ng-disabled="selectedSesion.estatus ==='Por aplicar' || row.estatusINVP === 'Prueba finalizada'" 
+                                    ng-if="(row.estatusINVP === 'Prueba terminada por administrador' || row.estatusINVP === 'Prueba terminada') && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reactivar')" class="btn btn-success tooltips-info" data-tooltip="Reagendar">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+                                <button ng-if="((selectedSesion.estatus === 'Concluida' && row.estatusINVP === 'Por iniciar') && selectedSesion.fechaValida) && !row.resultadoEnviado" type="button" ng-click="setSelectedAspirante(row, 'reagen')" class="btn btn-info tooltips-info" data-tooltip="Reagendar">
+                                    <span class="glyphicon glyphicon-time"></span>
+                                </button>
+
+
+                                <button  ng-if="row.usuarioBloqueado && !row.resultadoEnviado"  type="button" ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-danger tooltips-info" data-tooltip="Desbloquear">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                </button>
+                                <button ng-if="!row.usuarioBloqueado || row.resultadoEnviado" type="button" disabled ng-click="setSelectedAspirante(row, 'bloquear')" class="btn btn-default">
+                                    <span class="glyphicon glyphicon-lock"></span>
+                                </button>
+
+                                <button ng-if="row.estatusINVP === 'Examen re agendado' || (row.tempentrada !== null && row.estatusINVP === 'Por iniciar')" type="button" ng-click="setSelectedAspirante(row, 'ver')" class="btn btn-info tooltips-info" data-tooltip="Datos de la sesión">
+                                    <span><b>?</b></span>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="col-xs-5">
+                    <div class="dataTables_info">Mostrando {{dataToSend.offset + 1}} a {{valueAsp}} de {{valueAsp}} registros</div>
+                </div>
+                <div class="col-xs-7 text-center">
+                   
+                </div>
+            </div>
+        </div>
+    </div> -->
+
+    <div class="row" ng-if="tabShown === 'seguimiento'">
         <div class="col-xs-4">
             <button class="btn btn-primary" type="button" ng-click="refreshAspirantes()" style="margin-left: 15px;">
                 <span class="glyphicon glyphicon-refresh"></span> Actualizar respuestas
@@ -320,6 +467,7 @@
             </div>
         </div>
     </div>
+
 </div>
 
 <div class="modal" tabindex="-1" role="dialog" id="modalBloquear">

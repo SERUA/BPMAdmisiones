@@ -1324,7 +1324,7 @@ public Result getCatPreguntas(String jsonData) {
 			font.setBold(true);
 			style.setFont(font);
 
-			dataResult = new UsuariosDAO().getAspirantesTodos(jsonData, context);
+			dataResult = new UsuariosDAO().getAspirantesTodos(jsonData, true, context);
 
 			if (dataResult.success) {
 				lstParams = dataResult.getData();

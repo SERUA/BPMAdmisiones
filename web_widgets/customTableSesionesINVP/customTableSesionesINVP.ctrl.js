@@ -3,6 +3,16 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     this.isArray = Array.isArray;
     $scope.idiomaTodos = "";
     $scope.seleccionarTodosVar = false;
+    $scope.tabShown = "seguimiento";
+    $scope.preguntas = true;
+    
+    $scope.switchTab = function(_tab){
+        $scope.tabShown = _tab;
+        $scope.preguntas = _tab === 'seguimiento';
+        
+        getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
+    
     this.isClickable = function () {
         return $scope.properties.isBound('selectedRow');
     };
@@ -118,7 +128,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
 
     function getAspirantesSesion(_idsesion){
-        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
+        // let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
+        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10&preguntas=";
+        url += ($scope.preguntas + "" );
+        
         $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
 
         if($scope.properties.dataToSendAsp.lstFiltro.length > 0){

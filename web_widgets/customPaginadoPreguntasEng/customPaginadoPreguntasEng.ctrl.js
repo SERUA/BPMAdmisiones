@@ -230,16 +230,22 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "Your session has ended. You cannot resume the test. If you have any questions, please contact your facilitator.";
                     } else {
-                        mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
+                        mensaje = "We are saving the recorded responses. Press “Continue” to proceed with your exam. If your session closes, please notify your proctor immediately."
                     }
                 } else {
-                    mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
+                    mensaje = "We are saving the recorded responses. Press “Continue” to proceed with your exam. If your session closes, please notify your proctor immediately."
                 }
 
                 Swal.fire({
                     title: '<strong>Important!</strong>',
-                    icon: 'error',
-                    html:mensaje, showCloseButton: false
+                    icon: 'warning',
+                    html:mensaje, 
+                    showCloseButton: false,
+                    confirmButtonColor: '#267F00',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                    },
+                    confirmButtonText: 'Continue'
                 }).then((result)=>{
                     window.location.reload();
                     // if(data === null ){
@@ -280,16 +286,22 @@ function($scope, $http) {
                     if(data.error === "test_end"){
                         mensaje = "The session has ended, you cant  keep on with the exam anymore. If you have doubts, please contact your advisor.";
                     } else {
-                        mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
+                        mensaje = "We are saving the recorded responses. Press “Continue” to proceed with your exam. If your session closes, please notify your proctor immediately."
                     }
                 } else {
-                    mensaje = "Communication with the server is intermittent. Make sure you have a stable internet connection. Press Ok and the system will try to stabilize the communication to continue. In case your session is closed, notify your applicator immediately."
+                    mensaje = "We are saving the recorded responses. Press “Continue” to proceed with your exam. If your session closes, please notify your proctor immediately."
                 }
 
                 Swal.fire({
                     title: '<strong>Important!</strong>',
-                    icon: 'error',
-                    html:mensaje, showCloseButton: false
+                    icon: 'warning',
+                    html:mensaje, 
+                    showCloseButton: false,
+                    confirmButtonColor: '#267F00',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                    },
+                    confirmButtonText: 'Continue'
                 }).then((result)=>{
                     window.location.reload();
                     // if(data === null ){

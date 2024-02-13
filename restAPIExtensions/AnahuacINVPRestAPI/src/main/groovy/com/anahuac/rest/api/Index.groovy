@@ -574,7 +574,15 @@ class Index implements RestApiController {
 			break;
 			case "getAspirantesTodos":
 				try{
-					result =  new UsuariosDAO().getAspirantesTodos(jsonData, context);
+					String preguntas = request.getParameter "preguntas"
+					Boolean b_preguntas = false;
+					
+					if(!preguntas.equals("") && preguntas != null) {
+						b_preguntas = Boolean.valueOf(preguntas);
+					}
+					
+					result =  new UsuariosDAO().getAspirantesTodos(jsonData, b_preguntas, context);
+					
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

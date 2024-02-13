@@ -1415,7 +1415,7 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			Result resultadoAspirantes = getAspirantesTodos(jsonData, context);
+			Result resultadoAspirantes = getAspirantesTodos(jsonData, false, context);
 			
 			List<AspiranteSesionCustom> aspirantes = (List<AspiranteSesionCustom>) resultadoAspirantes.getData();
 			
@@ -1912,7 +1912,7 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result getAspirantesTodos(String jsonData, RestAPIContext context) {
+	public Result getAspirantesTodos(String jsonData, Boolean preguntas, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String where = " WHERE ( ( ctpr.descripcion = 'Examen Psicométrico'  ";
@@ -2171,9 +2171,21 @@ class UsuariosDAO {
 			}
 			
 //			errorLog += where + " " + orderBy;
-			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			String consulta = "";
+			errorLog += "preguntas:" + preguntas.toString();
 			
-			errorLog += consulta;
+			if(preguntas == true) {
+				errorLog += "| 1 GET_ASPIRANTES_SESIONES_TODOS" 
+				consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			} else {
+				errorLog += "| 1.1 GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS"
+				consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			}
+			errorLog += "| 2"
+			
+//			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+//			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+//			errorLog += consulta;
 			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
