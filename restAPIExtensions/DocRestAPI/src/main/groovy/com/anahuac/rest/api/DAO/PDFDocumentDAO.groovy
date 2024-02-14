@@ -2199,15 +2199,20 @@ class PDFDocumentDAO {
 			
 			Result solicitudPosgradosInfo = getSolicitudPosgradosInfo(columns, caseid, context); 
 			
+			log += "1 | "
 			columns = (Map < String, Object >) solicitudPosgradosInfo.getData().get(0);
+			log += columns.toString()
+			
 			JasperPrint jasperPrint = JasperFillManager.fillReport(jasperReport, columns, dataSource);
+			log += "2 | "
 			byte[] encode = Base64.getEncoder().encode(JasperExportManager.exportReportToPdf(jasperPrint));
+			log += "3 | "
 			String result = new String(encode);
 			
 			List < Object > lstResultado = new ArrayList < Object > ();
 			lstResultado.add(result);
 			lstResultado.add(log);
-			
+			log += "4 | "
 			resultado.setSuccess(true);
 			resultado.setData(lstResultado);
 			resultado.setError_info(log)
