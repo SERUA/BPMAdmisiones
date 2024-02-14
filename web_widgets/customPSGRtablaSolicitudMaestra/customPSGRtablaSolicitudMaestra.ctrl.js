@@ -125,6 +125,7 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             $scope.filtroCampus = campusDisponibles[0].descripcion;
             $scope.addFilter();
             
+            // Forzando a seleccionar el campus
             $scope.properties.campusSeleccionado = campusDisponibles[0].grupo_bonita;
         }
     }
