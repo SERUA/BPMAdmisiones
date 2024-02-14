@@ -119,6 +119,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.filtroCampus = campusDisponibles[0].descripcion;
+            $scope.addFilter();
+            
+            $scope.properties.campusSeleccionado = campusDisponibles[0].grupo_bonita;
+        }
     }
 
     // Watchers
@@ -490,7 +498,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
     $scope.lstCampusByUser = [];
     $scope.campusByUser = function () {
-        debugger;
         var resultado = [];
         // var isSerua = true;
         for (var x in $scope.lstMembership) {
