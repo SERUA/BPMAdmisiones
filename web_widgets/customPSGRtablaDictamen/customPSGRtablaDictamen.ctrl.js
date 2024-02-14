@@ -186,7 +186,6 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     function downloadFile(documentoB64, caseid) {
-        debugger
         var base64Data = documentoB64;
 
         // Crear un objeto Blob a partir de la cadena base64
@@ -360,6 +359,12 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+        
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.selectedCampus = campusDisponibles[0].descripcion;
+            $scope.campusChanged();
+        }
     }
 
     // Watchers
