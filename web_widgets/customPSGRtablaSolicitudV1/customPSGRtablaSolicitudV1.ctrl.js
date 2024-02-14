@@ -371,6 +371,14 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+        
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.selectedCampus = campusDisponibles[0].descripcion;
+            $scope.campusChanged();
+            
+            //$scope.properties.campusSeleccionado = campusDisponibles[0].grupo_bonita;
+        }
     }
 
     // Watchers
