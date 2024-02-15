@@ -760,6 +760,9 @@ class HubspotDAO {
 		String descuento = "";
 		String catDescuento = "";
 		String apikeyHubspot = "";
+		
+		Boolean closeCon = false;
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
