@@ -144,8 +144,13 @@ class LoginSesionesDAO {
 				throw new Exception(checkBloqueado.getError());
 			} else {
 				if(Boolean.valueOf(checkBloqueado.data.get(0)) == true) {
-					errorlog += " | 14 ";
 					throw new Exception("usuario_bloqueado");
+				}
+				
+				Result resultSesion = new UsuariosDAO().checkEstatusExamen(object.username);
+				
+				if(!resultSesion.isSuccess()) {
+					throw new Exception(resultSesion.getError());
 				}
 				
 //				Result resultBloquear = new UsuariosDAO().bloquearAspiranteDef(object.username);
@@ -160,11 +165,13 @@ class LoginSesionesDAO {
 			resultado.setSuccess(false);
 			resultado.setError("user_password_incorrect");
 			errorlog = errorlog + " | " + e.getMessage();
+			LOGGER.error(e.getMessage());
 			resultado.setError_info(errorlog);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			errorlog = errorlog + " | " + e.getMessage();
+			LOGGER.error(e.getMessage());
 			resultado.setError_info(errorlog);
 		} finally {
 			if (closeCon) {
@@ -1030,9 +1037,10 @@ class LoginSesionesDAO {
 				row.setSalida_temp(rs.getString("salida_temp"));
 				row.setNombre_temp(rs.getString("nombre_temp"));
 				row.setIdsesion_temp(rs.getLong("idsesion_temp"));
-				row.setSesion_iniciada(rs.getBoolean("sesion_iniciada"));
+//				row.setSesion_iniciada(rs.getBoolean("sesion_iniciada"));
+				row.setSesion_iniciada(rs.getBoolean("examen_iniciado"));
 				
-				rows.add(row)
+				rows.add(row);
 			}
 			
 			
@@ -1383,7 +1391,14 @@ class LoginSesionesDAO {
 			
 			if (rs.next()) {
 				throw new Exception("sesion_iniciada_otro");
+			}  else {
+				Result resultSesion = new UsuariosDAO().checkEstatusExamen(object.username);
+				
+				if(!resultSesion.isSuccess()) {
+					throw new Exception(resultSesion.getError());
+				}
 			}
+			
 			resultado.setSuccess(true);
 			resultado.setError_info(errorlog);
 		} catch (Exception e) {

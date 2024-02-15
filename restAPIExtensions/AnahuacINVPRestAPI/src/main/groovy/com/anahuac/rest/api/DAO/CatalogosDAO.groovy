@@ -1789,6 +1789,56 @@ public Result getCatPreguntas(String jsonData) {
 		return resultado;
 	}
 	
+	public Result iniciarExamen(String jsonData) {
+		Result resultado = new Result();
+		String errorlog = "";
+		Boolean closeCon = false;
+		Boolean existe = false;
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			closeCon = validarConexion();
+			con.setAutoCommit(false);
+			
+			pstm = con.prepareStatement(Statements.GET_EXISTE_CONFIGURACION_INVP);
+			pstm.setLong(1, object.idprueba);
+			
+			rs = pstm.executeQuery();
+			
+			if(rs.next()) {
+				existe = rs.getBoolean("existe");
+			}
+			
+			if(existe) {
+				pstm = con.prepareStatement(Statements.UPDATE_INICIAR_PRUEBA_INVP);
+			} else {
+				pstm = con.prepareStatement(Statements.INSERT_INICIAR_PRUEBA_INVP);
+			}
+			
+			pstm.setInt(1, 0);
+			pstm.setInt(2, 0);
+			pstm.setLong(3, object.idprueba);
+			pstm.setBoolean(4, true);
+			pstm.executeUpdate();
+			
+			con.commit();
+			resultado.setSuccess(true);
+			resultado.setError_info(errorlog);
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			errorlog = errorlog + " | " + e.getMessage();
+			resultado.setError_info(errorlog);
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 	
 	public Result insertUpdateConfiguracionSesion(String jsonData) {
 		Result resultado = new Result();

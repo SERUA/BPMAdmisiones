@@ -833,6 +833,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function showModalConfig(){
         $("#modalConfiguraciones").modal("show");
     }
+    
+    $scope.mostrarModalIniciar = function(){
+        $("#modalIniciarExamen").modal("show");
+    }
 
     $scope.getConfiguracionINVP = function (_row){
         $scope.sesionConfiguracion = {
@@ -850,6 +854,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
             
             showModalConfig();
+        }).error(function(_error){
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+    
+    $scope.iniciarExamen = function(){
+        $scope.sesionConfiguracion = {
+            "idprueba": $scope.selectedSesion.idSesion,
+            "toleranciaminutos": 0,
+            "toleranciasalidaminutos" : 0,
+            "examenIniciado": false
+        };
+        
+        $scope.dataToSend = angular.copy($scope.sesionConfiguracion);
+        let url = "../API/extension/AnahuacINVPRestAPI?url=iniciarExamen&p=0&c=10";
+
+        $http.post(url, $scope.dataToSend).success(function(_data){
+            ocultarModal("modalIniciarExamen");
+            swal("Ok", "El examen ha sido iniciado", "success");
+            $scope.selectedSesion.estatus = "En curso"
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
@@ -937,7 +961,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         "entrada": "",
         "salida": "",
         "toleranciaminutos": 0,
-        "toleranciasalidaminutos": 0
+        "toleranciasalidaminutos": 0,
+        "examenIniciado": false
     }
     
     $scope.aplicacion = "";

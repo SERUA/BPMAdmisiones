@@ -2731,4 +2731,42 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
+	public Result checkEstatusExamen(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorlog = "";
+		
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_SESION_TODAY);
+			pstm.setString(1, username);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				if(rs.getBoolean("correct_date") == false) {
+					throw new Exception("fecha_incorrecta");
+				} else if(rs.getBoolean("exameniniciado") == false) {
+					throw new Exception("examen_no_iniciado");
+				} else if(rs.getBoolean("finalizada") == true) {
+					throw new Exception("examen_finalizado");
+				}
+			} else {
+				throw new Exception("no_sesion_asignada");
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }
