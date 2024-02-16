@@ -44,6 +44,8 @@ class Statements {
 	
 	public static final String GET_SESION_USUARIO = "SELECT idio.havesesion, idio.istemporal, invp.examenreiniciado,  CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horainiciosesion)::timestamp <= now() ELSE false END  AS sesion_iniciada_temp, CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horafinsesion)::timestamp <= now()  ELSE false END AS sesion_finalizada_temp,    CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horainiciosesion)::timestamp  ELSE null END AS fechainicio_temp, (temp.persistenceid IS NOT null) AS existe_sesion FROM idiomainvpusuario AS idio LEFT JOIN InstanciaINVP AS invp ON invp.username = idio.username LEFT JOIN InfoAspiranteTemporal AS temp ON temp.username = idio.username  WHERE idio.username = ?";
 	
+	public static final String GET_SESION_USUARIO_V3 = "SELECT idio.havesesion, idio.istemporal, invp.examenreiniciado,  CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horainiciosesion)::timestamp <= now() ELSE false END  AS sesion_iniciada_temp, CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horafinsesion)::timestamp <= now()  ELSE false END AS sesion_finalizada_temp,    CASE WHEN temp.fechainiciosesion IS NOT NULL THEN CONCAT(temp.fechainiciosesion, ' ', temp.horainiciosesion)::timestamp  ELSE null END AS fechainicio_temp, (temp.persistenceid IS NOT null) AS existe_sesion FROM idiomainvpusuario AS idio LEFT JOIN InstanciaINVP AS invp ON invp.username = idio.username LEFT JOIN InfoAspiranteTemporal AS temp ON temp.username = idio.username  WHERE idio.username = ?";
+	
 	public static final String INSERT_TERMINADO_EXAMEN = "INSERT INTO invpexamenterminado (persistenceId, persistenceVersion, username, terminado, fechainicio, fechafin, idsesion) VALUES ( case when (SELECT max(persistenceId)+1 from invpexamenterminado ) is null then 1 else (SELECT max(persistenceId)+1 from invpexamenterminado) end, 0, ?, ?, NOW(), NULL, ?);";
 	
 	public static final String UPDATE_TERMINADO_EXAMEN = "UPDATE invpexamenterminado SET terminado = ?, fechafin = NOW()  WHERE username = ?  AND persistenceid = (SELECT persistenceid FROM INVPExamenTerminado ORDER BY persistenceid DESC LIMIT 1 )";
@@ -119,9 +121,11 @@ class Statements {
 	
 	public static final String GET_NUEVA_CONF_USUARIO = "SELECT * FROM InfoAspiranteTemporal WHERE username = ?;";
 	
-	public static final String INSERT_NUEVA_CONFIG_USUARIO = "INSERT INTO InfoAspiranteTemporal (persistenceid, persistenceversion, username, fechaInicioSesion, horaInicioSesion, horaFinSesion, toleranciaEntradaSesion, toleranciaSalidaSesion, idprueba ) VALUES (case when (SELECT max(persistenceId)+1 from InfoAspiranteTemporal) is null then 1 else (SELECT max(persistenceId)+1 from InfoAspiranteTemporal) end, 0, ?, ?, ?, ?, ?, ?, ?);";
+	public static final String INSERT_NUEVA_CONFIG_USUARIO = "INSERT INTO InfoAspiranteTemporal (persistenceid, persistenceversion, username, fechaInicioSesion, horaInicioSesion, horaFinSesion, toleranciaEntradaSesion, toleranciaSalidaSesion, idprueba, reagendado  ) VALUES (case when (SELECT max(persistenceId)+1 from InfoAspiranteTemporal) is null then 1 else (SELECT max(persistenceId)+1 from InfoAspiranteTemporal) end, 0, ?, ?, ?, ?, ?, ?, ?, ?);";
 	
-	public static final String UPDATE_NUEVA_CONFIG_USUARIO = "UPDATE  InfoAspiranteTemporal SET fechaInicioSesion = ?, horaInicioSesion = ?, horaFinSesion = ?, toleranciaEntradaSesion = ?, toleranciaSalidaSesion = ?, idprueba = ? WHERE username = ?";
+	public static final String UPDATE_NUEVA_CONFIG_USUARIO = "UPDATE  InfoAspiranteTemporal SET fechaInicioSesion = ?, horaInicioSesion = ?, horaFinSesion = ?, toleranciaEntradaSesion = ?, toleranciaSalidaSesion = ?, idprueba = ?, reagendado = ? WHERE username = ?";
+	
+	public static final String UPDATE_REAGENDADO = "UPDATE  InfoAspiranteTemporal reagendado = ? WHERE username = ?";
 	
 	public static final String UPDATE_TOLERANCIAS_USUARIO = "UPDATE  InfoAspiranteTemporal SET toleranciaEntradaSesion = ?, toleranciaSalidaSesion = ?, idprueba = ? WHERE username = ?";
 	
@@ -143,7 +147,9 @@ class Statements {
 	
 	public static final String GET_SESION_FINALIZADA_BY_USERNAME = "SELECT * FROM CatRegistro AS creg INNER JOIN SesionAspirante AS seas ON seas.username = creg.correoelectronico LEFT JOIN SesionesFinalizadas AS sefi ON sefi.idsesion = seas.sesiones_pid  WHERE creg.correoelectronico = ?;";
 	
-	public static final String GET_SESION_TODAY = "SELECT cnfg.exameniniciado, sefi.finalizada, (prbs.aplicacion::DATE = CURRENT_DATE) AS correct_date FROM CatRegistro AS creg INNER JOIN SesionAspirante AS seas ON seas.username = creg.correoelectronico INNER JOIN pruebas AS prbs ON seas.sesiones_pid = prbs.sesion_pid INNER JOIN cattipoprueba AS ctpr ON ctpr.persistenceid = prbs.cattipoprueba_pid AND ctpr.descripcion = 'Examen Psicométrico' LEFT JOIN SesionesFinalizadas AS sefi ON sefi.idsesion = seas.sesiones_pid LEFT JOIN ConfiguracionesINVP AS cnfg ON cnfg.idprueba = seas.sesiones_pid WHERE creg.correoelectronico = ?;";
+	public static final String GET_SESION_TODAY = "SELECT cnfg.exameniniciado, sefi.finalizada, (prbs.aplicacion::DATE = CURRENT_DATE) AS correct_date, infs.reagendado, (infs.fechaInicioSesion::DATE = CURRENT_DATE) AS correct_date_temp FROM CatRegistro AS creg INNER JOIN SesionAspirante AS seas ON seas.username = creg.correoelectronico INNER JOIN pruebas AS prbs ON seas.sesiones_pid = prbs.sesion_pid INNER JOIN cattipoprueba AS ctpr ON ctpr.persistenceid = prbs.cattipoprueba_pid AND ctpr.descripcion = 'Examen Psicométrico' LEFT JOIN SesionesFinalizadas AS sefi ON sefi.idsesion = seas.sesiones_pid LEFT JOIN ConfiguracionesINVP AS cnfg ON cnfg.idprueba = seas.sesiones_pid LEFT JOIN InfoAspiranteTemporal AS infs ON infs.username = creg.correoelectronico WHERE creg.correoelectronico =  ?;";
+	
+	public static final String GET_SESION_TODAY_TEMP = "SELECT (infs.fechaInicioSesion::DATE = CURRENT_DATE) AS correct_date_temp, infs.reagendado FROM CatRegistro AS creg LEFT JOIN InfoAspiranteTemporal AS infs ON infs.username = creg.correoelectronico WHERE creg.correoelectronico = ?;";
 	
 	public static final String GET_RESULTADOS_INVP_BY_USERNAME = "SELECT string_agg(CASE WHEN respuesta IS NULL THEN '*' WHEN respuesta= true THEN 'C' WHEN respuesta = false THEN 'F' END,  '') AS resultados FROM ( SELECT cpre.orden, resp.respuesta  FROM  CatPReguntas AS cpre  LEFT JOIN RespuestaINVP AS resp ON resp.pregunta = cpre.orden  AND (resp.username = ? AND resp.pregunta <> 0 AND resp.caseid = ?) ORDER BY cpre.orden ASC ) results_query ";
 	

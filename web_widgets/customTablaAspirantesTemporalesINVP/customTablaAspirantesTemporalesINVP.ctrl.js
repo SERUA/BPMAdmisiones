@@ -594,6 +594,18 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             
         });
     }
+
+    $scope.reactivarUsuarioV2 = function(){
+        let url = "../API/extension/AnahuacINVPRestAPI?url=reactivarUsuarioV2&p=0&c=10";
+
+        $http.post(url, $scope.selectedSesion).success(function(_data){
+            ocultarModal("modalAsignar");
+            swal("Ok", "Cambios guardados", "success");
+            doRequest("POST", $scope.properties.urlPost);
+        }).error(function(_error){
+            
+        });
+    }
     
     $scope.refreshSesiones = function(){
         doRequest("POST", $scope.properties.urlPost);

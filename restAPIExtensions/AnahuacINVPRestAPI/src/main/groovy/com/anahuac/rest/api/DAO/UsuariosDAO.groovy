@@ -2734,7 +2734,7 @@ class UsuariosDAO {
 	public Result checkEstatusExamen(String username) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
-		String errorlog = "";
+		String errorLog = "";
 		
 		try {
 			Map<String,Boolean> row = new HashMap<String,Boolean>();
@@ -2746,15 +2746,49 @@ class UsuariosDAO {
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				if(rs.getBoolean("correct_date") == false) {
-					throw new Exception("fecha_incorrecta");
-				} else if(rs.getBoolean("exameniniciado") == false) {
-					throw new Exception("examen_no_iniciado");
-				} else if(rs.getBoolean("finalizada") == true) {
-					throw new Exception("examen_finalizado");
+				errorLog += "|1 ";
+				if(rs.getBoolean("reagendado") != true) {
+					errorLog += "|1.1 ";
+					if(rs.getBoolean("correct_date") == false) {
+						errorLog += "|1.1.1 ";
+						throw new Exception("fecha_incorrecta");
+					} else if(rs.getBoolean("exameniniciado") == false) {
+						errorLog += "|1.1.2 ";
+						throw new Exception("examen_no_iniciado");
+					} else if(rs.getBoolean("finalizada") == true) {
+						errorLog += "|1.1.3 ";
+						throw new Exception("examen_finalizado");
+					}
+				} else {
+					errorLog += "|1.2 ";
+					if(rs.getBoolean("reagendado") == false) {
+						errorLog += "|1.2.1 ";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date_temp")  != true) {
+						errorLog += "|1.2.1 ";
+						throw new Exception("fecha_incorrecta");
+					}
 				}
 			} else {
-				throw new Exception("no_sesion_asignada");
+				errorLog += "|2 ";
+				pstm = con.prepareStatement(Statements.GET_SESION_TODAY_TEMP);
+				pstm.setString(1, username);
+				
+				rs = pstm.executeQuery();
+				
+				if (rs.next()) {
+					errorLog += "|2.1 ";
+					if(rs.getBoolean("reagendado") == false) {
+						errorLog += "|2.1.1";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date_temp")  != true) {
+						errorLog += "|2.1.2 ";
+						throw new Exception("fecha_incorrecta");
+					}
+				} else {
+					errorLog += "|2.2 ";
+					throw new Exception("no_sesion_asignada");
+				}
 			}
 			
 			resultado.setSuccess(true);

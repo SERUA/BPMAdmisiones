@@ -389,7 +389,7 @@
     </div>
 </div>
 
-<div class="modal" tabindex="-1" role="dialog" id="modalReactivar">
+<!-- <div class="modal" tabindex="-1" role="dialog" id="modalReactivar">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
         <div class="modal-header">
@@ -430,7 +430,7 @@
         </div>
         </div>
     </div>
-</div>
+</div> -->
 
 <div class="modal" tabindex="-1" role="dialog" id="modalIdiomaTodos">
     <div class="modal-dialog" role="document">
@@ -521,13 +521,13 @@
             </button>
         </div>
         <div class="modal-body">
-            <p>Para reaactivar al aspirante tienes que llenar la siguiente información</p>
+            <p>Selecciona la fecha en que el aspirante podrá ingresar al examen:</p>
             <div class="row">
-                <div class="col-xs-6"> 
+                <div class="col-xs-12"> 
                     <label>Fecha:</label>
                     <input ng-model="aplicacion" class="form-control" ng-min="fecha"  ng-max="fechaFutura" type="date" ng-change="setValue(aplicacion, 'aplicacion')">
                 </div>
-                <div class="col-xs-3"> 
+                <!-- <div class="col-xs-3"> 
                     <label>Hora inicio:</label>
                     <input ng-model="entrada" class="form-control" type="time" ng-change="setValue(entrada, 'entrada')">
                 </div>
@@ -542,13 +542,13 @@
                 <div class="col-xs-6"> 
                     <label>Tolerancia salida (minutos):</label>
                     <input ng-model="configUsuario.toleranciasalidaminutos" class="form-control" type="number">
-                </div>
+                </div> -->
             </div>
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-info" data-dismiss="modal">Cancelar</button>
-            <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('normal')">Aceptar</button>
-            <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioNuevaConfig('temp')">Aceptar</button>
+            <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="reactivarUsuarioV2('normal')">Aceptar</button>
+            <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="reactivarUsuarioV2('temp')">Aceptar</button>
         </div>
         </div>
     </div>
@@ -565,10 +565,10 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-xs-6"> 
+                    <div class="col-xs-12"> 
                         Fecha: <label>{{selectedAspirante.tempfecha}}</label>
                     </div>
-                    <div class="col-xs-6"> 
+                    <!-- <div class="col-xs-6"> 
                         Hr. Inicio:<label>{{selectedAspirante.tempentrada}}</label>
                     </div>
                     <div class="col-xs-6"> 
@@ -585,13 +585,13 @@
                                 <input ng-model="configUsuario.toleranciasalidaminutos" min="0" class="form-control" type="number">
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-info" data-dismiss="modal">Cerrar</button>
-                <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
-                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('temp')">Actualizar tolerancia</button>
+                <!-- <button type="button" class="btn btn-primary" ng-if="!selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('normal')">Actualizar tolerancia</button>
+                <button type="button" class="btn btn-primary" ng-if="selectedAspirante.isTemporal" ng-click="insertUpdateUsuarioTolerancias('temp')">Actualizar tolerancia</button> -->
             </div>
         </div>
     </div>
