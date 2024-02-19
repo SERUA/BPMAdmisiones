@@ -42,7 +42,7 @@ function($scope, $http, blockUI, $window) {
 
     function updateCampusDisponibles() {
         const campusDisponibles = [];
-
+        
         if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
 
             for (let catCampus of $scope.lstCampus) {
@@ -476,15 +476,34 @@ function($scope, $http, blockUI, $window) {
 
     $scope.addFilter = function() {
         $scope.idcampus = $scope.filtroCampus;
-
+        let currentGrupoBonita = "";
         for(let item of $scope.lstCampus){
             if(item.descripcion === $scope.filtroCampus){
+                
                 $scope.idcampus = item.persistenceid;
+                currentGrupoBonita = item.valor;
                 break;
             }
         }
 
+        // Guardar el group_id del campus seleccionado actualmente.
+        $scope.group_id = getGroupId(currentGrupoBonita);
+
         loadFechas();
+    }
+
+    function getGroupId(group_name) {
+
+        if (!group_name || group_name.indexOf("CAMPUS") === -1) {
+            console.error("La función getGroupId solo puede buscar en grupos de 'CAMPUS'");
+            return;
+        }
+
+        for (let membership of $scope.lstMembership) {
+            if (membership.group_id.name === group_name) {
+                return membership.group_id.id;
+            }
+        }
     }
     
     $scope.generarHoras = function(_duracion){
@@ -534,17 +553,27 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.$watch("properties.roles", function(){
-        if($scope.properties.roles){
+        if($scope.properties.roles && $scope.group_id){
+            getUsuariosRol();
+        } 
+    });
+
+    $scope.$watch("group_id", function(){
+        if($scope.properties.roles && $scope.group_id){
             getUsuariosRol();
         } 
     });
     
     function getUsuariosRol(){
-        let url = "../API/identity/user?c=50&p=0&f=enabled=true";
+        let url = "../API/identity/user?c=99&p=0&f=enabled=true";
         
+        // Filtro por roles
         for(let rol of $scope.properties.roles){
             url += ("&f=role_id=" + rol.id);
         }
+
+        // Filtro por grupo seleccionado
+        url += ("&f=group_id=" + $scope.group_id);
         
         $http.get(url).success(function(_data){
             $scope.usuariosResponsables = angular.copy(_data);
