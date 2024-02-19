@@ -585,7 +585,7 @@ function($scope, $http, blockUI, $window) {
     $scope.agregarResponsable = function(){
         let _usuario = null;
         let encontrado = false;
-
+        
         for(let usuarioResp of $scope.usuariosResponsables){
             if($scope.nuevoResponsable === usuarioResp.id){
                 _usuario = angular.copy(usuarioResp);
@@ -627,17 +627,18 @@ function($scope, $http, blockUI, $window) {
     }
 
     $scope.deleteResponsable = function(_usuario){
+
         for(let horario of $scope.horarios){
             for(let responsable of horario.responsables){
-                if(_usuario.id === responsable.responsable_id){
+                if(_usuario.responsable_id === responsable.responsable_id){
                     horario.responsables.splice(horario.responsables.indexOf(responsable), 1);
                 }
             }
         }
         
         for(let responsable of $scope.responsables){
-            if(responsable.responsable_id === _usuario.id){
-                $scope.responsables.splice($scope.responsables.indexOf(responsable));
+            if(responsable.responsable_id === _usuario.responsable_id){
+                $scope.responsables.splice($scope.responsables.indexOf(responsable), 1);
             }
         }
     }
@@ -674,6 +675,9 @@ function($scope, $http, blockUI, $window) {
             valid = false;
         } else if(!$scope.responsables || $scope.responsables.length === 0){ 
             mensaje = "Debes agregar al menos un responsable a la sesión";
+            valid = false;
+        } else if($scope.responsables && $scope.responsables.length !== 1){ 
+            mensaje = "Debes agregar un solo responsable a la sesión";
             valid = false;
         }
 

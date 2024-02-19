@@ -136,7 +136,7 @@
             <div class="row">
                 <div class="form-group col-xs-6">
                     <label class="control-label col-xs-12">Responsable:</label>
-                    <div class="col-xs-12">
+                    <div class="col-xs-12" ng-show="usuariosResponsables && usuariosResponsables.length > 0">
                         <select class="form-control" ng-model="nuevoResponsable" ng-disabled="!sesion.duracion_entrevista_minutos">
                             <option style="display:none" value="">Seleccionar responsable</option>
                             <option ng-repeat="usuario in usuariosResponsables" ng-value="usuario.id">{{usuario.firstname + " " + usuario.lastname}}</option> 
@@ -145,9 +145,21 @@
                             Puedes agregar un único responsable como máximo.
                         </div>
                     </div>
+                    <div class="col-xs-12" ng-show="!(usuariosResponsables && usuariosResponsables.length > 0)">
+                        <input class="form-control" ng-disabled="true" type="text" value="Seleccionar responsable">
+                        <div class="col-xs-12 small-text" style="margin-top: 5px; padding: 0;">
+                            No hay responsables disponibles con el rol adecuado y con el campus seleccionado.
+                        </div>
+                    </div>
                 </div>
                 <div class="col-xs-6 text-left">
-                    <button class="btn btn-primary" style="margin-top: 24px;" ng-disabled="!sesion.duracion_entrevista_minutos" ng-click="agregarResponsable(nuevoResponsable)">Agregar responsable</button>
+                    <button 
+                        class="btn btn-primary"
+                        style="margin-top: 24px;"
+                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || !sesion.duracion_entrevista_minutos"
+                        ng-click="agregarResponsable(nuevoResponsable)">
+                        Agregar responsable
+                    </button>
                 </div>
             </div>
             <div class="col-xs-12">
