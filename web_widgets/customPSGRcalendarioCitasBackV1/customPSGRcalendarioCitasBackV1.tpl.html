@@ -73,7 +73,7 @@
                     <option ng-repeat="opcion in lstDuracion" ng-value="opcion">{{opcion}}</option>
                 </select>
             </div> 
-            <div class="col-xs-12 small-text" ng-show="sesion.duracion_entrevista_minutos" style="margin-top: 5px;">
+            <div class="col-xs-12 small-text" ng-show="sesion.duracion_entrevista_minutos && !sesion.persistenceId" style="margin-top: 5px;">
                 Si cambias la duración de la entrevista, será necesario volver a agregar al responsable y verificar sus disponibilidades.
             </div>
         </div>
@@ -176,7 +176,7 @@
                                 <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
                                     <span class="glyphicon glyphicon-wrench"></span>
                                 </button>
-                                <button class="btn btn-link" ng-click="deleteResponsable(usuario)">
+                                <button class="btn btn-link" ng-click="deleteResponsable(usuario)" ng-disabled="sesion.persistenceId">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </td>
@@ -191,11 +191,9 @@
                 <button type="button" ng-click="cancelar()" class="btn btn-info">Cancelar</button>
             </div>
             <div class="col-xs-6 text-right">
-                <button class="btn btn-primary" type="button" ng-click="validate()">Guardar sesión</button>
+                <button class="btn btn-primary" type="button" ng-click="validate()">{{sesion.persistenceId ? "Guardar sesión" : "Publicar sesión"}}</button>
             </div>
         </div>
-        
-        
 
     </div>
 </div>

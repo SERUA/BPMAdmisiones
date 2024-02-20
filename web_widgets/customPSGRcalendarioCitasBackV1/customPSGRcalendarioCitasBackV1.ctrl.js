@@ -102,7 +102,7 @@ function($scope, $http, blockUI, $window) {
         });
     }
 
-    // carrerasResponsableString changed
+    // carrerasResponsableString changed or responsables changed?
     // (Rediseñar esta función, debe trabajar con parametros siempre y su función es actualizar el 'compiladoCarrerassResponsable' cada vez que 'carrerasResponsableString' cambie)
     $scope.selected = function(responsable_id, carrerasResponsableString){
         const id = responsable_id ? responsable_id : $scope.usuario && $scope.usuario.responsable_id ? $scope.usuario.responsable_id : undefined;
@@ -644,6 +644,9 @@ function($scope, $http, blockUI, $window) {
                 
                 horario["responsables"].push(angular.copy(nuevoUsuario));
             }
+
+            // Init info de programas seleccionados
+            $scope.selected(_usuario.id, "")
         } 
 
         $scope.nuevoResponsable = null;
@@ -708,7 +711,25 @@ function($scope, $http, blockUI, $window) {
         }
 
         if(valid){
-            $scope.guardarSesion($scope.sesion);
+            // Publicar sesión
+            if (!$scope.sesion.persistenceId) {
+                swal({
+                    title: "Confirmar publicación de sesión",
+                    text: "Una vez que la sesión es publicada, no se podrá modificar la fecha, el formato, la duración ni cambiar al responsable",
+                    icon: "warning",
+                    buttons: true,
+                  })
+                  .then((respuesta) => {
+                    if (respuesta) {
+                        $scope.guardarSesion($scope.sesion);
+                    }
+                  });
+            }
+            // Actualizar sesión
+            else {
+                $scope.guardarSesion($scope.sesion);
+            }
+            
         } else {
             swal(titulo, mensaje, "error");
         }
