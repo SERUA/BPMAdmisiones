@@ -77,38 +77,44 @@ function($scope, $http, blockUI, $window) {
         return check;
     };
     
-    function getInfoCarreras(){
-        $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + $scope.usuario.responsable_id).success(function(success){
-            if(success[0]){
+    function getInfoCarreras(responsable_id){
+        $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + responsable_id).success(function(success){
+            if(success[0] !== undefined && success[0] !== null){
                 $scope.carrerasResponsableString = success[0];
-                $scope.selected();
+                $scope.selected(responsable_id, success[0]);
             } else {
                 $scope.carrerasResponsableString = "";
-                for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
+                if (typeof responsable_id === "string") responsable_id = parseInt(responsable_id);
+                for(let carrera of $scope.compiladoCarrerassResponsable[responsable_id]){
                     $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
                 }
                 
-                $scope.selected();
+                $scope.selected(responsable_id, $scope.carrerasResponsableString);
             }
         }).error(function(err){
             $scope.carrerasResponsableString = "";
-            for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
-                debugger;
+            if (typeof responsable_id === "string") responsable_id = parseInt(responsable_id);
+            for(let carrera of $scope.compiladoCarrerassResponsable[responsable_id]){
                 $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
             }
             
-            $scope.selected();
+            $scope.selected(responsable_id, $scope.carrerasResponsableString);
         });
     }
-    
-    $scope.selected = function(){
-        if($scope.usuario){
-            $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
-            for(let str of $scope.carrerasResponsableString.split(",")){
+
+    // carrerasResponsableString changed
+    // (Rediseñar esta función, debe trabajar con parametros siempre y su función es actualizar el 'compiladoCarrerassResponsable' cada vez que 'carrerasResponsableString' cambie)
+    $scope.selected = function(responsable_id, carrerasResponsableString){
+        const id = responsable_id ? responsable_id : $scope.usuario && $scope.usuario.responsable_id ? $scope.usuario.responsable_id : undefined;
+        const programasString = carrerasResponsableString !== null && carrerasResponsableString !== undefined ? carrerasResponsableString : $scope.carrerasResponsableString;
+
+        if(id){
+            $scope.compiladoCarrerassResponsable[id] = [];
+            for(let str of programasString.split(",")){
                 for(let carr of $scope.lstGestionEscolar){
                     if(str === carr.nombre){
                         // $scope.usuario.carrerasResponsable.push(carr);
-                        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
+                        $scope.compiladoCarrerassResponsable[id].push(carr);
                         break;
                     }
                 }
@@ -237,7 +243,11 @@ function($scope, $http, blockUI, $window) {
                     $scope.horarios = angular.copy(_data.data);
 
                     for(let id of angular.copy(_data.additional_data)){
+                        // Cargar información del responsable
                         $scope.agregarRespId(id); 
+                        // Cargar información de los programas seleccionados para el responsable
+                        getInfoCarreras(id);
+
                         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
                             $scope.lstGestionEscolar = success;
                         }).error(function(err){
@@ -260,6 +270,7 @@ function($scope, $http, blockUI, $window) {
         }
     }
 
+    // Cargando los responsables
     $scope.agregarRespId = function(_id){
         let _usuario = null;
         let encontrado = false;
@@ -327,7 +338,7 @@ function($scope, $http, blockUI, $window) {
     
     $scope.getInfoResponsable = function(_usuario){
         $scope.usuario = _usuario;
-        getInfoCarreras();
+        getInfoCarreras($scope.usuario.responsable_id);
         //Llenar la lista de carreras  aquí
         $("#modalhorarios").modal("show");
     }
