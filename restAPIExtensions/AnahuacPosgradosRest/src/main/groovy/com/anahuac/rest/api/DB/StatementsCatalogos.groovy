@@ -151,7 +151,7 @@ class StatementsCatalogos {
 	//ConsultasPersonalizadas
 	public static final String GET_PERIODOBYIDCAMPUS  = "SELECT * FROM PSGRCatPeriodo WHERE id_campus = ?";
 	public static final String GET_POSGRADOBYIDCAMPUS  = "SELECT * FROM PSGRCatPosgrado WHERE campus_pid = ?";
-	public static final String GET_GESTIONESCOLARBYIDCAMPUS  = "SELECT * FROM PSGRCatGestionEscolar WHERE campus_referencia_pid = ? AND is_eliminado <> true ";
+	public static final String GET_GESTIONESCOLARBYIDCAMPUS  = "SELECT * FROM PSGRCatGestionEscolar WHERE campus_referencia_pid = ? AND is_eliminado <> true AND posgrado_pid IS NOT NULL ORDER BY posgrado_pid";
 	
 	//CORREOS
 	public static final String GET_APYKEYMAILGUN="SELECT * FROM PSGRConfiguraciones WHERE id_campus = (SELECT persistenceid from PSGRCatCampus WHERE grupo_bonita = ? LIMIT 1) AND clave IN ('mailgun_apikey', 'mailgun_dominio')"
