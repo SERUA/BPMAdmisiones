@@ -39,8 +39,17 @@ function PbTableCtrl($scope, modalService) {
             // row.anoInicio = parseInt(row.anoInicio);
 
             // row.promedio = parseFloat(row.promedio);
-
             $scope.properties.selectedRow = angular.copy(row);
+            
+            // Trim al texto pais
+            if ($scope.properties.selectedRow.escuela.pais) {
+                $scope.properties.selectedRow.escuela.pais = $scope.properties.selectedRow.escuela.pais.toString().trim()
+            }
+            
+            // Trim al texto estado
+            if ($scope.properties.selectedRow.escuela.estado) {
+                $scope.properties.selectedRow.escuela.estado = $scope.properties.selectedRow.escuela.estado.toString().trim()
+            }
 
             if (action === "ver") {
                 this.showModalEditar(false);
