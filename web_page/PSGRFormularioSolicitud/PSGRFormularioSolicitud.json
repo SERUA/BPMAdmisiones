@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1707872426929,
+  "lastUpdate" : 1708390684411,
   "rows" : [
     [
       {
@@ -23027,6 +23027,40 @@
       "type" : "expression",
       "value" : [
         "return false;"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_responsable" : {
+      "type" : "url",
+      "value" : [
+        "{{citaAspirante|lazyRef:'responsable'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante_responsable.persistenceId}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable_query && $data.responsable_query.length !== 0) {",
+        "    return $data.responsable_query[0];",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "updateResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable) {",
+        "    $data.citaAspirante.responsable_nombre = $data.responsable.nombre;",
+        "}"
       ],
       "exposed" : false
     }

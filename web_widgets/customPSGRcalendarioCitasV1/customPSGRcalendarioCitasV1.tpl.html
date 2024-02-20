@@ -36,9 +36,15 @@
                     <h3><b>Horario:</b></h3>
                     <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
                 </div>
-                <div ng-if="properties.cita.responsable_nombre">
+                <div>
+                    <h3><b>Formato:</b></h3>
+                    <p>{{ properties.cita.cita_horario.cita_entrevista.is_presencial === true ? "Presencial" : "En línea" }}</p>
+                    <!-- <p>{{ properties.cita.cita_horario.cita_entrevista.is_presencial === true ? "Presencial" : 
+                    properties.cita.cita_horario.cita_entrevista.is_en_linea === true ? "En línea" : "Desconocido" }}</p> -->
+                </div>
+                <div>
                     <h3><b>Responsable:</b></h3>
-                    <p>{{properties.cita.responsable_nombre}}</p>
+                    <p>{{ properties.cita.responsable_nombre ? properties.cita.responsable_nombre : "Desconocido" }}</p>
                 </div>
             </div>
         </div>
@@ -68,9 +74,15 @@
                 <h3><b>Horario:</b></h3>
                 <p>{{properties.cita.cita_horario.hora_inicio + " - " + properties.cita.cita_horario.hora_fin}}</p>
             </div>
-            <div ng-if="properties.cita.responsable_nombre">
+            <div>
+                <h3><b>Formato:</b></h3>
+                <p>{{ properties.cita.cita_horario.cita_entrevista.is_presencial === true ? "Presencial" : "En línea" }}</p>
+                <!-- <p>{{ properties.cita.cita_horario.cita_entrevista.is_presencial === true ? "Presencial" : 
+                properties.cita.cita_horario.cita_entrevista.is_en_linea === true ? "En línea" : "Desconocido" }}</p> -->
+            </div>
+            <div>
                 <h3><b>Responsable:</b></h3>
-                <p>{{properties.cita.responsable_nombre}}</p>
+                <p>{{ properties.cita.responsable_nombre ? properties.cita.responsable_nombre : "Desconocido" }}</p>
             </div>
         </div>
         <div class="row" ng-show="!properties.cita.cita_horario">
