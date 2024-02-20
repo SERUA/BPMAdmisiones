@@ -5049,7 +5049,7 @@
         <value xmi:type="expression:Expression" xmi:id="_PpGy22c7EeyAHufroJpG_Q" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.21">
+    <elements xmi:type="process:Pool" xmi:id="_41ELcGdAEeyAHufroJpG_Q" name="Solicitud de apoyo educativo" version="1.1.22">
       <elements xmi:type="process:Lane" xmi:id="_EmGwkGdBEeyAHufroJpG_Q" name="Aspirante" actor="_Frl3UGdUEeyAHufroJpG_Q">
         <elements xmi:type="process:StartEvent" xmi:id="_HtHk0GdBEeyAHufroJpG_Q" name="Solicitud de beca aspirante" outgoing="_KMB3QGdBEeyAHufroJpG_Q">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_HtHk0mdBEeyAHufroJpG_Q" name="" content="" returnTypeFixed="true"/>
@@ -11016,10 +11016,11 @@
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_cr03JUQyEe2jUMfQ199BSg" key="body">
                 <expression xmi:type="expression:Expression" xmi:id="_cr03JkQyEe2jUMfQ199BSg" name="body()" content="import com.anahuac.model.SolicitudDeAdmision&#xD;&#xA;&#xD;&#xA;String payload = &quot;{\&quot;campus\&quot;: \&quot;[CAMPUS]\&quot;, \&quot;correo\&quot;:\&quot;[CORREO]\&quot;, \&quot;codigo\&quot;: \&quot;[CODIGO]\&quot;, \&quot;isEnviar\&quot;:true }&quot;;&#xD;&#xA;&#xD;&#xA;ArrayList&lt;SolicitudDeAdmision> lstSol = new ArrayList&lt;SolicitudDeAdmision>();&#xD;&#xA;lstSol = solicitudDeAdmisionDAO.findByCaseId(solicitudApoyoEducativo.caseIdAdmisiones, 0, 1);&#xD;&#xA;&#xD;&#xA;payload = payload.replace(&quot;[CAMPUS]&quot;, lstSol.get(0).getCatCampus().getGrupoBonita());&#xD;&#xA;payload = payload.replace(&quot;[CORREO]&quot;, lstSol.get(0).getCorreoElectronico());&#xD;&#xA;&#xD;&#xA;//payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;if(varPagoValidado != true &amp;&amp; pagoDeshabilitado != true &amp;&amp; varConvenio != true){&#xD;&#xA;&#x9;payload = payload.replace(&quot;[CODIGO]&quot;, &quot;sdae-preautorizaciónpago-becas&quot;);&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return payload;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
-                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_iSAEwHKTEe6LqfQTSCCl0g" name="solicitudApoyoEducativo" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.SolicitudApoyoEducativo"/>
-                  <referencedElements xmi:type="expression:Expression" xmi:id="_iSAEwXKTEe6LqfQTSCCl0g" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
-                  <referencedElements xmi:type="process:Data" xmi:id="_iSAEwnKTEe6LqfQTSCCl0g" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
-                  <referencedElements xmi:type="process:Data" xmi:id="_iSAEw3KTEe6LqfQTSCCl0g" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+                  <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_0-EvQM-OEe6h-_Ttrakrvg" name="solicitudApoyoEducativo" dataType="_PpGy5Gc7EeyAHufroJpG_Q" className="com.anahuac.SDAE.model.SolicitudApoyoEducativo"/>
+                  <referencedElements xmi:type="expression:Expression" xmi:id="_0-EvQc-OEe6h-_Ttrakrvg" name="solicitudDeAdmisionDAO" content="solicitudDeAdmisionDAO" type="TYPE_BUSINESS_OBJECT_DAO" returnType="com.anahuac.model.SolicitudDeAdmisionDAO" returnTypeFixed="true"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_0-EvQs-OEe6h-_Ttrakrvg" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_0-EvQ8-OEe6h-_Ttrakrvg" name="pagoDeshabilitado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
+                  <referencedElements xmi:type="process:Data" xmi:id="_0-EvRM-OEe6h-_Ttrakrvg" name="varPagoValidado" dataType="_PpGy3Gc7EeyAHufroJpG_Q"/>
                 </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_cr03KUQyEe2jUMfQ199BSg" key="do_not_follow_redirect">
@@ -15830,7 +15831,7 @@
         <defaultValue xmi:type="expression:Expression" xmi:id="_m44-8a5UEe2zQeBam_JcGA" content="" returnType="java.util.Date"/>
       </data>
       <data xmi:type="process:Data" xmi:id="_dmxH8HHTEe6yYZrreMOfSQ" name="varConvenio" dataType="_PpGy3Gc7EeyAHufroJpG_Q">
-        <defaultValue xmi:type="expression:Expression" xmi:id="_dmxH8XHTEe6yYZrreMOfSQ" content="" returnType="java.lang.Boolean"/>
+        <defaultValue xmi:type="expression:Expression" xmi:id="_dmxH8XHTEe6yYZrreMOfSQ" name="init_varConvenio()" content="false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
       </data>
       <data xmi:type="process:Data" xmi:id="_qOeL4I1JEe6GXazhh2wXAQ" name="isPagoRechazado" dataType="_PpGy3Gc7EeyAHufroJpG_Q">
         <defaultValue xmi:type="expression:Expression" xmi:id="_qOeL4Y1JEe6GXazhh2wXAQ" content="" returnType="java.lang.Boolean"/>
@@ -16443,15 +16444,13 @@
         <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_cuBuIcyfEeyRFMlEo8a1KQ" type="CONNECTOR" definitionId="rest-post" definitionVersion="1.3.0" implementationId="rest-post-impl" implementationVersion="1.3.1"/>
         <definitionMappings xmi:type="configuration:DefinitionMapping" xmi:id="_cuBuIsyfEeyRFMlEo8a1KQ" type="ACTOR_FILTER" definitionId="bonita-actorfilter-initiator" definitionVersion="1.0" implementationId="bonita-actorfilter-initiator-impl" implementationVersion="1.0.0"/>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuI8yfEeyRFMlEo8a1KQ" id="CONNECTOR">
-          <children xmi:type="configuration:FragmentContainer" xmi:id="_ZStnAIsoEe6Rss4nf20A9w" id="rest-post-impl-1.3.1">
-            <fragments xmi:type="configuration:Fragment" xmi:id="_ZTaKkIsoEe6Rss4nf20A9w" key="rest-post-impl -- 1.3.1" value="bonita-connector-rest-1.3.1.jar" type="CONNECTOR"/>
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_BzRpMNAVEe6zauC--lx2Rw" id="rest-post-impl-1.3.1">
+            <fragments xmi:type="configuration:Fragment" xmi:id="_BzwKUNAVEe6zauC--lx2Rw" key="rest-post-impl -- 1.3.1" value="bonita-connector-rest-1.3.1.jar" type="CONNECTOR"/>
           </children>
         </processDependencies>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuJsyfEeyRFMlEo8a1KQ" id="GROOVY_SCRIPT"/>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuJ8yfEeyRFMlEo8a1KQ" id="ACTOR_FILTER">
-          <children xmi:type="configuration:FragmentContainer" xmi:id="_cuBuKMyfEeyRFMlEo8a1KQ" id="bonita-actorfilter-initiator-impl-1.0.0">
-            <fragments xmi:type="configuration:Fragment" xmi:id="_cuBuKcyfEeyRFMlEo8a1KQ" key="bonita-actorfilter-initiator-impl -- 1.0.0" value="bonita-actorfilter-initiator-1.0.0.jar" type="ACTOR_FILTER"/>
-          </children>
+          <children xmi:type="configuration:FragmentContainer" xmi:id="_Bz5UQNAVEe6zauC--lx2Rw" id="bonita-actorfilter-initiator-impl-1.0.0"/>
         </processDependencies>
         <processDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuKsyfEeyRFMlEo8a1KQ" id="OTHER"/>
         <applicationDependencies xmi:type="configuration:FragmentContainer" xmi:id="_cuBuK8yfEeyRFMlEo8a1KQ" id="GROOVY_SCRIPT"/>
