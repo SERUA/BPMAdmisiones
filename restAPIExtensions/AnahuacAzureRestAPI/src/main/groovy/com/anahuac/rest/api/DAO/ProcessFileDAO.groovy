@@ -324,4 +324,158 @@ class ProcessFileDAO {
 		result = new AzureBlobFileUpload().uploadFile(is, mapEnviarAzure.get("filename"), mapEnviarAzure.get("filetype"), mapEnviarAzure.get("contenedor"), decodedBytes.length);
 		return result;
 	}
+	
+	public Result obtenerDocumentosNoDelete(Long caseId, RestAPIContext context) {
+		Result resultado = new Result();
+		Result resultadoDeleteDocument = new Result();
+		
+		List<Object> lstResultado = new ArrayList<Object>();
+		Map<String, String> mapDocumentos = new LinkedHashMap<String, String>();
+		Boolean closeCon = false;
+		String fotoPasaporteURL = "";
+		String actaNacimientoURL = "";
+		String constanciaURL = "";
+		String descuentoURL = "";
+		String resultadoCBURL = "";
+		Integer countConstancias = 0;
+		
+		try {
+			String username = "";
+			String password = "";
+			Properties prop = new Properties();
+			String propFileName = "configuration.properties";
+			InputStream inputStream;
+			inputStream = getClass().getClassLoader().getResourceAsStream(propFileName);
+
+			if (inputStream != null) {
+				prop.load(inputStream);
+			} else {
+				throw new FileNotFoundException("property file '" + propFileName + "' not found in the classpath");
+			}
+			
+			closeCon = validarConexion();
+			
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			
+			Map<String, String> fotoPasaporte = getFileBase64(apiClient, caseId, "fotoPasaporte");
+			if(fotoPasaporte.get("b64").equals("") || fotoPasaporte.get("b64") == null) {
+				mapDocumentos.put("fotoPasaporte","");
+			} else {
+				Result fotoPasaporteResult = uploadAzure(fotoPasaporte);
+				mapDocumentos.put("fotoPasaporte", fotoPasaporteResult.getData().get(0));
+			}
+			
+			Map<String, String> actaNacimiento = getFileBase64(apiClient, caseId, "actaNacimiento");
+			if(actaNacimiento.get("b64").equals("") || actaNacimiento.get("b64") == null) {
+				mapDocumentos.put("actaNacimiento","");
+			} else {
+				Result actaNacimientoResult = uploadAzure(actaNacimiento);
+				mapDocumentos.put("actaNacimiento", actaNacimientoResult.getData().get(0));
+			}
+			
+			Map<String, String> constancia = getFileBase64(apiClient, caseId, "constancia");
+			if(constancia.get("b64").equals("") || constancia.get("b64") == null) {
+				mapDocumentos.put("constancia","");
+			} else {
+				Result constanciaResult = uploadAzure(constancia);
+				mapDocumentos.put("constancia", constanciaResult.getData().get(0));
+				
+				String insertConstancia = Statements.INSERT_CONSTANCIA;
+				pstm = con.prepareStatement(insertConstancia);
+				pstm.setLong(1, caseId);
+				pstm.setString(2, constanciaResult.getData().get(0).toString());
+				
+				pstm.executeUpdate();
+			}
+			
+			Map<String, String> descuento = getFileBase64(apiClient, caseId, "descuento");
+			if(descuento.get("b64").equals("") || descuento.get("b64") == null) {
+				mapDocumentos.put("descuento","");
+			} else {
+				Result descuentoResult = uploadAzure(descuento);
+				mapDocumentos.put("descuento", descuentoResult.getData().get(0));
+			}
+			
+			Map<String, String> resultadoCB = getFileBase64(apiClient, caseId, "resultadoCB");
+			if(resultadoCB.get("b64").equals("") || resultadoCB.get("b64") == null) {
+				mapDocumentos.put("resultadoCB","");
+			} else {
+				Result resultadoCBResult = uploadAzure(resultadoCB);
+				mapDocumentos.put("resultadoCB", resultadoCBResult.getData().get(0));
+			}
+			
+			Map<String, String> cartaAA = getFileBase64(apiClient, caseId, "cartaAA");
+			if(cartaAA.get("b64").equals("") || cartaAA.get("b64") == null) {
+				mapDocumentos.put("cartaAA","");
+			} else {
+				Result cartaAAResult = uploadAzure(cartaAA);
+				mapDocumentos.put("cartaAA", cartaAAResult.getData().get(0));
+			}
+			
+			closeCon = validarConexion();
+			
+			if(!mapDocumentos.get("fotoPasaporte").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLFOTO);
+				pstm.setString(1, mapDocumentos.get("fotoPasaporte"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			if(!mapDocumentos.get("actaNacimiento").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLACTANACIMIENTO);
+				pstm.setString(1, mapDocumentos.get("actaNacimiento"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			if(!mapDocumentos.get("constancia").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLCONSTANCIA);
+				pstm.setString(1, mapDocumentos.get("constancia"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			if(!mapDocumentos.get("descuento").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLDESCUENTOS);
+				pstm.setString(1, mapDocumentos.get("descuento"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			if(!mapDocumentos.get("resultadoCB").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLRESULTADOPAA);
+				pstm.setString(1, mapDocumentos.get("resultadoCB"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			if(!mapDocumentos.get("cartaAA").equals("")) {
+				pstm = con.prepareStatement(Statements.UPDATE_FILE_URLURLCARTAAA);
+				pstm.setString(1, mapDocumentos.get("cartaAA"));
+				pstm.setLong(2, caseId);
+				pstm.executeUpdate();
+			}
+			
+			new DBConnect().closeObj(con, stm, rs, pstm);
+			
+		} catch(Exception ex) {
+			LOGGER.error ex.getMessage()
+			resultado.setSuccess(false)
+			resultado.setError(ex.getMessage())
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		  
+		return resultado;
+	}
 }
