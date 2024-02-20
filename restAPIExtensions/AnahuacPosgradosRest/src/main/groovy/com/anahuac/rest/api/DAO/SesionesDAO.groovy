@@ -480,8 +480,8 @@ class SesionesDAO {
 					if(responsable.getPersistenceId() != null) {
 						errorLog += "|2";
 						pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
-						pstm.setBoolean(1, responsable.getDisponible_resp());
-						pstm.setBoolean(2, responsable.getOcupado());
+						pstm.setBoolean(1, responsable.getOcupado());
+						pstm.setBoolean(2, responsable.getDisponible_resp());
 						pstm.setLong(3, responsable.getPersistenceId());
 						rows = pstm.executeUpdate();
 						idUsuarioResponsable = responsable.getResponsable_id();
