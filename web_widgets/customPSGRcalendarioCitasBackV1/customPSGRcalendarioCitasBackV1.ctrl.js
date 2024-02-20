@@ -18,6 +18,12 @@ function($scope, $http, blockUI, $window) {
     // Forzar a actualizar la lstCampus
     getCatCampus();
 
+    $scope.cancelar = function() {
+        limpiarListaResponsables();
+        limpiarListaProgramas();
+        $scope.navVar = 'calendario'
+    }
+
     function getCatCampus() {
         var req = {
             method: "GET",
@@ -551,6 +557,10 @@ function($scope, $http, blockUI, $window) {
     function limpiarListaResponsables() {
         $scope.responsables = [];
     }
+
+    function limpiarListaProgramas() {
+        $scope.compiladoCarrerassResponsable = {};
+    }
     
     $scope.$watch("properties.roles", function(){
         if($scope.properties.roles && $scope.group_id){
@@ -679,6 +689,9 @@ function($scope, $http, blockUI, $window) {
         } else if($scope.responsables && $scope.responsables.length !== 1){ 
             mensaje = "Debes agregar un solo responsable a la sesión";
             valid = false;
+        } else if(!validateSelectedPrograms($scope.responsables)){ 
+            mensaje = "Debes seleccionar al menos un programa por responsable";
+            valid = false;
         }
 
         if(valid){
@@ -686,6 +699,19 @@ function($scope, $http, blockUI, $window) {
         } else {
             swal(titulo, mensaje, "error");
         }
+    }
+
+    function validateSelectedPrograms(responsables) {
+        if ($scope.compiladoCarrerassResponsable) {
+            for (let responsable of responsables) {
+                const programas = $scope.compiladoCarrerassResponsable[responsable.responsable_id];
+                if (!programas || !programas.length) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
     
     $scope.limiteFecha = function obtenerFechaActual() {

@@ -39,12 +39,7 @@
 
 <div class="row" ng-show="navVar === 'sesion'">
     <div class="col-xs-8 col-xs-offset-2 text-center">
-        <div class="col-xs-3 text-left">
-            <div class="col-xs-12">
-                <button type="button" ng-click="navVar = 'calendario'" class="btn btn-info"> Atras </button>
-            </div>
-        </div>
-        <div class="col-xs-6">
+        <div class="col-xs-12">
             <h3 class="color-orange">Detalles de la sesión</h3>
         </div>
     </div> 
@@ -167,12 +162,16 @@
                     <thead>
                         <tr>
                             <th>Responsable</th>
+                            <th>Programas</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr ng-repeat="usuario in responsables">
                             <td>{{usuario.nombre}}</td>
+                            <td>
+                                Programas seleccionados: <b>{{ compiladoCarrerassResponsable && compiladoCarrerassResponsable[usuario.responsable_id] ? compiladoCarrerassResponsable[usuario.responsable_id].length : "Desconocido"}}</b>
+                            </td>
                             <td>
                                 <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
                                     <span class="glyphicon glyphicon-wrench"></span>
@@ -188,12 +187,29 @@
         </div>
         <br><br>
         <div class="col-xs-12">
-            <div class="col-xs-12 text-right">
+            <div class="col-xs-6 text-left">
+                <button type="button" ng-click="cancelar()" class="btn btn-info">Cancelar</button>
+            </div>
+            <div class="col-xs-6 text-right">
                 <button class="btn btn-primary" type="button" ng-click="validate()">Guardar sesión</button>
             </div>
         </div>
+        
+        
+
     </div>
 </div>
+
+<br>
+responsables:
+<pre>
+    {{responsables | json}}
+</pre>
+<br>
+compiladoCarrerassResponsable:
+<pre>
+    {{compiladoCarrerassResponsable | json}}
+</pre>
 
 <div id="modalhorarios" class="modal fade" role="dialog" data-backdrop="static">
     <div class="modal-dialog modal-lg">
