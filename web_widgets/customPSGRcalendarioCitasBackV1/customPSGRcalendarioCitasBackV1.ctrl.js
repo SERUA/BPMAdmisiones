@@ -245,11 +245,13 @@ function($scope, $http, blockUI, $window) {
                     for(let id of angular.copy(_data.additional_data)){
                         // Cargar información del responsable
                         $scope.agregarRespId(id); 
-                        // Cargar información de los programas seleccionados para el responsable
-                        getInfoCarreras(id);
-
+   
+                        // Cargar programas disponibles
                         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
                             $scope.lstGestionEscolar = success;
+                            
+                            // Cargar información de los programas seleccionados para el responsable
+                            getInfoCarreras(id);
                         }).error(function(err){
                            swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
                         });
