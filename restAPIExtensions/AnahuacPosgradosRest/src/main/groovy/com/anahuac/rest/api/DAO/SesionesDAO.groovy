@@ -1033,4 +1033,81 @@ class SesionesDAO {
 		}
 		return resultado
 	}
+	
+	public Result getHorariosByResponsable(String user_id_string, String date_string) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		List<String> data = new ArrayList<String>();
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+
+			// validar parametros
+			if(user_id_string.equals("") || user_id_string == null) {
+				throw new Exception("El parámetro \"user_id\" no debe ir vacío");
+			} else if(date_string.equals("") || date_string == null) {
+				throw new Exception("El parámetro \"date\" no debe ir vacío");
+			}
+			
+			// conversión
+			SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formatoBusqueda = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatoDataBase = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			
+			Long user_id = 0L;
+			String fechaFormateadaBusqueda = "";
+			
+			try {
+				user_id = Long.valueOf(user_id_string);
+			}
+			catch(e) { throw new Exception("El parámetro \"user_id\" debe ser tipo long. Valor recibido: " + user_id_string); }
+			
+			try {
+				Date fecha = formatoEntrada.parse(date_string);
+				fechaFormateadaBusqueda = formatoBusqueda.format(fecha);
+			}
+			catch(e) { throw new Exception("Falló al tratar de convertir el parámetro \"date\" a Date. Valor recibido: " + date_string); }
+			
+			// buscar 
+			pstm = con.prepareStatement(Statements.GET_HORARIOS_BY_RESPONSABLE.replace("[FECHA]", fechaFormateadaBusqueda));
+			pstm.setLong(1, user_id);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("hora_fin", rs.getString("hora_fin"));
+				row.put("cita_responsable_pid", rs.getLong("cita_responsable_pid"));
+				row.put("responsable_id", rs.getLong("responsable_id"));
+				row.put("disponible_resp", rs.getBoolean("disponible_resp"));
+				row.put("cita_entrevista_pid", rs.getLong("cita_entrevista_pid"));
+				row.put("cita_entrevista_nombre", rs.getString("cita_entrevista_nombre"));
+				row.put("duracion_entrevista_minutos", rs.getInt("duracion_entrevista_minutos"));
+				row.put("fecha_entrevista", formatoEntrada.format(formatoDataBase.parse(rs.getString("fecha_entrevista"))));
+				row.put("campus_pid", rs.getLong("campus_pid"));
+				row.put("is_presencial", rs.getBoolean("is_presencial"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
 }

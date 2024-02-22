@@ -132,7 +132,7 @@
                 <div class="form-group col-xs-6">
                     <label class="control-label col-xs-12">Responsable:</label>
                     <div class="col-xs-12" ng-show="usuariosResponsables && usuariosResponsables.length > 0">
-                        <select class="form-control" ng-model="nuevoResponsable" ng-disabled="!sesion.duracion_entrevista_minutos">
+                        <select class="form-control" ng-model="nuevoResponsable" ng-disabled="!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista ">
                             <option style="display:none" value="">Seleccionar responsable</option>
                             <option ng-repeat="usuario in usuariosResponsables" ng-value="usuario.id">{{usuario.firstname + " " + usuario.lastname}}</option> 
                         </select>
@@ -151,7 +151,7 @@
                     <button 
                         class="btn btn-primary"
                         style="margin-top: 24px;"
-                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || !sesion.duracion_entrevista_minutos"
+                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || (!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista)"
                         ng-click="agregarResponsable(nuevoResponsable)">
                         Agregar responsable
                     </button>

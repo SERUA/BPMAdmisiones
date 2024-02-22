@@ -18,18 +18,84 @@ function($scope, $http, blockUI, $window) {
     // Forzar a actualizar la lstCampus
     getCatCampus();
 
+    // Scope functions
+
     $scope.cancelar = function() {
         limpiarListaResponsables();
         limpiarListaProgramas();
         $scope.navVar = 'calendario'
     }
 
+    $scope.validate = function(){
+        let valid = true;
+        let mensaje = "";
+        let titulo = "¡Atención!";
+
+        if(!$scope.sesion.nombre){ 
+            mensaje = "Nombre de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.descripcion_entrevista){ 
+            mensaje = "Descripción de la sesión no debe ir vacío";
+            valid = false;
+        }  else if(!$scope.sesion.fecha_entrevista){ 
+            mensaje = "Fecha de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.duracion_entrevista_minutos){ 
+            mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.formato){ 
+            mensaje = "Debes seleccionar el formato de la sesión";
+            valid = false;
+        } else if($scope.sesion.formato === "presencial" && !$scope.sesion.ubicacion){ 
+            mensaje = "Ubiación de la sesión no debe ir vacío";
+            valid = false;
+        } else if($scope.sesion.formato === "linea" && !$scope.sesion.liga){ 
+            mensaje = "Liga de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.responsables || $scope.responsables.length === 0){ 
+            mensaje = "Debes agregar al menos un responsable a la sesión";
+            valid = false;
+        } else if($scope.responsables && $scope.responsables.length !== 1){ 
+            mensaje = "Debes agregar un solo responsable a la sesión";
+            valid = false;
+        } else if(!validateSelectedPrograms($scope.responsables)){ 
+            mensaje = "Debes seleccionar al menos un programa por responsable";
+            valid = false;
+        }
+
+        if(valid){
+            // Publicar sesión
+            if (!$scope.sesion.persistenceId) {
+                swal({
+                    title: "Confirmar publicación de sesión",
+                    text: "Una vez que la sesión es publicada, no se podrá modificar la fecha, el formato, la duración ni cambiar al responsable",
+                    icon: "warning",
+                    buttons: true,
+                })
+                .then((respuesta) => {
+                    if (respuesta) {
+                        $scope.guardarSesion($scope.sesion);
+                    }
+                });
+            }
+            // Actualizar sesión
+            else {
+                $scope.guardarSesion($scope.sesion);
+            }
+            
+        } else {
+            swal(titulo, mensaje, "error");
+        }
+    }
+
+    // Utils
+
     function getCatCampus() {
         var req = {
             method: "GET",
             url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=100&f=eliminado=false"
         };
-  
+
         return $http(req)
         .success(function(data, status) {
             $scope.lstCampus = [];
@@ -60,6 +126,61 @@ function($scope, $http, blockUI, $window) {
 
         $scope.campusDisponibles = campusDisponibles;
     }
+
+    function validateSelectedPrograms(responsables) {
+        if ($scope.compiladoCarrerassResponsable) {
+            for (let responsable of responsables) {
+                const programas = $scope.compiladoCarrerassResponsable[responsable.responsable_id];
+                if (!programas || !programas.length) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function validateDisponibilidadResponsable(responsable_id, date) {
+        
+        return new Promise((resolve, reject) => {
+            if (!(date instanceof Date)) {
+                console.error("[validateDisponibilidadResponsable]: El parámetro 'date' debe ser de tipo Date");
+                resolve(false);
+                return;
+            }
+
+            const dateFormated = formatearDate(date);
+    
+            $http.get(`../API/extension/posgradosRestGet?url=getHorariosByResponsable&user_id=${responsable_id}&date=${dateFormated}`)
+                .then((response) => {
+                    const horarios = response.data ? response.data : [];
+                    
+                    if (horarios.length === 0) {
+                        resolve(true); 
+                    } else {
+                        resolve(false); 
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    resolve(false);
+                });
+        });  
+    }
+
+    function formatearDate(fecha) {
+        const año = fecha.getUTCFullYear();
+        const mes = ('0' + (fecha.getUTCMonth() + 1)).slice(-2);
+        const dia = ('0' + fecha.getUTCDate()).slice(-2);
+        const horas = ('0' + fecha.getUTCHours()).slice(-2);
+        const minutos = ('0' + fecha.getUTCMinutes()).slice(-2);
+        const segundos = ('0' + fecha.getUTCSeconds()).slice(-2);
+        const milisegundos = ('00' + fecha.getUTCMilliseconds()).slice(-3);
+      
+        return `${año}-${mes}-${dia}T${horas}:${minutos}:${segundos}.${milisegundos}Z`;
+    }
+
+    // Watchers
 
     $scope.$watch("lstCampus", function (newValue, oldValue) {
         updateCampusDisponibles();
@@ -192,7 +313,7 @@ function($scope, $http, blockUI, $window) {
         }
         
         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
-             $scope.lstGestionEscolar = success;
+            $scope.lstGestionEscolar = success;
         }).error(function(err){
             // swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
         });
@@ -245,7 +366,7 @@ function($scope, $http, blockUI, $window) {
                     for(let id of angular.copy(_data.additional_data)){
                         // Cargar información del responsable
                         $scope.agregarRespId(id); 
-   
+
                         // Cargar programas disponibles
                         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
                             $scope.lstGestionEscolar = success;
@@ -253,7 +374,7 @@ function($scope, $http, blockUI, $window) {
                             // Cargar información de los programas seleccionados para el responsable
                             getInfoCarreras(id);
                         }).error(function(err){
-                           swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+                        swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
                         });
                     }
 
@@ -447,7 +568,7 @@ function($scope, $http, blockUI, $window) {
         }
         return retorno;
     }
-  
+
     $scope.lstMembership = [];
 
     $scope.$watch("properties.idUsuario", function(newValue, oldValue) {
@@ -456,7 +577,7 @@ function($scope, $http, blockUI, $window) {
                 method: "GET",
                 url: `/API/identity/membership?p=0&c=100&f=user_id%3d${$scope.properties.idUsuario}&d=role_id&d=group_id`
             };
-  
+
             return $http(req)
             .success(function(data, status) {
                 $scope.lstMembership = data;
@@ -468,7 +589,7 @@ function($scope, $http, blockUI, $window) {
             .finally(function() {});
         }
     });
-  
+
     $scope.lstCampusByUser = [];
 
     $scope.campusByUser = function() {
@@ -606,8 +727,10 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.agregarResponsable = function(){
+
         let _usuario = null;
         let encontrado = false;
+        const currentFecha = $scope.sesion.fecha_entrevista;
         
         for(let usuarioResp of $scope.usuariosResponsables){
             if($scope.nuevoResponsable === usuarioResp.id){
@@ -621,7 +744,20 @@ function($scope, $http, blockUI, $window) {
             }
         }
 
-        if(!encontrado){
+        if (!_usuario || encontrado) {
+            return;
+        }
+
+        // Validando la disponibilidad
+        validateDisponibilidadResponsable(_usuario.id, currentFecha)
+        .then((disponible) => {
+            
+            if (!disponible) {
+                const formatedDate = formatDate(currentFecha);
+                swal("El responsable no esta disponible", "Se ha encontrado que " + _usuario?.firstname + " " + _usuario?.lastname + " ya tiene sesiones de entrevista programadas para el día " + formatedDate + ".", "error");
+                return;
+            } 
+
             let nuevoUsuario = {
                 "responsable_id": _usuario.id,
                 "horario": null, 
@@ -641,15 +777,18 @@ function($scope, $http, blockUI, $window) {
                         "persistenceId": horario.persistenceId
                     }
                 }
-                
                 horario["responsables"].push(angular.copy(nuevoUsuario));
             }
-
             // Init info de programas seleccionados
-            $scope.selected(_usuario.id, "")
-        } 
-
-        $scope.nuevoResponsable = null;
+            $scope.selected(_usuario.id, "") 
+        })
+        .catch((error) => {
+            console.error("Error al validar la disponibilidad:", error);
+        })
+        .finally(() => {
+            $scope.nuevoResponsable = null;
+            $scope.$apply();
+        }) 
     }
 
     $scope.deleteResponsable = function(_usuario){
@@ -672,87 +811,16 @@ function($scope, $http, blockUI, $window) {
     $scope.setDisponible = function(_disponible, _index, _horarioIndex){
         $scope.horarios[_horarioIndex].responsables[_index].disponible_resp = _disponible;
     }
-
-    $scope.validate = function(){
-        let valid = true;
-        let mensaje = "";
-        let titulo = "¡Atención!";
-
-        if(!$scope.sesion.nombre){ 
-            mensaje = "Nombre de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.descripcion_entrevista){ 
-            mensaje = "Descripción de la sesión no debe ir vacío";
-            valid = false;
-        }  else if(!$scope.sesion.fecha_entrevista){ 
-            mensaje = "Fecha de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.duracion_entrevista_minutos){ 
-            mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.formato){ 
-            mensaje = "Debes seleccionar el formato de la sesión";
-            valid = false;
-        } else if($scope.sesion.formato === "presencial" && !$scope.sesion.ubicacion){ 
-            mensaje = "Ubiación de la sesión no debe ir vacío";
-            valid = false;
-        } else if($scope.sesion.formato === "linea" && !$scope.sesion.liga){ 
-            mensaje = "Liga de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.responsables || $scope.responsables.length === 0){ 
-            mensaje = "Debes agregar al menos un responsable a la sesión";
-            valid = false;
-        } else if($scope.responsables && $scope.responsables.length !== 1){ 
-            mensaje = "Debes agregar un solo responsable a la sesión";
-            valid = false;
-        } else if(!validateSelectedPrograms($scope.responsables)){ 
-            mensaje = "Debes seleccionar al menos un programa por responsable";
-            valid = false;
-        }
-
-        if(valid){
-            // Publicar sesión
-            if (!$scope.sesion.persistenceId) {
-                swal({
-                    title: "Confirmar publicación de sesión",
-                    text: "Una vez que la sesión es publicada, no se podrá modificar la fecha, el formato, la duración ni cambiar al responsable",
-                    icon: "warning",
-                    buttons: true,
-                  })
-                  .then((respuesta) => {
-                    if (respuesta) {
-                        $scope.guardarSesion($scope.sesion);
-                    }
-                  });
-            }
-            // Actualizar sesión
-            else {
-                $scope.guardarSesion($scope.sesion);
-            }
-            
-        } else {
-            swal(titulo, mensaje, "error");
-        }
-    }
-
-    function validateSelectedPrograms(responsables) {
-        if ($scope.compiladoCarrerassResponsable) {
-            for (let responsable of responsables) {
-                const programas = $scope.compiladoCarrerassResponsable[responsable.responsable_id];
-                if (!programas || !programas.length) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
-    }
     
     $scope.limiteFecha = function obtenerFechaActual() {
         const hoy = new Date();
-        const year = hoy.getFullYear();
-        const month = String(hoy.getMonth() + 1).padStart(2, '0');
-        const day = String(hoy.getDate()).padStart(2, '0');
+        return formatDate(hoy);
+    }
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
     }
 }
