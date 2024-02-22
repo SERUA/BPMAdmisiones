@@ -127,6 +127,26 @@ function($scope, $http, blockUI, $window) {
         $scope.campusDisponibles = campusDisponibles;
     }
 
+    function updateHorariosDisponibles() {
+        const nuevaLista = $scope.responsables.map((responsable) => {
+            return {
+                ...responsable,
+                horariosDisponibles: $scope.horarios.filter((it) => it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp)
+            }
+        })
+        $scope.responsables = nuevaLista;
+    }
+
+    function updateHorariosNoDisponibles() {
+        const nuevaLista = $scope.responsables.map((responsable) => {
+            return {
+                ...responsable,
+                horariosNoDisponibles: $scope.horarios.filter((it) => !(it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp))    
+            }
+        })
+        $scope.responsables = nuevaLista;
+    }
+
     function validateSelectedPrograms(responsables) {
         if ($scope.compiladoCarrerassResponsable) {
             for (let responsable of responsables) {
@@ -188,6 +208,14 @@ function($scope, $http, blockUI, $window) {
 
     $scope.$watch("lstCampusByUser", function (newValue, oldValue) {
         updateCampusDisponibles();
+    });
+
+    $scope.$watch("horarios", function (newValue, oldValue) {
+        if ($scope.horarios && newValue !== oldValue)  {
+            updateHorariosDisponibles();
+            updateHorariosNoDisponibles();
+        }
+        
     });
 
     // ----
@@ -810,6 +838,10 @@ function($scope, $http, blockUI, $window) {
 
     $scope.setDisponible = function(_disponible, _index, _horarioIndex){
         $scope.horarios[_horarioIndex].responsables[_index].disponible_resp = _disponible;
+
+        // Actualizar 
+        updateHorariosDisponibles();
+        updateHorariosNoDisponibles();
     }
     
     $scope.limiteFecha = function obtenerFechaActual() {

@@ -163,6 +163,7 @@
                         <tr>
                             <th>Responsable</th>
                             <th>Programas</th>
+                            <th>Horarios</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -171,6 +172,12 @@
                             <td>{{usuario.nombre}}</td>
                             <td>
                                 Programas seleccionados: <b>{{ compiladoCarrerassResponsable && compiladoCarrerassResponsable[usuario.responsable_id] ? compiladoCarrerassResponsable[usuario.responsable_id].length : "Desconocido"}}</b>
+                            </td>
+                            <td>
+                                Disponibles: {{ usuario.horariosDisponibles.length }} <br>
+                                Ocupados: {{ usuario.horariosNoDisponibles.length }}<br>
+                                Agendados: <br>
+                                Totales: {{ horarios.length }}
                             </td>
                             <td>
                                 <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
