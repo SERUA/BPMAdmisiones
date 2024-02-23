@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1708553899470,
+  "lastUpdate" : 1708652428639,
   "rows" : [
     [
       {
@@ -10676,11 +10676,79 @@
                       "isModificar" : {
                         "type" : "variable",
                         "value" : "isModificar"
+                      },
+                      "fechaEntrevista" : {
+                        "type" : "expression",
+                        "value" : "citaAspirante_fechaFormated"
+                      },
+                      "horarioEntrevista" : {
+                        "type" : "expression",
+                        "value" : "citaAspirante_horarioFormated"
+                      },
+                      "citaHorarioPersistenceId" : {
+                        "type" : "expression",
+                        "value" : "citaAspirante.cita_horario.persistenceId"
+                      },
+                      "agendar" : {
+                        "type" : "expression",
+                        "value" : "citaAspirante.cita_horario.validarDisponibilidad"
                       }
                     },
-                    "reference" : "117df7ec-15e6-4532-9f62-21676e17db8e",
+                    "reference" : "0d60e572-1b71-46ea-a447-745ad398f1a6",
                     "hasValidationError" : false,
-                    "id" : "customPSGRcustomBtnWizardValidationTask"
+                    "id" : "customPSGRcustomBtnWizardValidationTaskAndAgendar"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "citaAspirante:\n<pre>{{citaAspirante | json}}</pre>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "38759a0d-bd50-4275-be0f-f10bd6c06d67",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
                   }
                 ]
               ]
@@ -23061,6 +23129,34 @@
         "if ($data.responsable) {",
         "    $data.citaAspirante.responsable_nombre = $data.responsable.nombre;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_fechaFormated" : {
+      "type" : "expression",
+      "value" : [
+        "const valor = $data.citaAspirante.cita_horario.cita_entrevista.fecha_entrevista;",
+        "",
+        "try {",
+        "    let fecha = new Date(valor);",
+        "    var dia = fecha.getDate();",
+        "    var mes = fecha.getMonth() + 1;",
+        "    var ano = fecha.getFullYear();",
+        "    dia = dia < 10 ? '0' + dia : dia;",
+        "    mes = mes < 10 ? '0' + mes : mes;",
+        "    ",
+        "    return dia + '/' + mes + '/' + ano;",
+        "}",
+        "catch (e) {",
+        "    return undefined;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_horarioFormated" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.citaAspirante.cita_horario.hora_inicio + \" - \" + $data.citaAspirante.cita_horario.hora_fin;"
       ],
       "exposed" : false
     }

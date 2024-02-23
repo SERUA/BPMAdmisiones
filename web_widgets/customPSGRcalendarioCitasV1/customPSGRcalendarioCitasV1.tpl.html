@@ -109,11 +109,14 @@
                             <tr ng-repeat="entrevista in entrevistas" style="height: 60px;">
                                 <td>{{entrevista.hora_inicio}} - {{entrevista.hora_fin}}</td>
                                 <td class="text-center">
-                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-click="seleccionarHorario(entrevista)" ng-if="entrevista.disponible">
+                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-click="seleccionarHorario(entrevista)" ng-if="entrevista.disponible && !entrevista.agendado">
                                         <span style="padding: 15px;font-size: 15px;" class="label label-success">Disponible</span>
                                     </label>
-                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-if="!entrevista.disponible">
-                                        <span style="padding: 15px;font-size: 15px;" class="label label-default">{{(entrevista.ocupado) ? 'Ocupado' : 'No Disponible' }}</span>
+                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-if="!entrevista.disponible && !entrevista.agendado">
+                                        <span style="padding: 15px;font-size: 15px;" class="label label-default">No Disponible</span>
+                                    </label>
+                                    <label style="cursor: pointer; outline: none; margin-top: 9px;" ng-if="entrevista.agendado">
+                                        <span style="padding: 15px;font-size: 15px;" class="label label-default">Agendada</span>
                                     </label>
                                 </td>
                             </tr>

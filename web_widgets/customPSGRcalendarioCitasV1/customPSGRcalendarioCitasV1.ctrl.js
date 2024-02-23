@@ -15,15 +15,37 @@
             let horario = _horario.hora_inicio + " - " + _horario.hora_fin
             
             swal({
-                "title": "Confirmación",
-                "text": "¿Estás seguro que deseas seleccionar tu cita para el día " + fechaAStringConFormato($scope.seleccionada.start_date) + " en el horario " + horario + "?",
-                icon: "warning",
+                "title": "Confirmar selección",
+                "text": "Se seleccionará la cita para el día " + fechaAStringConFormato($scope.seleccionada.start_date) + " en el horario " + horario + ".",
                 buttons: [
                     'Cancelar',
                     'Aceptar'
                 ],
             }).then(function (isConfirm) {
                 if (isConfirm) {
+                    if ($scope.properties.cita) {
+                            $scope.properties.cita.cita_horario = angular.copy($scope.horario);
+                            $scope.properties.cita.cita_horario.cita_entrevista.persistenceId_string = angular.copy($scope.responsable);
+                            $scope.properties.cita.responsable = {
+                                persistenceId_string: angular.copy($scope.responsable)
+                            };
+
+                            // Bandera para verificar nuevamente si el horario no esta agendado
+                            $scope.properties.cita.cita_horario.validarDisponibilidad = true
+                        }
+                        else {
+                            $scope.properties.cita = {
+                                "cita_horario": angular.copy($scope.horario)
+                            };
+                            
+                            // Bandera para verificar nuevamente si el horario no esta agendado
+                            $scope.properties.cita.cita_horario.validarDisponibilidad = true
+                        }
+                          
+                        $scope.$apply();
+                        $("#modalConfirmar").modal("hide");
+                    
+                    /*
                     swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
                         if ($scope.properties.cita) {
                             $scope.properties.cita.cita_horario = angular.copy($scope.horario);
@@ -40,7 +62,7 @@
                           
                         $scope.$apply();
                         $("#modalConfirmar").modal("hide");
-                    })
+                    })*/
                 }
             })
         }
