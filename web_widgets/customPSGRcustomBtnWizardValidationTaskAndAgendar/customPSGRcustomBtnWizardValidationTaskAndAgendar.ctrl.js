@@ -13,6 +13,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             // Ejecutar tarea despues de agendar
                             blockUI.start();
                             submitTask();
+                            $scope.properties.agendar = false;
                             $scope.properties.selectedIndex++;
                         });
                     }
