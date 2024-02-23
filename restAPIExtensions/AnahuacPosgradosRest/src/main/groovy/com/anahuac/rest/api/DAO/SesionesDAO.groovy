@@ -102,6 +102,7 @@ class SesionesDAO {
 				row.setNombre(rs.getString("nombre"));
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				row.setResponsable_id(rs.getString("responsable_id"));
+				row.setCampus(rs.getLong("campus_pid"));
 				rows.add(row);
 			}
 			
@@ -165,6 +166,7 @@ class SesionesDAO {
 				row.put("persistenceId_string", rs.getString("persistenceid"));
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("agendado", rs.getBoolean("agendado"))
 				
 				rows.add(row);
 			}

@@ -131,7 +131,7 @@ function($scope, $http, blockUI, $window) {
         const nuevaLista = $scope.responsables.map((responsable) => {
             return {
                 ...responsable,
-                horariosDisponibles: $scope.horarios.filter((it) => it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp)
+                horariosDisponibles: $scope.horarios.filter((it) => it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp && !it.agendado)
             }
         })
         $scope.responsables = nuevaLista;
@@ -141,10 +141,24 @@ function($scope, $http, blockUI, $window) {
         const nuevaLista = $scope.responsables.map((responsable) => {
             return {
                 ...responsable,
-                horariosNoDisponibles: $scope.horarios.filter((it) => !(it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp))    
+                horariosNoDisponibles: $scope.horarios.filter((it) => !(it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp && !it.agendado))    
             }
         })
         $scope.responsables = nuevaLista;
+    }
+
+    $scope.horariosAgendados = [];
+    function updateHorariosAgendos() {
+        if ($scope.horarios) {
+            $scope.horariosAgendados = $scope.horarios.filter((hor) => hor.agendado);
+        }
+    }
+
+    $scope.getHorariosAgendados = function() {
+        if ($scope.horarios) {
+            return $scope.horarios.filter((hor) => hor.agendado);
+        }
+             
     }
 
     function validateSelectedPrograms(responsables) {
@@ -211,9 +225,10 @@ function($scope, $http, blockUI, $window) {
     });
 
     $scope.$watch("horarios", function (newValue, oldValue) {
-        if ($scope.horarios && newValue !== oldValue)  {
+        if ($scope.horarios)  {
             updateHorariosDisponibles();
             updateHorariosNoDisponibles();
+            updateHorariosAgendos();
         }
         
     });
@@ -488,6 +503,7 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.getInfoResponsable = function(_usuario){
+        
         $scope.usuario = _usuario;
         getInfoCarreras($scope.usuario.responsable_id);
         //Llenar la lista de carreras  aquí
@@ -781,7 +797,7 @@ function($scope, $http, blockUI, $window) {
         .then((disponible) => {
             
             if (!disponible) {
-                const formatedDate = formatDate(currentFecha);
+                const formatedDate = formatDateLocal(currentFecha);
                 swal("El responsable no esta disponible", "Se ha encontrado que " + _usuario?.firstname + " " + _usuario?.lastname + " ya tiene sesiones de entrevista programadas para el día " + formatedDate + ".", "error");
                 return;
             } 
@@ -840,8 +856,14 @@ function($scope, $http, blockUI, $window) {
         $scope.horarios[_horarioIndex].responsables[_index].disponible_resp = _disponible;
 
         // Actualizar 
+        $scope.updateHorariosDisponibilidad()
+    }
+
+    $scope.updateHorariosDisponibilidad = function() {
+        // Actualizar 
         updateHorariosDisponibles();
         updateHorariosNoDisponibles();
+        updateHorariosAgendos();
     }
     
     $scope.limiteFecha = function obtenerFechaActual() {
@@ -854,5 +876,12 @@ function($scope, $http, blockUI, $window) {
         const month = String(date.getMonth() + 1).padStart(2, '0');
         const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
+    }
+
+    function formatDateLocal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${day}-${month}-${year}`;
     }
 }

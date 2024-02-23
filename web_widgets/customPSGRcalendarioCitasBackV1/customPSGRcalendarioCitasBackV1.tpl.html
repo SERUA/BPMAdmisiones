@@ -174,9 +174,15 @@
                                 Programas seleccionados: <b>{{ compiladoCarrerassResponsable && compiladoCarrerassResponsable[usuario.responsable_id] ? compiladoCarrerassResponsable[usuario.responsable_id].length : "Desconocido"}}</b>
                             </td>
                             <td>
-                                Disponibles: {{ usuario.horariosDisponibles.length }} <br>
-                                Ocupados: {{ usuario.horariosNoDisponibles.length }}<br>
-                                Agendados: <br>
+                                <div ng-show="usuario.horariosDisponibles">
+                                    Disponibles: {{ usuario.horariosDisponibles.length }} <br>
+                                </div>
+                                <div ng-show="usuario.horariosNoDisponibles">
+                                    Ocupados: {{ usuario.horariosNoDisponibles.length }}<br>
+                                </div>
+                                <div ng-show="horariosAgendados">
+                                    Agendados: {{ horariosAgendados.length }}<br>
+                                </div>
                                 Totales: {{ horarios.length }}
                             </td>
                             <td>
@@ -255,8 +261,9 @@
                                 </td>
                                 <td class="text-center ">
                                     <div ng-repeat="responsable in horario.responsables" ng-init="responsableIndex = $index" ng-if="responsable.responsable_id === usuario.responsable_id">
-                                        <button class="btn btn-success" ng-if="responsable.disponible_resp" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
-                                        <button class="btn btn-default" ng-if="!responsable.disponible_resp" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
+                                        <button class="btn btn-success" ng-if="responsable.disponible_resp && !horario.agendado" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
+                                        <button class="btn btn-default" ng-if="!responsable.disponible_resp && !horario.agendado" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
+                                        <button class="btn btn-default" ng-if="horario.agendado" type="button"> Agendada</button>
                                     </div>
                                 </td>
                             </tr>
@@ -269,7 +276,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-xs-12 text-right">
-                    <button type="button " class="btn btn-primary " data-dismiss="modal">Guardar</button>
+                    <button type="button " class="btn btn-primary " data-dismiss="modal" ng-click="updateHorariosDisponibilidad()">Guardar</button>
                 </div>
             </div>
         </div>

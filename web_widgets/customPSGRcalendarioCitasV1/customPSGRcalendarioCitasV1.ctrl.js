@@ -170,6 +170,7 @@
             
             $http.get(url).success(function(_data){
                 if(_data){
+                    eventosFiltrado = _data.filter((item) => item )
                     eventos = construirEventos(_data);
                     scheduler.clearAll();
                     scheduler.parse(eventos, "json");
