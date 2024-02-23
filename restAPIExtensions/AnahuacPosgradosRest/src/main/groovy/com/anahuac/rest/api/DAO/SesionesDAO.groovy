@@ -236,6 +236,7 @@ class SesionesDAO {
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
 				row.put("disponible", rs.getBoolean("responsables_disponibles"));
+				row.put("agendado", rs.getBoolean("agendado"))
 				
 				rows.add(row);
 			}
@@ -1109,5 +1110,84 @@ class SesionesDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result updateAgendadoHorario(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			con.setAutoCommit(false);
+			
+			// Validar inputs
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			} else if(object.agendado.equals("") || object.agendado == null) {
+				throw new Exception("El campo \"agendado\" no debe ir vacío");
+			} else if(!(object.agendado instanceof Boolean)) {
+				throw new Exception("El campo \"agendado\" debe ser de tipo boolean");
+			}
+			
+			// Conversion
+			Long persistenceId = 0L;
+			boolean agendado = object.agendado ? true : false;
+			
+			try {
+				persistenceId = Long.valueOf(object.persistenceId); 
+			}
+			catch(e) { throw new Exception("Algo falló al tratar de convertir el 'persistenceId' a long. Valor recibido: " + object.persistenceId + ". " + e.message); }
+			
+			// Estado actual
+			Map<String, Object> current = new HashMap<String, Object>();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIO);
+			pstm.setLong(1, persistenceId);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				current.put("persistenceId", rs.getLong("persistenceid"));
+				current.put("agendado", rs.getBoolean("agendado"));
+			}
+			else {
+				throw new Exception("No se encontró ningun horario con persistenceId " + persistenceId);
+			}
+			
+			// Validar agendado
+			if (agendado && current.agendado) {
+				throw new Exception("El horario ya esta agendado.");
+			}
+			
+			if (!agendado && !current.agendado) {
+				throw new Exception("El horario no esta agendado.");
+			}
+			
+			// Update
+			pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+			
+			pstm.setBoolean(1, agendado);
+			pstm.setLong(2, persistenceId);
+			
+			pstm.executeUpdate();
+
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 }
