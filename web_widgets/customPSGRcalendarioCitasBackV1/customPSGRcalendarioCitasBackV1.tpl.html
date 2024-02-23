@@ -151,7 +151,7 @@
                     <button 
                         class="btn btn-primary"
                         style="margin-top: 24px;"
-                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || (!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista)"
+                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || (!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista) || sesion.persistenceId"
                         ng-click="agregarResponsable(nuevoResponsable)">
                         Agregar responsable
                     </button>
@@ -178,7 +178,7 @@
                                     Disponibles: {{ usuario.horariosDisponibles.length }} <br>
                                 </div>
                                 <div ng-show="usuario.horariosNoDisponibles">
-                                    Ocupados: {{ usuario.horariosNoDisponibles.length }}<br>
+                                    No disponibles: {{ usuario.horariosNoDisponibles.length }}<br>
                                 </div>
                                 <div ng-show="horariosAgendados">
                                     Agendados: {{ horariosAgendados.length }}<br>
