@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1708707853046,
+  "lastUpdate" : 1708735626800,
   "rows" : [
     [
       {
@@ -10258,58 +10258,6 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "<br><br><br>"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "left"
-                      }
-                    },
-                    "reference" : "5174a4c3-ab96-4ece-a765-4ae1ee71c625",
-                    "hasValidationError" : false,
-                    "id" : "pbText"
-                  }
-                ],
-                [
-                  {
-                    "type" : "component",
-                    "dimension" : {
-                      "xs" : 12,
-                      "sm" : 12,
-                      "md" : 12,
-                      "lg" : 12
-                    },
-                    "propertyValues" : {
-                      "cssClasses" : {
-                        "type" : "constant",
-                        "value" : ""
-                      },
-                      "hidden" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "labelHidden" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Default label"
-                      },
-                      "labelPosition" : {
-                        "type" : "constant",
-                        "value" : "top"
-                      },
-                      "labelWidth" : {
-                        "type" : "constant",
-                        "value" : 4
-                      },
-                      "allowHTML" : {
-                        "type" : "constant",
-                        "value" : true
-                      },
-                      "text" : {
-                        "type" : "interpolation",
                         "value" : "<br>"
                       },
                       "alignment" : {
@@ -10317,7 +10265,7 @@
                         "value" : "left"
                       }
                     },
-                    "reference" : "9da53bbf-1227-42c3-940d-a722d38e59c4",
+                    "reference" : "5174a4c3-ab96-4ece-a765-4ae1ee71c625",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -10739,7 +10687,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "datosPrograma.programa_interes:\n<pre>{{datosPrograma.programa_interes| json}}</pre>"
+                        "value" : "citaAspirante:\n<pre>{{citaAspirante | json}}</pre>"
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -10747,6 +10695,58 @@
                       }
                     },
                     "reference" : "38759a0d-bd50-4275-be0f-f10bd6c06d67",
+                    "hasValidationError" : false,
+                    "id" : "pbText"
+                  }
+                ],
+                [
+                  {
+                    "type" : "component",
+                    "dimension" : {
+                      "xs" : 12,
+                      "sm" : 12,
+                      "md" : 12,
+                      "lg" : 12
+                    },
+                    "propertyValues" : {
+                      "cssClasses" : {
+                        "type" : "constant",
+                        "value" : ""
+                      },
+                      "hidden" : {
+                        "type" : "constant",
+                        "value" : false
+                      },
+                      "labelHidden" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "label" : {
+                        "type" : "interpolation",
+                        "value" : "Default label"
+                      },
+                      "labelPosition" : {
+                        "type" : "constant",
+                        "value" : "top"
+                      },
+                      "labelWidth" : {
+                        "type" : "constant",
+                        "value" : 4
+                      },
+                      "allowHTML" : {
+                        "type" : "constant",
+                        "value" : true
+                      },
+                      "text" : {
+                        "type" : "interpolation",
+                        "value" : "<br>"
+                      },
+                      "alignment" : {
+                        "type" : "constant",
+                        "value" : "left"
+                      }
+                    },
+                    "reference" : "182b880f-0ad8-420a-bc47-bcd030a97979",
                     "hasValidationError" : false,
                     "id" : "pbText"
                   }
@@ -23111,7 +23111,11 @@
       "value" : [
         "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante_responsable.persistenceId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "responsable" : {
@@ -23157,6 +23161,17 @@
       "type" : "expression",
       "value" : [
         "return $data.citaAspirante.cita_horario.hora_inicio + \" - \" + $data.citaAspirante.cita_horario.hora_fin;"
+      ],
+      "exposed" : false
+    },
+    "updateCitaResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.citaAspirante_responsable && !$data.citaAspirante.responsable) {",
+        "    $data.citaAspirante.responsable = {",
+        "        persistenceId_string: $data.citaAspirante_responsable.persistenceId_string",
+        "    }",
+        "}"
       ],
       "exposed" : false
     }
