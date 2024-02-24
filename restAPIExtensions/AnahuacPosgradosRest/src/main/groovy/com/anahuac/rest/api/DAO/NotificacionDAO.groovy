@@ -84,10 +84,11 @@ class NotificacionDAO {
 		
 		String idioma = "";
 		String plantilla ="";
-		String correo="",  asunto="",  body="",  cc="";
+		String correoDestinatario = "";
+		String correoAspirante = "";
+		String asunto="",  body="",  cc="";
 		Boolean cartaenviar=false;
 		try {
-		
 			Properties prop = new Properties();
 			String propFileName = "configuration.properties";
 			InputStream inputStream;
@@ -112,6 +113,16 @@ class NotificacionDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			assert object instanceof Map;
+			
+			if (object.correo.equals("") || object.correo == null) {
+				throw new Exception('El campo "correo" no debe ir vacío');
+			}
+			
+			// Estableciendo el correo de destino y del aspirante
+			if (object.correo) correoDestinatario = object.correo;
+			if (object.correoAspirante) correoAspirante = object.correoAspirante;
+			if (!correoAspirante) correoAspirante = correoDestinatario;
+			
 			Boolean closeConPlantilla=false;
 			
 			userLogged = context.getApiSession().getUserId();
@@ -282,9 +293,8 @@ class NotificacionDAO {
 			PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
 			PSGRCatCampusDAO campusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class)
 			
-			// Estableciendo el correo 
-			correo = object.correo;
-			if (correo == "carta_posgrado_correo_previsualizacion" && object.campus) {
+			// Estableciendo el correo en caso de previsualización
+			if (correoAspirante == "carta_posgrado_correo_previsualizacion" && object.campus) {
 				
 				List<PSGRCatCampus> campusResult = campusDAO.findByGrupo_bonita(object.campus, 0, 99)
 				PSGRCatCampus campusEnviado = !campusResult.empty ? campusResult.get(0) : null
@@ -294,14 +304,14 @@ class NotificacionDAO {
 					
 					confResult.each { item ->
 						if (item.clave == "carta_posgrado_correo_previsualizacion")
-							correo = item.valor;
+							correoAspirante = item.valor;
 					}
 				}	
 			}
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
 			try {
-				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
+				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correoAspirante, 0, 99)
 				if (!listaRegistros.empty) {
 					PSGRRegistro registro = listaRegistros.get(0)
 					caseId = registro.caseid
@@ -324,7 +334,7 @@ class NotificacionDAO {
 			// AGREGANDO VARIABLES (valores dinamicos)
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
-			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo.toString());
+			plantilla = DataUsuarioAdmision(plantilla, context, correoAspirante, cn, errorlog, object.isEnviar, object.codigo.toString());
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
 			
@@ -332,7 +342,7 @@ class NotificacionDAO {
 			try {
 				// Liga confirmar cuenta
 				if(object.codigo.equals("psgr-validar-cuenta")) {
-					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");
+					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + correoAspirante + "");
 				}
 				
 				// Liga aspirante inicio
@@ -390,7 +400,7 @@ class NotificacionDAO {
 				String ordenpago = ""
 				String campus_id =""
 				pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD_PSGR)
-				pstm.setString(1, object.correo)
+				pstm.setString(1, correoAspirante)
 				rs = pstm.executeQuery()
 				
 				if (rs.next() && object.isEnviar) {
@@ -508,7 +518,7 @@ class NotificacionDAO {
 			resultado.setData(lstData);
 			
 			MailGunDAO mgd = new MailGunDAO();
-			lstAdditionalData.add("correo="+correo)
+			lstAdditionalData.add("correo="+correoDestinatario)
 			lstAdditionalData.add("asunto="+asunto)
 			lstAdditionalData.add("cc="+cc);
 			
@@ -537,14 +547,14 @@ class NotificacionDAO {
 			errorlog +=  "| Variable18.1"
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 				errorlog +=  "| Variable18.2"
-				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
+				resultado = mgd.sendEmailPlantilla(correoDestinatario, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
 				errorlog +=  "| Variable18.3"
 				catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0))
 				errorlog +=  "| Variable18.4"
 				catBitacoraCorreo.setMensaje(object.mensaje)
-				catBitacoraCorreo.setPara(object.correo)
+				catBitacoraCorreo.setPara(correoDestinatario)
 				catBitacoraCorreo.setCampus(object.campus)
 				
 				if(resultado.success) {
