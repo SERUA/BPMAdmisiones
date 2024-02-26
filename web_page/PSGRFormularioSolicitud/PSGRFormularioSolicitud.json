@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1708735626800,
+  "lastUpdate" : 1708970975519,
   "rows" : [
     [
       {
@@ -112,7 +112,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>\n\ndatosLaboralPrevio\n<pre>{{datosLaboralPrevio| json}}</pre>\n\ndatosInfoLaboralActual\n<pre>{{datosInfoLaboralActual| json}}</pre>"
+            "value" : "formOutput\n<pre>{{formOutput| json}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -16615,6 +16615,58 @@
           },
           "hidden" : {
             "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "formOutput.citaAspiranteInput\n<pre>{{formOutput.citaAspiranteInput| json}}</pre>\n\ncitaAspirante: \n<pre>{{citaAspirante | json}}</pre>\n\nresponsable_query: \n<pre>{{responsable_query| json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "7e25b191-1248-45f4-964f-34109056d9c8",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
             "value" : false
           },
           "value" : {
@@ -23109,7 +23161,7 @@
     "responsable_query" : {
       "type" : "url",
       "value" : [
-        "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante_responsable.persistenceId}}"
+        "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante.responsable.persistenceId_string}}"
       ],
       "advancedOptions" : {
         "headers" : "",
@@ -23167,9 +23219,16 @@
     "updateCitaResponsable" : {
       "type" : "expression",
       "value" : [
-        "if ($data.citaAspirante_responsable && !$data.citaAspirante.responsable) {",
-        "    $data.citaAspirante.responsable = {",
-        "        persistenceId_string: $data.citaAspirante_responsable.persistenceId_string",
+        "// Si hay información del responsable y no se ha inicializado la variable",
+        "if ($data.citaAspirante_responsable && Object.entries($data.citaAspirante_responsable).length !== 0 && $data.citaAspirante.responsable === undefined) {",
+        "    if ($data.citaAspirante_responsable.persistenceId_string || $data.citaAspirante_responsable.persistenceId) {",
+        "        $data.citaAspirante.responsable = {",
+        "            persistenceId: $data.citaAspirante_responsable.persistenceId,",
+        "            persistenceId_string: $data.citaAspirante_responsable.persistenceId_string",
+        "        };",
+        "    }",
+        "    else {",
+        "        $data.citaAspirante.responsable = null;",
         "    }",
         "}"
       ],

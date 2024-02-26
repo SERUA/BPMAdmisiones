@@ -24,26 +24,29 @@
             }).then(function (isConfirm) {
                 if (isConfirm) {
                     if ($scope.properties.cita) {
-                            $scope.properties.cita.cita_horario = angular.copy($scope.horario);
-                            $scope.properties.cita.cita_horario.cita_entrevista.persistenceId_string = angular.copy($scope.responsable);
-                            $scope.properties.cita.responsable = {
-                                persistenceId_string: angular.copy($scope.responsable)
-                            };
+                        $scope.properties.cita.cita_horario = angular.copy($scope.horario);
+                        $scope.properties.cita.cita_horario.cita_entrevista.persistenceId_string = angular.copy($scope.responsable);
+                        $scope.properties.cita.responsable = {
+                            persistenceId_string: angular.copy($scope.responsable)
+                        };
 
-                            // Bandera para verificar nuevamente si el horario no esta agendado
-                            $scope.properties.cita.cita_horario.validarDisponibilidad = true
-                        }
-                        else {
-                            $scope.properties.cita = {
-                                "cita_horario": angular.copy($scope.horario)
-                            };
-                            
-                            // Bandera para verificar nuevamente si el horario no esta agendado
-                            $scope.properties.cita.cita_horario.validarDisponibilidad = true
-                        }
-                          
-                        $scope.$apply();
-                        $("#modalConfirmar").modal("hide");
+                        // Bandera para verificar nuevamente si el horario no esta agendado
+                        $scope.properties.cita.cita_horario.validarDisponibilidad = true
+                    }
+                    else {
+                        $scope.properties.cita = {
+                            "cita_horario": angular.copy($scope.horario),
+                            "responsable": {
+                                persistenceId_string: angular.copy($scope.responsable)
+                            }
+                        };
+                        
+                        // Bandera para verificar nuevamente si el horario no esta agendado
+                        $scope.properties.cita.cita_horario.validarDisponibilidad = true
+                    }
+                      
+                    $scope.$apply();
+                    $("#modalConfirmar").modal("hide");
                     
                     /*
                     swal("Ok", "Entrevista asignada con éxito. ", "success").then(function () {
