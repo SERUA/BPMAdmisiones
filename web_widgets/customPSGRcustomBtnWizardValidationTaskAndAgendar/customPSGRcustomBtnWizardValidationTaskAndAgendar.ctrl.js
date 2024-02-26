@@ -50,12 +50,11 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 
                 const dataToSend = {
                     "persistenceId": $scope.properties.citaHorarioPersistenceId,
-                    "agendado": true,
                 }
                 
                 var req = {
                     method: "POST",
-                    url: "../API/extension/posgradosRest?url=updateAgendadoHorario",
+                    url: "../API/extension/posgradosRest?url=agendarHorario",
                     data: dataToSend
                 };
                 

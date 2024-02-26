@@ -20,6 +20,10 @@ import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
+import com.anahuac.posgrados.model.PSGRCitaAspirante
+import com.anahuac.posgrados.model.PSGRCitaAspiranteDAO
+import com.anahuac.posgrados.model.PSGRRegistro
+import com.anahuac.posgrados.model.PSGRRegistroDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.PropertiesEntity
@@ -1173,6 +1177,122 @@ class SesionesDAO {
 			pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
 			
 			pstm.setBoolean(1, agendado);
+			pstm.setLong(2, persistenceId);
+			
+			pstm.executeUpdate();
+
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	// Servicio utilizado por el aspirante
+	public Result agendarHorario(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			con.setAutoCommit(false);
+			
+			// Validar inputs
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			}
+			
+			// Conversion
+			Long persistenceId = 0L;
+			try { persistenceId = Long.valueOf(object.persistenceId); }
+			catch(e) { throw new Exception("Algo falló al tratar de convertir el 'persistenceId' a long. Valor recibido: " + object.persistenceId + ". " + e.message); }
+			
+			// Validar que se trate de un aspirante con un citaAspirante creado
+			PSGRRegistro registro = null;
+			PSGRCitaAspirante citaAspirante = null;
+			try {
+				def aspiranteId = context.apiSession.getUserId();
+				def aspirante = context.apiClient.identityAPI.getUser(aspiranteId);
+				PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+				List<PSGRRegistro> registroResult = registroDAO.findByCorreo_electronico(aspirante.userName, 0, 99);
+				
+				if (registroResult.size() > 1) {
+					throw new Exception("Se encontró más de un solo resultado de Registro de solicitud para el usuario: " + aspirante.userName);
+				}
+				
+				if (registroResult && !registroResult.isEmpty()) {
+					registro = registroResult[0];
+				}
+				
+				if (!registro) {
+					throw new Exception("No se encontró ningún Registro de solicitud para el usuario: " + aspirante.userName);
+				}
+				
+				def caseId = registro.caseid;
+				PSGRCitaAspiranteDAO citaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
+				List<PSGRCitaAspirante> citaAspiranteResult = citaAspiranteDAO.findByCaseid(caseId, 0, 1);
+				
+				if (citaAspiranteResult && !citaAspiranteResult.isEmpty()) {
+					citaAspirante = citaAspiranteResult[0];
+				}
+				
+				if (!citaAspirante) {
+					throw new Exception("No se encontró ningún registro de una Cita Aspirante con caseId: " + caseId);
+				}
+			}
+			catch (e) {
+				throw new Exception("No es posible agendar con este usuario. " + e.message);
+			}
+			
+			// Estado actual del horario seleccionado
+			Map<String, Object> horarioSeleccionado = new HashMap<String, Object>();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIO);
+			pstm.setLong(1, persistenceId);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				horarioSeleccionado.put("persistenceId", rs.getLong("persistenceid"));
+				horarioSeleccionado.put("agendado", rs.getBoolean("agendado"));
+			}
+			else {
+				throw new Exception("No se encontró ningun horario con persistenceId " + persistenceId);
+			}
+				
+			// Validar horario seleccionado
+			if (horarioSeleccionado.agendado) {
+				throw new Exception("El horario ya esta agendado.");
+			}
+
+			// En caso de que el aspirante tuviera ya un horario agendado
+			if (citaAspirante.cita_horario && citaAspirante.cita_horario.agendado) {
+				// Liberar
+				pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+				
+				pstm.setBoolean(1, false);
+				pstm.setLong(2, citaAspirante.cita_horario.persistenceId);
+				
+				pstm.executeUpdate();
+			}
+			
+			// Agendar
+			pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+			
+			pstm.setBoolean(1, true);
 			pstm.setLong(2, persistenceId);
 			
 			pstm.executeUpdate();
