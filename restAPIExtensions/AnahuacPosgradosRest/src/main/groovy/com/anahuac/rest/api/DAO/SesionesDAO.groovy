@@ -83,7 +83,7 @@ class SesionesDAO {
 
 	}
 	
-	public Result getSesionesV1(String idcampus) {
+	public Result getSesionesV1(String campus_pid, String programa_pid) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -93,9 +93,18 @@ class SesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
-			pstm.setLong(1, Long.valueOf(idcampus));
-			rs = pstm.executeQuery();
+			
+			if (programa_pid) {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS_AND_PROGRAMA);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				pstm.setLong(2, Long.valueOf(programa_pid));
+				rs = pstm.executeQuery();
+			}
+			else {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				rs = pstm.executeQuery();
+			}
 			
 			while (rs.next()) {
 				row = new SesionesPosibles();

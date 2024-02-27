@@ -169,7 +169,7 @@
         var eventos = [];
     
         function loadFechas(){
-            let url = "../API/extension/posgradosRestGet?url=getSesionesV1&idcampus=" + $scope.properties.idcampus ;
+            let url = "../API/extension/posgradosRestGet?url=getSesionesV1&idcampus=" + $scope.properties.idcampus + "&idprograma=" + $scope.properties.idprograma;
             
             $http.get(url).success(function(_data){
                 if(_data){
