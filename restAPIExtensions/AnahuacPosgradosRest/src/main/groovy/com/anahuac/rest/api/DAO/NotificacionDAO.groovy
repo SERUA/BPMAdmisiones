@@ -84,8 +84,9 @@ class NotificacionDAO {
 		
 		String idioma = "";
 		String plantilla ="";
-		String correoDestinatario = "";
 		String correoAspirante = "";
+		String correoDestinatario = "";
+		List<String> correosCopia = [];
 		String asunto="",  body="",  cc="";
 		Boolean cartaenviar=false;
 		try {
@@ -118,8 +119,20 @@ class NotificacionDAO {
 				throw new Exception('El campo "correo" no debe ir vacío');
 			}
 			
-			// Estableciendo el correo de destino y del aspirante
-			if (object.correo) correoDestinatario = object.correo;
+			// Estableciendo los correos de destino y del aspirante
+			if (object.correo) {
+				String[] correosRecibidos = object.correo.toString().split(",");
+				// Copiando el primer correo como correo principal de destino
+				correoDestinatario = correosRecibidos[0];
+				// Copiando los demas correos, en caso de existir, como correos de copia de envio
+				if (correosRecibidos.size() > 1) {
+					correosRecibidos.eachWithIndex { item, index ->
+						if (index != 0) {
+							correosCopia.add(item);
+						}
+					}
+				}
+			} 
 			if (object.correoAspirante) correoAspirante = object.correoAspirante;
 			if (!correoAspirante) correoAspirante = correoDestinatario;
 			
@@ -286,6 +299,16 @@ class NotificacionDAO {
 					}
 				}
 			}
+			// Correos copia enviados
+			if(correosCopia.size() > 0) {
+				for(String correoCopia: correosCopia) {
+					if(cc == "") {
+						cc = correoCopia
+					}else {
+						cc = cc + ";" + correoCopia
+					}
+				}
+			}
 			
 			// Obteniendo los DAO a utilizar
 			PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
@@ -347,7 +370,8 @@ class NotificacionDAO {
 				
 				// Liga aspirante inicio
 				if (object.isEnviar) {
-					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/pg_aspirante/pg_home/")
+					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					// "/apps/pg_aspirante/pg_home/")
 				}
 				
 				// Requisitos adicionales auxiliares
@@ -488,7 +512,16 @@ class NotificacionDAO {
 					CatNotificacionesCampus catHffc = (CatNotificacionesCampus) hffc.getData().get(0)
 					plantilla=plantilla.replace("[HEADER-IMG]", catHffc.getHeader())
 					plantilla=plantilla.replace("[TEXTO-FOOTER]", catHffc.getFooter())
-					cc=catHffc.getCopia();
+					
+					def correoCopiaDePlantilla = catHffc.getCopia();
+					if (correoCopiaDePlantilla) {
+						if(cc == "") {
+							cc = correoCopiaDePlantilla
+						}else {
+							cc = cc + ";" + correoCopiaDePlantilla
+						}
+					}
+					
 					errorlog +=  "| Variable15.4 "
 					try {
 						errorlog +=  "| Variable15.5 "
