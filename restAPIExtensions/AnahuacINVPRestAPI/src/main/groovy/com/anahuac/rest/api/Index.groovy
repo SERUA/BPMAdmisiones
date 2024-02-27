@@ -512,6 +512,20 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 			break;
+			case "reactivarUsuarioV2":
+				try{
+					result =  cDAO.reactivarUsuarioV2(jsonData);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+				} catch(Exception ou){
+					result.setSuccess(false)
+					result.setError(ou.getMessage())
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+			break;
 			case "insertUpdateUsuarioToleranciasTemp":
 				try{
 					result =  uDAO.insertUpdateUsuarioToleranciasTemp(jsonData);
@@ -574,7 +588,15 @@ class Index implements RestApiController {
 			break;
 			case "getAspirantesTodos":
 				try{
-					result =  new UsuariosDAO().getAspirantesTodos(jsonData, context);
+					String preguntas = request.getParameter "preguntas"
+					Boolean b_preguntas = false;
+					
+					if(!preguntas.equals("") && preguntas != null) {
+						b_preguntas = Boolean.valueOf(preguntas);
+					}
+					
+					result =  new UsuariosDAO().getAspirantesTodos(jsonData, b_preguntas, context);
+					
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {
@@ -671,7 +693,7 @@ class Index implements RestApiController {
 					}else {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
-					}catch(Exception ou){
+				}catch(Exception ou){
 					result.setSuccess(false)
 					result.setError(ou.getMessage())
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
@@ -754,6 +776,14 @@ class Index implements RestApiController {
 					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 				}
 				break;
+			case "iniciarExamen":
+				result = new CatalogosDAO().iniciarExamen(jsonData)
+				if (result.isSuccess()) {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+				}else {
+					return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+				}
+				break;	
 			default:
 				result = notFound(url);
 				if (result.isSuccess()) {

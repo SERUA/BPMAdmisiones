@@ -760,6 +760,9 @@ class HubspotDAO {
 		String descuento = "";
 		String catDescuento = "";
 		String apikeyHubspot = "";
+		
+		Boolean closeCon = false;
+		
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
@@ -1741,35 +1744,24 @@ class HubspotDAO {
 				lstCatRegistro = objCatRegistroDAO.findByNombreusuario(object.email, 0, 1);
 			}
 						
-			strError = strError + " | try"
+			strError += " | 1 ";
 			
 			if(lstCatRegistro != null) {
+				strError += " | 2 ";
 				lstSolicitudDeAdmision = objSolicitudDeAdmisionDAO.findByCaseId(lstCatRegistro.get(0).getCaseId(), 0, 1);
-				
 				nombreUsuario = lstCatRegistro.get(0).getNombreusuario();
 				correoElectronico = lstCatRegistro.get(0).getCorreoelectronico();
-				
-				strError = strError + " | object.email: "+object.email;
-				strError = strError + " | lstSolicitudDeAdmision.size: "+lstSolicitudDeAdmision.size();
-				strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
-				strError = strError + " | lstCatRegistro.size: "+lstCatRegistro.size();
-				strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;
 				resultadoApiKey = getApikeyHubspot(lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
 				apikeyHubspot = (String) resultadoApiKey.getData().get(0);
-				
-				strError = strError + " | nombreUsuario: " + nombreUsuario;
-				strError = strError + " | correoElectronico: " + correoElectronico;
-				
+				strError += " | 3 ";
 				if(!nombreUsuario.equals(correoElectronico)) {
 					resultadoReplicarProperties = replicarProperties(nombreUsuario, correoElectronico, apikeyHubspot);
-					strError = strError + " | replicar Data" + resultadoReplicarProperties.getError_info();
 				} else {
 					resultadoReplicarProperties = replicarProperties(object.email, nombreUsuario, apikeyHubspot);
-					strError = strError + " | replicar Data else" + resultadoReplicarProperties.getError_info();
 				}
 
 				if(!lstCatRegistro.empty && !lstSolicitudDeAdmision.empty) {
-
+					strError += " | 4 ";
 					resultadoApiKey = getApikeyHubspot(lstSolicitudDeAdmision.get(0).getCatCampus().getClave());
 					apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 					//strError = strError + " | apikeyHubspot: "+apikeyHubspot;
@@ -1778,15 +1770,13 @@ class HubspotDAO {
 
 					objHubSpotData = new HashMap<String, String>();
 					objHubSpotData.put("campus_admision_bpm", lstSolicitudDeAdmision.get(0).getCatCampusEstudio().getClave());
-
+					strError += " | 5 ";
 					if(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave() != null) {
-						strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave():------- "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
 						if(!lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave().equals("")) {
-							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
 							lstValueProperties = getLstValueProperties2("carrera", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
-							strError = strError + " | lstValueProperties.size() "+lstValueProperties.size();
+							
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave())) {
-								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave(): "+lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave();
+								
 								objHubSpotData.put("carrera", lstSolicitudDeAdmision.get(0).getCatGestionEscolar().getClave());
 							}else{
 								nfcarrera = true;
@@ -1796,13 +1786,9 @@ class HubspotDAO {
 					}
 					
 					if(lstSolicitudDeAdmision.get(0).getCatPropedeutico() != null) {
-						strError = strError + " | tiene propedeutico";
 						if(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave() != null) {
-							strError = strError + " | tiene clave";
-							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
 							lstValueProperties = getLstValueProperties2("periodo_propedeutico_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave())) {
-								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave();
 								objHubSpotData.put("periodo_propedeutico_bpm", lstSolicitudDeAdmision.get(0).getCatPropedeutico().getClave());
 							}else{
 								nffp = true;
@@ -1818,12 +1804,9 @@ class HubspotDAO {
 					if(lstSolicitudDeAdmision.get(0).getCatPeriodo() != null) {
 						strError = strError + " | tiene periodo";
 						if(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave() != null) {
-							strError = strError + " | tiene clave";
-							strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
 							lstValueProperties = getLstValueProperties2("periodo_de_ingreso_bpm", apikeyHubspot,lstSolicitudDeAdmision?.get(0)?.getCatCampus()?.getGrupoBonita(), context);
 							if(lstValueProperties.contains(lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave())) {
 								strError = strError + " | entro al if";
-								strError = strError + " | lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave(): "+lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave();
 								objHubSpotData.put("periodo_de_ingreso_bpm", lstSolicitudDeAdmision.get(0).getCatPeriodo().getClave());
 							}else{
 								nffi = true;
@@ -1837,34 +1820,56 @@ class HubspotDAO {
 					}
 	
 					catLugarExamenDescripcion = lstSolicitudDeAdmision.get(0).getCatLugarExamen().descripcion;
-										
 					fechaNacimiento = Date.from(lstSolicitudDeAdmision.get(0).getFechaNacimiento().atZone(ZoneId.systemDefault()).toInstant());
-					residencia = lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("F") ? "F" : (lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("R") ? "R" : "E");
-					tipoAdmision = lstDetalleSolicitud.get(0).getCatTipoAdmision().getClave();
+					strError += " | 6 ";
+					if(!lstDetalleSolicitud.isEmpty()) {
+						strError += " | 7 ";
+						if(lstDetalleSolicitud.get(0).getCatResidencia() != null) {
+							strError += " | 8 ";
+							residencia = lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("F") ? "F" : (lstDetalleSolicitud.get(0).getCatResidencia().getClave().equals("R") ? "R" : "E");
+							objHubSpotData.put("residencia_bpm", residencia);
+						}
+						
+						if(lstDetalleSolicitud.get(0).getCatTipoAdmision() != null) {
+							strError += " | 9 ";
+							tipoAdmision = lstDetalleSolicitud.get(0).getCatTipoAdmision().getClave();
+							objHubSpotData.put("tipo_de_admision_bpm", tipoAdmision);
+						}
+						
+						if(lstDetalleSolicitud.get(0).getCatTipoAlumno() != null) {
+							strError += " | 10 ";
+							objHubSpotData.put("tipo_de_alumno_bpm", lstDetalleSolicitud.get(0).getCatTipoAlumno().getClave());
+						}
+						
+						objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
+					} else {
+						strError += " | 11 ";
+						strError + " | lstDetalleSolicitud.isEmpty() ";
+					}
 					
 					strError = strError + " | catLugarExamenDescripcion: "+catLugarExamenDescripcion;
 	
 					objHubSpotData.put("firstname", lstSolicitudDeAdmision.get(0).getPrimerNombre()+" "+(lstSolicitudDeAdmision.get(0).getSegundoNombre() == null ? "" : lstSolicitudDeAdmision.get(0).getSegundoNombre()));
 					objHubSpotData.put("lastname", lstSolicitudDeAdmision.get(0).getApellidoPaterno()+" "+lstSolicitudDeAdmision.get(0).getApellidoMaterno());
 					objHubSpotData.put("email", lstSolicitudDeAdmision.get(0).getCorreoElectronico());
+					strError += " | 12 ";
 					//objHubSpotData.put("estatus_admision_bpm", "Registro");
 					objHubSpotData.put("fecha_actualizacion_bpm", dfSalida.format(fecha));
 					objHubSpotData.put("fecha_nacimiento_bpm", dfSalida.format(fechaNacimiento));
 //					objHubSpotData.put("promedio_bpm", lstSolicitudDeAdmision.get(0).getPromedioGeneral() == null ? "" : lstSolicitudDeAdmision.get(0).getPromedioGeneral());
-					objHubSpotData.put("porcentaje_de_descuento_bpm", lstDetalleSolicitud.get(0).getDescuento()==null ? (lstDetalleSolicitud.get(0).getCatDescuentos() == null ? "0" : lstDetalleSolicitud.get(0).getCatDescuentos().getDescuento()):lstDetalleSolicitud.get(0).getDescuento());
-					objHubSpotData.put("tipo_de_alumno_bpm", lstDetalleSolicitud.get(0).getCatTipoAlumno().getClave());
-					objHubSpotData.put("tipo_de_admision_bpm", tipoAdmision);
-					objHubSpotData.put("residencia_bpm", residencia);
 					
+					
+					strError += " | 13 ";
 					if (lstSolicitudDeAdmision.get(0).getCatBachilleratos().getClave().toLowerCase().equals("otro")) {
+						strError += " | 14 ";
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getBachillerato());
 					} else {
+						strError += " | 15 ";
 						objHubSpotData.put("preparatoria_bpm", lstSolicitudDeAdmision.get(0).getCatBachilleratos().getDescripcion());
 					}
 
 					resultado = createOrUpdateHubspot(correoElectronico, apikeyHubspot, objHubSpotData);
-				}
-				else {
+				} else {
 					strError = strError + " | ------------------------------------------";
 					strError = strError + " | lstSolicitudDeAdmision.empty: "+lstSolicitudDeAdmision.empty;
 					strError = strError + " | lstCatRegistro.empty: "+lstCatRegistro.empty;

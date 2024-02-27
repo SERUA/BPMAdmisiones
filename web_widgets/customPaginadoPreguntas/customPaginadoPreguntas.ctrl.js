@@ -253,8 +253,14 @@ function($scope, $http) {
                 
                 Swal.fire({
                     title: '<strong>¡Importante!</strong>',
-                    icon: 'error',
-                    html:mensaje, showCloseButton: false
+                    icon: 'warning',
+                    html:mensaje, 
+                    showCloseButton: false,
+                    confirmButtonColor: '#267F00',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                    }, 
+                    confirmButtonText: 'Continuar'
                 }).then((result)=>{
                     window.location.reload();
                     // if(data === null ){
@@ -303,9 +309,14 @@ function($scope, $http) {
                 
                 Swal.fire({
                     title: '<strong>¡Importante!</strong>',
-                    icon: 'error',
+                    icon: 'warning',
                     html:mensaje, 
-                    showCloseButton: false
+                    showCloseButton: false,
+                    confirmButtonColor: '#267F00',
+                    customClass: {
+                        confirmButton: 'btn btn-success',
+                    }, 
+                    confirmButtonText: 'Continuar'
                 }).then((result)=>{
                     window.location.reload();
                     // if(data === null ){

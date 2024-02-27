@@ -1415,7 +1415,7 @@ class UsuariosDAO {
 		try {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
-			Result resultadoAspirantes = getAspirantesTodos(jsonData, context);
+			Result resultadoAspirantes = getAspirantesTodos(jsonData, false, context);
 			
 			List<AspiranteSesionCustom> aspirantes = (List<AspiranteSesionCustom>) resultadoAspirantes.getData();
 			
@@ -1912,7 +1912,7 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
-	public Result getAspirantesTodos(String jsonData, RestAPIContext context) {
+	public Result getAspirantesTodos(String jsonData, Boolean preguntas, RestAPIContext context) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String where = " WHERE ( ( ctpr.descripcion = 'Examen Psicométrico'  ";
@@ -2171,9 +2171,21 @@ class UsuariosDAO {
 			}
 			
 //			errorLog += where + " " + orderBy;
-			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			String consulta = "";
+			errorLog += "preguntas:" + preguntas.toString();
 			
-			errorLog += consulta;
+			if(preguntas == true) {
+				errorLog += "| 1 GET_ASPIRANTES_SESIONES_TODOS" 
+				consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			} else {
+				errorLog += "| 1.1 GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS"
+				consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+			}
+			errorLog += "| 2"
+			
+//			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+//			String consulta = Statements.GET_ASPIRANTES_SESIONES_TODOS_NO_PREGUNTAS.replace("[WHERE]", where).replace("[ORDERBY]", orderBy);
+//			errorLog += consulta;
 			
 			pstm = con.prepareStatement(consulta);
 			pstm.setLong(1, Long.valueOf(idprueba));
@@ -2719,4 +2731,76 @@ class UsuariosDAO {
 		return resultado;
 	}
 	
+	public Result checkEstatusExamen(String username) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			Map<String,Boolean> row = new HashMap<String,Boolean>();
+			closeCon = validarConexion();
+			
+			pstm = con.prepareStatement(Statements.GET_SESION_TODAY);
+			pstm.setString(1, username);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				errorLog += "|1 ";
+				if(rs.getBoolean("reagendado") != true) {
+					errorLog += "|1.1 ";
+					if(rs.getBoolean("correct_date") == false) {
+						errorLog += "|1.1.1 ";
+						throw new Exception("fecha_incorrecta");
+					} else if(rs.getBoolean("exameniniciado") == false) {
+						errorLog += "|1.1.2 ";
+						throw new Exception("examen_no_iniciado");
+					} else if(rs.getBoolean("finalizada") == true) {
+						errorLog += "|1.1.3 ";
+						throw new Exception("examen_finalizado");
+					}
+				} else {
+					errorLog += "|1.2 ";
+					if(rs.getBoolean("reagendado") == false) {
+						errorLog += "|1.2.1 ";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date_temp")  != true) {
+						errorLog += "|1.2.1 ";
+						throw new Exception("fecha_incorrecta");
+					}
+				}
+			} else {
+				errorLog += "|2 ";
+				pstm = con.prepareStatement(Statements.GET_SESION_TODAY_TEMP);
+				pstm.setString(1, username);
+				
+				rs = pstm.executeQuery();
+				
+				if (rs.next()) {
+					errorLog += "|2.1 ";
+					if(rs.getBoolean("reagendado") == false) {
+						errorLog += "|2.1.1";
+						throw new Exception("examen_finalizado");
+					} else if(rs.getBoolean("correct_date_temp")  != true) {
+						errorLog += "|2.1.2 ";
+						throw new Exception("fecha_incorrecta");
+					}
+				} else {
+					errorLog += "|2.2 ";
+					throw new Exception("no_sesion_asignada");
+				}
+			}
+			
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
 }

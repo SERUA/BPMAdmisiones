@@ -14,8 +14,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             closeModal($scope.properties.closeOnSuccess);
         } else if ($scope.properties.action === 'Start process') {
             // startProcess();
-            // checkInstance();
-            checkToleranciaV2($scope.properties.userData.user_name);
+            checkInstance();
+            // checkToleranciaV2($scope.properties.userData.user_name);
             // checkTolerancia($scope.properties.userData.user_name);
         } else if ($scope.properties.action === 'Submit task') {
             submitTask();

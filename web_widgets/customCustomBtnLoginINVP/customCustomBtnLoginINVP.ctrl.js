@@ -160,11 +160,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 } else {
                     mensaje = "A session under this user name is currently active. Please contact your facilitator.";
                 }
-            } else if(_error.error === "examen_terminado"){
+            } else if(_error.error === "examen_terminado" || _error.error === "examen_finalizado"){
                 if(idioma === "es"){
                     mensaje = "Tu examen ha concluido, si tienes dudas contacta a tu aplicador.";
                 } else {
                     mensaje = "Test-finished, if you have any questions, please contact your applicator.";
+                }
+            } else if(_error.error === "fecha_incorrecta"){
+                if(idioma === "es"){
+                    mensaje = "Tu exámen no está programado para el día de hoy. Para más información contacta a tu aplicador";
+                } else {
+                    mensaje = "Your test is not scheuled for today. For further information, please contact your facilitator.";
                 }
             } else {
                 mensaje = _error.error;

@@ -2,6 +2,15 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     
     $scope.navVar = "main";
     $scope.idiomaTodos = "";
+    $scope.tabShown = "seguimiento";
+    $scope.preguntas = true;
+    
+    $scope.switchTab = function(_tab){
+        $scope.tabShown = _tab;
+        $scope.preguntas = _tab === 'seguimiento';
+        
+        getAspirantesSesion($scope.selectedSesion.idSesion);
+    }
     
     this.isArray = Array.isArray;
   
@@ -146,9 +155,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
 
 
     function getAspirantesSesion(_idsesion){
-        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10";
+        let url = "../API/extension/AnahuacINVPRestAPI?url=getAspirantesTodos&p=0&c=10&preguntas=";
         // $scope.dataToSend = angular.copy($scope.properties.dataToSendAsp);
-
+        url += ($scope.preguntas + "" );
+        
         if($scope.properties.dataToSendAsp.lstFiltro.length > 0){
             let encontrado = false;
             for(let dato of $scope.properties.dataToSendAsp.lstFiltro){
@@ -823,6 +833,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     function showModalConfig(){
         $("#modalConfiguraciones").modal("show");
     }
+    
+    $scope.mostrarModalIniciar = function(){
+        $("#modalIniciarExamen").modal("show");
+    }
 
     $scope.getConfiguracionINVP = function (_row){
         $scope.sesionConfiguracion = {
@@ -840,6 +854,26 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
             
             showModalConfig();
+        }).error(function(_error){
+            swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
+        });
+    }
+    
+    $scope.iniciarExamen = function(){
+        $scope.sesionConfiguracion = {
+            "idprueba": $scope.selectedSesion.idSesion,
+            "toleranciaminutos": 0,
+            "toleranciasalidaminutos" : 0,
+            "examenIniciado": false
+        };
+        
+        $scope.dataToSend = angular.copy($scope.sesionConfiguracion);
+        let url = "../API/extension/AnahuacINVPRestAPI?url=iniciarExamen&p=0&c=10";
+
+        $http.post(url, $scope.dataToSend).success(function(_data){
+            ocultarModal("modalIniciarExamen");
+            swal("Ok", "El examen ha sido iniciado", "success");
+            $scope.selectedSesion.estatus = "En curso"
         }).error(function(_error){
             swal("Algo ha fallado", "Por favor intente de nuevo mas tarde", "error");
         });
@@ -927,7 +961,8 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         "entrada": "",
         "salida": "",
         "toleranciaminutos": 0,
-        "toleranciasalidaminutos": 0
+        "toleranciasalidaminutos": 0,
+        "examenIniciado": false
     }
     
     $scope.aplicacion = "";
@@ -941,6 +976,29 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
             }
 
             let url = "../API/extension/AnahuacINVPRestAPI?url=insertUpdateUsuarioNuevaConfig&p=0&c=10";
+
+            $http.post(url, $scope.configUsuario).success(function(_data){
+                ocultarModal("modalReagen");
+                // $scope.terminarAspirante();
+                $scope.refreshAspirantes();
+                if($scope.selectedSesion.estatus === "Concluida" && $scope.selectedAspirante.estatusINVP === "Por iniciar"){
+                    swal("Ok", "Usuario reagendado", "success");
+                } else {
+                    $scope.terminarAspirante();
+                }
+            }).error(function(_error){
+                
+            });
+        }
+    }
+
+    $scope.reactivarUsuarioV2 = function(_action){
+        if(validarConfig()){
+            if(_action === "temp"){
+                $scope.configUsuario.idprueba = $scope.selectedSesion.idSesion
+            }
+
+            let url = "../API/extension/AnahuacINVPRestAPI?url=reactivarUsuarioV2&p=0&c=10";
 
             $http.post(url, $scope.configUsuario).success(function(_data){
                 ocultarModal("modalReagen");
@@ -1006,19 +1064,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         if(!$scope.configUsuario.aplicacion){
             mensajeError = "Campo 'Fecha' no debe ir vacío";
             output = false;
-        } else if(!$scope.configUsuario.entrada){
-            mensajeError = "Campo 'Hora inicio' no debe ir vacío";
-            output = false;
-        } else if(!$scope.configUsuario.salida){
-            mensajeError = "Campo 'Hora fin' no debe ir vacío";
-            output = false;
-        } else if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
-            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
-            output = false;
-        } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
-            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
-            output = false;
-        }
+        } 
+        // else if(!$scope.configUsuario.entrada){
+        //     mensajeError = "Campo 'Hora inicio' no debe ir vacío";
+        //     output = false;
+        // } else if(!$scope.configUsuario.salida){
+        //     mensajeError = "Campo 'Hora fin' no debe ir vacío";
+        //     output = false;
+        // } else if($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0){
+        //     mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
+        //     output = false;
+        // } else if($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0 ){
+        //     mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
+        //     output = false;
+        // }
 
         if(output == false){
             swal("¡Atención!", mensajeError, "warning");
