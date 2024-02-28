@@ -1,5 +1,10 @@
 <!-- ng-hide="properties.cita.cita_horario" -->
 <div class="panel panel-danger col-md-12" ng-show="!properties.readOnly" >
+    <div ng-show="!properties.cita.cita_horario && citaValorAnterior">
+        <button class="btn btn-info" ng-click="cancelar()" style="margin: 15px 0;">
+            Cancelar
+        </button>
+    </div>
     <div class="panel-heading" style="background-color: #ff5900" align="center" ng-show="!properties.cita.cita_horario"><strong style="color:white;">Calendario de entrevistas</strong></div>
     <div id="scheduler_here" class="dhx_cal_container" style='width:100%; height:80vh; padding:10px;' ng-show="!properties.cita.cita_horario">
         <div class="dhx_cal_navline">
@@ -103,7 +108,7 @@
             </div>
             <div class="modal-body row">
                 <div class="col-xs-6 col-xs-offset-3">
-                    <h3 class="text-center">{{fechaSelected}}</h3>
+                    <h4 class="text-center" ng-if="fechaSelected" style="margin-top: 0px; margin-bottom: 20px;">Horarios para el {{fechaSelected}}</h4>
                     <table class="table table-striped">
                         <tbody>
                             <tr ng-repeat="entrevista in entrevistas" style="height: 60px;">
@@ -127,7 +132,7 @@
             <div class="modal-footer">
                 <div class="col-xs-12">
                     <div class="col-xs-6 text-left">
-                        <button class="btn btn-info" ng-if="entrevistas.psicologos[0].lstFechasDisponibles.length>0" ng-click="entrevistas.psicologos[0].lstFechasDisponibles=[] ">
+                        <button class="btn btn-info" ng-if="entrevistas.psicologos[0].lstFechasDisponibles.length>0" ng-click="entrevistas.psicologos[0].lstFechasDisponibles=[]">
                             Cancelar
                         </button>
                     </div>
