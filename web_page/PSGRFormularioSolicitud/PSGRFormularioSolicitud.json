@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1709157387696,
+  "lastUpdate" : 1709158523860,
   "rows" : [
     [
       {
@@ -171,7 +171,7 @@
             "value" : "left"
           }
         },
-        "reference" : "6a307676-4936-4c9f-b674-51ae530cebe5",
+        "reference" : "c70007b6-aef6-4bf2-a07c-a92a798770ae",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -3226,11 +3226,15 @@
                                   "value" : {
                                     "type" : "variable",
                                     "value" : "datosPersonales.lugar_nacimiento_pais"
+                                  },
+                                  "changedEvent" : {
+                                    "type" : "variable",
+                                    "value" : "selectPaisNacimiento_ChangedEvent"
                                   }
                                 },
-                                "reference" : "f70f3163-1a92-4741-8563-200dd638dced",
+                                "reference" : "7ac99e8d-6a83-4dcd-ab25-baa8cf7ef639",
                                 "hasValidationError" : false,
-                                "id" : "pbSelect"
+                                "id" : "customPSGRSelectChangedEvent"
                               }
                             ]
                           ]
@@ -3524,11 +3528,15 @@
                             "value" : {
                               "type" : "variable",
                               "value" : "datosPersonales.alumno_anahuac"
+                            },
+                            "changedEvent" : {
+                              "type" : "variable",
+                              "value" : "checkboxAlumnoAnahuac_ChangedEvent"
                             }
                           },
-                          "reference" : "44f2367f-e87f-4d93-96af-c858717015ef",
+                          "reference" : "a539cd6d-3437-4fde-903c-e6fa76df204b",
                           "hasValidationError" : false,
-                          "id" : "pbCheckbox"
+                          "id" : "customPSGRCheckboxChangedEvent"
                         }
                       ],
                       [
@@ -3885,6 +3893,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "bd516ced-044e-438c-9faf-a05413a63f49",
@@ -22201,21 +22213,23 @@
         "        \"error\": true \r",
         "    }\r",
         "}*/ \r",
-        "else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length !== 8){\r",
+        "/*else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length !== 8){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'ID del estudiante' debe tener una logitud de 8 caracteres\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && !validarIdBanner($data.datosPersonales.id_banner)){\r",
+        "}*/\r",
+        "/*else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && !validarIdBanner($data.datosPersonales.id_banner)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El formato del 'ID del estudiante' es inválido\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.alumno_anahuac && !$data.datosPersonales.campus_alumno){\r",
+        "}*/\r",
+        "else if($data.datosPersonales.alumno_anahuac && !$data.datosPersonales.campus_alumno){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Campus alumno' no debe ir vacío\", \r",
@@ -23444,6 +23458,47 @@
         "    else {",
         "        $data.citaAspirante.responsable = null;",
         "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "selectPaisNacimiento_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleSelectPaisNacimientoChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.selectPaisNacimiento_ChangedEvent) {",
+        "    ",
+        "    // Limpiar campos dependientes de pais nacimiento",
+        "    $data.datosPersonales.lugar_nacimiento_estado = \"\";",
+        "    $data.datosPersonales.lugar_nacimiento_ciudad = \"\";",
+        "    ",
+        "    $data.selectPaisNacimiento_ChangedEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "checkboxAlumnoAnahuac_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleCheckboxAlumnoAnahuacChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.checkboxAlumnoAnahuac_ChangedEvent) {",
+        "    // Limpiar campos dependientes de campo alumno anahuac",
+        "    $data.datosPersonales.id_banner = \"\";",
+        "    $data.datosPersonales.campus_alumno = \"\";",
+        "    ",
+        "    $data.checkboxAlumnoAnahuac_ChangedEvent = null;",
         "}"
       ],
       "exposed" : false

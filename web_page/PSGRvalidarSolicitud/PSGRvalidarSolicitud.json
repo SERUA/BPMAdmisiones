@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1708554032026,
+  "lastUpdate" : 1709159215555,
   "rows" : [
     [
       {
@@ -27175,6 +27175,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
+        "    \"isReagendarInput\": false,",
         "};"
       ],
       "exposed" : false
@@ -27205,6 +27206,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
+        "    \"isReagendarInput\": false,",
         "};"
       ],
       "exposed" : false
@@ -27241,6 +27243,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": getRequisitosAdicionales(),",
+        "    \"isReagendarInput\": false,",
         "};",
         "",
         "function tieneRequisitosAdicionales() {",
@@ -27558,10 +27561,26 @@
       "value" : [
         "if ($data.recuperarIdBannerClickEvent) {",
         "    if ($data.datosPersonales.id_banner) {",
-        "        $data.validarFormInput.registroInput.id_banner_validacion = $data.datosPersonales.id_banner;",
+        "        if (validarIdBanner($data.datosPersonales.id_banner)) {",
+        "            $data.validarFormInput.registroInput.id_banner_validacion = $data.datosPersonales.id_banner;    ",
+        "        }",
+        "        else {",
+        "            swal(\"Formato no valido\", \"El ID que registro el aspirante no tiene formato válido de ID Banner\", \"info\");",
+        "        }",
         "    }",
         "    ",
         "    $data.recuperarIdBannerClickEvent = null;",
+        "}",
+        "",
+        "function validarIdBanner(id) {",
+        "    // Validar longitud",
+        "    if (id.length !== 8) {",
+        "        return false;",
+        "    }",
+        "    ",
+        "    // Validar formato",
+        "    const expresionId = /^[0-9]{1,8}$/;",
+        "    return expresionId.test(id);",
         "}"
       ],
       "exposed" : false
