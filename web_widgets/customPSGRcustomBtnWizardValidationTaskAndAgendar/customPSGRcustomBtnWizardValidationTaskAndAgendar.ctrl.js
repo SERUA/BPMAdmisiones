@@ -25,7 +25,18 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     }
                 }
                 else {
-                    $scope.properties.selectedIndex++;
+                    // Agendar cita (cambiar de estado a horario)
+                    if ($scope.properties.agendar) {
+                        agendar(() => {
+                            // Avanzar
+                            $scope.properties.agendar = false;
+                            $scope.properties.selectedIndex++;
+                        });
+                    }
+                    else {
+                        // Avanzar
+                        $scope.properties.selectedIndex++;
+                    }
                 }
             } else {
 
