@@ -1284,7 +1284,7 @@ class SesionesDAO {
 				
 			// Validar horario seleccionado
 			if (horarioSeleccionado.agendado) {
-				throw new Exception("El horario ya esta agendado.");
+				throw new Exception("Otro aspirante ya seleccionó este horario, favor de seleccionar una nueva cita.");
 			}
 
 			// En caso de que el aspirante tuviera ya un horario agendado
