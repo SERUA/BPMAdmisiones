@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1708995250316,
+  "lastUpdate" : 1709150937435,
   "rows" : [
     [
       {
@@ -112,7 +112,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput.citaAspiranteInput\n<pre>{{formOutput.citaAspiranteInput | json}}</pre>"
+            "value" : "citaAspirante\n<pre>{{citaAspirante| json}}</pre>\n\ncitaAspiranteCopiaValorOriginal\n<pre>{{citaAspiranteCopiaValorOriginal | json}}</pre>\n\ncitaAspiranteCopiaValorOriginal_inicializado\n<pre>{{citaAspiranteCopiaValorOriginal_inicializado}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -10461,6 +10461,10 @@
                       "idprograma" : {
                         "type" : "expression",
                         "value" : "datosPrograma.programa_interes.persistenceId"
+                      },
+                      "citaValorOriginal" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "2acfa1ad-44bb-40ca-9bfc-4155e54bfb78",
@@ -16386,7 +16390,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -16456,6 +16460,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "071620e3-ca12-4ad3-908c-97c8fae725d8",
@@ -16463,9 +16471,9 @@
                     "id" : "customPSGRcustomBtnWizardValidationTask"
                   },
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -16479,70 +16487,200 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Enviar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "wizardLength" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Siguiente"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : "validStep7"
-                      },
-                      "errorMessage" : {
-                        "type" : "expression",
-                        "value" : "errorStep7.errorMessage"
-                      },
-                      "messageTitle" : {
-                        "type" : "expression",
-                        "value" : "errorStep7.title"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : "formOutput"
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : "taskId"
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : "reloadTask"
-                      },
-                      "caseId" : {
-                        "type" : "variable",
-                        "value" : "caseid"
-                      },
-                      "userId" : {
-                        "type" : "expression",
-                        "value" : "userData.user_id"
+                        "value" : ""
                       }
                     },
-                    "reference" : "77f5752c-4f0e-44ba-8f1b-e80b27cd23b7",
+                    "reference" : "e96b4899-6516-4981-b83d-ff56fb42f8f9",
                     "hasValidationError" : false,
-                    "id" : "customPSGRcustomBtnWizardValidationTaskFinalizar"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 6,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "isModificar"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Enviar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Siguiente"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : "validStep7"
+                            },
+                            "errorMessage" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.errorMessage"
+                            },
+                            "messageTitle" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.title"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : "formOutput"
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : "taskId"
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : "reloadTask"
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : "caseid"
+                            },
+                            "userId" : {
+                              "type" : "expression",
+                              "value" : "userData.user_id"
+                            }
+                          },
+                          "reference" : "77f5752c-4f0e-44ba-8f1b-e80b27cd23b7",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRcustomBtnWizardValidationTaskFinalizar"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "!isModificar"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Enviar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Siguiente"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : "validStep7"
+                            },
+                            "errorMessage" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.errorMessage"
+                            },
+                            "messageTitle" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.title"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : "formOutput"
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : "taskId"
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : "reloadTask"
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : "caseid"
+                            },
+                            "userId" : {
+                              "type" : "expression",
+                              "value" : "userData.user_id"
+                            },
+                            "agendar" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante.cita_horario.validarDisponibilidad"
+                            },
+                            "fechaEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_fechaFormated"
+                            },
+                            "horarioEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_horarioFormated"
+                            },
+                            "citaHorarioPersistenceId" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante.cita_horario.persistenceId"
+                            }
+                          },
+                          "reference" : "c5683bc4-a854-46bc-9498-c1eae0fea91d",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRcustomBtnWizardValidationTaskFinalizarAndAgendar"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
@@ -16601,6 +16739,58 @@
             }
           ]
         ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "citaAspirante.cita_horario.validarDisponibilidad\n<pre>{{citaAspirante.cita_horario.validarDisponibilidad}}</pre>\n\ncitaAspirante.cita_horario.persistenceId\n<pre>{{citaAspirante.cita_horario.persistenceId}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "1d43be38-e379-4766-a3e0-e48babbd784b",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [

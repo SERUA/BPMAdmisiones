@@ -25,21 +25,29 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     }
                 }
                 else {
-                    // Agendar cita (cambiar de estado a horario)
                     if ($scope.properties.agendar) {
-                        agendar(() => {
-                            // Avanzar
-                            $scope.properties.agendar = false;
-                            $scope.properties.selectedIndex++;
-                        });
+                        swal({
+                            title: "La confirmación de tu cita se realizará al enviar la solicitud",
+                            text: "Es importante que envíes tu solicitud lo antes posible para asegurar el horario seleccionado.",
+                            icon: "info",
+                            buttons: [
+                                'Cancelar',
+                                'Aceptar'
+                            ],
+                        })
+                        .then((isAceptar) => {
+                            if (isAceptar) {
+                                $scope.properties.selectedIndex++;
+                                $scope.$apply();
+                            }
+                        })
                     }
                     else {
-                        // Avanzar
                         $scope.properties.selectedIndex++;
                     }
+                    
                 }
             } else {
-
                 swal($scope.properties.messageTitle, $scope.properties.errorMessage, "warning");
             }
         }
@@ -47,8 +55,8 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     
     function agendar(success) {
         swal({
-            "title": "Agendar para el día " + $scope.properties.fechaEntrevista + " de " + $scope.properties.horarioEntrevista,
-            "text": "Si confirmas la operación la cita de entrevista será agendada a tu nombre para el día y horario establecido.",
+            "title": "Confirmar cita para el día " + $scope.properties.fechaEntrevista + " de " + $scope.properties.horarioEntrevista,
+            "text": "Si confirmas, la cita de entrevista será agendada a tu nombre para el día y horario establecido.",
             "icon": "warning",
             buttons: [
                 'Cancelar',
@@ -57,7 +65,15 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         }).then(function (isConfirm) {
             if (isConfirm) {
                 
-                if (!$scope.properties.citaHorarioPersistenceId) return;
+                if (!$scope.properties.citaHorarioPersistenceId) {
+                    swal({
+                        title: "No fue posible agendar",
+                        text: "Se está intentando agendar una cita, pero no se está proporcionando el ID del horario",
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
+                    return;
+                }
                 
                 const dataToSend = {
                     "persistenceId": $scope.properties.citaHorarioPersistenceId,
@@ -72,7 +88,12 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $http(req)
                 .success(success)
                 .error((err) => {
-                    swal("No fue posible agendar", err && err.error ? err.error : "", "error");
+                    swal({
+                        title: "No fue posible agendar",
+                        text: err && err.error ? err.error : "",
+                        icon: "warning",
+                        button: "Aceptar",
+                    });
                 })
             }
         })
