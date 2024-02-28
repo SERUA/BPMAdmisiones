@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1709158523860,
+  "lastUpdate" : 1709164168888,
   "rows" : [
     [
       {
@@ -171,7 +171,7 @@
             "value" : "left"
           }
         },
-        "reference" : "c70007b6-aef6-4bf2-a07c-a92a798770ae",
+        "reference" : "36907ad9-2a05-4203-848f-36133e1aaf91",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -3232,7 +3232,7 @@
                                     "value" : "selectPaisNacimiento_ChangedEvent"
                                   }
                                 },
-                                "reference" : "7ac99e8d-6a83-4dcd-ab25-baa8cf7ef639",
+                                "reference" : "7d394227-6426-4acd-9d75-67791164aac0",
                                 "hasValidationError" : false,
                                 "id" : "customPSGRSelectChangedEvent"
                               }
@@ -3534,7 +3534,7 @@
                               "value" : "checkboxAlumnoAnahuac_ChangedEvent"
                             }
                           },
-                          "reference" : "a539cd6d-3437-4fde-903c-e6fa76df204b",
+                          "reference" : "0305ea59-0fb6-4ad5-b44a-12649e64778f",
                           "hasValidationError" : false,
                           "id" : "customPSGRCheckboxChangedEvent"
                         }
@@ -3646,7 +3646,7 @@
                                   },
                                   "maxLength" : {
                                     "type" : "constant",
-                                    "value" : 8
+                                    "value" : 20
                                   },
                                   "readOnly" : {
                                     "type" : "constant",
@@ -18882,7 +18882,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Nombre empresa:"
+                          "value" : "Nombre de la empresa:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -19959,7 +19959,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Nombre empresa:"
+                          "value" : "Nombre  de la empresa:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -23061,8 +23061,8 @@
     "idBannerCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.datosPersonales.id_banner.length > 8) {",
-        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 8);",
+        "if ($data.datosPersonales.id_banner.length > 20) {",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 20);",
         "}"
       ],
       "exposed" : false
@@ -23073,9 +23073,13 @@
         "let variable = $data.datosPersonales.id_banner;",
         "if (variable) {",
         "    let len = variable.length;",
+        "    ",
         "    if (isNaN(variable[len - 1]) || variable[len - 1] === \" \") {",
         "        $data.datosPersonales.id_banner = variable.slice(0, len - 1);",
         "    }",
+        "    ",
+        "    // Limpiar de espacios blancos",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.replaceAll(\" \", \"\")",
         "}"
       ],
       "exposed" : false
