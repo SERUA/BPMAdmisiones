@@ -410,9 +410,9 @@ class NotificacionDAO {
 							plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.getCita_horario().getHora_inicio());
 							plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato);
 							String liga = citaAspirante.getCita_horario().getCita_entrevista().getLiga();
-							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "N/A");
+							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "No aplica a esta entrevista");
 							String ubicacion = citaAspirante.getCita_horario().getCita_entrevista().getUbicacion();
-							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "N/A");
+							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "No aplica a esta entrevista");
 						} catch(Exception e) {
 							errorlog += "| ERROR EN LA CITA: " + e.getMessage();
 						}
