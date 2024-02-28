@@ -39,12 +39,7 @@
 
 <div class="row" ng-show="navVar === 'sesion'">
     <div class="col-xs-8 col-xs-offset-2 text-center">
-        <div class="col-xs-3 text-left">
-            <div class="col-xs-12">
-                <button type="button" ng-click="navVar = 'calendario'" class="btn btn-info"> Atras </button>
-            </div>
-        </div>
-        <div class="col-xs-6">
+        <div class="col-xs-12">
             <h3 class="color-orange">Detalles de la sesión</h3>
         </div>
     </div> 
@@ -74,12 +69,12 @@
             <label class="control-label col-xs-12"> Duración de las entrevistas: </label>
             <div class="col-xs-12">
                 <select class="form-control" ng-disabled="sesion.persistenceId" ng-change="generarHoras(sesion.duracion_entrevista_minutos)" ng-model="sesion.duracion_entrevista_minutos" >
-                    <option style="display: none" ng-value="">Seleccionar duración</option>
+                    <option style="display: none" value="">Seleccionar duración</option>
                     <option ng-repeat="opcion in lstDuracion" ng-value="opcion">{{opcion}}</option>
                 </select>
             </div> 
-            <div class="col-xs-12 small-text" ng-show="sesion.duracion_entrevista_minutos" style="margin-top: 5px;">
-                Si cambias la duración de la entrevista, será necesario volver a agregar a los responsables y verificar sus disponibilidades. *
+            <div class="col-xs-12 small-text" ng-show="sesion.duracion_entrevista_minutos && !sesion.persistenceId" style="margin-top: 5px;">
+                Si cambias la duración de la entrevista, será necesario volver a agregar al responsable y verificar sus disponibilidades.
             </div>
         </div>
         <div class="form-group col-xs-6">
@@ -124,6 +119,9 @@
             <div class="col-xs-12">
                 <input class="form-control" ng-disabled="sesion.persistenceId" type="text" maxlength="250" ng-model="sesion.liga" > 
             </div>
+            <div class="col-xs-12 small-text" style="margin-top: 5px;">
+                Se utilizará una sola liga para todas las entrevistas de esta sesión.
+            </div>
         </div>
 
         <div class="col-xs-12">
@@ -133,15 +131,30 @@
             <div class="row">
                 <div class="form-group col-xs-6">
                     <label class="control-label col-xs-12">Responsable:</label>
-                    <div class="col-xs-12">
-                        <select class="form-control" ng-model="nuevoResponsable" ng-disabled="!sesion.duracion_entrevista_minutos">
-                            <option >Seleccionar... </option>
+                    <div class="col-xs-12" ng-show="usuariosResponsables && usuariosResponsables.length > 0">
+                        <select class="form-control" ng-model="nuevoResponsable" ng-disabled="!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista ">
+                            <option style="display:none" value="">Seleccionar responsable</option>
                             <option ng-repeat="usuario in usuariosResponsables" ng-value="usuario.id">{{usuario.firstname + " " + usuario.lastname}}</option> 
                         </select>
+                        <div class="col-xs-12 small-text" style="margin-top: 5px; padding: 0;">
+                            Puedes agregar un único responsable como máximo.
+                        </div>
+                    </div>
+                    <div class="col-xs-12" ng-show="!(usuariosResponsables && usuariosResponsables.length > 0)">
+                        <input class="form-control" ng-disabled="true" type="text" value="Seleccionar responsable">
+                        <div class="col-xs-12 small-text" style="margin-top: 5px; padding: 0;">
+                            No hay responsables disponibles con el rol adecuado y con el campus seleccionado.
+                        </div>
                     </div>
                 </div>
                 <div class="col-xs-6 text-left">
-                    <button class="btn btn-primary" style="margin-top: 24px;" ng-disabled="!sesion.duracion_entrevista_minutos" ng-click="agregarResponsable(nuevoResponsable)">Agregar responsable</button>
+                    <button 
+                        class="btn btn-primary"
+                        style="margin-top: 24px;"
+                        ng-disabled="(responsables && responsables.length !== 0) || (!usuariosResponsables || usuariosResponsables.length === 0) || (!sesion.duracion_entrevista_minutos || !sesion.fecha_entrevista) || sesion.persistenceId"
+                        ng-click="agregarResponsable(nuevoResponsable)">
+                        Agregar responsable
+                    </button>
                 </div>
             </div>
             <div class="col-xs-12">
@@ -149,6 +162,8 @@
                     <thead>
                         <tr>
                             <th>Responsable</th>
+                            <th>Programas</th>
+                            <th>Horarios</th>
                             <th>Acciones</th>
                         </tr>
                     </thead>
@@ -156,10 +171,25 @@
                         <tr ng-repeat="usuario in responsables">
                             <td>{{usuario.nombre}}</td>
                             <td>
+                                Programas seleccionados: <b>{{ compiladoCarrerassResponsable && compiladoCarrerassResponsable[usuario.responsable_id] ? compiladoCarrerassResponsable[usuario.responsable_id].length : "Desconocido"}}</b>
+                            </td>
+                            <td>
+                                <div ng-show="usuario.horariosDisponibles">
+                                    Disponibles: {{ usuario.horariosDisponibles.length }} <br>
+                                </div>
+                                <div ng-show="usuario.horariosNoDisponibles">
+                                    No disponibles: {{ usuario.horariosNoDisponibles.length }}<br>
+                                </div>
+                                <div ng-show="horariosAgendados">
+                                    Agendados: {{ horariosAgendados.length }}<br>
+                                </div>
+                                Totales: {{ horarios.length }}
+                            </td>
+                            <td>
                                 <button class="btn btn-link" ng-click="getInfoResponsable(usuario)">
                                     <span class="glyphicon glyphicon-wrench"></span>
                                 </button>
-                                <button class="btn btn-link" ng-click="deleteResponsable(usuario)">
+                                <button class="btn btn-link" ng-click="deleteResponsable(usuario)" ng-disabled="sesion.persistenceId">
                                     <span class="glyphicon glyphicon-trash"></span>
                                 </button>
                             </td>
@@ -170,10 +200,14 @@
         </div>
         <br><br>
         <div class="col-xs-12">
-            <div class="col-xs-12 text-right">
-                <button class="btn btn-primary" type="button" ng-click="validate()">Guardar sesión</button>
+            <div class="col-xs-6 text-left">
+                <button type="button" ng-click="cancelar()" class="btn btn-info">Cancelar</button>
+            </div>
+            <div class="col-xs-6 text-right">
+                <button class="btn btn-primary" type="button" ng-click="validate()">{{sesion.persistenceId ? "Guardar sesión" : "Publicar sesión"}}</button>
             </div>
         </div>
+
     </div>
 </div>
 
@@ -193,7 +227,7 @@
                 <div class="col-xs-12">
                     <div class="form-group">
                         <label>Programas:</label>
-                        <multiselect key="nombre" label="nombre" class="input-xlarge" multiple="true" ng-model="carrerasResponsableString" options="c.nombre for c in lstGestionEscolar" change="selected(c)"></multiselect>
+                        <multiselect key="nombre" label="nombre" class="input-xlarge overflow-hidden" multiple="true" ng-model="carrerasResponsableString" options="c.nombre for c in lstGestionEscolar" change="selected(undefined, undefined)"></multiselect>
                     </div>
                 </div>
                 <div class="col-xs-6">
@@ -227,8 +261,9 @@
                                 </td>
                                 <td class="text-center ">
                                     <div ng-repeat="responsable in horario.responsables" ng-init="responsableIndex = $index" ng-if="responsable.responsable_id === usuario.responsable_id">
-                                        <button class="btn btn-success" ng-if="responsable.disponible_resp" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
-                                        <button class="btn btn-default" ng-if="!responsable.disponible_resp" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
+                                        <button class="btn btn-success" ng-if="responsable.disponible_resp && !horario.agendado" type="button" ng-click="setDisponible(false, responsableIndex, horarioIndex)"> Disponible</button>
+                                        <button class="btn btn-default" ng-if="!responsable.disponible_resp && !horario.agendado" type="button" ng-click="setDisponible(true, responsableIndex, horarioIndex)"> No disponible</button>
+                                        <button class="btn btn-default" ng-if="horario.agendado" type="button"> Agendada</button>
                                     </div>
                                 </td>
                             </tr>
@@ -241,7 +276,7 @@
             </div>
             <div class="modal-footer">
                 <div class="col-xs-12 text-right">
-                    <button type="button " class="btn btn-primary " data-dismiss="modal">Cerrar</button>
+                    <button type="button " class="btn btn-primary " data-dismiss="modal" ng-click="updateHorariosDisponibilidad()">Guardar</button>
                 </div>
             </div>
         </div>

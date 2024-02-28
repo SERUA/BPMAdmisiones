@@ -20,6 +20,10 @@ import org.bonitasoft.engine.identity.UserMembershipCriterion
 import org.bonitasoft.web.extension.rest.RestAPIContext
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
+import com.anahuac.posgrados.model.PSGRCitaAspirante
+import com.anahuac.posgrados.model.PSGRCitaAspiranteDAO
+import com.anahuac.posgrados.model.PSGRRegistro
+import com.anahuac.posgrados.model.PSGRRegistroDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.PropertiesEntity
@@ -79,7 +83,7 @@ class SesionesDAO {
 
 	}
 	
-	public Result getSesionesV1(String idcampus) {
+	public Result getSesionesV1(String campus_pid, String programa_pid) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -89,9 +93,18 @@ class SesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
-			pstm.setLong(1, Long.valueOf(idcampus));
-			rs = pstm.executeQuery();
+			
+			if (programa_pid) {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS_AND_PROGRAMA);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				pstm.setLong(2, Long.valueOf(programa_pid));
+				rs = pstm.executeQuery();
+			}
+			else {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				rs = pstm.executeQuery();
+			}
 			
 			while (rs.next()) {
 				row = new SesionesPosibles();
@@ -102,6 +115,7 @@ class SesionesDAO {
 				row.setNombre(rs.getString("nombre"));
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				row.setResponsable_id(rs.getString("responsable_id"));
+				row.setCampus(rs.getLong("campus_pid"));
 				rows.add(row);
 			}
 			
@@ -165,6 +179,7 @@ class SesionesDAO {
 				row.put("persistenceId_string", rs.getString("persistenceid"));
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("agendado", rs.getBoolean("agendado"))
 				
 				rows.add(row);
 			}
@@ -236,6 +251,7 @@ class SesionesDAO {
 				row.put("hora_fin", rs.getString("hora_fin"));
 				row.put("hora_inicio", rs.getString("hora_inicio"));
 				row.put("disponible", rs.getBoolean("responsables_disponibles"));
+				row.put("agendado", rs.getBoolean("agendado"))
 				
 				rows.add(row);
 			}
@@ -480,8 +496,8 @@ class SesionesDAO {
 					if(responsable.getPersistenceId() != null) {
 						errorLog += "|2";
 						pstm = con.prepareStatement(Statements.UPDATE_RESPONSABLE_CITA);
-						pstm.setBoolean(1, responsable.getDisponible_resp());
-						pstm.setBoolean(2, responsable.getOcupado());
+						pstm.setBoolean(1, responsable.getOcupado());
+						pstm.setBoolean(2, responsable.getDisponible_resp());
 						pstm.setLong(3, responsable.getPersistenceId());
 						rows = pstm.executeUpdate();
 						idUsuarioResponsable = responsable.getResponsable_id();
@@ -1032,5 +1048,277 @@ class SesionesDAO {
 			}
 		}
 		return resultado
+	}
+	
+	public Result getHorariosByResponsable(String user_id_string, String date_string) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		List<String> data = new ArrayList<String>();
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+
+			// validar parametros
+			if(user_id_string.equals("") || user_id_string == null) {
+				throw new Exception("El parámetro \"user_id\" no debe ir vacío");
+			} else if(date_string.equals("") || date_string == null) {
+				throw new Exception("El parámetro \"date\" no debe ir vacío");
+			}
+			
+			// conversión
+			SimpleDateFormat formatoEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+			SimpleDateFormat formatoBusqueda = new SimpleDateFormat("yyyy-MM-dd");
+			SimpleDateFormat formatoDataBase = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			
+			Long user_id = 0L;
+			String fechaFormateadaBusqueda = "";
+			
+			try {
+				user_id = Long.valueOf(user_id_string);
+			}
+			catch(e) { throw new Exception("El parámetro \"user_id\" debe ser tipo long. Valor recibido: " + user_id_string); }
+			
+			try {
+				Date fecha = formatoEntrada.parse(date_string);
+				fechaFormateadaBusqueda = formatoBusqueda.format(fecha);
+			}
+			catch(e) { throw new Exception("Falló al tratar de convertir el parámetro \"date\" a Date. Valor recibido: " + date_string); }
+			
+			// buscar 
+			pstm = con.prepareStatement(Statements.GET_HORARIOS_BY_RESPONSABLE.replace("[FECHA]", fechaFormateadaBusqueda));
+			pstm.setLong(1, user_id);
+			
+			rs = pstm.executeQuery();
+			
+			while (rs.next()) {
+				row = new HashMap<String, Object>();
+				
+				row.put("persistenceId", rs.getLong("persistenceid"));
+				row.put("persistenceId_string", rs.getString("persistenceid"));
+				row.put("hora_inicio", rs.getString("hora_inicio"));
+				row.put("hora_fin", rs.getString("hora_fin"));
+				row.put("cita_responsable_pid", rs.getLong("cita_responsable_pid"));
+				row.put("responsable_id", rs.getLong("responsable_id"));
+				row.put("disponible_resp", rs.getBoolean("disponible_resp"));
+				row.put("cita_entrevista_pid", rs.getLong("cita_entrevista_pid"));
+				row.put("cita_entrevista_nombre", rs.getString("cita_entrevista_nombre"));
+				row.put("duracion_entrevista_minutos", rs.getInt("duracion_entrevista_minutos"));
+				row.put("fecha_entrevista", formatoEntrada.format(formatoDataBase.parse(rs.getString("fecha_entrevista"))));
+				row.put("campus_pid", rs.getLong("campus_pid"));
+				row.put("is_presencial", rs.getBoolean("is_presencial"));
+				
+				rows.add(row);
+			}
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	public Result updateAgendadoHorario(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			con.setAutoCommit(false);
+			
+			// Validar inputs
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			} else if(object.agendado.equals("") || object.agendado == null) {
+				throw new Exception("El campo \"agendado\" no debe ir vacío");
+			} else if(!(object.agendado instanceof Boolean)) {
+				throw new Exception("El campo \"agendado\" debe ser de tipo boolean");
+			}
+			
+			// Conversion
+			Long persistenceId = 0L;
+			boolean agendado = object.agendado ? true : false;
+			
+			try {
+				persistenceId = Long.valueOf(object.persistenceId); 
+			}
+			catch(e) { throw new Exception("Algo falló al tratar de convertir el 'persistenceId' a long. Valor recibido: " + object.persistenceId + ". " + e.message); }
+			
+			// Estado actual
+			Map<String, Object> current = new HashMap<String, Object>();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIO);
+			pstm.setLong(1, persistenceId);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				current.put("persistenceId", rs.getLong("persistenceid"));
+				current.put("agendado", rs.getBoolean("agendado"));
+			}
+			else {
+				throw new Exception("No se encontró ningun horario con persistenceId " + persistenceId);
+			}
+			
+			// Validar agendado
+			if (agendado && current.agendado) {
+				throw new Exception("El horario ya esta agendado.");
+			}
+			
+			if (!agendado && !current.agendado) {
+				throw new Exception("El horario no esta agendado.");
+			}
+			
+			// Update
+			pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+			
+			pstm.setBoolean(1, agendado);
+			pstm.setLong(2, persistenceId);
+			
+			pstm.executeUpdate();
+
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	// Servicio utilizado por el aspirante
+	public Result agendarHorario(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		
+		try {
+			closeCon = validarConexion();
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			con.setAutoCommit(false);
+			
+			// Validar inputs
+			if(object.persistenceId.equals("") || object.persistenceId == null) {
+				throw new Exception("El campo \"persistenceId\" no debe ir vacío");
+			}
+			
+			// Conversion
+			Long persistenceId = 0L;
+			try { persistenceId = Long.valueOf(object.persistenceId); }
+			catch(e) { throw new Exception("Algo falló al tratar de convertir el 'persistenceId' a long. Valor recibido: " + object.persistenceId + ". " + e.message); }
+			
+			// Validar que se trate de un aspirante con un citaAspirante creado
+			PSGRRegistro registro = null;
+			PSGRCitaAspirante citaAspirante = null;
+			try {
+				def aspiranteId = context.apiSession.getUserId();
+				def aspirante = context.apiClient.identityAPI.getUser(aspiranteId);
+				PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
+				List<PSGRRegistro> registroResult = registroDAO.findByCorreo_electronico(aspirante.userName, 0, 99);
+				
+				if (registroResult.size() > 1) {
+					throw new Exception("Se encontró más de un solo resultado de Registro de solicitud para el usuario: " + aspirante.userName);
+				}
+				
+				if (registroResult && !registroResult.isEmpty()) {
+					registro = registroResult[0];
+				}
+				
+				if (!registro) {
+					throw new Exception("No se encontró ningún Registro de solicitud para el usuario: " + aspirante.userName);
+				}
+				
+				def caseId = registro.caseid;
+				PSGRCitaAspiranteDAO citaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
+				List<PSGRCitaAspirante> citaAspiranteResult = citaAspiranteDAO.findByCaseid(caseId, 0, 1);
+				
+				if (citaAspiranteResult && !citaAspiranteResult.isEmpty()) {
+					citaAspirante = citaAspiranteResult[0];
+				}
+				
+				if (!citaAspirante) {
+					throw new Exception("No se encontró ningún registro de una Cita Aspirante con caseId: " + caseId);
+				}
+			}
+			catch (e) {
+				throw new Exception("No es posible agendar con este usuario. " + e.message);
+			}
+			
+			// Estado actual del horario seleccionado
+			Map<String, Object> horarioSeleccionado = new HashMap<String, Object>();
+			
+			pstm = con.prepareStatement(Statements.GET_HORARIO);
+			pstm.setLong(1, persistenceId);
+			
+			rs = pstm.executeQuery();
+			
+			if (rs.next()) {
+				horarioSeleccionado.put("persistenceId", rs.getLong("persistenceid"));
+				horarioSeleccionado.put("agendado", rs.getBoolean("agendado"));
+			}
+			else {
+				throw new Exception("No se encontró ningun horario con persistenceId " + persistenceId);
+			}
+				
+			// Validar horario seleccionado
+			if (horarioSeleccionado.agendado) {
+				throw new Exception("Otro aspirante ya seleccionó este horario, favor de seleccionar una nueva cita.");
+			}
+
+			// En caso de que el aspirante tuviera ya un horario agendado
+			if (citaAspirante.cita_horario && citaAspirante.cita_horario.agendado) {
+				// Liberar
+				pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+				
+				pstm.setBoolean(1, false);
+				pstm.setLong(2, citaAspirante.cita_horario.persistenceId);
+				
+				pstm.executeUpdate();
+			}
+			
+			// Agendar
+			pstm = con.prepareStatement(Statements.UPDATE_AGENDADO_HORARIO);
+			
+			pstm.setBoolean(1, true);
+			pstm.setLong(2, persistenceId);
+			
+			pstm.executeUpdate();
+
+			con.commit();
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if (!con.autoCommit) con.rollback();
+		} finally {
+			resultado.setError_info(errorLog);
+			if (con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
 	}
 }

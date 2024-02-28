@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1707848197592,
+  "lastUpdate" : 1709159215555,
   "rows" : [
     [
       {
@@ -16481,7 +16481,7 @@
                                   },
                                   "text" : {
                                     "type" : "interpolation",
-                                    "value" : "Favor de subir los siguientes documentos en los formatos solicitados (máximo 10 MB por archivo).\nLos documentos pueden o no estar legalizados o apostillados. Si no lo están, estos serán verificados con la universidad que los expidió, lo que implica un mayor \ntiempo de respuesta en el trámite de admisión.\nLos documentos en otro idioma se tendrán que traducir al español. Dicha traducción la puede realizar el alumno, respetando los formatos de la documentación \nentregada."
+                                    "value" : "Favor de subir los siguientes documentos en el formato solicitado (máximo 10 MB por archivo) y con las características que se detallan en cada uno."
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -27175,6 +27175,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
+        "    \"isReagendarInput\": false,",
         "};"
       ],
       "exposed" : false
@@ -27205,6 +27206,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": [],",
+        "    \"isReagendarInput\": false,",
         "};"
       ],
       "exposed" : false
@@ -27241,6 +27243,7 @@
         "        \"is_transferido\": false,",
         "    },",
         "    \"datosRequisitosAdicionalesInput\": getRequisitosAdicionales(),",
+        "    \"isReagendarInput\": false,",
         "};",
         "",
         "function tieneRequisitosAdicionales() {",
@@ -27558,10 +27561,26 @@
       "value" : [
         "if ($data.recuperarIdBannerClickEvent) {",
         "    if ($data.datosPersonales.id_banner) {",
-        "        $data.validarFormInput.registroInput.id_banner_validacion = $data.datosPersonales.id_banner;",
+        "        if (validarIdBanner($data.datosPersonales.id_banner)) {",
+        "            $data.validarFormInput.registroInput.id_banner_validacion = $data.datosPersonales.id_banner;    ",
+        "        }",
+        "        else {",
+        "            swal(\"Formato no valido\", \"El ID que registro el aspirante no tiene formato válido de ID Banner\", \"info\");",
+        "        }",
         "    }",
         "    ",
         "    $data.recuperarIdBannerClickEvent = null;",
+        "}",
+        "",
+        "function validarIdBanner(id) {",
+        "    // Validar longitud",
+        "    if (id.length !== 8) {",
+        "        return false;",
+        "    }",
+        "    ",
+        "    // Validar formato",
+        "    const expresionId = /^[0-9]{1,8}$/;",
+        "    return expresionId.test(id);",
         "}"
       ],
       "exposed" : false
@@ -28281,7 +28300,11 @@
       "value" : [
         "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante_responsable.persistenceId}}"
       ],
-      "advancedOptions" : { },
+      "advancedOptions" : {
+        "headers" : "",
+        "statusCode" : "",
+        "failedResponseValue" : ""
+      },
       "exposed" : false
     },
     "updateResponsable" : {

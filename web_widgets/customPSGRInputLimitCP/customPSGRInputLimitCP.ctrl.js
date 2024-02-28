@@ -54,7 +54,6 @@ function ($scope, $log, widgetNameFactory, $http) {
         };
   
         return $http(req).success(function(data, status) {
-            debugger;
             $scope.properties.cpBusqueda = angular.copy(data);
         })
         .error(function(data, status) {

@@ -10,12 +10,19 @@ class SesionesPosibles {
 	private Integer duracion_entrevista_minutos;
 	private String responsable_id;
 	private List<Responsables> responsables;
+	private Long programa_interes_pid;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
 	}
 	public void setPersistenceId(Long persistenceId) {
 		this.persistenceId = persistenceId;
+	}
+	public Long getProgramaInteres_pid() {
+		return programa_interes_pid;
+	}
+	public void setProgramaInteres_pid(Long programa_interes_pid) {
+		this.programa_interes_pid = programa_interes_pid;
 	}
 	public String getPersistenceId_string() {
 		return persistenceId_string;

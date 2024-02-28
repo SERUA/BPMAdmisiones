@@ -18,12 +18,84 @@ function($scope, $http, blockUI, $window) {
     // Forzar a actualizar la lstCampus
     getCatCampus();
 
+    // Scope functions
+
+    $scope.cancelar = function() {
+        limpiarListaResponsables();
+        limpiarListaProgramas();
+        $scope.navVar = 'calendario'
+    }
+
+    $scope.validate = function(){
+        let valid = true;
+        let mensaje = "";
+        let titulo = "¡Atención!";
+
+        if(!$scope.sesion.nombre){ 
+            mensaje = "Nombre de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.descripcion_entrevista){ 
+            mensaje = "Descripción de la sesión no debe ir vacío";
+            valid = false;
+        }  else if(!$scope.sesion.fecha_entrevista){ 
+            mensaje = "Fecha de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.duracion_entrevista_minutos){ 
+            mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
+            valid = false;
+        } else if(!$scope.sesion.formato){ 
+            mensaje = "Debes seleccionar el formato de la sesión";
+            valid = false;
+        } else if($scope.sesion.formato === "presencial" && !$scope.sesion.ubicacion){ 
+            mensaje = "Ubiación de la sesión no debe ir vacío";
+            valid = false;
+        } else if($scope.sesion.formato === "linea" && !$scope.sesion.liga){ 
+            mensaje = "Liga de la sesión no debe ir vacío";
+            valid = false;
+        } else if(!$scope.responsables || $scope.responsables.length === 0){ 
+            mensaje = "Debes agregar al menos un responsable a la sesión";
+            valid = false;
+        } else if($scope.responsables && $scope.responsables.length !== 1){ 
+            mensaje = "Debes agregar un solo responsable a la sesión";
+            valid = false;
+        } else if(!validateSelectedPrograms($scope.responsables)){ 
+            mensaje = "Debes seleccionar al menos un programa por responsable";
+            valid = false;
+        }
+
+        if(valid){
+            // Publicar sesión
+            if (!$scope.sesion.persistenceId) {
+                swal({
+                    title: "Confirmar publicación de sesión",
+                    text: "Una vez que la sesión es publicada, no se podrá modificar la fecha, el formato, la duración ni cambiar al responsable",
+                    icon: "warning",
+                    buttons: true,
+                })
+                .then((respuesta) => {
+                    if (respuesta) {
+                        $scope.guardarSesion($scope.sesion);
+                    }
+                });
+            }
+            // Actualizar sesión
+            else {
+                $scope.guardarSesion($scope.sesion);
+            }
+            
+        } else {
+            swal(titulo, mensaje, "error");
+        }
+    }
+
+    // Utils
+
     function getCatCampus() {
         var req = {
             method: "GET",
             url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=100&f=eliminado=false"
         };
-  
+
         return $http(req)
         .success(function(data, status) {
             $scope.lstCampus = [];
@@ -42,7 +114,7 @@ function($scope, $http, blockUI, $window) {
 
     function updateCampusDisponibles() {
         const campusDisponibles = [];
-
+        
         if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
 
             for (let catCampus of $scope.lstCampus) {
@@ -53,7 +125,103 @@ function($scope, $http, blockUI, $window) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.selectedCampus = campusDisponibles[0].descripcion;
+            $scope.filtroCampus = campusDisponibles[0].descripcion;
+            $scope.addFilter();
+        }
     }
+
+    function updateHorariosDisponibles() {
+        const nuevaLista = $scope.responsables.map((responsable) => {
+            return {
+                ...responsable,
+                horariosDisponibles: $scope.horarios.filter((it) => it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp && !it.agendado)
+            }
+        })
+        $scope.responsables = nuevaLista;
+    }
+
+    function updateHorariosNoDisponibles() {
+        const nuevaLista = $scope.responsables.map((responsable) => {
+            return {
+                ...responsable,
+                horariosNoDisponibles: $scope.horarios.filter((it) => !(it.responsables.find((resp) => resp.responsable_id === responsable.responsable_id).disponible_resp && !it.agendado))    
+            }
+        })
+        $scope.responsables = nuevaLista;
+    }
+
+    $scope.horariosAgendados = [];
+    function updateHorariosAgendos() {
+        if ($scope.horarios) {
+            $scope.horariosAgendados = $scope.horarios.filter((hor) => hor.agendado);
+        }
+    }
+
+    $scope.getHorariosAgendados = function() {
+        if ($scope.horarios) {
+            return $scope.horarios.filter((hor) => hor.agendado);
+        }
+             
+    }
+
+    function validateSelectedPrograms(responsables) {
+        if ($scope.compiladoCarrerassResponsable) {
+            for (let responsable of responsables) {
+                const programas = $scope.compiladoCarrerassResponsable[responsable.responsable_id];
+                if (!programas || !programas.length) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
+    function validateDisponibilidadResponsable(responsable_id, date) {
+        
+        return new Promise((resolve, reject) => {
+            if (!(date instanceof Date)) {
+                console.error("[validateDisponibilidadResponsable]: El parámetro 'date' debe ser de tipo Date");
+                resolve(false);
+                return;
+            }
+
+            const dateFormated = formatearDate(date);
+    
+            $http.get(`../API/extension/posgradosRestGet?url=getHorariosByResponsable&user_id=${responsable_id}&date=${dateFormated}`)
+                .then((response) => {
+                    const horarios = response.data ? response.data : [];
+                    
+                    if (horarios.length === 0) {
+                        resolve(true); 
+                    } else {
+                        resolve(false); 
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    resolve(false);
+                });
+        });  
+    }
+
+    function formatearDate(fecha) {
+        const año = fecha.getUTCFullYear();
+        const mes = ('0' + (fecha.getUTCMonth() + 1)).slice(-2);
+        const dia = ('0' + fecha.getUTCDate()).slice(-2);
+        const horas = ('0' + fecha.getUTCHours()).slice(-2);
+        const minutos = ('0' + fecha.getUTCMinutes()).slice(-2);
+        const segundos = ('0' + fecha.getUTCSeconds()).slice(-2);
+        const milisegundos = ('00' + fecha.getUTCMilliseconds()).slice(-3);
+      
+        return `${año}-${mes}-${dia}T${horas}:${minutos}:${segundos}.${milisegundos}Z`;
+    }
+
+    // Watchers
 
     $scope.$watch("lstCampus", function (newValue, oldValue) {
         updateCampusDisponibles();
@@ -61,6 +229,15 @@ function($scope, $http, blockUI, $window) {
 
     $scope.$watch("lstCampusByUser", function (newValue, oldValue) {
         updateCampusDisponibles();
+    });
+
+    $scope.$watch("horarios", function (newValue, oldValue) {
+        if ($scope.horarios)  {
+            updateHorariosDisponibles();
+            updateHorariosNoDisponibles();
+            updateHorariosAgendos();
+        }
+        
     });
 
     // ----
@@ -71,38 +248,44 @@ function($scope, $http, blockUI, $window) {
         return check;
     };
     
-    function getInfoCarreras(){
-        $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + $scope.usuario.responsable_id).success(function(success){
-            if(success[0]){
+    function getInfoCarreras(responsable_id){
+        $http.get("../API/extension/posgradosRestGet?url=getInfoCarrerasResponsable&idsesion=" + $scope.sesion.persistenceId + "&identrevistador=" + responsable_id).success(function(success){
+            if(success[0] !== undefined && success[0] !== null){
                 $scope.carrerasResponsableString = success[0];
-                $scope.selected();
+                $scope.selected(responsable_id, success[0]);
             } else {
                 $scope.carrerasResponsableString = "";
-                for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
+                if (typeof responsable_id === "string") responsable_id = parseInt(responsable_id);
+                for(let carrera of $scope.compiladoCarrerassResponsable[responsable_id]){
                     $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
                 }
                 
-                $scope.selected();
+                $scope.selected(responsable_id, $scope.carrerasResponsableString);
             }
         }).error(function(err){
             $scope.carrerasResponsableString = "";
-            for(let carrera of $scope.compiladoCarrerassResponsable[parseInt($scope.usuario.responsable_id)]){
-                debugger;
+            if (typeof responsable_id === "string") responsable_id = parseInt(responsable_id);
+            for(let carrera of $scope.compiladoCarrerassResponsable[responsable_id]){
                 $scope.carrerasResponsableString === "" ? $scope.carrerasResponsableString += carrera.nombre : $scope.carrerasResponsableString += ("," + carrera.nombre);
             }
             
-            $scope.selected();
+            $scope.selected(responsable_id, $scope.carrerasResponsableString);
         });
     }
-    
-    $scope.selected = function(){
-        if($scope.usuario){
-            $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id] = [];
-            for(let str of $scope.carrerasResponsableString.split(",")){
+
+    // carrerasResponsableString changed or responsables changed?
+    // (Rediseñar esta función, debe trabajar con parametros siempre y su función es actualizar el 'compiladoCarrerassResponsable' cada vez que 'carrerasResponsableString' cambie)
+    $scope.selected = function(responsable_id, carrerasResponsableString){
+        const id = responsable_id ? responsable_id : $scope.usuario && $scope.usuario.responsable_id ? $scope.usuario.responsable_id : undefined;
+        const programasString = carrerasResponsableString !== null && carrerasResponsableString !== undefined ? carrerasResponsableString : $scope.carrerasResponsableString;
+
+        if(id){
+            $scope.compiladoCarrerassResponsable[id] = [];
+            for(let str of programasString.split(",")){
                 for(let carr of $scope.lstGestionEscolar){
                     if(str === carr.nombre){
                         // $scope.usuario.carrerasResponsable.push(carr);
-                        $scope.compiladoCarrerassResponsable[$scope.usuario.responsable_id].push(carr);
+                        $scope.compiladoCarrerassResponsable[id].push(carr);
                         break;
                     }
                 }
@@ -180,7 +363,7 @@ function($scope, $http, blockUI, $window) {
         }
         
         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
-             $scope.lstGestionEscolar = success;
+            $scope.lstGestionEscolar = success;
         }).error(function(err){
             // swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
         });
@@ -231,11 +414,17 @@ function($scope, $http, blockUI, $window) {
                     $scope.horarios = angular.copy(_data.data);
 
                     for(let id of angular.copy(_data.additional_data)){
+                        // Cargar información del responsable
                         $scope.agregarRespId(id); 
+
+                        // Cargar programas disponibles
                         $http.get("../API/extension/posgradosRestGet?url=getLstGestionEscolarByIdCampus&id_campus=" + $scope.idcampus).success(function(success){
                             $scope.lstGestionEscolar = success;
+                            
+                            // Cargar información de los programas seleccionados para el responsable
+                            getInfoCarreras(id);
                         }).error(function(err){
-                           swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
+                        swal("¡Algo ha fallado!", "no se ha podido obtener las carreras disponiles, intente  de nuevomas tarde.", "error");
                         });
                     }
 
@@ -254,6 +443,7 @@ function($scope, $http, blockUI, $window) {
         }
     }
 
+    // Cargando los responsables
     $scope.agregarRespId = function(_id){
         let _usuario = null;
         let encontrado = false;
@@ -320,8 +510,9 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.getInfoResponsable = function(_usuario){
+        
         $scope.usuario = _usuario;
-        getInfoCarreras();
+        getInfoCarreras($scope.usuario.responsable_id);
         //Llenar la lista de carreras  aquí
         $("#modalhorarios").modal("show");
     }
@@ -428,7 +619,7 @@ function($scope, $http, blockUI, $window) {
         }
         return retorno;
     }
-  
+
     $scope.lstMembership = [];
 
     $scope.$watch("properties.idUsuario", function(newValue, oldValue) {
@@ -437,7 +628,7 @@ function($scope, $http, blockUI, $window) {
                 method: "GET",
                 url: `/API/identity/membership?p=0&c=100&f=user_id%3d${$scope.properties.idUsuario}&d=role_id&d=group_id`
             };
-  
+
             return $http(req)
             .success(function(data, status) {
                 $scope.lstMembership = data;
@@ -449,7 +640,7 @@ function($scope, $http, blockUI, $window) {
             .finally(function() {});
         }
     });
-  
+
     $scope.lstCampusByUser = [];
 
     $scope.campusByUser = function() {
@@ -476,15 +667,34 @@ function($scope, $http, blockUI, $window) {
 
     $scope.addFilter = function() {
         $scope.idcampus = $scope.filtroCampus;
-
+        let currentGrupoBonita = "";
         for(let item of $scope.lstCampus){
             if(item.descripcion === $scope.filtroCampus){
+                
                 $scope.idcampus = item.persistenceid;
+                currentGrupoBonita = item.valor;
                 break;
             }
         }
 
+        // Guardar el group_id del campus seleccionado actualmente.
+        $scope.group_id = getGroupId(currentGrupoBonita);
+
         loadFechas();
+    }
+
+    function getGroupId(group_name) {
+
+        if (!group_name || group_name.indexOf("CAMPUS") === -1) {
+            console.error("La función getGroupId solo puede buscar en grupos de 'CAMPUS'");
+            return;
+        }
+
+        for (let membership of $scope.lstMembership) {
+            if (membership.group_id.name === group_name) {
+                return membership.group_id.id;
+            }
+        }
     }
     
     $scope.generarHoras = function(_duracion){
@@ -532,19 +742,33 @@ function($scope, $http, blockUI, $window) {
     function limpiarListaResponsables() {
         $scope.responsables = [];
     }
+
+    function limpiarListaProgramas() {
+        $scope.compiladoCarrerassResponsable = {};
+    }
     
     $scope.$watch("properties.roles", function(){
-        if($scope.properties.roles){
+        if($scope.properties.roles && $scope.group_id){
+            getUsuariosRol();
+        } 
+    });
+
+    $scope.$watch("group_id", function(){
+        if($scope.properties.roles && $scope.group_id){
             getUsuariosRol();
         } 
     });
     
     function getUsuariosRol(){
-        let url = "../API/identity/user?c=50&p=0&f=enabled=true";
+        let url = "../API/identity/user?c=99&p=0&f=enabled=true";
         
+        // Filtro por roles
         for(let rol of $scope.properties.roles){
             url += ("&f=role_id=" + rol.id);
         }
+
+        // Filtro por grupo seleccionado
+        url += ("&f=group_id=" + $scope.group_id);
         
         $http.get(url).success(function(_data){
             $scope.usuariosResponsables = angular.copy(_data);
@@ -554,9 +778,11 @@ function($scope, $http, blockUI, $window) {
     }
     
     $scope.agregarResponsable = function(){
+
         let _usuario = null;
         let encontrado = false;
-
+        const currentFecha = $scope.sesion.fecha_entrevista;
+        
         for(let usuarioResp of $scope.usuariosResponsables){
             if($scope.nuevoResponsable === usuarioResp.id){
                 _usuario = angular.copy(usuarioResp);
@@ -569,7 +795,20 @@ function($scope, $http, blockUI, $window) {
             }
         }
 
-        if(!encontrado){
+        if (!_usuario || encontrado) {
+            return;
+        }
+
+        // Validando la disponibilidad
+        validateDisponibilidadResponsable(_usuario.id, currentFecha)
+        .then((disponible) => {
+            
+            if (!disponible) {
+                const formatedDate = formatDateLocal(currentFecha);
+                swal("El responsable no esta disponible", "Se ha encontrado que " + _usuario?.firstname + " " + _usuario?.lastname + " ya tiene sesiones de entrevista programadas para el día " + formatedDate + ".", "error");
+                return;
+            } 
+
             let nuevoUsuario = {
                 "responsable_id": _usuario.id,
                 "horario": null, 
@@ -589,77 +828,67 @@ function($scope, $http, blockUI, $window) {
                         "persistenceId": horario.persistenceId
                     }
                 }
-                
                 horario["responsables"].push(angular.copy(nuevoUsuario));
             }
-        } 
-
-        $scope.nuevoResponsable = null;
+            // Init info de programas seleccionados
+            $scope.selected(_usuario.id, "") 
+        })
+        .catch((error) => {
+            console.error("Error al validar la disponibilidad:", error);
+        })
+        .finally(() => {
+            $scope.nuevoResponsable = null;
+            $scope.$apply();
+        }) 
     }
 
     $scope.deleteResponsable = function(_usuario){
+
         for(let horario of $scope.horarios){
             for(let responsable of horario.responsables){
-                if(_usuario.id === responsable.responsable_id){
+                if(_usuario.responsable_id === responsable.responsable_id){
                     horario.responsables.splice(horario.responsables.indexOf(responsable), 1);
                 }
             }
         }
         
         for(let responsable of $scope.responsables){
-            if(responsable.responsable_id === _usuario.id){
-                $scope.responsables.splice($scope.responsables.indexOf(responsable));
+            if(responsable.responsable_id === _usuario.responsable_id){
+                $scope.responsables.splice($scope.responsables.indexOf(responsable), 1);
             }
         }
     }
 
     $scope.setDisponible = function(_disponible, _index, _horarioIndex){
         $scope.horarios[_horarioIndex].responsables[_index].disponible_resp = _disponible;
+
+        // Actualizar 
+        $scope.updateHorariosDisponibilidad()
     }
 
-    $scope.validate = function(){
-        let valid = true;
-        let mensaje = "";
-        let titulo = "¡Atención!";
-
-        if(!$scope.sesion.nombre){ 
-            mensaje = "Nombre de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.descripcion_entrevista){ 
-            mensaje = "Descripción de la sesión no debe ir vacío";
-            valid = false;
-        }  else if(!$scope.sesion.fecha_entrevista){ 
-            mensaje = "Fecha de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.duracion_entrevista_minutos){ 
-            mensaje = "Duración de las entrevistas en minutos no debe ir vacío";
-            valid = false;
-        } else if(!$scope.sesion.formato){ 
-            mensaje = "Debes seleccionar el formato de la sesión";
-            valid = false;
-        } else if($scope.sesion.formato === "presencial" && !$scope.sesion.ubicacion){ 
-            mensaje = "Ubiación de la sesión no debe ir vacío";
-            valid = false;
-        } else if($scope.sesion.formato === "linea" && !$scope.sesion.liga){ 
-            mensaje = "Liga de la sesión no debe ir vacío";
-            valid = false;
-        } else if(!$scope.responsables || $scope.responsables.length === 0){ 
-            mensaje = "Debes agregar al menos un responsable a la sesión";
-            valid = false;
-        }
-
-        if(valid){
-            $scope.guardarSesion($scope.sesion);
-        } else {
-            swal(titulo, mensaje, "error");
-        }
+    $scope.updateHorariosDisponibilidad = function() {
+        // Actualizar 
+        updateHorariosDisponibles();
+        updateHorariosNoDisponibles();
+        updateHorariosAgendos();
     }
     
     $scope.limiteFecha = function obtenerFechaActual() {
         const hoy = new Date();
-        const year = hoy.getFullYear();
-        const month = String(hoy.getMonth() + 1).padStart(2, '0');
-        const day = String(hoy.getDate()).padStart(2, '0');
+        return formatDate(hoy);
+    }
+
+    function formatDate(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
         return `${year}-${month}-${day}`;
+    }
+
+    function formatDateLocal(date) {
+        const year = date.getFullYear();
+        const month = String(date.getMonth() + 1).padStart(2, '0');
+        const day = String(date.getDate()).padStart(2, '0');
+        return `${day}-${month}-${year}`;
     }
 }

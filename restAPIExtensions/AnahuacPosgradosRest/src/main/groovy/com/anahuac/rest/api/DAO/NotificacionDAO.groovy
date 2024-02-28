@@ -84,10 +84,12 @@ class NotificacionDAO {
 		
 		String idioma = "";
 		String plantilla ="";
-		String correo="",  asunto="",  body="",  cc="";
+		String correoAspirante = "";
+		String correoDestinatario = "";
+		List<String> correosCopia = [];
+		String asunto="",  body="",  cc="";
 		Boolean cartaenviar=false;
 		try {
-		
 			Properties prop = new Properties();
 			String propFileName = "configuration.properties";
 			InputStream inputStream;
@@ -112,6 +114,28 @@ class NotificacionDAO {
 			def object = jsonSlurper.parseText(jsonData);
 			
 			assert object instanceof Map;
+			
+			if (object.correo.equals("") || object.correo == null) {
+				throw new Exception('El campo "correo" no debe ir vacío');
+			}
+			
+			// Estableciendo los correos de destino y del aspirante
+			if (object.correo) {
+				String[] correosRecibidos = object.correo.toString().split(",");
+				// Copiando el primer correo como correo principal de destino
+				correoDestinatario = correosRecibidos[0];
+				// Copiando los demas correos, en caso de existir, como correos de copia de envio
+				if (correosRecibidos.size() > 1) {
+					correosRecibidos.eachWithIndex { item, index ->
+						if (index != 0) {
+							correosCopia.add(item);
+						}
+					}
+				}
+			} 
+			if (object.correoAspirante) correoAspirante = object.correoAspirante;
+			if (!correoAspirante) correoAspirante = correoDestinatario;
+			
 			Boolean closeConPlantilla=false;
 			
 			userLogged = context.getApiSession().getUserId();
@@ -275,6 +299,16 @@ class NotificacionDAO {
 					}
 				}
 			}
+			// Correos copia enviados
+			if(correosCopia.size() > 0) {
+				for(String correoCopia: correosCopia) {
+					if(cc == "") {
+						cc = correoCopia
+					}else {
+						cc = cc + ";" + correoCopia
+					}
+				}
+			}
 			
 			// Obteniendo los DAO a utilizar
 			PSGRRegistroDAO registroDAO = context.apiClient.getDAO(PSGRRegistroDAO.class)
@@ -282,9 +316,8 @@ class NotificacionDAO {
 			PSGRConfiguracionesDAO configuracionesDAO = context.apiClient.getDAO(PSGRConfiguracionesDAO.class)
 			PSGRCatCampusDAO campusDAO = context.apiClient.getDAO(PSGRCatCampusDAO.class)
 			
-			// Estableciendo el correo 
-			correo = object.correo;
-			if (correo == "carta_posgrado_correo_previsualizacion" && object.campus) {
+			// Estableciendo el correo en caso de previsualización
+			if (correoAspirante == "carta_posgrado_correo_previsualizacion" && object.campus) {
 				
 				List<PSGRCatCampus> campusResult = campusDAO.findByGrupo_bonita(object.campus, 0, 99)
 				PSGRCatCampus campusEnviado = !campusResult.empty ? campusResult.get(0) : null
@@ -294,14 +327,14 @@ class NotificacionDAO {
 					
 					confResult.each { item ->
 						if (item.clave == "carta_posgrado_correo_previsualizacion")
-							correo = item.valor;
+							correoAspirante = item.valor;
 					}
 				}	
 			}
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
 			try {
-				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correo, 0, 99)
+				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correoAspirante, 0, 99)
 				if (!listaRegistros.empty) {
 					PSGRRegistro registro = listaRegistros.get(0)
 					caseId = registro.caseid
@@ -324,7 +357,7 @@ class NotificacionDAO {
 			// AGREGANDO VARIABLES (valores dinamicos)
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
-			plantilla = DataUsuarioAdmision(plantilla, context, correo, cn, errorlog, object.isEnviar, object.codigo.toString());
+			plantilla = DataUsuarioAdmision(plantilla, context, correoAspirante, cn, errorlog, object.isEnviar, object.codigo.toString());
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
 			
@@ -332,12 +365,13 @@ class NotificacionDAO {
 			try {
 				// Liga confirmar cuenta
 				if(object.codigo.equals("psgr-validar-cuenta")) {
-					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + object.correo + "");
+					plantilla = plantilla.replace("[HREF-CONFIRMAR]", objProperties.getUrlHost() + "/apps/login/pg_activar_usuario/?correo=" + correoAspirante + "");
 				}
 				
 				// Liga aspirante inicio
 				if (object.isEnviar) {
-					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/pg_aspirante/pg_home/")
+					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					// "/apps/pg_aspirante/pg_home/")
 				}
 				
 				// Requisitos adicionales auxiliares
@@ -376,9 +410,9 @@ class NotificacionDAO {
 							plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.getCita_horario().getHora_inicio());
 							plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato);
 							String liga = citaAspirante.getCita_horario().getCita_entrevista().getLiga();
-							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "N/A");
+							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "No aplica a esta entrevista");
 							String ubicacion = citaAspirante.getCita_horario().getCita_entrevista().getUbicacion();
-							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "N/A");
+							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "No aplica a esta entrevista");
 						} catch(Exception e) {
 							errorlog += "| ERROR EN LA CITA: " + e.getMessage();
 						}
@@ -390,7 +424,7 @@ class NotificacionDAO {
 				String ordenpago = ""
 				String campus_id =""
 				pstm = con.prepareStatement(Statements.GET_DETALLESOLICITUD_PSGR)
-				pstm.setString(1, object.correo)
+				pstm.setString(1, correoAspirante)
 				rs = pstm.executeQuery()
 				
 				if (rs.next() && object.isEnviar) {
@@ -478,7 +512,16 @@ class NotificacionDAO {
 					CatNotificacionesCampus catHffc = (CatNotificacionesCampus) hffc.getData().get(0)
 					plantilla=plantilla.replace("[HEADER-IMG]", catHffc.getHeader())
 					plantilla=plantilla.replace("[TEXTO-FOOTER]", catHffc.getFooter())
-					cc=catHffc.getCopia();
+					
+					def correoCopiaDePlantilla = catHffc.getCopia();
+					if (correoCopiaDePlantilla) {
+						if(cc == "") {
+							cc = correoCopiaDePlantilla
+						}else {
+							cc = cc + ";" + correoCopiaDePlantilla
+						}
+					}
+					
 					errorlog +=  "| Variable15.4 "
 					try {
 						errorlog +=  "| Variable15.5 "
@@ -508,7 +551,7 @@ class NotificacionDAO {
 			resultado.setData(lstData);
 			
 			MailGunDAO mgd = new MailGunDAO();
-			lstAdditionalData.add("correo="+correo)
+			lstAdditionalData.add("correo="+correoDestinatario)
 			lstAdditionalData.add("asunto="+asunto)
 			lstAdditionalData.add("cc="+cc);
 			
@@ -537,14 +580,14 @@ class NotificacionDAO {
 			errorlog +=  "| Variable18.1"
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 				errorlog +=  "| Variable18.2"
-				resultado = mgd.sendEmailPlantilla(correo, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
+				resultado = mgd.sendEmailPlantilla(correoDestinatario, asunto, plantilla.replace("\\", ""), cc, object.campus, context)
 				CatBitacoraCorreo catBitacoraCorreo = new CatBitacoraCorreo();
 				catBitacoraCorreo.setCodigo(object.codigo)
 				errorlog +=  "| Variable18.3"
 				catBitacoraCorreo.setDe(resultado.getAdditional_data().get(0))
 				errorlog +=  "| Variable18.4"
 				catBitacoraCorreo.setMensaje(object.mensaje)
-				catBitacoraCorreo.setPara(object.correo)
+				catBitacoraCorreo.setPara(correoDestinatario)
 				catBitacoraCorreo.setCampus(object.campus)
 				
 				if(resultado.success) {
