@@ -2744,49 +2744,53 @@ class UsuariosDAO {
 			pstm.setString(1, username);
 			
 			rs = pstm.executeQuery();
-			
+			errorLog += "|1 ";
 			if (rs.next()) {
-				errorLog += "|1 ";
 				if(rs.getBoolean("reagendado") != true) {
-					errorLog += "|1.1 ";
+					errorLog += "|2 ";
 					if(rs.getBoolean("correct_date") == false) {
-						errorLog += "|1.1.1 ";
+						errorLog += "|2.1 ";
 						throw new Exception("fecha_incorrecta");
-					} else if(rs.getBoolean("exameniniciado") == false) {
-						errorLog += "|1.1.2 ";
-						throw new Exception("examen_no_iniciado");
-					} else if(rs.getBoolean("finalizada") == true) {
-						errorLog += "|1.1.3 ";
+					} 
+//					else if(rs.getBoolean("exameniniciado") == false) {
+//						errorLog += "|2.2 ";
+//						throw new Exception("examen_no_iniciado");
+//					} 
+					else if(rs.getBoolean("finalizada") == true) {
+						errorLog += "|2.3 ";
 						throw new Exception("examen_finalizado");
 					}
 				} else {
-					errorLog += "|1.2 ";
-					if(rs.getBoolean("reagendado") == false) {
-						errorLog += "|1.2.1 ";
+					errorLog += "|3 ";
+					if(rs.getBoolean("reagendado") != true) {
+						errorLog += "|3.1 ";
 						throw new Exception("examen_finalizado");
 					} else if(rs.getBoolean("correct_date_temp")  != true) {
-						errorLog += "|1.2.1 ";
+						errorLog += "|3.2 ";
 						throw new Exception("fecha_incorrecta");
 					}
 				}
 			} else {
-				errorLog += "|2 ";
+				errorLog += "|4 ";
 				pstm = con.prepareStatement(Statements.GET_SESION_TODAY_TEMP);
 				pstm.setString(1, username);
 				
 				rs = pstm.executeQuery();
 				
 				if (rs.next()) {
-					errorLog += "|2.1 ";
-					if(rs.getBoolean("reagendado") == false) {
-						errorLog += "|2.1.1";
+					errorLog += "|5 ";
+					if(rs.getBoolean("reagendado") != true && rs.getBoolean("correct_date_temp") != true) {
+						errorLog += "|5.1 ";
+						throw new Exception("no_sesion_asignada");
+					} else if(rs.getBoolean("reagendado") == false) {
+						errorLog += "|5.2 ";
 						throw new Exception("examen_finalizado");
 					} else if(rs.getBoolean("correct_date_temp")  != true) {
-						errorLog += "|2.1.2 ";
+						errorLog += "|5.3 ";
 						throw new Exception("fecha_incorrecta");
 					}
 				} else {
-					errorLog += "|2.2 ";
+					errorLog += "|6 ";
 					throw new Exception("no_sesion_asignada");
 				}
 			}
@@ -2795,6 +2799,7 @@ class UsuariosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog);
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm)

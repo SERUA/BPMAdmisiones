@@ -1332,6 +1332,8 @@ class PsicometricoDAO {
 			    idBanner = rs.getString("idbanner");
 			}
 			
+			testPsicomInput.puntuacionINVP = testPsicomInput.puntuacionINVP.toString();
+			
 			if (testPsicomInput.puntuacionINVP != null && !testPsicomInput.puntuacionINVP.isEmpty() &&
 			    testPsicomInput.fechaEntrevista != null && !testPsicomInput.fechaEntrevista.isEmpty()) {
 			    String fecha = testPsicomInput.fechaEntrevista.substring(0, 10);

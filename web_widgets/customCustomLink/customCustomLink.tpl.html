@@ -4,9 +4,9 @@
 
 
 <div class="col-lg-12 col-md-12 col-sm-12 text-center checkbox text-{{ properties.alignment }}">
-    <label>
+    <label style="font-weight: 600;">
         <input type="checkbox" name="{{ctrl.name}}" ng-model="properties.value" ng-required="properties.required" ng-disabled="properties.disabled">{{properties.label}}&nbsp;
-        <a class="no-padding color-orange" ng-class="properties.buttonStyle !== 'none' ? 'btn btn-' + properties.buttonStyle : ''" ng-href="{{ctrl.getHref()}}" target="{{ctrl.getTarget()}}">{{properties.text}}</a>
+        <a class="no-padding color-orange"  style="font-weight: 600;" ng-class="properties.buttonStyle !== 'none' ? 'btn btn-' + properties.buttonStyle : ''" ng-href="{{ctrl.getHref()}}" target="{{ctrl.getTarget()}}">{{properties.text}}</a>
     </label>
     <div ng-messages="$form[ctrl.name].$dirty && $form[ctrl.name].$error " ng-messages-include="forms-generic-errors.html" role="alert"></div>
 </div>

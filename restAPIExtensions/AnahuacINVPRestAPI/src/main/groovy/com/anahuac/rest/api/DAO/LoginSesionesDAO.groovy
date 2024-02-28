@@ -190,252 +190,24 @@ class LoginSesionesDAO {
 		Boolean examenReiniciado = false;
 		
 		try {
-			errorlog += " | getSesionActivaV2::1 "
 			List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
 			Map<String,Object> row = new HashMap<String,Object>();
 			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO);
-			pstm.setString(1, username);
-			rs = pstm.executeQuery();
-			errorlog += " | getSesionActivaV2::2 ";
-			
-			if (rs.next()) {
-				errorlog += " | getSesionActivaV2::3 "
-				
-				if(rs.getBoolean("istemporal") == true  && rs.getBoolean("existe_sesion") == false) {
-					errorlog += " | getSesionActivaV2::4.1 ";
-					throw new Exception("no_existe_sesion");
-				}  else if(rs.getBoolean("istemporal") == true  && !rs.getBoolean("sesion_iniciada_temp")) {
-					errorlog += " | getSesionActivaV2::4 "
-					String mensaje = rs.getString("fechainicio_temp");
-					throw new Exception("sesion_no_iniciada|" + mensaje);
-				} else if(rs.getBoolean("istemporal") == true  && rs.getBoolean("sesion_finalizada_temp")) {
-					errorlog += " | getSesionActivaV2::22 ";
-					String mensaje = rs.getString("fechafin_temp");
-					throw new Exception("sesion_finalizada|" + mensaje);
-				}
-				
-				isTemporal = rs.getBoolean("istemporal");
-				examenReiniciado = rs.getBoolean("examenreiniciado");
-				row = new HashMap<String,Object>();
-				
-				if(rs.getBoolean("examenreiniciado") == true && rs.getBoolean("sesion_iniciada_temp") == false) {
-					errorlog += " | getSesionActivaV2::4 "
-					String mensaje = rs.getString("fechainicio_temp");
-					throw new Exception("sesion_no_iniciada|" + mensaje);
-				}
-				
-				Boolean tieneTolerancia = false;
-				
-				errorlog += " | getSesionActivaV2::7 "
-				
-				Result checkTolerancia = new Result();
-				
-				if(isTemporal == true) {
-					errorlog += " | getSesionActivaV2::8 "
-					checkTolerancia = new UsuariosDAO().checkToleranciaTemp(username);
-				} else {
-					errorlog += " | getSesionActivaV2::9 "
-					checkTolerancia = new UsuariosDAO().checkTolerancia(username);
-				}
-				
-				if(checkTolerancia.isSuccess()) {
-					errorlog += " | getSesionActivaV2::10 "
-					errorlog += " | " + checkTolerancia.getError_info();
-					tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
-				} else {
-					errorlog += " | getSesionActivaV2::11 "
-					throw new Exception("no_sesion_asignada");
-				}
-				
-				if(!tieneTolerancia) {
-					errorlog += " | getSesionActivaV2::12 "
-					errorlog += " | " + checkTolerancia.getError_info();
-//					throw new Exception("toler");
-				}
-			} else {
-				errorlog += " | getSesionActivaV2::13 "
-				pstm = con.prepareStatement(Statements.GET_SESION_LOGIN);
-				pstm.setString(1, username);
-				rs = pstm.executeQuery();
-				
-				if(rs.next()) {
-					errorlog += " | getSesionActivaV2::14 "
-					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
-						errorlog += " | getSesionActivaV2::15 "
-						String mensaje = "";
-						
-						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::20 "
-						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
-						
-						if(rs.getBoolean("sesion_finalizada") == true && ((sesion_finalizada_temp == true || finalizada_temp == null))) {
-							errorlog += " | getSesionActivaV2::19 ";
-							mensaje = rs.getString("salidahora");
-							throw new Exception("sesion_finalizada|" + mensaje);
-						} else if(!rs.getBoolean("sesion_iniciada")) {
-							errorlog += " | getSesionActivaV2::16 "
-							mensaje = rs.getString("entradahora");
-							throw new Exception("sesion_no_iniciada|" + mensaje);
-						} else if(rs.getObject("sesion_iniciada_temp") != null) {
-							errorlog += " | getSesionActivaV2::17 "
-							if(!rs.wasNull()) {
-								errorlog += " | getSesionActivaV2::18 "
-								mensaje = rs.getString("entradahora");
-								throw new Exception("sesion_no_iniciada|" + mensaje);
-							}
-						}
-					} else {
-						errorlog += " | getSesionActivaV2::19 "
-						String mensaje = "";
-						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::20 "
-						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::21 "
-						
-						if(rs.getBoolean("sesion_finalizada") == true && (sesion_finalizada_temp == true || finalizada_temp == null)) {
-							errorlog += " | getSesionActivaV2::22 ";
-//							mensaje = rs.getString("fechafin_temp");
-							throw new Exception("sesion_finalizada|" + mensaje);
-						}
-					}
-				} else {
-					errorlog += " | getSesionActivaV2::23 "
-					throw new Exception("no_existe_sesion");
-				}
-			}
-			
-			resultado.setSuccess(true);
-			resultado.setData(rows);
-			resultado.setError_info(errorlog);
-		} catch (Exception e) {
-			LOGGER.error(e.getMessage() + errorlog);
-			resultado.setSuccess(false);
-			resultado.setError(e.getMessage());
-			resultado.setError_info(errorlog);
-		} finally {
-			new DBConnect().closeObj(con, stm, rs, pstm);
-		}
-		
-		return resultado;
-	}
-	
-	public Result getSesionActivaV3(String username) {
-		Result resultado = new Result();
-		Boolean closeCon = false;
-		String errorlog = "";
-		Boolean isTemporal = false;
-		Boolean examenReiniciado = false;
-		
-		try {
-			List<Map<String,Object>> rows = new ArrayList<Map<String,Object>>();
-			Map<String,Object> row = new HashMap<String,Object>();
-			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO);
+			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO_V3);
 			pstm.setString(1, username);
 			rs = pstm.executeQuery();
 			
 			if (rs.next()) {
-				
-				if(rs.getBoolean("istemporal") == true  && rs.getBoolean("existe_sesion") == false) {
-					throw new Exception("no_existe_sesion");
-				}  else if(rs.getBoolean("istemporal") == true  && !rs.getBoolean("sesion_iniciada_temp")) {
-					errorlog += " | getSesionActivaV2::4 "
-					String mensaje = rs.getString("fechainicio_temp");
-					throw new Exception("sesion_no_iniciada|" + mensaje);
-				} else if(rs.getBoolean("istemporal") == true  && rs.getBoolean("sesion_finalizada_temp")) {
-					errorlog += " | getSesionActivaV2::22 ";
-					String mensaje = rs.getString("fechafin_temp");
-					throw new Exception("sesion_finalizada|" + mensaje);
-				}
-				
-				isTemporal = rs.getBoolean("istemporal");
-				examenReiniciado = rs.getBoolean("examenreiniciado");
-				row = new HashMap<String,Object>();
-				
-				if(rs.getBoolean("examenreiniciado") == true && rs.getBoolean("sesion_iniciada_temp") == false) {
-					errorlog += " | getSesionActivaV2::4 "
-					String mensaje = rs.getString("fechainicio_temp");
-					throw new Exception("sesion_no_iniciada|" + mensaje);
-				}
-				
-				Boolean tieneTolerancia = false;
-				
-				errorlog += " | getSesionActivaV2::7 "
-				
-				Result checkTolerancia = new Result();
-				
-				if(isTemporal == true) {
-					errorlog += " | getSesionActivaV2::8 "
-					checkTolerancia = new UsuariosDAO().checkToleranciaTemp(username);
-				} else {
-					errorlog += " | getSesionActivaV2::9 "
-					checkTolerancia = new UsuariosDAO().checkTolerancia(username);
-				}
-				
-				if(checkTolerancia.isSuccess()) {
-					errorlog += " | getSesionActivaV2::10 "
-					errorlog += " | " + checkTolerancia.getError_info();
-					tieneTolerancia = (Boolean) checkTolerancia.getData().get(0);
-				} else {
-					errorlog += " | getSesionActivaV2::11 "
-					throw new Exception("no_sesion_asignada");
-				}
-				
-				if(!tieneTolerancia) {
-					errorlog += " | getSesionActivaV2::12 "
-					errorlog += " | " + checkTolerancia.getError_info();
-//					throw new Exception("toler");
-				}
-			} else {
-				errorlog += " | getSesionActivaV2::13 "
-				pstm = con.prepareStatement(Statements.GET_SESION_LOGIN);
-				pstm.setString(1, username);
-				rs = pstm.executeQuery();
-				
-				if(rs.next()) {
-					errorlog += " | getSesionActivaV2::14 "
-					if(!rs.getBoolean("sesion_iniciada") || rs.getBoolean("sesion_iniciada_temp") == false) {
-						errorlog += " | getSesionActivaV2::15 "
-						String mensaje = "";
-						
-						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::20 "
-						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
-						
-						if(rs.getBoolean("sesion_finalizada") == true && ((sesion_finalizada_temp == true || finalizada_temp == null))) {
-							errorlog += " | getSesionActivaV2::19 ";
-							mensaje = rs.getString("salidahora");
-							throw new Exception("sesion_finalizada|" + mensaje);
-						} else if(!rs.getBoolean("sesion_iniciada")) {
-							errorlog += " | getSesionActivaV2::16 "
-							mensaje = rs.getString("entradahora");
-							throw new Exception("sesion_no_iniciada|" + mensaje);
-						} else if(rs.getObject("sesion_iniciada_temp") != null) {
-							errorlog += " | getSesionActivaV2::17 "
-							if(!rs.wasNull()) {
-								errorlog += " | getSesionActivaV2::18 "
-								mensaje = rs.getString("entradahora");
-								throw new Exception("sesion_no_iniciada|" + mensaje);
-							}
-						}
-					} else {
-						errorlog += " | getSesionActivaV2::19 "
-						String mensaje = "";
-						Boolean sesion_finalizada_temp = rs.getBoolean("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::20 "
-						def finalizada_temp = rs.getObject("sesion_finalizada_temp");
-						errorlog += " | getSesionActivaV2::21 "
-						
-						if(rs.getBoolean("sesion_finalizada") == true && (sesion_finalizada_temp == true || finalizada_temp == null)) {
-							errorlog += " | getSesionActivaV2::22 ";
-//							mensaje = rs.getString("fechafin_temp");
-							throw new Exception("sesion_finalizada|" + mensaje);
-						}
+				if(rs.getBoolean("istemporal") == true ) {
+					if(rs.getBoolean("existe_sesion") != true) {
+						throw new Exception("examen_no_iniciado");
 					}
 				} else {
-					errorlog += " | getSesionActivaV2::23 "
-					throw new Exception("no_existe_sesion");
+					if(rs.getBoolean("exameniniciado") != true) {
+						throw new Exception("examen_no_iniciado");
+					} else if (rs.getBoolean("existe_sesion") != true) {
+						throw new Exception("no_sesion_asignada");
+					}
 				}
 			}
 			
@@ -1141,11 +913,11 @@ class LoginSesionesDAO {
 			List<LoginSesion> rows = new ArrayList<LoginSesion>();
 			closeCon = validarConexion();
 			
-			pstm = con.prepareStatement(Statements.GET_DATOS_SESION_LOGIN);
+			pstm = con.prepareStatement(Statements.GET_DATOS_SESION_LOGIN_V2);
 			pstm.setString(1, object.username);
 			//pstm.setLong(3, campus_pid);
 			rs = pstm.executeQuery();
-			while (rs.next()) {
+			if (rs.next()) {
 				errorlog += " dentro de la consulta " + " | ";
 				row = new LoginSesion();
 				row.setPersistenceId(rs.getLong("idsesion"));
@@ -1176,6 +948,23 @@ class LoginSesionesDAO {
 				row.setSesion_iniciada(rs.getBoolean("examen_iniciado"));
 				
 				rows.add(row);
+			} else {
+				pstm = con.prepareStatement(Statements.GET_SESION_USUARIO_V3);
+				pstm.setString(1, username);
+				rs = pstm.executeQuery();
+				
+	//			"exameniniciado": "t",
+	//			"istemporal": "t",
+	//			"examenreiniciado": null,
+	//			"existe_sesion": "t"
+				
+				if (rs.next()) {
+					if(rs.getBoolean("exameniniciado") != true) {
+						throw new Exception("examen_no_iniciado");
+					} else if (rs.getBoolean("existe_sesion") != true) {
+						throw new Exception("no_sesion_asignada");
+					}
+				}
 			}
 			
 			

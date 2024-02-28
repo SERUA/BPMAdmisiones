@@ -2099,10 +2099,9 @@ public Result getCatPreguntas(String jsonData) {
 				if(object.idprueba == null) {
 					pstm.setNull(7, 0);
 				} else {
-					
+					pstm.setLong(7, object.idprueba);
 				}
 				
-				pstm.setLong(7, object.idprueba);
 				pstm.setBoolean(8, true);
 				
 			}
