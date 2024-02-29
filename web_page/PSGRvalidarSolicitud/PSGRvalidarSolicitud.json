@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1709231935339,
+  "lastUpdate" : 1709233048870,
   "rows" : [
     [
       {
@@ -22109,7 +22109,7 @@
                     "value" : "left"
                   }
                 },
-                "reference" : "61ca7a25-79fd-438e-849b-e9618d93fb76",
+                "reference" : "4695f912-0370-4a89-9d36-23702049fb1b",
                 "hasValidationError" : false,
                 "id" : "pbText"
               }
@@ -28043,21 +28043,22 @@
         "if ($data.guardarRequisitosRespuesta) {",
         "    if ($data.guardarRequisitosRespuesta.toString().startsWith(\"2\")) {",
         "        // Notificar exito",
-        "        Swal.fire({",
+        "        swal({",
         "            icon: 'success',",
         "            title: \"Respuesta\",",
         "            text: \"Los cambios fueron guardados correctamente.\",",
-        "            confirmButtonText: \"Ok\",",
+        "            button: \"Aceptar\"",
         "        });",
+        "        ",
         "        // Volver a cargar la información de requisitos adicionales",
         "        $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
         "    }",
         "    else {",
-        "        Swal.fire({",
+        "        swal({",
         "            icon: 'error',",
         "            title: \"Respuesta\",",
         "            text: \"Algo falló al intentar guardar los cambios.\",",
-        "            confirmButtonText: \"Ok\",",
+        "            button: \"Aceptar\"",
         "        });",
         "    }",
         "    ",
