@@ -47,6 +47,21 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         return angular.equals(row, $scope.properties.selectedRow);
     }
 
+    $scope.contrato = {};
+
+    $scope.enviarReagendar = function(){
+        let url = "../API/extension/posgradosRest?url=reagendarAspirante&caseid=" + $scope.selectedRow.caseid;
+        let dataToSend = {
+            "caseid": $scope.selectedRow.caseid
+        };
+
+        $http.post(url, dataToSend).success(function(_data){
+            doRequest("POST", $scope.properties.urlPost);
+        }).error(function(){
+            swal("¡Algo ha fallado!", "Ha ocurrido un error inesperado, intente de nuevo mas tarde", "error")
+        });
+    }
+
     // Scope functions
 
     $scope.campusChanged = function() {
@@ -589,24 +604,6 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             })
             .finally(function() {});
   
-      /*
-      }else{
-        var req = {
-            method: "GET",
-            url: `/API/bpm/task?p=0&c=10&f=caseId%3d${rowData.caseid}&f=isFailed%3dfalse`
-        };
-  
-        return $http(req).success(function(data, status) {
-                let taskId = data[0].id;
-                var url = "/bonita/portal/resource/app/aspirante/verSolicitudAdmision/content/?app=aspirante&id=" + rowData.caseid + "&displayConfirmation=false";
-                //window.location.href = url;
-                window.open(url, '_blank');
-            })
-            .error(function(data, status) {
-                console.error(data);
-            })
-            .finally(function() {});
-          }*/
     }
   
     $scope.preAsignarTarea = function(rowData) {
