@@ -11,6 +11,7 @@ class SesionesPosibles {
 	private String responsable_id;
 	private List<Responsables> responsables;
 	private Long programa_interes_pid;
+	private Boolean is_presencial;
 	
 	public Long getPersistenceId() {
 		return persistenceId;
@@ -71,5 +72,11 @@ class SesionesPosibles {
 	}
 	public void setResponsables(List<Responsables> responsables) {
 		this.responsables = responsables;
+	}
+	public Boolean getIs_presencial() {
+		return is_presencial;
+	}
+	public void setIs_presencial(Boolean is_presencial) {
+		this.is_presencial = is_presencial;
 	}
 }
