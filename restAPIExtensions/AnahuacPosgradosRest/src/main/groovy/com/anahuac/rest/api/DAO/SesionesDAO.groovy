@@ -116,6 +116,7 @@ class SesionesDAO {
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				row.setResponsable_id(rs.getString("responsable_id"));
 				row.setCampus(rs.getLong("campus_pid"));
+				row.setIs_presencial(rs.getBoolean("is_presencial"));
 				rows.add(row);
 			}
 			
@@ -245,6 +246,7 @@ class SesionesDAO {
 				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				sesion.setFecha_entrevista(rs.getString("fecha_entrevista"));
 				sesion.setResponsable_id(rs.getString("persistenceId_string"));	
+				sesion.setIs_presencial(rs.getBoolean("is_presencial"));
 				row.put("cita_entrevista", sesion);
 				row.put("persistenceId", rs.getLong("persistenceid"));
 				row.put("persistenceId_string", rs.getString("persistenceid"));
