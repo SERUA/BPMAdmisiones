@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1709168313936,
+  "lastUpdate" : 1709235677965,
   "rows" : [
     [
       {
@@ -23078,16 +23078,16 @@
     "numerosTelefonicosCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.datosContacto.telefono_celular.toString().length > 14) {",
+        "if ($data.datosContacto.telefono_celular && $data.datosContacto.telefono_celular.toString().length > 14) {",
         "    $data.datosContacto.telefono_celular = $data.datosContacto.telefono_celular.toString().slice(0, 14);",
         "}",
-        "if ($data.datosContacto.telefono_casa.toString().length > 14) {",
+        "if ($data.datosContacto.telefono_casa && $data.datosContacto.telefono_casa.toString().length > 14) {",
         "    $data.datosContacto.telefono_casa = $data.datosContacto.telefono_casa.toString().slice(0, 14);",
         "}",
-        "if ($data.datosContacto.cnem_telefono_celular.toString().length > 14) {",
+        "if ($data.datosContacto.cnem_telefono_celular && $data.datosContacto.cnem_telefono_celular.toString().length > 14) {",
         "    $data.datosContacto.cnem_telefono_celular = $data.datosContacto.cnem_telefono_celular.toString().slice(0, 14);",
         "}",
-        "if ($data.nuevaEmpresaTrabajo.telefono_empresa.toString().length > 14) {",
+        "if ($data.nuevaEmpresaTrabajo.telefono_empresa && $data.nuevaEmpresaTrabajo.telefono_empresa.toString().length > 14) {",
         "    $data.nuevaEmpresaTrabajo.telefono_empresa = $data.nuevaEmpresaTrabajo.telefono_empresa.toString().slice(0, 14);",
         "}"
       ],
@@ -23105,7 +23105,7 @@
     "idBannerCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.datosPersonales.id_banner.length > 20) {",
+        "if ($data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length > 20) {",
         "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 20);",
         "}"
       ],

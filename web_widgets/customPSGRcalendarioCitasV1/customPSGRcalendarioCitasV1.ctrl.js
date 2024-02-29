@@ -84,6 +84,16 @@
         $scope.cancelar = function() {
             $scope.properties.cita = angular.copy($scope.citaValorAnterior);
         }
+        
+        $scope.cambiarCita = function() {
+            $scope.properties.cita.cita_horario = null;
+            
+            setTimeout(() => {
+                // Actualizar vista
+                scheduler.updateView();
+                $scope.$apply();
+            }, 100);
+        }
 
         function fechaAStringConFormato(fecha) {
             var dia = fecha.getDate();
@@ -296,4 +306,5 @@
         $scope.setShowCalendar = function () {
             $scope.properties.hideCalendario = false;
         }
+        
     }
