@@ -50,6 +50,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     $scope.contrato = {};
 
     $scope.enviarReagendar = function(){
+        blockUI.start();
         let url = "../API/extension/posgradosRest?url=reagendarAspirante&caseid=" + $scope.selectedRow.caseid;
         let dataToSend = {
             "caseid": $scope.selectedRow.caseid
@@ -59,6 +60,8 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             doRequest("POST", $scope.properties.urlPost);
         }).error(function(){
             swal("¡Algo ha fallado!", "Ha ocurrido un error inesperado, intente de nuevo mas tarde", "error")
+        }).finally(function(){
+            blockUI.stop();
         });
     }
 
