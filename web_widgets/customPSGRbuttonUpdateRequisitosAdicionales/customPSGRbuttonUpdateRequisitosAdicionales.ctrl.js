@@ -11,20 +11,34 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     };
 
     $scope.updateRequisitos = function() {
-        doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
-            function(datos, status) { 
-                closeModal(true);
-                //location.reload();
-                if (status) {
-                    $scope.properties.updateResponseStatusCode = status   
-                }
-                else $scope.properties.updateResponseStatusCode = "200"
+        
+        swal({
+            title: "Confirmación",
+            text: "Si confirmas la operación se actualizará la lista de requisitos adicionales.",
+            icon: "info",
+            buttons: [
+                'Cancelar',
+                'Confirmar'
+            ],
+        })
+        .then((isConfirmar) => {
+            if (isConfirmar) {
                 
-            },
-            function(datos) { 
-                
+                // Actualizar
+                doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
+                    function(datos, status) { 
+                        closeModal(true);
+                        if (status) {
+                            $scope.properties.updateResponseStatusCode = status   
+                        }
+                        else $scope.properties.updateResponseStatusCode = "200"
+                        
+                        $scope.$apply();
+                    },
+                    function(datos) { }
+                );
             }
-        );
+        });
     }
 
     function openModal(modalId) {
