@@ -25,6 +25,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     }
                 }
                 else {
+                    /*
                     if ($scope.properties.agendar) {
                         swal({
                             title: "La confirmación de tu cita se realizará al enviar la solicitud",
@@ -32,7 +33,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                             icon: "info",
                             buttons: [
                                 'Cancelar',
-                                'Aceptar'
+                                'Confirmar'
                             ],
                         })
                         .then((isAceptar) => {
@@ -45,7 +46,9 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                     else {
                         $scope.properties.selectedIndex++;
                     }
+                    */
                     
+                    $scope.properties.selectedIndex++;
                 }
             } else {
                 swal($scope.properties.messageTitle, $scope.properties.errorMessage, "warning");
