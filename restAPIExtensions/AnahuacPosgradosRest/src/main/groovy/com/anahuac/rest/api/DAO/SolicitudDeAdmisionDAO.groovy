@@ -1874,4 +1874,80 @@ class SolicitudDeAdmisionDAO {
 		return resultado
 	}
 	
+	public Result reagendarAspieante(String jsonData, RestAPIContext context) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		Map<String, Object> row = new HashMap<String, Object>();
+		List <?> rows = new ArrayList <?> ();
+		
+		try {
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			SearchOptionsBuilder searchOptionsBuilder = new SearchOptionsBuilder(0, 1);
+			searchOptionsBuilder.filter(HumanTaskInstanceSearchDescriptor.PROCESS_INSTANCE_ID, Long.parseLong(object.caseid));
+			
+			List<HumanTaskInstance> tareas = context.apiClient.processAPI.searchHumanTaskInstances(searchOptionsBuilder.done()).getResult();
+			resultado.setAdditional_data(tareas);
+			HumanTaskInstance tareaEjecutar;
+			Map<String, Serializable> contrato = new HashMap<String, Serializable>();
+			
+			if(tareas.size() > 0) {
+				tareaEjecutar = tareas.get(0);
+				rows.add(tareaEjecutar);
+				if(tareaEjecutar.name.equals("Revisar solicitud")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("mensaje_admin_escolar", "Solicitud enviada a reagendar");
+					registroInput.put("aprobado_admin_escolar", false);
+					registroInput.put("is_transferido", true);
+					registroInput.put("tipo_alumno", null);
+					registroInput.put("residencia", null);
+					registroInput.put("tipo_admision", null);
+					registroInput.put("curp_validada", false);
+					registroInput.put("documentos_validados", false);
+					registroInput.put("no_duplicado", false);
+					registroInput.put("tiene_requisitos_adicionales", false);
+					registroInput.put("id_banner_validacion", null);
+					registroInput.put("isSolicitudRechazadaAdminEscolarInput", false);
+					contrato.put("registroInput", registroInput);
+					contrato.put("isSolicitudRechazadaAdminEscolarInput", false);
+					contrato.put("isModificarSolicitudInput", false);
+					contrato.put("isReagendarInput", true);
+					contrato.put("datosRequisitosAdicionalesInput", new ArrayList<?>());
+				} else if(tareaEjecutar.name.equals("Dictamen de solicitud")) {
+					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
+					registroInput.put("is_transferido", false);
+					registroInput.put("mensaje_comite_admision", "");
+					contrato.put("registroInput", registroInput);
+					contrato.put("isSolicitudNoAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudAdmitidaDictamenInput", false);
+					contrato.put("isSolicitudArchivadaDictamenInput", false);
+					contrato.put("isReagendarInput", true);
+				}
+				
+				rows.add(contrato);
+				resultado.setData(rows);
+				context.apiClient.processAPI.assignAndExecuteUserTask(context.apiClient.session.userId, tareaEjecutar.id,  contrato);
+			}
+			
+			
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			if(con != null) {
+				con.rollback();
+			}
+		} finally {
+			resultado.setError_info(errorLog);
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		
+		return resultado;
+	}
+	
 }
