@@ -196,17 +196,21 @@ class LoginSesionesDAO {
 			pstm = con.prepareStatement(Statements.GET_SESION_USUARIO_V3);
 			pstm.setString(1, username);
 			rs = pstm.executeQuery();
+			errorlog += "|0";
 			
 			if (rs.next()) {
+				errorlog += "|1";
 				if(rs.getBoolean("istemporal") == true ) {
+					errorlog += "|1.1";
 					if(rs.getBoolean("existe_sesion") != true) {
+						errorlog += "|1.2";
 						throw new Exception("examen_no_iniciado");
 					}
 				} else {
-					if(rs.getBoolean("exameniniciado") != true) {
+					errorlog += "|2";
+					if(rs.getBoolean("exameniniciado") != true && rs.getBoolean("existe_sesion") == true) {
+						errorlog += "|2.1";
 						throw new Exception("examen_no_iniciado");
-					} else if (rs.getBoolean("existe_sesion") != true) {
-						throw new Exception("no_sesion_asignada");
 					}
 				}
 			}
