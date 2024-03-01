@@ -3130,6 +3130,11 @@
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_CKuOwdc6Ee65w5fgTES1lQ" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
             </processSource>
           </inputMappings>
+          <inputMappings xmi:type="process:InputMapping" xmi:id="_7663ENdZEe65w5fgTES1lQ" subprocessTarget="datosPrograma" assignationType="Data">
+            <processSource xmi:type="expression:Expression" xmi:id="_7663EddZEe65w5fgTES1lQ" name="datosPrograma" content="datosPrograma" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_99LCsNdZEe65w5fgTES1lQ" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
+            </processSource>
+          </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_Usscw9aYEe65w5fgTES1lQ" name="Posgrados reagendar cita" content="Posgrados reagendar cita" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_UsscxNaYEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
         </elements>
@@ -5621,7 +5626,7 @@
         <value xmi:type="expression:Expression" xmi:id="_vuD3_qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.13">
+    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.14">
       <elements xmi:type="process:StartEvent" xmi:id="_f1hn0NaXEe65w5fgTES1lQ" name="Inicio reagendar cita" outgoing="_jhkbwNaXEe65w5fgTES1lQ">
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_f1jdAdaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_f1jdANaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
@@ -6103,6 +6108,9 @@
       </data>
       <data xmi:type="process:Data" xmi:id="_I0HtMNdREe65w5fgTES1lQ" name="xBonitaApiToken" dataType="_RS3WsVZtEe6T3bm1fu0vzg">
         <defaultValue xmi:type="expression:Expression" xmi:id="_I0HtMddREe65w5fgTES1lQ" content=""/>
+      </data>
+      <data xmi:type="process:BusinessObjectData" xmi:id="_zw4N0NdZEe65w5fgTES1lQ" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_zw4N0ddZEe65w5fgTES1lQ" name="" content="" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Object"/>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_Q6EVINaXEe65w5fgTES1lQ" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_Q6EVIdaXEe65w5fgTES1lQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
