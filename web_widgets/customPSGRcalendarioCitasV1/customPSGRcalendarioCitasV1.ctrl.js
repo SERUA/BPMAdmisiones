@@ -197,7 +197,6 @@
         var eventos = [];
     
         function loadFechas(){
-            debugger
             let url = "../API/extension/posgradosRestGet?url=getSesionesV1&idcampus=" + $scope.properties.idcampus + "&idprograma=" + $scope.properties.idprograma;
             
             $http.get(url).success(function(_data){
@@ -215,7 +214,6 @@
         // loadFechas();
     
         $scope.$watch("properties.idcampus", function(){
-            debugger
             if($scope.properties.idcampus){
                 loadFechas();
             }
@@ -308,5 +306,5 @@
         $scope.setShowCalendar = function () {
             $scope.properties.hideCalendario = false;
         }
-        debugger
+        
     }
