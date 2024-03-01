@@ -758,7 +758,7 @@ class UsuariosDAO {
 			List <AspiranteSesionCustom> rows = new ArrayList <AspiranteSesionCustom>();
 			closeCon = validarConexion();
 			
-			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT.replace("[WHERE]", where);
+			String consultaCcount = Statements.GET_ASPIRANTES_SESIONES_COUNT_V2.replace("[WHERE]", where);
 			pstm = con.prepareStatement(consultaCcount);
 			rs = pstm.executeQuery();
 			while (rs.next()) {
@@ -771,7 +771,7 @@ class UsuariosDAO {
 			pstm.setInt(1, object.limit);
 			pstm.setInt(2, object.offset);
 			rs = pstm.executeQuery();
-
+			errorLog = consulta;
 			while (rs.next()) {
 				row = new AspiranteSesionCustom();
 				String nombre = rs.getString("apellidopaterno");
@@ -857,13 +857,12 @@ class UsuariosDAO {
 			
 			resultado.setSuccess(true);
 			resultado.setData(rows);
-			resultado.setError_info(errorLog);
 		} catch (Exception e) {
-			
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			resultado.setError_info(errorLog);
 		} finally {
+			resultado.setError_info(errorLog);
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
 			}
