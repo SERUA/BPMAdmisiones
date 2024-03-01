@@ -138,7 +138,18 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     z-index: 2;
 }
 
-@media only screen and (min-width: 760px){
+@media only screen and (min-width: 1200px){ 
+    /* A partir de tamaño lg el login-card se centra mediante flex y no con el centrado por columna (col-lg y col-lg-offset) */
+    .main-container>.row>div {
+        display: flex;
+        justify-content: center;
+    }
+    .login-card {
+        max-width: 770px;
+    }
+}
+
+@media only screen and (min-width: 768px){
     .absolute-center{
         position: absolute;
         top: 50%;
@@ -152,23 +163,35 @@ input[type='number'].ng-invalid.ng-dirty, input[type='password'].ng-invalid.ng-d
     .btn-login-width{
         width: 16rem;
     }
+    
+    .register-container {
+        padding: 0 30px;
+    }
+    
+    .login-container {
+        padding: 0 30px;
+    }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
     .login-card {
         padding: 25px;
+        margin-top: 120px;
     }
     
     .login-container {
         border-top: solid 3px #B5B5B5;
         padding-top: 25px;
     }
-}
-
-@media only screen and (max-width: 759px){
+    
     .absolute-center{
         position: relative;
         top: 1rem;
         /*bottom: 5rem;*/
     }
 }
+
+/*
+@media only screen and (max-width: 759px){
+    
+}*/
