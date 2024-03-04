@@ -83,7 +83,7 @@ class SesionesDAO {
 
 	}
 	
-	public Result getSesionesV1(String idcampus) {
+	public Result getSesionesV1(String campus_pid, String programa_pid) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		String errorLog = "";
@@ -93,9 +93,18 @@ class SesionesDAO {
 		try {
 			closeCon = validarConexion();
 			con.setAutoCommit(false);
-			pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES);
-			pstm.setLong(1, Long.valueOf(idcampus));
-			rs = pstm.executeQuery();
+			
+			if (programa_pid) {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS_AND_PROGRAMA);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				pstm.setLong(2, Long.valueOf(programa_pid));
+				rs = pstm.executeQuery();
+			}
+			else {
+				pstm = con.prepareStatement(Statements.GET_SESIONES_POSIBLES_BY_CAMPUS);
+				pstm.setLong(1, Long.valueOf(campus_pid));
+				rs = pstm.executeQuery();
+			}
 			
 			while (rs.next()) {
 				row = new SesionesPosibles();
@@ -107,6 +116,7 @@ class SesionesDAO {
 				row.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				row.setResponsable_id(rs.getString("responsable_id"));
 				row.setCampus(rs.getLong("campus_pid"));
+				row.setIs_presencial(rs.getBoolean("is_presencial"));
 				rows.add(row);
 			}
 			
@@ -236,6 +246,7 @@ class SesionesDAO {
 				sesion.setDescripcion_entrevista(rs.getString("descripcion_entrevista"));
 				sesion.setFecha_entrevista(rs.getString("fecha_entrevista"));
 				sesion.setResponsable_id(rs.getString("persistenceId_string"));	
+				sesion.setIs_presencial(rs.getBoolean("is_presencial"));
 				row.put("cita_entrevista", sesion);
 				row.put("persistenceId", rs.getLong("persistenceid"));
 				row.put("persistenceId_string", rs.getString("persistenceid"));
@@ -1275,7 +1286,7 @@ class SesionesDAO {
 				
 			// Validar horario seleccionado
 			if (horarioSeleccionado.agendado) {
-				throw new Exception("El horario ya esta agendado.");
+				throw new Exception("Otro aspirante ya confirmó este horario, favor de seleccionar una nueva cita.");
 			}
 
 			// En caso de que el aspirante tuviera ya un horario agendado

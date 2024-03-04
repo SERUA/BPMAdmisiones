@@ -125,6 +125,13 @@ function($scope, $http, blockUI, $window) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.selectedCampus = campusDisponibles[0].descripcion;
+            $scope.filtroCampus = campusDisponibles[0].descripcion;
+            $scope.addFilter();
+        }
     }
 
     function updateHorariosDisponibles() {

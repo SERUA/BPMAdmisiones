@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitud",
   "name" : "PSGRFormularioSolicitud",
-  "lastUpdate" : 1708988396946,
+  "lastUpdate" : 1709570941884,
   "rows" : [
     [
       {
@@ -112,7 +112,7 @@
           },
           "text" : {
             "type" : "interpolation",
-            "value" : "formOutput.citaAspiranteInput\n<pre>{{formOutput.citaAspiranteInput | json}}</pre>"
+            "value" : "citaAspirante\n<pre>{{citaAspirante| json}}</pre>\n\ncitaAspiranteCopiaValorOriginal\n<pre>{{citaAspiranteCopiaValorOriginal | json}}</pre>\n\ncitaAspiranteCopiaValorOriginal_inicializado\n<pre>{{citaAspiranteCopiaValorOriginal_inicializado}}</pre>"
           },
           "alignment" : {
             "type" : "constant",
@@ -120,6 +120,58 @@
           }
         },
         "reference" : "7c13337e-8b09-4c54-9d02-a19dc2759f76",
+        "hasValidationError" : false,
+        "id" : "pbText"
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "datosPersonales\n<pre>{{datosPersonales | json}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "57bb18d3-75aa-4e49-a935-aff2a9783ed2",
         "hasValidationError" : false,
         "id" : "pbText"
       }
@@ -1437,7 +1489,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -1507,6 +1559,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "25e2a2fc-1378-4b13-b60d-45d1e0becd65",
@@ -1516,7 +1572,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -3174,11 +3230,15 @@
                                   "value" : {
                                     "type" : "variable",
                                     "value" : "datosPersonales.lugar_nacimiento_pais"
+                                  },
+                                  "changedEvent" : {
+                                    "type" : "variable",
+                                    "value" : "selectPaisNacimiento_ChangedEvent"
                                   }
                                 },
-                                "reference" : "f70f3163-1a92-4741-8563-200dd638dced",
+                                "reference" : "481880f7-5dbe-42a0-9618-9316c4d80b48",
                                 "hasValidationError" : false,
-                                "id" : "pbSelect"
+                                "id" : "customPSGRSelectChangedEvent"
                               }
                             ]
                           ]
@@ -3472,11 +3532,15 @@
                             "value" : {
                               "type" : "variable",
                               "value" : "datosPersonales.alumno_anahuac"
+                            },
+                            "changedEvent" : {
+                              "type" : "variable",
+                              "value" : "checkboxAlumnoAnahuac_ChangedEvent"
                             }
                           },
-                          "reference" : "44f2367f-e87f-4d93-96af-c858717015ef",
+                          "reference" : "58a7b5ac-432f-4172-865b-4c01cf71784e",
                           "hasValidationError" : false,
-                          "id" : "pbCheckbox"
+                          "id" : "customPSGRCheckboxChangedEvent"
                         }
                       ],
                       [
@@ -3586,7 +3650,7 @@
                                   },
                                   "maxLength" : {
                                     "type" : "constant",
-                                    "value" : 8
+                                    "value" : 20
                                   },
                                   "readOnly" : {
                                     "type" : "constant",
@@ -3763,7 +3827,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -3833,6 +3897,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "bd516ced-044e-438c-9faf-a05413a63f49",
@@ -3842,7 +3910,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -4012,7 +4080,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -4082,6 +4150,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "68384130-6cc7-4aa5-88ba-0da8e1df0bbf",
@@ -4091,7 +4163,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -5990,7 +6062,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -6060,6 +6132,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "df56e263-d657-419a-b9d6-5ae6de4c8040",
@@ -6069,7 +6145,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -6239,7 +6315,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -6309,6 +6385,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "96ebc51e-7783-406e-9351-33cd1bc72eb5",
@@ -6318,7 +6398,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -6391,6 +6471,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "b37e66d0-74b9-4621-a798-8ddf40ea9f5e",
@@ -6914,7 +6998,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -6984,6 +7068,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "79103d33-8d58-4b77-bc08-fcea3e7879c4",
@@ -6993,7 +7081,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -7163,7 +7251,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -7233,6 +7321,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "a4a1e6b8-571d-4e20-b82a-358ba2c63587",
@@ -7242,7 +7334,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -7435,7 +7527,7 @@
                       },
                       "placeholder" : {
                         "type" : "interpolation",
-                        "value" : "Seecciona un valor"
+                        "value" : "Selecciona un valor"
                       },
                       "availableValues" : {
                         "type" : "expression",
@@ -8138,7 +8230,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -8209,6 +8301,10 @@
                       "userId" : {
                         "type" : "expression",
                         "value" : "userData.user_id"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "e6bbf609-3007-4905-8377-f233f0bcbca0",
@@ -8218,7 +8314,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -8388,7 +8484,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -8458,6 +8554,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "3a2fc51a-7505-43c1-be29-d7e851667235",
@@ -8467,7 +8567,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -10048,7 +10148,7 @@
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 6,
                               "sm" : 12,
                               "md" : 6,
                               "lg" : 6
@@ -10132,7 +10232,7 @@
                           {
                             "type" : "component",
                             "dimension" : {
-                              "xs" : 12,
+                              "xs" : 6,
                               "sm" : 12,
                               "md" : 6,
                               "lg" : 6
@@ -10457,6 +10557,14 @@
                       "idcampus" : {
                         "type" : "expression",
                         "value" : "datosPrograma.campus.persistenceId"
+                      },
+                      "idprograma" : {
+                        "type" : "expression",
+                        "value" : "datosPrograma.programa_interes.persistenceId"
+                      },
+                      "citaValorOriginal" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "2acfa1ad-44bb-40ca-9bfc-4155e54bfb78",
@@ -10468,7 +10576,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -10538,6 +10646,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "8066dc94-c58e-4348-ac26-c6d5fd028c9d",
@@ -10547,7 +10659,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -15494,7 +15606,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -15564,6 +15676,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "b6867acb-717a-4350-9614-979ffd2764f6",
@@ -15573,7 +15689,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 12,
                       "md" : 6,
                       "lg" : 6
@@ -16382,7 +16498,7 @@
                   {
                     "type" : "component",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -16452,6 +16568,10 @@
                       },
                       "userId" : {
                         "type" : "constant"
+                      },
+                      "isModificar" : {
+                        "type" : "variable",
+                        "value" : ""
                       }
                     },
                     "reference" : "071620e3-ca12-4ad3-908c-97c8fae725d8",
@@ -16459,9 +16579,9 @@
                     "id" : "customPSGRcustomBtnWizardValidationTask"
                   },
                   {
-                    "type" : "component",
+                    "type" : "container",
                     "dimension" : {
-                      "xs" : 12,
+                      "xs" : 6,
                       "sm" : 6,
                       "md" : 6,
                       "lg" : 6
@@ -16475,70 +16595,200 @@
                         "type" : "constant",
                         "value" : false
                       },
-                      "disabled" : {
-                        "type" : "constant",
-                        "value" : false
-                      },
-                      "label" : {
-                        "type" : "interpolation",
-                        "value" : "Enviar"
-                      },
-                      "alignment" : {
-                        "type" : "constant",
-                        "value" : "right"
-                      },
-                      "buttonStyle" : {
-                        "type" : "constant",
-                        "value" : "primary"
-                      },
-                      "wizardLength" : {
+                      "repeatedCollection" : {
                         "type" : "variable",
-                        "value" : "wizardContent.length"
-                      },
-                      "selectedIndex" : {
-                        "type" : "variable",
-                        "value" : "selectedIndex"
-                      },
-                      "action" : {
-                        "type" : "constant",
-                        "value" : "Siguiente"
-                      },
-                      "isValidStep" : {
-                        "type" : "variable",
-                        "value" : "validStep7"
-                      },
-                      "errorMessage" : {
-                        "type" : "expression",
-                        "value" : "errorStep7.errorMessage"
-                      },
-                      "messageTitle" : {
-                        "type" : "expression",
-                        "value" : "errorStep7.title"
-                      },
-                      "formOutput" : {
-                        "type" : "variable",
-                        "value" : "formOutput"
-                      },
-                      "taskId" : {
-                        "type" : "variable",
-                        "value" : "taskId"
-                      },
-                      "reloadTask" : {
-                        "type" : "variable",
-                        "value" : "reloadTask"
-                      },
-                      "caseId" : {
-                        "type" : "variable",
-                        "value" : "caseid"
-                      },
-                      "userId" : {
-                        "type" : "expression",
-                        "value" : "userData.user_id"
+                        "value" : ""
                       }
                     },
-                    "reference" : "77f5752c-4f0e-44ba-8f1b-e80b27cd23b7",
+                    "reference" : "e96b4899-6516-4981-b83d-ff56fb42f8f9",
                     "hasValidationError" : false,
-                    "id" : "customPSGRcustomBtnWizardValidationTaskFinalizar"
+                    "id" : "pbContainer",
+                    "rows" : [
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 6,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "isModificar"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Enviar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Siguiente"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : "validStep7"
+                            },
+                            "errorMessage" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.errorMessage"
+                            },
+                            "messageTitle" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.title"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : "formOutput"
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : "taskId"
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : "reloadTask"
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : "caseid"
+                            },
+                            "userId" : {
+                              "type" : "expression",
+                              "value" : "userData.user_id"
+                            }
+                          },
+                          "reference" : "77f5752c-4f0e-44ba-8f1b-e80b27cd23b7",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRcustomBtnWizardValidationTaskFinalizar"
+                        }
+                      ],
+                      [
+                        {
+                          "type" : "component",
+                          "dimension" : {
+                            "xs" : 12,
+                            "sm" : 12,
+                            "md" : 12,
+                            "lg" : 12
+                          },
+                          "propertyValues" : {
+                            "cssClasses" : {
+                              "type" : "constant",
+                              "value" : ""
+                            },
+                            "hidden" : {
+                              "type" : "expression",
+                              "value" : "!isModificar"
+                            },
+                            "disabled" : {
+                              "type" : "constant",
+                              "value" : false
+                            },
+                            "label" : {
+                              "type" : "interpolation",
+                              "value" : "Enviar"
+                            },
+                            "alignment" : {
+                              "type" : "constant",
+                              "value" : "right"
+                            },
+                            "buttonStyle" : {
+                              "type" : "constant",
+                              "value" : "primary"
+                            },
+                            "wizardLength" : {
+                              "type" : "variable",
+                              "value" : "wizardContent.length"
+                            },
+                            "selectedIndex" : {
+                              "type" : "variable",
+                              "value" : "selectedIndex"
+                            },
+                            "action" : {
+                              "type" : "constant",
+                              "value" : "Siguiente"
+                            },
+                            "isValidStep" : {
+                              "type" : "variable",
+                              "value" : "validStep7"
+                            },
+                            "errorMessage" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.errorMessage"
+                            },
+                            "messageTitle" : {
+                              "type" : "expression",
+                              "value" : "errorStep7.title"
+                            },
+                            "formOutput" : {
+                              "type" : "variable",
+                              "value" : "formOutput"
+                            },
+                            "taskId" : {
+                              "type" : "variable",
+                              "value" : "taskId"
+                            },
+                            "reloadTask" : {
+                              "type" : "variable",
+                              "value" : "reloadTask"
+                            },
+                            "caseId" : {
+                              "type" : "variable",
+                              "value" : "caseid"
+                            },
+                            "userId" : {
+                              "type" : "expression",
+                              "value" : "userData.user_id"
+                            },
+                            "agendar" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante.cita_horario.validarDisponibilidad"
+                            },
+                            "fechaEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_fechaFormated"
+                            },
+                            "horarioEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_horarioFormated"
+                            },
+                            "citaHorarioPersistenceId" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante.cita_horario.persistenceId"
+                            }
+                          },
+                          "reference" : "c5683bc4-a854-46bc-9498-c1eae0fea91d",
+                          "hasValidationError" : false,
+                          "id" : "customPSGRcustomBtnWizardValidationTaskFinalizarAndAgendar"
+                        }
+                      ]
+                    ]
                   }
                 ],
                 [
@@ -16597,6 +16847,58 @@
             }
           ]
         ]
+      }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "labelHidden" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "label" : {
+            "type" : "interpolation",
+            "value" : "Default label"
+          },
+          "labelPosition" : {
+            "type" : "constant",
+            "value" : "top"
+          },
+          "labelWidth" : {
+            "type" : "constant",
+            "value" : 4
+          },
+          "allowHTML" : {
+            "type" : "constant",
+            "value" : true
+          },
+          "text" : {
+            "type" : "interpolation",
+            "value" : "citaAspirante.cita_horario.validarDisponibilidad\n<pre>{{citaAspirante.cita_horario.validarDisponibilidad}}</pre>\n\ncitaAspirante.cita_horario.persistenceId\n<pre>{{citaAspirante.cita_horario.persistenceId}}</pre>"
+          },
+          "alignment" : {
+            "type" : "constant",
+            "value" : "left"
+          }
+        },
+        "reference" : "1d43be38-e379-4766-a3e0-e48babbd784b",
+        "hasValidationError" : false,
+        "id" : "pbText"
       }
     ],
     [
@@ -18134,7 +18436,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -18222,7 +18524,7 @@
                     {
                       "type" : "container",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -18624,7 +18926,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Nombre empresa:"
+                          "value" : "Nombre de la empresa:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -19241,7 +19543,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -19329,7 +19631,7 @@
                     {
                       "type" : "container",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -19701,7 +20003,7 @@
                         },
                         "label" : {
                           "type" : "interpolation",
-                          "value" : "Nombre empresa:"
+                          "value" : "Nombre  de la empresa:"
                         },
                         "labelPosition" : {
                           "type" : "constant",
@@ -20318,7 +20620,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -20406,7 +20708,7 @@
                     {
                       "type" : "container",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -20863,7 +21165,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -20951,7 +21253,7 @@
                     {
                       "type" : "component",
                       "dimension" : {
-                        "xs" : 12,
+                        "xs" : 6,
                         "sm" : 12,
                         "md" : 6,
                         "lg" : 6
@@ -21919,6 +22221,13 @@
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
+        "} else if(!isMayorDeEdad($data.datosPersonales.fecha_nacimiento)){\r",
+        "    valid = false;\r",
+        "    $data.errorStep2 = { \r",
+        "        \"errorMessage\": \"Es necesario ser mayor de edad para continuar con la solicitud\", \r",
+        "        \"title\": \"¡Datos personales!\",\r",
+        "        \"error\": true \r",
+        "    }\r",
         "} else if(!$data.datosPersonales.lugar_nacimiento_pais){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
@@ -21948,21 +22257,23 @@
         "        \"error\": true \r",
         "    }\r",
         "}*/ \r",
-        "else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length !== 8){\r",
+        "/*else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length !== 8){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'ID del estudiante' debe tener una logitud de 8 caracteres\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && !validarIdBanner($data.datosPersonales.id_banner)){\r",
+        "}*/\r",
+        "/*else if($data.datosPersonales.alumno_anahuac && $data.datosPersonales.id_banner && !validarIdBanner($data.datosPersonales.id_banner)){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El formato del 'ID del estudiante' es inválido\", \r",
         "        \"title\": \"¡Datos personales!\",\r",
         "        \"error\": true \r",
         "    }\r",
-        "} else if($data.datosPersonales.alumno_anahuac && !$data.datosPersonales.campus_alumno){\r",
+        "}*/\r",
+        "else if($data.datosPersonales.alumno_anahuac && !$data.datosPersonales.campus_alumno){\r",
         "    valid = false;\r",
         "    $data.errorStep2 = { \r",
         "        \"errorMessage\": \"El campo 'Campus alumno' no debe ir vacío\", \r",
@@ -21998,6 +22309,19 @@
         "function validarIdBanner(id) {\r",
         "    const expresionId = /^[0-9]{1,8}$/;\r",
         "    return expresionId.test(id);\r",
+        "}\r",
+        "\r",
+        "function isMayorDeEdad(fechaNacimiento_string) {\r",
+        "    if (fechaNacimiento_string) {\r",
+        "        var fechaNacimiento = new Date(fechaNacimiento_string);\r",
+        "        var hoy = new Date();\r",
+        "        var edad = hoy.getFullYear() - fechaNacimiento.getFullYear();\r",
+        "        var mes = hoy.getMonth() - fechaNacimiento.getMonth();\r",
+        "        if (mes < 0 || (mes === 0 && hoy.getDate() < fechaNacimiento.getDate())) {\r",
+        "            edad--;\r",
+        "        }\r",
+        "        return edad >= 18;\r",
+        "    }\r",
         "}"
       ],
       "exposed" : false
@@ -22754,16 +23078,16 @@
     "numerosTelefonicosCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.datosContacto.telefono_celular.toString().length > 14) {",
+        "if ($data.datosContacto.telefono_celular && $data.datosContacto.telefono_celular.toString().length > 14) {",
         "    $data.datosContacto.telefono_celular = $data.datosContacto.telefono_celular.toString().slice(0, 14);",
         "}",
-        "if ($data.datosContacto.telefono_casa.toString().length > 14) {",
+        "if ($data.datosContacto.telefono_casa && $data.datosContacto.telefono_casa.toString().length > 14) {",
         "    $data.datosContacto.telefono_casa = $data.datosContacto.telefono_casa.toString().slice(0, 14);",
         "}",
-        "if ($data.datosContacto.cnem_telefono_celular.toString().length > 14) {",
+        "if ($data.datosContacto.cnem_telefono_celular && $data.datosContacto.cnem_telefono_celular.toString().length > 14) {",
         "    $data.datosContacto.cnem_telefono_celular = $data.datosContacto.cnem_telefono_celular.toString().slice(0, 14);",
         "}",
-        "if ($data.nuevaEmpresaTrabajo.telefono_empresa.toString().length > 14) {",
+        "if ($data.nuevaEmpresaTrabajo.telefono_empresa && $data.nuevaEmpresaTrabajo.telefono_empresa.toString().length > 14) {",
         "    $data.nuevaEmpresaTrabajo.telefono_empresa = $data.nuevaEmpresaTrabajo.telefono_empresa.toString().slice(0, 14);",
         "}"
       ],
@@ -22781,8 +23105,8 @@
     "idBannerCheckLogitud" : {
       "type" : "expression",
       "value" : [
-        "if ($data.datosPersonales.id_banner.length > 8) {",
-        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 8);",
+        "if ($data.datosPersonales.id_banner && $data.datosPersonales.id_banner.length > 20) {",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.slice(0, 20);",
         "}"
       ],
       "exposed" : false
@@ -22793,9 +23117,13 @@
         "let variable = $data.datosPersonales.id_banner;",
         "if (variable) {",
         "    let len = variable.length;",
+        "    ",
         "    if (isNaN(variable[len - 1]) || variable[len - 1] === \" \") {",
         "        $data.datosPersonales.id_banner = variable.slice(0, len - 1);",
         "    }",
+        "    ",
+        "    // Limpiar de espacios blancos",
+        "    $data.datosPersonales.id_banner = $data.datosPersonales.id_banner.replaceAll(\" \", \"\")",
         "}"
       ],
       "exposed" : false
@@ -23178,6 +23506,47 @@
         "    else {",
         "        $data.citaAspirante.responsable = null;",
         "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "selectPaisNacimiento_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleSelectPaisNacimientoChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.selectPaisNacimiento_ChangedEvent) {",
+        "    ",
+        "    // Limpiar campos dependientes de pais nacimiento",
+        "    $data.datosPersonales.lugar_nacimiento_estado = \"\";",
+        "    $data.datosPersonales.lugar_nacimiento_ciudad = \"\";",
+        "    ",
+        "    $data.selectPaisNacimiento_ChangedEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "checkboxAlumnoAnahuac_ChangedEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "handleCheckboxAlumnoAnahuacChange" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.checkboxAlumnoAnahuac_ChangedEvent) {",
+        "    // Limpiar campos dependientes de campo alumno anahuac",
+        "    $data.datosPersonales.id_banner = \"\";",
+        "    $data.datosPersonales.campus_alumno = \"\";",
+        "    ",
+        "    $data.checkboxAlumnoAnahuac_ChangedEvent = null;",
         "}"
       ],
       "exposed" : false

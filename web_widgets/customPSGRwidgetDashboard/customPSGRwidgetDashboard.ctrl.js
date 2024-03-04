@@ -190,16 +190,19 @@ function($scope, $http, blockUI) {
         for(let membership of $scope.lstMembership){
             if(membership.role_id.name === "ADMINISTRADOR" ){
                 $scope.isAdministrador = true;
-                break;
-            } else if(membership.role_id.name === "SERUA" || membership.role_id.name === "SERUA PSG" || membership.role_id.name === "TI SERUA"){
+                console.log("$scope.isAdministrador: " + $scope.isAdministrador)
+            }
+            if(membership.role_id.name === "SERUA" || membership.role_id.name === "SERUA PSG" || membership.role_id.name === "TI SERUA"){
                 $scope.isSeruaPSG = true;
-                break;
-            } else if(membership.role_id.name === "Comite PSG"){
+                console.log("$scope.isSeruaPSG: " + $scope.isSeruaPSG)
+            }
+            if(membership.role_id.name === "Comite PSG" || membership.role_id.name === "Admisiones PSG"){
                 $scope.isComite = true;
-                break;
-            } else if(membership.role_id.name === "TI CAMPUS"){
+                console.log("$scope.isComite: " + $scope.isComite)
+            }
+            if(membership.role_id.name === "TI CAMPUS" || membership.role_id.name === "TI campus PSG"){
                 $scope.isTicampus = true;
-                break;
+                console.log("$scope.isTicampus: " + $scope.isTicampus)
             }
         }
     }
