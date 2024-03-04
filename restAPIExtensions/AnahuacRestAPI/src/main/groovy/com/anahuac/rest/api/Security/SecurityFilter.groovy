@@ -483,6 +483,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"PreAutorizacion")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Reporte SDAE")
+				if(allow){break;}
 				break;
 				case "getActiveProcess":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}
