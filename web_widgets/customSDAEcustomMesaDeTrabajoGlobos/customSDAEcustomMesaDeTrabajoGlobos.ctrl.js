@@ -10,6 +10,7 @@ function($scope, $http, blockUI) {
     $scope.isSerua = false;
     $scope.isChat = false;
     $scope.isAdministrador = false;
+    $scope.isReporteSDAE = false;
 
     $scope.countPreautorizacion = 0;
     $scope.countArtistica = 0;
@@ -43,7 +44,10 @@ function($scope, $http, blockUI) {
             output = true;
         } else if ($scope.isConfigCampusSDAE){
             output = true;
+        } else if ($scope.isReporteSDAE){
+            output = true;
         }
+        
         return output;
     }
 
@@ -55,7 +59,7 @@ function($scope, $http, blockUI) {
                 window.top.location.href = "/bonita/apps/administrativo/SDAEBandejaMaestra/";
             }
         } else if (_param === "apoyosotorgados") {
-            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion || $scope.isFinanciamiento) {
+            if ($scope.isTiSerua || $scope.isSerua || $scope.isPreautorizacion || $scope.isFinanciamiento || $scope.isReporteSDAE) {
                 window.top.location.href = "/bonita/apps/administrativo/bandejaFinalizadas/";
             }
         } else if (_param === "progreso") {
@@ -161,6 +165,9 @@ function($scope, $http, blockUI) {
                     } else if ($scope.lstMembership[i].role_id.displayName === "Administrador") {
                         $scope.isAdministrador = true;
                         console.log("isAdministrador " + $scope.isAdministrador);
+                    } else if ($scope.lstMembership[i].role_id.displayName === "Reporte SDAE") {
+                        $scope.isReporteSDAE = true;
+                        console.log("isReporteSDAE " + $scope.isReporteSDAE);
                     }
                 }
             }).error(function (data, status) {
