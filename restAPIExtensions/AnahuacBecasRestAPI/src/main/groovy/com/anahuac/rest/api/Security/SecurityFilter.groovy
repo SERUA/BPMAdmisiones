@@ -49,6 +49,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getUserProcessApoyoEducativo":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -87,6 +89,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getB64FileByUrlAzure":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -108,6 +112,8 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Comite de Finanzas")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Chat")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
 					if(allow){break;}
 				break;
 				case "getSolicitudDeAdmision":
@@ -132,6 +138,8 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Chat")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
 					if(allow){break;}
 				break;
 				case "getConfiguracionCampus":
@@ -189,6 +197,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getDocumentosByCaseId":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -209,6 +219,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getImagenesByCaseId":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -228,6 +240,8 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Chat")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
 					if(allow){break;}
 				break;
 				case "getCatTienesHijos":
@@ -283,6 +297,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Crisp")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getInfrmacionEscolar":
 					allow=bonitaRolFilter(context,"TI SERUA")
@@ -296,6 +312,8 @@ class SecurityFilter {
 					allow=bonitaRolFilter(context,"Area Artistica")
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Area Deportiva")
+					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
 					if(allow){break;}
 				break;
 				case "getConfiguracionPagoEstudioSocEcoAspirante":
@@ -732,6 +750,8 @@ class SecurityFilter {
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Comite de Finanzas")
 				if(allow){break;}
+				allow=bonitaRolFilter(context,"Reporte SDAE")
+				if(allow){break;}
 				break;
 			case "selectSolicitudesApoyoFinanzas":
 				allow=bonitaRolFilter(context,"TI SERUA")
@@ -763,6 +783,8 @@ class SecurityFilter {
 				allow=bonitaRolFilter(context,"PreAutorizacion")
 				if(allow){break;}
 				allow=bonitaRolFilter(context,"Finanzas")
+				if(allow){break;}
+				allow=bonitaRolFilter(context,"Reporte SDAE")
 				if(allow){break;}
 				break;
 			case "getExcelFileBandejaMaestra":
