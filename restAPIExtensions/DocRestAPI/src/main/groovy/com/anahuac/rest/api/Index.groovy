@@ -205,6 +205,7 @@ class Index implements RestApiController {
 				|| it.roleName.equals("ASPIRANTE") 
 				|| it.roleName.equals("PSICOLOGO") 
 				|| it.roleName.equals("PSICOLOGO SUPERVISOR")
+				|| it.roleName.equals("Reporte SDAE")
 				// Roles de posgrado
 				|| it.roleName.equals("Comite PSG")
 				|| it.roleName.equals("SERUA PSG")

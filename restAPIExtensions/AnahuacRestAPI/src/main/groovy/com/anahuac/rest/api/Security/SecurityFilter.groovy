@@ -121,6 +121,8 @@ class SecurityFilter {
 					if(allow){break;}
 					allow=bonitaRolFilter(context,"Chat")
 					if(allow){break;}
+					allow=bonitaRolFilter(context,"Reporte SDAE")
+					if(allow){break;}
 				break;
 				case "getUniversidadSmartCampus":allow=bonitaRolFilter(context,"ADMISIONES")
 				if(allow){break;}

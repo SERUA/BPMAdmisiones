@@ -850,19 +850,20 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         if (!$scope.configUsuario.aplicacion) {
             mensajeError = "Campo 'Fecha' no debe ir vacío";
             output = false;
-        } else if (!$scope.configUsuario.entrada) {
-            mensajeError = "Campo 'Hora inicio' no debe ir vacío";
-            output = false;
-        } else if (!$scope.configUsuario.salida) {
-            mensajeError = "Campo 'Hora fin' no debe ir vacío";
-            output = false;
-        } else if ($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0) {
-            mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
-            output = false;
-        } else if ($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0) {
-            mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
-            output = false;
-        }
+        } 
+        // else if (!$scope.configUsuario.entrada) {
+        //     mensajeError = "Campo 'Hora inicio' no debe ir vacío";
+        //     output = false;
+        // } else if (!$scope.configUsuario.salida) {
+        //     mensajeError = "Campo 'Hora fin' no debe ir vacío";
+        //     output = false;
+        // } else if ($scope.configUsuario.toleranciaminutos === null || $scope.configUsuario.toleranciaminutos === undefined || $scope.configUsuario.toleranciaminutos < 0) {
+        //     mensajeError = "Campo 'Tolerancia entrada: (minutos)' no debe ir vacío y debe tener un valor mínimo de 0.";
+        //     output = false;
+        // } else if ($scope.configUsuario.toleranciasalidaminutos === null || $scope.configUsuario.toleranciasalidaminutos === undefined || $scope.configUsuario.toleranciasalidaminutos < 0) {
+        //     mensajeError = "Campo 'Tolerancia salida (minutos):' no debe ir vacío y debe tener un valor mínimo de 0.";
+        //     output = false;
+        // }
 
         if (output == false) {
             swal("¡Atención!", mensajeError, "warning");
