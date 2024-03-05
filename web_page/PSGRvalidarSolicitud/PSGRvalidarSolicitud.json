@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1709233048870,
+  "lastUpdate" : 1709665290179,
   "rows" : [
     [
       {
@@ -5008,7 +5008,7 @@
                                             "type" : "variable"
                                           }
                                         },
-                                        "reference" : "0fe43a24-992b-4bc4-a7ca-30a05c354548",
+                                        "reference" : "a8790e76-975f-4628-ba89-8dce7d3acebd",
                                         "hasValidationError" : false,
                                         "id" : "pbButton"
                                       }
@@ -22055,11 +22055,71 @@
                   "updateResponseStatusCode" : {
                     "type" : "variable",
                     "value" : "updateListaRequisitosRespuesta"
+                  },
+                  "dataToSendMail" : {
+                    "type" : "expression",
+                    "value" : "dataToSendMail"
+                  },
+                  "urlMail" : {
+                    "type" : "constant",
+                    "value" : "../API/extension/posgradosRest?url=generateHtml"
                   }
                 },
                 "reference" : "8409e811-8df3-4d08-818a-665c4a0a397b",
                 "hasValidationError" : false,
                 "id" : "customPSGRbuttonUpdateRequisitosAdicionales"
+              }
+            ],
+            [
+              {
+                "type" : "component",
+                "dimension" : {
+                  "xs" : 12,
+                  "sm" : 12,
+                  "md" : 12,
+                  "lg" : 12
+                },
+                "propertyValues" : {
+                  "cssClasses" : {
+                    "type" : "constant",
+                    "value" : ""
+                  },
+                  "hidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "labelHidden" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "label" : {
+                    "type" : "interpolation",
+                    "value" : "Default label"
+                  },
+                  "labelPosition" : {
+                    "type" : "constant",
+                    "value" : "top"
+                  },
+                  "labelWidth" : {
+                    "type" : "constant",
+                    "value" : 4
+                  },
+                  "allowHTML" : {
+                    "type" : "constant",
+                    "value" : true
+                  },
+                  "text" : {
+                    "type" : "interpolation",
+                    "value" : "<pre>{{ dataToSendMail | json }}</pre>"
+                  },
+                  "alignment" : {
+                    "type" : "constant",
+                    "value" : "left"
+                  }
+                },
+                "reference" : "ddb6eb33-075d-469e-8579-44e5769c9fdb",
+                "hasValidationError" : false,
+                "id" : "pbText"
               }
             ],
             [
@@ -28606,6 +28666,18 @@
         "} ",
         "else {",
         "    return \"Activar requisitos adicionales\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "dataToSendMail" : {
+      "type" : "expression",
+      "value" : [
+        "return {\r",
+        "    \"campus\" : $data.registro.campus.grupo_bonita,\r",
+        "    \"correo\" : $data.registro.correo_electronico,\r",
+        "    \"codigo\" : \"psgr-requisitos-adicionales\",\r",
+        "    \"isEnviar\" : true\r",
         "}"
       ],
       "exposed" : false
