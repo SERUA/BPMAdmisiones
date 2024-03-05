@@ -348,7 +348,13 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
             if (campus == $scope.properties.lstCampus[i].grupoBonita) {
                 retorno = $scope.properties.lstCampus[i].descripcion
                 if ($scope.lstCampusByUser.length == 2) {
+                    // Seleccionando valor si solo hay una opción
                     $scope.properties.campusSeleccionado = $scope.properties.lstCampus[i].grupoBonita
+
+                    if (!$scope.filtroCampus) {
+                        $scope.filtroCampus = retorno;
+                        $scope.addFilter()
+                    }    
                 }
             } else if (campus == "Todos los campus") {
                 retorno = campus
@@ -400,6 +406,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         }
 
         $scope.lstCampusByUser = resultado;
+
     }
 
     $scope.filtroCampus = "";
