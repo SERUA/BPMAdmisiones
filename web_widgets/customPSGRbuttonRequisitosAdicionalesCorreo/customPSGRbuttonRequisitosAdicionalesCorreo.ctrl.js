@@ -5,40 +5,25 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
-        $scope.updateRequisitos();
+        if ($scope.properties.action === 'Remove from collection') {
+            removeFromCollection();
+            closeModal($scope.properties.closeOnSuccess);
+        } else if ($scope.properties.action === 'Add to collection') {
+            addToCollection();
+            closeModal($scope.properties.closeOnSuccess);
+        } else if ($scope.properties.action === 'Start process') {
+            startProcess();
+        } else if ($scope.properties.action === 'Submit task') {
+            submitTask();
+        } else if ($scope.properties.action === 'Open modal') {
+            closeModal($scope.properties.closeOnSuccess);
+            openModal($scope.properties.modalId);
+        } else if ($scope.properties.action === 'Close modal') {
+            closeModal(true);
+        } else if ($scope.properties.url) {
+            doRequest($scope.properties.action, $scope.properties.url);
+        }
     };
-
-    $scope.updateRequisitos = function() {
-        
-        swal({
-            title: "Confirmación",
-            text: "Si confirmas la operación se actualizará la lista de requisitos adicionales.",
-            icon: "info",
-            buttons: [
-                'Cancelar',
-                'Confirmar'
-            ],
-        })
-        .then((isConfirmar) => {
-            sendMail();
-            if (isConfirmar) {
-                
-                // Actualizar
-                doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
-                    function(datos, status) { 
-                        closeModal(true);
-                        if (status) {
-                            $scope.properties.updateResponseStatusCode = status   
-                        }
-                        else $scope.properties.updateResponseStatusCode = "200"
-                        
-                        $scope.$apply();
-                    },
-                    function(datos) { }
-                );
-            }
-        });
-    }
 
     function openModal(modalId) {
         modalService.open(modalId);
@@ -102,18 +87,36 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
      * It also bind custom data from success|error to a data
      * @return {void}
      */
+    function doRequest(method, url, params) {
+        vm.busy = true;
+        var req = {
+            method: method,
+            url: url,
+            data: angular.copy($scope.properties.dataToSend),
+            params: params
+        };
 
-    function insertBitacora() {
-        let url = $scope.properties.urlBitacora;
-        let dataToSend = angular.copy($scope.properties.objetoBitacora);
-
-        $http.post(url, dataToSend).success(function () {
-            
-        }).error(function (err) {
-            
-        }).finally(function () {
-            $window.close();
-        });
+        return $http(req)
+            .success(function (data, status) {
+                sendMail();
+                $scope.properties.dataFromSuccess = data;
+                $scope.properties.responseStatusCode = status;
+                $scope.properties.dataFromError = undefined;
+                notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status });
+                if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
+                    redirectIfNeeded();
+                }
+                closeModal($scope.properties.closeOnSuccess);
+            })
+            .error(function (data, status) {
+                $scope.properties.dataFromError = data;
+                $scope.properties.responseStatusCode = status;
+                $scope.properties.dataFromSuccess = undefined;
+                notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status });
+            })
+            .finally(function () {
+                vm.busy = false;
+            });
     }
 
     function redirectIfNeeded() {
@@ -157,73 +160,16 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     function submitTask() {
         var id;
-        id = $scope.properties.taskId;
-        var params = getUserParam();
-        params.assign = true;
+        id = getUrlParam('id');
         if (id) {
-                doRequest('POST', '../API/bpm/userTask/' + id + '/execution', params).then(function() {
-                    localStorageService.delete($window.location.href);
-                });
-            } else {
-                $log.log('Impossible to retrieve the task id value from the URL');
-            }
-    }
-    
-    function doRequest(method, url, params) {
-        let dataToSend = angular.copy($scope.properties.dataToSend);
-        vm.busy = true;
-        var req = {
-          method: method,
-          url: url,
-          data: dataToSend,
-          params: params
-        };
-    
-        return $http(req)
-          .success(function(data, status) {
-            $scope.properties.dataFromSuccess = "success";
-            $scope.properties.responseStatusCode = status;
-            $scope.properties.dataFromError = undefined;
-            notifyParentFrame({ message: 'success', status: status, dataFromSuccess: data, dataFromError: undefined, responseStatusCode: status});
-            if ($scope.properties.targetUrlOnSuccess && method !== 'GET') {
-              redirectIfNeeded();
-            }
-            
-            // Cerrar modal
-            closeModal($scope.properties.closeOnSuccess);
-          })
-          .error(function(data, status) {
-            $scope.properties.dataFromError = "error";
-            $scope.properties.responseStatusCode = status;
-            $scope.properties.dataFromSuccess = undefined;
-            notifyParentFrame({ message: 'error', status: status, dataFromError: data, dataFromSuccess: undefined, responseStatusCode: status});
-
-          })
-          .finally(function() {
-            vm.busy = false;
-          });
-      }
-     
-    function doRequestUpdate(method, url, params, dataToSend, callbackSuccess, callbackError) {
-        vm.busy = true;
-        var req = {
-            method: method,
-            url: url,
-            data: dataToSend,
-            params: params
-        };
-
-        return $http(req)
-            .success(function(data, status) {
-                callbackSuccess(data, status)
-            })
-            .error(function(data, status) {
-                callbackError(data);
-                console.error(data);
-            })
-            .finally(function() {
-                vm.busy = false;
+            var params = getUserParam();
+            params.assign = $scope.properties.assign;
+            doRequest('POST', '../API/bpm/userTask/' + getUrlParam('id') + '/execution', params).then(function () {
+                localStorageService.delete($window.location.href);
             });
+        } else {
+            $log.log('Impossible to retrieve the task id value from the URL');
+        }
     }
 
     function sendMail(){
