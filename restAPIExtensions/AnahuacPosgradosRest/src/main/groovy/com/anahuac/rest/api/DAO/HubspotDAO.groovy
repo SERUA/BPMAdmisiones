@@ -719,6 +719,7 @@ class HubspotDAO {
 				solicitud.put("fecha_nacimiento", rs.getString("fecha_nacimiento"));
 				solicitud.put("nacionalidad", rs.getString("nacionalidad"));
 				solicitud.put("estado_civil", rs.getString("estado_civil"));
+				solicitud.put("estudiara_programa_otra_un", rs.getString("estudiara_programa_otra_un"));
 			}
 		} catch(Exception e) {
 			throw new Exception (e.getMessage());
@@ -762,11 +763,13 @@ class HubspotDAO {
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada")) {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-				objHubSpotData.put("fecha_nacimiento_posgrado_bpm", solicitud.get("fecha_nacimiento"));
+				objHubSpotData.put("ffecha_nacimiento_posgrado_bpm", solicitud.get("fecha_nacimiento"));
 				objHubSpotData.put("nacionalidad_posgrado_bpm", solicitud.get("nacionalidad"));
 				objHubSpotData.put("estado_civil_posgrado_bpm", solicitud.get("estado_civil"));
 				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("lugar_nacimiento_ciudad"));
-				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
+				String estudia_programa_opcion = solicitud.get("estudiara_programa_otra_un");
+				objHubSpotData.put("estudiar_programa_como_opcion_otra_universidad_bpm", estudia_programa_opcion.equals("No") ? "No" : "Si");
+//				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
 				
 //				grado_estudiar_posgrado_bpm
 //				periodo_ingreso_posgrado_bpm
@@ -778,7 +781,9 @@ class HubspotDAO {
 				objHubSpotData.put("firstname", solicitud.get("nombre"));
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
-				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("nombre"));
+				
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin")) {
+				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
 			}
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
