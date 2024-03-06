@@ -14,7 +14,6 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     function registro() {
         let dataToSend = angular.copy($scope.properties.dataToSend);
         dataToSend["processDefinitionId"] = angular.copy($scope.properties.processId);
-        debugger;
         var prom = doRequestRegistro('POST', '../API/extension/posgradosRest?url=registro&p=0&c=10', dataToSend).then(function () {
             localStorageService.delete($window.location.href);
         });
@@ -30,11 +29,31 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
         };
 
         return $http(req)
-            .success(function (data, status) {
+            .success(function (dataResponse, status) {
                 $scope.properties.navigationVar = "registro_completado";
             })
-            .error(function (data, status) {
-                swal("Algo ha fallado", "Ha ocurrido un error inesperado, intenta de nuevo mas tarde.", "error");
+            .error(function (dataResponse, status) {
+                
+                const data = dataResponse.data;
+                
+                if (data && data.length !== 0 && data[0] === "AlreadyExistsException") {
+                    $scope.properties.navigationVar = "registro_existente";
+                    
+                    /*swal({
+                        title: "",
+                        text: "",
+                        icon: "",
+                        button: "Aceptar",
+                    })*/
+                }
+                else {
+                    swal({
+                        title: "Algo ha fallado",
+                        text: "Ha ocurrido un error inesperado, intenta de nuevo mas tarde.",
+                        icon: "error",
+                        button: "Aceptar",
+                    })
+                }
             })
             .finally(function () {
                 vm.busy = false;
