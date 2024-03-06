@@ -91,4 +91,9 @@ class Statements {
 	
 	//BITACORA SOLICITUDES
 	public static final String GET_BITACORA_BY_CASEID = "SELECT logs.persistenceid, logs.caseid, TO_CHAR(logs.fecha_operacion::TIMESTAMP, 'DD/MM/YYYY hh:MI:ss') AS fecha_operacion, logs.comentarios, logs.usuario, ests.descripcion AS estatus FROM PSGRLogSolicitudes AS logs INNER JOIN PSGRCatEstatusProceso AS ests ON logs.clave_estatus = ests.clave LEFT JOIN PSGRCitaAspirante AS ctsp ON ctsp.persistenceid = logs.cita_aspirante_pid WHERE logs.caseid = ? ORDER BY logs.persistenceid DESC ";
+	
+	
+	//HUBSPOT 
+	public static final String GET_SOLICITUD_BY_CASEID = "SELECT rgst.correo_electronico, rgst.id_banner_validacion, rgst.is_transferido, rgst.mensaje_comite_admision, rgst.fecha_envio_solicitud, rgst.estatus_solicitud, rgst.mensaje_admin_escolar, rgst.aprobado_area_academic, rgst.mensaje_admin_escolar, rgst.aprobado_area_academic, rgst.aprobado_comite_admision, ccmp.descripcion AS campus, ccmp.clave AS clave_campus, ccmp.grupo_bonita, cgst.descripcion AS carrera, prsn.apellido_paterno, prsn.apellido_materno, prsn.nombre, prsn.curp, prsn.pasaporte, prsn.lugar_nacimiento_ciudad, prsn.lugar_nacimiento_pais, prsn.lugar_nacimiento_estado FROM PSGRRegistro AS rgst LEFT JOIN PSGRSolAdmiPrograma AS prgr ON prgr.caseid = rgst.caseid LEFT JOIN PSGRCatCampus AS ccmp ON ccmp.persistenceid = prgr.campus_pid LEFT JOIN PSGRCatGestionEscolar AS cgst ON cgst.persistenceid = prgr.programa_interes_pid LEFT JOIN PSGRCatPeriodo AS cprd ON cprd.persistenceid = prgr.periodo_ingreso_pid LEFT JOIN PSGRCatPosgrado AS cpsg ON cpsg.persistenceid = prgr.posgrado_pid LEFT JOIN PSGRSolAdmiDatosPersonales AS prsn ON prsn.caseid = rgst.caseid WHERE rgst.caseid = ?;"
+	public static final String GET_HUBSPOT_APIKEY = "SELECT * FROM PSGRConfiguraciones WHERE id_campus = (SELECT persistenceid from PSGRCatCampus WHERE grupo_bonita = ? LIMIT 1) AND clave = 'hubspot_apikey'; ";
 }
