@@ -707,6 +707,7 @@ class HubspotDAO {
 				solicitud.put("clave_campus", rs.getString("clave_campus"));
 				solicitud.put("grupo_bonita", rs.getString("grupo_bonita"));
 				solicitud.put("carrera", rs.getString("carrera"));
+				solicitud.put("clave_carrera", rs.getString("clave_carrera"));
 				solicitud.put("apellido_paterno", rs.getString("apellido_paterno"));
 				solicitud.put("apellido_materno", rs.getString("apellido_materno"));
 				solicitud.put("nombre", rs.getString("nombre"));
@@ -762,15 +763,17 @@ class HubspotDAO {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("fecha_nacimiento_posgrado_bpm", solicitud.get("fecha_nacimiento"));
-				objHubSpotData.put("nacionalidad_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("estado_civil_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("grado_escolar_lic_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("programa_grado_lic_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("inst_lic_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("grado_escolar_espec_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("programa_grado_espec_posgrado_bpm", solicitud.get("nombre"));
-				objHubSpotData.put("inst_espec_posgrado_bpm", solicitud.get("nombre"));
+				objHubSpotData.put("nacionalidad_posgrado_bpm", solicitud.get("nacionalidad"));
+				objHubSpotData.put("estado_civil_posgrado_bpm", solicitud.get("estado_civil"));
+				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("lugar_nacimiento_ciudad"));
+				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
+				
+//				grado_estudiar_posgrado_bpm
+//				periodo_ingreso_posgrado_bpm
+//				pais_posgrado_bpm
+//				estado_posgrado_bpm
+//				estudiar_programa_como_opcion_otra_universidad_bpm
+//				estatus_posgrado_admision_bpm
 				
 				objHubSpotData.put("firstname", solicitud.get("nombre"));
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
