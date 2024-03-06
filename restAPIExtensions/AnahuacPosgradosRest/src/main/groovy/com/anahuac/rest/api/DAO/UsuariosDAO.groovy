@@ -458,6 +458,8 @@ class UsuariosDAO {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
+		
+		return resultado;
 	}
 	
 	public Result habilitarUsuario(String usernameAspirante, RestAPIContext context) {
