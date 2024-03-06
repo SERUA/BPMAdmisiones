@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRappLoginFront",
   "name" : "PSGRappLoginFront",
-  "lastUpdate" : 1709329238013,
+  "lastUpdate" : 1709756411070,
   "rows" : [
     [
       {
@@ -153,7 +153,7 @@
               "propertyValues" : {
                 "cssClasses" : {
                   "type" : "constant",
-                  "value" : "col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-0 bg-white login-card"
+                  "value" : "col-xs-offset-1 col-sm-offset-1 col-md-offset-2 col-lg-offset-0 bg-white login-card card"
                 },
                 "hidden" : {
                   "type" : "expression",
@@ -1376,7 +1376,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "absolute-center bg-main col-sm-offset-3 col-md-offset-4 col-lg-offset-4 col-xs-offset-1 bg-white"
+            "value" : "absolute-center bg-main col-sm-offset-3 col-md-offset-4 col-lg-offset-4 col-xs-offset-1 bg-white recuperar-card card"
           },
           "hidden" : {
             "type" : "expression",
@@ -1900,6 +1900,26 @@
         "{",
         "    \"email\": \"\",",
         "    \"password\": \"\"",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "navigationParam" : {
+      "type" : "urlparameter",
+      "value" : [
+        "nav"
+      ],
+      "exposed" : false
+    },
+    "init_navigationVar" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.navigationParam) {",
+        "    switch ($data.navigationParam) {",
+        "        case 'recoverPassword':",
+        "            $data.navigationVar = 'recoverPassword';",
+        "            break;    ",
+        "    }",
         "}"
       ],
       "exposed" : false
