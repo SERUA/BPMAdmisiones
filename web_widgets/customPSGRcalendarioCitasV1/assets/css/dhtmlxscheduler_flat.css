@@ -7,9 +7,20 @@ This software is covered by GPL license. You also can obtain Commercial or Enter
 (c) Dinamenta, UAB.
 */
 
-/* Estilo custom para esconde las horas en los eventos de calendario */
+/* Estilos custom */
+/* Para esconde las horas en los eventos de calendario */
 .dhx_cal_data > div.dhx_cal_event_clear.dhx_cal_event_line_start.dhx_cal_event_line_end > b {
     display: none;
+}
+/* Para limitar la cantidad de renglones en los eventos del calendario*/
+@media only screen and (max-width: 767px) { 
+    .dhx_cal_data>div.dhx_cal_event_clear {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+    }
 }
 
 .dhtmlx_message_area {

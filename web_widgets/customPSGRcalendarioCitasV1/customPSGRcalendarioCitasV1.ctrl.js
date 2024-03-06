@@ -155,7 +155,7 @@
         $scope.asistenciaPsicometrico = false;
         $scope.asistenciaEntrevista = false;
     
-        scheduler.init('scheduler_here', new Date(), window.mobileCheck() ? "day" : "month");
+        scheduler.init('scheduler_here', new Date(), "month");
         scheduler.config.drag_resize = false;
         scheduler.config.drag_create = false;
         scheduler.config.drag_highlight = false;
