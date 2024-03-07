@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.20">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.21">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -3147,6 +3147,15 @@
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_KUVvQdpxEe6xKNiOGa1QUg" name="" content="" returnTypeFixed="true"/>
           <dynamicDescription xmi:type="expression:Expression" xmi:id="_KUVvQNpxEe6xKNiOGa1QUg" name="" content="" returnTypeFixed="true"/>
           <stepSummary xmi:type="expression:Expression" xmi:id="_KUVvQtpxEe6xKNiOGa1QUg" name="" content="" returnTypeFixed="true"/>
+          <operations xmi:type="expression:Operation" xmi:id="_cXl2MNwaEe60vNnMGbHDiw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_cXl2MdwaEe60vNnMGbHDiw" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_c521wNwaEe60vNnMGbHDiw" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_cXl2MtwaEe60vNnMGbHDiw" name="newScript()" content="true" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+            <operator xmi:type="expression:Operator" xmi:id="_cXl2M9waEe60vNnMGbHDiw" type="JAVA_METHOD" expression="setEliminado_proceso">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_Wr_ocNpxEe6xKNiOGa1QUg">
             <leftOperand xmi:type="expression:Expression" xmi:id="_Wr_ocdpxEe6xKNiOGa1QUg" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_XEV3ANpxEe6xKNiOGa1QUg" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
@@ -4664,6 +4673,22 @@
             <operator xmi:type="expression:Operator" xmi:id="__x3Fk8ByEe6Ts50QCPEUwg" type="JAVA_METHOD" expression="add">
               <inputTypes>java.lang.Object</inputTypes>
             </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_hkD24NwhEe60vNnMGbHDiw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_hkD24dwhEe60vNnMGbHDiw" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_iSitgNwhEe60vNnMGbHDiw" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_hkD24twhEe60vNnMGbHDiw" name="newScript()" content="true" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+            <operator xmi:type="expression:Operator" xmi:id="_hkD249whEe60vNnMGbHDiw" type="JAVA_METHOD" expression="setEliminado_proceso">
+              <inputTypes>java.lang.Boolean</inputTypes>
+            </operator>
+          </operations>
+          <operations xmi:type="expression:Operation" xmi:id="_aHySkNwhEe60vNnMGbHDiw">
+            <leftOperand xmi:type="expression:Expression" xmi:id="_aHySkdwhEe60vNnMGbHDiw" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_asErYNwhEe60vNnMGbHDiw" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            </leftOperand>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_aHySktwhEe60vNnMGbHDiw" name="newScript()" content="return new com.anahuac.posgrados.model.PSGRCitaAspirante();" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <operator xmi:type="expression:Operator" xmi:id="_aHySk9whEe60vNnMGbHDiw" type="ASSIGNMENT"/>
           </operations>
           <loopCondition xmi:type="expression:Expression" xmi:id="_6EvCY7-8Ee6TXPvcuZwGKg" name="" content="" returnType="java.lang.Boolean" returnTypeFixed="true"/>
           <loopMaximum xmi:type="expression:Expression" xmi:id="_6EvCZL-8Ee6TXPvcuZwGKg" name="" content="" returnType="java.lang.Integer" returnTypeFixed="true"/>
