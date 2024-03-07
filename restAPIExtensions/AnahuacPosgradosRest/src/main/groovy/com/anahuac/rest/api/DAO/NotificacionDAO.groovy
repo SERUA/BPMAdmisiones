@@ -399,7 +399,7 @@ class NotificacionDAO {
 				if (object.codigo.equals("psgr-cita-agendada")) {
 					def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
 					List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseId, 0, 99);
-					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
+					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.last() : null
 					if (citaAspirante) {
 						try {
 							SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
