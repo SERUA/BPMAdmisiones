@@ -17,6 +17,7 @@ import org.bonitasoft.engine.bpm.flownode.ActivityInstanceCriterion
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstance
 import org.bonitasoft.engine.bpm.flownode.HumanTaskInstanceSearchDescriptor
 import org.bonitasoft.engine.bpm.process.ProcessDefinition
+import org.bonitasoft.engine.exception.AlreadyExistsException
 import org.bonitasoft.engine.identity.ContactDataCreator
 import org.bonitasoft.engine.identity.ContactDataUpdater
 import org.bonitasoft.engine.identity.User
@@ -337,10 +338,25 @@ class UsuariosDAO {
 			LOGGER.error "[registro] 2 username: " + username + "| password: " + password;
 //			apiClient.login("Administrador", "bpm");
 			crearUsuario = registrarUsuario(jsonData, apiClient, objProperties);
+
+			if (!crearUsuario.success) {
+				if (crearUsuario.data && !crearUsuario.data.isEmpty() && crearUsuario.data[0] instanceof Exception) {
+					throw crearUsuario.data[0];
+				}
+				else {
+					throw new Exception("Algo falló al registrar el usuario");
+				}
+			}
 			
-//			errorLog += "[registro] 3 | "  +  crearUsuario.getError_info();
 			resultado.setError_info(errorLog);
 			resultado.setSuccess(true);
+		} catch (AlreadyExistsException e) {
+			LOGGER.error "[registro|ERROR] " + e.getMessage();
+			resultado.setError_info(errorLog);
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setData([ "AlreadyExistsException" ]);
+			e.printStackTrace();
 		} catch (Exception e) {
 			LOGGER.error "[registro|ERROR] " + e.getMessage();
 			resultado.setError_info(errorLog);
@@ -435,12 +451,15 @@ class UsuariosDAO {
 			resultado.setError_info(errorLog);
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
+			resultado.setData([ e ]);
 			e.printStackTrace();
 		} finally {
 			if(con != null) {
 				new DBConnect().closeObj(con, stm, rs, pstm)
 			}
 		}
+		
+		return resultado;
 	}
 	
 	public Result habilitarUsuario(String usernameAspirante, RestAPIContext context) {

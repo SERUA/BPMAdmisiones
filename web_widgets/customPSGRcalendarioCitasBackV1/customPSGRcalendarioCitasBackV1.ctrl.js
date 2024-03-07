@@ -70,7 +70,10 @@ function($scope, $http, blockUI, $window) {
                     title: "Confirmar publicación de sesión",
                     text: "Una vez que la sesión es publicada, no se podrá modificar la fecha, el formato, la duración ni cambiar al responsable",
                     icon: "warning",
-                    buttons: true,
+                    buttons: [
+                        'Cancelar',
+                        'Confirmar'
+                    ],
                 })
                 .then((respuesta) => {
                     if (respuesta) {

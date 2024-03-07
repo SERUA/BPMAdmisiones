@@ -1,10 +1,11 @@
 <img src="assets/img/Posgrado Naranja@2x.png" class="logo-img-carta">
 <img src="assets/img/semicirculo_2.png" class="semicircle-img-carta">
+<img src="assets/img/semicirculo_2_horizontal.png" class="semicircle-img-carta-horizontal">
 <img src="assets/img/Correo@2x.png" class="icon-img-carta">
 <img src="assets/img/5.jpg" class="bg-full">
 
-<div class="col-xs-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida'">
-    <div class="col-xs-5 text-center">
+<div class="col-xs-12 col-sm-7 result-container" ng-if="properties.estatusSolicitud ==='Admitida'">
+    <div class="col-xs-8 text-center">
         <label>¡BIENVENIDO(A)!</label>
         <label>Esta es tu carta de admisión</label>
     </div>
@@ -50,7 +51,7 @@
     <!--</div>-->
 </div>
 
-<div class="col-xs-7 no-result-container" ng-if="properties.estatusSolicitud ==='No admitida'">
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='No admitida'">
     <div class="col-xs-8 text-justify" style="font-size: 16px;">
         <h3 class="text-center"><b>No admisión</b></h3><br>
         <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
@@ -61,8 +62,8 @@
     </div>
 </div>
 
-<div class="col-xs-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida')">
-    <div class="col-xs-8 text-center">
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida')">
+    <div class="col-xs-12 col-sm-8 text-center message-container">
         <label>¡BIENVENIDO(A)!</label>
         <h2><b>Estimado aspirante, el resultado de admisión aún no esta disponible.</b></h2>
     </div>
@@ -70,11 +71,11 @@
 
 <div class="bottom-banner">
     <div class="col-xs-12 bottom-banner-content">
-        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud ==='Admitida'">
+        <div class="col-xs-7 col-lg-6 col-xs-offset-0 col-lg-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud ==='Admitida'">
             Sube tu carta a tus redes sociales
         </div>
-        <div class="col-xs-6 col-xs-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud !=='Admitida'"></div>
-        <div class="col-xs-3 ">
+        <div class="col-xs-7 col-sm-6 col-xs-offset-0 col-sm-offset-3 bottom-banner-text" ng-if="properties.estatusSolicitud !=='Admitida'"></div>
+        <div class="col-xs-5 col-sm-3 button-red-social-container">
             <div ng-if="properties.estatusSolicitud ==='Admitida'">
                 <div class="col-xs-3">
                     <a href="https://www.facebook.com" target="_blank">

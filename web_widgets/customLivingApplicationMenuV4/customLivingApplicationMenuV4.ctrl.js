@@ -148,7 +148,6 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     });
     
     $scope.shouldHide = function() {
-        console.log($window.innerWidth)
         if ($scope.isSmallScreen) {
             return $scope.navCollapsed
         }

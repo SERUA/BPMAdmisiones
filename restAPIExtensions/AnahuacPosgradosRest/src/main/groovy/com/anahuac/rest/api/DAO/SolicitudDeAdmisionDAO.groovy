@@ -1476,6 +1476,7 @@ class SolicitudDeAdmisionDAO {
 					contrato.put("isSolicitudRechazadaAdminEscolarInput", false);
 					contrato.put("isModificarSolicitudInput", false);
 					contrato.put("datosRequisitosAdicionalesInput", new ArrayList<?>());
+					contrato.put("isReagendarInput", false);
 				} else if(tareaEjecutar.name.equals("Pase de lista de entrevista")) {
 					Map<String, Serializable> registroInput = new HashMap<String, Serializable>();
 					registroInput.put("is_transferido", true);
@@ -1505,6 +1506,7 @@ class SolicitudDeAdmisionDAO {
 					contrato.put("isSolicitudAdmitidaDictamenInput", false);
 					contrato.put("isSolicitudArchivadaDictamenInput", false);
 					contrato.put("isArchivarEnReagendarInput", false);
+					contrato.put("isReagendarInput", false);
 				}
 				
 				rows.add(contrato);

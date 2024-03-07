@@ -5,9 +5,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
     var vm = this;
 
     this.action = function action() {
-        
         $scope.updateRequisitos();
- 
     };
 
     $scope.updateRequisitos = function() {
@@ -22,6 +20,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             ],
         })
         .then((isConfirmar) => {
+            sendMail();
             if (isConfirmar) {
                 
                 // Actualizar
@@ -169,6 +168,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
                 $log.log('Impossible to retrieve the task id value from the URL');
             }
     }
+    
     function doRequest(method, url, params) {
         let dataToSend = angular.copy($scope.properties.dataToSend);
         vm.busy = true;
@@ -224,6 +224,17 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             .finally(function() {
                 vm.busy = false;
             });
+    }
+
+    function sendMail(){
+        let url = angular.copy($scope.properties.urlMail);
+        let dataToSend =angular.copy($scope.properties.dataToSendMail);
+
+        $http.post(url, dataToSend).success(function(){
+            console.log("Correo enviado")
+        }).error(function(){
+            swal("¡Algo ha fallado!", "No se ha podido enviar la notificción de requisitos adicionales, intente de nuevo mas tarde", "error");
+        })
     }
 
 }

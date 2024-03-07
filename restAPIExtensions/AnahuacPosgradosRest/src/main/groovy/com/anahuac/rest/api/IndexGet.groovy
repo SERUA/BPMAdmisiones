@@ -17,6 +17,7 @@ import java.nio.charset.StandardCharsets
 
 import com.anahuac.rest.api.DAO.BitacoraDAO
 import com.anahuac.rest.api.DAO.CatalogosDAO
+import com.anahuac.rest.api.DAO.HubspotDAO
 import com.anahuac.rest.api.DAO.NotificacionDAO
 import com.anahuac.rest.api.DAO.SesionesDAO
 import com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO
@@ -315,7 +316,15 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;
-					
+				case "createOrUpdatePosgrado":
+					String caseid = request.getParameter "caseid";
+					result = new HubspotDAO().createOrUpdatePosgrado(Long.valueOf(caseid));
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
 					
 			}
 		} catch (Exception e) {

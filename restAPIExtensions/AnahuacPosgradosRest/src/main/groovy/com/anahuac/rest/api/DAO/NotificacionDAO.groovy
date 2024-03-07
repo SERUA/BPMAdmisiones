@@ -399,7 +399,7 @@ class NotificacionDAO {
 				if (object.codigo.equals("psgr-cita-agendada")) {
 					def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
 					List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseId, 0, 99);
-					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
+					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.last() : null
 					if (citaAspirante) {
 						try {
 							SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
@@ -455,6 +455,26 @@ class NotificacionDAO {
 					plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
 					errorlog += "| Variable8.6.4.5 "
 				}
+				
+				if(object.codigo.equals("psgr-requisitos-adicionales")) {
+					
+					pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
+					pstm.setLong(1, caseId);
+					rs = pstm.executeQuery();
+					
+					String listaRequisitos = "<ul>";
+					
+					while(rs.next()) {
+						listaRequisitos += "<li>"
+						listaRequisitos += rs.getString("requisito");
+						listaRequisitos += "</li>"
+					}
+					
+					listaRequisitos += "</ul>"
+					
+					plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
+				}
+				
 			} catch(Exception ex) {
 				errorlog +=", consulta custom " + ex.getMessage();
 			}
