@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.24">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.25">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -4072,11 +4072,12 @@
             <inputs xmi:type="process:ContractInput" xmi:id="_iTOGYLlYEe6UNd1RmyC42g" name="isReagendarInput" type="BOOLEAN">
               <mapping xmi:type="process:ContractInputMapping" xmi:id="_iTOGYblYEe6UNd1RmyC42g"/>
             </inputs>
-            <constraints xmi:type="process:ContractConstraint" xmi:id="_aYtAoKRAEe6lb7B6DUr_kg" expression="int selected = 0;&#xD;&#xA;&#xD;&#xA;if (registroInput.is_transferido) return true;&#xD;&#xA;&#xD;&#xA;if (isSolicitudAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudNoAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudArchivadaDictamenInput) selected++;&#xD;&#xA;&#xD;&#xA;if (selected == 1) {&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return false;&#xD;&#xA;}" errorMessage="Más de una bandera en el contrato esta seleccionda" name="onlyOneSelected" description="Solo una de las banderas en el contrato de la tarea de Dictamen debe estar seleccionda como True">
+            <constraints xmi:type="process:ContractConstraint" xmi:id="_aYtAoKRAEe6lb7B6DUr_kg" expression="int selected = 0;&#xD;&#xA;&#xD;&#xA;if (registroInput.is_transferido) return true;&#xD;&#xA;&#xD;&#xA;if (isSolicitudAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudNoAdmitidaDictamenInput) selected++;&#xD;&#xA;if (isSolicitudArchivadaDictamenInput) selected++;&#xD;&#xA;if (isReagendarInput) selected++;&#xD;&#xA;&#xD;&#xA;if (selected == 1) {&#xD;&#xA;&#x9;return true;&#xD;&#xA;}&#xD;&#xA;else {&#xD;&#xA;&#x9;return false;&#xD;&#xA;}" errorMessage="Más de una bandera en el contrato esta seleccionda" name="onlyOneSelected" description="Solo una de las banderas en el contrato de la tarea de Dictamen debe estar seleccionda como True">
               <inputNames>isSolicitudArchivadaDictamenInput</inputNames>
               <inputNames>isSolicitudNoAdmitidaDictamenInput</inputNames>
               <inputNames>isSolicitudAdmitidaDictamenInput</inputNames>
               <inputNames>registroInput</inputNames>
+              <inputNames>isReagendarInput</inputNames>
             </constraints>
           </contract>
           <expectedDuration xmi:type="expression:Expression" xmi:id="_vh72nFl1Ee6AcqMm7tJ4Ig" name="" content="" returnType="java.lang.Long" returnTypeFixed="true"/>
@@ -5714,7 +5715,7 @@
         <value xmi:type="expression:Expression" xmi:id="_vuD3_qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.20">
+    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.21">
       <elements xmi:type="process:StartEvent" xmi:id="_f1hn0NaXEe65w5fgTES1lQ" name="Inicio reagendar cita" outgoing="_jhkbwNaXEe65w5fgTES1lQ">
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_f1jdAdaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_f1jdANaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
@@ -5903,8 +5904,8 @@
           <leftOperand xmi:type="expression:Expression" xmi:id="_vsrGttaXEe65w5fgTES1lQ" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
             <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_vsrGt9aXEe65w5fgTES1lQ" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
           </leftOperand>
-          <rightOperand xmi:type="expression:Expression" xmi:id="_vsrGuNaXEe65w5fgTES1lQ" name="processInstanceId" content="processInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
-            <referencedElements xmi:type="expression:Expression" xmi:id="_vsrGudaXEe65w5fgTES1lQ" name="processInstanceId" content="processInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
+          <rightOperand xmi:type="expression:Expression" xmi:id="_vsrGuNaXEe65w5fgTES1lQ" name="processInstanceId" content="rootProcessInstanceId" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Long">
+            <referencedElements xmi:type="expression:Expression" xmi:id="_tWrC4NzdEe6RQN2VCkGgIQ" name="rootProcessInstanceId" content="rootProcessInstanceId" type="TYPE_ENGINE_CONSTANT" returnType="java.lang.Long"/>
           </rightOperand>
           <operator xmi:type="expression:Operator" xmi:id="_vsrGutaXEe65w5fgTES1lQ" type="JAVA_METHOD" expression="setCaseid">
             <inputTypes>java.lang.Long</inputTypes>
@@ -7312,7 +7313,7 @@
         <layoutConstraint xmi:type="notation:Location" xmi:id="_YXiW1NaYEe65w5fgTES1lQ" y="-10"/>
       </children>
       <styles xmi:type="notation:FontStyle" xmi:id="_YXiW0daYEe65w5fgTES1lQ" fontName="Segoe UI"/>
-      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_YXiW0taYEe65w5fgTES1lQ" points="[-197, 17, 60, -233]$[-266, 17, -9, -233]$[-266, 228, -9, -22]"/>
+      <bendpoints xmi:type="notation:RelativeBendpoints" xmi:id="_YXiW0taYEe65w5fgTES1lQ" points="[-197, 17, 60, -383]$[-266, 17, -9, -383]$[-266, 378, -9, -22]"/>
       <sourceAnchor xmi:type="notation:IdentityAnchor" xmi:id="_YXi94NaYEe65w5fgTES1lQ" id="(1.0,0.32323232323232326)"/>
       <targetAnchor xmi:type="notation:IdentityAnchor" xmi:id="_YXi94daYEe65w5fgTES1lQ" id="(0.8153846153846154,0.3384615384615385)"/>
     </edges>
