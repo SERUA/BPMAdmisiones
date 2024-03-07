@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1707845623691,
+  "lastUpdate" : 1709774321449,
   "rows" : [
     [
       {
@@ -1535,8 +1535,8 @@
                                 "value" : false
                               },
                               "disabled" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "!selectedRow.campus_transferencia"
                               },
                               "required" : {
                                 "type" : "constant",
@@ -1602,8 +1602,8 @@
                                 "value" : false
                               },
                               "disabled" : {
-                                "type" : "constant",
-                                "value" : false
+                                "type" : "expression",
+                                "value" : "!selectedRow.posgrado_transferencia"
                               },
                               "required" : {
                                 "type" : "constant",
@@ -1635,7 +1635,7 @@
                               },
                               "displayedKey" : {
                                 "type" : "constant",
-                                "value" : "descripcion"
+                                "value" : "nombre"
                               },
                               "returnedKey" : {
                                 "type" : "constant"
@@ -1652,7 +1652,7 @@
                         ],
                         [
                           {
-                            "type" : "component",
+                            "type" : "container",
                             "dimension" : {
                               "xs" : 12,
                               "sm" : 12,
@@ -1668,53 +1668,161 @@
                                 "type" : "constant",
                                 "value" : false
                               },
-                              "disabled" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "required" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "labelHidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "label" : {
-                                "type" : "interpolation",
-                                "value" : "Periodo:"
-                              },
-                              "labelPosition" : {
-                                "type" : "constant",
-                                "value" : "top"
-                              },
-                              "labelWidth" : {
-                                "type" : "constant",
-                                "value" : 4
-                              },
-                              "placeholder" : {
-                                "type" : "interpolation",
-                                "value" : "Selecciona una opción"
-                              },
-                              "availableValues" : {
-                                "type" : "expression",
-                                "value" : "periodos"
-                              },
-                              "displayedKey" : {
-                                "type" : "constant",
-                                "value" : "descripcion"
-                              },
-                              "returnedKey" : {
-                                "type" : "constant"
-                              },
-                              "value" : {
+                              "repeatedCollection" : {
                                 "type" : "variable",
-                                "value" : "selectedRow.periodo_transferencia"
+                                "value" : ""
                               }
                             },
-                            "reference" : "c9d86f5c-7dcb-4737-bf9d-1aeca8cc3885",
+                            "reference" : "63944c1b-c1d9-437e-8720-8acaf41e2f66",
                             "hasValidationError" : false,
-                            "id" : "pbSelect"
+                            "id" : "pbContainer",
+                            "rows" : [
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "periodos_disponibles_formateado.length === 0"
+                                    },
+                                    "disabled" : {
+                                      "type" : "expression",
+                                      "value" : "!selectedRow.carrera_transferencia"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Período:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "Selecciona una opción"
+                                    },
+                                    "availableValues" : {
+                                      "type" : "expression",
+                                      "value" : "periodos_disponibles_formateado"
+                                    },
+                                    "displayedKey" : {
+                                      "type" : "constant",
+                                      "value" : "descripcion"
+                                    },
+                                    "returnedKey" : {
+                                      "type" : "constant"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : "selectedRow.periodo_transferencia"
+                                    }
+                                  },
+                                  "reference" : "c9d86f5c-7dcb-4737-bf9d-1aeca8cc3885",
+                                  "hasValidationError" : false,
+                                  "id" : "pbSelect"
+                                }
+                              ],
+                              [
+                                {
+                                  "type" : "component",
+                                  "dimension" : {
+                                    "xs" : 12,
+                                    "sm" : 12,
+                                    "md" : 12,
+                                    "lg" : 12
+                                  },
+                                  "propertyValues" : {
+                                    "cssClasses" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "hidden" : {
+                                      "type" : "expression",
+                                      "value" : "periodos_disponibles_formateado.length !== 0"
+                                    },
+                                    "required" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "minLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "maxLength" : {
+                                      "type" : "constant",
+                                      "value" : ""
+                                    },
+                                    "readOnly" : {
+                                      "type" : "constant",
+                                      "value" : true
+                                    },
+                                    "labelHidden" : {
+                                      "type" : "constant",
+                                      "value" : false
+                                    },
+                                    "label" : {
+                                      "type" : "interpolation",
+                                      "value" : "Período:"
+                                    },
+                                    "labelPosition" : {
+                                      "type" : "constant",
+                                      "value" : "top"
+                                    },
+                                    "labelWidth" : {
+                                      "type" : "constant",
+                                      "value" : 4
+                                    },
+                                    "placeholder" : {
+                                      "type" : "interpolation",
+                                      "value" : "La carrera no tiene periodos disponibles"
+                                    },
+                                    "value" : {
+                                      "type" : "variable",
+                                      "value" : ""
+                                    },
+                                    "type" : {
+                                      "type" : "constant",
+                                      "value" : "text"
+                                    },
+                                    "min" : {
+                                      "type" : "constant"
+                                    },
+                                    "max" : {
+                                      "type" : "constant"
+                                    },
+                                    "step" : {
+                                      "type" : "constant",
+                                      "value" : 1
+                                    }
+                                  },
+                                  "reference" : "5eb72edc-df36-4173-82ac-47e11075b2b2",
+                                  "hasValidationError" : false,
+                                  "id" : "pbInput"
+                                }
+                              ]
+                            ]
                           }
                         ]
                       ]
@@ -3226,21 +3334,6 @@
       },
       "exposed" : false
     },
-    "pSGRCatGestionEscolar_query_formato" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.pSGRCatGestionEscolar_query) {",
-        "    let nuevo = [];",
-        "    $data.pSGRCatGestionEscolar_query.forEach(item => {",
-        "        if (item.nombre !== \"Actuaría\") {",
-        "            nuevo.push(item);",
-        "        }",
-        "    })",
-        "    return nuevo;",
-        "}"
-      ],
-      "exposed" : false
-    },
     "pSGRCatGestionEscolar_query" : {
       "type" : "url",
       "value" : [
@@ -3271,9 +3364,16 @@
     "periodos_disponibles" : {
       "type" : "url",
       "value" : [
-        "{{datosPrograma.programa_interes|lazyRef:'periodo_disponible'}}"
+        "{{selectedRow.carrera_transferencia|lazyRef:'periodo_disponible'}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "periodos_disponibles_formateado" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.periodos_disponibles.filter(item => item !== null);"
+      ],
       "exposed" : false
     }
   },
