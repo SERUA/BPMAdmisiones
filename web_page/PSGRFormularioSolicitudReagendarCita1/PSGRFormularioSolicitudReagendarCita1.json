@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitudReagendarCita1",
   "name" : "PSGRFormularioSolicitudReagendarCita",
-  "lastUpdate" : 1709250733314,
+  "lastUpdate" : 1709840765523,
   "rows" : [
     [
       {
@@ -981,6 +981,58 @@
         "../API/bpm/userTask/{{taskId}}"
       ],
       "advancedOptions" : { },
+      "exposed" : false
+    },
+    "citaAspirante_responsable" : {
+      "type" : "url",
+      "value" : [
+        "{{citaAspirante|lazyRef:'responsable'}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "responsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable_query && $data.responsable_query.length !== 0) {",
+        "    return $data.responsable_query[0];",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "responsable_query" : {
+      "type" : "url",
+      "value" : [
+        "../API/extension/posgradosRestGet?url=getUserByCitaResponsable&citaResponsable_pid={{citaAspirante.responsable.persistenceId_string}}"
+      ],
+      "advancedOptions" : { },
+      "exposed" : false
+    },
+    "updateCitaResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "// Si hay información del responsable y no se ha inicializado la variable",
+        "if ($data.citaAspirante_responsable && Object.entries($data.citaAspirante_responsable).length !== 0 && $data.citaAspirante.responsable === undefined) {",
+        "    if ($data.citaAspirante_responsable.persistenceId_string || $data.citaAspirante_responsable.persistenceId) {",
+        "        $data.citaAspirante.responsable = {",
+        "            persistenceId: $data.citaAspirante_responsable.persistenceId,",
+        "            persistenceId_string: $data.citaAspirante_responsable.persistenceId_string",
+        "        };",
+        "    }",
+        "    else {",
+        "        $data.citaAspirante.responsable = null;",
+        "    }",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "updateResponsable" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.responsable) {",
+        "    $data.citaAspirante.responsable_nombre = $data.responsable.nombre;",
+        "}"
+      ],
       "exposed" : false
     }
   },
