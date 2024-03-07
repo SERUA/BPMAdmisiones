@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.23">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.24">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -3020,8 +3020,8 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_BZD9gdy6Ee6I9490eVTjog" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Bu31cNy6Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_BZD9gty6Ee6I9490eVTjog" name="liberarHorario()" content="citaAspirante.cita_horario.agendado = false;&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_DeKW4Ny8Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_BZD9gty6Ee6I9490eVTjog" name="liberarHorario()" content="if (citaAspirante &amp;&amp; citaAspirante.cita_horario) {&#xD;&#xA;&#x9;citaAspirante.cita_horario.agendado = false;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_tFROANzWEe6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_BZD9g9y6Ee6I9490eVTjog" type="JAVA_METHOD" expression="setCita_horario">
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
@@ -3171,8 +3171,8 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_JYUIgdy5Ee6I9490eVTjog" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JxoncNy5Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_JYUIgty5Ee6I9490eVTjog" name="liberarHorario()" content="citaAspirante.cita_horario.agendado = false;&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_OOkFwNy5Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_JYUIgty5Ee6I9490eVTjog" name="liberarHorario()" content="if (citaAspirante &amp;&amp; citaAspirante.cita_horario) {&#xD;&#xA;&#x9;citaAspirante.cita_horario.agendado = false;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_rdQHUNzWEe6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_JYUIg9y5Ee6I9490eVTjog" type="JAVA_METHOD" expression="setCita_horario">
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
@@ -3495,8 +3495,8 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_OatWQdy3Ee6I9490eVTjog" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_O1hqANy3Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_OatWQty3Ee6I9490eVTjog" name="liberarHorario()" content="citaAspirante.cita_horario.agendado = false;&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_GWImYNy4Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_OatWQty3Ee6I9490eVTjog" name="liberarHorario()" content="if (citaAspirante &amp;&amp; citaAspirante.cita_horario) {&#xD;&#xA;&#x9;citaAspirante.cita_horario.agendado = false;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_WQM6wNzWEe6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_OatWQ9y3Ee6I9490eVTjog" type="JAVA_METHOD" expression="setCita_horario">
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
@@ -4709,8 +4709,8 @@
             <leftOperand xmi:type="expression:Expression" xmi:id="_THxQYdy5Ee6I9490eVTjog" name="citaAspirante" content="citaAspirante" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRCitaAspirante">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_Tf2ZMNy5Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_THxQYty5Ee6I9490eVTjog" name="liberarHorario()" content="citaAspirante.cita_horario.agendado = false;&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_g735cNy5Ee6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
+            <rightOperand xmi:type="expression:Expression" xmi:id="_THxQYty5Ee6I9490eVTjog" name="liberarHorario()" content="if (citaAspirante &amp;&amp; citaAspirante.cita_horario) {&#xD;&#xA;&#x9;citaAspirante.cita_horario.agendado = false;&#xD;&#xA;}&#xD;&#xA;&#xD;&#xA;return citaAspirante.cita_horario;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="com.anahuac.posgrados.model.PSGRCitaHorario">
+              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_uijEUNzWEe6I9490eVTjog" name="citaAspirante" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRCitaAspirante"/>
             </rightOperand>
             <operator xmi:type="expression:Operator" xmi:id="_THxQY9y5Ee6I9490eVTjog" type="JAVA_METHOD" expression="setCita_horario">
               <inputTypes>com.anahuac.posgrados.model.PSGRCitaHorario</inputTypes>
