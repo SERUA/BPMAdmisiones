@@ -57,7 +57,10 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         };
 
         $http.post(url, dataToSend).success(function(_data){
-            doRequest("POST", $scope.properties.urlPost);
+            setTimeout(() => {
+                //Para darle tiempo a bonita para ejecutar la tarea 
+                doRequest("POST", $scope.properties.urlPost);
+            }, 5000);
         }).error(function(){
             swal("¡Algo ha fallado!", "Ha ocurrido un error inesperado, intente de nuevo mas tarde", "error")
         }).finally(function(){
