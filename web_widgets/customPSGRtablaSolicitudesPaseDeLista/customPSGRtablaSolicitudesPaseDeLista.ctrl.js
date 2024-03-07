@@ -58,13 +58,26 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
 
         $http.post(url, dataToSend).success(function(_data){
             setTimeout(() => {
+                blockUI.stop();
+                swal({
+                    title: "",
+                    text: "Aspirante enviado a reagendar correctamente",
+                    icon: "success",
+                    confirmButtonText: 'Confirmar',
+                    showCancelButton: false,
+                    buttons: {
+                        confirm: "Confirmar"
+                    }
+                });
+                
                 //Para darle tiempo a bonita para ejecutar la tarea 
                 doRequest("POST", $scope.properties.urlPost);
-            }, 5000);
+            }, 3000);
         }).error(function(){
+            blockUI.stop();
             swal("¡Algo ha fallado!", "Ha ocurrido un error inesperado, intente de nuevo mas tarde", "error")
         }).finally(function(){
-            blockUI.stop();
+            
         });
     }
 
