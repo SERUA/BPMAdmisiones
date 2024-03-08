@@ -837,4 +837,165 @@ class UsuariosDAO {
 		}
 		return resultado
 	}
+	
+	public Result recuperarPassword(String jsonData, RestAPIContext context) {
+		
+		Result resultadoN = new Result();
+		Usuarios objUsuario= new Usuarios();
+		Result resultado = new Result();
+		
+		//List<Usuarios> lstResultado = new ArrayList<Usuarios>();
+		List<String> lstResultado = new ArrayList<String>();
+		Boolean closeCon = false;
+		
+		try {
+			Result dataResult = new Result();
+			List<Object> lstParams;
+			String username = "";
+			String password = "";
+						
+			/*-------------------------------------------------------------*/
+			LoadParametros objLoad = new LoadParametros();
+			PropertiesEntity objProperties = objLoad.getParametros();
+			username = objProperties.getUsuario();
+			password = objProperties.getPassword();
+			/*-------------------------------------------------------------*/
+			
+			def jsonSlurper = new JsonSlurper();
+			def object = jsonSlurper.parseText(jsonData);
+			
+			org.bonitasoft.engine.api.APIClient apiClient = new APIClient();
+			apiClient.login(username, password);
+			
+			IdentityAPI identityAPI = apiClient.getIdentityAPI()
+			final User user = identityAPI.getUserByUserName(object.nombreusuario);
+			dataResult = getUsuarioRegistrado(object.nombreusuario);
+			
+			if (dataResult.success) {
+				lstParams = dataResult.getData();
+			} else {
+				throw new Exception("No encontro campus");
+			}
+			//generacion del ramdon
+			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+			String asciiLowerCase = asciiUpperCase.toLowerCase();
+			String digits = "1234567890";
+			String asciiChars = asciiUpperCase + asciiLowerCase + digits ;
+			int length = 8;
+			String randomString = generateRandomString(length, asciiChars);
+			
+			UserUpdater update_user = new UserUpdater();
+			update_user.setPassword(randomString);
+			final User user_update= identityAPI.updateUser(user.getId(), update_user);
+			object.password = randomString;
+			def str = jsonSlurper.parseText('{"campus": "'+lstParams[0].grupo_bonita+'","correo":"'+object.nombreusuario+'", "codigo": "psgr-recuperar-contraseña","isEnviar":false}');
+
+			NotificacionDAO nDAO = new NotificacionDAO();
+			 
+			resultadoN = nDAO.generateHtml("{\"campus\": \""+lstParams[0].grupo_bonita+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"psgr-recuperar-contraseña\", \"isEnviar\":false }", context);
+			String plantilla = resultadoN.getData().get(0);
+			plantilla = plantilla.replace("[password]", object.password );
+			MailGunDAO dao = new MailGunDAO();
+			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupo_bonita+"", context);
+			
+			dataResult = updatePassword(object.password,object.nombreusuario);
+			/*if (dataResult.success) {
+				
+			} else {
+				throw new Exception("no pudo guardar la contraseña, se cambio ");
+			}*/
+			lstResultado.add(plantilla);
+			resultado.setData(lstResultado);
+			resultado.setSuccess(true);
+			
+		} catch (Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+		}
+		return resultado;
+	}
+	
+	private Result getUsuarioRegistrado(String Correo) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+			String consulta = "select campus.grupo_bonita from PSGRRegistro regi left join PSGRCatCampus as campus on campus.persistenceid = regi.campus_pid where regi.correo_electronico ='"+Correo+"'";
+			List<String> rows = new ArrayList<String>();
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+			
+			rows = new ArrayList<Map<String, Object>>();
+			ResultSetMetaData metaData = rs.getMetaData();
+			int columnCount = metaData.getColumnCount();
+			while(rs.next()) {
+					Map<String, Object> columns = new LinkedHashMap<String, Object>();
+
+					for (int i = 1; i <= columnCount; i++) {
+						columns.put(metaData.getColumnLabel(i).toLowerCase(), rs.getString(i));
+					}
+					rows.add(columns);
+			}
+			resultado.setError_info(" errorLog = "+errorLog)
+			resultado.setData(rows)
+			resultado.setSuccess(true)
+		}catch(Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog+" "+e.getMessage())
+		}
+		finally{
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	private static String generateRandomString(int length, String seedChars) {
+		StringBuilder sb = new StringBuilder();
+		int i = 0;
+		Random rand = new Random();
+		while (i < length) {
+			sb.append(seedChars.charAt(rand.nextInt(seedChars.length())));
+			i++;
+		}
+		return sb.toString();
+	}
+	
+	private Result updatePassword(String password,String correo) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String errorLog = "";
+		try {
+			String consulta = "Update PSGRRegistro set password = '"+ password +"' where correo_electronico = '"+correo+"'";
+			List<String> rows = new ArrayList<String>();
+			closeCon = validarConexion();
+			con.setAutoCommit(false)
+			pstm = con.prepareStatement(consulta);
+			pstm.executeUpdate();
+				
+			con.commit();
+			//resultado.setError_info(" errorLog = "+errorLog)
+			resultado.setData(rows)
+			resultado.setSuccess(true)
+		}catch(Exception e) {
+			LOGGER.error "[ERROR] " + e.getMessage();
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			resultado.setError_info(errorLog+" "+e.getMessage())
+			con.rollback();
+		}
+		finally{
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
 }
