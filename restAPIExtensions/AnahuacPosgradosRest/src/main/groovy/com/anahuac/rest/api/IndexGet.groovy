@@ -318,7 +318,7 @@ class IndexGet implements RestApiController {
 					break;
 				case "createOrUpdatePosgrado":
 					String caseid = request.getParameter "caseid";
-					result = new HubspotDAO().createOrUpdatePosgrado(Long.valueOf(caseid));
+					result = new HubspotDAO().createOrUpdatePosgrado(Long.valueOf(caseid), context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

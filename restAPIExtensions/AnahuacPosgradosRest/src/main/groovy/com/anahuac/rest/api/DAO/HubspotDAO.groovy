@@ -800,8 +800,57 @@ class HubspotDAO {
 
 		return objHubSpotData;
 	}
+	
+	private Map<String, Object> getMediosByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_SOLICITUD);
+			pstm.setLong(1, caseid);
 
-	public Result createOrUpdatePosgrado(Long caseid) {
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("nombre_empresa_empleado_posgrado_bpm", rs.getString("nombre_empresa"));
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+	
+	private Map<String, Object> getHorarioByCaseid(Long caseid, Map<String, Object> objHubSpotData, RestAPIContext context){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_HORARIO_SOLICITUD);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
+				objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+
+	public Result createOrUpdatePosgrado(Long caseid, RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoApiKey = new Result();
 		Boolean closeCon = false;
@@ -818,14 +867,20 @@ class HubspotDAO {
 		
 		try {
 			solicitud = getSolicitudByCaseid(caseid);
-			objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
-			objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
+			
 			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 			
 			String estatusNuevo = estatusMap.get(solicitud.get("estatus_solicitud"));
+			if(!solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
+				//Si la solicitud ya avanzo de este estatus quiere decir que ya existe esta información
+				objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
+				objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
+	//			objHubSpotData = getMediosByCaseid(caseid, objHubSpotData);
+				objHubSpotData = getHorarioByCaseid(caseid, objHubSpotData, context);
+			}
 			
 			if(solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
 				ultimaMod = new Date();
@@ -853,6 +908,7 @@ class HubspotDAO {
 				
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin")) {
 				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
+//				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_posgrado_bpm"));
 			}
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
