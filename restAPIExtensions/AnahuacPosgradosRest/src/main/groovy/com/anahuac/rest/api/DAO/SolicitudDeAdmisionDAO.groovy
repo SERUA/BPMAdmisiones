@@ -1320,6 +1320,14 @@ class SolicitudDeAdmisionDAO {
 				}
 			}
 			
+			// 
+			if (where.contains("WHERE")) {
+				where += " AND "
+			} else {
+				where += " WHERE "
+			}
+			where += " ( cita.eliminado_proceso IS NOT TRUE ) "
+			
 			orderby += " " + object.orientation;
 			consulta = consulta.replace("[WHERE]", where);
 			consultaCount = consultaCount.replace("[WHERE]", where);
