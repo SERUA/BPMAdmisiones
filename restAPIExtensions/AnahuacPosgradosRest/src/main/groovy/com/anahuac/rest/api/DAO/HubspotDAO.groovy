@@ -825,7 +825,7 @@ class HubspotDAO {
 		return objHubSpotData;
 	}
 	
-	private Map<String, Object> getHorarioByCaseid(Long caseid, Map<String, Object> objHubSpotData, RestAPIContext context){
+	private Map<String, Object> getHorarioByCaseid(Long caseid, Map<String, Object> objHubSpotData, org.bonitasoft.web.extension.rest.RestAPIContext context){
 		Boolean closeCon = false;
 		
 		try {
@@ -850,7 +850,7 @@ class HubspotDAO {
 		return objHubSpotData;
 	}
 
-	public Result createOrUpdatePosgrado(Long caseid, RestAPIContext context) {
+	public Result createOrUpdatePosgrado(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoApiKey = new Result();
 		Boolean closeCon = false;
