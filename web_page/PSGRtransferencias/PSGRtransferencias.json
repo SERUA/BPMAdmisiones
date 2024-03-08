@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRtransferencias",
   "name" : "PSGRtransferencias",
-  "lastUpdate" : 1709840943276,
+  "lastUpdate" : 1709924973741,
   "rows" : [
     [
       {
@@ -1016,6 +1016,110 @@
                   ],
                   [
                     {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<hr>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "left"
+                        }
+                      },
+                      "reference" : "222e3835-0645-4d26-9e78-6799e023ef82",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "labelHidden" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Default label"
+                        },
+                        "labelPosition" : {
+                          "type" : "constant",
+                          "value" : "top"
+                        },
+                        "labelWidth" : {
+                          "type" : "constant",
+                          "value" : 4
+                        },
+                        "allowHTML" : {
+                          "type" : "constant",
+                          "value" : true
+                        },
+                        "text" : {
+                          "type" : "interpolation",
+                          "value" : "<b>Recuerda que al transferir a un aspirante a otro campus o posgrado la documentación deberá ser cargada nuevamente por el aspirante.</b>"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        }
+                      },
+                      "reference" : "9de0d137-47e2-4a69-8484-ee4106812b82",
+                      "hasValidationError" : false,
+                      "id" : "pbText"
+                    }
+                  ],
+                  [
+                    {
                       "type" : "container",
                       "dimension" : {
                         "xs" : 12,
@@ -1497,7 +1601,7 @@
                               },
                               "availableValues" : {
                                 "type" : "expression",
-                                "value" : "pSGRCatCampus_query"
+                                "value" : "pSGRCatCampus_query_formateda"
                               },
                               "displayedKey" : {
                                 "type" : "constant",
@@ -3373,6 +3477,17 @@
       "type" : "expression",
       "value" : [
         "return $data.periodos_disponibles.filter(item => item !== null);"
+      ],
+      "exposed" : false
+    },
+    "pSGRCatCampus_query_formateda" : {
+      "type" : "expression",
+      "value" : [
+        "",
+        "return $data.pSGRCatCampus_query.filter((campus) => {",
+        "    debugger",
+        "    return campus.descripcion !== $data.selectedRow.campus;",
+        "})"
       ],
       "exposed" : false
     }
