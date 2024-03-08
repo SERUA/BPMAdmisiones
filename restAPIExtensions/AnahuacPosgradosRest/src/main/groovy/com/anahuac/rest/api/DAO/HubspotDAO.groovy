@@ -731,6 +731,47 @@ class HubspotDAO {
 
 		return solicitud;
 	}
+	
+	
+	private Map<String, Object> getEscuelasByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESCUELAS_SOLICITUD);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				if(rs.getString("grado_clave").equals("DOC")) {
+					objHubSpotData.put("grado_escolar_doctor_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_doctor_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_doc_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("MAT")) {
+					objHubSpotData.put("grado_escolar_maestria_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_maestria_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_maestria_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("ESP")) {
+					objHubSpotData.put("grado_escolar_espec_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_espec_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_espec_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("LIC")) {
+					objHubSpotData.put("grado_escolar_lic_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_lic_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_lic_posgrado_bpm", rs.getString("institucion"));
+				}
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return solicitud;
+	}
 
 	public Result createOrUpdatePosgrado(Long caseid) {
 		Result resultado = new Result();
@@ -749,6 +790,7 @@ class HubspotDAO {
 		
 		try {
 			solicitud = getSolicitudByCaseid(caseid);
+			objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
 			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
