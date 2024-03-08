@@ -396,18 +396,11 @@ class NotificacionDAO {
 					plantilla = plantilla.replace("[DOCUMENTOS-OFICIALES-FECHA-LIMITE]", "No definida")
 				}
 				
-				
-				errorlog += "|1|"
 				if (object.codigo.equals("psgr-cita-agendada")) {
-					errorlog += "|2|"
 					def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
-					errorlog += "|3|"
 					List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseId, 0, 99);
-					errorlog += "|4|"
 					PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.last() : null
-					errorlog += "|5|"
 					if (citaAspirante) {
-						errorlog += "|6|"
 						try {
 							SimpleDateFormat formatter = new SimpleDateFormat("dd/MM/yyyy");
 							LocalDateTime fecha_entrevista_LDT = citaAspirante.getCita_horario().getCita_entrevista().getFecha_entrevista();
@@ -420,15 +413,12 @@ class NotificacionDAO {
 							plantilla = plantilla.replace("[CITA-LIGA]", liga ? liga : "No aplica a esta entrevista");
 							String ubicacion = citaAspirante.getCita_horario().getCita_entrevista().getUbicacion();
 							plantilla = plantilla.replace("[CITA-UBICACION]", ubicacion ? ubicacion: "No aplica a esta entrevista");
-							errorlog += "|7|"
 						} catch(Exception e) {
 							errorlog += "| ERROR EN LA CITA: " + e.getMessage();
 						}
-						errorlog += "|8|"
 					}
-					errorlog += "|9|"
 				}
-				errorlog += "|10|"
+				
 				// Comentarios
 				closeCon = validarConexion();
 				String ordenpago = ""
@@ -631,6 +621,7 @@ class NotificacionDAO {
 			
 			resultado.setSuccess(true)
 		} catch (Exception e) {
+			errorlog += e.getMessage();
 			LOGGER.error("errorlog::" + errorlog)
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage())
