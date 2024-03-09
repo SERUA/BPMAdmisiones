@@ -10,32 +10,62 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
 
     $scope.updateRequisitos = function() {
         
+        const isUpdate = $scope.properties.isUpdate;
+        const isCleanList = $scope.properties.isCleanList;
+        let text = "";
+        let title = "";
+        let buttonText = "";
+        
+        if (isUpdate) {
+            if (isCleanList) {
+                text = "¿Estás seguro que deseas eliminar los requisitos adicionales?";
+                title = "Eliminar requisitos adicionales";
+                buttonText = "Eliminar";
+            } 
+            else {
+                text = "Si confirmas esta operación se actualizará la lista de requisitos adicionales y se le notificará al aspirante vía correo electrónico. La solicitud quedará en espera de que sean marcados como cumplidos.";
+                title = "Actualizar";
+                buttonText = "Actualizar";
+            }
+        }
+        else {
+            text = "Si confirmas esta operación se le solicitará al aspirante los requisitos adicionas seleccionados vía correo electrónico, y la solicitud quedará en espera de que sean marcados como cumplidos.";
+            title = "Solicitar";
+            buttonText = "Solicitar";
+        }
+        
         swal({
-            title: "Confirmación",
-            text: "Si confirmas la operación se actualizará la lista de requisitos adicionales.",
+            title: title,
+            text: text,
             icon: "info",
             buttons: [
                 'Cancelar',
-                'Confirmar'
+                buttonText
             ],
         })
         .then((isConfirmar) => {
-            sendMail();
             if (isConfirmar) {
                 
                 // Actualizar
                 doRequestUpdate("POST", "/API/extension/posgradosRest?url=updateListaRequisitosAdicionalesAuxiliar", null, $scope.properties.dataToUpdate, 
                     function(datos, status) { 
                         closeModal(true);
-                        if (status) {
-                            $scope.properties.updateResponseStatusCode = status   
+
+                        if (!isCleanList) {
+                            sendMail();
                         }
-                        else $scope.properties.updateResponseStatusCode = "200"
+
+                        if (status) {
+                            $scope.properties.updateResponseStatusCode = status;
+                        }
+                        else $scope.properties.updateResponseStatusCode = "200";
                         
                         $scope.$apply();
                     },
                     function(datos) { }
                 );
+
+                
             }
         });
     }
