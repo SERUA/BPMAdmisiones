@@ -867,7 +867,6 @@ class HubspotDAO {
 		
 		try {
 			solicitud = getSolicitudByCaseid(caseid);
-			
 			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
@@ -902,7 +901,6 @@ class HubspotDAO {
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
 //				grado_estudiar_posgrado_bpm
-//				periodo_ingreso_posgrado_bpm
 //				pais_posgrado_bpm
 //				estado_posgrado_bpm
 				
