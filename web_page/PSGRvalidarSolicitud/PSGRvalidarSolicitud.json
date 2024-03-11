@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRvalidarSolicitud",
   "name" : "PSGRvalidarSolicitud",
-  "lastUpdate" : 1709665290179,
+  "lastUpdate" : 1709944492204,
   "rows" : [
     [
       {
@@ -4551,7 +4551,7 @@
                                                       },
                                                       "text" : {
                                                         "type" : "interpolation",
-                                                        "value" : "<small>{{$item.requiere_documento ? \"Documento requerido *\" : \"Documento opcional\"}}</small>"
+                                                        "value" : "<small>{{$item.requiere_documento ? \"Evidencia requerida *\" : \"Evidencia opcional\"}}</small>"
                                                       },
                                                       "alignment" : {
                                                         "type" : "constant",
@@ -5200,7 +5200,7 @@
                         },
                         "disabled" : {
                           "type" : "expression",
-                          "value" : "guardarRequisitosExistenCambios"
+                          "value" : "guardarRequisitosExistenCambios || hayRequisitosAdicionales"
                         },
                         "label" : {
                           "type" : "interpolation",
@@ -21358,7 +21358,7 @@
                               },
                               "text" : {
                                 "type" : "interpolation",
-                                "value" : "<b><br>Requiere documento</b>"
+                                "value" : "<b><br>Requiere evidencia</b>"
                               },
                               "alignment" : {
                                 "type" : "constant",
@@ -22063,6 +22063,14 @@
                   "urlMail" : {
                     "type" : "constant",
                     "value" : "../API/extension/posgradosRest?url=generateHtml"
+                  },
+                  "isUpdate" : {
+                    "type" : "expression",
+                    "value" : "hayRequisitosAdicionales"
+                  },
+                  "isCleanList" : {
+                    "type" : "expression",
+                    "value" : "esEliminacionDeListaRequisitos"
                   }
                 },
                 "reference" : "8409e811-8df3-4d08-818a-665c4a0a397b",
@@ -28323,30 +28331,54 @@
         "if ($data.updateListaRequisitosRespuesta) {",
         "    if ($data.updateListaRequisitosRespuesta.toString().startsWith(\"2\")) {",
         "        // Notificar exito",
-        "        swal({",
-        "            icon: 'success',",
-        "            title: \"Lista de requisitos actualizada correctamente\",",
-        "            text: \"Serás redirigido a la bandeja de nuevas solicitudes para que continúes con tus actividades\",",
-        "            buttons: [",
-        "                'Permanecer aquí',",
-        "                'Aceptar'",
-        "            ],",
-        "        })",
-        "        .then((aceptar) =>  {",
-        "            if (aceptar) {",
+        "        ",
+        "        // Habia requisitos",
+        "        if ($data.hayRequisitosAdicionales) {",
+        "            // Eliminación de lista",
+        "            if ($data.esEliminacionDeListaRequisitos) {",
+        "                swal({",
+        "                    icon: 'success',",
+        "                    title: \"Eliminación de lista realizada correctamente\",",
+        "                    text: \"Serás redirigido a la bandeja de nuevas solicitudes para que continúes con tus actividades.\",",
+        "                    button: \"Cerrar\",",
+        "                })",
+        "                .then(() =>  {",
+        "                    // Redirigir a bandeja de nuevas solicitudes",
+        "                    window.location.href = window.location.origin + \"/apps/\"+tokenApp+\"/\"+page+\"/\";",
+        "                });",
+        "            }",
+        "            // Actualización",
+        "            else {",
+        "                swal({",
+        "                    icon: 'success',",
+        "                    title: \"Actualización realizada correctamente\",",
+        "                    text: \"La lista de requisitos adicionales fue actualizada correctamente.\",",
+        "                    button: \"Cerrar\",",
+        "                });",
+        "                ",
+        "                // Limpiar el objeto requisitosAdicionales (para asegurar que el guardarRequisitosForm se cargue con la nueva informacion)",
+        "                $data.requisitosAdicionales = {};",
+        "                ",
+        "                // Solicitar el reload de la información de requisitosAdicionales",
+        "                $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
+        "        ",
+        "                // Cancelamos los cambios existentes para forzar la actualizacion del guardarRequisitosForm.",
+        "                $data.cancelarCambiosRequisitosClickEvent = true;",
+        "            }",
+        "        }",
+        "        // Solicitar",
+        "        else {",
+        "            swal({",
+        "                icon: 'success',",
+        "                title: \"Solicitud realizada correctamente\",",
+        "                text: \"Serás redirigido a la bandeja de nuevas solicitudes para que continúes con tus actividades.\",",
+        "                button: \"Cerrar\",",
+        "            })",
+        "            .then(() =>  {",
         "                // Redirigir a bandeja de nuevas solicitudes",
         "                window.location.href = window.location.origin + \"/apps/\"+tokenApp+\"/\"+page+\"/\";",
-        "            }",
-        "        }) ",
-        "        ",
-        "        // Limpiar el objeto requisitosAdicionales (para asegurar que el guardarRequisitosForm se cargue con la nueva informacion)",
-        "        $data.requisitosAdicionales = {};",
-        "        ",
-        "        // Solicitar el reload de la información de requisitosAdicionales",
-        "        $data.requisitosAdicionalesReloadCount = $data.requisitosAdicionalesReloadCount + 1;",
-        "",
-        "        // Cancelamos los cambios existentes para forzar la actualizacion del guardarRequisitosForm.",
-        "        $data.cancelarCambiosRequisitosClickEvent = true;",
+        "            });",
+        "        }",
         "    }",
         "    else {",
         "        Swal.fire({",
@@ -28628,12 +28660,11 @@
     "updateRequisitosAdicionalesButtonText" : {
       "type" : "expression",
       "value" : [
-        "if ($data.requisitosAdicionales && $data.requisitosAdicionales.length !== 0) {",
-        "    return \"Actualizar\"",
+        "if ($data.hayRequisitosAdicionales) {",
+        "    if ($data.esEliminacionDeListaRequisitos) return \"Eliminar lista\"",
+        "    else return \"Actualizar\"",
         "} ",
-        "else {",
-        "    return \"Solicitar\"",
-        "}"
+        "else return \"Solicitar\""
       ],
       "exposed" : false
     },
@@ -28665,7 +28696,7 @@
         "    return \"Actualizar lista de requisitos adicionales\"",
         "} ",
         "else {",
-        "    return \"Activar requisitos adicionales\"",
+        "    return \"Solicitar requisitos adicionales\"",
         "}"
       ],
       "exposed" : false
@@ -28679,6 +28710,25 @@
         "    \"codigo\" : \"psgr-requisitos-adicionales\",\r",
         "    \"isEnviar\" : true\r",
         "}"
+      ],
+      "exposed" : false
+    },
+    "hayRequisitosAdicionales" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.requisitosAdicionales && $data.requisitosAdicionales.length !== 0;"
+      ],
+      "exposed" : false
+    },
+    "esEliminacionDeListaRequisitos" : {
+      "type" : "expression",
+      "value" : [
+        "return (",
+        "    $data.updateRequisitosFormOutput && ",
+        "    $data.updateRequisitosFormOutput.requisitosAdicionalesCatalogos && ",
+        "    $data.updateRequisitosFormOutput.requisitosAdicionalesCatalogos.length === 0 && ",
+        "    $data.updateRequisitosFormOutput.confirmarLimpiarLista    ",
+        ")"
       ],
       "exposed" : false
     }

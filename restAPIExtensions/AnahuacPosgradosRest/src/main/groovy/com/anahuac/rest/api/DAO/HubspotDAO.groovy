@@ -720,6 +720,7 @@ class HubspotDAO {
 				solicitud.put("nacionalidad", rs.getString("nacionalidad"));
 				solicitud.put("estado_civil", rs.getString("estado_civil"));
 				solicitud.put("estudiara_programa_otra_un", rs.getString("estudiara_programa_otra_un"));
+				solicitud.put("clave_periodo", rs.getString("clave_periodo"));
 			}
 		} catch(Exception e) {
 			throw new Exception (e.getMessage());
@@ -731,8 +732,125 @@ class HubspotDAO {
 
 		return solicitud;
 	}
+	
+	
+	private Map<String, Object> getEscuelasByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_ESCUELAS_SOLICITUD);
+			pstm.setLong(1, caseid);
 
-	public Result createOrUpdatePosgrado(Long caseid) {
+			rs = pstm.executeQuery();
+
+			while(rs.next()) {
+				if(rs.getString("grado_clave").equals("DOC")) {
+					objHubSpotData.put("grado_escolar_doctor_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_doctor_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_doc_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("MAT")) {
+					objHubSpotData.put("grado_escolar_maestria_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_maestria_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_maestria_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("ESP")) {
+					objHubSpotData.put("grado_escolar_espec_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_espec_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_espec_posgrado_bpm", rs.getString("institucion"));
+				} else if (rs.getString("grado_clave").equals("LIC")) {
+					objHubSpotData.put("grado_escolar_lic_posgrado_bpm", rs.getString("grado"));
+					objHubSpotData.put("programa_grado_lic_posgrado_bpm", rs.getString("programa"));
+					objHubSpotData.put("inst_lic_posgrado_bpm", rs.getString("institucion"));
+				}
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+	
+	private Map<String, Object> getTrabajosByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_SOLICITUD);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("nombre_empresa_empleado_posgrado_bpm", rs.getString("nombre_empresa"));
+				objHubSpotData.put("puesto_empleado_posgrado_bpm", rs.getString("puesto_trabajo"));
+				objHubSpotData.put("telefono_empleado_posgrado_bpm", rs.getString("telefono_empresa"));
+				objHubSpotData.put("fecha_inicio_empleo_posgrado_bpm", rs.getString("fecha_inicio"));
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+	
+	private Map<String, Object> getMediosByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_TRABAJOS_SOLICITUD);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("nombre_empresa_empleado_posgrado_bpm", rs.getString("nombre_empresa"));
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+	
+	private Map<String, Object> getHorarioByCaseid(Long caseid, Map<String, Object> objHubSpotData, org.bonitasoft.web.extension.rest.RestAPIContext context){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_HORARIO_SOLICITUD);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
+				objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
+
+	public Result createOrUpdatePosgrado(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoApiKey = new Result();
 		Boolean closeCon = false;
@@ -755,6 +873,13 @@ class HubspotDAO {
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 			
 			String estatusNuevo = estatusMap.get(solicitud.get("estatus_solicitud"));
+			if(!solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
+				//Si la solicitud ya avanzo de este estatus quiere decir que ya existe esta información
+				objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
+				objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
+	//			objHubSpotData = getMediosByCaseid(caseid, objHubSpotData);
+				objHubSpotData = getHorarioByCaseid(caseid, objHubSpotData, context);
+			}
 			
 			if(solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
 				ultimaMod = new Date();
@@ -770,20 +895,18 @@ class HubspotDAO {
 				String estudia_programa_opcion = solicitud.get("estudiara_programa_otra_un");
 				objHubSpotData.put("estudiar_programa_como_opcion_otra_universidad_bpm", estudia_programa_opcion.equals("No") ? "No" : "Si");
 //				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
-				
-//				grado_estudiar_posgrado_bpm
-//				periodo_ingreso_posgrado_bpm
-//				pais_posgrado_bpm
-//				estado_posgrado_bpm
-//				estudiar_programa_como_opcion_otra_universidad_bpm
-//				estatus_posgrado_admision_bpm
-				
+				objHubSpotData.put("periodo_ingreso_posgrado_bpm", solicitud.get("clave_periodo"));
+				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 				objHubSpotData.put("firstname", solicitud.get("nombre"));
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
+//				grado_estudiar_posgrado_bpm
+//				pais_posgrado_bpm
+//				estado_posgrado_bpm
 				
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin")) {
 				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
+//				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_posgrado_bpm"));
 			}
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);

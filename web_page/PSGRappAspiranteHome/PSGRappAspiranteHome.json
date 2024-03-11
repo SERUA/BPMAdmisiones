@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRappAspiranteHome",
   "name" : "PSGRappAspiranteHome",
-  "lastUpdate" : 1707520134122,
+  "lastUpdate" : 1710185846942,
   "rows" : [
     [
       {
@@ -170,7 +170,7 @@
                       },
                       "text" : {
                         "type" : "interpolation",
-                        "value" : "En este momento, no hay ninguna tarea disponible para ti."
+                        "value" : "En este momento, no hay ninguna tarea disponible para ti. Si tienes dudas comunícate con tu asesor o utiliza nuestro chat en la parte inferior derecha de tu pantalla."
                       },
                       "alignment" : {
                         "type" : "constant",
@@ -956,6 +956,42 @@
           ]
         ]
       }
+    ],
+    [
+      {
+        "type" : "component",
+        "dimension" : {
+          "xs" : 12,
+          "sm" : 12,
+          "md" : 12,
+          "lg" : 12
+        },
+        "propertyValues" : {
+          "cssClasses" : {
+            "type" : "constant",
+            "value" : ""
+          },
+          "hidden" : {
+            "type" : "constant",
+            "value" : false
+          },
+          "value" : {
+            "type" : "constant",
+            "value" : "This is the initial value"
+          },
+          "color" : {
+            "type" : "constant",
+            "value" : "RebeccaPurple"
+          },
+          "background" : {
+            "type" : "constant",
+            "value" : "Yellow"
+          }
+        },
+        "reference" : "3f287cee-d0d3-4e22-bb69-55b6e237a0ad",
+        "hasValidationError" : false,
+        "id" : "customWidgetChat"
+      }
     ]
   ],
   "assets" : [
@@ -1256,6 +1292,7 @@
         "    ",
         "    if ($data.openCases.length !== 0) {",
         "        lastCase = $data.openCases[0];",
+        "        debugger",
         "        lastCaseStartDate = new Date($data.openCases[0]);",
         "    } ",
         "    else if ($data.archivedCases.length !== 0) {",
@@ -1323,7 +1360,7 @@
         "const timeToRedirect = 1500;",
         "",
         "setTimeout(() => {",
-        "    // redirección en caso de tarea ",
+        "    // redirección en caso de tarea para el aspirante",
         "    if ($data.task) {",
         "        if ($data.task.name === \"Llenar solicitud de posgrado\") {",
         "            window.location.href = window.location.origin + \"/portal/resource/app/\" + tokenApp + \"/pg_solicitud/content/\";",
@@ -1337,7 +1374,21 @@
         "        }",
         "    }",
         "    ",
-        "    // redirección en caso no admitido (primera oportunidad)",
+        "    // redirección en caso en proceso pero sin tarea para aspirante",
+        "    else if(!$data.currentCase.end_date) {",
+        "        debugger",
+        "        ",
+        "        const estatusSolicitud = $data.registro.estatus_solicitud;",
+        "        ",
+        "        // Caso archivado",
+        "        if ([\"solicitud_rechazada_admin\",\"solicitud_archivada_area_academica\",\"solicitud_archivada_dictamen\"].includes(estatusSolicitud)) {",
+        "            ",
+        "        }",
+        "        // No admitida primera oportunidad",
+        "        else if (estatusSolicitud === \"solicitud_no_admitida\") {",
+        "            ",
+        "        }",
+        "    }",
         "    ",
         "    // redireccion en caso finalizado (admitido y no admitido)",
         "    else if ($data.currentCase.end_date) {",

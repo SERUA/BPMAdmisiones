@@ -1062,7 +1062,9 @@ class SolicitudDeAdmisionDAO {
 			}
 			// GET LISTADO DE PASE LISTA
 			String consulta = Statements.GET_LISTADO_SOLICITUDES_PASE_LISTA;
-			String consultaCount = Statements.GET_CONTEO_SOLICITUDES;
+			String consultaCount = Statements.GET_CONTEO_SOLICITUDES_PASE_LISTA;
+			
+			def filtroResponsable = null;
 			if (object.caseId == null) {
 				for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 					
@@ -1272,6 +1274,29 @@ class SolicitudDeAdmisionDAO {
 							where += " ( LOWER(peri.descripcion) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "RESPONSABLE":
+							// El filtro de responsable no se hace a nivel SQL
+							errorlog += "RESPONSABLE"
+							filtroResponsable = filtro.get("valor");
+							break;
+						case "FECHAENTREVISTA/HORARIO":
+							errorlog += "FECHAENTREVISTA/HORARIO"
+							if (where.contains("WHERE")) {
+								where += " AND "
+							} else {
+								where += " WHERE "
+							}
+							
+							where += "( LOWER(to_char(entr.fecha_entrevista::timestamp, 'DD/MM/YYYY')) ";
+							if (filtro.get("operador").equals("Igual a")) {
+								where += "=LOWER('[valor]')"
+							} else {
+								where += "LIKE LOWER('%[valor]%')"
+							}
+
+							where += " OR LOWER(concat(hora.hora_inicio, ' - ', hora.hora_fin)) like lower('%[valor]%') )";
+							where = where.replace("[valor]", filtro.get("valor"))
+							break;
 						default:
 							break;
 					}
@@ -1294,6 +1319,14 @@ class SolicitudDeAdmisionDAO {
 						break;
 				}
 			}
+			
+			// 
+			if (where.contains("WHERE")) {
+				where += " AND "
+			} else {
+				where += " WHERE "
+			}
+			where += " ( cita.eliminado_proceso IS NOT TRUE ) "
 			
 			orderby += " " + object.orientation;
 			consulta = consulta.replace("[WHERE]", where);
@@ -1378,8 +1411,17 @@ class SolicitudDeAdmisionDAO {
 						columns.put("responsable_nombre", nombre);
 					}
 				}
-
-				rows.add(columns);
+				
+				// Filtro RESPONSABLE
+				
+				if (filtroResponsable) {
+					if (columns.responsable_nombre.toString().contains(filtroResponsable)) {
+						rows.add(columns);
+					}
+				} 
+				else {
+					rows.add(columns);
+				}	
 			}
 			
 			errorlog = consulta + " 9";

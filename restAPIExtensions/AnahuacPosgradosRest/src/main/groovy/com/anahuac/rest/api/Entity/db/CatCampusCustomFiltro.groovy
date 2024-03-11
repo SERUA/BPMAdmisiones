@@ -14,6 +14,8 @@ class CatCampusCustomFiltro {
 	@XmlElement
 	private String descripcion;
 	@XmlElement
+	private Boolean tiene_posgrado;
+	@XmlElement
 	private String fecha_creacion;
 	@XmlElement
 	private Boolean eliminado;
@@ -110,6 +112,13 @@ class CatCampusCustomFiltro {
 		this.descripcion = descripcion;
 	}
 
+	public Boolean getTienePosgrado() {
+		return tiene_posgrado;
+	}
+
+	public void setTienePosgrado(Boolean tiene_posgrado) {
+		this.tiene_posgrado = tiene_posgrado;
+	}
 
 
 	public String getFechaCreacion() {

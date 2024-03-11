@@ -1495,6 +1495,8 @@ class CatalogosDAO {
 					throw new Exception("El campo \"orden\" no debe ir vacío.");
 			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
 					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
+			} else if (object.tienePosgrado == null || object.tienePosgrado == "") {
+					throw new Exception("El campo \"tienePosgrado\" no debe ir vacío.");
 			}
 	
 	        pstm = con.prepareStatement(StatementsCatalogos.UPDATE_CATCAMPUS);
@@ -1520,7 +1522,8 @@ class CatalogosDAO {
 			pstm.setLong(17, object.estado_pid);
 			pstm.setLong(18, object.pais_pid);
 			pstm.setString(19, object.id); // ID es de tipo VARCHAR_IGNORECASE, por lo que puedes usar setString
-			pstm.setLong(20, object.persistenceId);
+			pstm.setBoolean(20, object.tienePosgrado);
+			pstm.setLong(21, object.persistenceId);
 	
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
@@ -2010,6 +2013,7 @@ class CatalogosDAO {
                 row = new CatCampusCustomFiltro();
                 row.setClave(rs.getString("clave"))
                 row.setDescripcion(rs.getString("descripcion"));
+				row.setTienePosgrado(rs.getBoolean("tiene_posgrado"));
                 //row.setFechaCreacion(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(rs.getString("fechaCreacion")))
                 row.setFechaCreacion(rs.getString("fecha_creacion"));
                 //row.setFechaImplementacion(new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss").parse(rs.getString("fechaImplementacion")))

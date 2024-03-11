@@ -621,6 +621,7 @@ class NotificacionDAO {
 			
 			resultado.setSuccess(true)
 		} catch (Exception e) {
+			errorlog += e.getMessage();
 			LOGGER.error("errorlog::" + errorlog)
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage())
