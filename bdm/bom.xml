@@ -4983,6 +4983,7 @@
             <fields>
                 <field type="STRING" length="255" name="id" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="descripcion" nullable="true" collection="false"/>
+                <field type="BOOLEAN" length="255" name="tiene_posgrado" nullable="true" collection="false"/>
                 <field type="LOCALDATETIME" length="255" name="fecha_creacion" nullable="true" collection="false"/>
                 <field type="BOOLEAN" length="255" name="eliminado" nullable="true" collection="false"/>
                 <field type="STRING" length="255" name="usuario_banner" nullable="true" collection="false"/>
@@ -5010,7 +5011,14 @@
             </fields>
             <uniqueConstraints/>
             <queries>
-                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="com.anahuac.posgrados.catalog.PSGRCatCampus">
+                <query name="getCat" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.tiene_posgrado = true AND p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="java.util.List">
+                    <description>Obtiene el catálogo de Campus que están activos en el proceso (campus marcados que tienen posgrado)</description>
+                    <queryParameters>
+                        <queryParameter name="eliminado" className="java.lang.Boolean"/>
+                    </queryParameters>
+                </query>
+                <query name="getCatGeneral" content="SELECT p &#13;&#10;FROM PSGRCatCampus p &#13;&#10;WHERE p.eliminado = :eliminado&#13;&#10;ORDER BY p.orden ASC" returnType="java.util.List">
+                    <description>Obtiene el catálogo de Campus de manera general</description>
                     <queryParameters>
                         <queryParameter name="eliminado" className="java.lang.Boolean"/>
                     </queryParameters>
