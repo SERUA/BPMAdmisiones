@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.28">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.31">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -1441,10 +1441,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_HgUPwN2jEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_HgUPwd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_HgUPwd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
-          <inputMappings xmi:type="process:InputMapping" xmi:id="_KnYHUN2jEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_KnYHUd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+          <inputMappings xmi:type="process:InputMapping" xmi:id="_KnYHUN2jEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
+            <processSource xmi:type="expression:Expression" xmi:id="_KnYHUd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_cccrcN2jEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_cccrcd2jEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -1687,10 +1687,13 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_6e7AkN2jEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_6e7Akd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_6e7Akd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_A0pzkN2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_A0pzkd2kEe6xheYlhJ7_UA" name="newScript()" content="return false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_A0pzkd2kEe6xheYlhJ7_UA" name="newScript()" content="return false" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+          </inputMappings>
+          <inputMappings xmi:type="process:InputMapping" xmi:id="_pVD8QN_KEe6htu3fwJJ6MA" subprocessTarget="urlHubspot" assignationType="Data">
+            <processSource xmi:type="expression:Expression" xmi:id="_pVD8Qd_KEe6htu3fwJJ6MA" name="newScript()" content="''" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
           </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_NLJQk3kGEe6ycfbe8lEQPw" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_NLJQlHkGEe6ycfbe8lEQPw" name="" content="" returnTypeFixed="true"/>
@@ -1850,10 +1853,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_kuKC8N2jEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_kuKC8d2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_kuKC8d2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_lXlacN2jEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_lXlacd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_lXlacd2jEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_lyvFYN2jEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_lyvFYd2jEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -2048,10 +2051,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_lSZjAN2kEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_lSZjAd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_lSZjAd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_lsdo0N2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_lsdo0d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_lsdo0d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_mMzVwN2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_mMzVwd2kEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -3729,10 +3732,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_HdUwsN2kEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_HdUwsd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_HdUwsd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_H3Jl8N2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_H3Jl8d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_H3Jl8d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_IbMuMN2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_IbMuMd2kEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -3918,10 +3921,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_W9vxoN2kEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_W9vxod2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_W9vxod2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_XXu-8N2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_XXu-8d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_XXu-8d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_XwI34N2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_XwI34d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
@@ -4314,10 +4317,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_0Qxm0N2kEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_0Qxm0d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_0Qxm0d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_0t-gMN2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_0t-gMd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_0t-gMd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_1LuzMN2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_1LuzMd2kEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -4482,10 +4485,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_PRrBUN2lEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_PRrBUd2lEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_PRrBUd2lEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_Px9q8N2lEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_Px9q8d2lEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_Px9q8d2lEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_QLaFsN2lEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_QLaFsd2lEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
@@ -4737,10 +4740,10 @@
             </processSource>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_8QWFcN2kEe6xheYlhJ7_UA" subprocessTarget="esCorreo" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_8QWFcd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_8QWFcd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_8yuZwN2kEe6xheYlhJ7_UA" subprocessTarget="esHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_8yuZwd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_8yuZwd2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_9KnVUN2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
             <processSource xmi:type="expression:Expression" xmi:id="_9KnVUd2kEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
