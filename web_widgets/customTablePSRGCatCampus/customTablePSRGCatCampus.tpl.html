@@ -14,6 +14,7 @@
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('CLAVE')"> Clave<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CLAVE'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('ORDEN')"> Orden<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ORDEN'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('DESCRIPCION')">Descripción<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='DESCRIPCION'"></i></span></th>
+                <th> <span style="cursor:pointer" ng-click="setOrderBy('TIENEPOSGRADO')">Activo en proceso<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIENEPOSGRADO'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('CALLE')">Calle<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CALLE'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('COLONIA')">Colonia<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='COLONIA'"></i></span></th>
                 <th> <span style="cursor:pointer" ng-click="setOrderBy('NUMEROEXTERIOR')">Número exterior<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='NUMEROEXTERIOR'"></i></span></th>
@@ -47,6 +48,10 @@
                 </td>
                 <td>
                     {{row.descripcion}}<br>
+                </td>
+                <td>
+                    <p ng-if="row.tienePosgrado" style="font-weight: bold;">Activo</p>
+                    <p ng-if="!row.tienePosgrado">No activo</p>
                 </td>
                 <td>
                     {{row.calle}}<br>
