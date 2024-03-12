@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.32">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.33">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -1537,7 +1537,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_4SZwgH8uEe6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_4SZwgX8uEe6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_4SZwgn8uEe6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_4SZwg38uEe6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_4SZwg38uEe6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_uerwkOAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_4SZwhH8uEe6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_4SZwhX8uEe6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -1705,7 +1707,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_n9SjQH8uEe6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_n9SjQX8uEe6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_n9SjQn8uEe6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_n9SjQ38uEe6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_n9SjQ38uEe6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_rxP58OAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_n9SjRH8uEe6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_n9SjRX8uEe6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -1873,7 +1877,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_dcK_4H5oEe6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_dcK_4X5oEe6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_dcK_4n5oEe6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_dcK_435oEe6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_dcK_435oEe6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_0rqQMOAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_dcK_5H5oEe6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_dcK_5X5oEe6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -3589,7 +3595,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_Pln04H5qEe6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_Pln04X5qEe6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_Pln04n5qEe6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_Pln0435qEe6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_Pln0435qEe6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_3FToIOAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_Pln05H5qEe6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_Pln05X5qEe6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -3757,7 +3765,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_tvq_YH5vEe6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_tvq_YX5vEe6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_tvq_Yn5vEe6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_tvq_Y35vEe6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_tvq_Y35vEe6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_4zxVEOAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_tvq_ZH5vEe6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_tvq_ZX5vEe6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -4174,7 +4184,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_TiaK0H57Ee6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_TiaK0X57Ee6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_TiaK0n57Ee6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_TiaK0357Ee6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_TiaK0357Ee6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_7udkkOAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_TiaK1H57Ee6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_TiaK1X57Ee6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -4342,7 +4354,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_HQhtAH58Ee6TwbILgRGNhw" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_HQhtAX58Ee6TwbILgRGNhw" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_HQhtAn58Ee6TwbILgRGNhw" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_HQhtA358Ee6TwbILgRGNhw" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_HQhtA358Ee6TwbILgRGNhw" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_ATRMgOAPEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_HQhtBH58Ee6TwbILgRGNhw" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_HQhtBX58Ee6TwbILgRGNhw" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
@@ -4597,7 +4611,9 @@
           <connectors xmi:type="process:Connector" xmi:id="_tOLf1JniEe6BLbGPQjgoHQ" name="getCookie()" definitionId="rest-post" event="ON_ENTER" ignoreErrors="true" definitionVersion="1.3.0">
             <configuration xmi:type="connectorconfiguration:ConnectorConfiguration" xmi:id="_tOLf1ZniEe6BLbGPQjgoHQ" definitionId="rest-post" version="1.3.0" modelVersion="7.12.0-004">
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_tOLf1pniEe6BLbGPQjgoHQ" key="url">
-                <expression xmi:type="expression:Expression" xmi:id="_tOLf15niEe6BLbGPQjgoHQ" name="url()" content="url()" returnTypeFixed="true"/>
+                <expression xmi:type="expression:Expression" xmi:id="_tOLf15niEe6BLbGPQjgoHQ" name="url()" content="urlLoginCompleta" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnTypeFixed="true">
+                  <referencedElements xmi:type="process:Data" xmi:id="_-fqg4OAOEe6htu3fwJJ6MA" name="urlLoginCompleta" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+                </expression>
               </parameters>
               <parameters xmi:type="connectorconfiguration:ConnectorParameter" xmi:id="_tOLf2JniEe6BLbGPQjgoHQ" key="contentType">
                 <expression xmi:type="expression:Expression" xmi:id="_tOLf2ZniEe6BLbGPQjgoHQ" name="application/x-www-form-urlencoded" content="application/x-www-form-urlencoded" returnTypeFixed="true"/>
