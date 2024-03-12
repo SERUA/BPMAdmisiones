@@ -23,6 +23,8 @@ import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
 import com.anahuac.posgrados.model.PSGRRegistro
 import com.anahuac.posgrados.model.PSGRRegistroDAO
+import com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales
+import com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonalesDAO
 import com.anahuac.posgrados.model.PSGRSolAdmiPrograma
 import com.anahuac.posgrados.model.PSGRSolAdmiProgramaDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -725,6 +727,7 @@ class NotificacionDAO {
 		try {
 			def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
 			def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+			def objPSGRSolAdmiDatosPersonalesDAO = context.apiClient.getDAO(PSGRSolAdmiDatosPersonalesDAO.class);
 			def objPSGRCatEstatusProcesoDAO = context.apiClient.getDAO(PSGRCatEstatusProcesoDAO.class);
 			def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
 
@@ -735,46 +738,70 @@ class NotificacionDAO {
 			def caseid = registro.caseid;
 			def estatus_solicitud = registro.estatus_solicitud;
 			
-			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
+			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999);
+			List<PSGRSolAdmiDatosPersonales> objPSGRSolAdmiDatosPersonales = objPSGRSolAdmiDatosPersonalesDAO.findByCaseid(caseid, 0, 99);
 			List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseid, 0, 99);
 			List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
 			
-			PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null
-			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
-			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null
+			PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
+			PSGRSolAdmiDatosPersonales datosPersonales = !objPSGRSolAdmiDatosPersonales.empty ? objPSGRSolAdmiDatosPersonales.get(0) : null;
+			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null;
+			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null;
 									
 			if(objSolicitudDeAdmision.size()>0) {
 				//Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
 
 				if (codigo == "psgr-validar-cuenta") {
 					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
+					
+					// En el correo de validar cuenta se utiliza el nombre de registro
+					String nombreCompleto = "";
+					if (registro.nombre != null && registro.apellido_paterno != null) {
+						 nombreCompleto = registro.nombre + " " + registro.apellido_paterno;
+						 if (registro.apellido_materno != null) nombreCompleto += " " + registro.apellido_materno;
+					}
+	
+					plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+					plantilla = plantilla.replace("[NOMBRE]", registro.nombre);
 				}
+
+				plantilla = plantilla.replace("[ID-BANNER]", registro.id_banner_validacion ? registro.id_banner_validacion : "");
 				
-				plantilla = plantilla.replace("[NOMBRE-COMPLETO]",registro.nombre+" "+registro.apellido_paterno+" "+registro.apellido_materno)
-				plantilla = plantilla.replace("[NOMBRE]",registro.nombre);
-				plantilla = plantilla.replace("[ID-BANNER]",registro.id_banner_validacion);
-				
+				if (datosPersonales) {
+					String nombreCompleto = "";
+					if (datosPersonales.nombre != null && datosPersonales.apellido_paterno != null) {
+						 nombreCompleto = datosPersonales.nombre + " " + datosPersonales.apellido_paterno;
+						 if (datosPersonales.apellido_materno != null) nombreCompleto += " " + datosPersonales.apellido_materno;
+					}
+					
+					plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+					plantilla = plantilla.replace("[NOMBRE]", datosPersonales.nombre ? datosPersonales.nombre : "");
+					
+				}
+
 				if (estatus) {
-					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion);
+					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion ? estatus.descripcion : "");
 				}			
 				
 				if (datosPrograma) {
-					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
-					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado.descripcion)
-					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
-					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
+					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus?.descripcion ? datosPrograma.campus.descripcion : "")
+					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado?.descripcion ? datosPrograma.posgrado.descripcion : "")
+					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes?.nombre ? datosPrograma.programa_interes.nombre : "")
+					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso?.descripcion ? datosPrograma.periodo_ingreso.descripcion : "")
 				}
 				
-				errorlog += "citaAspirante" + citaAspirante.getPersistenceId().toString();
+				/*errorlog += "citaAspirante " + citaAspirante.getPersistenceId().toString();
 				
-				if (citaAspirante) {
-					def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
-					plantilla = plantilla.replace("[CITA-FECHA]", citaAspirante.cita_horario.cita_entrevista.fecha_entrevista.format(formatter))
-					plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio)
+				if (citaAspirante && citaAspirante.cita_horario) {
+					def citaFormato = citaAspirante.cita_horario.cita_entrevista ? (citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea") : "";
+					def fechaEntrevista = citaAspirante.cita_horario.cita_entrevista?.fecha_entrevista;
+					
+					plantilla = plantilla.replace("[CITA-FECHA]", fechaEntrevista ? fechaEntrevista.format(formatter) : "")
+					plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio ? citaAspirante.cita_horario.hora_inicio : "")
 					plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato)
-					plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista.liga)
-					plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista.ubicacion)
-				}
+					plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista?.liga ? citaAspirante.cita_horario.cita_entrevista.liga : "")
+					plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista?.ubicacion ? citaAspirante.cita_horario.cita_entrevista?.ubicacion : "")
+				}*/
 
 				/*
 				errorlog += ", Variable14"
