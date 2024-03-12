@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.31">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.32">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -3195,6 +3195,11 @@
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_99LCsNdZEe65w5fgTES1lQ" name="datosPrograma" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRSolAdmiPrograma"/>
             </processSource>
           </inputMappings>
+          <inputMappings xmi:type="process:InputMapping" xmi:id="_qqLCUN_8Ee6htu3fwJJ6MA" subprocessTarget="urlHubspot" assignationType="Data">
+            <processSource xmi:type="expression:Expression" xmi:id="_qqLCUd_8Ee6htu3fwJJ6MA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="parameter:Parameter" xmi:id="_sOSgcN_8Ee6htu3fwJJ6MA" name="urlHubspot" typeClassname="java.lang.String"/>
+            </processSource>
+          </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_Usscw9aYEe65w5fgTES1lQ" name="Posgrados reagendar cita" content="Posgrados reagendar cita" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_UsscxNaYEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
         </elements>
@@ -5987,7 +5992,7 @@
         <value xmi:type="expression:Expression" xmi:id="_vuD3_qBLEe6aP8SkgOZ7bw" content="" returnTypeFixed="true"/>
       </searchIndexes>
     </elements>
-    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.21">
+    <elements xmi:type="process:Pool" xmi:id="_Q2rC4NaXEe65w5fgTES1lQ" name="Posgrados reagendar cita" version="1.23">
       <elements xmi:type="process:StartEvent" xmi:id="_f1hn0NaXEe65w5fgTES1lQ" name="Inicio reagendar cita" outgoing="_jhkbwNaXEe65w5fgTES1lQ">
         <dynamicLabel xmi:type="expression:Expression" xmi:id="_f1jdAdaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
         <dynamicDescription xmi:type="expression:Expression" xmi:id="_f1jdANaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
@@ -6158,6 +6163,17 @@
         <inputMappings xmi:type="process:InputMapping" xmi:id="_iT7kWdaXEe65w5fgTES1lQ" subprocessTarget="cookie" assignationType="Data">
           <processSource xmi:type="expression:Expression" xmi:id="_iT7kWtaXEe65w5fgTES1lQ" name="cookie" content="cookie" type="TYPE_VARIABLE">
             <referencedElements xmi:type="process:Data" xmi:id="_QJAQENdREe65w5fgTES1lQ" name="cookie" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+          </processSource>
+        </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_O2xpUN_7Ee6htu3fwJJ6MA" subprocessTarget="esCorreo" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_O2xpUd_7Ee6htu3fwJJ6MA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+        </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_PyfqsN_7Ee6htu3fwJJ6MA" subprocessTarget="esHubspot" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_Pyfqsd_7Ee6htu3fwJJ6MA" name="newScript()" content="return false;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+        </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_QXGMkN_7Ee6htu3fwJJ6MA" subprocessTarget="urlHubspot" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_QXGMkd_7Ee6htu3fwJJ6MA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+            <referencedElements xmi:type="process:Data" xmi:id="_moD3wN_8Ee6htu3fwJJ6MA" name="urlHubspot" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
           </processSource>
         </inputMappings>
         <calledActivityName xmi:type="expression:Expression" xmi:id="_iT7kXNaXEe65w5fgTES1lQ" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
@@ -6446,6 +6462,17 @@
             <referencedElements xmi:type="process:Data" xmi:id="_cEdVcNdREe65w5fgTES1lQ" name="xBonitaApiToken" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
           </processSource>
         </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_xHjVcN_8Ee6htu3fwJJ6MA" subprocessTarget="esCorreo" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_xHjVcd_8Ee6htu3fwJJ6MA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+        </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_2t1ogN_8Ee6htu3fwJJ6MA" subprocessTarget="esHubspot" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_2t1ogd_8Ee6htu3fwJJ6MA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
+        </inputMappings>
+        <inputMappings xmi:type="process:InputMapping" xmi:id="_5bik4N_8Ee6htu3fwJJ6MA" subprocessTarget="urlHubspot" assignationType="Data">
+          <processSource xmi:type="expression:Expression" xmi:id="_5bik4d_8Ee6htu3fwJJ6MA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+            <referencedElements xmi:type="process:Data" xmi:id="_6x5T0N_8Ee6htu3fwJJ6MA" name="urlHubspot" dataType="_RS3WsVZtEe6T3bm1fu0vzg"/>
+          </processSource>
+        </inputMappings>
         <calledActivityName xmi:type="expression:Expression" xmi:id="_81_GudaXEe65w5fgTES1lQ" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
         <calledActivityVersion xmi:type="expression:Expression" xmi:id="_81_GutaXEe65w5fgTES1lQ" name="" content="" returnTypeFixed="true"/>
       </elements>
@@ -6484,6 +6511,9 @@
       </data>
       <data xmi:type="process:Data" xmi:id="_bNflENpuEe6xKNiOGa1QUg" name="isArchivarEnReagendar" dataType="_RS3WrFZtEe6T3bm1fu0vzg">
         <defaultValue xmi:type="expression:Expression" xmi:id="_bNflEdpuEe6xKNiOGa1QUg" content="" returnType="java.lang.Boolean"/>
+      </data>
+      <data xmi:type="process:Data" xmi:id="_hQ2igN_8Ee6htu3fwJJ6MA" name="urlHubspot" dataType="_RS3WsVZtEe6T3bm1fu0vzg">
+        <defaultValue xmi:type="expression:Expression" xmi:id="_hQ2igd_8Ee6htu3fwJJ6MA" content=""/>
       </data>
       <formMapping xmi:type="process:FormMapping" xmi:id="_Q6EVINaXEe65w5fgTES1lQ" type="NONE">
         <targetForm xmi:type="expression:Expression" xmi:id="_Q6EVIdaXEe65w5fgTES1lQ" name="" content="" type="FORM_REFERENCE_TYPE" returnTypeFixed="true"/>
