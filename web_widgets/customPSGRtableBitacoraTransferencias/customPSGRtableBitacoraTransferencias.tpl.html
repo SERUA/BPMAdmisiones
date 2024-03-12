@@ -18,9 +18,10 @@
         </div>
     </div>
     
-    <div class="row">
+    <div class="row"  ng-hide="!filtroCampus">
         <div class="col-xs-3 col-xs-offset-3">
-            Campus destino:  
+            <p ng-if="dataToSend.esDestino" >Recibidas</p>
+            <p ng-if="!dataToSend.esDestino">Enviadas</p>
             <label class="switch"  >
                 <input type="checkbox" ng-model="dataToSend.esDestino" ng-change="cambiarDestino()"> 
                 <span class="slider round"></span>
