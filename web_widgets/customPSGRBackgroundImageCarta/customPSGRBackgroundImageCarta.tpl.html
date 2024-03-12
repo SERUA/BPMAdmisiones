@@ -12,7 +12,7 @@
     <div class="col-xs-7 document-container-carta" id="carta">
         <img id="imagen-carta" alt="Imagen PNG">
     </div>
-    <button class="btn btn-primary" ng-click="downloadCarta()">
+    <button class="btn btn-primary" style="margin-bottom: 20px;" ng-click="downloadCarta()">
         Descargar
     </button>
     
@@ -51,8 +51,9 @@
     <!--</div>-->
 </div>
 
+<!-- No admisión -->
 <div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='No admitida'">
-    <div class="col-xs-8 text-justify" style="font-size: 16px;">
+    <div class="col-xs-12 col-sm-10 text-justify message-container" style="font-size: 16px;">
         <h3 class="text-center"><b>No admisión</b></h3><br>
         <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
         <p>Por este medio te informamos que el Comité de Admisiones de Posgrado de la universidad <b>{{properties.dataSolicitud.campus}}</b> ha evaluado tu solicitud de admisión, y la decisión fue de <b>no admisión</b> a la Red de Universidades Anáhuac.</p><br>
@@ -62,10 +63,30 @@
     </div>
 </div>
 
-<div class="col-xs-12 col-sm-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida')">
-    <div class="col-xs-12 col-sm-8 text-center message-container">
+<!-- Archivada -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='Archivada'">
+    <div class="col-xs-12 col-sm-10 text-justify message-container" style="font-size: 16px;">
+        <h3 class="text-center"><b>No aceptación de solicitud</b></h3><br>
+        <p>Estimado(a) <b>{{properties.dataSolicitud.nombreAspirante}}</b></p><br>
+        <p>Por este medio te informamos que el departamento de Admisiones de Posgrado de la universidad <b>{{properties.dataSolicitud.campus}}</b> revisó la información enviada y <b>no será posible continuar</b> con tu solicitud para este programa.</p><br>
+        <p>Quedamos a tus órdenes.</p><br>
+        <p>Atentamente,</p>
+        <p class="color-orange"><b>Dirección de Posgrado</b></p><br>
+    </div>
+</div>
+
+<!-- No disponible -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="properties.estatusSolicitud ==='No disponible'">
+    <div class="col-xs-12 col-sm-10 text-center message-container">
         <label>¡BIENVENIDO(A)!</label>
         <h2><b>Estimado aspirante, el resultado de admisión aún no esta disponible.</b></h2>
+    </div>
+</div>
+
+<!-- No definido -->
+<div class="col-xs-12 col-sm-7 no-result-container" ng-if="!(properties.estatusSolicitud ==='Admitida' || properties.estatusSolicitud ==='No admitida' || properties.estatusSolicitud ==='Archivada' || properties.estatusSolicitud ==='No disponible')">
+    <div class="col-xs-12 col-sm-10 text-center message-container">
+        
     </div>
 </div>
 
