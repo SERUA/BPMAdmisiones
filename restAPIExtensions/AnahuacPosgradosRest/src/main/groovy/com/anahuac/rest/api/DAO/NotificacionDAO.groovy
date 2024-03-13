@@ -336,6 +336,7 @@ class NotificacionDAO {
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
 			try {
+				errorlog += "| Variable8.4.1 Configuraciones "
 				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correoAspirante, 0, 99)
 				if (!listaRegistros.empty) {
 					PSGRRegistro registro = listaRegistros.get(0)
@@ -344,11 +345,13 @@ class NotificacionDAO {
 					List<PSGRSolAdmiPrograma> listaProgramas = programaDAO.findByCaseid(registro.caseid, 0, 99)
 					PSGRSolAdmiPrograma programa = listaProgramas.get(0)
 					
-					List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)
-					
+					List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)	
+							
 					// Replace
 					listaConfiguraciones.each { conf ->
-						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+						if (conf.clave.startsWith("carta_posgrado")) {
+							plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor ? conf.valor : "")
+						}
 					}
 				}
 			}
@@ -377,7 +380,7 @@ class NotificacionDAO {
 				}
 				
 				// Requisitos adicionales auxiliares
-				if (object.codigo.equals("psgr-requisitos-adicionales") && object.isEnviar) {
+				/*if (object.codigo.equals("psgr-requisitos-adicionales") && object.isEnviar) {	
 					
 					Result getRequisitosAdicionalesAuxiliarResult = new com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO().getRequisitosAdicionalesAuxiliar(caseId.toString());
 					
@@ -388,10 +391,9 @@ class NotificacionDAO {
 							requisitosFormateados += num + ". " + item.nombre + "\n"
 						}
 						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", requisitosFormateados)
-					}else {
+					}else {}	
 						
-					}		
-				}
+				}*/
 				
 				// Fecha limite de los documentos oficiales
 				if (object.codigo.equals("psgr-solicitud-admitida") && object.isEnviar) {
@@ -458,24 +460,28 @@ class NotificacionDAO {
 					errorlog += "| Variable8.6.4.5 "
 				}
 				
-				if(object.codigo.equals("psgr-requisitos-adicionales")) {
-					
-					pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
-					pstm.setLong(1, caseId);
-					rs = pstm.executeQuery();
-					
-					String listaRequisitos = "<ul>";
-					
-					while(rs.next()) {
-						listaRequisitos += "<li>"
-						listaRequisitos += rs.getString("requisito");
-						listaRequisitos += "</li>"
+				try {
+					if(object.codigo.equals("psgr-requisitos-adicionales")) {
+						
+						pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
+						pstm.setLong(1, caseId);
+						rs = pstm.executeQuery();
+						
+						String listaRequisitos = "<ul>";
+						
+						while(rs.next()) {
+							listaRequisitos += "<li>"
+							listaRequisitos += rs.getString("requisito");
+							listaRequisitos += "</li>"
+						}
+						
+						listaRequisitos += "</ul>"
+						
+						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
 					}
-					
-					listaRequisitos += "</ul>"
-					
-					plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
 				}
+				catch(e) {}
+				
 				
 			} catch(Exception ex) {
 				errorlog +=", consulta custom " + ex.getMessage();
