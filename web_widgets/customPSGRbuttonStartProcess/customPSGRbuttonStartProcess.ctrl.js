@@ -82,7 +82,7 @@ function PbButtonCtrl($scope, $http, $location, $log, $window, localStorageServi
             message = "El campo 'Correo electrónico' no debe ir vacío.";
         } else if(!validarCorreo(data.registroInput.correo_electronico)){
             valid = false;
-            message = "El campo 'Correo electrónico' tiene un formato inválido.";
+            message = "El campo 'Correo electrónico' tiene un formato invalido.";
         } else if(!data.registroInput.confirmar_correo_electronico){
             valid = false;
             message = "El campo 'Confirmar correo electrónico' no debe ir vacío.";
