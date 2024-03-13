@@ -838,7 +838,17 @@ class HubspotDAO {
 			rs = pstm.executeQuery();
 
 			if(rs.next()) {
-				objHubSpotData.put("fecha_entrevista_posgrado_bpm", rs.getString("fecha_entrevista"));
+				DateFormat dfEntrevista = new SimpleDateFormat("yyyy-MM-dd");
+				Calendar calendar = Calendar.getInstance();
+				calendar.setTime(dfEntrevista.parse(rs.getString("fecha_entrevista")));
+				calendar.set(Calendar.HOUR_OF_DAY, 0);
+				calendar.set(Calendar.MINUTE, 0);
+				calendar.set(Calendar.SECOND, 0);
+				calendar.set(Calendar.MILLISECOND, 0);
+				TimeZone timeZone = TimeZone.getTimeZone("UTC");
+				calendar.setTimeZone(timeZone);
+				
+				objHubSpotData.put("fecha_entrevista_posgrado_bpm", calendar.getTime().getTime());
 				objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
 				objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
 			}
