@@ -915,6 +915,10 @@ class HubspotDAO {
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
 				objHubSpotData.put("grado_estudiar_posgrado_bpm", solicitud.get("clave_posgrado"));
 				
+				
+				mensaje_admin_escolar 
+				
+				
 //				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
 //				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
 				
@@ -922,11 +926,11 @@ class HubspotDAO {
 //				pais_posgrado_bpm
 //				estado_posgrado_bpm
 				
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin")) {
-				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
+				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion") != null ? solicitud.get("id_banner_validacion") : "");
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
 				
-				if(solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin")) {
+				if(solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin") ) {
 					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 				} else {
 					objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
