@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRFormularioSolicitudReagendarCita1",
   "name" : "PSGRFormularioSolicitudReagendarCita",
-  "lastUpdate" : 1709923147260,
+  "lastUpdate" : 1710291127526,
   "rows" : [
     [
       {
@@ -596,11 +596,23 @@
                             "nonComplianceMessage" : {
                               "type" : "variable",
                               "value" : ""
+                            },
+                            "fechaEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_fechaFormated"
+                            },
+                            "horarioEntrevista" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante_horarioFormated"
+                            },
+                            "citaHorarioPersistenceId" : {
+                              "type" : "expression",
+                              "value" : "citaAspirante.cita_horario.persistenceId"
                             }
                           },
-                          "reference" : "2ff191bf-e497-44ab-a681-34a48bc6b91a",
+                          "reference" : "043de76e-c510-46a3-ae74-b34e8b801a48",
                           "hasValidationError" : false,
-                          "id" : "customPSGRButtonTask"
+                          "id" : "customPSGRButtonReagedarCitaTask"
                         }
                       ]
                     ]
@@ -1032,6 +1044,34 @@
         "if ($data.responsable) {",
         "    $data.citaAspirante.responsable_nombre = $data.responsable.nombre;",
         "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_fechaFormated" : {
+      "type" : "expression",
+      "value" : [
+        "const valor = $data.citaAspirante.cita_horario.cita_entrevista.fecha_entrevista;",
+        "",
+        "try {",
+        "    let fecha = new Date(valor);",
+        "    var dia = fecha.getDate();",
+        "    var mes = fecha.getMonth() + 1;",
+        "    var ano = fecha.getFullYear();",
+        "    dia = dia < 10 ? '0' + dia : dia;",
+        "    mes = mes < 10 ? '0' + mes : mes;",
+        "    ",
+        "    return dia + '/' + mes + '/' + ano;",
+        "}",
+        "catch (e) {",
+        "    return undefined;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "citaAspirante_horarioFormated" : {
+      "type" : "expression",
+      "value" : [
+        "return $data.citaAspirante.cita_horario.hora_inicio + \" - \" + $data.citaAspirante.cita_horario.hora_fin;"
       ],
       "exposed" : false
     }
