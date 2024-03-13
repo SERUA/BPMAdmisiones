@@ -838,6 +838,7 @@ class HubspotDAO {
 			rs = pstm.executeQuery();
 
 			if(rs.next()) {
+				objHubSpotData.put("fecha_entrevista_posgrado_bpm", rs.getString("fecha_entrevista"));
 				objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
 				objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
 			}
@@ -904,8 +905,8 @@ class HubspotDAO {
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
 				objHubSpotData.put("grado_estudiar_posgrado_bpm", solicitud.get("clave_posgrado"));
 				
-				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
-				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
+//				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
+//				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
 				
 //				grado_estudiar_posgrado_bpm
 //				pais_posgrado_bpm
