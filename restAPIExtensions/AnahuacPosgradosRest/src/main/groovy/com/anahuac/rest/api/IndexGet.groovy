@@ -328,7 +328,7 @@ class IndexGet implements RestApiController {
 				case "transferenciaHubspot":
 					String caseid = request.getParameter "caseid";
 					
-					result = new HubspotDAO().createOrUpdatePosgrado(Long.valueOf(caseid), context);
+					result = new HubspotDAO().transferenciaHubspot(Long.valueOf(caseid), context);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result).toString())
 					}else {

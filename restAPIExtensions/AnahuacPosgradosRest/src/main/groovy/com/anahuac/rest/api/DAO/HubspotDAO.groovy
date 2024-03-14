@@ -1070,15 +1070,21 @@ class HubspotDAO {
 		Map<String, Object> solicitud;
 		
 		try {
+			errorLog += "|1"
 			solicitud = getSolicitudByCaseid(caseid);
+			errorLog += "|2"
 			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
+			errorLog += "|3"
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
+			errorLog += "|4"
 			Date ultimaMod = new Date();
+			errorLog += "|5"
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+			errorLog += "|6"
 			objHubSpotData = getTransferenciaByCaseid(caseid, objHubSpotData);
-			
+			errorLog += "|7"
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
-			
+			errorLog += "|8"
 		} catch (Exception e) {
 			resultado.setError_info(errorLog + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
 			resultado.setSuccess(false);
