@@ -40,6 +40,10 @@ import com.anahuac.model.PadresTutor
 import com.anahuac.model.PadresTutorDAO
 import com.anahuac.model.SolicitudDeAdmision
 import com.anahuac.model.SolicitudDeAdmisionDAO
+import com.anahuac.posgrados.catalog.PSGRCatEstados
+import com.anahuac.posgrados.catalog.PSGRCatEstadosDAO
+import com.anahuac.posgrados.catalog.PSGRCatPais
+import com.anahuac.posgrados.catalog.PSGRCatPaisDAO
 import com.anahuac.rest.api.DB.DBConnect
 import com.anahuac.rest.api.DB.Statements
 import com.anahuac.rest.api.Entity.HubSpotData
@@ -945,6 +949,20 @@ class HubspotDAO {
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_materno"));
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
 				objHubSpotData.put("grado_estudiar_posgrado_bpm", solicitud.get("clave_posgrado"));
+				
+				PSGRCatPaisDAO paisDAO = context.apiClient.getDAO(PSGRCatPaisDAO.class);
+				List<PSGRCatPais> paisResult = paisDAO.findByDescripcion(solicitud.get("lugar_nacimiento_pais"), 0, 1);
+				
+				if(!paisResult.isEmpty()) {
+					objHubSpotData.put("pais_posgrado_bpm", paisResult.get(0).getClave());
+				}
+				
+				PSGRCatEstadosDAO estadoDAO = context.apiClient.getDAO(PSGRCatEstadosDAO.class);
+				List<PSGRCatEstados> estadoResult = estadoDAO.findByDescripcion(solicitud.get("lugar_nacimiento_estado"), 0, 1);
+				
+				if(!estadoResult.isEmpty()) {
+					objHubSpotData.put("estado_posgrado_bpm", estadoResult.get(0).getClave());
+				}
 				
 //				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
 //				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
