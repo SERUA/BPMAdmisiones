@@ -954,7 +954,7 @@ class HubspotDAO {
 				List<PSGRCatPais> paisResult = paisDAO.findByDescripcion(solicitud.get("lugar_nacimiento_pais"), 0, 1);
 				
 				if(!paisResult.isEmpty()) {
-					objHubSpotData.put("pais_posgrado_bpm", paisResult.get(0).getClave());
+					objHubSpotData.put("pais_posgrado_bpm", paisResult.get(0));
 				}
 				
 				PSGRCatEstadosDAO estadoDAO = context.apiClient.getDAO(PSGRCatEstadosDAO.class);
