@@ -954,14 +954,14 @@ class HubspotDAO {
 				List<PSGRCatPais> paisResult = paisDAO.findByDescripcion(solicitud.get("lugar_nacimiento_pais"), 0, 1);
 				
 				if(!paisResult.isEmpty()) {
-					objHubSpotData.put("pais_posgrado_bpm", paisResult.get(0));
+					objHubSpotData.put("pais_posgrado_bpm", paisResult.get(0).getClave());
 				}
 				
 				PSGRCatEstadosDAO estadoDAO = context.apiClient.getDAO(PSGRCatEstadosDAO.class);
 				List<PSGRCatEstados> estadoResult = estadoDAO.findByDescripcion(solicitud.get("lugar_nacimiento_estado"), 0, 1);
 				
 				if(!estadoResult.isEmpty()) {
-					objHubSpotData.put("estado_posgrado_bpm", estadoResult.get(0));
+					objHubSpotData.put("estado_posgrado_bpm", estadoResult.get(0).getClave());
 				}
 				
 //				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
