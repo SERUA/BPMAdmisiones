@@ -57,10 +57,15 @@ class HubspotDAO {
 	ResultSet rs;
 	PreparedStatement pstm;
 	Map<String,String> estatusMap = new HashMap<String, String>() {{
-		put("solicitud_rechazada_admin","solicitud_rechazada");
-		put("solicitud_archivada_area_academica","solicitud_rechazada");
-		put("solicitud_archivada_reagendacion","solicitud_rechazada");
-		put("solicitud_archivada_dictamen","solicitud_rechazada");
+		put("solicitud_rechazada_admin", "solicitud_archivada");
+		put("solicitud_archivada_area_academica", "solicitud_archivada");
+		put("solicitud_archivada_reagendacion", "solicitud_rechazada");
+		put("solicitud_archivada_dictamen", "solicitud_archivada");
+		put("solicitud_completada", "solicitud_completada");
+		put("modificaciones_realizadas", "solicitud_completada");
+		put("solicitud_pase_lista_esperando_validacion", "solicitud_completada");
+		put("esperando_agendacion_cita", "solicitud_completada");
+		put("entrevista_reagendada", "entrevista_reagendada");
 	}};
 
 	Map<String,String> mapTipoBecas = new HashMap<String, String>() {{
@@ -721,6 +726,7 @@ class HubspotDAO {
 				solicitud.put("estado_civil", rs.getString("estado_civil"));
 				solicitud.put("estudiara_programa_otra_un", rs.getString("estudiara_programa_otra_un"));
 				solicitud.put("clave_periodo", rs.getString("clave_periodo"));
+				solicitud.put("clave_posgrado", rs.getString("clave_posgrado"));
 			}
 		} catch(Exception e) {
 			throw new Exception (e.getMessage());
@@ -806,13 +812,14 @@ class HubspotDAO {
 		
 		try {
 			closeCon = validarConexion();
-			pstm = con.prepareStatement(Statements.GET_TRABAJOS_SOLICITUD);
+			pstm = con.prepareStatement(Statements.GET_MEDIOS_ENTERASTE_SOLICITUD);
 			pstm.setLong(1, caseid);
 
 			rs = pstm.executeQuery();
 
 			if(rs.next()) {
-				objHubSpotData.put("nombre_empresa_empleado_posgrado_bpm", rs.getString("nombre_empresa"));
+				objHubSpotData.put("medio_enteraste_posgrado_bpm", rs.getString("clave_medio"));	
+				objHubSpotData.put("comentarios_medios_posgrado_bpm", rs.getString("especifique"));	
 			}
 		} catch(Exception e) {
 			throw new Exception (e.getMessage());
@@ -836,11 +843,24 @@ class HubspotDAO {
 			rs = pstm.executeQuery();
 
 			if(rs.next()) {
-				objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
-				objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
-			}
+				if(rs.getString("hora_inicio") != null) {
+					DateFormat dfEntrevista = new SimpleDateFormat("yyyy-MM-dd");
+					Calendar calendar = Calendar.getInstance();
+					calendar.setTime(dfEntrevista.parse(rs.getString("fecha_entrevista")));
+					calendar.set(Calendar.HOUR_OF_DAY, 0);
+					calendar.set(Calendar.MINUTE, 0);
+					calendar.set(Calendar.SECOND, 0);
+					calendar.set(Calendar.MILLISECOND, 0);
+					TimeZone timeZone = TimeZone.getTimeZone("UTC");
+					calendar.setTimeZone(timeZone);
+					
+					objHubSpotData.put("fecha_entrevista_posgrado_bpm", calendar.getTime().getTime());
+					objHubSpotData.put("horario_entrevista_posgrado_bpm", rs.getString("hora_inicio") + " - " + rs.getString("hora_fin"));
+					objHubSpotData.put("responsable_entrevista_posgrado_bpm", context.apiClient.identityAPI.getUser(rs.getLong("responsable_id")).getUserName());
+				}
+			} 
 		} catch(Exception e) {
-			throw new Exception (e.getMessage());
+			throw new Exception ("No se ha podido cargar la cita de entrevista ");
 		} finally {
 			if(closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
@@ -848,6 +868,30 @@ class HubspotDAO {
 		}
 
 		return objHubSpotData;
+	}
+	
+	private Boolean getIsReagendadoByCaseid(Long caseid){
+		Boolean closeCon = false;
+		Boolean isReagendado = false;
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_REAGENDADO);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				isReagendado = rs.getBoolean("reagendado");
+			} 
+		} catch(Exception e) {
+			throw new Exception ("No se ha podido cargar la cita de entrevista ");
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return isReagendado;
 	}
 
 	public Result createOrUpdatePosgrado(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
@@ -877,7 +921,7 @@ class HubspotDAO {
 				//Si la solicitud ya avanzo de este estatus quiere decir que ya existe esta información
 				objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
 				objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
-	//			objHubSpotData = getMediosByCaseid(caseid, objHubSpotData);
+				objHubSpotData = getMediosByCaseid(caseid, objHubSpotData);
 				objHubSpotData = getHorarioByCaseid(caseid, objHubSpotData, context);
 			}
 			
@@ -885,7 +929,7 @@ class HubspotDAO {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("email", solicitud.get("correo_electronico"));
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada")) {
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada") || solicitud.get("estatus_solicitud").equals("modificaciones_realizadas")) {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("ffecha_nacimiento_posgrado_bpm", solicitud.get("fecha_nacimiento"));
@@ -894,20 +938,38 @@ class HubspotDAO {
 				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("lugar_nacimiento_ciudad"));
 				String estudia_programa_opcion = solicitud.get("estudiara_programa_otra_un");
 				objHubSpotData.put("estudiar_programa_como_opcion_otra_universidad_bpm", estudia_programa_opcion.equals("No") ? "No" : "Si");
-//				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
+				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
 				objHubSpotData.put("periodo_ingreso_posgrado_bpm", solicitud.get("clave_periodo"));
-				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 				objHubSpotData.put("firstname", solicitud.get("nombre"));
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
 				objHubSpotData.put("campus_posgrado_bpm", solicitud.get("clave_campus"));
-//				grado_estudiar_posgrado_bpm
-//				pais_posgrado_bpm
-//				estado_posgrado_bpm
+				objHubSpotData.put("grado_estudiar_posgrado_bpm", solicitud.get("clave_posgrado"));
 				
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin")) {
+//				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
+//				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
+				
+				Boolean reagendado = getIsReagendadoByCaseid(caseid);
+				if(reagendado) {
+					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get("entrevista_reagendada"));
+				} else {
+					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+				}
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
 				objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
-//				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_posgrado_bpm"));
-			}
+				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
+				
+				if(solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin") ) {
+					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+				} else {
+					objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
+				}
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_pase_lista_esperando_validacion")) {
+				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+			} else if(solicitud.get("estatus_solicitud").equals("esperando_agendacion_cita")) {
+				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+			} else if(solicitud.get("estatus_solicitud").equals("esperando_agendacion_cita")) {
+				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+			} 
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
 			
