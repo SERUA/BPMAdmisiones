@@ -212,6 +212,22 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         downloadLink.download = fileName;
         downloadLink.click();*/
     }
+    
+    $scope.isSolicitudVencida = function(fecha_registro) {
+        try {
+            const registroDate = new Date(fecha_registro);
+            const fechaVencimiento = new Date();
+            fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() - 1);
+            
+            if (fecha_registro && registroDate < fechaVencimiento) {
+                return true;
+            }
+            return false;
+        }
+        catch (e) {
+            return false;
+        }
+    }
 
     // Utils
 

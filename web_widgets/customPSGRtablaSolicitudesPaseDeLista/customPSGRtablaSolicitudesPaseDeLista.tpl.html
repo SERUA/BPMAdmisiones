@@ -68,10 +68,8 @@
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('PROGRAMA')">Programa <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='PROGRAMA'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('INGRESO')">Período de ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='INGRESO'"></i> </span> / <span style="cursor:pointer" ng-click="setOrderBy('CAMPUS')">Campus ingreso <i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='CAMPUS'"></i> </span> </th>
   
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('PROCEDENCIA/PROMEDIO')"> Procedencia / Promedio<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span></th>
-                  <!--
-                  <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
-                  -->
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAREGISTRO')">Fecha de registro<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FERHAREGISTRO'"></i></span></th>
+                  <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">Estatus<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
                   <!--
                   <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAULTIMAMODIFICACION')">Última modificación<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FECHAULTIMAMODIFICACION'"></i></span></th>
                   -->
@@ -87,12 +85,11 @@
                   <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                   <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
                   <td><input ng-model="dynamicInput['procedencia']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PROMEDIO',dynamicInput['procedencia'])"></td>
-                  <!--
+                  
+                  <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
                   <td>
                       <input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])">
                   </td>
-                  -->
-                  <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
                   <!--
                     <td><input ng-model="dynamicInput['ultimamodificacion']" class="form-control" ng-enter="filterKeyPress('ULTIMA MODIFICACION',dynamicInput['ultimamodificacion'])"></td>
                   --><td><input ng-model="dynamicInput['responsable']" class="form-control" ng-enter="filterKeyPress('RESPONSABLE',dynamicInput['responsable'])"></td>
@@ -122,16 +119,25 @@
                       <br>
                       {{row.promedio}}
                   </td>
-                  <!--
-                  <td>
-                      <b>{{row.estatus_solicitud}}</b><br>
-                      {{row.aceptado}}<br>
-                      <b ng-if="row.periodovencido === 't'" class="text-danger blink_me">Período vencido</b> 
-                      <b ng-if="row.transferidoadmisiones === 't'" class="text-danger blink_me" >Transferido</b> 
-                  </td>
-                  -->
                   <td>
                       <b>{{row.fecha_registro | date:'dd/MM/yyyy HH:mm'}}</b><br>
+                  </td>
+                  <td>
+                      <b>{{row.estatus_solicitud}}</b><br>
+                      <div class="tag" ng-if="row.is_segunda_oportunidad === 't'" style="background-color: #ff5900; color: white;">
+                            <span class="glyphicon glyphicon-repeat icon" aria-hidden="true"></span>
+                            Segunda oportunidad
+                        </div>
+                        <div class="tag" ng-if="row.is_transferido === 't'" style="background-color: #233c63; color: white;">
+                            <span class="glyphicon glyphicon-transfer icon" aria-hidden="true"></span>
+                            Transferido
+                        </div>
+                        <div class="tag" ng-if="isSolicitudVencida(row.fecha_registro)" style="background-color: #e94242; color: white;">
+                            <div class="blink_me">
+                                <span class="glyphicon glyphicon-time icon" aria-hidden="true"></span>
+                                Solicitud vencida
+                            </div>
+                        </div>
                   </td>
                   <td>
                       {{row.responsable_nombre ? row.responsable_nombre : "Responsable no asignado" }}

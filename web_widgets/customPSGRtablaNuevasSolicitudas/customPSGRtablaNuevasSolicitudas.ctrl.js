@@ -174,10 +174,10 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         try {
             const registroDate = new Date(fecha_registro);
             const fechaVencimiento = new Date();
-            //fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() - 1);
-            fechaVencimiento.setDate(fechaVencimiento.getDate() - 7);
+            fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() - 1);
+            //fechaVencimiento.setDate(fechaVencimiento.getDate() - 30);
             
-            if (registroDate < fechaVencimiento) {
+            if (fecha_registro && registroDate < fechaVencimiento) {
                 return true;
             }
             return false;
