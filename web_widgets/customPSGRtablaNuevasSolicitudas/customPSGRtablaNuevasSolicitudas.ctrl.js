@@ -170,6 +170,23 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
         } 
     }
     
+    $scope.isSolicitudVencida = function(fecha_registro) {
+        try {
+            const registroDate = new Date(fecha_registro);
+            const fechaVencimiento = new Date();
+            //fechaVencimiento.setFullYear(fechaVencimiento.getFullYear() - 1);
+            fechaVencimiento.setDate(fechaVencimiento.getDate() - 7);
+            
+            if (registroDate < fechaVencimiento) {
+                return true;
+            }
+            return false;
+        }
+        catch (e) {
+            return false;
+        }
+    }
+    
     // correo express
     $scope.envelope = function(row) {
         $scope.isenvelope = true;
