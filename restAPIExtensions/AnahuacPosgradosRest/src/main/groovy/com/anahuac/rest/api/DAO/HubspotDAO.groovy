@@ -938,7 +938,7 @@ class HubspotDAO {
 				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("lugar_nacimiento_ciudad"));
 				String estudia_programa_opcion = solicitud.get("estudiara_programa_otra_un");
 				objHubSpotData.put("estudiar_programa_como_opcion_otra_universidad_bpm", estudia_programa_opcion.equals("No") ? "No" : "Si");
-//				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
+				objHubSpotData.put("programa_posgrado_bpm", solicitud.get("clave_carrera"));
 				objHubSpotData.put("periodo_ingreso_posgrado_bpm", solicitud.get("clave_periodo"));
 				objHubSpotData.put("firstname", solicitud.get("nombre"));
 				objHubSpotData.put("lastname", solicitud.get("apellido_paterno") + " " + solicitud.get("apellido_paterno"));
