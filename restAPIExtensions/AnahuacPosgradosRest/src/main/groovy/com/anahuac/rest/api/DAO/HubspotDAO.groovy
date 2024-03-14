@@ -898,6 +898,31 @@ class HubspotDAO {
 
 		return isReagendado;
 	}
+	
+	private Map<String, Object> getTransferenciaByCaseid(Long caseid, Map<String, Object> objHubSpotData){
+		Boolean closeCon = false;
+		
+		try {
+			closeCon = validarConexion();
+			pstm = con.prepareStatement(Statements.GET_INFO_TRANSFERENCIA);
+			pstm.setLong(1, caseid);
+
+			rs = pstm.executeQuery();
+
+			if(rs.next()) {
+				objHubSpotData.put("campus_origen_posgrado_bpm", rs.getString("clave_campus_origen"));	
+				objHubSpotData.put("campus_destino_posgrado_bpm", rs.getString("clave_campus_destino"));
+			}
+		} catch(Exception e) {
+			throw new Exception (e.getMessage());
+		} finally {
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+
+		return objHubSpotData;
+	}
 
 	public Result createOrUpdatePosgrado(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
 		Result resultado = new Result();
@@ -963,9 +988,6 @@ class HubspotDAO {
 				if(!estadoResult.isEmpty()) {
 					objHubSpotData.put("estado_posgrado_bpm", estadoResult.get(0).getClave());
 				}
-				
-//				objHubSpotData.put("pais_posgrado_bpm", solicitud.get("clave_campus")); 
-//				objHubSpotData.put("estado_posgrado_bpm", solicitud.get("clave_campus"));
 				
 				Boolean reagendado = getIsReagendadoByCaseid(caseid);
 				if(reagendado) {
@@ -1044,8 +1066,6 @@ class HubspotDAO {
 		String errorLog = "";
 		String apikeyHubspot ="";
 		Date fecha = new Date();
-		DateFormat dfSalida = new SimpleDateFormat("yyyy-MM-dd HH:mm");
-		DateFormat dfPropuesta = new SimpleDateFormat("yyyy-MM-dd");
 		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
 		Map<String, Object> solicitud;
 		
@@ -1055,16 +1075,7 @@ class HubspotDAO {
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-			
-			if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
-				ultimaMod = new Date();
-				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("transferencia")));
-				objHubSpotData.put("fecha_transferencia_posgrado_bpm", df.format(ultimaMod));
-				
-//				campus_origen_posgrado_bpm
-//				campus_destino_posgrado_bpm
-			} 
+			objHubSpotData = getTransferenciaByCaseid(caseid, objHubSpotData);
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
 			
