@@ -363,6 +363,7 @@ class NotificacionDAO {
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correoAspirante, cn, errorlog, object.isEnviar, object.codigo.toString());
+			
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
 			
@@ -460,9 +461,9 @@ class NotificacionDAO {
 					errorlog += "| Variable8.6.4.5 "
 				}
 				
-				try {
-					if(object.codigo.equals("psgr-requisitos-adicionales")) {
-						
+				// Requisitos adicionales
+				if(object.codigo.equals("psgr-requisitos-adicionales")) {
+					try {
 						pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
 						pstm.setLong(1, caseId);
 						rs = pstm.executeQuery();
@@ -479,8 +480,22 @@ class NotificacionDAO {
 						
 						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
 					}
+					catch(e) {}
 				}
-				catch(e) {}
+				
+				
+				// Contraseña
+				if (object.codigo.equals("psgr-recuperar-contraseña")) {
+					try {
+						if (object.password) {
+							plantilla = plantilla.replace("[password]", object.password);
+						}
+					}
+					catch (e) {
+						
+					}
+				}
+				
 				
 				
 			} catch(Exception ex) {
