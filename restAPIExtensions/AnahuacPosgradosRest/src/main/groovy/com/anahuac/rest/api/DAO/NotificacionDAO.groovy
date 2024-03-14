@@ -563,7 +563,7 @@ class NotificacionDAO {
 					}
 					
 				}
-			} catch (Exception e) {
+			} catch (Exception e) {	
 				errorlog +=  "| Variable15.7 "
 				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAngulo_imagen_header())
 				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTexto_footer())
@@ -571,8 +571,8 @@ class NotificacionDAO {
 			}
 			
 			errorlog +=  "| Variable18"
-			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner())
-		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer())
+			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner() ? cn.getEnlace_banner() : "")
+		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer() ? cn.getEnlace_footer() : "")
 			List<String> lstData = new ArrayList();
 			List<String> lstAdditionalData = new ArrayList();
 			lstData.add(plantilla);
