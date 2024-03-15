@@ -35,7 +35,7 @@
 
 .icon-img-carta {
     position: absolute;
-    top: 50%;
+    top: calc(50% - 5vh);
     transform: translateY(-50%);
     left: 9vw;
     width: 15%;
@@ -60,6 +60,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    justify-content: center;
     gap: 15px;
     margin-bottom: 3vh;
     margin-left: 44%;
@@ -94,17 +95,20 @@
 
 .bottom-banner{
     position: absolute;
-    width: 104%;
+    width: calc(100% + 37px);
     height: 8vh;
     bottom: -8vh;
     background: #ff5900;
-    left: -2%;
+    left: -22px;
+    box-shadow: 1px 6px 6px 1px black;
+    padding: 5px 15px;
 }
 
 .bottom-banner-content {
     display: flex;
     align-items: center;
     height: 100%;
+    gap: 15px;
 }
 
 .bottom-banner-text {
@@ -123,6 +127,13 @@
     width: 32px;
 }
 
+.button-red-social-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 25px;
+}
+
 
 @media only screen and (max-width: 1200px) {
 }
@@ -132,9 +143,11 @@
     .result-container {
         margin-left: 0;
         margin-top: 130px;
+        min-height: 200px;
     }
     .no-result-container {
         margin-left: 0;
+        min-height: 200px;
     }
     .logo-img-carta{
         display: none;
@@ -160,24 +173,52 @@
         width: calc(100% + 33px);;
     }
     
-    .bottom-banner-content {
-        padding: 5px 0;
+    .bottom-banner{
+        height: 84px;
+        left: -15px;
+		width: calc(100% + 30px);
     }
+    
+    
      
     .bottom-banner-text {
-        font-size: medium;
+        font-size: large;
         padding: 0;
     }
     
     .imagen-red-social {
         width: 24px;
     }
-    .button-red-social-container {
-        padding: 0;
-        padding-right: 10px;
-    }
+    
     .message-container {
         margin-top: 110px;
     }
 }
+
+@media only screen and (max-width: 576px) {
+    .result-container {
+        margin-bottom: 50px;
+    }
+    .no-result-container {
+        margin-bottom: 50px;
+    }
+    
+    .bottom-banner-content {
+        flex-direction: column;
+        justify-content: center;
+        gap: 8px;
+    }
+    
+    .button-red-social-container {
+        justify-content: space-evenly;
+        gap: 0;
+    }
+    
+    .bottom-banner-text {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+}
+
 
