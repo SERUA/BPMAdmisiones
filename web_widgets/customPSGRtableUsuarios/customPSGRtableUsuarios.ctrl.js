@@ -165,6 +165,7 @@ function PbTableCtrl($scope, blockUI, $http) {
     $scope.filtro = {};
     $scope.group_id = 0;
     $scope.$watch('properties.campusSelected', function(value) {
+        
         if (angular.isDefined(value) && value !== null && angular.isDefined(value.group_id)) {
             ///bonita/API/identity/group/18?n=number_of_users
             $scope.pagina = 0;
@@ -173,7 +174,8 @@ function PbTableCtrl($scope, blockUI, $http) {
                 var filter = {
                     "columna": "CAMPUS",
                     "operador": "Igual a",
-                    "valor": $scope.group_id
+                    "valor": $scope.group_id,
+                    "descripcion": value.descripcion,
                 }
                 if ($scope.filtroToSend.lstFiltro.length > 0) {
                     var encontrado = false;
@@ -183,6 +185,7 @@ function PbTableCtrl($scope, blockUI, $http) {
                             $scope.filtroToSend.lstFiltro[index].columna = filter.columna;
                             $scope.filtroToSend.lstFiltro[index].operador = filter.operador;
                             $scope.filtroToSend.lstFiltro[index].valor = $scope.group_id;
+                            $scope.filtroToSend.lstFiltro[index].descripcion = filter.descripcion;
                             encontrado = true
                         }
                         if (!encontrado) {
