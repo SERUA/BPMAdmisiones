@@ -959,6 +959,7 @@ class HubspotDAO {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("email", solicitud.get("correo_electronico"));
+				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada") || solicitud.get("estatus_solicitud").equals("modificaciones_realizadas")) {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
@@ -1057,6 +1058,43 @@ class HubspotDAO {
 	}
 	
 	public Result transferenciaHubspot(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
+		Result resultado = new Result();
+		Result resultadoApiKey = new Result();
+		Boolean closeCon = false;
+		Map<String, String> objHubSpotData = new HashMap<String, String>();
+		Boolean noSol = false;
+		String msjNF = "";
+		String errorLog = "";
+		String apikeyHubspot ="";
+		Date fecha = new Date();
+		DateFormat df = new SimpleDateFormat("dd/MM/yyyy HH:mm");
+		Map<String, Object> solicitud;
+		
+		try {
+			solicitud = getSolicitudByCaseid(caseid);
+			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
+			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
+			Date ultimaMod = new Date();
+			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+			objHubSpotData = getTransferenciaByCaseid(caseid, objHubSpotData);
+			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
+		} catch (Exception e) {
+			resultado.setError_info(errorLog + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+			e.printStackTrace();
+			new LogDAO().insertTransactionLog("POST", "FALLIDO", "Error inesperado", "Log:"+errorLog, e.getMessage())
+		} finally {
+			resultado.setError_info(resultado.getError_info() + errorLog);
+			if(closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+
+		return resultado;
+	}
+	
+	public Result paseListaHubspot(Long caseid, org.bonitasoft.web.extension.rest.RestAPIContext context) {
 		Result resultado = new Result();
 		Result resultadoApiKey = new Result();
 		Boolean closeCon = false;
