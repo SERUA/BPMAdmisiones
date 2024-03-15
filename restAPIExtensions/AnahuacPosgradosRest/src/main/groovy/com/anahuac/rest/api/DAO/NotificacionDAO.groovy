@@ -376,7 +376,10 @@ class NotificacionDAO {
 				
 				// Liga aspirante inicio
 				if (object.isEnviar) {
-					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					try {
+						plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					}
+					catch(e) {}
 					// "/apps/pg_aspirante/pg_home/")
 				}
 				
@@ -443,23 +446,27 @@ class NotificacionDAO {
 					plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 				}
 				
-				errorlog += "| Variable8.6.1 "
-				def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
-				List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseId, 0, 99);
-				errorlog += "| Variable8.6.2 "
-				PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
-				errorlog += "| Variable8.6.3 "
-				if (datosPrograma && !object.codigo.equals("psgr-validar-cuenta")) {
-					errorlog += "| Variable8.6.4.1 "
-					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
-					errorlog += "| Variable8.6.4.2 "
-					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.getPosgrado().getDescripcion());
-					errorlog += "| Variable8.6.4.3 "
-					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.getPrograma_interes().getNombre());
-					errorlog += "| Variable8.6.4.4 "
-					plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
-					errorlog += "| Variable8.6.4.5 "
+				try {
+					errorlog += "| Variable8.6.1 "
+					def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+					List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseId, 0, 99);
+					errorlog += "| Variable8.6.2 "
+					PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
+					errorlog += "| Variable8.6.3 "
+					if (datosPrograma && !object.codigo.equals("psgr-validar-cuenta")) {
+						errorlog += "| Variable8.6.4.1 "
+						plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
+						errorlog += "| Variable8.6.4.2 "
+						plantilla = plantilla.replace("[POSGRADO]", datosPrograma.getPosgrado().getDescripcion());
+						errorlog += "| Variable8.6.4.3 "
+						plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.getPrograma_interes().getNombre());
+						errorlog += "| Variable8.6.4.4 "
+						plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
+						errorlog += "| Variable8.6.4.5 "
+					}
 				}
+				catch (e) {}
+				
 				
 				// Requisitos adicionales
 				if(object.codigo.equals("psgr-requisitos-adicionales")) {
@@ -619,7 +626,7 @@ class NotificacionDAO {
 //			row.put("id_campus", Long.valueOf(object.campus));
 //			row.put("mailgun_apikey", apikey);
 //			row.put("mailgun_dominio", dominio);
-			
+		
 			errorlog +=  "| Variable18.1"
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 				errorlog +=  "| Variable18.2"
@@ -741,7 +748,7 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar, String codigo) {
-		//8 Seccion table atributos usuario
+		//8 Seccion table atributos usuario5
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
@@ -768,37 +775,34 @@ class NotificacionDAO {
 			PSGRSolAdmiDatosPersonales datosPersonales = !objPSGRSolAdmiDatosPersonales.empty ? objPSGRSolAdmiDatosPersonales.get(0) : null;
 			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null;
 			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null;
-									
+
 			if(objSolicitudDeAdmision.size()>0) {
 				//Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
-
 				if (codigo == "psgr-validar-cuenta") {
 					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
 					
 					// En el correo de validar cuenta se utiliza el nombre de registro
-					String nombreCompleto = "";
-					if (registro.nombre != null && registro.apellido_paterno != null) {
-						 nombreCompleto = registro.nombre + " " + registro.apellido_paterno;
-						 if (registro.apellido_materno != null) nombreCompleto += " " + registro.apellido_materno;
-					}
-	
-					plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
-					plantilla = plantilla.replace("[NOMBRE]", registro.nombre);
+					plantilla = replaceNombreUsingRegistro(plantilla, registro);
 				}
 
 				plantilla = plantilla.replace("[ID-BANNER]", registro.id_banner_validacion ? registro.id_banner_validacion : "");
 				
 				if (datosPersonales) {
-					String nombreCompleto = "";
-					if (datosPersonales.nombre != null && datosPersonales.apellido_paterno != null) {
-						 nombreCompleto = datosPersonales.nombre + " " + datosPersonales.apellido_paterno;
-						 if (datosPersonales.apellido_materno != null) nombreCompleto += " " + datosPersonales.apellido_materno;
+					try {
+						String nombreCompleto = "";
+						if (datosPersonales.nombre != null && datosPersonales.apellido_paterno != null) {
+							 nombreCompleto = datosPersonales.nombre + " " + datosPersonales.apellido_paterno;
+							 if (datosPersonales.apellido_materno != null) nombreCompleto += " " + datosPersonales.apellido_materno;
+						}
+						
+						plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+						plantilla = plantilla.replace("[NOMBRE]", datosPersonales.nombre ? datosPersonales.nombre : "");
 					}
-					
-					plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
-					plantilla = plantilla.replace("[NOMBRE]", datosPersonales.nombre ? datosPersonales.nombre : "");
-					
+					catch (e) {}
 				}
+				
+				// Si no se remplazo el nombre usar los datos de registro
+				plantilla = replaceNombreUsingRegistro(plantilla, registro);
 
 				if (estatus) {
 					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion ? estatus.descripcion : "");
@@ -907,8 +911,25 @@ class NotificacionDAO {
 		} catch (Exception e) {
 			e.printStackTrace()
 		}
-		plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario)
-		return plantilla
+		plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario);
+	}
+	
+	private String replaceNombreUsingRegistro(String plantilla, PSGRRegistro registro) {
+		try {
+			String nombreCompleto = "";
+			if (registro.nombre != null && registro.apellido_paterno != null) {
+				 nombreCompleto = registro.nombre + " " + registro.apellido_paterno;
+				 if (registro.apellido_materno != null) nombreCompleto += " " + registro.apellido_materno;
+			}
+	
+			plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+			plantilla = plantilla.replace("[NOMBRE]", registro.nombre);
+			
+			return plantilla
+		}
+		catch(e) {
+			return plantilla
+		}		
 	}
 	
 	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog) {
