@@ -2029,6 +2029,7 @@ class PDFDocumentDAO {
 				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
+				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
 				
 				trabajos_actuales.add(trabajo);
 			} 
@@ -2044,6 +2045,7 @@ class PDFDocumentDAO {
 				trabajo.put("tipo_empresa", "N/A");
 				trabajo.put("puesto", "N/A");
 				trabajo.put("nombre_empresa", "N/A");
+				trabajo.put("tipo_empleado", "N/A");
 				
 				trabajos_actuales.add(trabajo);
 			}
@@ -2070,6 +2072,7 @@ class PDFDocumentDAO {
 				trabajo.put("tipo_empresa", rs.getString("tipo_empresa"));
 				trabajo.put("puesto", rs.getString("puesto"));
 				trabajo.put("nombre_empresa", rs.getString("nombre_empresa"));
+				trabajo.put("tipo_empleado", rs.getString("tipo_empleado"));
 				
 				trabajos_previos.add(trabajo);
 			}
@@ -2085,6 +2088,7 @@ class PDFDocumentDAO {
 				trabajo.put("tipo_empresa", "N/A");
 				trabajo.put("puesto", "N/A");
 				trabajo.put("nombre_empresa", "N/A");
+				trabajo.put("tipo_empleado", "N/A");
 				
 				trabajos_previos.add(trabajo);
 			}

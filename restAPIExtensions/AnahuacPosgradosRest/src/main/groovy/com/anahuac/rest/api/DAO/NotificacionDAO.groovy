@@ -23,6 +23,8 @@ import com.anahuac.posgrados.model.PSGRProcesoCaso
 import com.anahuac.posgrados.model.PSGRProcesoCasoDAO
 import com.anahuac.posgrados.model.PSGRRegistro
 import com.anahuac.posgrados.model.PSGRRegistroDAO
+import com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonales
+import com.anahuac.posgrados.model.PSGRSolAdmiDatosPersonalesDAO
 import com.anahuac.posgrados.model.PSGRSolAdmiPrograma
 import com.anahuac.posgrados.model.PSGRSolAdmiProgramaDAO
 import com.anahuac.rest.api.DB.DBConnect
@@ -334,6 +336,7 @@ class NotificacionDAO {
 			
 			// AGREGANDO CONFIGURACIONES (valores estaticos)
 			try {
+				errorlog += "| Variable8.4.1 Configuraciones "
 				List<PSGRRegistro> listaRegistros = registroDAO.findByCorreo_electronico(correoAspirante, 0, 99)
 				if (!listaRegistros.empty) {
 					PSGRRegistro registro = listaRegistros.get(0)
@@ -342,11 +345,13 @@ class NotificacionDAO {
 					List<PSGRSolAdmiPrograma> listaProgramas = programaDAO.findByCaseid(registro.caseid, 0, 99)
 					PSGRSolAdmiPrograma programa = listaProgramas.get(0)
 					
-					List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)
-					
+					List<PSGRConfiguraciones> listaConfiguraciones = configuracionesDAO.findById_campus(programa.campus.persistenceId, 0, 99)	
+							
 					// Replace
 					listaConfiguraciones.each { conf ->
-						plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor)
+						if (conf.clave.startsWith("carta_posgrado")) {
+							plantilla = plantilla.replace("[" + conf.clave + "]", conf.valor ? conf.valor : "")
+						}
 					}
 				}
 			}
@@ -358,6 +363,7 @@ class NotificacionDAO {
 			
 			errorlog += "| Variable8.5 DataUsuarioAdmision"
 			plantilla = DataUsuarioAdmision(plantilla, context, correoAspirante, cn, errorlog, object.isEnviar, object.codigo.toString());
+			
 			// AGREGANDO VARIABLES ESPECIALES (valores dinamicos)
 			// Son variables que deben estar disponibles unicamente en un momento del proceso
 			
@@ -370,12 +376,15 @@ class NotificacionDAO {
 				
 				// Liga aspirante inicio
 				if (object.isEnviar) {
-					plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					try {
+						plantilla = plantilla.replace("[HREF-ASPIRANTE-INICIO]", objProperties.getUrlHost() + "/apps/login/posgrados/")
+					}
+					catch(e) {}
 					// "/apps/pg_aspirante/pg_home/")
 				}
 				
 				// Requisitos adicionales auxiliares
-				if (object.codigo.equals("psgr-requisitos-adicionales") && object.isEnviar) {
+				/*if (object.codigo.equals("psgr-requisitos-adicionales") && object.isEnviar) {	
 					
 					Result getRequisitosAdicionalesAuxiliarResult = new com.anahuac.rest.api.DAO.SolicitudDeAdmisionDAO().getRequisitosAdicionalesAuxiliar(caseId.toString());
 					
@@ -386,10 +395,9 @@ class NotificacionDAO {
 							requisitosFormateados += num + ". " + item.nombre + "\n"
 						}
 						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", requisitosFormateados)
-					}else {
+					}else {}	
 						
-					}		
-				}
+				}*/
 				
 				// Fecha limite de los documentos oficiales
 				if (object.codigo.equals("psgr-solicitud-admitida") && object.isEnviar) {
@@ -438,42 +446,64 @@ class NotificacionDAO {
 					plantilla=plantilla.replace("[NO-ADMISION-COMENTARIO]", rs.getString("mensaje_comite_admision")==null?"[NO-ADMISION-COMENTARIO]": rs.getString("mensaje_comite_admision"))
 				}
 				
-				errorlog += "| Variable8.6.1 "
-				def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
-				List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseId, 0, 99);
-				errorlog += "| Variable8.6.2 "
-				PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
-				errorlog += "| Variable8.6.3 "
-				if (datosPrograma && !object.codigo.equals("psgr-validar-cuenta")) {
-					errorlog += "| Variable8.6.4.1 "
-					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
-					errorlog += "| Variable8.6.4.2 "
-					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.getPosgrado().getDescripcion());
-					errorlog += "| Variable8.6.4.3 "
-					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.getPrograma_interes().getNombre());
-					errorlog += "| Variable8.6.4.4 "
-					plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
-					errorlog += "| Variable8.6.4.5 "
+				try {
+					errorlog += "| Variable8.6.1 "
+					def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+					List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseId, 0, 99);
+					errorlog += "| Variable8.6.2 "
+					PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
+					errorlog += "| Variable8.6.3 "
+					if (datosPrograma && !object.codigo.equals("psgr-validar-cuenta")) {
+						errorlog += "| Variable8.6.4.1 "
+						plantilla = plantilla.replace("[CAMPUS]", datosPrograma.getCampus().getDescripcion());
+						errorlog += "| Variable8.6.4.2 "
+						plantilla = plantilla.replace("[POSGRADO]", datosPrograma.getPosgrado().getDescripcion());
+						errorlog += "| Variable8.6.4.3 "
+						plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.getPrograma_interes().getNombre());
+						errorlog += "| Variable8.6.4.4 "
+						plantilla = plantilla.replace("[PERIODO]", datosPrograma.getPeriodo_ingreso().getDescripcion());
+						errorlog += "| Variable8.6.4.5 "
+					}
+				}
+				catch (e) {}
+				
+				
+				// Requisitos adicionales
+				if(object.codigo.equals("psgr-requisitos-adicionales")) {
+					try {
+						pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
+						pstm.setLong(1, caseId);
+						rs = pstm.executeQuery();
+						
+						String listaRequisitos = "<ul>";
+						
+						while(rs.next()) {
+							listaRequisitos += "<li>"
+							listaRequisitos += rs.getString("requisito");
+							listaRequisitos += "</li>"
+						}
+						
+						listaRequisitos += "</ul>"
+						
+						plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
+					}
+					catch(e) {}
 				}
 				
-				if(object.codigo.equals("psgr-requisitos-adicionales")) {
-					
-					pstm = con.prepareStatement(Statements.GET_REQUISITOS_ADICIONALES)
-					pstm.setLong(1, caseId);
-					rs = pstm.executeQuery();
-					
-					String listaRequisitos = "<ul>";
-					
-					while(rs.next()) {
-						listaRequisitos += "<li>"
-						listaRequisitos += rs.getString("requisito");
-						listaRequisitos += "</li>"
+				
+				// Contraseña
+				if (object.codigo.equals("psgr-recuperar-contraseña")) {
+					try {
+						if (object.password) {
+							plantilla = plantilla.replace("[password]", object.password);
+						}
 					}
-					
-					listaRequisitos += "</ul>"
-					
-					plantilla = plantilla.replace("[REQUISITOS-ADICIONALES]", listaRequisitos);
+					catch (e) {
+						
+					}
 				}
+				
+				
 				
 			} catch(Exception ex) {
 				errorlog +=", consulta custom " + ex.getMessage();
@@ -555,7 +585,7 @@ class NotificacionDAO {
 					}
 					
 				}
-			} catch (Exception e) {
+			} catch (Exception e) {	
 				errorlog +=  "| Variable15.7 "
 				plantilla=plantilla.replace("[HEADER-IMG]", cn.getAngulo_imagen_header())
 				plantilla=plantilla.replace("[TEXTO-FOOTER]", cn.getTexto_footer())
@@ -563,8 +593,8 @@ class NotificacionDAO {
 			}
 			
 			errorlog +=  "| Variable18"
-			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner())
-		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer())
+			plantilla=plantilla.replace("[header-href]", cn.getEnlace_banner() ? cn.getEnlace_banner() : "")
+		    plantilla=plantilla.replace("[footer-href]", cn.getEnlace_footer() ? cn.getEnlace_footer() : "")
 			List<String> lstData = new ArrayList();
 			List<String> lstAdditionalData = new ArrayList();
 			lstData.add(plantilla);
@@ -596,7 +626,7 @@ class NotificacionDAO {
 //			row.put("id_campus", Long.valueOf(object.campus));
 //			row.put("mailgun_apikey", apikey);
 //			row.put("mailgun_dominio", dominio);
-			
+		
 			errorlog +=  "| Variable18.1"
 			if((object.isEnviar && object.codigo!="carta-informacion") ||(object.isEnviar && object.codigo=="carta-informacion" && cartaenviar) ) {
 				errorlog +=  "| Variable18.2"
@@ -718,13 +748,14 @@ class NotificacionDAO {
 	}
 	
 	private String DataUsuarioAdmision(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog,Boolean isEnviar, String codigo) {
-		//8 Seccion table atributos usuario
+		//8 Seccion table atributos usuario5
 		errorlog += ", Variable8"
 		String tablaUsuario= ""
 		String plantillaTabla="<tr> <td align= \"left \" valign= \"top \" style= \"text-align: justify;vertical-align: bottom; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #585858; font-size: 17px; line-height: 25px; \"> [clave]: </span> </font> </td> <td align= \"left \" valign= \"top \" style= \"text-align: justify; \"> <font face= \"'Source Sans Pro', sans-serif \" color= \"#585858 \"style= \"font-size: 17px; line-height: 25px; \"> <span style= \"font-family: 'Source Sans Pro', Arial, Tahoma, Geneva, sans-serif; color: #ff5a00; font-size: 17px; line-height: 25px;vertical-align: bottom; \"> [valor] </span> </font> </td> </tr>"
 		try {
 			def objSolicitudDeAdmisionDAO = context.apiClient.getDAO(PSGRRegistroDAO.class);
 			def objPSGRSolAdmiProgramaDAO = context.apiClient.getDAO(PSGRSolAdmiProgramaDAO.class);
+			def objPSGRSolAdmiDatosPersonalesDAO = context.apiClient.getDAO(PSGRSolAdmiDatosPersonalesDAO.class);
 			def objPSGRCatEstatusProcesoDAO = context.apiClient.getDAO(PSGRCatEstatusProcesoDAO.class);
 			def objPSGRCitaAspiranteDAO = context.apiClient.getDAO(PSGRCitaAspiranteDAO.class);
 
@@ -735,46 +766,67 @@ class NotificacionDAO {
 			def caseid = registro.caseid;
 			def estatus_solicitud = registro.estatus_solicitud;
 			
-			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999)
+			List<PSGRSolAdmiPrograma> objPSGRSolAdmiPrograma = objPSGRSolAdmiProgramaDAO.findByCaseid(caseid, 0, 999);
+			List<PSGRSolAdmiDatosPersonales> objPSGRSolAdmiDatosPersonales = objPSGRSolAdmiDatosPersonalesDAO.findByCaseid(caseid, 0, 99);
 			List<PSGRCitaAspirante> objPSGRCitaAspirante = objPSGRCitaAspiranteDAO.findByCaseid(caseid, 0, 99);
 			List<PSGRCatEstatusProceso> objPSGRCatEstatusProceso = objPSGRCatEstatusProcesoDAO.findByClave(estatus_solicitud, 0, 999)
 			
-			PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null
-			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null
-			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null
-									
+			PSGRSolAdmiPrograma datosPrograma = !objPSGRSolAdmiPrograma.empty ? objPSGRSolAdmiPrograma.get(0) : null;
+			PSGRSolAdmiDatosPersonales datosPersonales = !objPSGRSolAdmiDatosPersonales.empty ? objPSGRSolAdmiDatosPersonales.get(0) : null;
+			PSGRCitaAspirante citaAspirante = !objPSGRCitaAspirante.empty ? objPSGRCitaAspirante.get(0) : null;
+			PSGRCatEstatusProceso estatus = !objPSGRCatEstatusProceso.empty ? objPSGRCatEstatusProceso.get(0) : null;
+
 			if(objSolicitudDeAdmision.size()>0) {
 				//Result documentosTextos = new DocumentosTextosDAO().getDocumentosTextos(registro.campus.getPersistenceId());
-
 				if (codigo == "psgr-validar-cuenta") {
 					plantilla = plantilla.replace("[CAMPUS]", registro.campus.descripcion)
+					
+					// En el correo de validar cuenta se utiliza el nombre de registro
+					plantilla = replaceNombreUsingRegistro(plantilla, registro);
+				}
+
+				plantilla = plantilla.replace("[ID-BANNER]", registro.id_banner_validacion ? registro.id_banner_validacion : "");
+				
+				if (datosPersonales) {
+					try {
+						String nombreCompleto = "";
+						if (datosPersonales.nombre != null && datosPersonales.apellido_paterno != null) {
+							 nombreCompleto = datosPersonales.nombre + " " + datosPersonales.apellido_paterno;
+							 if (datosPersonales.apellido_materno != null) nombreCompleto += " " + datosPersonales.apellido_materno;
+						}
+						
+						plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+						plantilla = plantilla.replace("[NOMBRE]", datosPersonales.nombre ? datosPersonales.nombre : "");
+					}
+					catch (e) {}
 				}
 				
-				plantilla = plantilla.replace("[NOMBRE-COMPLETO]",registro.nombre+" "+registro.apellido_paterno+" "+registro.apellido_materno)
-				plantilla = plantilla.replace("[NOMBRE]",registro.nombre);
-				plantilla = plantilla.replace("[ID-BANNER]",registro.id_banner_validacion);
-				
+				// Si no se remplazo el nombre usar los datos de registro
+				plantilla = replaceNombreUsingRegistro(plantilla, registro);
+
 				if (estatus) {
-					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion);
+					plantilla = plantilla.replace("[ESTATUS]", estatus.descripcion ? estatus.descripcion : "");
 				}			
 				
 				if (datosPrograma) {
-					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus.descripcion)
-					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado.descripcion)
-					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes.nombre)
-					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso.descripcion)
+					plantilla = plantilla.replace("[CAMPUS]", datosPrograma.campus?.descripcion ? datosPrograma.campus.descripcion : "")
+					plantilla = plantilla.replace("[POSGRADO]", datosPrograma.posgrado?.descripcion ? datosPrograma.posgrado.descripcion : "")
+					plantilla = plantilla.replace("[PROGRAMA]", datosPrograma.programa_interes?.nombre ? datosPrograma.programa_interes.nombre : "")
+					plantilla = plantilla.replace("[PERIODO]", datosPrograma.periodo_ingreso?.descripcion ? datosPrograma.periodo_ingreso.descripcion : "")
 				}
 				
-				errorlog += "citaAspirante" + citaAspirante.getPersistenceId().toString();
+				/*errorlog += "citaAspirante " + citaAspirante.getPersistenceId().toString();
 				
-				if (citaAspirante) {
-					def citaFormato = citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea"
-					plantilla = plantilla.replace("[CITA-FECHA]", citaAspirante.cita_horario.cita_entrevista.fecha_entrevista.format(formatter))
-					plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio)
+				if (citaAspirante && citaAspirante.cita_horario) {
+					def citaFormato = citaAspirante.cita_horario.cita_entrevista ? (citaAspirante.cita_horario.cita_entrevista.is_presencial ? "Prencial" : "En línea") : "";
+					def fechaEntrevista = citaAspirante.cita_horario.cita_entrevista?.fecha_entrevista;
+					
+					plantilla = plantilla.replace("[CITA-FECHA]", fechaEntrevista ? fechaEntrevista.format(formatter) : "")
+					plantilla = plantilla.replace("[CITA-HORA]", citaAspirante.cita_horario.hora_inicio ? citaAspirante.cita_horario.hora_inicio : "")
 					plantilla = plantilla.replace("[CITA-FORMATO]", citaFormato)
-					plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista.liga)
-					plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista.ubicacion)
-				}
+					plantilla = plantilla.replace("[CITA-LIGA]", citaAspirante.cita_horario.cita_entrevista?.liga ? citaAspirante.cita_horario.cita_entrevista.liga : "")
+					plantilla = plantilla.replace("[CITA-UBICACION]", citaAspirante.cita_horario.cita_entrevista?.ubicacion ? citaAspirante.cita_horario.cita_entrevista?.ubicacion : "")
+				}*/
 
 				/*
 				errorlog += ", Variable14"
@@ -859,8 +911,25 @@ class NotificacionDAO {
 		} catch (Exception e) {
 			e.printStackTrace()
 		}
-		plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario)
-		return plantilla
+		plantilla=plantilla.replace("[getLstVariableNotificacion]", tablaUsuario);
+	}
+	
+	private String replaceNombreUsingRegistro(String plantilla, PSGRRegistro registro) {
+		try {
+			String nombreCompleto = "";
+			if (registro.nombre != null && registro.apellido_paterno != null) {
+				 nombreCompleto = registro.nombre + " " + registro.apellido_paterno;
+				 if (registro.apellido_materno != null) nombreCompleto += " " + registro.apellido_materno;
+			}
+	
+			plantilla = plantilla.replace("[NOMBRE-COMPLETO]", nombreCompleto)
+			plantilla = plantilla.replace("[NOMBRE]", registro.nombre);
+			
+			return plantilla
+		}
+		catch(e) {
+			return plantilla
+		}		
 	}
 	
 	private String DataUsuarioRegistro(String plantilla, RestAPIContext context, String correo, PSGRCatNotificaciones cn, String errorlog) {

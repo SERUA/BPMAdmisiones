@@ -54,7 +54,12 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
                 $scope.loadPaginado();
                 console.log(data.data)
                 if($scope.properties.lstContenido.length < 1){
-                    swal("No se encuentran coincidencias con el criterio de búsqueda.", "", "info"); 
+                    swal({
+                        text: "No se encuentran coincidencias con el criterio de búsqueda o el aspirante ya tiene resultado de admisión.",
+                        icon: "info",
+                        button: "Aceptar"
+                    })
+                    swal("No se encuentran coincidencias con el criterio de búsqueda o el aspirante ya tiene resultado de admisión.", "", "info"); 
                  }
             })
             .error(function(data, status) {
@@ -85,7 +90,7 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
     }
     
     function updateCampusDisponibles() {
-        debugger
+        
         const campusDisponibles = [];
 
         if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
@@ -98,6 +103,12 @@ function PbTableCtrl($scope, $http, $window, blockUI, modalService) {
         }
 
         $scope.campusDisponibles = campusDisponibles;
+        
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.filtroCampus = campusDisponibles[0].descripcion;
+            $scope.addFilter();
+        }
     }
     
     // Watchers

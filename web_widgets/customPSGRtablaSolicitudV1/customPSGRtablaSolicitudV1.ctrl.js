@@ -1,5 +1,6 @@
 function PbTableCtrl($scope, $http, $window, blockUI) {
 
+    var vm = this;
     this.isArray = Array.isArray;
 
     $scope.lstCampus = [];
@@ -180,6 +181,72 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
     }
     
     $scope.sendMail = function(row, mensaje) {
+        
+        swal({
+            title: "Enviar correo",
+            text: "¿Estás seguro de enviar el correo al aspirante?",
+            buttons: [
+                'Cancelar',
+                'Enviar'
+            ],
+        })
+        .then((confirm) => {
+            
+            if (confirm) {
+                if (row.grupo_bonita === undefined) {
+                    for (var i = 0; i < $scope.lstCampus.length; i++) {
+                        if ($scope.lstCampus[i].descripcion == row.campus) {
+                            row.grupo_bonita = $scope.lstCampus[i].valor;
+                        }
+                    }
+                }
+                var req = {
+                    method: "POST",
+                    url: "../API/extension/posgradosRest?url=generateHtml",
+                    data: angular.copy({
+                        "campus": row.grupo_bonita,
+                        "correo": row.correo_electronico,
+                        "codigo": "psgr-recordatorio",
+                        "isEnviar": true,
+                        "mensaje": mensaje
+                    })
+                };
+        
+                try {
+                    return $http(req)
+                    .success(function(data, status) {
+                        swal({
+                            icon: "success",
+                            title: "El correo fue enviado correctamente"
+                        })
+                        $scope.envelopeCancel();
+                    })
+                    .error(function(data, status) {
+                        swal({
+                            icon: "error",
+                            title: "No se pudo enviar el correo",
+                            text: "Por favor, revisa que exista la plantilla de correo para ese campus."
+                        })
+                        console.error(data)
+                    })
+                    .finally(function() {});
+                }
+                catch (e){
+                    swal({
+                        icon: "error",
+                        title: "No se pudo enviar el correo"
+                    })
+                }
+                
+                $scope.$apply();
+            }
+        }) 
+        
+        
+    }
+    
+    $scope.previsualizar = function(row, mensaje) {
+        
         if (row.grupo_bonita === undefined) {
             for (var i = 0; i < $scope.lstCampus.length; i++) {
                 if ($scope.lstCampus[i].descripcion == row.campus) {
@@ -187,43 +254,53 @@ function PbTableCtrl($scope, $http, $window, blockUI) {
                 }
             }
         }
-        var req = {
-            method: "POST",
-            url: "../API/extension/posgradosRest?url=generateHtml",
-            data: angular.copy({
-                "campus": row.grupo_bonita,
-                "correo": row.correo_electronico,
-                "codigo": "psgr-recordatorio",
-                "isEnviar": true,
-                "mensaje": mensaje
+        
+        const datoPrevisualizar = {
+            "campus": row.grupo_bonita,
+            "correo": row.correo_electronico,
+            "codigo": "psgr-recordatorio",
+            "isEnviar": false,
+            "mensaje": mensaje,
+        }
+        
+        doRequestPrevisualizar("POST", "/API/extension/posgradosRest?url=generateHtml", null, datoPrevisualizar, function(datos) {
+            
+            //console.log("Esto: " + $scope.properties.value);
+            var respuesta = datos.data[0];
+            //var respuesta = datos.data[0];
+   
+            Swal.fire({
+                html: respuesta,
+                showCloseButton: false,
+                width: 800,
+                showCancelButton: false,
+                focusConfirm: false,
+                confirmButtonColor: "#333",
+                confirmButtonText: 'Cerrar'
             })
+        });
+    }
+    
+    function doRequestPrevisualizar(method, url, params, dataToSend, callback) {
+        vm.busy = true;
+        var req = {
+            method: method,
+            url: url,
+            data: dataToSend,
+            params: params
         };
 
-        try {
-            return $http(req)
+        return $http(req)
             .success(function(data, status) {
-                swal({
-                    icon: "success",
-                    title: "El correo fue enviado correctamente"
-                })
-                $scope.envelopeCancel();
+                callback(data)
             })
             .error(function(data, status) {
-                swal({
-                    icon: "error",
-                    title: "No se pudo enviar el correo",
-                    text: "Por favor, revisa que exista la plantilla de correo para ese campus."
-                })
-                console.error(data)
+                debugger;
+                console.error(data);
             })
-            .finally(function() {});
-        }
-        catch (e){
-            swal({
-                icon: "error",
-                title: "No se pudo enviar el correo"
-            })
-        }
+            .finally(function() {
+                vm.busy = false;
+            });
     }
 
     // Utils

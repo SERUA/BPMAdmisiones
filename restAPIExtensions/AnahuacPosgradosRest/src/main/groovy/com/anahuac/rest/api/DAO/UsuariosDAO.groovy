@@ -840,7 +840,7 @@ class UsuariosDAO {
 	
 	public Result recuperarPassword(String jsonData, RestAPIContext context) {
 		
-		Result resultadoN = new Result();
+		Result resultadoGenerarCorreo = new Result();
 		Usuarios objUsuario= new Usuarios();
 		Result resultado = new Result();
 		
@@ -876,36 +876,33 @@ class UsuariosDAO {
 			} else {
 				throw new Exception("No encontro campus");
 			}
-			//generacion del ramdon
+			
+			// Generar clave ramdon
 			String asciiUpperCase = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 			String asciiLowerCase = asciiUpperCase.toLowerCase();
 			String digits = "1234567890";
 			String asciiChars = asciiUpperCase + asciiLowerCase + digits ;
 			int length = 8;
 			String randomString = generateRandomString(length, asciiChars);
+			String passwordGenerada = randomString;
 			
-			UserUpdater update_user = new UserUpdater();
-			update_user.setPassword(randomString);
-			final User user_update= identityAPI.updateUser(user.getId(), update_user);
-			object.password = randomString;
-			def str = jsonSlurper.parseText('{"campus": "'+lstParams[0].grupo_bonita+'","correo":"'+object.nombreusuario+'", "codigo": "psgr-recuperar-contraseña","isEnviar":false}');
-
-			NotificacionDAO nDAO = new NotificacionDAO();
-			 
-			resultadoN = nDAO.generateHtml("{\"campus\": \""+lstParams[0].grupo_bonita+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"psgr-recuperar-contraseña\", \"isEnviar\":false }", context);
-			String plantilla = resultadoN.getData().get(0);
-			plantilla = plantilla.replace("[password]", object.password );
-			MailGunDAO dao = new MailGunDAO();
-			resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupo_bonita+"", context);
+			// Enviar correo
+			NotificacionDAO notificacionDAO = new NotificacionDAO();
+			resultadoGenerarCorreo = notificacionDAO.generateHtml("{\"campus\": \""+lstParams[0].grupo_bonita+"\", \"correo\":\""+object.nombreusuario+"\", \"codigo\": \"psgr-recuperar-contraseña\", \"isEnviar\":true, \"password\": \"" + passwordGenerada + "\" }", context);
 			
-			dataResult = updatePassword(object.password,object.nombreusuario);
-			/*if (dataResult.success) {
-				
-			} else {
-				throw new Exception("no pudo guardar la contraseña, se cambio ");
-			}*/
-			lstResultado.add(plantilla);
-			resultado.setData(lstResultado);
+			if (resultadoGenerarCorreo.success) {
+				// Actualizar contraseña
+				UserUpdater update_user = new UserUpdater();
+				update_user.setPassword(passwordGenerada);
+				final User user_update= identityAPI.updateUser(user.getId(), update_user);
+			}
+			
+			//String plantilla = resultadoGenerarCorreo.getData().get(0);
+			//plantilla = plantilla.replace("[password]", object.password);
+			//MailGunDAO dao = new MailGunDAO();
+			//resultado = dao.sendEmailPlantilla(object.nombreusuario,"Nueva contraseña",plantilla.replace("\\", ""),"",lstParams[0].grupo_bonita+"", context);
+			
+			dataResult = updatePassword(passwordGenerada, object.nombreusuario);
 			resultado.setSuccess(true);
 			
 		} catch (Exception e) {

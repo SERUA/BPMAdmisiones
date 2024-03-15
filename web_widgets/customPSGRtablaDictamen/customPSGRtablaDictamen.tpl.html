@@ -69,7 +69,7 @@
            
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('PROCEDENCIA/PROMEDIO')"> Procedencia / Promedio<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='TIPOBECA'"></i></span></th>
                     
-                    <th> <span style="cursor:pointer" ng-click="setOrderBy('MOTIVO')">Resultado<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='MOTIVO'"></i></span> </th>
+                    <th> <span style="cursor:pointer" ng-click="setOrderBy('ESTATUS')">{{ properties.tieneResultado ? "Resultado" : "Estatus"}}<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='ESTATUS'"></i></span> </th>
                     <!--
                     <th> <span style="cursor:pointer" ng-click="setOrderBy('FECHAREGISTRO')">Fecha de registro<i class="glyphicon" ng-class="(properties.dataToSend.orientation=='ASC')?'glyphicon-arrow-up':'glyphicon-arrow-down'" ng-show="properties.dataToSend.orderby=='FERHAREGISTRO'"></i></span></th>
                     -->
@@ -84,7 +84,7 @@
                     <td><input ng-model="dynamicInput['nombre']" class="form-control" ng-enter="filterKeyPress('NOMBRE,EMAIL,CURP',dynamicInput['nombre'])"></td>
                     <td><input ng-model="dynamicInput['programa']" class="form-control" ng-enter="filterKeyPress('PROGRAMA,INGRESO,CAMPUS',dynamicInput['programa'])"></td>
                     <td><input ng-model="dynamicInput['procedencia']" class="form-control" ng-enter="filterKeyPress('PROCEDENCIA,PROMEDIO',dynamicInput['procedencia'])"></td>
-                    <td><input ng-model="dynamicInput['motivo']" class="form-control" ng-enter="filterKeyPress('MOTIVO',dynamicInput['motivo'])"></td>
+                    <td><input ng-model="dynamicInput['estatus']" class="form-control" ng-enter="filterKeyPress('ESTATUS',dynamicInput['estatus'])"></td>
                     <!--
                     <td><input ng-model="dynamicInput['fecharegistro']" class="form-control" ng-enter="filterKeyPress('FECHAREGISTRO',dynamicInput['fecharegistro'])"></td>
                     -->
@@ -114,8 +114,25 @@
                         <br>
                         {{row.promedio}}
                     </td>
-                    <td>
-                        {{row.estatus_solicitud}}
+                    <td ng-if="!properties.tieneResultado">
+                        <b>{{row.estatus_solicitud}}</b><br>
+                        <div class="tag" ng-if="row.is_segunda_oportunidad === 't'" style="background-color: #ff5900; color: white;">
+                            <span class="glyphicon glyphicon-repeat icon" aria-hidden="true"></span>
+                            Segunda oportunidad
+                        </div>
+                        <div class="tag" ng-if="row.is_transferido === 't'" style="background-color: #233c63; color: white;">
+                            <span class="glyphicon glyphicon-transfer icon" aria-hidden="true"></span>
+                            Transferido
+                        </div>
+                        <div class="tag" ng-if="isSolicitudVencida(row.fecha_registro)" style="background-color: #e94242; color: white;">
+                            <div class="blink_me">
+                                <span class="glyphicon glyphicon-time icon" aria-hidden="true"></span>
+                                Solicitud vencida
+                            </div>
+                        </div>
+                    </td>
+                    <td ng-if="properties.tieneResultado">
+                        <b>{{row.estatus_solicitud}}</b>
                     </td>
                     <!--
                     <td>

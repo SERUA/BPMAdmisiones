@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1709836397232,
+  "lastUpdate" : 1710380967158,
   "rows" : [
     [
       {
@@ -210,8 +210,8 @@
               "dimension" : {
                 "xs" : 4,
                 "sm" : 6,
-                "md" : 7,
-                "lg" : 7
+                "md" : 8,
+                "lg" : 8
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -290,8 +290,8 @@
               "dimension" : {
                 "xs" : 8,
                 "sm" : 6,
-                "md" : 5,
-                "lg" : 5
+                "md" : 4,
+                "lg" : 4
               },
               "propertyValues" : {
                 "cssClasses" : {
@@ -340,7 +340,7 @@
                 },
                 "hidden" : {
                   "type" : "expression",
-                  "value" : "selectedIndexMain !== 2"
+                  "value" : "selectedIndexMain !== 1"
                 }
               },
               "reference" : "3fef3c74-eed5-4956-a465-b868795f722d",
@@ -2481,7 +2481,7 @@
                                             },
                                             "label" : {
                                               "type" : "interpolation",
-                                              "value" : "Comentarios:"
+                                              "value" : "Comentarios (máximo 250 caracteres):"
                                             },
                                             "labelPosition" : {
                                               "type" : "constant",
@@ -3180,8 +3180,8 @@
                   "value" : ""
                 },
                 "hidden" : {
-                  "type" : "expression",
-                  "value" : "selectedIndexMain !== 1"
+                  "type" : "constant",
+                  "value" : true
                 },
                 "repeatedCollection" : {
                   "type" : "variable",
@@ -16779,7 +16779,7 @@
                                   },
                                   "label" : {
                                     "type" : "interpolation",
-                                    "value" : "Ver requisitos adicionales"
+                                    "value" : "Ir a pase de lista"
                                   },
                                   "alignment" : {
                                     "type" : "constant",
@@ -16841,7 +16841,7 @@
                                   },
                                   "event" : {
                                     "type" : "variable",
-                                    "value" : "verRequisitosAdicionalesClickEvent"
+                                    "value" : "verPasarListaClickEvent"
                                   }
                                 },
                                 "reference" : "d4282baa-a871-4727-b227-a6a414725dfa",
@@ -24354,11 +24354,6 @@
         "        \"isValid\": true\r",
         "    },\r",
         "    {\r",
-        "        \"title\" : \"Requisitos adicionales\",\r",
-        "        \"value\" : \"requisitosAdicionales\",\r",
-        "        \"isValid\": true\r",
-        "    },\r",
-        "    {\r",
         "        \"title\" : \"Pasar lista\",\r",
         "        \"value\" : \"pasarListaSolicitud\",\r",
         "        \"isValid\": true\r",
@@ -24671,9 +24666,6 @@
         "    switch ($data.indexSection) {",
         "        case \"1\":",
         "            $data.selectedIndexMain = 1;",
-        "            break;",
-        "        case \"2\":",
-        "            $data.selectedIndexMain = 2;",
         "            break;",
         "        case \"last\":",
         "            $data.selectedIndexMain = $data.wizartContentMain.length - 1;",
@@ -25113,7 +25105,7 @@
       "value" : [
         "if ($data.verPasarListaClickEvent) {",
         "    ",
-        "    $data.selectedIndexMain = 2;",
+        "    $data.selectedIndexMain = 1;",
         "    ",
         "    $data.verPasarListaClickEvent = null",
         "}"

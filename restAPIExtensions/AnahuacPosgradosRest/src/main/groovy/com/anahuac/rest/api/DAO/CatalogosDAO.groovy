@@ -1358,6 +1358,8 @@ class CatalogosDAO {
 					throw new Exception("El campo \"orden\" no debe ir vacío.");
 			} else if (object.usuarioBanner == null || object.usuarioBanner == "") {
 					throw new Exception("El campo \"usuarioBanner\" no debe ir vacío.");
+			} else if (object.tienePosgrado == null || object.tienePosgrado == "") {
+					throw new Exception("El campo \"tienePosgrado\" no debe ir vacío.");
 			}
 			
 	        pstm = con.prepareStatement(StatementsCatalogos.INSERT_CATCAMPUS);
@@ -1393,8 +1395,8 @@ class CatalogosDAO {
 			pstm.setString(19, object.id);
 			pstm.setBoolean(20, true);
 			pstm.setBoolean(21, false);
-			
-	
+			pstm.setBoolean(22, object.tienePosgrado);
+
 	        if (pstm.executeUpdate() > 0) {
 	            resultado.setSuccess(true);
 	        } else {

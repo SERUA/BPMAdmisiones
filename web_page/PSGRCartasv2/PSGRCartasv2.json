@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRCartasv2",
   "name" : "PSGRCartasv2",
-  "lastUpdate" : 1706750046163,
+  "lastUpdate" : 1710369332602,
   "rows" : [
     [
       {
@@ -10545,7 +10545,22 @@
       "value" : [
         "var resultado = [];\r",
         "\r",
-        "for(var x in $data.lstCampusUsuario){\r",
+        "for(var index in $data.lstCatCampus){\r",
+        "    for(var x in $data.lstCampusUsuario){ \r",
+        "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){\r",
+        "            $data.lstCatCampus[index].valor = $data.lstCampusUsuario[x].valor;\r",
+        "            resultado.push($data.lstCatCampus[index]);\r",
+        "            if($data.lstCampusUsuario.length == 1){\r",
+        "                $data.campus_selected = resultado[0];\r",
+        "            }\r",
+        "        }\r",
+        "    }\r",
+        "    \r",
+        "}\r",
+        "\r",
+        "return resultado;\r",
+        "\r",
+        "/*for(var x in $data.lstCampusUsuario){\r",
         "    for(var index in $data.lstCatCampus){\r",
         "        if($data.lstCampusUsuario[x].descripcion === $data.lstCatCampus[index].descripcion){\r",
         "            $data.lstCatCampus[index].valor = $data.lstCampusUsuario[x].valor;\r",
@@ -10555,8 +10570,7 @@
         "            }\r",
         "        }\r",
         "    }\r",
-        "}\r",
-        "return resultado;"
+        "}*/\r"
       ],
       "exposed" : false
     },
@@ -11079,6 +11093,25 @@
       "value" : [
         "if ($data.campusSelected)",
         "return $data.lstCampus.find(item => item.valor == $data.campusSelected);"
+      ],
+      "exposed" : false
+    },
+    "sort_getNotificaciones" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.getNotificaciones) {",
+        "    // Ordena el arreglo getNotificaciones",
+        "    $data.getNotificaciones.sort((a, b) => {",
+        "        if (a.codigo > b.codigo) {",
+        "            return 1;",
+        "        }",
+        "        if (a.codigo < b.codigo) {",
+        "            return -1;",
+        "        }",
+        "          ",
+        "        return 0;",
+        "    })",
+        "}"
       ],
       "exposed" : false
     }

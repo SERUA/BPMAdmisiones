@@ -2,6 +2,73 @@ function PbTableCtrl($scope, $http, modalService) {
 
     this.isArray = Array.isArray;
     
+     // Campus del catalogo
+    $scope.lstCampus = [];
+
+    // Campus mostrados (resultado del match entre la lista del catalogo de campus y los campus disponibles para el usuarios)
+    $scope.campusDisponibles = [];
+
+    // Valor del input select
+    $scope.selectedCampus = "";
+
+    // Valor seleccionado
+    $scope.properties.campusSeleccionado = null;
+    
+    // Forzar a cargar los campus del catalogo
+    getCatCampus();
+    
+    // Scope functions
+    
+    // Utils
+    
+    function getCatCampus() {
+        var req = {
+            method: "GET",
+            url: "../API/bdm/businessData/com.anahuac.posgrados.catalog.PSGRCatCampus?q=getCat&p=0&c=9999&f=eliminado=false"
+        };
+  
+        return $http(req)
+            .success(function(data, status) {
+                $scope.lstCampus = data;
+            })
+            .error(function(data, status) {
+                console.error(data);
+            });
+    }
+    
+    function updateCampusDisponibles() {
+        const campusDisponibles = [];
+
+        if ($scope.lstCampus && $scope.lstCampus.length > 0 && $scope.lstCampusByUser && $scope.lstCampusByUser.length > 0) {
+
+            for (let catCampus of $scope.lstCampus) {
+                if ($scope.lstCampusByUser.find(grupo_bonita => catCampus.grupo_bonita === grupo_bonita)) {
+                    campusDisponibles.push(catCampus);
+                }
+            }
+        }
+        
+        $scope.campusDisponibles = campusDisponibles;
+        
+        // Cuando es campus unico seleccionarlo por defecto.
+        if (campusDisponibles.length === 1) {
+            $scope.filtroCampus = campusDisponibles[0].descripcion;
+            $scope.addFilter();
+        }
+    }
+    
+    // Watchers
+
+    $scope.$watch("lstCampus", function (newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+
+    $scope.$watch("lstCampusByUser", function (newValue, oldValue) {
+        updateCampusDisponibles();
+    });
+    
+    // --------------
+    
     this.isClickable = function () {
         return $scope.properties.isBound('selectedRow');
     };
@@ -194,7 +261,7 @@ function PbTableCtrl($scope, $http, modalService) {
             });
     }
     
-    $scope.getCatCampus();
+    //$scope.getCatCampus();
 
     $scope.$watch("filtroCampus", function(newValue, oldValue) {
         if (newValue) {
