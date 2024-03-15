@@ -241,13 +241,17 @@
   </div>
 </div>
 
-<div ng-show="isenvelope">
-    <label>Mensaje de recordatorio para usuario</label>
-    <textarea row="5" class="form-control" style="resize:none" ng-model="mensaje"></textarea>
+<div class="col-xs-12 col-sm-10 col-xs-offset-0 col-sm-offset-1" ng-show="isenvelope" style="margin-top: 20px">
+    <label>Mensaje de recordatorio para el aspirante (máximo 250 caracteres): *</label>
+    <p>Correo electrónico: <b>{{ selectedrow.correo_electronico }}</b></p>
+    <textarea row="12" class="form-control" style="resize:none; min-height: 100px;" ng-model="mensaje" maxlength="250"></textarea>
     <br>
-    <div class="col-md-12">
-        <div class="col-md-6"><button class="btn btn-info" ng-click="envelopeCancel()">Cancelar</button></div>
-        <div class="col-md-6 text-right"><button class="btn btn-primary" ng-click="sendMail(selectedrow,mensaje)">Enviar recordatorio</button></div>
+    <div class="col-xs-12">
+        <div class="col-xs-6"><button class="btn btn-info" ng-click="envelopeCancel()">Cancelar</button></div>
+        <div class="col-xs-6 text-right">
+            <!--<button class="btn btn-default" ng-click="previsualizar(selectedrow, mensaje)">Previsualizar</button>-->
+            <button class="btn btn-primary" ng-click="sendMail(selectedrow,mensaje)" ng-disabled="!mensaje || mensaje.length === 0">Enviar recordatorio</button>
+        </div>
     </div>
 </div>
 
