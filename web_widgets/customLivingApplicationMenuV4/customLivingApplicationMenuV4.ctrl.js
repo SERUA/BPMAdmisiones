@@ -131,17 +131,17 @@ function WidgetlivingApplicationMenuController($scope, $http, $window, $location
     
     
     $scope.isSmallScreen = undefined;
-    if ($window.innerWidth <= 768) $scope.isSmallScreen = true;
+    if ($window.innerWidth < 768) $scope.isSmallScreen = true;
     else $scope.isSmallScreen = false;
     
     angular.element($window).bind('resize', function() {
 
         // Actualizar cambios unicamente cuando cambie deje de ser o empiece a ser smallScreen
-        if ($scope.isSmallScreen && $window.innerWidth > 768) {
+        if ($scope.isSmallScreen && $window.innerWidth >= 768) {
             $scope.isSmallScreen = false;
             $scope.$apply();
         }
-        else if (!$scope.isSmallScreen && $window.innerWidth <= 768) {
+        else if (!$scope.isSmallScreen && $window.innerWidth < 768) {
             $scope.isSmallScreen = true;
             $scope.$apply();
         }
