@@ -47,7 +47,8 @@ class StatementsCatalogos {
 	public static final String GET_LST_PERIODOS_DISPONIBLES = "SELECT peri.* FROM PSGRCatGestion_periodo_dispon AS  disp LEFT JOIN PSGRCatPeriodo AS peri ON disp.psgrcatperiodo_pid = peri.persistenceid WHERE psgrcatgestionescolar_pid = ?;";
 	public static final String INSERT_LST_PERIODOS_DISPONIBLES = "INSERT INTO PSGRCatGestion_periodo_dispon (psgrcatgestionescolar_pid, psgrcatperiodo_pid, periodo_disponible_order) VALUES [VALUES];";
 	public static final String DELETE_LST_PERIODOS_DISPONIBLES = "DELETE FROM PSGRCatGestion_periodo_dispon WHERE psgrcatgestionescolar_pid = ?;";
-	public static final String GET_CATGESTIONESCOLAR_BY_CAMPUS = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE  LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid WHERE GE.campus_pid = ?";
+	public static final String GET_CATGESTIONESCOLAR_BY_CAMPUS = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid WHERE GE.campus_pid = ?";
+	public static final String GET_CATGESTIONESCOLAR_BY_CAMPUS_MULTIPLE = "SELECT GE.*, posgrado.descripcion AS posgrado, periodo.descripcion AS periodo, campus.descripcion as nombreCampus FROM psgrcatgestionescolar as GE LEFT JOIN psgrcatcampus campus ON campus.descripcion = GE.campus LEFT JOIN PSGRCatPosgrado posgrado ON posgrado.persistenceid = GE.posgrado_pid LEFT JOIN PSGRCatPeriodo periodo ON periodo.persistenceid = GE.periodo_pid [WHERE]";
 	
 	//PSGRCatPosgrado2
 	public static final String GET_CATPOSGRADO2 = "SELECT GE.*, campus.descripcion as nombreCampus FROM PSGRCatPosgrado as GE  LEFT JOIN psgrcatcampus campus ON campus.persistenceid = GE.campus_pid [CAMPUS]  [WHERE] [ORDERBY] [LIMITOFFSET]";
@@ -67,6 +68,7 @@ class StatementsCatalogos {
 	public static final String DELETE_CATPOSGRADO  = "UPDATE PSGRCatPosgrado SET is_eliminado = ? WHERE persistenceid = ?";
 	public static final String UPDATE_CATPOSGRADO  = "UPDATE PSGRCatPosgrado SET clave = ?, descripcion = ? WHERE persistenceid = ?;";
 	public static final String SELECT_CATPOSGRADO  = "SELECT persistenceid, clave, descripcion, fecha_registro, is_eliminado FROM PSGRCatPosgrado [WHERE] [ORDERBY]";
+	public static final String SELECT_CATPOSGRADO_DESCRIPCION_DISTINC  = "SELECT DISTINCT descripcion FROM PSGRCatPosgrado [WHERE];";
 	
 	//PSGRCatEstadoCivil
 	public static final String INSERT_CATESTADOCIVIL = "INSERT INTO PSGRCatEstadoCivil (persistenceid, is_eliminado, persistenceversion, id, is_enabled, clave, descripcion, usuario_banner, fecha_creacion, fecha_importacion) VALUES ((SELECT COALESCE(MAX(persistenceid), 0) + 1 FROM PSGRCatEstadoCivil), ?, ?, ?, ?, ?, ?, ?, ?, ?);";
