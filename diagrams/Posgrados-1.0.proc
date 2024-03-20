@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xmi:XMI xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:actormapping="http://www.bonitasoft.org/ns/actormapping/6.0" xmlns:configuration="http://www.bonitasoft.org/ns/studio/configuration" xmlns:connectorconfiguration="http://wwww.bonitasoft.org/model/connector/configuration" xmlns:decision="http://www.bonitasoft.org/ns/studio/process/decision" xmlns:definition="http://www.bonitasoft.org/ns/connector/definition/6.1" xmlns:expression="http://www.bonitasoft.org/ns/studio/expression" xmlns:notation="http://www.eclipse.org/gmf/runtime/1.0.3/notation" xmlns:parameter="http://www.bonitasoft.org/ns/studio/parameter" xmlns:process="http://www.bonitasoft.org/ns/studio/process" xsi:schemaLocation="http://www.bonitasoft.org/ns/studio/process/decision http://www.bonitasoft.org/ns/studio/process#//decision">
   <process:MainProcess xmi:id="_RS3WgFZtEe6T3bm1fu0vzg" name="Posgrados" author="joseg" bonitaVersion="7.13.4" bonitaModelVersion="7.12.0-004">
-    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.42">
+    <elements xmi:type="process:Pool" xmi:id="_RS3WgVZtEe6T3bm1fu0vzg" name="Solicitud de admisión a posgrados" version="1.1.44">
       <elements xmi:type="process:Lane" xmi:id="_RS3WglZtEe6T3bm1fu0vzg" name="Aspirante" actor="_nP_dcFcjEe6aCtvu892Zbw">
         <elements xmi:type="process:StartEvent" xmi:id="_RS3Wg1ZtEe6T3bm1fu0vzg" name="Inicio de solicitud" outgoing="_RS3WmFZtEe6T3bm1fu0vzg">
           <dynamicLabel xmi:type="expression:Expression" xmi:id="_RS3WhFZtEe6T3bm1fu0vzg" name="" content="" returnTypeFixed="true"/>
@@ -3985,7 +3985,9 @@
             <processSource xmi:type="expression:Expression" xmi:id="_XXu-8d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_XwI34N2kEe6xheYlhJ7_UA" subprocessTarget="urlHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_XwI34d2kEe6xheYlhJ7_UA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_XwI34d2kEe6xheYlhJ7_UA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="parameter:Parameter" xmi:id="_XJG1IOZMEe68ZPOML6cyZg" name="urlHubspot" typeClassname="java.lang.String"/>
+            </processSource>
           </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_4CnrU35uEe6TwbILgRGNhw" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_4CoSYH5uEe6TwbILgRGNhw" name="" content="" returnTypeFixed="true"/>
@@ -4184,15 +4186,6 @@
               <operator xmi:type="expression:Operator" xmi:id="_JC99HOJaEe6x9vLNb1DbNA" type="ASSIGNMENT"/>
             </outputs>
           </connectors>
-          <operations xmi:type="expression:Operation" xmi:id="_JC99HeJaEe6x9vLNb1DbNA">
-            <leftOperand xmi:type="expression:Expression" xmi:id="_JC99HuJaEe6x9vLNb1DbNA" name="registro" content="registro" type="TYPE_VARIABLE" returnType="com.anahuac.posgrados.model.PSGRRegistro">
-              <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JC99H-JaEe6x9vLNb1DbNA" name="registro" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.model.PSGRRegistro"/>
-            </leftOperand>
-            <rightOperand xmi:type="expression:Expression" xmi:id="_JC99IOJaEe6x9vLNb1DbNA" name="solicitud_rechazada_admin" content="'solicitud_rechazada_admin'" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
-            <operator xmi:type="expression:Operator" xmi:id="_JC99IeJaEe6x9vLNb1DbNA" type="JAVA_METHOD" expression="setEstatus_solicitud">
-              <inputTypes>java.lang.String</inputTypes>
-            </operator>
-          </operations>
           <operations xmi:type="expression:Operation" xmi:id="_JC99IuJaEe6x9vLNb1DbNA">
             <leftOperand xmi:type="expression:Expression" xmi:id="_JC99I-JaEe6x9vLNb1DbNA" name="logsSolicitudes" content="logsSolicitudes" type="TYPE_VARIABLE" returnType="java.util.List">
               <referencedElements xmi:type="process:BusinessObjectData" xmi:id="_JC99JOJaEe6x9vLNb1DbNA" name="logsSolicitudes" multiple="true" dataType="_RS3WtFZtEe6T3bm1fu0vzg" className="com.anahuac.posgrados.bitacora.PSGRLogSolicitudes"/>
@@ -4253,7 +4246,9 @@
             <processSource xmi:type="expression:Expression" xmi:id="_JC99R-JaEe6x9vLNb1DbNA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT" returnType="java.lang.Boolean"/>
           </inputMappings>
           <inputMappings xmi:type="process:InputMapping" xmi:id="_JC99SOJaEe6x9vLNb1DbNA" subprocessTarget="urlHubspot" assignationType="Data">
-            <processSource xmi:type="expression:Expression" xmi:id="_JC99SeJaEe6x9vLNb1DbNA" name="newScript()" content="return true;" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT"/>
+            <processSource xmi:type="expression:Expression" xmi:id="_JC99SeJaEe6x9vLNb1DbNA" name="newScript()" content="urlHubspot" interpreter="GROOVY" type="TYPE_READ_ONLY_SCRIPT">
+              <referencedElements xmi:type="parameter:Parameter" xmi:id="_PmUZIOZMEe68ZPOML6cyZg" name="urlHubspot" typeClassname="java.lang.String"/>
+            </processSource>
           </inputMappings>
           <calledActivityName xmi:type="expression:Expression" xmi:id="_JC99SuJaEe6x9vLNb1DbNA" name="Envio de correos" content="Envio de correos" returnTypeFixed="true"/>
           <calledActivityVersion xmi:type="expression:Expression" xmi:id="_JC99S-JaEe6x9vLNb1DbNA" name="" content="" returnTypeFixed="true"/>
@@ -7122,17 +7117,17 @@
             </children>
             <children xmi:type="notation:Shape" xmi:id="_UstD0NaYEe65w5fgTES1lQ" type="3063" element="_Usr1sNaYEe65w5fgTES1lQ" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_Ustq4NaYEe65w5fgTES1lQ" type="5093"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UstD0daYEe65w5fgTES1lQ" x="485" y="1066" width="142" height="72"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_UstD0daYEe65w5fgTES1lQ" x="550" y="1066" width="142" height="72"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_ZvfBMNaYEe65w5fgTES1lQ" type="3019" element="_ZvdzENaYEe65w5fgTES1lQ" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_ZvfBMtaYEe65w5fgTES1lQ" type="5034">
                 <layoutConstraint xmi:type="notation:Location" xmi:id="_ZvfBM9aYEe65w5fgTES1lQ" y="-55"/>
               </children>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZvfBMdaYEe65w5fgTES1lQ" x="709" y="969"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_ZvfBMdaYEe65w5fgTES1lQ" x="774" y="969"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_KUdEANpxEe6xKNiOGa1QUg" type="3027" element="_KULXMNpxEe6xKNiOGa1QUg" fontName="Segoe UI" fillColor="14334392" lineColor="10710316">
               <children xmi:type="notation:DecorationNode" xmi:id="_KUdrENpxEe6xKNiOGa1QUg" type="5017"/>
-              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KUdEAdpxEe6xKNiOGa1QUg" x="666" y="1072" width="120" height="60"/>
+              <layoutConstraint xmi:type="notation:Bounds" xmi:id="_KUdEAdpxEe6xKNiOGa1QUg" x="731" y="1072" width="120" height="60"/>
             </children>
             <children xmi:type="notation:Shape" xmi:id="_nvdTgOCSEe6jhsLlEr0d3g" type="3018" element="_nvbeUOCSEe6jhsLlEr0d3g" fontName="Segoe UI">
               <children xmi:type="notation:DecorationNode" xmi:id="_nvdTguCSEe6jhsLlEr0d3g" type="5033">

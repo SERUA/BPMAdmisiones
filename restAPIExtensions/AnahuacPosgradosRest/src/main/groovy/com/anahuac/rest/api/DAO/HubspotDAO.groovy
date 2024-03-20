@@ -1076,6 +1076,7 @@ class HubspotDAO {
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+			objHubSpotData.put("fecha_transferencia_posgrado_bpm", df.format(ultimaMod).toString());
 			objHubSpotData = getTransferenciaByCaseid(caseid, objHubSpotData);
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
 		} catch (Exception e) {
