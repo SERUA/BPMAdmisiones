@@ -2030,13 +2030,20 @@ class SolicitudDeAdmisionDAO {
 			try {
 				def partes = campus_pids_string.split(',');
 				partes.each { parte -> campus_pids.add(Long.parseLong(parte))};
+			}
+			catch(e) {}
+			try {
 				if (!esPorDescripcion) posgrado_pid = Long.parseLong(posgrado_pid_string);
+			}
+			catch(e) {}
+			try {
 				programa_pid = Long.parseLong(programa_pid_string);
+			}
+			catch(e) {}
+			try {
 				periodo_pid = Long.parseLong(periodo_pid_string);
 			}
-			catch(e) {
-				//throw new Exception('Falló algo al convertir uno de los parámetros recibidos. ' + e.message);
-			}
+			catch(e) {}
 			
 			
 			// Filtros
@@ -2098,6 +2105,7 @@ class SolicitudDeAdmisionDAO {
 			row.put("totales", suma);
 			
 			rows.add(row);
+			rows.add(consulta)
 		
 			resultado.setData(rows);
 			resultado.setSuccess(true);
