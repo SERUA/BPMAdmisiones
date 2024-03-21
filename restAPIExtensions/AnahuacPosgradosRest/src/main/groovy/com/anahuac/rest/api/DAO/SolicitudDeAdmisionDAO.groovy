@@ -1998,4 +1998,120 @@ class SolicitudDeAdmisionDAO {
 		return resultado;
 	}
 	
+	public Result getCantidadDeSolicitudes(String campus_pids_string, String posgrado_pid_string, String posgrado_descripcion, String programa_pid_string, String periodo_pid_string, String fecha_inicio, String fecha_fin) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		String where = "WHERE (regi.is_eliminado IS NULL OR regi.is_eliminado = FALSE)"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+		Boolean esPorDescripcion = false;
+		
+		Map<String, Object> row = new HashMap<String, Object>();
+		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
+		
+		try {
+			closeCon = validarConexion();
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				throw new Exception('El campo "campus_pids" no debe ir vacío');
+			} 
+			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
+				if (!(posgrado_descripcion === null || posgrado_descripcion.equals(""))) {
+					esPorDescripcion = true;
+				}
+			}
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			def posgrado_pid = 0L;
+			def programa_pid = 0L;
+			def periodo_pid = 0L;
+
+			try {
+				def partes = campus_pids_string.split(',');
+				partes.each { parte -> campus_pids.add(Long.parseLong(parte))};
+				if (!esPorDescripcion) posgrado_pid = Long.parseLong(posgrado_pid_string);
+				programa_pid = Long.parseLong(programa_pid_string);
+				periodo_pid = Long.parseLong(periodo_pid_string);
+			}
+			catch(e) {
+				//throw new Exception('Falló algo al convertir uno de los parámetros recibidos. ' + e.message);
+			}
+			
+			
+			// Filtros
+			where += " AND prgm.campus_pid IN (" + campus_pids.join(",") + ")";
+			
+			if (posgrado_pid || posgrado_descripcion) {
+				if (esPorDescripcion) where += " AND posg.descripcion = '" + posgrado_descripcion + "'";
+				else where += " AND posg.persistenceid = " + posgrado_pid;
+			}
+
+			if (programa_pid) where += " AND prgm.programa_interes_pid = " + programa_pid;
+			
+			if (periodo_pid) where += " AND prgm.periodo_ingreso_pid = " + periodo_pid;
+			
+			
+			if (fecha_inicio) where += " ";
+			if (fecha_fin) where += " ";
+			
+			
+			// Consulta
+			String consulta = Statements.GET_CANTIDAD_SOLICITUDES.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+			
+			row = new HashMap<String, Object>();
+			Long enProcesoCount = 0;
+			Long enArchivoCount = 0;
+			Long admitidas = 0;
+			Long noAdmitidas = 0;
+			Long suma = 0;
+			while (rs.next()) {
+				
+				def estatus = rs.getString("estatus_solicitud");
+				def cantidad = rs.getLong("cantidad");
+				
+				if (estatus == "solicitud_admitida") {
+					admitidas = cantidad;
+				}
+				
+				else if (estatus == "solicitud_no_admitida") {
+					noAdmitidas = cantidad;
+				}
+				
+				else if (estatus == "solicitud_rechazada_admin" || estatus == "solicitud_archivada_area_academica" || estatus == "solicitud_archivada_reagendacion" || estatus == "solicitud_archivada_dictamen") {
+					enArchivoCount += cantidad;
+				}
+				
+				else {
+					enProcesoCount += cantidad;
+				}	
+				
+				suma += cantidad;	
+			}
+			
+			row.put("admitidos", admitidas);
+			row.put("noAdmitidos", noAdmitidas);
+			row.put("archivados", enArchivoCount);
+			row.put("enProceso", enProcesoCount);
+			row.put("totales", suma);
+			
+			rows.add(row);
+		
+			resultado.setData(rows);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError(e.getMessage());
+		} finally {
+			if(con != null) {
+				new DBConnect().closeObj(con, stm, rs, pstm)
+			}
+		}
+		return resultado
+	}
+	
+	
+	
 }

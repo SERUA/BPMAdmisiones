@@ -335,6 +335,40 @@ class IndexGet implements RestApiController {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
 					}
 					break;	
+				case "getCatPosgradoByCampusMultiple":
+					String campus_pids_string = request.getParameter "campus_pids";
+					result = new CatalogosDAO().getCatPosgradoByCampusMultiple(campus_pids_string);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCatGestionEscolarByCampusMultiple":
+					String campus_pids_string = request.getParameter "campus_pids";
+					String posgrado_pid_string = request.getParameter "posgrado_pid";
+					String posgrado_descripcion = request.getParameter "posgrado_descripcion";
+					result = new CatalogosDAO().getCatGestionEscolarByCampusMultiple(campus_pids_string, posgrado_pid_string, posgrado_descripcion);
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+				case "getCantidadDeSolicitudes":
+					String campus_pids_string = request.getParameter "campus_pids";
+					String posgrado_pid_string = request.getParameter "posgrado_pid";
+					String posgrado_descripcion = request.getParameter "posgrado_descripcion";
+					String programa_pid_string = request.getParameter "programa_pid";
+					String periodo_pid_string = request.getParameter "periodo_pid";
+					result = new SolicitudDeAdmisionDAO().getCantidadDeSolicitudes(campus_pids_string, posgrado_pid_string, posgrado_descripcion, programa_pid_string, periodo_pid_string, "", "");
+					if (result.isSuccess()) {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
+					}else {
+						return buildResponse(responseBuilder, HttpServletResponse.SC_INTERNAL_SERVER_ERROR,  new JsonBuilder(result).toString())
+					}
+					break;
+					
 			}
 		} catch (Exception e) {
 			e.printStackTrace();

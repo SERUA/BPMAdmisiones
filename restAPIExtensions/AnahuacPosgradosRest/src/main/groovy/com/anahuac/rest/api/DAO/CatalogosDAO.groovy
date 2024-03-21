@@ -2786,6 +2786,118 @@ class CatalogosDAO {
 		return resultado
 	}
 	
+	public Result getCatGestionEscolarByCampusMultiple(String campus_pids_string, String posgrado_pid_string, String posgrado_descripcion) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = "WHERE GE.is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+		Boolean esPorDescripcion = false;
+	
+		try {
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				throw new Exception('El campo "campus_pids" no debe ir vacío');
+			} 
+			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
+				if (posgrado_descripcion === null || posgrado_descripcion.equals("")) {
+					throw new Exception('El campo "posgrado_pid" y "posgrado_descripcion" no deben ir vacíos, se debe proporcionar al menos uno de los dos');
+				}
+				else {
+					esPorDescripcion = true;
+				}
+			}
+			
+			closeCon = validarConexion();
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			try {
+				def partes = campus_pids_string.split(',')
+				
+				partes.each { parte ->
+					campus_pids.add(Long.parseLong(parte))
+				}
+			}
+			catch (e) {
+				throw new Exception('El campo "campus_pids" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+			}
+			
+			// Filtrar por campus
+			where += " AND GE.campus_referencia_pid IN (" + campus_pids.join(",") + ")";
+			
+			if (!esPorDescripcion) {
+				def posgrado_pid = 0L;
+				try {
+					posgrado_pid = Long.parseLong(posgrado_pid_string);
+				}
+				catch(e) {
+					throw new Exception('Falló algo al convertir el campo "posgrado_pid" a Long. Valor recibido: ' + posgrado_pid_string + ". " + e.message);
+				}
+				
+				where += " AND posgrado_pid = " + posgrado_pid;
+			}
+			else {
+				where += " AND posgrado.descripcion = '" + posgrado_descripcion + "'";
+			}
+
+			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR_BY_CAMPUS_MULTIPLE.replace("[WHERE]", where);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+			
+			CatGestionEscolar row = new CatGestionEscolar();
+			
+			while (rs.next()) {
+
+				row = new CatGestionEscolar()
+				row.setCampus(rs.getString("campus"))
+				row.setDescripcion(rs.getString("descripcion"))
+				row.setEnlace(rs.getString("enlace"))
+				row.setClave(rs.getString("clave"));
+				row.setInscripcion_agosto(rs.getString("inscripcion_agosto"))
+				row.setInscripcion_enero(rs.getString("inscripcion_enero"))
+				row.setIs_eliminado(rs.getBoolean("is_eliminado"))
+				row.setNombre(rs.getString("nombre"))
+				row.setPersistenceId(rs.getLong("persistenceId"))
+				row.setCampus_referencia_pid(rs.getLong("campus_referencia_pid"))
+				row.setPersistenceVersion(rs.getLong("persistenceVersion"))
+				row.setPrograma_parcial(rs.getBoolean("programa_parcial"))
+				row.setPropedeutico(rs.getBoolean("propedeutico"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
+				row.setTipo_licenciatura(rs.getString("tipo_licenciatura"))
+				row.setTipo_centro_estudio(rs.getString("tipo_centro_estudio"))
+				row.setInscripcion_mayo(rs.getString("inscripcion_mayo"))
+				row.setInscripcion_septiembre(rs.getString("inscripcion_septiembre"))
+				row.setUrl_img_licenciatura(rs.getString("url_img_licenciatura"))
+				row.setFecha_creacion(rs.getString("fecha_creacion"))
+				row.setUsuario_creacion(rs.getString("usuario_creacion"))
+				row.setIs_medicina(rs.getBoolean("is_medicina"))
+				row.setIdioma(rs.getString("idioma"))
+				row.setOrden(rs.getLong("orden"))
+				row.setPeriodo_pid(rs.getLong("periodo_pid"))
+				row.setPosgrado_pid(rs.getLong("posgrado_pid"))
+				row.setPeriodo(rs.getString("periodo"))
+				row.setPosgrado(rs.getString("posgrado"))
+
+				data.add(row)
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatGestionEscolarByCampusMultiple] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
 	public Result getLstPeriodosDisponibles(String programa_pid) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
@@ -3570,6 +3682,67 @@ class CatalogosDAO {
 		} catch (Exception e) {
 			resultado.setSuccess(false);
 			resultado.setError("[getCatPosgrado] " + e.getMessage());
+		} finally {
+			if (closeCon) {
+				new DBConnect().closeObj(con, stm, rs, pstm);
+			}
+		}
+	
+		return resultado;
+	}
+	
+	public Result getCatPosgradoByCampusMultiple(String campus_pids_string) {
+		Result resultado = new Result();
+		Boolean closeCon = false;
+		List<PSGRCatEstado> data = new ArrayList<>();
+		String where = "WHERE is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
+		String orderby = ""; // Ordenamiento por defecto
+	
+		try {
+			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
+			//def jsonSlurper = new JsonSlurper();
+			//def object = jsonSlurper.parseText(jsonData);
+			
+			// Validar inputs
+			if (campus_pids_string === null || campus_pids_string.equals("")) {
+				throw new Exception('El campo "campus_pids" no debe ir vacío');
+			}
+			
+			// Conversión
+			def campus_pids = new ArrayList<Long>()
+			try {
+				def partes = campus_pids_string.split(',')
+				
+				partes.each { parte ->
+					campus_pids.add(Long.parseLong(parte))
+				}
+			}
+			catch (e) {
+				throw new Exception('El campo "campus_pids" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+			}
+	
+			closeCon = validarConexion();
+			
+			// Filtrar por campus
+			where += " AND campus_pid IN (" + campus_pids.join(",") + ")"
+
+			String consulta = StatementsCatalogos.SELECT_CATPOSGRADO_DESCRIPCION_DISTINC.replace("[WHERE]", where);
+	
+			pstm = con.prepareStatement(consulta);
+			rs = pstm.executeQuery();
+	
+			while (rs.next()) {
+				PSGRCatEstado row = new PSGRCatEstado();
+				row.setDescripcion(rs.getString("descripcion"));
+	
+				data.add(row);
+			}
+	
+			resultado.setData(data);
+			resultado.setSuccess(true);
+		} catch (Exception e) {
+			resultado.setSuccess(false);
+			resultado.setError("[getCatPosgradoDescripcionDistinct] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
