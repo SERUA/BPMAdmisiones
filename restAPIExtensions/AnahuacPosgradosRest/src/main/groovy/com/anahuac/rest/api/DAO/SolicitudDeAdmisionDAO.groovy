@@ -2043,8 +2043,8 @@ class SolicitudDeAdmisionDAO {
 			where += " AND prgm.campus_pid IN (" + campus_pids.join(",") + ")";
 			
 			if (posgrado_pid || posgrado_descripcion) {
-				if (esPorDescripcion) where += " AND posg.persistenceid = " + posgrado_pid;
-				else where += " AND posg.descripcion = '" + posgrado_descripcion + "'";
+				if (esPorDescripcion) where += " AND posg.descripcion = '" + posgrado_descripcion + "'";
+				else where += " AND posg.persistenceid = " + posgrado_pid;
 			}
 
 			if (programa_pid) where += " AND prgm.programa_interes_pid = " + programa_pid;
@@ -2098,8 +2098,7 @@ class SolicitudDeAdmisionDAO {
 			row.put("totales", suma);
 			
 			rows.add(row);
-			rows.add(consulta)
-			
+		
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {
