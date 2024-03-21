@@ -991,12 +991,14 @@ class HubspotDAO {
 					objHubSpotData.put("estado_posgrado_bpm", estadoResult.get(0).getClave());
 				}
 				
-				Boolean reagendado = getIsReagendadoByCaseid(caseid);
-				if(reagendado) {
-					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get("entrevista_reagendada"));
-				} else {
-					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
-				}
+//				Boolean reagendado = getIsReagendadoByCaseid(caseid);
+//				if(reagendado) {
+//					objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get("entrevista_reagendada"));
+//				} else {
+//					
+//				}
+				
+				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
@@ -1006,10 +1008,14 @@ class HubspotDAO {
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			} else if (solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin")) {
+				errorLog += "| " + solicitud.get("estatus_solicitud") ;
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+				errorLog += "| " + df.format(ultimaMod);
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
-				objHubSpotData.put("estatus_posgrado_admision_bpm", "solicitud_archivada");
+				errorLog += "| " + solicitud.get("mensaje_admin_escolar");
+				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+				errorLog += "| " + estatusMap.get(solicitud.get("estatus_solicitud"));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_pase_lista_esperando_validacion")) {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
@@ -1035,16 +1041,13 @@ class HubspotDAO {
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("aprobado_area_academic"));
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_no_admitida")) {
-				ultimaMod = new Date();
-				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
-				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("aprobado_area_academic"));
-			} 
+			}
 			
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
 			
 		} catch (Exception e) {
+			LOGGER.error (errorLog + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
+			
 			resultado.setError_info(errorLog + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
