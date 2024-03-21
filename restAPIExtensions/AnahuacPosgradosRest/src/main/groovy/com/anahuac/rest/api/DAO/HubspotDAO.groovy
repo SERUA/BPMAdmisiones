@@ -952,7 +952,6 @@ class HubspotDAO {
 			String estatusNuevo = estatusMap.get(solicitud.get("estatus_solicitud"));
 			LOGGER.error "[createOrUpdatePosgrado] 4";
 			if(!solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
-				LOGGER.error "[createOrUpdatePosgrado] 4.1";
 				//Si la solicitud ya avanzo de este estatus quiere decir que ya existe esta información
 				objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
 				objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
@@ -960,7 +959,7 @@ class HubspotDAO {
 				objHubSpotData = getHorarioByCaseid(caseid, objHubSpotData, context);
 			}
 			
-			LOGGER.error "[createOrUpdatePosgrado] 5";
+			LOGGER.error "[createOrUpdatePosgrado] 5 :: " + solicitud.get("estatus_solicitud");
 			if(solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
 				LOGGER.error "[createOrUpdatePosgrado] 5.1";
 				ultimaMod = new Date();
@@ -1006,15 +1005,21 @@ class HubspotDAO {
 //				}
 				
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") 
+				|| solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
 				LOGGER.error "[createOrUpdatePosgrado] 5.3";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+				LOGGER.error "[createOrUpdatePosgrado] 5.3.1";
 				if(solicitud.get("id_banner_validacion") != null) {
+					LOGGER.error "[createOrUpdatePosgrado] 5.3.2";
 					objHubSpotData.put("id_banner_posgrado_bpm", solicitud.get("id_banner_validacion"));
 				}
+				LOGGER.error "[createOrUpdatePosgrado] 5.3.3";
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
+				LOGGER.error "[createOrUpdatePosgrado] 5.3.4";
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
+				LOGGER.error "[createOrUpdatePosgrado] 5.3.5";
 			} else if (solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin")) {
 				LOGGER.error "[createOrUpdatePosgrado] 5.4";
 				errorLog += "| " + solicitud.get("estatus_solicitud") ;
