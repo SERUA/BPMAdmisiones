@@ -941,14 +941,18 @@ class HubspotDAO {
 		Map<String, Object> solicitud;
 		
 		try {
+			LOGGER.error "[createOrUpdatePosgrado] 1";
 			solicitud = getSolicitudByCaseid(caseid);
+			LOGGER.error "[createOrUpdatePosgrado] 2";
 			resultadoApiKey = getApikeyHubspot(solicitud.get("grupo_bonita"));
 			apikeyHubspot = (String) resultadoApiKey.getData().get(0);
 			Date ultimaMod = new Date();
 			objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-			
+			LOGGER.error "[createOrUpdatePosgrado] 3";
 			String estatusNuevo = estatusMap.get(solicitud.get("estatus_solicitud"));
+			LOGGER.error "[createOrUpdatePosgrado] 4";
 			if(!solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
+				LOGGER.error "[createOrUpdatePosgrado] 4.1";
 				//Si la solicitud ya avanzo de este estatus quiere decir que ya existe esta información
 				objHubSpotData = getEscuelasByCaseid(caseid, objHubSpotData);
 				objHubSpotData = getTrabajosByCaseid(caseid, objHubSpotData);
@@ -956,12 +960,15 @@ class HubspotDAO {
 				objHubSpotData = getHorarioByCaseid(caseid, objHubSpotData, context);
 			}
 			
+			LOGGER.error "[createOrUpdatePosgrado] 5";
 			if(solicitud.get("estatus_solicitud").equals("aspirante_registrado")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.1";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("email", solicitud.get("correo_electronico"));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada") || solicitud.get("estatus_solicitud").equals("modificaciones_realizadas")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.2";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("ffecha_nacimiento_posgrado_bpm", dfNoTime.format(dfDate.parse(solicitud.get("fecha_nacimiento"))));
@@ -1000,6 +1007,7 @@ class HubspotDAO {
 				
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_aprobada_admin") || solicitud.get("estatus_solicitud").equals("modificaciones_solicitadas")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.3";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				if(solicitud.get("id_banner_validacion") != null) {
@@ -1008,6 +1016,7 @@ class HubspotDAO {
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("mensaje_admin_escolar"));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			} else if (solicitud.get("estatus_solicitud").equals("solicitud_rechazada_admin")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.4";
 				errorLog += "| " + solicitud.get("estatus_solicitud") ;
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
@@ -1017,14 +1026,17 @@ class HubspotDAO {
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 				errorLog += "| " + estatusMap.get(solicitud.get("estatus_solicitud"));
 			} else if(solicitud.get("estatus_solicitud").equals("solicitud_pase_lista_esperando_validacion")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.5";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 			} else if(solicitud.get("estatus_solicitud").equals("esperando_agendacion_cita")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.6";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
 			} else if(solicitud.get("estatus_solicitud").equals("esperando_agendacion_cita")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.7";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
@@ -1043,8 +1055,9 @@ class HubspotDAO {
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("aprobado_area_academic"));
 			}
 			
+			LOGGER.error "[createOrUpdatePosgrado] 6";
 			resultado = createOrUpdateHubspotPosgrado(solicitud.get("correo_electronico"), apikeyHubspot, objHubSpotData);
-			
+			LOGGER.error "[createOrUpdatePosgrado] 7";
 		} catch (Exception e) {
 			LOGGER.error (errorLog + " | " + (resultado.getError_info() == null ? "" : resultado.getError_info()));
 			
@@ -1184,6 +1197,7 @@ class HubspotDAO {
 			resultado.setSuccess(false);
 			resultado.setError(e.getMessage());
 			e.printStackTrace();
+			LOGGER.error "[createOrUpdateHubspotPosgrado] 1" + strError;
 			new LogDAO().insertTransactionLog("POST", "FALLIDO", targetURL, "Log:"+strError, mError);
 		}
 		
