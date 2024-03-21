@@ -68,7 +68,7 @@ class HubspotDAO {
 		put("solicitud_completada", "solicitud_completada");
 		put("modificaciones_realizadas", "solicitud_completada");
 		put("solicitud_reactivada", "solicitud_completada");
-		put("solicitud_pase_lista_esperando_validacion", "solicitud_completada");
+		put("solicitud_pase_lista_esperando_validacion", "solicitud_pase_lista_esperando_validacion");
 		put("esperando_agendacion_cita", "solicitud_completada");
 		put("entrevista_reagendada", "entrevista_reagendada");
 		put("transferencia", "transferencia");
@@ -1036,7 +1036,7 @@ class HubspotDAO {
 				LOGGER.error "[createOrUpdatePosgrado] 5.5";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-				objHubSpotData.put("estatus_posgrado_admision_bpm", estatusMap.get(solicitud.get("estatus_solicitud")));
+				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			} else if(solicitud.get("estatus_solicitud").equals("esperando_agendacion_cita")) {
 				LOGGER.error "[createOrUpdatePosgrado] 5.6";
 				ultimaMod = new Date();
