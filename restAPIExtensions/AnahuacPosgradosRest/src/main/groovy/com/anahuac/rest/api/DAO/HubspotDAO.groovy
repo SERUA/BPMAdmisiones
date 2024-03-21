@@ -67,10 +67,12 @@ class HubspotDAO {
 		put("solicitud_archivada_dictamen", "solicitud_archivada");
 		put("solicitud_completada", "solicitud_completada");
 		put("modificaciones_realizadas", "solicitud_completada");
+		put("solicitud_reactivada", "solicitud_completada");
 		put("solicitud_pase_lista_esperando_validacion", "solicitud_completada");
 		put("esperando_agendacion_cita", "solicitud_completada");
 		put("entrevista_reagendada", "entrevista_reagendada");
 		put("transferencia", "transferencia");
+		
 	}};
 
 	Map<String,String> mapTipoBecas = new HashMap<String, String>() {{
@@ -966,7 +968,7 @@ class HubspotDAO {
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("email", solicitud.get("correo_electronico"));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
-			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada") || solicitud.get("estatus_solicitud").equals("modificaciones_realizadas")) {
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_completada") || solicitud.get("estatus_solicitud").equals("modificaciones_realizadas") ) {
 				LOGGER.error "[createOrUpdatePosgrado] 5.2";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
@@ -1058,6 +1060,11 @@ class HubspotDAO {
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 				objHubSpotData.put("mensaje_posgrado_bpm", solicitud.get("aprobado_area_academic"));
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_reactivada")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.8";
+				ultimaMod = new Date();
+				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+				objHubSpotData.put("estatus_posgrado_admision_bpm", solicitud.get("estatus_solicitud"));
 			}
 			
 			LOGGER.error "[createOrUpdatePosgrado] 6";
