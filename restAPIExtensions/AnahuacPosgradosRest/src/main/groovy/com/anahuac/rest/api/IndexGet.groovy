@@ -346,8 +346,9 @@ class IndexGet implements RestApiController {
 					break;
 				case "getCatGestionEscolarByCampusMultiple":
 					String campus_pids_string = request.getParameter "campus_pids";
-					String posgrado_pid = request.getParameter "posgrado_pid";
-					result = new CatalogosDAO().getCatGestionEscolarByCampusMultiple(campus_pids_string, posgrado_pid);
+					String posgrado_pid_string = request.getParameter "posgrado_pid";
+					String posgrado_descripcion = request.getParameter "posgrado_descripcion";
+					result = new CatalogosDAO().getCatGestionEscolarByCampusMultiple(campus_pids_string, posgrado_pid_string, posgrado_descripcion);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {

@@ -2786,12 +2786,13 @@ class CatalogosDAO {
 		return resultado
 	}
 	
-	public Result getCatGestionEscolarByCampusMultiple(String campus_pids_string, String posgrado_pid_string) {
+	public Result getCatGestionEscolarByCampusMultiple(String campus_pids_string, String posgrado_pid_string, String posgrado_descripcion) {
 		Result resultado = new Result();
 		Boolean closeCon = false;
 		List<PSGRCatEstado> data = new ArrayList<>();
-		String where = "WHERE is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
+		String where = "WHERE GE.is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
+		Boolean esPorDescripcion = false;
 	
 		try {
 			
@@ -2800,8 +2801,15 @@ class CatalogosDAO {
 				throw new Exception('El campo "campus_pids" no debe ir vacío');
 			} 
 			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
-				throw new Exception('El campo "posgrado_pid" no debe ir vacío');
+				if (posgrado_descripcion === null || posgrado_descripcion.equals("")) {
+					throw new Exception('El campo "posgrado_pid" y "posgrado_descripcion" no deben ir vacíos, se debe proporcionar al menos uno de los dos');
+				}
+				else {
+					esPorDescripcion = true;
+				}
 			}
+			
+			closeCon = validarConexion();
 			
 			// Conversión
 			def campus_pids = new ArrayList<Long>()
@@ -2815,25 +2823,32 @@ class CatalogosDAO {
 			catch (e) {
 				throw new Exception('El campo "campus_pids" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
 			}
-			def posgrado_pid = 0L;
-			try {
-				posgrado_pid = Long.parseLong(posgrado_pid_string);
-			}
-			catch(e) {
-				throw new Exception('Falló algo al convertir el campo "posgrado_pid" a Long. Valor recibido: ' + posgrado_pid_string + ". " + e.message);
-			}
-	
-			closeCon = validarConexion();
 			
 			// Filtrar por campus
-			where += " AND campus_referencia_pid IN (" + campus_pids.join(",") + ") AND posgrado_pid = " + posgrado_pid;
+			where += " AND GE.campus_referencia_pid IN (" + campus_pids.join(",") + ")";
+			
+			if (!esPorDescripcion) {
+				def posgrado_pid = 0L;
+				try {
+					posgrado_pid = Long.parseLong(posgrado_pid_string);
+				}
+				catch(e) {
+					throw new Exception('Falló algo al convertir el campo "posgrado_pid" a Long. Valor recibido: ' + posgrado_pid_string + ". " + e.message);
+				}
+				
+				where += " AND posgrado_pid = " + posgrado_pid;
+			}
+			else {
+				where += " AND posgrado.descripcion = '" + posgrado_descripcion + "'";
+			}
 
 			String consulta = StatementsCatalogos.GET_CATGESTIONESCOLAR_BY_CAMPUS_MULTIPLE.replace("[WHERE]", where);
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
-	
-			rs = pstm.executeQuery()
+			
+			CatGestionEscolar row = new CatGestionEscolar();
+			
 			while (rs.next()) {
 
 				row = new CatGestionEscolar()
@@ -2873,7 +2888,7 @@ class CatalogosDAO {
 			resultado.setSuccess(true);
 		} catch (Exception e) {
 			resultado.setSuccess(false);
-			resultado.setError("[getCatPosgradoDescripcionDistinct] " + e.getMessage());
+			resultado.setError("[getCatGestionEscolarByCampusMultiple] " + e.getMessage());
 		} finally {
 			if (closeCon) {
 				new DBConnect().closeObj(con, stm, rs, pstm);
