@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRReportes",
   "name" : "PSGRReportes",
-  "lastUpdate" : 1711073392798,
+  "lastUpdate" : 1711074050491,
   "rows" : [
     [
       {
@@ -980,6 +980,100 @@
                       "reference" : "f9620c74-6caf-4e8f-9f8e-55c0cc1d0ca2",
                       "hasValidationError" : false,
                       "id" : "pbDatePicker"
+                    }
+                  ],
+                  [
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "disabled" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Limpiar"
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "right"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "action" : {
+                          "type" : "constant",
+                          "value" : "Submit task"
+                        },
+                        "assign" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "url" : {
+                          "type" : "interpolation"
+                        },
+                        "responseStatusCode" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "dataToSend" : {
+                          "type" : "constant"
+                        },
+                        "dataFromSuccess" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "closeOnSuccess" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "dataFromError" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "targetUrlOnSuccess" : {
+                          "type" : "interpolation"
+                        },
+                        "collectionToModify" : {
+                          "type" : "variable"
+                        },
+                        "modalId" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "collectionPosition" : {
+                          "type" : "constant",
+                          "value" : "Last"
+                        },
+                        "valueToAdd" : {
+                          "type" : "constant"
+                        },
+                        "removeItem" : {
+                          "type" : "variable"
+                        },
+                        "event" : {
+                          "type" : "variable",
+                          "value" : "cleanButtonEvent"
+                        }
+                      },
+                      "reference" : "4dbc51e0-1180-4e5f-ab95-db41d8c4d367",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRButtonEventAction"
                     }
                   ],
                   [
@@ -3293,6 +3387,30 @@
       "type" : "expression",
       "value" : [
         "return $data.reporteFormInput.campus_pids ? false : true;"
+      ],
+      "exposed" : false
+    },
+    "cleanButtonEvent" : {
+      "type" : "expression",
+      "value" : [
+        "return null;"
+      ],
+      "exposed" : false
+    },
+    "cleanButtonEventHandler" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.cleanButtonEvent)  {",
+        "    ",
+        "    $data.reporteFormInput.campus_pids = \"\";",
+        "    $data.reporteFormInput.posgrado = null;",
+        "    $data.reporteFormInput.programa = null;",
+        "    $data.reporteFormInput.periodo = null;",
+        "    $data.reporteFormInput.fecha_inicio = null;",
+        "    $data.reporteFormInput.fecha_fin = null;",
+        "    ",
+        "    $data.cleanButtonEvent = null;",
+        "}"
       ],
       "exposed" : false
     }

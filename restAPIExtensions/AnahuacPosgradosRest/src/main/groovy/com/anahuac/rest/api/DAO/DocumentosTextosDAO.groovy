@@ -1011,7 +1011,7 @@ class DocumentosTextosDAO {
 						cell10.setCellValue(fechaDictamenModificacion);
 					} catch (ParseException e) {
 						Cell cell10 = row.createCell(8);
-						cell10.setCellValue("Error en formato de fecha");
+						cell10.setCellValue("N/A");//"Error en formato de fecha");
 					}
 				} else {
 					Cell cell10 = row.createCell(8);
@@ -1045,7 +1045,7 @@ class DocumentosTextosDAO {
 						cell17.setCellValue(fechaNacimientoModificacion);
 					} catch (ParseException e) {
 						Cell cell17 = row.createCell(15);
-						cell17.setCellValue("Error en formato de fecha");
+						cell17.setCellValue("N/A");//"Error en formato de fecha");
 					}
 				} else {
 					Cell cell17 = row.createCell(15);
