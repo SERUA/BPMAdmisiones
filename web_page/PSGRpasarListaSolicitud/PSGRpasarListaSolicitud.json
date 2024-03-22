@@ -2,7 +2,7 @@
   "modelVersion" : "2.2",
   "id" : "PSGRpasarListaSolicitud",
   "name" : "PSGRpasarListaSolicitud",
-  "lastUpdate" : 1710380967158,
+  "lastUpdate" : 1711063937742,
   "rows" : [
     [
       {
@@ -18419,6 +18419,10 @@
                         "urlActualizarEstatus" : {
                           "type" : "expression",
                           "value" : "urlUpdateEstatusSolicitudByCaseid"
+                        },
+                        "urlHubspot" : {
+                          "type" : "variable",
+                          "value" : "urlHubspot"
                         }
                       },
                       "reference" : "db05d6eb-f378-4fca-8e97-515930b0159c",
@@ -19068,6 +19072,10 @@
                         "urlActualizarEstatus" : {
                           "type" : "expression",
                           "value" : "urlUpdateEstatusSolicitudByCaseid"
+                        },
+                        "urlHubspot" : {
+                          "type" : "variable",
+                          "value" : "urlHubspot"
                         }
                       },
                       "reference" : "abc2bd3b-2b9e-45fa-baed-9d583035ae7d",
@@ -25109,6 +25117,13 @@
         "    ",
         "    $data.verPasarListaClickEvent = null",
         "}"
+      ],
+      "exposed" : false
+    },
+    "urlHubspot" : {
+      "type" : "constant",
+      "value" : [
+        "../API/extension/posgradosRest?url=createOrUpdatePosgrado&caseid=[CASEID]"
       ],
       "exposed" : false
     }
