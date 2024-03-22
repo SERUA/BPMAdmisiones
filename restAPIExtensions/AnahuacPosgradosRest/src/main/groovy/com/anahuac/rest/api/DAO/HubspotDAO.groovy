@@ -1064,6 +1064,11 @@ class HubspotDAO {
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
 				objHubSpotData.put("estatus_posgrado_admision_bpm", "solicitud_completada");
+			} else if(solicitud.get("estatus_solicitud").equals("solicitud_lista_para_dictamen")) {
+				LOGGER.error "[createOrUpdatePosgrado] 5.9";
+				ultimaMod = new Date();
+				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
+				objHubSpotData.put("estatus_posgrado_admision_bpm", "solicitud_lista_para_dictamen");
 			} 
 			
 			LOGGER.error "[createOrUpdatePosgrado] 6";
