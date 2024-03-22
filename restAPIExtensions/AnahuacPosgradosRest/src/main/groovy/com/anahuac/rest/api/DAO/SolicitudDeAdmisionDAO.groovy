@@ -19,6 +19,7 @@ import org.bonitasoft.web.extension.rest.RestAPIContext
 import org.slf4j.Logger
 
 import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicionalDAO
+import com.anahuac.posgrados.bitacora.PSGRLogTransferencias
 import com.anahuac.posgrados.auxiliar.AUXISolAdmiRequisitoAdicional
 import com.anahuac.posgrados.catalog.PSGRCatCampus
 import com.anahuac.posgrados.catalog.PSGRCatCampusDAO
@@ -1554,31 +1555,31 @@ class SolicitudDeAdmisionDAO {
 				rows.add(contrato);
 				resultado.setData(rows);
 				context.apiClient.processAPI.assignAndExecuteUserTask(context.apiClient.session.userId, tareaEjecutar.id,  contrato);
-				
-				//Bitácora de transferencias
-				Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
-				SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
-				String fechaHoraFormateada = formato.format(timestampActual);
-				
-				pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
-				pstm.setLong(1, Long.parseLong(object.caseid));
-				pstm.setLong(2, campus);
-				pstm.setLong(3, Long.parseLong(object.campus_transferencia.persistenceId_string));
-				pstm.setLong(4, posgrado);
-				pstm.setLong(5, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
-				pstm.setLong(6, carrera);
-				pstm.setLong(7, Long.parseLong(object.carrera_transferencia.persistenceId_string));
-				pstm.setLong(8, periodo);
-				pstm.setLong(9, Long.parseLong(object.periodo_transferencia.persistenceId_string));
-				pstm.setString(10, fechaHoraFormateada);
-				pstm.setString(11, context.apiSession.userName);
-				
-				if(pstm.executeUpdate() < 1) {
-					throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
-				}
-				
-				//Fin bitácora transferencias
 			}
+			
+			//Bitácora de transferencias
+			Timestamp timestampActual = new Timestamp(System.currentTimeMillis());
+			SimpleDateFormat formato = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS");
+			String fechaHoraFormateada = formato.format(timestampActual);
+			
+			pstm = con.prepareStatement(Statements.INSERT_BITACORA_TRANSFERENCIA);
+			pstm.setLong(1, Long.parseLong(object.caseid));
+			pstm.setLong(2, campus);
+			pstm.setLong(3, Long.parseLong(object.campus_transferencia.persistenceId_string));
+			pstm.setLong(4, posgrado);
+			pstm.setLong(5, Long.parseLong(object.posgrado_transferencia.persistenceId_string));
+			pstm.setLong(6, carrera);
+			pstm.setLong(7, Long.parseLong(object.carrera_transferencia.persistenceId_string));
+			pstm.setLong(8, periodo);
+			pstm.setLong(9, Long.parseLong(object.periodo_transferencia.persistenceId_string));
+			pstm.setString(10, fechaHoraFormateada);
+			pstm.setString(11, context.apiSession.userName);
+			
+			if(pstm.executeUpdate() < 1) {
+				throw new Exception("No se ha podido actualizar el registro, intente de nuevo mas tarde");
+			}
+			
+			//Fin bitácora transferencias
 			
 			con.commit();
 			
