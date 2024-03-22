@@ -2798,11 +2798,14 @@ class CatalogosDAO {
 			
 			// Validar inputs
 			if (campus_pids_string === null || campus_pids_string.equals("")) {
-				throw new Exception('El campo "campus_pids" no debe ir vacío');
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado
 			} 
 			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
 				if (posgrado_descripcion === null || posgrado_descripcion.equals("")) {
-					throw new Exception('El campo "posgrado_pid" y "posgrado_descripcion" no deben ir vacíos, se debe proporcionar al menos uno de los dos');
+					//throw new Exception('El campo "posgrado_pid" y "posgrado_descripcion" no deben ir vacíos, se debe proporcionar al menos uno de los dos');
 				}
 				else {
 					esPorDescripcion = true;
@@ -3697,6 +3700,7 @@ class CatalogosDAO {
 		List<PSGRCatEstado> data = new ArrayList<>();
 		String where = "WHERE is_eliminado = false"; // Aplicar filtro por defecto para registros no eliminados
 		String orderby = ""; // Ordenamiento por defecto
+		String errorLog = "";
 	
 		try {
 			// Parsear el objeto JSON para obtener los filtros y configuración de ordenamiento
@@ -3705,7 +3709,10 @@ class CatalogosDAO {
 			
 			// Validar inputs
 			if (campus_pids_string === null || campus_pids_string.equals("")) {
-				throw new Exception('El campo "campus_pids" no debe ir vacío');
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado
 			}
 			
 			// Conversión
@@ -3727,6 +3734,7 @@ class CatalogosDAO {
 			where += " AND campus_pid IN (" + campus_pids.join(",") + ")"
 
 			String consulta = StatementsCatalogos.SELECT_CATPOSGRADO_DESCRIPCION_DISTINC.replace("[WHERE]", where);
+			errorLog = consulta;
 	
 			pstm = con.prepareStatement(consulta);
 			rs = pstm.executeQuery();
@@ -3737,10 +3745,12 @@ class CatalogosDAO {
 	
 				data.add(row);
 			}
-	
+				
 			resultado.setData(data);
+			
 			resultado.setSuccess(true);
 		} catch (Exception e) {
+			//resultado.setData([errorLog])
 			resultado.setSuccess(false);
 			resultado.setError("[getCatPosgradoDescripcionDistinct] " + e.getMessage());
 		} finally {
