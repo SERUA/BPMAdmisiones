@@ -306,11 +306,14 @@ class SolicitudDeAdmisionDAO {
 								where += " WHERE "
 							}
 							
-							where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) ";
 							if (filtro.get("operador").equals("Igual a")) {
-								where += "=LOWER('[valor]')"
+								where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) = LOWER('[valor]'))";
+							} else if (filtro.get("operador").equals("Mayor que")) {
+								where += "(regi.fecha_registro::timestamp > TO_DATE('[valor]', 'DD/MM/YYYY')) "
+							} else if (filtro.get("operador").equals("Menor que")) {
+								where += "(regi.fecha_registro::timestamp < TO_DATE('[valor]', 'DD/MM/YYYY')) "
 							} else {
-								where += "LIKE LOWER('%[valor]%'))"
+								where += " (LOWER(to_char(regi.fecha_registro::timestamp, 'DD/MM/YYYY HH24:MI')) LIKE LOWER('%[valor]%'))";
 							}
 	
 							where = where.replace("[valor]", filtro.get("valor"))
@@ -403,6 +406,24 @@ class SolicitudDeAdmisionDAO {
 							
 							break;
 						// 
+						case "CAMPUS_PIDS":
+							errorlog += "CAMPUS_PIDS"
+							def campus_pids_string = filtro.get("valor");
+							def campus_pids = new ArrayList<Long>()
+							try {
+								def partes = campus_pids_string.split(',')
+								
+								partes.each { parte ->
+									campus_pids.add(Long.parseLong(parte))
+								}
+							}
+							catch (e) {
+								throw new Exception('El valor del filtro "CAMPUS_PIDS" debe ser una lista separada por comas. Valor recibido: ' + campus_pids_string + ". " + e.message);
+							}
+							
+							// Filtrar por campus
+							where += " AND prog.campus_pid IN (" + campus_pids.join(",") + ") ";
+							break;
 						case "POSGRADO":
 							errorlog += "POSGRADO"
 							if (where.contains("WHERE")) {
@@ -423,6 +444,11 @@ class SolicitudDeAdmisionDAO {
 							where += " ( LOWER(gest.nombre) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
 							break;
+						case "PROGRAMA_PID":
+							errorlog += "PROGRAMA_PID"
+							where += " AND ( gest.persistenceId = [valor]) ";
+							where = where.replace("[valor]", filtro.get("valor").toString())
+							break;
 						case "PERIODO":
 							errorlog += "PERIODO"
 							if (where.contains("WHERE")) {
@@ -432,6 +458,11 @@ class SolicitudDeAdmisionDAO {
 							}
 							where += " ( LOWER(peri.descripcion) = LOWER('[valor]')) ";
 							where = where.replace("[valor]", filtro.get("valor"))
+							break;
+						case "PERIODO_PID":
+							errorlog += "PERIODO_PID"
+							where += " AND ( peri.persistenceId = [valor]) ";
+							where = where.replace("[valor]", filtro.get("valor").toString())
 							break;
 						default:
 							break;
@@ -2014,7 +2045,10 @@ class SolicitudDeAdmisionDAO {
 			
 			// Validar inputs
 			if (campus_pids_string === null || campus_pids_string.equals("")) {
-				throw new Exception('El campo "campus_pids" no debe ir vacío');
+				//throw new Exception('El campo "campus_pids" no debe ir vacío');
+				// Retornar sin información
+				resultado.setSuccess(true);
+				return resultado	
 			} 
 			else if (posgrado_pid_string === null || posgrado_pid_string.equals("")) {
 				if (!(posgrado_descripcion === null || posgrado_descripcion.equals(""))) {
@@ -2106,8 +2140,6 @@ class SolicitudDeAdmisionDAO {
 			row.put("totales", suma);
 			
 			rows.add(row);
-			rows.add(consulta)
-		
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {

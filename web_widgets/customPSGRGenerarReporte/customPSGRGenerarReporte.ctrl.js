@@ -4,35 +4,18 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
 
     var vm = this;
     this.action = function action() {
+        debugger
+        if ($scope.properties.disabled) return;
+        
         var url = "";
-        console.log("mensaje")
-        if($scope.properties.dataToSend.multicampus.length <= 5)
-        {
-         if ($scope.properties.reporte == 'Lexium') {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporte&p=0&c=9999";
-        } else if ($scope.properties.reporte == 'Admitidos al propedéutico') {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporteAdmitidosPropedeutico&p=0&c=9999"
-        } else if ($scope.properties.reporte == "Datos de los familiares") {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporteDatosFamiliares&p=0&c=9999"
-        } else if ($scope.properties.reporte == "Relación de aspirantes") {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporteRelacionAspirantes&p=0&c=9999"
-        }else if ($scope.properties.reporte == "Informacion aspirante") {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReportePerfilAspirante&p=0&c=9999"
-        }else if ($scope.properties.reporte == "MetaProfile") {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporteMetaProfile&p=0&c=9999"
-        }else {
-            url = "/bonita/API/extension/AnahuacRest?url=generarReporteResultadosExamenes&p=0&c=9999"
-        } 
-        doRequest("POST", url, null, $scope.properties.dataToSend, function(data) {
-            if ($scope.properties.fileExtension === "xls" || $scope.properties.fileExtension === "csv") {
-                if ($scope.properties.reporte == "MetaProfile" && isNullOrUndefined($scope.properties.dataToSend.sesion) ){
-                        Swal.fire({
-                            icon: 'info',
-                            title: 'Sin resultados',
-                            text: 'Favor de seleccionar por lo menos una sesión'
-                        })  
-                    
-                }else{
+        
+        if ($scope.properties.reporte === "General") {
+            url = "../API/extension/posgradosRest?url=getExcelFileGeneralProceso&p=0&c=999";
+        }
+        
+        if (url) {
+            doRequest("POST", url, null, $scope.properties.dataToSend, function(data) {
+                if ($scope.properties.fileExtension === "xls") {
                     const blob = b64toBlob(data.data[0]);
                     const blobUrl = URL.createObjectURL(blob);
                     var link = document.createElement('a');
@@ -47,32 +30,16 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
                     document.body.removeChild(link);
                     //window.location = blobUrl;
                 }
-                
-                
-                /*var link = document.createElement('a');
-                link.href = window.URL.createObjectURL(blob);
-                let currentdate = new Date(); 
-                let datetime = "Informacion escolar - "+$scope.properties.skip + currentdate.getDate() + "/"
-                + (currentdate.getMonth()+1)  + "/" 
-                + currentdate.getFullYear() 
-                link.download = $scope.properties.nombre;
-                document.body.appendChild(link);
-                link.click();
-                document.body.removeChild(link);*/
-                
-                //window.open(blobUrl, '_blank');
-                // window.location = blobUrl;
-            }else {
-                fakeLink(data.data[1])
-            }
-        })   
-        
-        }else{
+                else {
+                    //fakeLink(data.data[1])
+                }
+            })   
+        }
+        else{
             Swal.fire({
-                        icon: 'info',
-                        title: 'No se puede usar multicampus',
-                        text: 'No se puede utilizar multicampus en esta consulta'
-                    })  
+                icon: 'info',
+                title: 'No hay reporte seleccionado',
+            })  
         }
         
     }
