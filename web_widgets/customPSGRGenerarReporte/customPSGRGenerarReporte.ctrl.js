@@ -21,7 +21,7 @@ function PbImageButtonCtrl($scope, $http, $location, $log, $window, localStorage
                     var link = document.createElement('a');
                     link.href = window.URL.createObjectURL(blob);
                     let currentdate = new Date(); 
-                    let datetime = $scope.properties.reporte + " - "+ currentdate.getDate() + "/"
+                    let datetime = "Solicitud de admisión posgrado" + " - "+ currentdate.getDate() + "/"
                     + (currentdate.getMonth()+1)  + "/" 
                     + currentdate.getFullYear() 
                     link.download = datetime;

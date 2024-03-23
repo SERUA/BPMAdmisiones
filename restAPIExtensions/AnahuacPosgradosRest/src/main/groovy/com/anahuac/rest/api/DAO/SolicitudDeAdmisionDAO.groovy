@@ -2037,7 +2037,6 @@ class SolicitudDeAdmisionDAO {
 		String orderby = ""; // Ordenamiento por defecto
 		Boolean esPorDescripcion = false;
 		
-		Map<String, Object> row = new HashMap<String, Object>();
 		List < Map<String, Object> > rows = new ArrayList < Map<String, Object> > ();
 		
 		try {
@@ -2093,22 +2092,24 @@ class SolicitudDeAdmisionDAO {
 			
 			if (periodo_pid) where += " AND prgm.periodo_ingreso_pid = " + periodo_pid;
 			
+			if (fecha_inicio) where += "AND (regi.fecha_registro::timestamp > TO_DATE('" + fecha_inicio + "', 'DD/MM/YYYY'))";
 			
-			if (fecha_inicio) where += " ";
-			if (fecha_fin) where += " ";
+			if (fecha_fin) where += "AND (regi.fecha_registro::timestamp < TO_DATE('" + fecha_fin + "', 'DD/MM/YYYY'))";
+
+			Map<String, Object> cantidades = new HashMap<String, Object>();
 			
-			
-			// Consulta
-			String consulta = Statements.GET_CANTIDAD_SOLICITUDES.replace("[WHERE]", where);
-			pstm = con.prepareStatement(consulta);
+			// Consulta agrupadas por Estatus
+			String consultaByEstatus = Statements.GET_CANTIDAD_SOLICITUDES_BY_ESTATUS.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaByEstatus);
 			rs = pstm.executeQuery();
 			
-			row = new HashMap<String, Object>();
+			Map<String, Object> cantidadesByEstatus = new HashMap<String, Object>();
+			
 			Long enProcesoCount = 0;
 			Long enArchivoCount = 0;
 			Long admitidas = 0;
 			Long noAdmitidas = 0;
-			Long suma = 0;
+			Long sumaByEstatus = 0;
 			while (rs.next()) {
 				
 				def estatus = rs.getString("estatus_solicitud");
@@ -2130,16 +2131,51 @@ class SolicitudDeAdmisionDAO {
 					enProcesoCount += cantidad;
 				}	
 				
-				suma += cantidad;	
+				sumaByEstatus += cantidad;	
 			}
 			
-			row.put("admitidos", admitidas);
-			row.put("noAdmitidos", noAdmitidas);
-			row.put("archivados", enArchivoCount);
-			row.put("enProceso", enProcesoCount);
-			row.put("totales", suma);
+			cantidadesByEstatus.put("admitidos", admitidas);
+			cantidadesByEstatus.put("noAdmitidos", noAdmitidas);
+			cantidadesByEstatus.put("archivados", enArchivoCount);
+			cantidadesByEstatus.put("enProceso", enProcesoCount);
+			cantidadesByEstatus.put("totales", sumaByEstatus);
 			
-			rows.add(row);
+			cantidades.put("byEstatus", cantidadesByEstatus)
+			
+			// Consulta agrupadas por Empezadas/Sin empezar (tienen posgrado o no)
+			String consultaByPosgrado = Statements.GET_CANTIDAD_SOLICITUDES_BY_POSGRADO.replace("[WHERE]", where);
+			pstm = con.prepareStatement(consultaByPosgrado);
+			rs = pstm.executeQuery();
+			
+			Map<String, Object> cantidadesByEmpezado = new HashMap<String, Object>();
+			
+			Long empezadas = 0;
+			Long sinEmpezar = 0;
+			Long sumaByPosgrado = 0;
+			while (rs.next()) {
+				
+				def posgrado = rs.getString("posgrado_pid");
+				def cantidad = rs.getLong("cantidad");
+				
+				if (posgrado == null) {
+					sinEmpezar = cantidad;
+				}
+				
+				else {
+					empezadas += cantidad;
+				}
+				
+				sumaByPosgrado += cantidad;
+			}
+			
+			cantidadesByEmpezado.put("empezadas", empezadas);
+			cantidadesByEmpezado.put("sinEmpezar", sinEmpezar);
+			cantidadesByEmpezado.put("totales", sumaByPosgrado);
+			
+			cantidades.put("byEmpezado", cantidadesByEmpezado)
+			
+			rows.add(cantidades);
+			
 			resultado.setData(rows);
 			resultado.setSuccess(true);
 		} catch (Exception e) {

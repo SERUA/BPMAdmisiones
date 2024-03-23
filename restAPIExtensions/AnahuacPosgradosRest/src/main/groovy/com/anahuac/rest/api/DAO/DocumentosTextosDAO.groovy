@@ -844,7 +844,7 @@ class DocumentosTextosDAO {
 	        cellReporteLabel.setCellStyle(style);
 	
 	        Cell cellReporteValor = titleRow.createCell(1);
-	        cellReporteValor.setCellValue("General");
+	        cellReporteValor.setCellValue("Solicitud de admisión posgrado");
 	
 	        Cell cellUsuarioLabel = titleRow.createCell(2);
 	        cellUsuarioLabel.setCellValue("Usuario:");
@@ -929,7 +929,7 @@ class DocumentosTextosDAO {
 			header21.setCellValue("Egresado Anáhuac");
 			header21.setCellStyle(style);
 			Cell header22 = headersRow.createCell(20);
-			header22.setCellValue("Campus de esgresado");
+			header22.setCellValue("Campus de egreso");
 			header22.setCellStyle(style);
 			Cell header23 = headersRow.createCell(21);
 			header23.setCellValue("Otros idiomas");
@@ -983,7 +983,7 @@ class DocumentosTextosDAO {
 					}
 				} else {
 					Cell cell8 = row.createCell(6);
-					cell8.setCellValue("N/A");
+					cell8.setCellValue("Sin fecha registro");
 				}
 				
 				String fechaUltimaModificacionString = lstParams.get(i).fecha_ultima_modificacion;
@@ -999,7 +999,7 @@ class DocumentosTextosDAO {
 					}
 				} else {
 					Cell cell9 = row.createCell(7);
-					cell9.setCellValue("N/A");
+					cell9.setCellValue("Sin fecha última modificación");
 				}
 				
 				String fechaDictamenString = ""//lstParams.get(i).fecha_dictamen;
@@ -1015,7 +1015,7 @@ class DocumentosTextosDAO {
 					}
 				} else {
 					Cell cell10 = row.createCell(8);
-					cell10.setCellValue("N/A");
+					cell10.setCellValue("Sin fecha de dictamen");
 				}
 
 				Cell cell11 = row.createCell(9);
@@ -1031,15 +1031,16 @@ class DocumentosTextosDAO {
 				cell14.setCellValue(lstParams.get(i).sexo);
 				
 				Cell cell15 = row.createCell(13);
-				cell15.setCellValue("Falta"); // Nacionalidad
+				cell15.setCellValue(lstParams.get(i).nacionalidad);
 				
 				Cell cell16 = row.createCell(14);
-				cell16.setCellValue("Falta"); // Estado civil
+				cell16.setCellValue(lstParams.get(i).estado_civil); // Estado civil
 				
 				String fechaNacimientoString = lstParams.get(i).fecha_nacimiento;
 				if (fechaNacimientoString != null) {
 					try {
-						Date fechaNacimiento = dfEntrada.parse(fechaNacimientoString);
+						DateFormat dfEntradaDateOnly = new SimpleDateFormat("yyyy-MM-dd");
+						Date fechaNacimiento = dfEntradaDateOnly.parse(fechaNacimientoString);
 						String fechaNacimientoModificacion = dformat.format(fechaNacimiento);
 						Cell cell17 = row.createCell(15);
 						cell17.setCellValue(fechaNacimientoModificacion);
@@ -1049,7 +1050,7 @@ class DocumentosTextosDAO {
 					}
 				} else {
 					Cell cell17 = row.createCell(15);
-					cell17.setCellValue("N/A");
+					cell17.setCellValue("Sin fecha de nacimiento");
 				}
 				
 				Cell cell18 = row.createCell(16);
@@ -1065,13 +1066,13 @@ class DocumentosTextosDAO {
 				cell21.setCellValue(lstParams.get(i).alumno_anahuac && lstParams.get(i).alumno_anahuac == "t" ? "Sí" : "No");
 				
 				Cell cell22 = row.createCell(20);
-				cell22.setCellValue("Falta"); // Campus de egresado
+				cell22.setCellValue(lstParams.get(i).campus_de_egreso); // Campus de egreso
 				
 				Cell cell23 = row.createCell(21);
 				cell23.setCellValue("Falta"); // Otros idiomas
 				
 				Cell cell24 = row.createCell(22);
-				cell24.setCellValue("Falta"); // Trabaja actualmente
+				cell24.setCellValue(lstParams.get(i).trabaja_actualmente); // Trabaja actualmente
 				
 				Cell cell25 = row.createCell(23);
 				cell25.setCellValue("Falta"); // Trabajo previo

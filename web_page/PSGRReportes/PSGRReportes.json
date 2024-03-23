@@ -3,7 +3,7 @@
   "previousArtifactVersion" : "1.11.52",
   "id" : "PSGRReportes",
   "name" : "PSGRReportes",
-  "lastUpdate" : 1711074050491,
+  "lastUpdate" : 1711155067140,
   "rows" : [
     [
       {
@@ -136,7 +136,7 @@
         "propertyValues" : {
           "cssClasses" : {
             "type" : "constant",
-            "value" : "report-form"
+            "value" : ""
           },
           "hidden" : {
             "type" : "constant",
@@ -203,7 +203,7 @@
                         },
                         "text" : {
                           "type" : "interpolation",
-                          "value" : "<b>Estadísticas generales del proceso de posgrado</b>"
+                          "value" : "<b>Estadísticas generales</b>"
                         },
                         "level" : {
                           "type" : "constant",
@@ -559,11 +559,15 @@
                               "multiple" : {
                                 "type" : "constant",
                                 "value" : true
+                              },
+                              "uncheckAllEvent" : {
+                                "type" : "variable",
+                                "value" : ""
                               }
                             },
-                            "reference" : "3be2fc33-5054-4d54-a764-de8b3861f2e3",
+                            "reference" : "a5bce2c3-7666-44e8-be56-ab7fa6a305d1",
                             "hasValidationError" : false,
-                            "id" : "customMultiSelect"
+                            "id" : "customPSGRMultiSelect"
                           }
                         ],
                         [
@@ -666,8 +670,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!reporteFormInput.campus_pids"
                         },
                         "required" : {
                           "type" : "constant",
@@ -733,8 +737,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!reporteFormInput.posgrado"
                         },
                         "required" : {
                           "type" : "constant",
@@ -800,8 +804,8 @@
                           "value" : false
                         },
                         "disabled" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!reporteFormInput.campus_pids"
                         },
                         "required" : {
                           "type" : "constant",
@@ -867,8 +871,8 @@
                           "value" : false
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!reporteFormInput.campus_pids"
                         },
                         "required" : {
                           "type" : "constant",
@@ -900,7 +904,7 @@
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Enter a date (dd/mm/yyyy)"
+                          "value" : "Enter a date (mm/dd/yyyy)"
                         },
                         "showToday" : {
                           "type" : "constant",
@@ -933,8 +937,8 @@
                           "value" : false
                         },
                         "readOnly" : {
-                          "type" : "constant",
-                          "value" : false
+                          "type" : "expression",
+                          "value" : "!reporteFormInput.campus_pids"
                         },
                         "required" : {
                           "type" : "constant",
@@ -966,7 +970,7 @@
                         },
                         "placeholder" : {
                           "type" : "interpolation",
-                          "value" : "Enter a date (dd/mm/yyyy)"
+                          "value" : "Enter a date (mm/dd/yyyy)"
                         },
                         "showToday" : {
                           "type" : "constant",
@@ -1010,11 +1014,11 @@
                         },
                         "alignment" : {
                           "type" : "constant",
-                          "value" : "right"
+                          "value" : "left"
                         },
                         "buttonStyle" : {
                           "type" : "constant",
-                          "value" : "default"
+                          "value" : "primary"
                         },
                         "action" : {
                           "type" : "constant",
@@ -1074,6 +1078,78 @@
                       "reference" : "4dbc51e0-1180-4e5f-ab95-db41d8c4d367",
                       "hasValidationError" : false,
                       "id" : "customPSGRButtonEventAction"
+                    },
+                    {
+                      "type" : "component",
+                      "dimension" : {
+                        "xs" : 12,
+                        "sm" : 12,
+                        "md" : 12,
+                        "lg" : 12
+                      },
+                      "propertyValues" : {
+                        "cssClasses" : {
+                          "type" : "constant",
+                          "value" : ""
+                        },
+                        "hidden" : {
+                          "type" : "constant",
+                          "value" : false
+                        },
+                        "srcType" : {
+                          "type" : "constant",
+                          "value" : "Asset"
+                        },
+                        "url" : {
+                          "type" : "constant"
+                        },
+                        "assetName" : {
+                          "type" : "constant",
+                          "value" : "excel.svg"
+                        },
+                        "alt" : {
+                          "type" : "interpolation",
+                          "value" : ""
+                        },
+                        "fileExtension" : {
+                          "type" : "constant",
+                          "value" : "xls"
+                        },
+                        "dataToSend" : {
+                          "type" : "variable",
+                          "value" : "reporteFormOutput"
+                        },
+                        "reporte" : {
+                          "type" : "constant",
+                          "value" : "General"
+                        },
+                        "ruaname" : {
+                          "type" : "constant"
+                        },
+                        "lstSesiones" : {
+                          "type" : "variable",
+                          "value" : ""
+                        },
+                        "alignment" : {
+                          "type" : "constant",
+                          "value" : "center"
+                        },
+                        "label" : {
+                          "type" : "interpolation",
+                          "value" : "Descargar"
+                        },
+                        "buttonStyle" : {
+                          "type" : "constant",
+                          "value" : "default"
+                        },
+                        "disabled" : {
+                          "type" : "expression",
+                          "value" : "reporteFormInvalid"
+                        }
+                      },
+                      "reference" : "ef827cec-f9df-45b5-8eb7-d44da23a4ea6",
+                      "hasValidationError" : false,
+                      "id" : "customPSGRGenerarReporte"
                     }
                   ],
                   [
@@ -1195,80 +1271,6 @@
                       "hasValidationError" : false,
                       "id" : "pbText"
                     }
-                  ],
-                  [
-                    {
-                      "type" : "component",
-                      "dimension" : {
-                        "xs" : 12,
-                        "sm" : 12,
-                        "md" : 12,
-                        "lg" : 12
-                      },
-                      "propertyValues" : {
-                        "cssClasses" : {
-                          "type" : "constant",
-                          "value" : ""
-                        },
-                        "hidden" : {
-                          "type" : "constant",
-                          "value" : false
-                        },
-                        "srcType" : {
-                          "type" : "constant",
-                          "value" : "Asset"
-                        },
-                        "url" : {
-                          "type" : "constant"
-                        },
-                        "assetName" : {
-                          "type" : "constant",
-                          "value" : "excel.svg"
-                        },
-                        "alt" : {
-                          "type" : "interpolation",
-                          "value" : ""
-                        },
-                        "fileExtension" : {
-                          "type" : "constant",
-                          "value" : "xls"
-                        },
-                        "dataToSend" : {
-                          "type" : "variable",
-                          "value" : "reporteFormOutput"
-                        },
-                        "reporte" : {
-                          "type" : "constant",
-                          "value" : "General"
-                        },
-                        "ruaname" : {
-                          "type" : "constant"
-                        },
-                        "lstSesiones" : {
-                          "type" : "variable",
-                          "value" : ""
-                        },
-                        "alignment" : {
-                          "type" : "constant",
-                          "value" : "center"
-                        },
-                        "label" : {
-                          "type" : "interpolation",
-                          "value" : "Descargar"
-                        },
-                        "buttonStyle" : {
-                          "type" : "constant",
-                          "value" : "default"
-                        },
-                        "disabled" : {
-                          "type" : "expression",
-                          "value" : "reporteFormInvalid"
-                        }
-                      },
-                      "reference" : "ef827cec-f9df-45b5-8eb7-d44da23a4ea6",
-                      "hasValidationError" : false,
-                      "id" : "customPSGRGenerarReporte"
-                    }
                   ]
                 ]
               },
@@ -1346,7 +1348,7 @@
                       "propertyValues" : {
                         "cssClasses" : {
                           "type" : "constant",
-                          "value" : "bg-white"
+                          "value" : ""
                         },
                         "hidden" : {
                           "type" : "expression",
@@ -1384,13 +1386,13 @@
                                 "value" : ""
                               }
                             },
-                            "reference" : "de711c49-348c-4106-a0a1-d8351649894b",
+                            "reference" : "1f55f7c9-1e05-4fae-81f0-2f69d777f049",
                             "hasValidationError" : false,
                             "id" : "pbContainer",
                             "rows" : [
                               [
                                 {
-                                  "type" : "component",
+                                  "type" : "container",
                                   "dimension" : {
                                     "xs" : 12,
                                     "sm" : 12,
@@ -1400,131 +1402,181 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : "tabla-cantidades"
+                                      "value" : ""
                                     },
                                     "hidden" : {
                                       "type" : "constant",
                                       "value" : false
                                     },
-                                    "allowHTML" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "headers" : {
-                                      "type" : "constant",
-                                      "value" : [
-                                        "Admitidos",
-                                        "No admitidos",
-                                        "Archivados",
-                                        "En proceso",
-                                        "Totales"
-                                      ]
-                                    },
-                                    "content" : {
-                                      "type" : "expression",
-                                      "value" : "solicitudesCount"
-                                    },
-                                    "columnsKey" : {
-                                      "type" : "constant",
-                                      "value" : [
-                                        "admitidos",
-                                        "noAdmitidos",
-                                        "archivados",
-                                        "enProceso",
-                                        "totales"
-                                      ]
-                                    },
-                                    "selectedRow" : {
+                                    "repeatedCollection" : {
                                       "type" : "variable",
                                       "value" : ""
-                                    },
-                                    "striped" : {
-                                      "type" : "constant",
-                                      "value" : true
-                                    },
-                                    "condensed" : {
-                                      "type" : "constant",
-                                      "value" : false
-                                    },
-                                    "bordered" : {
-                                      "type" : "constant",
-                                      "value" : false
                                     }
                                   },
-                                  "reference" : "d1198e94-6b1f-4575-8c80-2d2f5ebad99c",
+                                  "reference" : "97c70087-8215-4e91-8970-ddd0213feac8",
                                   "hasValidationError" : false,
-                                  "id" : "pbTable"
-                                }
-                              ]
-                            ]
-                          }
-                        ],
-                        [
-                          {
-                            "type" : "container",
-                            "dimension" : {
-                              "xs" : 12,
-                              "sm" : 12,
-                              "md" : 12,
-                              "lg" : 12
-                            },
-                            "propertyValues" : {
-                              "cssClasses" : {
-                                "type" : "constant",
-                                "value" : "chart-container"
-                              },
-                              "hidden" : {
-                                "type" : "constant",
-                                "value" : false
-                              },
-                              "repeatedCollection" : {
-                                "type" : "variable",
-                                "value" : ""
-                              }
-                            },
-                            "reference" : "193065d3-56d6-483c-9a66-ed76b324e1a8",
-                            "hasValidationError" : false,
-                            "id" : "pbContainer",
-                            "rows" : [
-                              [
-                                {
-                                  "type" : "component",
-                                  "dimension" : {
-                                    "xs" : 12,
-                                    "sm" : 12,
-                                    "md" : 12,
-                                    "lg" : 12
-                                  },
-                                  "propertyValues" : {
-                                    "cssClasses" : {
-                                      "type" : "constant",
-                                      "value" : ""
-                                    },
-                                    "hidden" : {
-                                      "type" : "expression",
-                                      "value" : "hayCantidades"
-                                    },
-                                    "text" : {
-                                      "type" : "interpolation",
-                                      "value" : "<br><br>No hay datos para mostrar"
-                                    },
-                                    "level" : {
-                                      "type" : "constant",
-                                      "value" : "Level 4"
-                                    },
-                                    "alignment" : {
-                                      "type" : "constant",
-                                      "value" : "center"
-                                    }
-                                  },
-                                  "reference" : "6c651f44-519a-4b69-bb48-651b4b2773d2",
-                                  "hasValidationError" : false,
-                                  "id" : "pbTitle"
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "labelHidden" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "label" : {
+                                            "type" : "interpolation",
+                                            "value" : "Default label"
+                                          },
+                                          "labelPosition" : {
+                                            "type" : "constant",
+                                            "value" : "top"
+                                          },
+                                          "labelWidth" : {
+                                            "type" : "constant",
+                                            "value" : 4
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "Solicitudes sin iniciar: <b>{{ cantidades.byEmpezado.sinEmpezar }}</b>"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "right"
+                                          }
+                                        },
+                                        "reference" : "2f52cf92-244d-418e-866b-81f584365a93",
+                                        "hasValidationError" : false,
+                                        "id" : "pbText"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : "tabla-cantidades"
+                                          },
+                                          "hidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "allowHTML" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "headers" : {
+                                            "type" : "constant",
+                                            "value" : [
+                                              "Admitidos",
+                                              "No admitidos",
+                                              "Archivados",
+                                              "En proceso"
+                                            ]
+                                          },
+                                          "content" : {
+                                            "type" : "expression",
+                                            "value" : "cantidades.contenidoByEstatus"
+                                          },
+                                          "columnsKey" : {
+                                            "type" : "constant",
+                                            "value" : [
+                                              "admitidos",
+                                              "noAdmitidos",
+                                              "archivados",
+                                              "enProceso"
+                                            ]
+                                          },
+                                          "selectedRow" : {
+                                            "type" : "variable",
+                                            "value" : ""
+                                          },
+                                          "striped" : {
+                                            "type" : "constant",
+                                            "value" : true
+                                          },
+                                          "condensed" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "bordered" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          }
+                                        },
+                                        "reference" : "d1198e94-6b1f-4575-8c80-2d2f5ebad99c",
+                                        "hasValidationError" : false,
+                                        "id" : "pbTable"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "expression",
+                                            "value" : "!solicitudesCount"
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "Totales: <b>{{cantidades.totales}}</b>"
+                                          },
+                                          "level" : {
+                                            "type" : "constant",
+                                            "value" : "Level 3"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "center"
+                                          }
+                                        },
+                                        "reference" : "a1ffd590-5571-41de-9cb9-8ab52200a8ea",
+                                        "hasValidationError" : false,
+                                        "id" : "pbTitle"
+                                      }
+                                    ]
+                                  ]
                                 }
                               ],
                               [
                                 {
-                                  "type" : "component",
+                                  "type" : "container",
                                   "dimension" : {
                                     "xs" : 12,
                                     "sm" : 12,
@@ -1534,55 +1586,121 @@
                                   "propertyValues" : {
                                     "cssClasses" : {
                                       "type" : "constant",
-                                      "value" : ""
+                                      "value" : "chart-container"
                                     },
                                     "hidden" : {
-                                      "type" : "expression",
-                                      "value" : "!hayCantidades"
-                                    },
-                                    "type" : {
-                                      "type" : "constant",
-                                      "value" : "Pie"
-                                    },
-                                    "data" : {
-                                      "type" : "expression",
-                                      "value" : "cantidades"
-                                    },
-                                    "labels" : {
-                                      "type" : "constant",
-                                      "value" : [
-                                        "Admitidos",
-                                        "No admitidos",
-                                        "Archivados",
-                                        "En proceso"
-                                      ]
-                                    },
-                                    "setLabels" : {
-                                      "type" : "constant",
-                                      "value" : [
-                                        "Default set label"
-                                      ]
-                                    },
-                                    "legendHidden" : {
                                       "type" : "constant",
                                       "value" : false
                                     },
-                                    "colors" : {
-                                      "type" : "constant",
-                                      "value" : [
-                                        "#47a447",
-                                        "#d2322d",
-                                        "#15243c",
-                                        "#ff5900"
-                                      ]
-                                    },
-                                    "options" : {
-                                      "type" : "constant"
+                                    "repeatedCollection" : {
+                                      "type" : "variable",
+                                      "value" : ""
                                     }
                                   },
-                                  "reference" : "e4d5ab59-b733-44e1-a9ca-cbce48fb7a61",
+                                  "reference" : "b1012ea6-b92a-441b-b063-7fb3739ecf5b",
                                   "hasValidationError" : false,
-                                  "id" : "pbChart"
+                                  "id" : "pbContainer",
+                                  "rows" : [
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "expression",
+                                            "value" : "!hayCantidades"
+                                          },
+                                          "type" : {
+                                            "type" : "constant",
+                                            "value" : "Pie"
+                                          },
+                                          "data" : {
+                                            "type" : "expression",
+                                            "value" : "cantidades.arrayByEstatus"
+                                          },
+                                          "labels" : {
+                                            "type" : "constant",
+                                            "value" : [
+                                              "Admitidos",
+                                              "No admitidos",
+                                              "Archivados",
+                                              "En proceso"
+                                            ]
+                                          },
+                                          "setLabels" : {
+                                            "type" : "constant",
+                                            "value" : [
+                                              "Default set label"
+                                            ]
+                                          },
+                                          "legendHidden" : {
+                                            "type" : "constant",
+                                            "value" : false
+                                          },
+                                          "colors" : {
+                                            "type" : "constant",
+                                            "value" : [
+                                              "#47a447",
+                                              "#d2322d",
+                                              "#223a62",
+                                              "#ff5900"
+                                            ]
+                                          },
+                                          "options" : {
+                                            "type" : "constant"
+                                          }
+                                        },
+                                        "reference" : "e4d5ab59-b733-44e1-a9ca-cbce48fb7a61",
+                                        "hasValidationError" : false,
+                                        "id" : "pbChart"
+                                      }
+                                    ],
+                                    [
+                                      {
+                                        "type" : "component",
+                                        "dimension" : {
+                                          "xs" : 12,
+                                          "sm" : 12,
+                                          "md" : 12,
+                                          "lg" : 12
+                                        },
+                                        "propertyValues" : {
+                                          "cssClasses" : {
+                                            "type" : "constant",
+                                            "value" : ""
+                                          },
+                                          "hidden" : {
+                                            "type" : "expression",
+                                            "value" : "hayCantidades"
+                                          },
+                                          "text" : {
+                                            "type" : "interpolation",
+                                            "value" : "<br><br>No hay datos para mostrar<br><br>"
+                                          },
+                                          "level" : {
+                                            "type" : "constant",
+                                            "value" : "Level 4"
+                                          },
+                                          "alignment" : {
+                                            "type" : "constant",
+                                            "value" : "center"
+                                          }
+                                        },
+                                        "reference" : "6c651f44-519a-4b69-bb48-651b4b2773d2",
+                                        "hasValidationError" : false,
+                                        "id" : "pbTitle"
+                                      }
+                                    ]
+                                  ]
                                 }
                               ]
                             ]
@@ -3339,7 +3457,7 @@
         "    day = '0' + day;",
         "    }",
         "    ",
-        "    return `${year}-${month}-${day}`;",
+        "    return `${day}/${month}/${year}`;",
         "}",
         "",
         "return `../API/extension/posgradosRestGet?url=getCantidadDeSolicitudes",
@@ -3352,34 +3470,10 @@
       ],
       "exposed" : false
     },
-    "cantidades" : {
-      "type" : "expression",
-      "value" : [
-        "if ($data.solicitudesCount) {",
-        "    const arr = [",
-        "        $data.solicitudesCount[0].admitidos,",
-        "        $data.solicitudesCount[0].noAdmitidos,",
-        "        $data.solicitudesCount[0].archivados,",
-        "        $data.solicitudesCount[0].enProceso,",
-        "    ];",
-        "    ",
-        "    $data.totales = $data.solicitudesCount[0].totales;",
-        "    return arr;",
-        "}"
-      ],
-      "exposed" : false
-    },
     "hayCantidades" : {
       "type" : "expression",
       "value" : [
-        "return ($data.cantidades && $data.totales !== 0);"
-      ],
-      "exposed" : false
-    },
-    "totales" : {
-      "type" : "expression",
-      "value" : [
-        "return 0;"
+        "return ($data.cantidades && $data.cantidades.totales !== 0);"
       ],
       "exposed" : false
     },
@@ -3410,6 +3504,44 @@
         "    $data.reporteFormInput.fecha_fin = null;",
         "    ",
         "    $data.cleanButtonEvent = null;",
+        "}"
+      ],
+      "exposed" : false
+    },
+    "cantidades" : {
+      "type" : "expression",
+      "value" : [
+        "if ($data.solicitudesCount) {",
+        "    ",
+        "    const byEmpezado = $data.solicitudesCount[0].byEmpezado;",
+        "    const arrayByEmpezado =  [",
+        "        byEmpezado.empezadas,",
+        "        byEmpezado.sinEmpezar,",
+        "    ];",
+        "    ",
+        "    const byEstatus = $data.solicitudesCount[0].byEstatus;",
+        "    const arrayByEstatus = [",
+        "        byEstatus.admitidos,",
+        "        byEstatus.noAdmitidos,",
+        "        byEstatus.archivados,",
+        "        byEstatus.enProceso,",
+        "    ];",
+        "    ",
+        "    const totales = $data.solicitudesCount[0].byEstatus.totales;",
+        "    ",
+        "    const contenidoByEstatus = [ $data.solicitudesCount[0].byEstatus ]",
+        "    ",
+        "    return {",
+        "        arrayByEstatus: arrayByEstatus,",
+        "        arrayByEmpezado: arrayByEmpezado,",
+        "        totales: totales,",
+        "        contenidoByEstatus: contenidoByEstatus,",
+        "        byEstatus: $data.solicitudesCount[0].byEstatus,",
+        "        byEmpezado: $data.solicitudesCount[0].byEmpezado,",
+        "    }",
+        "}",
+        "else {",
+        "    return null;",
         "}"
       ],
       "exposed" : false

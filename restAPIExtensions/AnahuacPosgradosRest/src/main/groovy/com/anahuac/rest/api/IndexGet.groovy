@@ -361,7 +361,9 @@ class IndexGet implements RestApiController {
 					String posgrado_descripcion = request.getParameter "posgrado_descripcion";
 					String programa_pid_string = request.getParameter "programa_pid";
 					String periodo_pid_string = request.getParameter "periodo_pid";
-					result = new SolicitudDeAdmisionDAO().getCantidadDeSolicitudes(campus_pids_string, posgrado_pid_string, posgrado_descripcion, programa_pid_string, periodo_pid_string, "", "");
+					String fecha_inicio_string = request.getParameter "fecha_inicio";
+					String fecha_fin_string = request.getParameter "fecha_fin";
+					result = new SolicitudDeAdmisionDAO().getCantidadDeSolicitudes(campus_pids_string, posgrado_pid_string, posgrado_descripcion, programa_pid_string, periodo_pid_string, fecha_inicio_string, fecha_fin_string);
 					if (result.isSuccess()) {
 						return buildResponse(responseBuilder, HttpServletResponse.SC_OK, new JsonBuilder(result.data).toString())
 					}else {
