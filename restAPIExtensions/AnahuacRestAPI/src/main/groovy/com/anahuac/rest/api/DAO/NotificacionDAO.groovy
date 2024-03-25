@@ -34,6 +34,7 @@ import java.sql.ResultSetMetaData
 import java.sql.Statement
 import java.text.NumberFormat
 import java.text.ParseException
+import java.text.SimpleDateFormat
 
 import org.apache.commons.codec.net.BCodec
 import org.bonitasoft.engine.bpm.document.Document
@@ -1590,7 +1591,19 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							String[] fechaParcial = rs.getString("fechapagoinscripcionautorizacion").split("-");
 							errorlog += " | 2";
 							plantilla = plantilla.replace("[FECHALIMITE-INSCRIPCION]", fechaParcial[2] + "/" + fechaParcial[1] + "/" + fechaParcial[0]);
+						} 
+						
+						if(rs.getString("fechalimitepropuesta") != null) {
+							SimpleDateFormat dfLimite = new SimpleDateFormat("yyyy-MM-dd");
+							SimpleDateFormat dfLimiteSalida = new SimpleDateFormat("dd/MM/yyyy");
+							try {
+						        Date fechaSinFormato = dfLimite.parse(rs.getString("fechalimitepropuesta"));
+						        plantilla = plantilla.replace("[FECHALIMITE-PROPUESTA]", dfLimiteSalida.format(fechaSinFormato));
+						    } catch (ParseException e) {
+						        e.printStackTrace();
+						    }
 						}
+						
 						errorlog += " | 3";
 						plantilla = plantilla.replace("[DESCUENTO-INSCRIPCION]", rs.getString("descuentoanticipado"));
 						errorlog += " | 4";
@@ -1702,7 +1715,9 @@ public Result generateHtml(Integer parameterP, Integer parameterC, String jsonDa
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO]", formatCurrency(inscripcionDescuento.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA]", formatCurrency(inscripcionDescuentoBeca.toString()));
 							plantilla = plantilla.replace("[INSCRIPCION-DESCUENTO-PORCENTAJEBECA-PORCENTAJEFINANCIAMIENTO]", formatCurrency(inscripcionDescuentoFina.toString()));
-						}
+						} 
+						
+						
 					}
 				} catch (Exception e) {
 					errorlog += "| PROPUESTA-FINA " + e.getLocalizedMessage();
