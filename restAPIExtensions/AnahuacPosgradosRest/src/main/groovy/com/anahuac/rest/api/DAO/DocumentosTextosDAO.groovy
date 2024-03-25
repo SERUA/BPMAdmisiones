@@ -1088,7 +1088,7 @@ class DocumentosTextosDAO {
 
 	        }
 	
-	        for (int i = 0; i <= rowCount + 11; ++i) {
+	        for (int i = 0; i <= 25; ++i) {
 	            sheet.autoSizeColumn(i);
 	        }
 	

@@ -2512,11 +2512,85 @@ class CatalogosDAO {
 			CatGestionEscolar row = new CatGestionEscolar();
 			List < CatGestionEscolar > rows = new ArrayList < CatGestionEscolar > ();
 			closeCon = validarConexion();
+			boolean aplicarFiltroPeriodos = false;
+			def filtroPeriodosValor = null; 
 
 			where = "WHERE GE.is_eliminado = false AND campus.eliminado = false AND GE.campus = '" + object.campus + "'" + " AND GE.posgrado_pid = " + object.posgrado_pid
 			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {
 				def booleanos = filtro.get("valor");
 				switch (filtro.get("columna")) {
+
+					case "GRADO ACADÉMICO":
+						where += " AND LOWER(posgrado.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;		
+					case "CLAVE":
+						where += " AND LOWER(GE.CLAVE) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;	
+					case "NOMBRE A MOSTRAR":
+						where += " AND LOWER(GE.nombre) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FRECUENCIA":
+						where += " AND LOWER(GE.tipo_licenciatura) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "PERIODOS":
+						// El filtro de PERIODOS se hace mas adelante mediante programación
+						aplicarFiltroPeriodos = true;
+						filtroPeriodosValor = filtro.get("valor");
+						break;
+					case "IDIOMA":
+						where += " AND LOWER(GE.idioma) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "USUARIO CREACIÓN":
+						where += " AND LOWER(GE.usuario_creacion) ";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FECHA DE CREACIÓN":
+						where += " AND LOWER(to_char(GE.fecha_creacion::timestamp, 'DD-MM-YYYY HH24:MI:SS'))";
+						if (filtro.get("operador").equals("Igual a")) {
+							where += "=LOWER('[valor]')"
+						} else {
+							where += "LIKE LOWER('%[valor]%')"
+						}
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+						
+						// --- No utilizados?
+						/*
 					case "NOMBRE LICENCIATURA":
 						where += " AND LOWER(GE.nombre) ";
 						if (filtro.get("operador").equals("Igual a")) {
@@ -2526,15 +2600,7 @@ class CatalogosDAO {
 						}
 						where = where.replace("[valor]", filtro.get("valor"))
 						break;
-					case "CLAVE":
-						where += " AND LOWER(GE.CLAVE) ";
-						if (filtro.get("operador").equals("Igual a")) {
-							where += "=LOWER('[valor]')"
-						} else {
-							where += "LIKE LOWER('%[valor]%')"
-						}
-						where = where.replace("[valor]", filtro.get("valor"))
-						break;
+					
 					case "LIGA":
 						where += " AND LOWER(GE.enlace) ";
 						if (filtro.get("operador").equals("Igual a")) {
@@ -2625,7 +2691,7 @@ class CatalogosDAO {
 						errorLog += " Que valor tienen: " + booleanos.toString().equals("Si") + " "
 						where = where.replace("[valor]", (booleanos.toString().equals("Si") ? "true" : booleanos.toString().equals("Sí") ? "true" : "false"))
 						break;
-						/* case "CAMPUS":
+						 case "CAMPUS":
 							 campus +=" AND LOWER(campus.DESCRIPCION) ";
 							 if(filtro.get("operador").equals("Igual a")) {
 								 campus+="=LOWER('[valor]')"
@@ -2768,6 +2834,11 @@ class CatalogosDAO {
 				
 				programa.setPeriodos_disponible(periodos_disponible_value);
 			}
+			
+			// Filtro PERIODOS
+			if (aplicarFiltroPeriodos) {
+				rows = rows.findAll { it.getPeriodos_disponible()?.toLowerCase().contains(filtroPeriodosValor.toString().toLowerCase()) }
+			} 
 
 			resultado.setSuccess(true)
 			resultado.setError(errorLog)
