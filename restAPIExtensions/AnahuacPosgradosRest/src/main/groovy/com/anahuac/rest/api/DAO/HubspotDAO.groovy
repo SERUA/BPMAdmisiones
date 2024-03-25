@@ -974,7 +974,7 @@ class HubspotDAO {
 				LOGGER.error "[createOrUpdatePosgrado] 5.2";errorLog += "|5.2";
 				ultimaMod = new Date();
 				objHubSpotData.put("fecha_actualizacion_posgrado_bpm", df.format(ultimaMod));
-				objHubSpotData.put("ffecha_nacimiento_posgrado_bpm", dfDate.parse(solicitud.get("fecha_nacimiento"));
+				objHubSpotData.put("ffecha_nacimiento_posgrado_bpm", solicitud.get("fecha_nacimiento"));
 				objHubSpotData.put("nacionalidad_posgrado_bpm", solicitud.get("nacionalidad"));
 				objHubSpotData.put("estado_civil_posgrado_bpm", solicitud.get("estado_civil"));
 				objHubSpotData.put("ciudad_posgrado_bpm", solicitud.get("lugar_nacimiento_ciudad"));
