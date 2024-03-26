@@ -2703,47 +2703,32 @@ class CatalogosDAO {
 				}
 			}
 			switch (object.orderby) {
-				case "NOMBRE LICENCIATURA":
-					orderby += "GE.nombre";
-					break;
-				case "LIGA":
-					orderby += "GE.enlace";
+				case "ORDEN":
+					orderby += "GE.orden";
 					break;
 				case "CLAVE":
 					orderby += "GE.clave";
 					break;
-				case "DESCRIPCION DE CARRERA":
-					orderby += "GE.descripcion";
+				case "NOMBRE A MOSTRAR":
+					orderby += "GE.nombre";
 					break;
-				case "INSCRIPCIÓN ENERO":
-					orderby += "GE.inscripcion_enero::Integer";
-					break;
-				case "INSCRIPCIÓN AGOSTO":
-					orderby += "GE.inscripcion_agosto::Integer";
-					break;
-				case "INSCRIPCIÓN MAYO":
-					orderby += "GE.inscripcion_mayo::Integer";
-					break;
-				case "INSCRIPCIÓN SEPTIEMBRE":
-					orderby += "GE.inscripcion_septiembre::Integer";
-					break;
-				case "PERSISTENCEVERSION":
-					orderby += "GE.PERSISTENCEVERSION";
-					break;
-				case "CAMPUS":
-					orderby += "campus.descripcion";
-					break;
-				case "TIPO LICENCIATURA":
+				case "FRECUENCIA":
 					orderby += "GE.tipo_licenciatura";
 					break;
-				case "PROPEDÉUTICO":
-					orderby += "GE.propedeutico";
+				case "IDIOMA":
+					orderby += "GE.idioma";
 					break;
-				case "PROGRAMA PARCIAL":
-					orderby += "GE.programa_parcial";
+				case "USUARIO CREACIÓN":
+					orderby += "GE.usuario_creacion";
+					break;
+				case " FECHA DE CREACIÓN":
+					orderby += "GE.fecha_creacion::timestamp";
+					break;
+				case "CLAVE":
+					orderby += "GE.clave";
 					break;
 				default:
-					orderby += "GE.nombre"
+					orderby += "GE.orden"
 					break;
 			}
 
@@ -8438,7 +8423,7 @@ class CatalogosDAO {
 		Boolean closeCon = false;
 		List<Map<String, Object>> data = new ArrayList<Map<String, Object>>();
 		Map<String, Object> row = new HashMap<String, Object>();
-		String where = " WHERE is_eliminado = false", orderby = "";
+		String where = " WHERE is_eliminado = false", orderby = " ORDER BY ";
 		Integer total_rows = 0;
 		
 		try {
@@ -8446,14 +8431,104 @@ class CatalogosDAO {
 			def jsonSlurper = new JsonSlurper();
 			def object = jsonSlurper.parseText(jsonData);
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_COUNT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			String consultaCount = StatementsCatalogos.SELECT_COUNT_CATPERIODO;
+			String consulta = StatementsCatalogos.SELECT_CATPERIODO;
+
+			for (Map < String, Object > filtro: (List < Map < String, Object >> ) object.lstFiltro) {	
+				switch (filtro.get("columna")) {
+					case "CLAVE":
+						where += " AND LOWER(peri.clave) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "DESCRIPCIÓN":
+						where += " AND LOWER(peri.descripcion) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "SEMESTRAL":
+						where += " AND ((peri.is_semestral = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.is_semestral = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "TRIMESTRAL":
+						where += " AND ((peri.is_trimestral = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.is_trimestral = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "INICIO CAPTACIÓN":
+						where += " AND LOWER(to_char(peri.fecha_inicio::timestamp, 'DD-MM-YYYY')) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "FIN CAPTACIÓN":
+						where += " AND LOWER(to_char(peri.fecha_fin::timestamp, 'DD-MM-YYYY')) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "ACTIVO":
+						where += " AND ((peri.activo = TRUE AND 'sí' [COMPARACIÓN]) OR (peri.activo = FALSE AND 'no' [COMPARACIÓN]))";
+						if (filtro.get("operador").equals("Igual a")) where = where.replace("[COMPARACIÓN]", "= LOWER('[valor]')")
+						else where = where.replace("[COMPARACIÓN]", "LIKE LOWER('%[valor]%')");
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+					case "USUARIO CREACIÓN":
+						where += " AND LOWER(peri.usuario_banner) ";
+						if (filtro.get("operador").equals("Igual a")) where += "= LOWER('[valor]')"
+						else where += "LIKE LOWER('%[valor]%')"
+						where = where.replace("[valor]", filtro.get("valor"))
+						break;
+				}
+			}
+			switch (object.orderby) {
+				case "CLAVE":
+					orderby += "peri.clave";
+					break;
+				case "DESCRIPCIÓN":
+					orderby += "peri.descripcion";
+					break;
+				case "SEMESTRAL":
+					orderby += "peri.is_semestral";
+					break;
+				case "TRIMESTRAL":
+					orderby += "peri.is_trimestral";
+					break;
+				case "INICIO CAPTACIÓN":
+					orderby += "peri.fecha_inicio";
+					break;
+				case "FIN CAPTACIÓN":
+					orderby += "peri.fecha_fin::timestamp";
+					break;
+				case "ACTIVO":
+					orderby += "peri.activo";
+					break;
+				case "USUARIO CREACIÓN":
+					orderby += "peri.usuario_banner";
+					break;
+				default:
+					orderby += "peri.fecha_creacion"
+					break;
+			}
+
+			orderby += " " + object.orientation;
+			
+			consulta = consulta.replace("[WHERE]", where);
+			consulta = consulta.replace("[ORDERBY]", orderby)
+
+			pstm = con.prepareStatement(consultaCount.replace("[WHERE]", where));
 			rs = pstm.executeQuery();
 			
 			if(rs.next()) {
 				total_rows = rs.getInt("total_rows");
 			}
 			
-			pstm = con.prepareStatement(StatementsCatalogos.SELECT_CATPERIODO.replace("[WHERE]", where).replace("[ORDERBY]", orderby));
+			pstm = con.prepareStatement(consulta)
 			rs = pstm.executeQuery();
 			
 //			SimpleDateFormat sdfEntrada = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
