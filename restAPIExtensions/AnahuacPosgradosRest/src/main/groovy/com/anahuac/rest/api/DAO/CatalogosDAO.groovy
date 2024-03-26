@@ -2721,11 +2721,8 @@ class CatalogosDAO {
 				case "USUARIO CREACIÓN":
 					orderby += "GE.usuario_creacion";
 					break;
-				case " FECHA DE CREACIÓN":
+				case "FECHA DE CREACIÓN":
 					orderby += "GE.fecha_creacion::timestamp";
-					break;
-				case "CLAVE":
-					orderby += "GE.clave";
 					break;
 				default:
 					orderby += "GE.orden"
@@ -8500,7 +8497,7 @@ class CatalogosDAO {
 					orderby += "peri.is_trimestral";
 					break;
 				case "INICIO CAPTACIÓN":
-					orderby += "peri.fecha_inicio";
+					orderby += "peri.fecha_inicio::timestamp";
 					break;
 				case "FIN CAPTACIÓN":
 					orderby += "peri.fecha_fin::timestamp";
